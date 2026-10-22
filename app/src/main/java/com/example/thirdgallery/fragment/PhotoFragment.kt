@@ -18,7 +18,10 @@ import androidx.paging.LoadState
 import androidx.recyclerview.widget.ConcatAdapter
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.thirdgallery.R
+import com.example.thirdgallery.activity.AlbumDetailActivity
 import com.example.thirdgallery.activity.HomeActivity
+import com.example.thirdgallery.database.AlbumRow
+import com.example.thirdgallery.model.AlbumKind
 import com.example.thirdgallery.adapter.FilterEmptyAdapter
 import com.example.thirdgallery.adapter.GalleryHeaderAdapter
 import com.example.thirdgallery.adapter.MediaPagingAdapter
@@ -78,6 +81,7 @@ class PhotoFragment : Fragment() {
     private var mosaicObserver: Observer<PagingData<MosaicUi>>? = null
     private var journalAdapter: JournalPagingAdapter? = null
     private var journalTop: MosaicTopAdapter? = null
+    private var lastAlbumOpenAt = 0L
     private var journalConcat: ConcatAdapter? = null
     private var journalObserver: Observer<PagingData<JournalDayRow>>? = null
     private var journalRefreshState: LoadState? = null
@@ -117,6 +121,7 @@ class PhotoFragment : Fragment() {
         val classic = GalleryHeaderAdapter(
             onFilterSelected = { viewModel.setFilter(it) },
             onAllAlbums = { (activity as? HomeActivity)?.openAlbumsTab() },
+            onOpenAlbum = ::openAlbum,
         )
         val timeline = TimelineHeaderAdapter(
             onZoomSelected = { layoutViewModel.setZoom(it) },
@@ -130,11 +135,13 @@ class PhotoFragment : Fragment() {
         val mosaicTopAdapter = MosaicTopAdapter(
             onFilterSelected = { viewModel.setFilter(it) },
             onAllAlbums = { (activity as? HomeActivity)?.openAlbumsTab() },
+            onOpenAlbum = ::openAlbum,
         )
         val mosaic = MosaicPagingAdapter(resources.displayMetrics.widthPixels)
         val journalTopAdapter = MosaicTopAdapter(
             onFilterSelected = { viewModel.setFilter(it) },
             onAllAlbums = { (activity as? HomeActivity)?.openAlbumsTab() },
+            onOpenAlbum = ::openAlbum,
             compactCards = true,
         )
         val journal = JournalPagingAdapter(
@@ -293,6 +300,7 @@ class PhotoFragment : Fragment() {
 
     private companion object {
         const val MOSAIC_COLUMNS = 3
+        const val ALBUM_OPEN_GAP_MS = 600L
         const val JOURNAL_COLUMNS = 1
     }
 
@@ -382,6 +390,16 @@ class PhotoFragment : Fragment() {
         val observer = journalObserver ?: return
         journalObserver = null
         viewModel.journalMedia.removeObserver(observer)
+    }
+
+    /** Opens a library folder card in the album screen; ignores empty rows and double taps. */
+    private fun openAlbum(album: AlbumRow) {
+        val context = context ?: return
+        if (album.bucketName.isBlank()) return
+        val now = android.os.SystemClock.elapsedRealtime()
+        if (now - lastAlbumOpenAt < ALBUM_OPEN_GAP_MS) return
+        lastAlbumOpenAt = now
+        startActivity(AlbumDetailActivity.intent(context, AlbumKind.DEVICE, album.bucketId, album.bucketName))
     }
 
     /** Opens the "Add to album" sheet for every item of the row's day (under the active filter). */

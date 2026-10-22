@@ -18,6 +18,7 @@ import com.example.thirdgallery.model.MediaFilter
 class GalleryHeaderAdapter(
     private val onFilterSelected: (MediaFilter) -> Unit,
     private val onAllAlbums: () -> Unit,
+    private val onOpenAlbum: (AlbumRow) -> Unit,
 ) : RecyclerView.Adapter<GalleryHeaderAdapter.ViewHolder>() {
 
     private var visible = false
@@ -55,7 +56,7 @@ class GalleryHeaderAdapter(
 
     inner class ViewHolder(private val binding: ItemGalleryHeaderBinding) : RecyclerView.ViewHolder(binding.root) {
 
-        private val albumAdapter = LibraryAlbumAdapter()
+        private val albumAdapter = LibraryAlbumAdapter(onOpenAlbum)
 
         init {
             val density = binding.root.resources.displayMetrics.density

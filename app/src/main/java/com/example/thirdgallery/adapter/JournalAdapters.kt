@@ -31,10 +31,12 @@ private fun loadInto(view: ImageView, uid: Long?, widthPx: Int, heightPx: Int) {
 }
 
 /** Compact library cards of the Journal layout (small cover with a pink icon badge). */
-class JournalAlbumAdapter : ListAdapter<AlbumRow, JournalAlbumAdapter.ViewHolder>(DIFF) {
+class JournalAlbumAdapter(
+    private val onOpen: (AlbumRow) -> Unit,
+) : ListAdapter<AlbumRow, JournalAlbumAdapter.ViewHolder>(DIFF) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
-        ViewHolder(ItemJournalAlbumBinding.inflate(LayoutInflater.from(parent.context), parent, false))
+        ViewHolder(ItemJournalAlbumBinding.inflate(LayoutInflater.from(parent.context), parent, false), onOpen)
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) = holder.bind(getItem(position))
 
@@ -43,13 +45,17 @@ class JournalAlbumAdapter : ListAdapter<AlbumRow, JournalAlbumAdapter.ViewHolder
         super.onViewRecycled(holder)
     }
 
-    class ViewHolder(private val binding: ItemJournalAlbumBinding) : RecyclerView.ViewHolder(binding.root) {
+    class ViewHolder(
+        private val binding: ItemJournalAlbumBinding,
+        private val onOpen: (AlbumRow) -> Unit,
+    ) : RecyclerView.ViewHolder(binding.root) {
         fun bind(album: AlbumRow) {
             val px = (44 * binding.root.resources.displayMetrics.density).toInt()
             loadInto(binding.ivCover, album.cover0, px, px)
             binding.ivAlbumIcon.setImageResource(AlbumIcons.forName(album.bucketName))
             binding.tvAlbumName.text = album.bucketName
             binding.tvAlbumCount.text = binding.root.resources.getString(R.string.photo_items, album.total)
+            binding.root.setOnClickListener { onOpen(album) }
         }
 
         fun clear() {

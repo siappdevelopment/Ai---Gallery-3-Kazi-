@@ -41,10 +41,12 @@ private fun loadThumb(view: ImageView, uid: Long?, widthPx: Int, heightPx: Int) 
 }
 
 /** "Your library" 2 x 2 album cards of the Mosaic layout. */
-class MosaicAlbumAdapter : ListAdapter<AlbumRow, MosaicAlbumAdapter.ViewHolder>(DIFF) {
+class MosaicAlbumAdapter(
+    private val onOpen: (AlbumRow) -> Unit,
+) : ListAdapter<AlbumRow, MosaicAlbumAdapter.ViewHolder>(DIFF) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
-        ViewHolder(ItemMosaicAlbumBinding.inflate(LayoutInflater.from(parent.context), parent, false))
+        ViewHolder(ItemMosaicAlbumBinding.inflate(LayoutInflater.from(parent.context), parent, false), onOpen)
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) = holder.bind(getItem(position))
 
@@ -53,13 +55,17 @@ class MosaicAlbumAdapter : ListAdapter<AlbumRow, MosaicAlbumAdapter.ViewHolder>(
         super.onViewRecycled(holder)
     }
 
-    class ViewHolder(private val binding: ItemMosaicAlbumBinding) : RecyclerView.ViewHolder(binding.root) {
+    class ViewHolder(
+        private val binding: ItemMosaicAlbumBinding,
+        private val onOpen: (AlbumRow) -> Unit,
+    ) : RecyclerView.ViewHolder(binding.root) {
         fun bind(album: AlbumRow) {
             val density = binding.root.resources.displayMetrics.density
             loadThumb(binding.ivCover, album.cover0, (200 * density).toInt(), (104 * density).toInt())
             binding.ivAlbumIcon.setImageResource(AlbumIcons.forName(album.bucketName))
             binding.tvAlbumName.text = album.bucketName
             binding.tvAlbumCount.text = binding.root.resources.getString(R.string.photo_items, album.total)
+            binding.root.setOnClickListener { onOpen(album) }
         }
 
         fun clear() {
@@ -79,6 +85,7 @@ class MosaicAlbumAdapter : ListAdapter<AlbumRow, MosaicAlbumAdapter.ViewHolder>(
 class MosaicTopAdapter(
     private val onFilterSelected: (MediaFilter) -> Unit,
     private val onAllAlbums: () -> Unit,
+    private val onOpenAlbum: (AlbumRow) -> Unit,
     /** true = small Journal cards instead of the tall Mosaic cards. */
     private val compactCards: Boolean = false,
 ) : RecyclerView.Adapter<MosaicTopAdapter.ViewHolder>() {
@@ -117,7 +124,7 @@ class MosaicTopAdapter(
     inner class ViewHolder(private val binding: ItemMosaicTopBinding) : RecyclerView.ViewHolder(binding.root) {
 
         private val albumAdapter: ListAdapter<AlbumRow, out RecyclerView.ViewHolder> =
-            if (compactCards) JournalAlbumAdapter() else MosaicAlbumAdapter()
+            if (compactCards) JournalAlbumAdapter(onOpenAlbum) else MosaicAlbumAdapter(onOpenAlbum)
 
         init {
             binding.rvAlbums.adapter = albumAdapter

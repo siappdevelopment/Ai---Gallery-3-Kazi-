@@ -14,10 +14,12 @@ import com.example.thirdgallery.helper.AlbumIcons
 import com.example.thirdgallery.helper.MediaUris
 
 /** "Your library" cards: stacked cover of the album's newest photos, name and size. */
-class LibraryAlbumAdapter : ListAdapter<AlbumRow, LibraryAlbumAdapter.ViewHolder>(DIFF) {
+class LibraryAlbumAdapter(
+    private val onOpen: (AlbumRow) -> Unit,
+) : ListAdapter<AlbumRow, LibraryAlbumAdapter.ViewHolder>(DIFF) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
-        ViewHolder(ItemLibraryAlbumBinding.inflate(LayoutInflater.from(parent.context), parent, false))
+        ViewHolder(ItemLibraryAlbumBinding.inflate(LayoutInflater.from(parent.context), parent, false), onOpen)
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) = holder.bind(getItem(position))
 
@@ -26,7 +28,10 @@ class LibraryAlbumAdapter : ListAdapter<AlbumRow, LibraryAlbumAdapter.ViewHolder
         super.onViewRecycled(holder)
     }
 
-    class ViewHolder(private val binding: ItemLibraryAlbumBinding) : RecyclerView.ViewHolder(binding.root) {
+    class ViewHolder(
+        private val binding: ItemLibraryAlbumBinding,
+        private val onOpen: (AlbumRow) -> Unit,
+    ) : RecyclerView.ViewHolder(binding.root) {
 
         fun bind(album: AlbumRow) {
             val resources = binding.root.resources
@@ -40,6 +45,7 @@ class LibraryAlbumAdapter : ListAdapter<AlbumRow, LibraryAlbumAdapter.ViewHolder
             binding.ivAlbumIcon.setImageResource(AlbumIcons.forName(album.bucketName))
             binding.tvAlbumName.text = album.bucketName
             binding.tvAlbumCount.text = resources.getString(R.string.photo_items, album.total)
+            binding.root.setOnClickListener { onOpen(album) }
         }
 
         fun clear() {
