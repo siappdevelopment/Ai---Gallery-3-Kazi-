@@ -3,6 +3,7 @@ package com.example.thirdgallery.viewmodel
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
 import com.example.thirdgallery.database.UserAlbumRow
@@ -37,7 +38,30 @@ class AddToAlbumViewModel(
     @Volatile
     private var busy = false
 
-    val albums: LiveData<List<UserAlbumRow>> = albumRepository.albums
+    /**
+     * Every album the items can go to: the user's albums first, then the device folders (Camera,
+     * Screenshots, Download, ...) that have no app album of the same name. Picking a folder adds
+     * the items to an app album of that name.
+     */
+    val albums: LiveData<List<PickAlbum>> = MediatorLiveData<List<PickAlbum>>().also { merged ->
+        val user = albumRepository.albums
+        val device = mediaRepository.deviceAlbums()
+        val update = {
+            val mine = user.value.orEmpty()
+            val taken = mine.map { it.name.trim().lowercase() }.toHashSet()
+            val list = ArrayList<PickAlbum>(mine.size + device.value.orEmpty().size)
+            mine.forEach { list.add(PickAlbum(it.name, it.total, it.cover, it)) }
+            device.value.orEmpty().forEach {
+                val name = it.name.trim()
+                if (name.isNotEmpty() && it.total > 0 && taken.add(name.lowercase())) {
+                    list.add(PickAlbum(name, it.total, it.cover0, null))
+                }
+            }
+            merged.value = list
+        }
+        merged.addSource(user) { update() }
+        merged.addSource(device) { update() }
+    }
 
     private val _itemCount = MutableLiveData(state.get<Int>(ARG_COUNT) ?: 0)
     val itemCount: LiveData<Int> = _itemCount
@@ -64,9 +88,14 @@ class AddToAlbumViewModel(
         }
     }
 
-    fun addTo(album: UserAlbumRow) {
+    fun addTo(album: PickAlbum) {
         if (!canStart()) return
-        albumRepository.addToAlbum(album, uids, ::finish)
+        val existing = album.user
+        if (existing != null) {
+            albumRepository.addToAlbum(existing, uids, ::finish)
+        } else {
+            albumRepository.createAlbum(album.name, uids, ::finish)
+        }
     }
 
     fun createAndAdd(name: String) {
@@ -94,3 +123,6 @@ class AddToAlbumViewModel(
         private val loader = Executors.newSingleThreadExecutor()
     }
 }
+
+/** One row of the "Add to album" list: an app album ([user] set) or a device folder. */
+data class PickAlbum(val name: String, val total: Int, val cover: Long?, val user: UserAlbumRow?)

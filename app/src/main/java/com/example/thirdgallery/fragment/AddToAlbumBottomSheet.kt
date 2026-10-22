@@ -11,15 +11,14 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.viewModels
-import com.bumptech.glide.Glide
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.thirdgallery.adapter.PickAlbumAdapter
 import com.example.thirdgallery.R
-import com.example.thirdgallery.database.UserAlbumRow
 import com.example.thirdgallery.databinding.BottomSheetAddAlbumBinding
-import com.example.thirdgallery.databinding.ItemAlbumPickBinding
-import com.example.thirdgallery.helper.MediaUris
 import com.example.thirdgallery.model.MediaFilter
 import com.example.thirdgallery.repo.AlbumRepository
 import com.example.thirdgallery.viewmodel.AddToAlbumViewModel
+import com.example.thirdgallery.viewmodel.PickAlbum
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 
 /** "Add to album" sheet (design 46): pick an album or create a new one for the items of a day. */
@@ -43,6 +42,24 @@ class AddToAlbumBottomSheet : BottomSheetDialogFragment() {
             insets
         }
 
+        // The list scrolls on its own: it hands nothing to the sheet (which would drag it down) and the
+        // sheet must not steal its touches. Dragging the handle or title still collapses the sheet.
+        val albumAdapter = PickAlbumAdapter { viewModel.addTo(it) }
+        b.rvAlbums.layoutManager = LinearLayoutManager(requireContext())
+        b.rvAlbums.adapter = albumAdapter
+        b.rvAlbums.itemAnimator = null
+        b.rvAlbums.isNestedScrollingEnabled = false
+        b.rvAlbums.setOnTouchListener { v, event ->
+            // Keep the gesture only while the list can actually scroll in that direction.
+            when (event.actionMasked) {
+                android.view.MotionEvent.ACTION_DOWN ->
+                    v.parent?.requestDisallowInterceptTouchEvent(v.canScrollVertically(-1) || v.canScrollVertically(1))
+                android.view.MotionEvent.ACTION_UP, android.view.MotionEvent.ACTION_CANCEL ->
+                    v.parent?.requestDisallowInterceptTouchEvent(false)
+            }
+            false
+        }
+
         b.rowNewAlbum.setOnClickListener { showForm(true) }
         b.btnCancel.setOnClickListener { if (viewModel.isCreateOnly) dismissAllowingStateLoss() else showForm(false) }
         b.btnCreate.setOnClickListener { create() }
@@ -62,7 +79,7 @@ class AddToAlbumBottomSheet : BottomSheetDialogFragment() {
                 b.tvSheetTitle.text = resources.getQuantityString(R.plurals.photo_add_to_album_title, count, count)
             }
         }
-        viewModel.albums.observe(owner) { renderAlbums(it.orEmpty()) }
+        viewModel.albums.observe(owner) { renderAlbums(albumAdapter, it.orEmpty()) }
         viewModel.result.observe(owner) { event ->
             event.getContentIfNotHandled()?.let { handleResult(it) }
         }
@@ -74,12 +91,15 @@ class AddToAlbumBottomSheet : BottomSheetDialogFragment() {
         // The sheet draws its own rounded background, so the container must not add another.
         dialog?.findViewById<View>(com.google.android.material.R.id.design_bottom_sheet)
             ?.setBackgroundResource(android.R.color.transparent)
+        // Open fully expanded: in the default half-height peek state the rows below the fold were cut off
+        // and the sheet had to be dragged up before the rest of the list could be seen.
+        (dialog as? com.google.android.material.bottomsheet.BottomSheetDialog)?.behavior?.apply {
+            skipCollapsed = true
+            state = com.google.android.material.bottomsheet.BottomSheetBehavior.STATE_EXPANDED
+        }
     }
 
     override fun onDestroyView() {
-        binding?.let { b ->
-            b.albumsContainer.removeAllViews()
-        }
         _binding = null
         super.onDestroyView()
     }
@@ -102,22 +122,23 @@ class AddToAlbumBottomSheet : BottomSheetDialogFragment() {
         viewModel.createAndAdd(b.etAlbumName.text?.toString().orEmpty())
     }
 
-    private fun renderAlbums(albums: List<UserAlbumRow>) {
+    private fun renderAlbums(adapter: PickAlbumAdapter, albums: List<PickAlbum>) {
         val b = binding ?: return
-        b.albumsContainer.removeAllViews()
-        val inflater = LayoutInflater.from(requireContext())
-        albums.forEach { album ->
-            val row = ItemAlbumPickBinding.inflate(inflater, b.albumsContainer, false)
-            row.tvAlbumName.text = album.name
-            row.tvAlbumCount.text = getString(R.string.photo_items, album.total)
-            val cover = album.cover
-            if (cover != null) {
-                val px = (48 * resources.displayMetrics.density).toInt()
-                Glide.with(row.ivAlbumCover).load(MediaUris.ofUid(cover)).override(px, px).centerCrop().dontAnimate()
-                    .into(row.ivAlbumCover)
-            }
-            row.root.setOnClickListener { viewModel.addTo(album) }
-            b.albumsContainer.addView(row.root)
+        adapter.submitList(albums.toList()) { capListHeight(b, albums.size) }
+    }
+
+    /** Shows about six rows at first; longer lists scroll inside the sheet instead of growing it. */
+    private fun capListHeight(b: BottomSheetAddAlbumBinding, count: Int) {
+        val density = resources.displayMetrics.density
+        val maxPx = minOf(
+            (VISIBLE_ROWS * ROW_HEIGHT_DP * density).toInt(),
+            (resources.displayMetrics.heightPixels * MAX_LIST_SCREEN_FRACTION).toInt(),
+        )
+        val lp = b.rvAlbums.layoutParams
+        val target = if (count > VISIBLE_ROWS) maxPx else ViewGroup.LayoutParams.WRAP_CONTENT
+        if (lp.height != target) {
+            lp.height = target
+            b.rvAlbums.layoutParams = lp
         }
     }
 
@@ -156,6 +177,9 @@ class AddToAlbumBottomSheet : BottomSheetDialogFragment() {
 
     companion object {
         const val TAG = "add_to_album"
+        private const val VISIBLE_ROWS = 6
+        private const val ROW_HEIGHT_DP = 64f
+        private const val MAX_LIST_SCREEN_FRACTION = 0.5f
 
         /** "New album" from the Albums tab: creates an empty album. */
         fun newCreateOnly() = AddToAlbumBottomSheet().apply {

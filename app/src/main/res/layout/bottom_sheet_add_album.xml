@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- "Add to album" sheet (design 46): album list with a New album row, or the create form -->
-<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/sheetRoot"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@drawable/bg_bottom_sheet"
-    android:fillViewport="false"
-    android:overScrollMode="never">
+    android:clipChildren="false">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -81,11 +80,15 @@
                     android:textStyle="bold" />
             </LinearLayout>
 
-            <LinearLayout
-                android:id="@+id/albumsContainer"
+            <!-- About six rows are visible (height capped in code); the rest scrolls here -->
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvAlbums"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical" />
+                android:clipToPadding="false"
+                android:nestedScrollingEnabled="false"
+                android:overScrollMode="never"
+                android:scrollbars="none" />
         </LinearLayout>
 
         <!-- Create form -->
@@ -167,4 +170,4 @@
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>
-</androidx.core.widget.NestedScrollView>
+</FrameLayout>
