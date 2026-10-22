@@ -33,15 +33,21 @@ private fun loadCover(view: ImageView, uid: Long?, widthPx: Int, heightPx: Int) 
 }
 
 /** Collection chips (albums, videos, favorites) at the top of the Timeline. */
-class QuickChipAdapter : ListAdapter<QuickChip, QuickChipAdapter.ViewHolder>(DIFF) {
+class QuickChipAdapter(
+    private val onClick: (QuickChip) -> Unit,
+) : ListAdapter<QuickChip, QuickChipAdapter.ViewHolder>(DIFF) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
-        ViewHolder(ItemQuickChipBinding.inflate(LayoutInflater.from(parent.context), parent, false))
+        ViewHolder(ItemQuickChipBinding.inflate(LayoutInflater.from(parent.context), parent, false), onClick)
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) = holder.bind(getItem(position))
 
-    class ViewHolder(private val binding: ItemQuickChipBinding) : RecyclerView.ViewHolder(binding.root) {
+    class ViewHolder(
+        private val binding: ItemQuickChipBinding,
+        private val onClick: (QuickChip) -> Unit,
+    ) : RecyclerView.ViewHolder(binding.root) {
         fun bind(chip: QuickChip) {
+            binding.root.setOnClickListener { onClick(chip) }
             binding.ivChipIcon.setImageResource(chip.icon)
             binding.tvChipLabel.text = chip.label
             binding.tvChipCount.text = chip.count.toString()
@@ -64,6 +70,7 @@ class TimelineHeaderAdapter(
     private val onZoomSelected: (TimelineZoom) -> Unit,
     private val onZoomIn: () -> Unit,
     private val onZoomOut: () -> Unit,
+    private val onChipClick: (QuickChip) -> Unit,
 ) : RecyclerView.Adapter<TimelineHeaderAdapter.ViewHolder>() {
 
     private var visible = false
@@ -97,7 +104,7 @@ class TimelineHeaderAdapter(
 
     inner class ViewHolder(private val binding: ItemTimelineHeaderBinding) : RecyclerView.ViewHolder(binding.root) {
 
-        private val chipAdapter = QuickChipAdapter()
+        private val chipAdapter = QuickChipAdapter(onChipClick)
 
         init {
             val density = binding.root.resources.displayMetrics.density

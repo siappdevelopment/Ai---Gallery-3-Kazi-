@@ -10,8 +10,10 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.paging.LoadState
+import androidx.recyclerview.widget.ConcatAdapter
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.thirdgallery.R
+import com.example.thirdgallery.adapter.AlbumDetailHeaderAdapter
 import com.example.thirdgallery.adapter.MediaPagingAdapter
 import com.example.thirdgallery.databinding.ActivityAlbumDetailBinding
 import com.example.thirdgallery.helper.GalleryLayoutPrefs
@@ -39,7 +41,6 @@ class AlbumDetailActivity : AppCompatActivity() {
             insets
         }
 
-        b.tvTitle.text = viewModel.title
         b.btnBack.setOnClickListener { finish() }
         // Adding, selecting and the overflow menu have no backing feature yet.
         val comingSoon = View.OnClickListener {
@@ -52,14 +53,17 @@ class AlbumDetailActivity : AppCompatActivity() {
 
         // Same grid as the Gallery tab: the saved column count, day headers across the full width.
         val columns = GalleryLayoutPrefs.getColumns(this)
+        val headerAdapter = AlbumDetailHeaderAdapter(viewModel.title)
         val mediaAdapter = MediaPagingAdapter((resources.displayMetrics.widthPixels / columns).coerceAtLeast(1))
         adapter = mediaAdapter
         val manager = GridLayoutManager(this, columns)
         manager.spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
-            override fun getSpanSize(position: Int): Int = if (mediaAdapter.isHeader(position)) columns else 1
+            override fun getSpanSize(position: Int): Int =
+                // row 0 is the title row, the media rows follow it
+                if (position == 0 || mediaAdapter.isHeader(position - 1)) columns else 1
         }
         b.rvMedia.layoutManager = manager
-        b.rvMedia.adapter = mediaAdapter
+        b.rvMedia.adapter = ConcatAdapter(headerAdapter, mediaAdapter)
         b.rvMedia.itemAnimator = null
         b.rvMedia.setHasFixedSize(true)
 
@@ -68,7 +72,7 @@ class AlbumDetailActivity : AppCompatActivity() {
             b.emptyGroup.visibility = if (empty) View.VISIBLE else View.GONE
         }
         viewModel.media.observe(this) { data -> mediaAdapter.submitData(lifecycle, data) }
-        viewModel.count.observe(this) { b.tvCount.text = getString(R.string.photo_items, it ?: 0) }
+        viewModel.count.observe(this) { headerAdapter.setCount(it ?: 0) }
     }
 
     override fun onDestroy() {

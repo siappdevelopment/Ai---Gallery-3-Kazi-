@@ -127,6 +127,7 @@ class PhotoFragment : Fragment() {
             onZoomSelected = { layoutViewModel.setZoom(it) },
             onZoomIn = { layoutViewModel.zoomIn() },
             onZoomOut = { layoutViewModel.zoomOut() },
+            onChipClick = { open(it.kind, it.id, it.label) },
         )
         val filterEmpty = FilterEmptyAdapter()
         // A month opens its days, a year opens its months (same as the design).
@@ -393,13 +394,15 @@ class PhotoFragment : Fragment() {
     }
 
     /** Opens a library folder card in the album screen; ignores empty rows and double taps. */
-    private fun openAlbum(album: AlbumRow) {
+    private fun openAlbum(album: AlbumRow) = open(AlbumKind.DEVICE, album.bucketId, album.bucketName)
+
+    private fun open(kind: AlbumKind, id: Long, name: String) {
         val context = context ?: return
-        if (album.bucketName.isBlank()) return
+        if (name.isBlank()) return
         val now = android.os.SystemClock.elapsedRealtime()
         if (now - lastAlbumOpenAt < ALBUM_OPEN_GAP_MS) return
         lastAlbumOpenAt = now
-        startActivity(AlbumDetailActivity.intent(context, AlbumKind.DEVICE, album.bucketId, album.bucketName))
+        startActivity(AlbumDetailActivity.intent(context, kind, id, name))
     }
 
     /** Opens the "Add to album" sheet for every item of the row's day (under the active filter). */
@@ -420,10 +423,10 @@ class PhotoFragment : Fragment() {
     private fun buildChips(): List<QuickChip> {
         val chips = ArrayList<QuickChip>()
         viewModel.libraryAlbums.value.orEmpty().forEach {
-            chips.add(QuickChip(AlbumIcons.forName(it.bucketName), it.bucketName, it.total))
+            chips.add(QuickChip(AlbumIcons.forName(it.bucketName), it.bucketName, it.total, AlbumKind.DEVICE, it.bucketId))
         }
-        chips.add(QuickChip(R.drawable.ic_smart_display, getString(R.string.photo_chip_videos), viewModel.videoCount.value ?: 0))
-        chips.add(QuickChip(R.drawable.ic_favorite, getString(R.string.photo_chip_favorites), viewModel.favoriteCount.value ?: 0))
+        chips.add(QuickChip(R.drawable.ic_smart_display, getString(R.string.photo_chip_videos), viewModel.videoCount.value ?: 0, AlbumKind.VIDEOS))
+        chips.add(QuickChip(R.drawable.ic_favorite, getString(R.string.photo_chip_favorites), viewModel.favoriteCount.value ?: 0, AlbumKind.FAVORITES))
         return chips
     }
 
