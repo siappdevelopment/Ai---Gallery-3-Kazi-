@@ -18,6 +18,7 @@ import com.example.thirdgallery.database.MediaDao
 import com.example.thirdgallery.database.MediaEntity
 import com.example.thirdgallery.database.MediaTypes
 import com.example.thirdgallery.database.MonthRow
+import com.example.thirdgallery.database.MosaicRow
 import com.example.thirdgallery.helper.MediaPermissionHelper
 import com.example.thirdgallery.helper.MediaSyncPrefs
 import com.example.thirdgallery.model.MediaFilter
@@ -51,6 +52,19 @@ class MediaRepository(context: Context) {
                 maxSize = PAGE_SIZE * 6,
             ),
             pagingSourceFactory = { dao.pagingSource(filter.types, filter.minFavorite) },
+        ).liveData
+
+    /** Same paging as [pagedMedia], with each row's position inside its day (Mosaic tile sizes). */
+    fun pagedMosaic(filter: MediaFilter): LiveData<PagingData<MosaicRow>> =
+        Pager(
+            config = PagingConfig(
+                pageSize = PAGE_SIZE,
+                prefetchDistance = PAGE_SIZE / 2,
+                initialLoadSize = PAGE_SIZE * 2,
+                enablePlaceholders = false,
+                maxSize = PAGE_SIZE * 6,
+            ),
+            pagingSourceFactory = { dao.mosaicPagingSource(filter.types, filter.minFavorite) },
         ).liveData
 
     fun dayCounts(filter: MediaFilter): LiveData<List<DayCount>> =

@@ -113,4 +113,6 @@
     <string name="photo_undated">कोई तारीख़ नहीं</string>
     <string name="photo_chip_videos">वीडियो</string>
     <string name="photo_chip_favorites">पसंदीदा</string>
+    <string name="photo_library_subtitle">कैमरा, स्क्रीनशॉट और बहुत कुछ</string>
+    <string name="photo_best_shot">सर्वश्रेष्ठ फ़ोटो</string>
 </resources>

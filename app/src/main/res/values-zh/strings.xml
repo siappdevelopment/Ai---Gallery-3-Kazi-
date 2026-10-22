@@ -112,4 +112,6 @@
     <string name="photo_undated">无日期</string>
     <string name="photo_chip_videos">视频</string>
     <string name="photo_chip_favorites">收藏</string>
+    <string name="photo_library_subtitle">相机、截图等</string>
+    <string name="photo_best_shot">最佳照片</string>
 </resources>

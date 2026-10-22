@@ -112,4 +112,6 @@
     <string name="photo_undated">날짜 없음</string>
     <string name="photo_chip_videos">동영상</string>
     <string name="photo_chip_favorites">즐겨찾기</string>
+    <string name="photo_library_subtitle">카메라, 스크린샷 등</string>
+    <string name="photo_best_shot">베스트 샷</string>
 </resources>

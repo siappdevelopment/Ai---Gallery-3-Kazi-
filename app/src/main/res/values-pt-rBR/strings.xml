@@ -114,4 +114,6 @@
     <string name="photo_undated">Sem data</string>
     <string name="photo_chip_videos">Vídeos</string>
     <string name="photo_chip_favorites">Favoritas</string>
+    <string name="photo_library_subtitle">Câmera, capturas de tela e mais</string>
+    <string name="photo_best_shot">Melhor foto</string>
 </resources>

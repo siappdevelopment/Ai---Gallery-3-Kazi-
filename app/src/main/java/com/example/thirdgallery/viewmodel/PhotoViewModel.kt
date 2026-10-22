@@ -16,9 +16,11 @@ import androidx.paging.cachedIn
 import androidx.paging.insertSeparators
 import androidx.paging.map as mapPaging
 import com.example.thirdgallery.database.MediaEntity
+import com.example.thirdgallery.database.MosaicRow
 import com.example.thirdgallery.helper.MediaPermissionHelper
 import com.example.thirdgallery.model.MediaFilter
 import com.example.thirdgallery.model.MediaUiModel
+import com.example.thirdgallery.model.MosaicUi
 import com.example.thirdgallery.repo.MediaRepository
 
 class PhotoViewModel(application: Application) : AndroidViewModel(application) {
@@ -39,6 +41,26 @@ class PhotoViewModel(application: Application) : AndroidViewModel(application) {
                             after == null -> null
                             before == null || before.media.dayKey != after.media.dayKey ->
                                 MediaUiModel.DayHeader(after.media.dayKey)
+                            else -> null
+                        }
+                    }
+            }
+            .cachedIn(viewModelScope)
+    }
+
+    /**
+     * Mosaic: same data with each item's place inside its day. Only collected while the Mosaic
+     * layout is on screen (the fragment observes it then), so other layouts never pay for it.
+     */
+    val mosaicMedia: LiveData<PagingData<MosaicUi>> = _filter.switchMap { filter ->
+        repository.pagedMosaic(filter)
+            .map { data ->
+                data.mapPaging<MosaicRow, MosaicUi.Content> { toMosaic(it) }
+                    .insertSeparators<MosaicUi.Content, MosaicUi> { before, after ->
+                        when {
+                            after == null -> null
+                            before == null || before.media.dayKey != after.media.dayKey ->
+                                MosaicUi.Header(after.media.dayKey, after.media.bucketName)
                             else -> null
                         }
                     }
@@ -130,6 +152,16 @@ class PhotoViewModel(application: Application) : AndroidViewModel(application) {
             // Already gone.
         }
         super.onCleared()
+    }
+
+    /**
+     * Tile rules (3 columns): rank 0 = hero block, ranks 1-2 are drawn inside it, then every 8 tiles
+     * one wide tile (second of the first row) so each row stays full: 1+wide, 3, 3, 1+wide, ...
+     */
+    private fun toMosaic(row: MosaicRow): MosaicUi.Content = when {
+        row.dayRank == 0 -> MosaicUi.Hero(row.media, row.next1, row.next2)
+        row.dayRank < 3 -> MosaicUi.Spacer(row.media)
+        else -> MosaicUi.Tile(row.media, wide = (row.dayRank - 3) % 8 == 1)
     }
 
     private companion object {

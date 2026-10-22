@@ -113,4 +113,6 @@
     <string name="photo_undated">Tarih yok</string>
     <string name="photo_chip_videos">Videolar</string>
     <string name="photo_chip_favorites">Favoriler</string>
+    <string name="photo_library_subtitle">Kamera, ekran görüntüleri ve daha fazlası</string>
+    <string name="photo_best_shot">En iyi kare</string>
 </resources>

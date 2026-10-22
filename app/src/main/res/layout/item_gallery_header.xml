@@ -73,51 +73,12 @@
             xmlns:app="http://schemas.android.com/apk/res-auto" />
     </LinearLayout>
 
-    <!-- All / Photo / Video / Favorite segmented control -->
-    <LinearLayout
+    <include
         android:id="@+id/filterBar"
+        layout="@layout/view_filter_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="11dp"
         android:layout_marginTop="16dp"
-        android:layout_marginEnd="11dp"
-        android:background="@drawable/bg_filter_bar"
-        android:orientation="horizontal"
-        android:padding="4dp">
-
-        <TextView
-            android:id="@+id/tabAll"
-            style="@style/Widget.ThirdGallery.FilterTab"
-            android:layout_width="0dp"
-            android:layout_height="36dp"
-            android:layout_weight="1"
-            android:text="@string/photo_filter_all" />
-
-        <TextView
-            android:id="@+id/tabPhotos"
-            style="@style/Widget.ThirdGallery.FilterTab"
-            android:layout_width="0dp"
-            android:layout_height="36dp"
-            android:layout_marginStart="4dp"
-            android:layout_weight="1"
-            android:text="@string/photo_filter_photo" />
-
-        <TextView
-            android:id="@+id/tabVideos"
-            style="@style/Widget.ThirdGallery.FilterTab"
-            android:layout_width="0dp"
-            android:layout_height="36dp"
-            android:layout_marginStart="4dp"
-            android:layout_weight="1"
-            android:text="@string/photo_filter_video" />
-
-        <TextView
-            android:id="@+id/tabFavorites"
-            style="@style/Widget.ThirdGallery.FilterTab"
-            android:layout_width="0dp"
-            android:layout_height="36dp"
-            android:layout_marginStart="4dp"
-            android:layout_weight="1"
-            android:text="@string/photo_filter_favorite" />
-    </LinearLayout>
+        android:layout_marginEnd="11dp" />
 </LinearLayout>

@@ -112,4 +112,6 @@
     <string name="photo_undated">ไม่มีวันที่</string>
     <string name="photo_chip_videos">วิดีโอ</string>
     <string name="photo_chip_favorites">รายการโปรด</string>
+    <string name="photo_library_subtitle">กล้อง ภาพหน้าจอ และอื่นๆ</string>
+    <string name="photo_best_shot">ภาพที่ดีที่สุด</string>
 </resources>

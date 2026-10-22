@@ -119,4 +119,6 @@
     <string name="photo_undated">No date</string>
     <string name="photo_chip_videos">Videos</string>
     <string name="photo_chip_favorites">Favorites</string>
+    <string name="photo_library_subtitle">Camera, screenshots and more</string>
+    <string name="photo_best_shot">Best shot</string>
 </resources>

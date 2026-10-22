@@ -1,6 +1,7 @@
 package com.example.thirdgallery.database
 
 import androidx.room.ColumnInfo
+import androidx.room.Embedded
 import androidx.room.Entity
 import androidx.room.Index
 import androidx.room.PrimaryKey
@@ -82,4 +83,15 @@ data class YearRow(
     val year: Int,
     val total: Int,
     val cover: Long?,
+)
+
+/**
+ * A media row for the Mosaic layout: its position inside its day ([dayRank], 0 = newest) and, for
+ * the first item of a day only, the uids of the next two items that fill the hero block.
+ */
+data class MosaicRow(
+    @Embedded val media: MediaEntity,
+    val dayRank: Int,
+    val next1: Long?,
+    val next2: Long?,
 )

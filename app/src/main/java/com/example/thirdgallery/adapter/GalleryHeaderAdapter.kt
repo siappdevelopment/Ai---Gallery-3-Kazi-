@@ -63,10 +63,10 @@ class GalleryHeaderAdapter(
             binding.rvAlbums.itemAnimator = null
             binding.rvAlbums.addItemDecoration(HorizontalSpacingDecoration((10 * density).toInt()))
             binding.tvAllAlbums.setOnClickListener { onAllAlbums() }
-            binding.tabAll.setOnClickListener { onFilterSelected(MediaFilter.ALL) }
-            binding.tabPhotos.setOnClickListener { onFilterSelected(MediaFilter.PHOTOS) }
-            binding.tabVideos.setOnClickListener { onFilterSelected(MediaFilter.VIDEOS) }
-            binding.tabFavorites.setOnClickListener { onFilterSelected(MediaFilter.FAVORITES) }
+            binding.filterBar.tabAll.setOnClickListener { onFilterSelected(MediaFilter.ALL) }
+            binding.filterBar.tabPhotos.setOnClickListener { onFilterSelected(MediaFilter.PHOTOS) }
+            binding.filterBar.tabVideos.setOnClickListener { onFilterSelected(MediaFilter.VIDEOS) }
+            binding.filterBar.tabFavorites.setOnClickListener { onFilterSelected(MediaFilter.FAVORITES) }
         }
 
         fun bind(total: Int, albums: List<AlbumRow>, filter: MediaFilter) {
@@ -77,15 +77,15 @@ class GalleryHeaderAdapter(
 
             // 16dp between the albums and the filter; without albums the filter sits at the top.
             val density = binding.root.resources.displayMetrics.density
-            (binding.filterBar.layoutParams as? MarginLayoutParams)?.let {
+            (binding.filterBar.root.layoutParams as? MarginLayoutParams)?.let {
                 it.topMargin = ((if (hasAlbums) 16 else 2) * density).toInt()
-                binding.filterBar.layoutParams = it
+                binding.filterBar.root.layoutParams = it
             }
 
-            binding.tabAll.isSelected = filter == MediaFilter.ALL
-            binding.tabPhotos.isSelected = filter == MediaFilter.PHOTOS
-            binding.tabVideos.isSelected = filter == MediaFilter.VIDEOS
-            binding.tabFavorites.isSelected = filter == MediaFilter.FAVORITES
+            binding.filterBar.tabAll.isSelected = filter == MediaFilter.ALL
+            binding.filterBar.tabPhotos.isSelected = filter == MediaFilter.PHOTOS
+            binding.filterBar.tabVideos.isSelected = filter == MediaFilter.VIDEOS
+            binding.filterBar.tabFavorites.isSelected = filter == MediaFilter.FAVORITES
         }
     }
 }

@@ -113,4 +113,6 @@
     <string name="photo_undated">Walang petsa</string>
     <string name="photo_chip_videos">Mga Video</string>
     <string name="photo_chip_favorites">Mga Paborito</string>
+    <string name="photo_library_subtitle">Camera, mga screenshot at iba pa</string>
+    <string name="photo_best_shot">Pinakamagandang kuha</string>
 </resources>

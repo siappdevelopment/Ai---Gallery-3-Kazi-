@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- First item of a day: big tile (2 columns, square) with two tiles stacked beside it -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:baselineAligned="false"
+    android:orientation="horizontal">
+
+    <FrameLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="1dp"
+        android:layout_weight="2">
+
+        <com.example.thirdgallery.utils.SquareImageView
+            android:id="@+id/ivBig"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:scaleType="centerCrop" />
+
+        <TextView
+            android:id="@+id/tvDuration"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|end"
+            android:layout_margin="5dp"
+            android:background="@drawable/bg_media_badge"
+            android:drawableStart="@drawable/ic_play_badge"
+            android:drawablePadding="1dp"
+            android:gravity="center_vertical"
+            android:paddingStart="3dp"
+            android:paddingTop="2dp"
+            android:paddingEnd="6dp"
+            android:paddingBottom="2dp"
+            android:textColor="@color/white"
+            android:textSize="10.5sp"
+            android:textStyle="bold"
+            android:visibility="gone" />
+
+        <ImageView
+            android:id="@+id/ivFavorite"
+            android:layout_width="15dp"
+            android:layout_height="15dp"
+            android:layout_gravity="top|end"
+            android:layout_margin="5dp"
+            android:importantForAccessibility="no"
+            android:src="@drawable/ic_favorite"
+            android:visibility="gone"
+            app:tint="@color/white" />
+
+        <!-- "Best shot": the newest item of the day -->
+        <TextView
+            android:id="@+id/tvBestShot"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|start"
+            android:layout_margin="8dp"
+            android:background="@drawable/bg_best_shot"
+            android:drawableStart="@drawable/ic_auto_awesome_small"
+            android:drawablePadding="4dp"
+            android:gravity="center_vertical"
+            android:maxLines="1"
+            android:paddingStart="6dp"
+            android:paddingTop="4dp"
+            android:paddingEnd="9dp"
+            android:paddingBottom="4dp"
+            android:text="@string/photo_best_shot"
+            android:textColor="@color/white"
+            android:textSize="11sp"
+            android:textStyle="bold" />
+    </FrameLayout>
+
+    <!-- Two small tiles; together exactly as tall as the big one -->
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <ImageView
+            android:id="@+id/ivSmall1"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_margin="1dp"
+            android:layout_weight="1"
+            android:background="@color/language_check_off"
+            android:importantForAccessibility="no"
+            android:scaleType="centerCrop" />
+
+        <ImageView
+            android:id="@+id/ivSmall2"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_margin="1dp"
+            android:layout_weight="1"
+            android:background="@color/language_check_off"
+            android:importantForAccessibility="no"
+            android:scaleType="centerCrop" />
+    </LinearLayout>
+</LinearLayout>

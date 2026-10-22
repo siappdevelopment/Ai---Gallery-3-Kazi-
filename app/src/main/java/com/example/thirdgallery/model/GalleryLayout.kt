@@ -4,7 +4,7 @@ package com.example.thirdgallery.model
 enum class GalleryLayout(val key: String, val implemented: Boolean) {
     CLASSIC("classic", true),
     TIMELINE("timeline", true),
-    MOSAIC("mosaic", false),
+    MOSAIC("mosaic", true),
     JOURNAL("journal", false);
 
     companion object {

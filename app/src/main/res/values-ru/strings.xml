@@ -115,4 +115,6 @@
     <string name="photo_undated">Без даты</string>
     <string name="photo_chip_videos">Видео</string>
     <string name="photo_chip_favorites">Избранное</string>
+    <string name="photo_library_subtitle">Камера, скриншоты и другое</string>
+    <string name="photo_best_shot">Лучший кадр</string>
 </resources>

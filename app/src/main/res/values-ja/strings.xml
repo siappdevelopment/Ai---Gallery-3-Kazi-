@@ -112,4 +112,6 @@
     <string name="photo_undated">日付なし</string>
     <string name="photo_chip_videos">動画</string>
     <string name="photo_chip_favorites">お気に入り</string>
+    <string name="photo_library_subtitle">カメラ、スクリーンショットなど</string>
+    <string name="photo_best_shot">ベストショット</string>
 </resources>

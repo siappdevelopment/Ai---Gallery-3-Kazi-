@@ -112,4 +112,6 @@
     <string name="photo_undated">Tanpa tanggal</string>
     <string name="photo_chip_videos">Video</string>
     <string name="photo_chip_favorites">Favorit</string>
+    <string name="photo_library_subtitle">Kamera, tangkapan layar, dan lainnya</string>
+    <string name="photo_best_shot">Bidikan terbaik</string>
 </resources>

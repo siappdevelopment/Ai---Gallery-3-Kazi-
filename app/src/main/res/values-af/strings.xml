@@ -113,4 +113,6 @@
     <string name="photo_undated">Geen datum</string>
     <string name="photo_chip_videos">Video\'s</string>
     <string name="photo_chip_favorites">Gunstelinge</string>
+    <string name="photo_library_subtitle">Kamera, skermkiekies en meer</string>
+    <string name="photo_best_shot">Beste foto</string>
 </resources>
