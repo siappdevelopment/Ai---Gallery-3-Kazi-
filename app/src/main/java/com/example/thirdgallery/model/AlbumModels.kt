@@ -15,7 +15,8 @@ enum class AlbumKind(val key: String) {
     FAVORITES("favorites"),
     VIDEOS("videos"),
     SCREENSHOTS("screenshots"),
-    RECENT("recent");
+    RECENT("recent"),
+    YEAR("year");
 
     companion object {
         fun fromKey(key: String?): AlbumKind = entries.firstOrNull { it.key == key } ?: DEVICE

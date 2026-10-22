@@ -35,6 +35,7 @@ import com.example.thirdgallery.adapter.YearGridDecoration
 import com.example.thirdgallery.databinding.FragmentPhotoBinding
 import com.example.thirdgallery.helper.AlbumIcons
 import com.example.thirdgallery.helper.GalleryLayoutPrefs
+import com.example.thirdgallery.helper.MediaFormat
 import com.example.thirdgallery.helper.MediaPermissionHelper
 import com.example.thirdgallery.model.GalleryLayout
 import com.example.thirdgallery.model.MediaFilter
@@ -132,7 +133,9 @@ class PhotoFragment : Fragment() {
         val filterEmpty = FilterEmptyAdapter()
         // A month opens its days, a year opens its months (same as the design).
         val months = MonthAdapter { layoutViewModel.setZoom(TimelineZoom.DAYS) }
-        val years = YearAdapter { layoutViewModel.setZoom(TimelineZoom.MONTHS) }
+        val years = YearAdapter { row ->
+            open(AlbumKind.YEAR, row.year.toLong(), MediaFormat.yearTitle(requireContext(), row.year))
+        }
         val mosaicTopAdapter = MosaicTopAdapter(
             onFilterSelected = { viewModel.setFilter(it) },
             onAllAlbums = { (activity as? HomeActivity)?.openAlbumsTab() },

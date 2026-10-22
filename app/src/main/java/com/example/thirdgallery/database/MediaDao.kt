@@ -114,6 +114,12 @@ interface MediaDao {
     @Query("SELECT COUNT(*) FROM album_items i INNER JOIN media m ON m.uid = i.mediaUid WHERE i.albumId = :albumId")
     fun observeUserAlbumCount(albumId: Long): LiveData<Int>
 
+    @Query("SELECT * FROM media WHERE (monthKey / 12 = :year) ORDER BY dateMs DESC, uid DESC")
+    fun yearSource(year: Int): PagingSource<Int, MediaEntity>
+
+    @Query("SELECT COUNT(*) FROM media WHERE (monthKey / 12 = :year)")
+    fun observeYearCount(year: Int): LiveData<Int>
+
     @Query("SELECT COUNT(*) FROM media")
     fun observeTotal(): LiveData<Int>
 

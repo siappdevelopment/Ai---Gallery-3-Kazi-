@@ -127,6 +127,7 @@ class MediaRepository(context: Context) {
 
     fun collectionCount(kind: AlbumKind, id: Long, sinceMs: Long): LiveData<Int> = when (kind) {
         AlbumKind.USER -> dao.observeUserAlbumCount(id)
+        AlbumKind.YEAR -> dao.observeYearCount(id.toInt())
         else -> {
             val q = query(kind, id, sinceMs)
             dao.observeCollectionCount(q.bucketId, q.types, q.minFavorite, q.since, q.nameLike)
@@ -151,6 +152,7 @@ class MediaRepository(context: Context) {
 
     private fun collectionSource(kind: AlbumKind, id: Long, sinceMs: Long) = when (kind) {
         AlbumKind.USER -> dao.userAlbumSource(id)
+        AlbumKind.YEAR -> dao.yearSource(id.toInt())
         else -> {
             val q = query(kind, id, sinceMs)
             dao.collectionSource(q.bucketId, q.types, q.minFavorite, q.since, q.nameLike)
