@@ -156,4 +156,9 @@
         <item quantity="other">%1$d álbuns</item>
         <item quantity="many">%1$d de álbuns</item>
     </plurals>
+    <string name="albums_smart_vault">Cofre de fotos</string>
+    <string name="albums_smart_hidden">Ocultos</string>
+    <string name="albums_smart_bin">Reciclagem</string>
+    <string name="albums_vault_setup">Configurar</string>
+    <string name="albums_coming_soon">Brevemente</string>
 </resources>

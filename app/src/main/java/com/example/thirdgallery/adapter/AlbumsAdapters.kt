@@ -71,6 +71,19 @@ class AlbumsHeaderAdapter(
             binding.btnSort.setOnClickListener { onSort() }
             binding.btnNew.setOnClickListener { onNew() }
             binding.tvToggleAll.setOnClickListener { onToggleAll() }
+            // Search already filters while typing, so Search/Enter only closes the keyboard. Consuming it
+            // stops TextView from running a focus search that can land on a view that cannot take focus.
+            binding.etSearch.setOnEditorActionListener { v, actionId, event ->
+                val enter = event != null && event.keyCode == android.view.KeyEvent.KEYCODE_ENTER
+                if (actionId == android.view.inputmethod.EditorInfo.IME_ACTION_SEARCH || enter) {
+                    v.clearFocus()
+                    v.context.getSystemService(android.view.inputmethod.InputMethodManager::class.java)
+                        ?.hideSoftInputFromWindow(v.windowToken, 0)
+                    true
+                } else {
+                    false
+                }
+            }
             binding.etSearch.addTextChangedListener(object : android.text.TextWatcher {
                 override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) = Unit
                 override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) = Unit
@@ -151,9 +164,13 @@ class AlbumCardAdapter(
     }
 }
 
-/** "Smart collections": Favorites, Videos, Screenshots and Recently added with live counts. */
+/**
+ * "Smart collections": Favorites, Videos, Screenshots and Recently added open with live counts. Photo vault,
+ * Hidden and Bin have no storage yet, so they are shown as in the design and only call [onUnavailable].
+ */
 class SmartCollectionsAdapter(
     private val onOpen: (AlbumKind, String) -> Unit,
+    private val onUnavailable: () -> Unit,
 ) : RecyclerView.Adapter<SmartCollectionsAdapter.ViewHolder>() {
 
     private var counts = IntArray(4)
@@ -181,6 +198,12 @@ class SmartCollectionsAdapter(
             Row(binding.rowRecent, AlbumKind.RECENT, R.drawable.ic_schedule, R.string.albums_smart_recent),
         )
 
+        private val unavailableRows = listOf(
+            Triple(binding.rowVault, R.drawable.ic_vault, R.string.albums_smart_vault),
+            Triple(binding.rowHidden, R.drawable.ic_visibility_off, R.string.albums_smart_hidden),
+            Triple(binding.rowBin, R.drawable.ic_delete, R.string.albums_smart_bin),
+        )
+
         init {
             rows.forEach { row ->
                 row.binding.ivIcon.setImageResource(row.icon)
@@ -189,6 +212,14 @@ class SmartCollectionsAdapter(
                     onOpen(row.kind, row.binding.root.resources.getString(row.label))
                 }
             }
+            unavailableRows.forEach { (row, icon, label) ->
+                row.ivIcon.setImageResource(icon)
+                row.tvLabel.setText(label)
+                row.root.setOnClickListener { onUnavailable() }
+            }
+            binding.rowVault.tvCount.setText(R.string.albums_vault_setup)
+            binding.rowHidden.tvCount.visibility = View.GONE
+            binding.rowBin.tvCount.visibility = View.GONE
         }
 
         fun bind(counts: IntArray) {

@@ -150,4 +150,9 @@
     <plurals name="albums_count">
         <item quantity="other">%1$d album</item>
     </plurals>
+    <string name="albums_smart_vault">Brankas foto</string>
+    <string name="albums_smart_hidden">Tersembunyi</string>
+    <string name="albums_smart_bin">Tempat sampah</string>
+    <string name="albums_vault_setup">Siapkan</string>
+    <string name="albums_coming_soon">Segera hadir</string>
 </resources>

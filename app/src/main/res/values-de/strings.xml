@@ -153,4 +153,9 @@
         <item quantity="one">%1$d Album</item>
         <item quantity="other">%1$d Alben</item>
     </plurals>
+    <string name="albums_smart_vault">Foto-Tresor</string>
+    <string name="albums_smart_hidden">Ausgeblendet</string>
+    <string name="albums_smart_bin">Papierkorb</string>
+    <string name="albums_vault_setup">Einrichten</string>
+    <string name="albums_coming_soon">Demnächst verfügbar</string>
 </resources>

@@ -150,4 +150,9 @@
     <plurals name="albums_count">
         <item quantity="other">%1$d 个相册</item>
     </plurals>
+    <string name="albums_smart_vault">照片保险箱</string>
+    <string name="albums_smart_hidden">已隐藏</string>
+    <string name="albums_smart_bin">回收站</string>
+    <string name="albums_vault_setup">设置</string>
+    <string name="albums_coming_soon">即将推出</string>
 </resources>

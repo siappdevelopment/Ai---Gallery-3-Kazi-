@@ -28,6 +28,10 @@
         android:padding="4dp">
 
         <include
+            android:id="@+id/rowVault"
+            layout="@layout/item_smart_row" />
+
+        <include
             android:id="@+id/rowFavorites"
             layout="@layout/item_smart_row" />
 
@@ -41,6 +45,14 @@
 
         <include
             android:id="@+id/rowRecent"
+            layout="@layout/item_smart_row" />
+
+        <include
+            android:id="@+id/rowHidden"
+            layout="@layout/item_smart_row" />
+
+        <include
+            android:id="@+id/rowBin"
             layout="@layout/item_smart_row" />
     </LinearLayout>
 </LinearLayout>

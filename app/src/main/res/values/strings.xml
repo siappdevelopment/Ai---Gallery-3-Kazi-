@@ -159,4 +159,9 @@
         <item quantity="one">%1$d album</item>
         <item quantity="other">%1$d albums</item>
     </plurals>
+    <string name="albums_smart_vault">Photo vault</string>
+    <string name="albums_smart_hidden">Hidden</string>
+    <string name="albums_smart_bin">Bin</string>
+    <string name="albums_vault_setup">Set up</string>
+    <string name="albums_coming_soon">Coming soon</string>
 </resources>

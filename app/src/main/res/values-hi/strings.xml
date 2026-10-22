@@ -153,4 +153,9 @@
         <item quantity="one">%1$d एल्बम</item>
         <item quantity="other">%1$d एल्बम</item>
     </plurals>
+    <string name="albums_smart_vault">फ़ोटो वॉल्ट</string>
+    <string name="albums_smart_hidden">छिपे हुए</string>
+    <string name="albums_smart_bin">बिन</string>
+    <string name="albums_vault_setup">सेट अप करें</string>
+    <string name="albums_coming_soon">जल्द आ रहा है</string>
 </resources>

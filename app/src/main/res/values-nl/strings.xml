@@ -153,4 +153,9 @@
         <item quantity="one">%1$d album</item>
         <item quantity="other">%1$d albums</item>
     </plurals>
+    <string name="albums_smart_vault">Fotokluis</string>
+    <string name="albums_smart_hidden">Verborgen</string>
+    <string name="albums_smart_bin">Prullenbak</string>
+    <string name="albums_vault_setup">Instellen</string>
+    <string name="albums_coming_soon">Binnenkort beschikbaar</string>
 </resources>

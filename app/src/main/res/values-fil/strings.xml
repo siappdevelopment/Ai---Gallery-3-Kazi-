@@ -153,4 +153,9 @@
         <item quantity="one">%1$d album</item>
         <item quantity="other">%1$d album</item>
     </plurals>
+    <string name="albums_smart_vault">Photo vault</string>
+    <string name="albums_smart_hidden">Nakatago</string>
+    <string name="albums_smart_bin">Bin</string>
+    <string name="albums_vault_setup">I-set up</string>
+    <string name="albums_coming_soon">Malapit na</string>
 </resources>

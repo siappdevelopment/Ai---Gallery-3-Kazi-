@@ -159,4 +159,9 @@
         <item quantity="many">%1$d альбомов</item>
         <item quantity="other">%1$d альбома</item>
     </plurals>
+    <string name="albums_smart_vault">Фотосейф</string>
+    <string name="albums_smart_hidden">Скрытые</string>
+    <string name="albums_smart_bin">Корзина</string>
+    <string name="albums_vault_setup">Настроить</string>
+    <string name="albums_coming_soon">Скоро появится</string>
 </resources>

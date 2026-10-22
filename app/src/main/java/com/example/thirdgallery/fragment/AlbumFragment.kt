@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.example.thirdgallery.activity.AlbumDetailActivity
 import com.example.thirdgallery.adapter.AlbumCardAdapter
 import com.example.thirdgallery.adapter.AlbumsHeaderAdapter
+import com.example.thirdgallery.R
 import com.example.thirdgallery.adapter.SmartCollectionsAdapter
 import com.example.thirdgallery.databinding.FragmentAlbumsBinding
 import com.example.thirdgallery.helper.MediaPermissionHelper
@@ -68,7 +69,14 @@ class AlbumFragment : Fragment() {
             onToggleAll = { viewModel.toggleShowAll() },
         )
         val cardAdapter = AlbumCardAdapter { openAlbum(it) }
-        val smartAdapter = SmartCollectionsAdapter { kind, title -> open(kind, 0L, title) }
+        val smartAdapter = SmartCollectionsAdapter(
+            onOpen = { kind, title -> open(kind, 0L, title) },
+            onUnavailable = {
+                context?.applicationContext?.let {
+                    android.widget.Toast.makeText(it, R.string.albums_coming_soon, android.widget.Toast.LENGTH_SHORT).show()
+                }
+            },
+        )
         header = headerAdapter
         cards = cardAdapter
         smart = smartAdapter

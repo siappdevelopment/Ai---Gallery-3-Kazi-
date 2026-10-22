@@ -150,4 +150,9 @@
     <plurals name="albums_count">
         <item quantity="other">앨범 %1$d개</item>
     </plurals>
+    <string name="albums_smart_vault">사진 보관함</string>
+    <string name="albums_smart_hidden">숨김</string>
+    <string name="albums_smart_bin">휴지통</string>
+    <string name="albums_vault_setup">설정</string>
+    <string name="albums_coming_soon">곧 제공됩니다</string>
 </resources>

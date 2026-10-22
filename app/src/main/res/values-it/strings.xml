@@ -156,4 +156,9 @@
         <item quantity="other">%1$d album</item>
         <item quantity="many">%1$d di album</item>
     </plurals>
+    <string name="albums_smart_vault">Cassaforte foto</string>
+    <string name="albums_smart_hidden">Nascosti</string>
+    <string name="albums_smart_bin">Cestino</string>
+    <string name="albums_vault_setup">Configura</string>
+    <string name="albums_coming_soon">Prossimamente</string>
 </resources>

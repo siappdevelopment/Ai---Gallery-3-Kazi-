@@ -153,4 +153,9 @@
         <item quantity="one">%1$d albüm</item>
         <item quantity="other">%1$d albüm</item>
     </plurals>
+    <string name="albums_smart_vault">Fotoğraf kasası</string>
+    <string name="albums_smart_hidden">Gizli</string>
+    <string name="albums_smart_bin">Çöp kutusu</string>
+    <string name="albums_vault_setup">Ayarla</string>
+    <string name="albums_coming_soon">Yakında</string>
 </resources>

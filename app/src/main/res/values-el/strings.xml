@@ -153,4 +153,9 @@
         <item quantity="one">%1$d άλμπουμ</item>
         <item quantity="other">%1$d άλμπουμ</item>
     </plurals>
+    <string name="albums_smart_vault">Θησαυροφυλάκιο φωτογραφιών</string>
+    <string name="albums_smart_hidden">Κρυφά</string>
+    <string name="albums_smart_bin">Κάδος</string>
+    <string name="albums_vault_setup">Ρύθμιση</string>
+    <string name="albums_coming_soon">Έρχεται σύντομα</string>
 </resources>
