@@ -120,6 +120,12 @@ interface MediaDao {
     @Query("SELECT COUNT(*) FROM media WHERE (monthKey / 12 = :year)")
     fun observeYearCount(year: Int): LiveData<Int>
 
+    @Query("SELECT * FROM media WHERE monthKey = :monthKey ORDER BY dateMs DESC, uid DESC")
+    fun monthSource(monthKey: Long): PagingSource<Int, MediaEntity>
+
+    @Query("SELECT COUNT(*) FROM media WHERE monthKey = :monthKey")
+    fun observeMonthCount(monthKey: Long): LiveData<Int>
+
     @Query("SELECT COUNT(*) FROM media")
     fun observeTotal(): LiveData<Int>
 

@@ -132,7 +132,9 @@ class PhotoFragment : Fragment() {
         )
         val filterEmpty = FilterEmptyAdapter()
         // A month opens its days, a year opens its months (same as the design).
-        val months = MonthAdapter { layoutViewModel.setZoom(TimelineZoom.DAYS) }
+        val months = MonthAdapter { row ->
+            open(AlbumKind.MONTH, row.monthKey, MediaFormat.monthTitle(requireContext(), row.monthKey))
+        }
         val years = YearAdapter { row ->
             open(AlbumKind.YEAR, row.year.toLong(), MediaFormat.yearTitle(requireContext(), row.year))
         }
