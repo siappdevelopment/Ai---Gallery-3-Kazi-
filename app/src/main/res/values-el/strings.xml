@@ -115,4 +115,21 @@
     <string name="photo_chip_favorites">Αγαπημένα</string>
     <string name="photo_library_subtitle">Κάμερα, στιγμιότυπα οθόνης και άλλα</string>
     <string name="photo_best_shot">Καλύτερη λήψη</string>
+    <string name="photo_journal_recap">Σύνοψη</string>
+    <string name="photo_add_to_album">Προσθήκη σε άλμπουμ</string>
+    <string name="photo_share">Κοινοποίηση</string>
+    <string name="photo_share_chooser">Κοινοποίηση</string>
+    <string name="photo_share_failed">Δεν ήταν δυνατή η κοινοποίηση αυτών των στοιχείων</string>
+    <string name="photo_new_album">Νέο άλμπουμ</string>
+    <string name="photo_album_name_hint">Όνομα άλμπουμ</string>
+    <string name="photo_album_name_empty">Εισαγάγετε όνομα άλμπουμ</string>
+    <string name="photo_album_name_exists">Υπάρχει ήδη άλμπουμ με αυτό το όνομα</string>
+    <string name="photo_add_failed">Δεν ήταν δυνατή η προσθήκη στο άλμπουμ</string>
+    <string name="photo_cancel">Ακύρωση</string>
+    <string name="photo_create">Δημιουργία</string>
+    <string name="photo_added_to_album">Προστέθηκε στο «%1$s»</string>
+    <plurals name="photo_add_to_album_title">
+        <item quantity="one">Προσθήκη %1$d στοιχείου σε άλμπουμ</item>
+        <item quantity="other">Προσθήκη %1$d στοιχείων σε άλμπουμ</item>
+    </plurals>
 </resources>

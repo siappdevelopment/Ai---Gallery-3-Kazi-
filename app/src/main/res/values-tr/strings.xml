@@ -115,4 +115,21 @@
     <string name="photo_chip_favorites">Favoriler</string>
     <string name="photo_library_subtitle">Kamera, ekran görüntüleri ve daha fazlası</string>
     <string name="photo_best_shot">En iyi kare</string>
+    <string name="photo_journal_recap">Özet</string>
+    <string name="photo_add_to_album">Albüme ekle</string>
+    <string name="photo_share">Paylaş</string>
+    <string name="photo_share_chooser">Paylaş</string>
+    <string name="photo_share_failed">Bu öğeler paylaşılamadı</string>
+    <string name="photo_new_album">Yeni albüm</string>
+    <string name="photo_album_name_hint">Albüm adı</string>
+    <string name="photo_album_name_empty">Bir albüm adı girin</string>
+    <string name="photo_album_name_exists">Bu ada sahip bir albüm zaten var</string>
+    <string name="photo_add_failed">Albüme eklenemedi</string>
+    <string name="photo_cancel">İptal</string>
+    <string name="photo_create">Oluştur</string>
+    <string name="photo_added_to_album">“%1$s” albümüne eklendi</string>
+    <plurals name="photo_add_to_album_title">
+        <item quantity="one">%1$d öğeyi albüme ekle</item>
+        <item quantity="other">%1$d öğeyi albüme ekle</item>
+    </plurals>
 </resources>

@@ -15,6 +15,7 @@ import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import androidx.paging.insertSeparators
 import androidx.paging.map as mapPaging
+import com.example.thirdgallery.database.JournalDayRow
 import com.example.thirdgallery.database.MediaEntity
 import com.example.thirdgallery.database.MosaicRow
 import com.example.thirdgallery.helper.MediaPermissionHelper
@@ -22,6 +23,8 @@ import com.example.thirdgallery.model.MediaFilter
 import com.example.thirdgallery.model.MediaUiModel
 import com.example.thirdgallery.model.MosaicUi
 import com.example.thirdgallery.repo.MediaRepository
+import com.example.thirdgallery.utils.Event
+import java.util.concurrent.Executors
 
 class PhotoViewModel(application: Application) : AndroidViewModel(application) {
 
@@ -66,6 +69,31 @@ class PhotoViewModel(application: Application) : AndroidViewModel(application) {
                     }
             }
             .cachedIn(viewModelScope)
+    }
+
+    /**
+     * Journal: one row per day. Like Mosaic it is only collected while the Journal layout is shown.
+     */
+    val journalMedia: LiveData<PagingData<JournalDayRow>> = _filter.switchMap { filter ->
+        repository.pagedJournal(filter).cachedIn(viewModelScope)
+    }
+
+    private val _shareRequest = MutableLiveData<Event<List<Long>>>()
+
+    /** The items of the day the user wants to share (resolved off the main thread). */
+    val shareRequest: LiveData<Event<List<Long>>> = _shareRequest
+
+    /** Looks up every item of [dayKey] under the current filter and posts them for sharing. */
+    fun requestShare(dayKey: Long) {
+        val filter = _filter.value ?: MediaFilter.ALL
+        shareExecutor.execute {
+            val uids = try {
+                repository.uidsOfDay(dayKey, filter)
+            } catch (e: Exception) {
+                emptyList()
+            }
+            _shareRequest.postValue(Event(uids))
+        }
     }
 
     /** Number of items per day for the current filter (shown next to each day header). */
@@ -165,6 +193,7 @@ class PhotoViewModel(application: Application) : AndroidViewModel(application) {
     }
 
     private companion object {
+        val shareExecutor = Executors.newSingleThreadExecutor()
         const val OBSERVER_DEBOUNCE_MS = 1000L
     }
 }

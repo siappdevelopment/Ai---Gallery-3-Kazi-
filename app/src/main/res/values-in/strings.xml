@@ -114,4 +114,20 @@
     <string name="photo_chip_favorites">Favorit</string>
     <string name="photo_library_subtitle">Kamera, tangkapan layar, dan lainnya</string>
     <string name="photo_best_shot">Bidikan terbaik</string>
+    <string name="photo_journal_recap">Kilas balik</string>
+    <string name="photo_add_to_album">Tambahkan ke album</string>
+    <string name="photo_share">Bagikan</string>
+    <string name="photo_share_chooser">Bagikan</string>
+    <string name="photo_share_failed">Tidak dapat membagikan item ini</string>
+    <string name="photo_new_album">Album baru</string>
+    <string name="photo_album_name_hint">Nama album</string>
+    <string name="photo_album_name_empty">Masukkan nama album</string>
+    <string name="photo_album_name_exists">Album dengan nama ini sudah ada</string>
+    <string name="photo_add_failed">Tidak dapat menambahkan ke album</string>
+    <string name="photo_cancel">Batal</string>
+    <string name="photo_create">Buat</string>
+    <string name="photo_added_to_album">Ditambahkan ke “%1$s”</string>
+    <plurals name="photo_add_to_album_title">
+        <item quantity="other">Tambahkan %1$d item ke album</item>
+    </plurals>
 </resources>

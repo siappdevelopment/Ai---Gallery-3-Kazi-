@@ -117,4 +117,23 @@
     <string name="photo_chip_favorites">Избранное</string>
     <string name="photo_library_subtitle">Камера, скриншоты и другое</string>
     <string name="photo_best_shot">Лучший кадр</string>
+    <string name="photo_journal_recap">Итоги</string>
+    <string name="photo_add_to_album">Добавить в альбом</string>
+    <string name="photo_share">Поделиться</string>
+    <string name="photo_share_chooser">Поделиться</string>
+    <string name="photo_share_failed">Не удалось поделиться этими элементами</string>
+    <string name="photo_new_album">Новый альбом</string>
+    <string name="photo_album_name_hint">Название альбома</string>
+    <string name="photo_album_name_empty">Введите название альбома</string>
+    <string name="photo_album_name_exists">Альбом с таким названием уже существует</string>
+    <string name="photo_add_failed">Не удалось добавить в альбом</string>
+    <string name="photo_cancel">Отмена</string>
+    <string name="photo_create">Создать</string>
+    <string name="photo_added_to_album">Добавлено в «%1$s»</string>
+    <plurals name="photo_add_to_album_title">
+        <item quantity="one">Добавить %1$d элемент в альбом</item>
+        <item quantity="few">Добавить %1$d элемента в альбом</item>
+        <item quantity="many">Добавить %1$d элементов в альбом</item>
+        <item quantity="other">Добавить %1$d элемента в альбом</item>
+    </plurals>
 </resources>

@@ -115,4 +115,21 @@
     <string name="photo_chip_favorites">Favorieten</string>
     <string name="photo_library_subtitle">Camera, schermafbeeldingen en meer</string>
     <string name="photo_best_shot">Beste opname</string>
+    <string name="photo_journal_recap">Terugblik</string>
+    <string name="photo_add_to_album">Toevoegen aan album</string>
+    <string name="photo_share">Delen</string>
+    <string name="photo_share_chooser">Delen</string>
+    <string name="photo_share_failed">Deze items konden niet worden gedeeld</string>
+    <string name="photo_new_album">Nieuw album</string>
+    <string name="photo_album_name_hint">Albumnaam</string>
+    <string name="photo_album_name_empty">Voer een albumnaam in</string>
+    <string name="photo_album_name_exists">Er bestaat al een album met deze naam</string>
+    <string name="photo_add_failed">Kon niet aan het album toevoegen</string>
+    <string name="photo_cancel">Annuleren</string>
+    <string name="photo_create">Maken</string>
+    <string name="photo_added_to_album">Toegevoegd aan “%1$s”</string>
+    <plurals name="photo_add_to_album_title">
+        <item quantity="one">%1$d item aan album toevoegen</item>
+        <item quantity="other">%1$d items aan album toevoegen</item>
+    </plurals>
 </resources>

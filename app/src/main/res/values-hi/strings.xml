@@ -115,4 +115,21 @@
     <string name="photo_chip_favorites">पसंदीदा</string>
     <string name="photo_library_subtitle">कैमरा, स्क्रीनशॉट और बहुत कुछ</string>
     <string name="photo_best_shot">सर्वश्रेष्ठ फ़ोटो</string>
+    <string name="photo_journal_recap">रीकैप</string>
+    <string name="photo_add_to_album">एल्बम में जोड़ें</string>
+    <string name="photo_share">शेयर करें</string>
+    <string name="photo_share_chooser">शेयर करें</string>
+    <string name="photo_share_failed">ये आइटम शेयर नहीं हो सके</string>
+    <string name="photo_new_album">नया एल्बम</string>
+    <string name="photo_album_name_hint">एल्बम का नाम</string>
+    <string name="photo_album_name_empty">एल्बम का नाम दर्ज करें</string>
+    <string name="photo_album_name_exists">इस नाम का एल्बम पहले से मौजूद है</string>
+    <string name="photo_add_failed">एल्बम में नहीं जोड़ा जा सका</string>
+    <string name="photo_cancel">रद्द करें</string>
+    <string name="photo_create">बनाएँ</string>
+    <string name="photo_added_to_album">“%1$s” में जोड़ा गया</string>
+    <plurals name="photo_add_to_album_title">
+        <item quantity="one">%1$d आइटम एल्बम में जोड़ें</item>
+        <item quantity="other">%1$d आइटम एल्बम में जोड़ें</item>
+    </plurals>
 </resources>

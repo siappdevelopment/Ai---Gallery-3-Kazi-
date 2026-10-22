@@ -116,4 +116,22 @@
     <string name="photo_chip_favorites">Favoritas</string>
     <string name="photo_library_subtitle">Câmera, capturas de tela e mais</string>
     <string name="photo_best_shot">Melhor foto</string>
+    <string name="photo_journal_recap">Recapitulação</string>
+    <string name="photo_add_to_album">Adicionar ao álbum</string>
+    <string name="photo_share">Compartilhar</string>
+    <string name="photo_share_chooser">Compartilhar</string>
+    <string name="photo_share_failed">Não foi possível compartilhar estes itens</string>
+    <string name="photo_new_album">Novo álbum</string>
+    <string name="photo_album_name_hint">Nome do álbum</string>
+    <string name="photo_album_name_empty">Digite um nome para o álbum</string>
+    <string name="photo_album_name_exists">Já existe um álbum com este nome</string>
+    <string name="photo_add_failed">Não foi possível adicionar ao álbum</string>
+    <string name="photo_cancel">Cancelar</string>
+    <string name="photo_create">Criar</string>
+    <string name="photo_added_to_album">Adicionado a “%1$s”</string>
+    <plurals name="photo_add_to_album_title">
+        <item quantity="one">Adicionar %1$d item ao álbum</item>
+        <item quantity="other">Adicionar %1$d itens ao álbum</item>
+        <item quantity="many">Adicionar %1$d de itens ao álbum</item>
+    </plurals>
 </resources>

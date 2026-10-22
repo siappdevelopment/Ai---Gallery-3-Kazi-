@@ -23,6 +23,7 @@ import com.example.thirdgallery.adapter.FilterEmptyAdapter
 import com.example.thirdgallery.adapter.GalleryHeaderAdapter
 import com.example.thirdgallery.adapter.MediaPagingAdapter
 import com.example.thirdgallery.adapter.MonthAdapter
+import com.example.thirdgallery.adapter.JournalPagingAdapter
 import com.example.thirdgallery.adapter.MosaicPagingAdapter
 import com.example.thirdgallery.adapter.MosaicTopAdapter
 import com.example.thirdgallery.adapter.TimelineHeaderAdapter
@@ -34,6 +35,8 @@ import com.example.thirdgallery.helper.GalleryLayoutPrefs
 import com.example.thirdgallery.helper.MediaPermissionHelper
 import com.example.thirdgallery.model.GalleryLayout
 import com.example.thirdgallery.model.MediaFilter
+import com.example.thirdgallery.database.JournalDayRow
+import com.example.thirdgallery.helper.ShareHelper
 import com.example.thirdgallery.model.MosaicUi
 import com.example.thirdgallery.model.QuickChip
 import com.example.thirdgallery.model.TimelineZoom
@@ -43,14 +46,15 @@ import com.example.thirdgallery.viewmodel.PhotoViewModel
 /**
  * Gallery tab: every photo and video on the device, paged from Room.
  * Layouts: Classic (library + filter + day grid), Timeline (chips + Years / Months / Days) and
- * Mosaic (library cards + filter + a hero block and mixed tile sizes per day).
+ * Mosaic (library cards + filter + a hero block and mixed tile sizes per day) and Journal (library
+ * cards + filter + one card per day with Add to album / Share).
  * Switching layout or zoom only swaps the adapters around the same data; nothing is reloaded.
  */
 class PhotoFragment : Fragment() {
 
     private enum class UiState { CONTENT, LOADING, EMPTY, FILTER_EMPTY, ERROR, PERMISSION }
 
-    private enum class Mode { CLASSIC, DAYS, MONTHS, YEARS, MOSAIC }
+    private enum class Mode { CLASSIC, DAYS, MONTHS, YEARS, MOSAIC, JOURNAL }
 
     private var _binding: FragmentPhotoBinding? = null
     private val binding get() = _binding
@@ -72,6 +76,11 @@ class PhotoFragment : Fragment() {
     private var mosaicTop: MosaicTopAdapter? = null
     private var mosaicConcat: ConcatAdapter? = null
     private var mosaicObserver: Observer<PagingData<MosaicUi>>? = null
+    private var journalAdapter: JournalPagingAdapter? = null
+    private var journalTop: MosaicTopAdapter? = null
+    private var journalConcat: ConcatAdapter? = null
+    private var journalObserver: Observer<PagingData<JournalDayRow>>? = null
+    private var journalRefreshState: LoadState? = null
     private var gridManager: GridLayoutManager? = null
 
     private var mode: Mode? = null
@@ -123,6 +132,17 @@ class PhotoFragment : Fragment() {
             onAllAlbums = { (activity as? HomeActivity)?.openAlbumsTab() },
         )
         val mosaic = MosaicPagingAdapter(resources.displayMetrics.widthPixels)
+        val journalTopAdapter = MosaicTopAdapter(
+            onFilterSelected = { viewModel.setFilter(it) },
+            onAllAlbums = { (activity as? HomeActivity)?.openAlbumsTab() },
+            compactCards = true,
+        )
+        val journal = JournalPagingAdapter(
+            onAddToAlbum = { showAddToAlbum(it) },
+            onShare = { viewModel.requestShare(it.dayKey) },
+        )
+        journalAdapter = journal
+        journalTop = journalTopAdapter
         mosaicAdapter = mosaic
         mosaicTop = mosaicTopAdapter
         mediaAdapter = media
@@ -137,11 +157,12 @@ class PhotoFragment : Fragment() {
         monthsConcat = ConcatAdapter(timeline, months)
         yearsConcat = ConcatAdapter(timeline, years)
         mosaicConcat = ConcatAdapter(mosaicTopAdapter, mosaic, filterEmpty)
+        journalConcat = ConcatAdapter(journalTopAdapter, journal, filterEmpty)
 
         val manager = GridLayoutManager(requireContext(), columns)
         manager.spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
             override fun getSpanSize(position: Int): Int {
-                val headerCount = timeline.itemCount + classic.itemCount + mosaicTopAdapter.itemCount
+                val headerCount = timeline.itemCount + classic.itemCount + mosaicTopAdapter.itemCount + journalTopAdapter.itemCount
                 if (position < headerCount) return manager.spanCount
                 return when (mode) {
                     Mode.CLASSIC, Mode.DAYS -> {
@@ -171,6 +192,10 @@ class PhotoFragment : Fragment() {
             mosaicRefreshState = states.refresh
             render()
         }
+        journal.addLoadStateListener { states ->
+            journalRefreshState = states.refresh
+            render()
+        }
 
         val owner = viewLifecycleOwner
         viewModel.media.observe(owner) { data -> media.submitData(owner.lifecycle, data) }
@@ -189,16 +214,26 @@ class PhotoFragment : Fragment() {
         viewModel.filter.observe(owner) {
             classic.setFilter(it)
             mosaicTopAdapter.setFilter(it)
+            journalTopAdapter.setFilter(it)
             render()
         }
         viewModel.libraryAlbums.observe(owner) {
             classic.setContent(viewModel.totalCount.value ?: 0, it.orEmpty())
             mosaicTopAdapter.setAlbums(it.orEmpty())
+            journalTopAdapter.setAlbums(it.orEmpty())
             updateChips()
         }
         viewModel.totalCount.observe(owner) { classic.setContent(it ?: 0, viewModel.libraryAlbums.value.orEmpty()) }
         viewModel.videoCount.observe(owner) { updateChips() }
         viewModel.favoriteCount.observe(owner) { updateChips() }
+        viewModel.shareRequest.observe(owner) { event ->
+            event.getContentIfNotHandled()?.let { uids ->
+                val host = activity ?: return@let
+                ShareHelper.share(host, uids) {
+                    android.widget.Toast.makeText(host.applicationContext, R.string.photo_share_failed, android.widget.Toast.LENGTH_SHORT).show()
+                }
+            }
+        }
         viewModel.syncing.observe(owner) { render() }
         viewModel.synced.observe(owner) { render() }
         viewModel.syncError.observe(owner) { render() }
@@ -230,6 +265,11 @@ class PhotoFragment : Fragment() {
     override fun onDestroyView() {
         binding?.rvMedia?.adapter = null
         stopMosaicData()
+        stopJournalData()
+        journalAdapter = null
+        journalTop = null
+        journalConcat = null
+        journalRefreshState = null
         mediaAdapter = null
         mosaicAdapter = null
         mosaicTop = null
@@ -253,6 +293,7 @@ class PhotoFragment : Fragment() {
 
     private companion object {
         const val MOSAIC_COLUMNS = 3
+        const val JOURNAL_COLUMNS = 1
     }
 
     private fun tilePx(columns: Int): Int =
@@ -261,6 +302,7 @@ class PhotoFragment : Fragment() {
     private fun currentMode(): Mode {
         when (layoutViewModel.layout.value) {
             GalleryLayout.MOSAIC -> return Mode.MOSAIC
+            GalleryLayout.JOURNAL -> return Mode.JOURNAL
             GalleryLayout.TIMELINE -> Unit
             else -> return Mode.CLASSIC
         }
@@ -292,6 +334,7 @@ class PhotoFragment : Fragment() {
             Mode.MONTHS -> 1
             Mode.YEARS -> 2
             Mode.MOSAIC -> MOSAIC_COLUMNS
+            Mode.JOURNAL -> JOURNAL_COLUMNS
         }
         if (manager.spanCount != spanCount) manager.spanCount = spanCount
 
@@ -299,12 +342,14 @@ class PhotoFragment : Fragment() {
             mode = newMode
             // Mosaic pages are only loaded while the Mosaic layout is shown.
             if (newMode == Mode.MOSAIC) startMosaicData() else stopMosaicData()
+            if (newMode == Mode.JOURNAL) startJournalData() else stopJournalData()
             val target = when (newMode) {
                 Mode.CLASSIC -> classicConcat
                 Mode.DAYS -> daysConcat
                 Mode.MONTHS -> monthsConcat
                 Mode.YEARS -> yearsConcat
                 Mode.MOSAIC -> mosaicConcat
+                Mode.JOURNAL -> journalConcat
             }
             if (target != null) {
                 // setAdapter (not swapAdapter): each ConcatAdapter numbers its own view types from 0,
@@ -323,6 +368,29 @@ class PhotoFragment : Fragment() {
         val observer = Observer<PagingData<MosaicUi>> { data -> mosaicAdapter?.submitData(owner.lifecycle, data) }
         mosaicObserver = observer
         viewModel.mosaicMedia.observe(owner, observer)
+    }
+
+    private fun startJournalData() {
+        if (journalObserver != null || _binding == null) return
+        val owner = viewLifecycleOwner
+        val observer = Observer<PagingData<JournalDayRow>> { data -> journalAdapter?.submitData(owner.lifecycle, data) }
+        journalObserver = observer
+        viewModel.journalMedia.observe(owner, observer)
+    }
+
+    private fun stopJournalData() {
+        val observer = journalObserver ?: return
+        journalObserver = null
+        viewModel.journalMedia.removeObserver(observer)
+    }
+
+    /** Opens the "Add to album" sheet for every item of the row's day (under the active filter). */
+    private fun showAddToAlbum(row: JournalDayRow) {
+        val host = activity as? androidx.appcompat.app.AppCompatActivity ?: return
+        val fm = host.supportFragmentManager
+        if (fm.isStateSaved || fm.findFragmentByTag(AddToAlbumBottomSheet.TAG) != null) return
+        val filter = viewModel.filter.value ?: MediaFilter.ALL
+        AddToAlbumBottomSheet.newInstance(row.dayKey, filter, row.total).show(fm, AddToAlbumBottomSheet.TAG)
     }
 
     private fun stopMosaicData() {
@@ -374,16 +442,21 @@ class PhotoFragment : Fragment() {
         val timelineCards = when (mode) {
             Mode.MONTHS -> monthAdapter?.itemCount ?: 0
             Mode.YEARS -> yearAdapter?.itemCount ?: 0
-            Mode.MOSAIC -> -2
+            Mode.MOSAIC, Mode.JOURNAL -> -2
             else -> -1
         }
         val itemCount = when {
             timelineCards >= 0 -> timelineCards
             mode == Mode.MOSAIC -> mosaicAdapter?.itemCount ?: 0
+            mode == Mode.JOURNAL -> journalAdapter?.itemCount ?: 0
             else -> mediaAdapter?.itemCount ?: 0
         }
         val pagedMode = timelineCards < 0
-        val activeRefresh = if (mode == Mode.MOSAIC) mosaicRefreshState else refreshState
+        val activeRefresh = when (mode) {
+            Mode.MOSAIC -> mosaicRefreshState
+            Mode.JOURNAL -> journalRefreshState
+            else -> refreshState
+        }
         val synced = viewModel.synced.value == true
         val filter = viewModel.filter.value ?: MediaFilter.ALL
         return when {
@@ -400,13 +473,14 @@ class PhotoFragment : Fragment() {
         val b = binding ?: return
         val state = currentState()
         // Classic and Mosaic have the filter bar; Timeline has its own header.
-        val inClassic = mode == Mode.CLASSIC || mode == Mode.MOSAIC
+        val inClassic = mode == Mode.CLASSIC || mode == Mode.MOSAIC || mode == Mode.JOURNAL
 
         // The grid stays visible when a filter matches nothing, so the filter bar stays usable.
         val listVisible = state == UiState.CONTENT || (state == UiState.FILTER_EMPTY && inClassic)
         b.rvMedia.visibility = if (listVisible) View.VISIBLE else View.INVISIBLE
         classicHeader?.setVisible(mode == Mode.CLASSIC && listVisible)
         mosaicTop?.setVisible(mode == Mode.MOSAIC && listVisible)
+        journalTop?.setVisible(mode == Mode.JOURNAL && listVisible)
         timelineHeader?.setVisible(!inClassic && listVisible)
         filterEmptyAdapter?.setVisible(state == UiState.FILTER_EMPTY && inClassic)
 
@@ -420,7 +494,7 @@ class PhotoFragment : Fragment() {
             UiState.ERROR -> showState(
                 R.drawable.ic_error, R.string.photo_error_title, R.string.photo_error_desc,
                 R.string.perm_denied_try_again,
-            ) { viewModel.refresh(force = true); mediaAdapter?.refresh(); mosaicAdapter?.refresh() }
+            ) { viewModel.refresh(force = true); mediaAdapter?.refresh(); mosaicAdapter?.refresh(); journalAdapter?.refresh() }
             UiState.PERMISSION -> showState(
                 R.drawable.ic_no_photography, R.string.perm_denied_title, R.string.photo_permission_desc,
                 R.string.photo_allow_access,

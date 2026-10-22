@@ -115,4 +115,21 @@
     <string name="photo_chip_favorites">Gunstelinge</string>
     <string name="photo_library_subtitle">Kamera, skermkiekies en meer</string>
     <string name="photo_best_shot">Beste foto</string>
+    <string name="photo_journal_recap">Terugblik</string>
+    <string name="photo_add_to_album">Voeg by album</string>
+    <string name="photo_share">Deel</string>
+    <string name="photo_share_chooser">Deel</string>
+    <string name="photo_share_failed">Kon nie hierdie items deel nie</string>
+    <string name="photo_new_album">Nuwe album</string>
+    <string name="photo_album_name_hint">Albumnaam</string>
+    <string name="photo_album_name_empty">Voer \'n albumnaam in</string>
+    <string name="photo_album_name_exists">\'n Album met hierdie naam bestaan reeds</string>
+    <string name="photo_add_failed">Kon nie by die album voeg nie</string>
+    <string name="photo_cancel">Kanselleer</string>
+    <string name="photo_create">Skep</string>
+    <string name="photo_added_to_album">Bygevoeg by “%1$s”</string>
+    <plurals name="photo_add_to_album_title">
+        <item quantity="one">Voeg %1$d item by album</item>
+        <item quantity="other">Voeg %1$d items by album</item>
+    </plurals>
 </resources>

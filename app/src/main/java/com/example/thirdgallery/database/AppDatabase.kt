@@ -18,8 +18,10 @@ import androidx.sqlite.db.SupportSQLiteDatabase
         PlaceEntity::class,
         SuggestionEntity::class,
         MediaEntity::class,
+        AlbumEntity::class,
+        AlbumItemEntity::class,
     ],
-    version = 4,
+    version = 5,
     exportSchema = true,
 )
 abstract class AppDatabase : RoomDatabase() {
@@ -27,6 +29,8 @@ abstract class AppDatabase : RoomDatabase() {
     abstract fun forYouDao(): ForYouDao
 
     abstract fun mediaDao(): MediaDao
+
+    abstract fun albumDao(): AlbumDao
 
     companion object {
         private const val NAME = "gallery.db"
@@ -69,6 +73,20 @@ abstract class AppDatabase : RoomDatabase() {
             }
         }
 
+        /** v5 adds the app albums ("Add to album") and their items. */
+        private val MIGRATION_4_5 = object : Migration(4, 5) {
+            override fun migrate(db: SupportSQLiteDatabase) {
+                db.execSQL(
+                    "CREATE TABLE IF NOT EXISTS `albums` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, " +
+                        "`name` TEXT NOT NULL, `createdAt` INTEGER NOT NULL)"
+                )
+                db.execSQL(
+                    "CREATE TABLE IF NOT EXISTS `album_items` (`albumId` INTEGER NOT NULL, `mediaUid` INTEGER NOT NULL, " +
+                        "`addedAt` INTEGER NOT NULL, PRIMARY KEY(`albumId`, `mediaUid`))"
+                )
+            }
+        }
+
         @Volatile
         private var instance: AppDatabase? = null
 
@@ -78,7 +96,7 @@ abstract class AppDatabase : RoomDatabase() {
                     context.applicationContext,
                     AppDatabase::class.java,
                     NAME,
-                ).addMigrations(MIGRATION_1_2, MIGRATION_2_3, MIGRATION_3_4).build().also { instance = it }
+                ).addMigrations(MIGRATION_1_2, MIGRATION_2_3, MIGRATION_3_4, MIGRATION_4_5).build().also { instance = it }
             }
     }
 }

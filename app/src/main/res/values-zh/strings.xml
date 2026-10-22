@@ -114,4 +114,20 @@
     <string name="photo_chip_favorites">收藏</string>
     <string name="photo_library_subtitle">相机、截图等</string>
     <string name="photo_best_shot">最佳照片</string>
+    <string name="photo_journal_recap">回顾</string>
+    <string name="photo_add_to_album">添加到相册</string>
+    <string name="photo_share">分享</string>
+    <string name="photo_share_chooser">分享</string>
+    <string name="photo_share_failed">无法分享这些项目</string>
+    <string name="photo_new_album">新建相册</string>
+    <string name="photo_album_name_hint">相册名称</string>
+    <string name="photo_album_name_empty">请输入相册名称</string>
+    <string name="photo_album_name_exists">已存在同名相册</string>
+    <string name="photo_add_failed">无法添加到相册</string>
+    <string name="photo_cancel">取消</string>
+    <string name="photo_create">创建</string>
+    <string name="photo_added_to_album">已添加到“%1$s”</string>
+    <plurals name="photo_add_to_album_title">
+        <item quantity="other">将 %1$d 项添加到相册</item>
+    </plurals>
 </resources>

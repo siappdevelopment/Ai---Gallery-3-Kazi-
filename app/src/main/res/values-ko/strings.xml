@@ -114,4 +114,20 @@
     <string name="photo_chip_favorites">즐겨찾기</string>
     <string name="photo_library_subtitle">카메라, 스크린샷 등</string>
     <string name="photo_best_shot">베스트 샷</string>
+    <string name="photo_journal_recap">리캡</string>
+    <string name="photo_add_to_album">앨범에 추가</string>
+    <string name="photo_share">공유</string>
+    <string name="photo_share_chooser">공유</string>
+    <string name="photo_share_failed">이 항목을 공유할 수 없습니다</string>
+    <string name="photo_new_album">새 앨범</string>
+    <string name="photo_album_name_hint">앨범 이름</string>
+    <string name="photo_album_name_empty">앨범 이름을 입력하세요</string>
+    <string name="photo_album_name_exists">이 이름의 앨범이 이미 있습니다</string>
+    <string name="photo_add_failed">앨범에 추가할 수 없습니다</string>
+    <string name="photo_cancel">취소</string>
+    <string name="photo_create">만들기</string>
+    <string name="photo_added_to_album">“%1$s”에 추가됨</string>
+    <plurals name="photo_add_to_album_title">
+        <item quantity="other">항목 %1$d개를 앨범에 추가</item>
+    </plurals>
 </resources>

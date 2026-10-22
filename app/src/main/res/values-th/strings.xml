@@ -114,4 +114,20 @@
     <string name="photo_chip_favorites">รายการโปรด</string>
     <string name="photo_library_subtitle">กล้อง ภาพหน้าจอ และอื่นๆ</string>
     <string name="photo_best_shot">ภาพที่ดีที่สุด</string>
+    <string name="photo_journal_recap">สรุป</string>
+    <string name="photo_add_to_album">เพิ่มลงในอัลบั้ม</string>
+    <string name="photo_share">แชร์</string>
+    <string name="photo_share_chooser">แชร์</string>
+    <string name="photo_share_failed">ไม่สามารถแชร์รายการเหล่านี้ได้</string>
+    <string name="photo_new_album">อัลบั้มใหม่</string>
+    <string name="photo_album_name_hint">ชื่ออัลบั้ม</string>
+    <string name="photo_album_name_empty">ป้อนชื่ออัลบั้ม</string>
+    <string name="photo_album_name_exists">มีอัลบั้มที่ใช้ชื่อนี้แล้ว</string>
+    <string name="photo_add_failed">ไม่สามารถเพิ่มลงในอัลบั้มได้</string>
+    <string name="photo_cancel">ยกเลิก</string>
+    <string name="photo_create">สร้าง</string>
+    <string name="photo_added_to_album">เพิ่มใน “%1$s” แล้ว</string>
+    <plurals name="photo_add_to_album_title">
+        <item quantity="other">เพิ่ม %1$d รายการลงในอัลบั้ม</item>
+    </plurals>
 </resources>

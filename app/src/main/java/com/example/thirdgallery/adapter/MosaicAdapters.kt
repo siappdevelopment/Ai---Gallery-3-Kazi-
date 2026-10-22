@@ -79,6 +79,8 @@ class MosaicAlbumAdapter : ListAdapter<AlbumRow, MosaicAlbumAdapter.ViewHolder>(
 class MosaicTopAdapter(
     private val onFilterSelected: (MediaFilter) -> Unit,
     private val onAllAlbums: () -> Unit,
+    /** true = small Journal cards instead of the tall Mosaic cards. */
+    private val compactCards: Boolean = false,
 ) : RecyclerView.Adapter<MosaicTopAdapter.ViewHolder>() {
 
     private var visible = false
@@ -114,7 +116,8 @@ class MosaicTopAdapter(
 
     inner class ViewHolder(private val binding: ItemMosaicTopBinding) : RecyclerView.ViewHolder(binding.root) {
 
-        private val albumAdapter = MosaicAlbumAdapter()
+        private val albumAdapter: ListAdapter<AlbumRow, out RecyclerView.ViewHolder> =
+            if (compactCards) JournalAlbumAdapter() else MosaicAlbumAdapter()
 
         init {
             binding.rvAlbums.adapter = albumAdapter

@@ -3,24 +3,24 @@ package com.example.thirdgallery.database
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import androidx.room.InvalidationTracker
-import com.example.thirdgallery.model.MediaFilter
+import androidx.room.RoomDatabase
 
 /**
- * Pages the Mosaic query straight from Room without a total-count query.
+ * Pages any "LIMIT/OFFSET" query straight from Room without a total-count query.
  *
- * Room's generated paging source first runs `SELECT COUNT(*)` over the whole query; the Mosaic
- * query computes each row's position inside its day with sub-queries, so that count touched every
- * row of the library (a slow query on big libraries, during which the previous filter's items
- * stayed on screen). Here only the rows of each requested page run those sub-queries.
- *
- * Keys are item offsets; [PagingSource.LoadResult.Page.prevKey] is the number of items before a page.
+ * Room's generated paging source first runs `SELECT COUNT(*)` over the whole query. Queries with
+ * per-row sub-queries (Mosaic ranks, Journal days) made that count touch the whole library, which
+ * is slow on big libraries. Here only the requested page runs. Keys are item offsets and
+ * [PagingSource.LoadResult.Page.prevKey] is the number of items before the page. The source is
+ * invalidated whenever one of [tables] changes.
  */
-class MosaicPagingSource(
-    private val database: AppDatabase,
-    private val filter: MediaFilter,
-) : PagingSource<Int, MosaicRow>() {
+class OffsetPagingSource<T : Any>(
+    private val database: RoomDatabase,
+    vararg tables: String,
+    private val loader: suspend (limit: Int, offset: Int) -> List<T>,
+) : PagingSource<Int, T>() {
 
-    private val observer = object : InvalidationTracker.Observer("media") {
+    private val observer = object : InvalidationTracker.Observer(arrayOf(*tables)) {
         override fun onInvalidated(tables: Set<String>) {
             invalidate()
         }
@@ -33,7 +33,7 @@ class MosaicPagingSource(
 
     override val jumpingSupported: Boolean get() = false
 
-    override suspend fun load(params: LoadParams<Int>): LoadResult<Int, MosaicRow> {
+    override suspend fun load(params: LoadParams<Int>): LoadResult<Int, T> {
         val key = (params.key ?: 0).coerceAtLeast(0)
         val limit: Int
         val offset: Int
@@ -45,10 +45,11 @@ class MosaicPagingSource(
             limit = params.loadSize
             offset = key
         }
-        if (limit <= 0) return LoadResult.Page(emptyList(), prevKey = null, nextKey = if (params is LoadParams.Prepend) key else null)
-
+        if (limit <= 0) {
+            return LoadResult.Page(emptyList(), prevKey = null, nextKey = if (params is LoadParams.Prepend) key else null)
+        }
         return try {
-            val rows = database.mediaDao().mosaicPage(filter.types, filter.minFavorite, limit, offset)
+            val rows = loader(limit, offset)
             LoadResult.Page(
                 data = rows,
                 prevKey = if (offset == 0) null else offset,
@@ -59,7 +60,7 @@ class MosaicPagingSource(
         }
     }
 
-    override fun getRefreshKey(state: PagingState<Int, MosaicRow>): Int? {
+    override fun getRefreshKey(state: PagingState<Int, T>): Int? {
         val anchor = state.anchorPosition ?: return null
         var start = 0
         for (page in state.pages) {

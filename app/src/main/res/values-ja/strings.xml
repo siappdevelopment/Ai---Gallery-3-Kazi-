@@ -114,4 +114,20 @@
     <string name="photo_chip_favorites">お気に入り</string>
     <string name="photo_library_subtitle">カメラ、スクリーンショットなど</string>
     <string name="photo_best_shot">ベストショット</string>
+    <string name="photo_journal_recap">リキャップ</string>
+    <string name="photo_add_to_album">アルバムに追加</string>
+    <string name="photo_share">共有</string>
+    <string name="photo_share_chooser">共有</string>
+    <string name="photo_share_failed">これらの項目を共有できませんでした</string>
+    <string name="photo_new_album">新しいアルバム</string>
+    <string name="photo_album_name_hint">アルバム名</string>
+    <string name="photo_album_name_empty">アルバム名を入力してください</string>
+    <string name="photo_album_name_exists">この名前のアルバムはすでに存在します</string>
+    <string name="photo_add_failed">アルバムに追加できませんでした</string>
+    <string name="photo_cancel">キャンセル</string>
+    <string name="photo_create">作成</string>
+    <string name="photo_added_to_album">“%1$s”に追加しました</string>
+    <plurals name="photo_add_to_album_title">
+        <item quantity="other">%1$d件をアルバムに追加</item>
+    </plurals>
 </resources>

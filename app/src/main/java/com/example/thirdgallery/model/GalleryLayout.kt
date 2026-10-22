@@ -5,7 +5,7 @@ enum class GalleryLayout(val key: String, val implemented: Boolean) {
     CLASSIC("classic", true),
     TIMELINE("timeline", true),
     MOSAIC("mosaic", true),
-    JOURNAL("journal", false);
+    JOURNAL("journal", true);
 
     companion object {
         fun fromKey(key: String?): GalleryLayout =

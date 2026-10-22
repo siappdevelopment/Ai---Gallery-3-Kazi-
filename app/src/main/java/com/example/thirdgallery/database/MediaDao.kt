@@ -29,6 +29,24 @@ interface MediaDao {
     )
     suspend fun mosaicPage(types: List<Int>, minFavorite: Int, limit: Int, offset: Int): List<MosaicRow>
 
+    /** Journal: one row per day (the page of days first, then the per-day lookups only for those days). */
+    @Query(
+        "SELECT d.dayKey AS dayKey, d.total AS total, " +
+            "(SELECT c.uid FROM media c WHERE c.dayKey = d.dayKey AND c.mediaType IN (:types) AND c.isFavorite >= :minFavorite ORDER BY c.dateMs DESC, c.uid DESC LIMIT 1) AS heroUid, " +
+            "(SELECT c.bucketName FROM media c WHERE c.dayKey = d.dayKey AND c.mediaType IN (:types) AND c.isFavorite >= :minFavorite ORDER BY c.dateMs DESC, c.uid DESC LIMIT 1) AS place, " +
+            "(SELECT group_concat(s.uid) FROM (SELECT c.uid AS uid FROM media c WHERE c.dayKey = d.dayKey AND c.mediaType IN (:types) AND c.isFavorite >= :minFavorite ORDER BY c.dateMs DESC, c.uid DESC LIMIT 40 OFFSET 1) s) AS strip " +
+            "FROM (SELECT m.dayKey AS dayKey, COUNT(*) AS total FROM media m WHERE m.mediaType IN (:types) AND m.isFavorite >= :minFavorite " +
+            "GROUP BY m.dayKey ORDER BY m.dayKey DESC LIMIT :limit OFFSET :offset) d ORDER BY d.dayKey DESC"
+    )
+    suspend fun journalPage(types: List<Int>, minFavorite: Int, limit: Int, offset: Int): List<JournalDayRow>
+
+    /** Every item of one day under the given filter, newest first (Add to album / Share). */
+    @Query(
+        "SELECT uid FROM media WHERE dayKey = :dayKey AND mediaType IN (:types) AND isFavorite >= :minFavorite " +
+            "ORDER BY dateMs DESC, uid DESC"
+    )
+    fun uidsOfDay(dayKey: Long, types: List<Int>, minFavorite: Int): List<Long>
+
     @Query(
         "SELECT dayKey, COUNT(*) AS total FROM media WHERE mediaType IN (:types) " +
             "AND isFavorite >= :minFavorite GROUP BY dayKey"

@@ -115,4 +115,21 @@
     <string name="photo_chip_favorites">Mga Paborito</string>
     <string name="photo_library_subtitle">Camera, mga screenshot at iba pa</string>
     <string name="photo_best_shot">Pinakamagandang kuha</string>
+    <string name="photo_journal_recap">Recap</string>
+    <string name="photo_add_to_album">Idagdag sa album</string>
+    <string name="photo_share">Ibahagi</string>
+    <string name="photo_share_chooser">Ibahagi</string>
+    <string name="photo_share_failed">Hindi maibahagi ang mga item na ito</string>
+    <string name="photo_new_album">Bagong album</string>
+    <string name="photo_album_name_hint">Pangalan ng album</string>
+    <string name="photo_album_name_empty">Maglagay ng pangalan ng album</string>
+    <string name="photo_album_name_exists">May album na may ganitong pangalan</string>
+    <string name="photo_add_failed">Hindi naidagdag sa album</string>
+    <string name="photo_cancel">Kanselahin</string>
+    <string name="photo_create">Gumawa</string>
+    <string name="photo_added_to_album">Naidagdag sa “%1$s”</string>
+    <plurals name="photo_add_to_album_title">
+        <item quantity="one">Magdagdag ng %1$d item sa album</item>
+        <item quantity="other">Magdagdag ng %1$d item sa album</item>
+    </plurals>
 </resources>

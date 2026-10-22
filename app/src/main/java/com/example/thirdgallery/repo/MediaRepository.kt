@@ -18,7 +18,8 @@ import com.example.thirdgallery.database.MediaDao
 import com.example.thirdgallery.database.MediaEntity
 import com.example.thirdgallery.database.MediaTypes
 import com.example.thirdgallery.database.MonthRow
-import com.example.thirdgallery.database.MosaicPagingSource
+import com.example.thirdgallery.database.JournalDayRow
+import com.example.thirdgallery.database.OffsetPagingSource
 import com.example.thirdgallery.database.MosaicRow
 import com.example.thirdgallery.helper.MediaPermissionHelper
 import com.example.thirdgallery.helper.MediaSyncPrefs
@@ -65,8 +66,33 @@ class MediaRepository(context: Context) {
                 enablePlaceholders = false,
                 maxSize = PAGE_SIZE * 6,
             ),
-            pagingSourceFactory = { MosaicPagingSource(database, filter) },
+            pagingSourceFactory = {
+                OffsetPagingSource(database, "media") { limit, offset ->
+                    dao.mosaicPage(filter.types, filter.minFavorite, limit, offset)
+                }
+            },
         ).liveData
+
+    /** Journal: one row per day with the day's newest item (hero) and its next items (strip). */
+    fun pagedJournal(filter: MediaFilter): LiveData<PagingData<JournalDayRow>> =
+        Pager(
+            config = PagingConfig(
+                pageSize = JOURNAL_PAGE_SIZE,
+                prefetchDistance = JOURNAL_PAGE_SIZE,
+                initialLoadSize = JOURNAL_PAGE_SIZE * 2,
+                enablePlaceholders = false,
+                maxSize = JOURNAL_PAGE_SIZE * 8,
+            ),
+            pagingSourceFactory = {
+                OffsetPagingSource(database, "media") { limit, offset ->
+                    dao.journalPage(filter.types, filter.minFavorite, limit, offset)
+                }
+            },
+        ).liveData
+
+    /** Every item of [dayKey] under [filter]; blocking, so call it from a background thread. */
+    fun uidsOfDay(dayKey: Long, filter: MediaFilter): List<Long> =
+        dao.uidsOfDay(dayKey, filter.types, filter.minFavorite)
 
     fun dayCounts(filter: MediaFilter): LiveData<List<DayCount>> =
         dao.observeDayCounts(filter.types, filter.minFavorite)
@@ -231,6 +257,7 @@ class MediaRepository(context: Context) {
     private companion object {
         const val PAGE_SIZE = 120
         const val BATCH_SIZE = 1000
+        const val JOURNAL_PAGE_SIZE = 8
         const val ALBUM_LIMIT = 12
 
         /** Bump when the indexed columns change so existing installs re-read MediaStore once. */

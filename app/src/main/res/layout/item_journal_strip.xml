@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="66dp"
+    android:layout_height="66dp">
+
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/ivStrip"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/language_check_off"
+        android:importantForAccessibility="no"
+        android:scaleType="centerCrop"
+        app:shapeAppearance="@style/ShapeAppearance.ThirdGallery.IntroTileSmall" />
+
+    <FrameLayout
+        android:id="@+id/videoBadge"
+        android:layout_width="18dp"
+        android:layout_height="18dp"
+        android:layout_gravity="bottom|end"
+        android:layout_margin="4dp"
+        android:background="@drawable/bg_strip_video_badge"
+        android:visibility="gone">
+
+        <ImageView
+            android:layout_width="13dp"
+            android:layout_height="13dp"
+            android:layout_gravity="center"
+            android:importantForAccessibility="no"
+            android:src="@drawable/ic_play_arrow"
+            app:tint="@color/white" />
+    </FrameLayout>
+</FrameLayout>
