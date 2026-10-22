@@ -39,10 +39,23 @@
             android:textSize="21sp"
             android:textStyle="bold" />
 
+        <!-- Gallery layout picker: only shown on the Gallery tab -->
+        <ImageButton
+            android:id="@+id/btnLayout"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="@drawable/bg_home_circle_button"
+            android:contentDescription="@string/photo_layout_title"
+            android:scaleType="center"
+            android:src="@drawable/ic_view_quilt"
+            android:visibility="gone"
+            app:tint="@color/splash_text_primary" />
+
         <ImageButton
             android:id="@+id/btnSearch"
             android:layout_width="40dp"
             android:layout_height="40dp"
+            android:layout_marginStart="8dp"
             android:background="@drawable/bg_home_circle_button"
             android:contentDescription="@string/home_search"
             android:scaleType="center"

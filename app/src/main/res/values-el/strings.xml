@@ -93,4 +93,16 @@
     <string name="photo_error_desc">Παρουσιάστηκε σφάλμα κατά την ανάγνωση των φωτογραφιών και βίντεό σας. Δοκιμάστε ξανά.</string>
     <string name="photo_permission_desc">Επιτρέψτε την πρόσβαση για να εμφανίζονται εδώ οι φωτογραφίες και τα βίντεό σας.</string>
     <string name="photo_allow_access">Να επιτραπεί η πρόσβαση</string>
+    <string name="photo_layout_title">Διάταξη συλλογής</string>
+    <string name="photo_layout_classic">Κλασική</string>
+    <string name="photo_layout_classic_desc">Κάρτες βιβλιοθήκης και πλέγμα φωτογραφιών</string>
+    <string name="photo_layout_timeline">Χρονολόγιο</string>
+    <string name="photo_layout_timeline_desc">Έτη, μήνες και ημέρες με γρήγορη μετάβαση</string>
+    <string name="photo_layout_mosaic">Μωσαϊκό</string>
+    <string name="photo_layout_mosaic_desc">Η καλύτερη λήψη κάθε ημέρας σε μεγάλο μέγεθος</string>
+    <string name="photo_layout_journal">Ημερολόγιο</string>
+    <string name="photo_layout_journal_desc">Μία κάρτα ανά ημέρα με γρήγορη σύνοψη</string>
+    <string name="photo_library_title">Η βιβλιοθήκη σας</string>
+    <string name="photo_items">%1$d στοιχεία</string>
+    <string name="photo_all_albums">Όλα τα άλμπουμ</string>
 </resources>

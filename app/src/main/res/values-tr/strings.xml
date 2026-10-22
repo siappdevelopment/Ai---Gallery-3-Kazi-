@@ -93,4 +93,16 @@
     <string name="photo_error_desc">Fotoğraf ve videolarınız okunurken bir sorun oluştu. Lütfen tekrar deneyin.</string>
     <string name="photo_permission_desc">Fotoğraf ve videolarınızı burada göstermek için erişime izin verin.</string>
     <string name="photo_allow_access">Erişime izin ver</string>
+    <string name="photo_layout_title">Galeri düzeni</string>
+    <string name="photo_layout_classic">Klasik</string>
+    <string name="photo_layout_classic_desc">Kitaplık kartları ve fotoğraf ızgarası</string>
+    <string name="photo_layout_timeline">Zaman çizelgesi</string>
+    <string name="photo_layout_timeline_desc">Yıllar, aylar ve günler, hızlı atlama ile</string>
+    <string name="photo_layout_mosaic">Mozaik</string>
+    <string name="photo_layout_mosaic_desc">Her günün en iyi karesi büyük gösterilir</string>
+    <string name="photo_layout_journal">Günlük</string>
+    <string name="photo_layout_journal_desc">Hızlı özetle günde bir kart</string>
+    <string name="photo_library_title">Kitaplığınız</string>
+    <string name="photo_items">%1$d öğe</string>
+    <string name="photo_all_albums">Tüm albümler</string>
 </resources>

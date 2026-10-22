@@ -93,4 +93,16 @@
     <string name="photo_error_desc">Iets het verkeerd gegaan met die lees van jou foto\'s en video\'s. Probeer asseblief weer.</string>
     <string name="photo_permission_desc">Gee toegang om jou foto\'s en video\'s hier te wys.</string>
     <string name="photo_allow_access">Gee toegang</string>
+    <string name="photo_layout_title">Galery-uitleg</string>
+    <string name="photo_layout_classic">Klassiek</string>
+    <string name="photo_layout_classic_desc">Biblioteekkaarte en \'n fotorooster</string>
+    <string name="photo_layout_timeline">Tydlyn</string>
+    <string name="photo_layout_timeline_desc">Jare, maande en dae met vinnige spring</string>
+    <string name="photo_layout_mosaic">Mosaïek</string>
+    <string name="photo_layout_mosaic_desc">Beste foto van elke dag groot gewys</string>
+    <string name="photo_layout_journal">Joernaal</string>
+    <string name="photo_layout_journal_desc">Een kaart per dag met \'n vinnige opsomming</string>
+    <string name="photo_library_title">Jou biblioteek</string>
+    <string name="photo_items">%1$d items</string>
+    <string name="photo_all_albums">Alle albums</string>
 </resources>

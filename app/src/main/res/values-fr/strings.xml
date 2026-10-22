@@ -94,4 +94,16 @@
     <string name="photo_error_desc">Un problème est survenu lors de la lecture de vos photos et vidéos. Veuillez réessayer.</string>
     <string name="photo_permission_desc">Autorisez l’accès pour afficher ici vos photos et vidéos.</string>
     <string name="photo_allow_access">Autoriser l’accès</string>
+    <string name="photo_layout_title">Disposition de la galerie</string>
+    <string name="photo_layout_classic">Classique</string>
+    <string name="photo_layout_classic_desc">Cartes de bibliothèque et grille de photos</string>
+    <string name="photo_layout_timeline">Chronologie</string>
+    <string name="photo_layout_timeline_desc">Années, mois et jours avec saut rapide</string>
+    <string name="photo_layout_mosaic">Mosaïque</string>
+    <string name="photo_layout_mosaic_desc">Meilleure photo de chaque jour en grand</string>
+    <string name="photo_layout_journal">Journal</string>
+    <string name="photo_layout_journal_desc">Une carte par jour avec un récapitulatif rapide</string>
+    <string name="photo_library_title">Votre bibliothèque</string>
+    <string name="photo_items">%1$d éléments</string>
+    <string name="photo_all_albums">Tous les albums</string>
 </resources>

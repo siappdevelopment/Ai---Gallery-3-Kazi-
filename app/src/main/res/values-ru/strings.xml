@@ -95,4 +95,16 @@
     <string name="photo_error_desc">Произошла ошибка при чтении ваших фото и видео. Повторите попытку.</string>
     <string name="photo_permission_desc">Разрешите доступ, чтобы здесь отображались ваши фото и видео.</string>
     <string name="photo_allow_access">Разрешить доступ</string>
+    <string name="photo_layout_title">Вид галереи</string>
+    <string name="photo_layout_classic">Классический</string>
+    <string name="photo_layout_classic_desc">Карточки медиатеки и сетка фото</string>
+    <string name="photo_layout_timeline">Лента времени</string>
+    <string name="photo_layout_timeline_desc">Годы, месяцы и дни с быстрым переходом</string>
+    <string name="photo_layout_mosaic">Мозаика</string>
+    <string name="photo_layout_mosaic_desc">Лучший кадр каждого дня крупно</string>
+    <string name="photo_layout_journal">Дневник</string>
+    <string name="photo_layout_journal_desc">Одна карточка в день с кратким обзором</string>
+    <string name="photo_library_title">Ваша медиатека</string>
+    <string name="photo_items">Элементов: %1$d</string>
+    <string name="photo_all_albums">Все альбомы</string>
 </resources>

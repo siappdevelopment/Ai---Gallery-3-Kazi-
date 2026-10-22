@@ -93,4 +93,16 @@
     <string name="photo_error_desc">May nangyaring mali sa pagbasa ng iyong mga larawan at video. Pakisubukan muli.</string>
     <string name="photo_permission_desc">Payagan ang access para maipakita rito ang iyong mga larawan at video.</string>
     <string name="photo_allow_access">Payagan ang access</string>
+    <string name="photo_layout_title">Layout ng Gallery</string>
+    <string name="photo_layout_classic">Klasik</string>
+    <string name="photo_layout_classic_desc">Mga library card at grid ng larawan</string>
+    <string name="photo_layout_timeline">Timeline</string>
+    <string name="photo_layout_timeline_desc">Mga taon, buwan at araw na may mabilis na lipat</string>
+    <string name="photo_layout_mosaic">Mosaic</string>
+    <string name="photo_layout_mosaic_desc">Pinakamagandang kuha ng bawat araw, malaki</string>
+    <string name="photo_layout_journal">Journal</string>
+    <string name="photo_layout_journal_desc">Isang card kada araw na may mabilis na buod</string>
+    <string name="photo_library_title">Ang iyong library</string>
+    <string name="photo_items">%1$d item</string>
+    <string name="photo_all_albums">Lahat ng album</string>
 </resources>

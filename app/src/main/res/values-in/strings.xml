@@ -92,4 +92,16 @@
     <string name="photo_error_desc">Terjadi kesalahan saat membaca foto dan video Anda. Silakan coba lagi.</string>
     <string name="photo_permission_desc">Izinkan akses untuk menampilkan foto dan video Anda di sini.</string>
     <string name="photo_allow_access">Izinkan akses</string>
+    <string name="photo_layout_title">Tata letak galeri</string>
+    <string name="photo_layout_classic">Klasik</string>
+    <string name="photo_layout_classic_desc">Kartu pustaka dan kisi foto</string>
+    <string name="photo_layout_timeline">Linimasa</string>
+    <string name="photo_layout_timeline_desc">Tahun, bulan, dan hari dengan lompat cepat</string>
+    <string name="photo_layout_mosaic">Mosaik</string>
+    <string name="photo_layout_mosaic_desc">Foto terbaik setiap hari ditampilkan besar</string>
+    <string name="photo_layout_journal">Jurnal</string>
+    <string name="photo_layout_journal_desc">Satu kartu per hari dengan ringkasan singkat</string>
+    <string name="photo_library_title">Pustaka Anda</string>
+    <string name="photo_items">%1$d item</string>
+    <string name="photo_all_albums">Semua album</string>
 </resources>

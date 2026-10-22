@@ -19,7 +19,7 @@ import androidx.sqlite.db.SupportSQLiteDatabase
         SuggestionEntity::class,
         MediaEntity::class,
     ],
-    version = 2,
+    version = 3,
     exportSchema = true,
 )
 abstract class AppDatabase : RoomDatabase() {
@@ -52,6 +52,15 @@ abstract class AppDatabase : RoomDatabase() {
             }
         }
 
+        /** v3 adds the album (bucket) columns used by the "Your library" cards. */
+        private val MIGRATION_2_3 = object : Migration(2, 3) {
+            override fun migrate(db: SupportSQLiteDatabase) {
+                db.execSQL("ALTER TABLE `media` ADD COLUMN `bucketId` INTEGER NOT NULL DEFAULT 0")
+                db.execSQL("ALTER TABLE `media` ADD COLUMN `bucketName` TEXT NOT NULL DEFAULT ''")
+                db.execSQL("CREATE INDEX IF NOT EXISTS `index_media_bucketId_dateMs` ON `media` (`bucketId`, `dateMs`)")
+            }
+        }
+
         @Volatile
         private var instance: AppDatabase? = null
 
@@ -61,7 +70,7 @@ abstract class AppDatabase : RoomDatabase() {
                     context.applicationContext,
                     AppDatabase::class.java,
                     NAME,
-                ).addMigrations(MIGRATION_1_2).build().also { instance = it }
+                ).addMigrations(MIGRATION_1_2, MIGRATION_2_3).build().also { instance = it }
             }
     }
 }

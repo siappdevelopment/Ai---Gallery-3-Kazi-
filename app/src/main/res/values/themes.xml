@@ -29,6 +29,22 @@
         <item name="android:textStyle">bold</item>
     </style>
 
+    <style name="ShapeAppearance.ThirdGallery.StripBack" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSizeTopLeft">12dp</item>
+        <item name="cornerSizeTopRight">12dp</item>
+        <item name="cornerSizeBottomLeft">0dp</item>
+        <item name="cornerSizeBottomRight">0dp</item>
+    </style>
+
+    <style name="ShapeAppearance.ThirdGallery.StripFront" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSizeTopLeft">13dp</item>
+        <item name="cornerSizeTopRight">13dp</item>
+        <item name="cornerSizeBottomLeft">0dp</item>
+        <item name="cornerSizeBottomRight">0dp</item>
+    </style>
+
     <style name="ShapeAppearance.ThirdGallery.Thumb" parent="">
         <item name="cornerFamily">rounded</item>
         <item name="cornerSize">8dp</item>

@@ -51,6 +51,10 @@ class PhotoViewModel(application: Application) : AndroidViewModel(application) {
         repository.dayCounts(filter).map { list -> list.associate { it.dayKey to it.total } }
     }
 
+    /** Biggest albums for the "Your library" cards, and the size of the whole library. */
+    val libraryAlbums: LiveData<List<com.example.thirdgallery.database.AlbumRow>> = repository.libraryAlbums()
+    val totalCount: LiveData<Int> = repository.totalCount()
+
     private val _syncing = MutableLiveData(false)
     val syncing: LiveData<Boolean> = _syncing
 

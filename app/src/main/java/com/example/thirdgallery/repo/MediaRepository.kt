@@ -12,6 +12,7 @@ import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import androidx.paging.liveData
 import com.example.thirdgallery.database.AppDatabase
+import com.example.thirdgallery.database.AlbumRow
 import com.example.thirdgallery.database.DayCount
 import com.example.thirdgallery.database.MediaDao
 import com.example.thirdgallery.database.MediaEntity
@@ -53,6 +54,11 @@ class MediaRepository(context: Context) {
 
     fun dayCounts(filter: MediaFilter): LiveData<List<DayCount>> =
         dao.observeDayCounts(filter.types, filter.minFavorite)
+
+    /** Biggest albums (folders) with their newest items, for the "Your library" cards. */
+    fun libraryAlbums(): LiveData<List<AlbumRow>> = dao.observeAlbums(ALBUM_LIMIT)
+
+    fun totalCount(): LiveData<Int> = dao.observeTotal()
 
     /** Forgets the indexed media (used when the photo permission is gone). */
     fun clearAsync() {
@@ -116,6 +122,8 @@ class MediaRepository(context: Context) {
             add(MediaStore.MediaColumns._ID)
             add(MediaStore.MediaColumns.DATE_ADDED)
             add(DATE_TAKEN)
+            add(MediaStore.MediaColumns.BUCKET_ID)
+            add(MediaStore.MediaColumns.BUCKET_DISPLAY_NAME)
             if (isVideo) add(MediaStore.Video.Media.DURATION)
             if (Build.VERSION.SDK_INT >= 30) add(MediaStore.MediaColumns.IS_FAVORITE)
         }.toTypedArray()
@@ -126,6 +134,8 @@ class MediaRepository(context: Context) {
             val takenCol = cursor.getColumnIndexOrThrow(DATE_TAKEN)
             val durationCol = if (isVideo) cursor.getColumnIndexOrThrow(MediaStore.Video.Media.DURATION) else -1
             val favoriteCol = if (Build.VERSION.SDK_INT >= 30) cursor.getColumnIndex(MediaStore.MediaColumns.IS_FAVORITE) else -1
+            val bucketIdCol = cursor.getColumnIndexOrThrow(MediaStore.MediaColumns.BUCKET_ID)
+            val bucketNameCol = cursor.getColumnIndexOrThrow(MediaStore.MediaColumns.BUCKET_DISPLAY_NAME)
             val zone = TimeZone.getDefault()
             val batch = ArrayList<MediaEntity>(BATCH_SIZE)
 
@@ -144,6 +154,8 @@ class MediaRepository(context: Context) {
                         durationMs = if (durationCol >= 0) cursor.getLong(durationCol) else 0L,
                         isFavorite = favoriteCol >= 0 && cursor.getInt(favoriteCol) == 1,
                         syncToken = token,
+                        bucketId = cursor.getLong(bucketIdCol),
+                        bucketName = cursor.getString(bucketNameCol).orEmpty(),
                     )
                 )
                 if (batch.size >= BATCH_SIZE) {
@@ -167,7 +179,7 @@ class MediaRepository(context: Context) {
         } else {
             0L
         }
-        "${count(resolver, images)}:${newestModified(resolver, images)}|" +
+        "v$FINGERPRINT_VERSION|${count(resolver, images)}:${newestModified(resolver, images)}|" +
             "${count(resolver, videos)}:${newestModified(resolver, videos)}|$generation"
     } catch (e: Exception) {
         null
@@ -194,6 +206,10 @@ class MediaRepository(context: Context) {
     private companion object {
         const val PAGE_SIZE = 120
         const val BATCH_SIZE = 1000
+        const val ALBUM_LIMIT = 12
+
+        /** Bump when the indexed columns change so existing installs re-read MediaStore once. */
+        const val FINGERPRINT_VERSION = 3
         const val DAY_MS = 86_400_000L
 
         @Suppress("DEPRECATION")

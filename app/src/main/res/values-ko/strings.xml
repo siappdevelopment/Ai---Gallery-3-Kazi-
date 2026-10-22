@@ -92,4 +92,16 @@
     <string name="photo_error_desc">사진과 동영상을 읽는 중 문제가 발생했습니다. 다시 시도해 주세요.</string>
     <string name="photo_permission_desc">사진과 동영상을 여기에 표시하려면 접근을 허용하세요.</string>
     <string name="photo_allow_access">접근 허용</string>
+    <string name="photo_layout_title">갤러리 레이아웃</string>
+    <string name="photo_layout_classic">클래식</string>
+    <string name="photo_layout_classic_desc">라이브러리 카드와 사진 그리드</string>
+    <string name="photo_layout_timeline">타임라인</string>
+    <string name="photo_layout_timeline_desc">연, 월, 일을 빠르게 이동</string>
+    <string name="photo_layout_mosaic">모자이크</string>
+    <string name="photo_layout_mosaic_desc">매일의 베스트 사진을 크게 표시</string>
+    <string name="photo_layout_journal">저널</string>
+    <string name="photo_layout_journal_desc">하루에 카드 한 장, 빠른 요약</string>
+    <string name="photo_library_title">내 라이브러리</string>
+    <string name="photo_items">항목 %1$d개</string>
+    <string name="photo_all_albums">모든 앨범</string>
 </resources>

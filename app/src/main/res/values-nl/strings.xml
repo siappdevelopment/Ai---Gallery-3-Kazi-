@@ -93,4 +93,16 @@
     <string name="photo_error_desc">Er is iets misgegaan bij het lezen van je foto\'s en video\'s. Probeer het opnieuw.</string>
     <string name="photo_permission_desc">Geef toegang om je foto\'s en video\'s hier te tonen.</string>
     <string name="photo_allow_access">Toegang geven</string>
+    <string name="photo_layout_title">Galerij-indeling</string>
+    <string name="photo_layout_classic">Klassiek</string>
+    <string name="photo_layout_classic_desc">Bibliotheekkaarten en een fotoraster</string>
+    <string name="photo_layout_timeline">Tijdlijn</string>
+    <string name="photo_layout_timeline_desc">Jaren, maanden en dagen met snel springen</string>
+    <string name="photo_layout_mosaic">Mozaïek</string>
+    <string name="photo_layout_mosaic_desc">Beste foto van elke dag groot getoond</string>
+    <string name="photo_layout_journal">Dagboek</string>
+    <string name="photo_layout_journal_desc">Eén kaart per dag met een korte samenvatting</string>
+    <string name="photo_library_title">Je bibliotheek</string>
+    <string name="photo_items">%1$d items</string>
+    <string name="photo_all_albums">Alle albums</string>
 </resources>

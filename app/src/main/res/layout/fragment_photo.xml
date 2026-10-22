@@ -5,55 +5,6 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <!-- All / Photo / Video / Favorite segmented control -->
-    <LinearLayout
-        android:id="@+id/filterBar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="12dp"
-        android:layout_marginTop="2dp"
-        android:layout_marginEnd="12dp"
-        android:layout_marginBottom="6dp"
-        android:background="@drawable/bg_filter_bar"
-        android:orientation="horizontal"
-        android:padding="4dp">
-
-        <TextView
-            android:id="@+id/tabAll"
-            style="@style/Widget.ThirdGallery.FilterTab"
-            android:layout_width="0dp"
-            android:layout_height="36dp"
-            android:layout_weight="1"
-            android:text="@string/photo_filter_all" />
-
-        <TextView
-            android:id="@+id/tabPhotos"
-            style="@style/Widget.ThirdGallery.FilterTab"
-            android:layout_width="0dp"
-            android:layout_height="36dp"
-            android:layout_weight="1"
-            android:layout_marginStart="4dp"
-            android:text="@string/photo_filter_photo" />
-
-        <TextView
-            android:id="@+id/tabVideos"
-            style="@style/Widget.ThirdGallery.FilterTab"
-            android:layout_width="0dp"
-            android:layout_height="36dp"
-            android:layout_weight="1"
-            android:layout_marginStart="4dp"
-            android:text="@string/photo_filter_video" />
-
-        <TextView
-            android:id="@+id/tabFavorites"
-            style="@style/Widget.ThirdGallery.FilterTab"
-            android:layout_width="0dp"
-            android:layout_height="36dp"
-            android:layout_weight="1"
-            android:layout_marginStart="4dp"
-            android:text="@string/photo_filter_favorite" />
-    </LinearLayout>
-
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"

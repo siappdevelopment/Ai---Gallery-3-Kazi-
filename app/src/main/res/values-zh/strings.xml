@@ -92,4 +92,16 @@
     <string name="photo_error_desc">读取照片和视频时出错，请重试。</string>
     <string name="photo_permission_desc">请允许访问，以便在此显示您的照片和视频。</string>
     <string name="photo_allow_access">允许访问</string>
+    <string name="photo_layout_title">图库布局</string>
+    <string name="photo_layout_classic">经典</string>
+    <string name="photo_layout_classic_desc">资料库卡片和照片网格</string>
+    <string name="photo_layout_timeline">时间线</string>
+    <string name="photo_layout_timeline_desc">按年、月、日快速跳转</string>
+    <string name="photo_layout_mosaic">马赛克</string>
+    <string name="photo_layout_mosaic_desc">每天的最佳照片大图展示</string>
+    <string name="photo_layout_journal">日志</string>
+    <string name="photo_layout_journal_desc">每天一张卡片，快速回顾</string>
+    <string name="photo_library_title">您的资料库</string>
+    <string name="photo_items">%1$d 项</string>
+    <string name="photo_all_albums">所有相册</string>
 </resources>

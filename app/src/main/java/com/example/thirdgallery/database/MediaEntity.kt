@@ -1,5 +1,6 @@
 package com.example.thirdgallery.database
 
+import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.Index
 import androidx.room.PrimaryKey
@@ -14,6 +15,7 @@ import androidx.room.PrimaryKey
         Index("dateMs"),
         Index("mediaType", "dateMs"),
         Index("dayKey"),
+        Index("bucketId", "dateMs"),
     ],
 )
 data class MediaEntity(
@@ -30,6 +32,9 @@ data class MediaEntity(
     val isFavorite: Boolean,
     /** Id of the sync run that last saw this row; rows from older runs were deleted on the device. */
     val syncToken: Long,
+    /** MediaStore album (folder) of the item; used for the "Your library" cards. */
+    @ColumnInfo(defaultValue = "0") val bucketId: Long = 0,
+    @ColumnInfo(defaultValue = "''") val bucketName: String = "",
 )
 
 object MediaTypes {
@@ -37,9 +42,23 @@ object MediaTypes {
     const val VIDEO = 3
 
     fun uid(mediaId: Long, mediaType: Int): Long = mediaId * 2 + if (mediaType == VIDEO) 1 else 0
+
+    fun mediaIdOf(uid: Long): Long = uid shr 1
+
+    fun typeOf(uid: Long): Int = if (uid and 1L == 1L) VIDEO else IMAGE
 }
 
 data class DayCount(
     val dayKey: Long,
     val total: Int,
+)
+
+/** One "Your library" card: an album with its size and its three newest items (uids, newest first). */
+data class AlbumRow(
+    val bucketId: Long,
+    val bucketName: String,
+    val total: Int,
+    val cover0: Long?,
+    val cover1: Long?,
+    val cover2: Long?,
 )

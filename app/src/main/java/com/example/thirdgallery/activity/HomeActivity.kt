@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import com.example.thirdgallery.R
 import com.example.thirdgallery.databinding.ActivityHomeBinding
 import com.example.thirdgallery.fragment.ForYouFragment
+import com.example.thirdgallery.fragment.LayoutPickerBottomSheet
 import com.example.thirdgallery.fragment.PhotoFragment
 import com.example.thirdgallery.fragment.PlaceholderFragment
 
@@ -36,6 +37,7 @@ class HomeActivity : AppCompatActivity() {
         b.tabForYou.setOnClickListener { selectTab(TAB_FOR_YOU) }
         b.tabGallery.setOnClickListener { selectTab(TAB_GALLERY) }
         b.tabAlbums.setOnClickListener { selectTab(TAB_ALBUMS) }
+        b.btnLayout.setOnClickListener { showLayoutPicker() }
 
         selectedTab = savedInstanceState?.getInt(KEY_TAB, TAB_FOR_YOU) ?: TAB_FOR_YOU
         selectTab(selectedTab, force = true)
@@ -49,6 +51,15 @@ class HomeActivity : AppCompatActivity() {
     override fun onDestroy() {
         binding = null
         super.onDestroy()
+    }
+
+    /** Switches to the Albums tab (used by the Gallery's "All albums" link). */
+    fun openAlbumsTab() = selectTab(TAB_ALBUMS)
+
+    private fun showLayoutPicker() {
+        val fm = supportFragmentManager
+        if (fm.isStateSaved || fm.findFragmentByTag(LayoutPickerBottomSheet.TAG) != null) return
+        LayoutPickerBottomSheet().show(fm, LayoutPickerBottomSheet.TAG)
     }
 
     /** Shows the tab's fragment (created once, then hidden/shown so scroll positions survive). */
@@ -80,6 +91,8 @@ class HomeActivity : AppCompatActivity() {
 
     private fun updateTabStyles(tab: Int) {
         val b = binding ?: return
+        // The layout picker only applies to the Gallery tab.
+        b.btnLayout.visibility = if (tab == TAB_GALLERY) android.view.View.VISIBLE else android.view.View.GONE
         val tabs = listOf(
             Triple(b.indicatorForYou, b.iconForYou, b.labelForYou),
             Triple(b.indicatorGallery, b.iconGallery, b.labelGallery),

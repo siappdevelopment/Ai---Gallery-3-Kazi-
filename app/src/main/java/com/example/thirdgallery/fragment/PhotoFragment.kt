@@ -10,17 +10,27 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.paging.LoadState
+import androidx.recyclerview.widget.ConcatAdapter
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.thirdgallery.R
+import com.example.thirdgallery.activity.HomeActivity
+import com.example.thirdgallery.adapter.FilterEmptyAdapter
+import com.example.thirdgallery.adapter.GalleryHeaderAdapter
 import com.example.thirdgallery.adapter.MediaPagingAdapter
 import com.example.thirdgallery.databinding.FragmentPhotoBinding
 import com.example.thirdgallery.helper.MediaPermissionHelper
+import com.example.thirdgallery.model.GalleryLayout
 import com.example.thirdgallery.model.MediaFilter
+import com.example.thirdgallery.viewmodel.GalleryLayoutViewModel
 import com.example.thirdgallery.viewmodel.PhotoViewModel
 
-/** Gallery tab: every photo and video on the device, grouped by day, paged from Room. */
+/**
+ * Gallery tab: every photo and video on the device, grouped by day, paged from Room.
+ * In the Classic layout a header row ("Your library" albums + filter) scrolls above the grid.
+ */
 class PhotoFragment : Fragment() {
 
     private enum class UiState { CONTENT, LOADING, EMPTY, FILTER_EMPTY, ERROR, PERMISSION }
@@ -29,8 +39,11 @@ class PhotoFragment : Fragment() {
     private val binding get() = _binding
 
     private val viewModel: PhotoViewModel by viewModels()
+    private val layoutViewModel: GalleryLayoutViewModel by activityViewModels()
 
-    private var adapter: MediaPagingAdapter? = null
+    private var mediaAdapter: MediaPagingAdapter? = null
+    private var headerAdapter: GalleryHeaderAdapter? = null
+    private var filterEmptyAdapter: FilterEmptyAdapter? = null
     private var refreshState: LoadState? = null
     private var hasAccess = false
     private var requesting = false
@@ -60,40 +73,52 @@ class PhotoFragment : Fragment() {
         // About 90dp per column (4 on a normal phone); thumbnails are decoded at tile size only.
         val spanCount = (resources.configuration.screenWidthDp / 90).coerceIn(3, 8)
         val thumbPx = (resources.displayMetrics.widthPixels / spanCount).coerceAtLeast(1)
-        val mediaAdapter = MediaPagingAdapter(thumbPx)
-        adapter = mediaAdapter
+        val media = MediaPagingAdapter(thumbPx)
+        val header = GalleryHeaderAdapter(
+            onFilterSelected = { viewModel.setFilter(it) },
+            onAllAlbums = { (activity as? HomeActivity)?.openAlbumsTab() },
+        )
+        val filterEmpty = FilterEmptyAdapter()
+        mediaAdapter = media
+        headerAdapter = header
+        filterEmptyAdapter = filterEmpty
 
+        // header row, then the paged photos, then (only when a filter matches nothing) the empty row
+        val concat = ConcatAdapter(header, media, filterEmpty)
         val layoutManager = GridLayoutManager(requireContext(), spanCount)
         layoutManager.spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
-            override fun getSpanSize(position: Int): Int = if (mediaAdapter.isHeader(position)) spanCount else 1
+            override fun getSpanSize(position: Int): Int {
+                val headerCount = header.itemCount
+                if (position < headerCount) return spanCount
+                val index = position - headerCount
+                return if (index >= media.itemCount || media.isHeader(index)) spanCount else 1
+            }
         }
         b.rvMedia.layoutManager = layoutManager
-        b.rvMedia.adapter = mediaAdapter
+        b.rvMedia.adapter = concat
         b.rvMedia.itemAnimator = null
         b.rvMedia.setHasFixedSize(true)
         b.rvMedia.setItemViewCacheSize(spanCount * 3)
-        b.rvMedia.recycledViewPool.setMaxRecycledViews(MediaPagingAdapter.TYPE_ITEM, spanCount * 12)
 
-        b.tabAll.setOnClickListener { viewModel.setFilter(MediaFilter.ALL) }
-        b.tabPhotos.setOnClickListener { viewModel.setFilter(MediaFilter.PHOTOS) }
-        b.tabVideos.setOnClickListener { viewModel.setFilter(MediaFilter.VIDEOS) }
-        b.tabFavorites.setOnClickListener { viewModel.setFilter(MediaFilter.FAVORITES) }
-
-        mediaAdapter.addLoadStateListener { states ->
+        media.addLoadStateListener { states ->
             refreshState = states.refresh
             render()
         }
 
         val owner = viewLifecycleOwner
-        viewModel.media.observe(owner) { data -> mediaAdapter.submitData(owner.lifecycle, data) }
-        viewModel.dayCounts.observe(owner) { mediaAdapter.updateCounts(it) }
+        viewModel.media.observe(owner) { data -> media.submitData(owner.lifecycle, data) }
+        viewModel.dayCounts.observe(owner) { media.updateCounts(it) }
         viewModel.filter.observe(owner) {
-            updateFilterTabs(it)
+            header.setFilter(it)
             render()
         }
+        viewModel.libraryAlbums.observe(owner) { header.setContent(viewModel.totalCount.value ?: 0, it.orEmpty()) }
+        viewModel.totalCount.observe(owner) { header.setContent(it ?: 0, viewModel.libraryAlbums.value.orEmpty()) }
         viewModel.syncing.observe(owner) { render() }
         viewModel.synced.observe(owner) { render() }
         viewModel.syncError.observe(owner) { render() }
+        // Switching layouts only swaps the header; the photo list is never reloaded.
+        layoutViewModel.layout.observe(owner) { render() }
 
         hasAccess = MediaPermissionHelper.hasAccess(requireContext())
         render()
@@ -112,7 +137,9 @@ class PhotoFragment : Fragment() {
 
     override fun onDestroyView() {
         binding?.rvMedia?.adapter = null
-        adapter = null
+        mediaAdapter = null
+        headerAdapter = null
+        filterEmptyAdapter = null
         refreshState = null
         _binding = null
         super.onDestroyView()
@@ -138,23 +165,16 @@ class PhotoFragment : Fragment() {
         }
     }
 
-    private fun updateFilterTabs(filter: MediaFilter) {
-        val b = binding ?: return
-        b.tabAll.isSelected = filter == MediaFilter.ALL
-        b.tabPhotos.isSelected = filter == MediaFilter.PHOTOS
-        b.tabVideos.isSelected = filter == MediaFilter.VIDEOS
-        b.tabFavorites.isSelected = filter == MediaFilter.FAVORITES
-    }
-
     private fun currentState(): UiState {
-        val itemCount = adapter?.itemCount ?: 0
+        val itemCount = mediaAdapter?.itemCount ?: 0
         val synced = viewModel.synced.value == true
+        val filter = viewModel.filter.value ?: MediaFilter.ALL
         return when {
             !hasAccess -> UiState.PERMISSION
             itemCount > 0 -> UiState.CONTENT
             refreshState is LoadState.Error || viewModel.syncError.value == true -> UiState.ERROR
             viewModel.syncing.value == true || !synced || refreshState is LoadState.Loading -> UiState.LOADING
-            viewModel.filter.value == MediaFilter.ALL || viewModel.filter.value == null -> UiState.EMPTY
+            filter == MediaFilter.ALL -> UiState.EMPTY
             else -> UiState.FILTER_EMPTY
         }
     }
@@ -162,9 +182,16 @@ class PhotoFragment : Fragment() {
     private fun render() {
         val b = binding ?: return
         val state = currentState()
-        b.rvMedia.visibility = if (state == UiState.CONTENT) View.VISIBLE else View.INVISIBLE
+        val classic = (layoutViewModel.layout.value ?: GalleryLayout.CLASSIC) == GalleryLayout.CLASSIC
+
+        // The grid stays visible when a filter matches nothing, so the filter bar stays usable.
+        val listVisible = state == UiState.CONTENT || state == UiState.FILTER_EMPTY
+        b.rvMedia.visibility = if (listVisible) View.VISIBLE else View.INVISIBLE
+        headerAdapter?.setVisible(classic && listVisible)
+        filterEmptyAdapter?.setVisible(state == UiState.FILTER_EMPTY)
+
         b.progress.visibility = if (state == UiState.LOADING) View.VISIBLE else View.GONE
-        val showState = state != UiState.CONTENT && state != UiState.LOADING
+        val showState = state == UiState.EMPTY || state == UiState.ERROR || state == UiState.PERMISSION
         b.stateGroup.visibility = if (showState) View.VISIBLE else View.GONE
         if (!showState) return
 
@@ -173,13 +200,10 @@ class PhotoFragment : Fragment() {
                 R.drawable.ic_photo_library, R.string.photo_empty_title, R.string.photo_empty_desc,
                 R.string.photo_open_camera,
             ) { openCamera() }
-            UiState.FILTER_EMPTY -> showState(
-                R.drawable.ic_favorite, R.string.photo_filter_empty_title, R.string.photo_filter_empty_desc, null,
-            ) {}
             UiState.ERROR -> showState(
                 R.drawable.ic_error, R.string.photo_error_title, R.string.photo_error_desc,
                 R.string.perm_denied_try_again,
-            ) { viewModel.refresh(force = true); adapter?.refresh() }
+            ) { viewModel.refresh(force = true); mediaAdapter?.refresh() }
             else -> showState(
                 R.drawable.ic_no_photography, R.string.perm_denied_title, R.string.photo_permission_desc,
                 R.string.photo_allow_access,
@@ -191,20 +215,15 @@ class PhotoFragment : Fragment() {
         @DrawableRes icon: Int,
         @StringRes title: Int,
         @StringRes desc: Int,
-        @StringRes action: Int?,
+        @StringRes action: Int,
         onAction: () -> Unit,
     ) {
         val b = binding ?: return
         b.ivStateIcon.setImageResource(icon)
         b.tvStateTitle.setText(title)
         b.tvStateDesc.setText(desc)
-        if (action == null) {
-            b.btnState.visibility = View.GONE
-        } else {
-            b.btnState.visibility = View.VISIBLE
-            b.btnState.setText(action)
-            b.btnState.setOnClickListener { onAction() }
-        }
+        b.btnState.setText(action)
+        b.btnState.setOnClickListener { onAction() }
     }
 
     private fun openCamera() {

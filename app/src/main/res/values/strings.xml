@@ -99,4 +99,16 @@
     <string name="photo_error_desc">Something went wrong while reading your photos and videos. Please try again.</string>
     <string name="photo_permission_desc">Allow access to show your photos and videos here.</string>
     <string name="photo_allow_access">Allow access</string>
+    <string name="photo_layout_title">Gallery layout</string>
+    <string name="photo_layout_classic">Classic</string>
+    <string name="photo_layout_classic_desc">Library cards and a photo grid</string>
+    <string name="photo_layout_timeline">Timeline</string>
+    <string name="photo_layout_timeline_desc">Years, months and days with quick jump</string>
+    <string name="photo_layout_mosaic">Mosaic</string>
+    <string name="photo_layout_mosaic_desc">Best shot of each day shown large</string>
+    <string name="photo_layout_journal">Journal</string>
+    <string name="photo_layout_journal_desc">One card per day with a quick recap</string>
+    <string name="photo_library_title">Your library</string>
+    <string name="photo_items">%1$d items</string>
+    <string name="photo_all_albums">All albums</string>
 </resources>

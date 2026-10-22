@@ -16,5 +16,6 @@
     <color name="home_text_muted">#FF8A8A92</color>
     <color name="home_doc_sheet">#FF2A2A30</color>
     <color name="home_doc_line">#FF45454D</color>
+    <color name="sheet_handle">#FF45454D</color>
     <color name="splash_progress_track">#33FF4D7E</color>
 </resources>

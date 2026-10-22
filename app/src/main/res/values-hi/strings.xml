@@ -93,4 +93,16 @@
     <string name="photo_error_desc">आपकी फ़ोटो और वीडियो पढ़ते समय कुछ गड़बड़ हुई। कृपया फिर कोशिश करें।</string>
     <string name="photo_permission_desc">अपनी फ़ोटो और वीडियो यहाँ दिखाने के लिए अनुमति दें।</string>
     <string name="photo_allow_access">अनुमति दें</string>
+    <string name="photo_layout_title">गैलरी लेआउट</string>
+    <string name="photo_layout_classic">क्लासिक</string>
+    <string name="photo_layout_classic_desc">लाइब्रेरी कार्ड और फ़ोटो ग्रिड</string>
+    <string name="photo_layout_timeline">टाइमलाइन</string>
+    <string name="photo_layout_timeline_desc">साल, महीने और दिन, तेज़ी से जाने की सुविधा के साथ</string>
+    <string name="photo_layout_mosaic">मोज़ेक</string>
+    <string name="photo_layout_mosaic_desc">हर दिन की सबसे अच्छी फ़ोटो बड़ी दिखाई जाती है</string>
+    <string name="photo_layout_journal">जर्नल</string>
+    <string name="photo_layout_journal_desc">हर दिन का एक कार्ड, त्वरित सारांश के साथ</string>
+    <string name="photo_library_title">आपकी लाइब्रेरी</string>
+    <string name="photo_items">%1$d आइटम</string>
+    <string name="photo_all_albums">सभी एल्बम</string>
 </resources>

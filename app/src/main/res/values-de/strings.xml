@@ -93,4 +93,16 @@
     <string name="photo_error_desc">Beim Lesen deiner Fotos und Videos ist ein Fehler aufgetreten. Bitte versuche es erneut.</string>
     <string name="photo_permission_desc">Erlaube den Zugriff, um deine Fotos und Videos hier anzuzeigen.</string>
     <string name="photo_allow_access">Zugriff erlauben</string>
+    <string name="photo_layout_title">Galerie-Layout</string>
+    <string name="photo_layout_classic">Klassisch</string>
+    <string name="photo_layout_classic_desc">Bibliothekskarten und ein Fotoraster</string>
+    <string name="photo_layout_timeline">Zeitleiste</string>
+    <string name="photo_layout_timeline_desc">Jahre, Monate und Tage mit Schnellsprung</string>
+    <string name="photo_layout_mosaic">Mosaik</string>
+    <string name="photo_layout_mosaic_desc">Bestes Foto jedes Tages groß dargestellt</string>
+    <string name="photo_layout_journal">Journal</string>
+    <string name="photo_layout_journal_desc">Eine Karte pro Tag mit kurzem Rückblick</string>
+    <string name="photo_library_title">Deine Mediathek</string>
+    <string name="photo_items">%1$d Elemente</string>
+    <string name="photo_all_albums">Alle Alben</string>
 </resources>

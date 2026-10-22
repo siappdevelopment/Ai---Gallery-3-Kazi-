@@ -94,4 +94,16 @@
     <string name="photo_error_desc">Ocorreu um erro ao ler as suas fotos e vídeos. Tente novamente.</string>
     <string name="photo_permission_desc">Permita o acesso para mostrar aqui as suas fotos e vídeos.</string>
     <string name="photo_allow_access">Permitir acesso</string>
+    <string name="photo_layout_title">Esquema da galeria</string>
+    <string name="photo_layout_classic">Clássico</string>
+    <string name="photo_layout_classic_desc">Cartões da biblioteca e uma grelha de fotos</string>
+    <string name="photo_layout_timeline">Cronologia</string>
+    <string name="photo_layout_timeline_desc">Anos, meses e dias com salto rápido</string>
+    <string name="photo_layout_mosaic">Mosaico</string>
+    <string name="photo_layout_mosaic_desc">Melhor foto de cada dia em destaque</string>
+    <string name="photo_layout_journal">Diário</string>
+    <string name="photo_layout_journal_desc">Um cartão por dia com um resumo rápido</string>
+    <string name="photo_library_title">A sua biblioteca</string>
+    <string name="photo_items">%1$d itens</string>
+    <string name="photo_all_albums">Todos os álbuns</string>
 </resources>

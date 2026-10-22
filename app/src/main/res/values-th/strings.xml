@@ -92,4 +92,16 @@
     <string name="photo_error_desc">เกิดข้อผิดพลาดขณะอ่านรูปภาพและวิดีโอของคุณ โปรดลองอีกครั้ง</string>
     <string name="photo_permission_desc">อนุญาตการเข้าถึงเพื่อแสดงรูปภาพและวิดีโอของคุณที่นี่</string>
     <string name="photo_allow_access">อนุญาตการเข้าถึง</string>
+    <string name="photo_layout_title">เลย์เอาต์แกลเลอรี</string>
+    <string name="photo_layout_classic">คลาสสิก</string>
+    <string name="photo_layout_classic_desc">การ์ดคลังและตารางรูปภาพ</string>
+    <string name="photo_layout_timeline">ไทม์ไลน์</string>
+    <string name="photo_layout_timeline_desc">ปี เดือน และวัน พร้อมการข้ามอย่างรวดเร็ว</string>
+    <string name="photo_layout_mosaic">โมเสก</string>
+    <string name="photo_layout_mosaic_desc">ภาพที่ดีที่สุดของแต่ละวันแสดงขนาดใหญ่</string>
+    <string name="photo_layout_journal">บันทึก</string>
+    <string name="photo_layout_journal_desc">หนึ่งการ์ดต่อวันพร้อมสรุปย่อ</string>
+    <string name="photo_library_title">คลังของคุณ</string>
+    <string name="photo_items">%1$d รายการ</string>
+    <string name="photo_all_albums">อัลบั้มทั้งหมด</string>
 </resources>
