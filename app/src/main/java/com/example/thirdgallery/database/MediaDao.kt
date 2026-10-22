@@ -25,9 +25,9 @@ interface MediaDao {
         "CASE WHEN NOT EXISTS (SELECT 1 FROM media c WHERE c.dayKey = m.dayKey AND c.mediaType IN (:types) AND c.isFavorite >= :minFavorite AND (c.dateMs > m.dateMs OR (c.dateMs = m.dateMs AND c.uid > m.uid))) THEN " +
         "(SELECT c.uid FROM media c WHERE c.dayKey = m.dayKey AND c.mediaType IN (:types) AND c.isFavorite >= :minFavorite ORDER BY c.dateMs DESC, c.uid DESC LIMIT 1 OFFSET 2) END AS next2 " +
         "FROM media m WHERE m.mediaType IN (:types) AND m.isFavorite >= :minFavorite " +
-        "ORDER BY m.dateMs DESC, m.uid DESC"
+        "ORDER BY m.dateMs DESC, m.uid DESC LIMIT :limit OFFSET :offset"
     )
-    fun mosaicPagingSource(types: List<Int>, minFavorite: Int): PagingSource<Int, MosaicRow>
+    suspend fun mosaicPage(types: List<Int>, minFavorite: Int, limit: Int, offset: Int): List<MosaicRow>
 
     @Query(
         "SELECT dayKey, COUNT(*) AS total FROM media WHERE mediaType IN (:types) " +
