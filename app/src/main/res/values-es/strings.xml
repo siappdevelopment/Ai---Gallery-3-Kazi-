@@ -161,4 +161,7 @@
     <string name="albums_smart_bin">Papelera</string>
     <string name="albums_vault_setup">Configurar</string>
     <string name="albums_coming_soon">Próximamente</string>
+    <string name="albums_add_photos">Añadir fotos</string>
+    <string name="albums_select">Seleccionar</string>
+    <string name="albums_more">Más opciones</string>
 </resources>

@@ -158,4 +158,7 @@
     <string name="albums_smart_bin">बिन</string>
     <string name="albums_vault_setup">सेट अप करें</string>
     <string name="albums_coming_soon">जल्द आ रहा है</string>
+    <string name="albums_add_photos">फ़ोटो जोड़ें</string>
+    <string name="albums_select">चुनें</string>
+    <string name="albums_more">और विकल्प</string>
 </resources>

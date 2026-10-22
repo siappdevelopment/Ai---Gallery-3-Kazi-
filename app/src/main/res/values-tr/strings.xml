@@ -158,4 +158,7 @@
     <string name="albums_smart_bin">Çöp kutusu</string>
     <string name="albums_vault_setup">Ayarla</string>
     <string name="albums_coming_soon">Yakında</string>
+    <string name="albums_add_photos">Fotoğraf ekle</string>
+    <string name="albums_select">Seç</string>
+    <string name="albums_more">Diğer seçenekler</string>
 </resources>

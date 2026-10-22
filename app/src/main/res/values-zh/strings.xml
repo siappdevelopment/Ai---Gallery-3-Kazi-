@@ -155,4 +155,7 @@
     <string name="albums_smart_bin">回收站</string>
     <string name="albums_vault_setup">设置</string>
     <string name="albums_coming_soon">即将推出</string>
+    <string name="albums_add_photos">添加照片</string>
+    <string name="albums_select">选择</string>
+    <string name="albums_more">更多选项</string>
 </resources>

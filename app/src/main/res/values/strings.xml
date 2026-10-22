@@ -164,4 +164,7 @@
     <string name="albums_smart_bin">Bin</string>
     <string name="albums_vault_setup">Set up</string>
     <string name="albums_coming_soon">Coming soon</string>
+    <string name="albums_add_photos">Add photos</string>
+    <string name="albums_select">Select</string>
+    <string name="albums_more">More options</string>
 </resources>

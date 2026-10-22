@@ -158,4 +158,7 @@
     <string name="albums_smart_bin">Bin</string>
     <string name="albums_vault_setup">I-set up</string>
     <string name="albums_coming_soon">Malapit na</string>
+    <string name="albums_add_photos">Magdagdag ng mga larawan</string>
+    <string name="albums_select">Pumili</string>
+    <string name="albums_more">Higit pang opsyon</string>
 </resources>

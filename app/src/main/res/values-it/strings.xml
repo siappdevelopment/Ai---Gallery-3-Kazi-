@@ -161,4 +161,7 @@
     <string name="albums_smart_bin">Cestino</string>
     <string name="albums_vault_setup">Configura</string>
     <string name="albums_coming_soon">Prossimamente</string>
+    <string name="albums_add_photos">Aggiungi foto</string>
+    <string name="albums_select">Seleziona</string>
+    <string name="albums_more">Altre opzioni</string>
 </resources>

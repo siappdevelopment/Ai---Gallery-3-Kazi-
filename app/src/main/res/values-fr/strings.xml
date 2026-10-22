@@ -161,4 +161,7 @@
     <string name="albums_smart_bin">Corbeille</string>
     <string name="albums_vault_setup">Configurer</string>
     <string name="albums_coming_soon">Bientôt disponible</string>
+    <string name="albums_add_photos">Ajouter des photos</string>
+    <string name="albums_select">Sélectionner</string>
+    <string name="albums_more">Plus d’options</string>
 </resources>

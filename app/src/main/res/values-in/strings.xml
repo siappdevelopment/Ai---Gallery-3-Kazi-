@@ -155,4 +155,7 @@
     <string name="albums_smart_bin">Tempat sampah</string>
     <string name="albums_vault_setup">Siapkan</string>
     <string name="albums_coming_soon">Segera hadir</string>
+    <string name="albums_add_photos">Tambah foto</string>
+    <string name="albums_select">Pilih</string>
+    <string name="albums_more">Opsi lainnya</string>
 </resources>

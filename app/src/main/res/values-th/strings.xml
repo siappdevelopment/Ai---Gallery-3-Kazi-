@@ -155,4 +155,7 @@
     <string name="albums_smart_bin">ถังขยะ</string>
     <string name="albums_vault_setup">ตั้งค่า</string>
     <string name="albums_coming_soon">เร็วๆ นี้</string>
+    <string name="albums_add_photos">เพิ่มรูปภาพ</string>
+    <string name="albums_select">เลือก</string>
+    <string name="albums_more">ตัวเลือกเพิ่มเติม</string>
 </resources>

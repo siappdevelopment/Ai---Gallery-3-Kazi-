@@ -161,4 +161,7 @@
     <string name="albums_smart_bin">Lixeira</string>
     <string name="albums_vault_setup">Configurar</string>
     <string name="albums_coming_soon">Em breve</string>
+    <string name="albums_add_photos">Adicionar fotos</string>
+    <string name="albums_select">Selecionar</string>
+    <string name="albums_more">Mais opções</string>
 </resources>

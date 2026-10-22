@@ -158,4 +158,7 @@
     <string name="albums_smart_bin">Asblik</string>
     <string name="albums_vault_setup">Stel op</string>
     <string name="albums_coming_soon">Binnekort beskikbaar</string>
+    <string name="albums_add_photos">Voeg foto’s by</string>
+    <string name="albums_select">Kies</string>
+    <string name="albums_more">Meer opsies</string>
 </resources>

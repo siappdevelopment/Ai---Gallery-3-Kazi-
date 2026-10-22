@@ -158,4 +158,7 @@
     <string name="albums_smart_bin">Prullenbak</string>
     <string name="albums_vault_setup">Instellen</string>
     <string name="albums_coming_soon">Binnenkort beschikbaar</string>
+    <string name="albums_add_photos">Foto’s toevoegen</string>
+    <string name="albums_select">Selecteren</string>
+    <string name="albums_more">Meer opties</string>
 </resources>

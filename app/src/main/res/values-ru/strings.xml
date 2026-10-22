@@ -164,4 +164,7 @@
     <string name="albums_smart_bin">Корзина</string>
     <string name="albums_vault_setup">Настроить</string>
     <string name="albums_coming_soon">Скоро появится</string>
+    <string name="albums_add_photos">Добавить фото</string>
+    <string name="albums_select">Выбрать</string>
+    <string name="albums_more">Ещё</string>
 </resources>

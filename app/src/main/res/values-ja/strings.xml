@@ -155,4 +155,7 @@
     <string name="albums_smart_bin">ゴミ箱</string>
     <string name="albums_vault_setup">設定</string>
     <string name="albums_coming_soon">近日公開</string>
+    <string name="albums_add_photos">写真を追加</string>
+    <string name="albums_select">選択</string>
+    <string name="albums_more">その他のオプション</string>
 </resources>

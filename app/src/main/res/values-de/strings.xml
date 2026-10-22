@@ -158,4 +158,7 @@
     <string name="albums_smart_bin">Papierkorb</string>
     <string name="albums_vault_setup">Einrichten</string>
     <string name="albums_coming_soon">Demnächst verfügbar</string>
+    <string name="albums_add_photos">Fotos hinzufügen</string>
+    <string name="albums_select">Auswählen</string>
+    <string name="albums_more">Weitere Optionen</string>
 </resources>

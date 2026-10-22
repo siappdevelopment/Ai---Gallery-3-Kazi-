@@ -155,4 +155,7 @@
     <string name="albums_smart_bin">휴지통</string>
     <string name="albums_vault_setup">설정</string>
     <string name="albums_coming_soon">곧 제공됩니다</string>
+    <string name="albums_add_photos">사진 추가</string>
+    <string name="albums_select">선택</string>
+    <string name="albums_more">옵션 더보기</string>
 </resources>

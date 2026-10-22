@@ -158,4 +158,7 @@
     <string name="albums_smart_bin">Κάδος</string>
     <string name="albums_vault_setup">Ρύθμιση</string>
     <string name="albums_coming_soon">Έρχεται σύντομα</string>
+    <string name="albums_add_photos">Προσθήκη φωτογραφιών</string>
+    <string name="albums_select">Επιλογή</string>
+    <string name="albums_more">Περισσότερες επιλογές</string>
 </resources>

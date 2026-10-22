@@ -41,6 +41,13 @@ class AlbumDetailActivity : AppCompatActivity() {
 
         b.tvTitle.text = viewModel.title
         b.btnBack.setOnClickListener { finish() }
+        // Adding, selecting and the overflow menu have no backing feature yet.
+        val comingSoon = View.OnClickListener {
+            android.widget.Toast.makeText(applicationContext, R.string.albums_coming_soon, android.widget.Toast.LENGTH_SHORT).show()
+        }
+        b.btnAddPhotos.setOnClickListener(comingSoon)
+        b.btnSelect.setOnClickListener(comingSoon)
+        b.btnMore.setOnClickListener(comingSoon)
 
         // Same grid as the Gallery tab: the saved column count, day headers across the full width.
         val columns = GalleryLayoutPrefs.getColumns(this)
