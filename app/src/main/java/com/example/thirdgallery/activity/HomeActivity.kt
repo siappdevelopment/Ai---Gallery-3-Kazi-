@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import com.example.thirdgallery.R
 import com.example.thirdgallery.databinding.ActivityHomeBinding
 import com.example.thirdgallery.fragment.ForYouFragment
+import com.example.thirdgallery.fragment.PhotoFragment
 import com.example.thirdgallery.fragment.PlaceholderFragment
 
 class HomeActivity : AppCompatActivity() {
@@ -72,7 +73,7 @@ class HomeActivity : AppCompatActivity() {
     }
 
     private fun createFragment(tab: Int): Fragment = when (tab) {
-        TAB_GALLERY -> PlaceholderFragment.newInstance(R.string.home_nav_gallery)
+        TAB_GALLERY -> PhotoFragment()
         TAB_ALBUMS -> PlaceholderFragment.newInstance(R.string.home_nav_albums)
         else -> ForYouFragment()
     }

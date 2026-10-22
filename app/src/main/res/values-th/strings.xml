@@ -77,4 +77,19 @@
     <string name="home_sug_fav_sub">ภาพสวยที่ยังไม่อยู่ในรายการโปรด</string>
     <string name="home_memory_title">การควบคุมความทรงจำ</string>
     <string name="home_memory_subtitle">เลือกสิ่งที่จะแสดงใน “สำหรับคุณ”</string>
+    <string name="photo_filter_all">ทั้งหมด</string>
+    <string name="photo_filter_photo">รูปภาพ</string>
+    <string name="photo_filter_video">วิดีโอ</string>
+    <string name="photo_filter_favorite">รายการโปรด</string>
+    <string name="photo_today">วันนี้</string>
+    <string name="photo_yesterday">เมื่อวาน</string>
+    <string name="photo_empty_title">ยังไม่มีรูปภาพ</string>
+    <string name="photo_empty_desc">รูปภาพที่คุณถ่ายหรือบันทึกจะปรากฏที่นี่</string>
+    <string name="photo_open_camera">เปิดกล้อง</string>
+    <string name="photo_filter_empty_title">ยังไม่มีอะไรที่นี่</string>
+    <string name="photo_filter_empty_desc">รายการที่ตรงกับตัวกรองนี้จะปรากฏที่นี่</string>
+    <string name="photo_error_title">ไม่สามารถโหลดคลังของคุณได้</string>
+    <string name="photo_error_desc">เกิดข้อผิดพลาดขณะอ่านรูปภาพและวิดีโอของคุณ โปรดลองอีกครั้ง</string>
+    <string name="photo_permission_desc">อนุญาตการเข้าถึงเพื่อแสดงรูปภาพและวิดีโอของคุณที่นี่</string>
+    <string name="photo_allow_access">อนุญาตการเข้าถึง</string>
 </resources>

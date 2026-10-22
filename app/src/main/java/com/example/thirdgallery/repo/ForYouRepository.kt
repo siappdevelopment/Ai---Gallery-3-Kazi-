@@ -29,14 +29,14 @@ class ForYouRepository(context: Context) {
     fun seedIfEmpty() {
         ioExecutor.execute {
             try {
-                database.runInTransaction {
+                database.runInTransaction(Runnable {
                     if (dao.highlightCount() == 0) {
                         dao.insertHighlights(SEED_HIGHLIGHTS)
                         dao.insertPersons(SEED_PERSONS)
                         dao.insertPlaces(SEED_PLACES)
                         dao.insertSuggestions(SEED_SUGGESTIONS)
                     }
-                }
+                })
             } catch (e: Exception) {
                 // The screen simply stays empty; the next launch tries again.
             }

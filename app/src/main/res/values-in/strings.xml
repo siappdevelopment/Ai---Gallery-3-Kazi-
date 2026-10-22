@@ -77,4 +77,19 @@
     <string name="home_sug_fav_sub">Foto bagus yang belum menjadi favorit</string>
     <string name="home_memory_title">Kontrol kenangan</string>
     <string name="home_memory_subtitle">Pilih apa yang muncul di Untuk Anda</string>
+    <string name="photo_filter_all">Semua</string>
+    <string name="photo_filter_photo">Foto</string>
+    <string name="photo_filter_video">Video</string>
+    <string name="photo_filter_favorite">Favorit</string>
+    <string name="photo_today">Hari ini</string>
+    <string name="photo_yesterday">Kemarin</string>
+    <string name="photo_empty_title">Belum ada foto</string>
+    <string name="photo_empty_desc">Foto yang Anda ambil atau simpan akan muncul di sini.</string>
+    <string name="photo_open_camera">Buka kamera</string>
+    <string name="photo_filter_empty_title">Belum ada apa-apa di sini</string>
+    <string name="photo_filter_empty_desc">Item yang cocok dengan filter ini akan muncul di sini.</string>
+    <string name="photo_error_title">Pustaka tidak dapat dimuat</string>
+    <string name="photo_error_desc">Terjadi kesalahan saat membaca foto dan video Anda. Silakan coba lagi.</string>
+    <string name="photo_permission_desc">Izinkan akses untuk menampilkan foto dan video Anda di sini.</string>
+    <string name="photo_allow_access">Izinkan akses</string>
 </resources>

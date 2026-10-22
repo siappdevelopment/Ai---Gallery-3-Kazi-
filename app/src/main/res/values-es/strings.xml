@@ -79,4 +79,19 @@
     <string name="home_sug_fav_sub">Buenas fotos que aún no están en favoritos</string>
     <string name="home_memory_title">Controles de recuerdos</string>
     <string name="home_memory_subtitle">Elige qué aparece en Para ti</string>
+    <string name="photo_filter_all">Todo</string>
+    <string name="photo_filter_photo">Foto</string>
+    <string name="photo_filter_video">Vídeo</string>
+    <string name="photo_filter_favorite">Favoritos</string>
+    <string name="photo_today">Hoy</string>
+    <string name="photo_yesterday">Ayer</string>
+    <string name="photo_empty_title">Aún no hay fotos</string>
+    <string name="photo_empty_desc">Las fotos que hagas o guardes aparecerán aquí.</string>
+    <string name="photo_open_camera">Abrir cámara</string>
+    <string name="photo_filter_empty_title">Aquí no hay nada todavía</string>
+    <string name="photo_filter_empty_desc">Los elementos que coincidan con este filtro aparecerán aquí.</string>
+    <string name="photo_error_title">No se pudo cargar tu biblioteca</string>
+    <string name="photo_error_desc">Algo salió mal al leer tus fotos y vídeos. Inténtalo de nuevo.</string>
+    <string name="photo_permission_desc">Permite el acceso para mostrar aquí tus fotos y vídeos.</string>
+    <string name="photo_allow_access">Permitir acceso</string>
 </resources>

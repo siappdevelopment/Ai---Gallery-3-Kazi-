@@ -77,4 +77,19 @@
     <string name="home_sug_fav_sub">尚未收藏的优质照片</string>
     <string name="home_memory_title">回忆控制</string>
     <string name="home_memory_subtitle">选择“为你推荐”中显示的内容</string>
+    <string name="photo_filter_all">全部</string>
+    <string name="photo_filter_photo">照片</string>
+    <string name="photo_filter_video">视频</string>
+    <string name="photo_filter_favorite">收藏</string>
+    <string name="photo_today">今天</string>
+    <string name="photo_yesterday">昨天</string>
+    <string name="photo_empty_title">还没有照片</string>
+    <string name="photo_empty_desc">您拍摄或保存的照片将显示在这里。</string>
+    <string name="photo_open_camera">打开相机</string>
+    <string name="photo_filter_empty_title">这里还没有内容</string>
+    <string name="photo_filter_empty_desc">符合此筛选条件的项目将显示在这里。</string>
+    <string name="photo_error_title">无法加载您的资料库</string>
+    <string name="photo_error_desc">读取照片和视频时出错，请重试。</string>
+    <string name="photo_permission_desc">请允许访问，以便在此显示您的照片和视频。</string>
+    <string name="photo_allow_access">允许访问</string>
 </resources>

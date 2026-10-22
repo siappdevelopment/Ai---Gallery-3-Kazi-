@@ -78,4 +78,19 @@
     <string name="home_sug_fav_sub">अच्छी तस्वीरें जो अभी पसंदीदा में नहीं हैं</string>
     <string name="home_memory_title">यादों के नियंत्रण</string>
     <string name="home_memory_subtitle">चुनें कि “आपके लिए” में क्या दिखे</string>
+    <string name="photo_filter_all">सभी</string>
+    <string name="photo_filter_photo">फ़ोटो</string>
+    <string name="photo_filter_video">वीडियो</string>
+    <string name="photo_filter_favorite">पसंदीदा</string>
+    <string name="photo_today">आज</string>
+    <string name="photo_yesterday">कल</string>
+    <string name="photo_empty_title">अभी कोई फ़ोटो नहीं</string>
+    <string name="photo_empty_desc">आपकी खींची या सहेजी गई फ़ोटो यहाँ दिखेंगी।</string>
+    <string name="photo_open_camera">कैमरा खोलें</string>
+    <string name="photo_filter_empty_title">यहाँ अभी कुछ नहीं</string>
+    <string name="photo_filter_empty_desc">इस फ़िल्टर से मेल खाने वाले आइटम यहाँ दिखेंगे।</string>
+    <string name="photo_error_title">आपकी लाइब्रेरी लोड नहीं हो सकी</string>
+    <string name="photo_error_desc">आपकी फ़ोटो और वीडियो पढ़ते समय कुछ गड़बड़ हुई। कृपया फिर कोशिश करें।</string>
+    <string name="photo_permission_desc">अपनी फ़ोटो और वीडियो यहाँ दिखाने के लिए अनुमति दें।</string>
+    <string name="photo_allow_access">अनुमति दें</string>
 </resources>

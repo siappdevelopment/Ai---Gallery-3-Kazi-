@@ -78,4 +78,19 @@
     <string name="home_sug_fav_sub">Magagandang larawang wala pa sa mga paborito</string>
     <string name="home_memory_title">Mga kontrol ng alaala</string>
     <string name="home_memory_subtitle">Piliin kung ano ang lalabas sa Para sa iyo</string>
+    <string name="photo_filter_all">Lahat</string>
+    <string name="photo_filter_photo">Larawan</string>
+    <string name="photo_filter_video">Video</string>
+    <string name="photo_filter_favorite">Paborito</string>
+    <string name="photo_today">Ngayon</string>
+    <string name="photo_yesterday">Kahapon</string>
+    <string name="photo_empty_title">Wala pang larawan</string>
+    <string name="photo_empty_desc">Lalabas dito ang mga larawang kukunan o ise-save mo.</string>
+    <string name="photo_open_camera">Buksan ang camera</string>
+    <string name="photo_filter_empty_title">Wala pa rito</string>
+    <string name="photo_filter_empty_desc">Lalabas dito ang mga item na tumutugma sa filter na ito.</string>
+    <string name="photo_error_title">Hindi ma-load ang iyong library</string>
+    <string name="photo_error_desc">May nangyaring mali sa pagbasa ng iyong mga larawan at video. Pakisubukan muli.</string>
+    <string name="photo_permission_desc">Payagan ang access para maipakita rito ang iyong mga larawan at video.</string>
+    <string name="photo_allow_access">Payagan ang access</string>
 </resources>

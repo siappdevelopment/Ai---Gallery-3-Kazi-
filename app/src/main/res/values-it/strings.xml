@@ -79,4 +79,19 @@
     <string name="home_sug_fav_sub">Ottime foto non ancora tra i preferiti</string>
     <string name="home_memory_title">Controlli dei ricordi</string>
     <string name="home_memory_subtitle">Scegli cosa appare in Per te</string>
+    <string name="photo_filter_all">Tutto</string>
+    <string name="photo_filter_photo">Foto</string>
+    <string name="photo_filter_video">Video</string>
+    <string name="photo_filter_favorite">Preferiti</string>
+    <string name="photo_today">Oggi</string>
+    <string name="photo_yesterday">Ieri</string>
+    <string name="photo_empty_title">Ancora nessuna foto</string>
+    <string name="photo_empty_desc">Le foto che scatti o salvi appariranno qui.</string>
+    <string name="photo_open_camera">Apri fotocamera</string>
+    <string name="photo_filter_empty_title">Ancora niente qui</string>
+    <string name="photo_filter_empty_desc">Gli elementi che corrispondono a questo filtro appariranno qui.</string>
+    <string name="photo_error_title">Impossibile caricare la libreria</string>
+    <string name="photo_error_desc">Si è verificato un problema durante la lettura di foto e video. Riprova.</string>
+    <string name="photo_permission_desc">Consenti l’accesso per mostrare qui le tue foto e i tuoi video.</string>
+    <string name="photo_allow_access">Consenti accesso</string>
 </resources>

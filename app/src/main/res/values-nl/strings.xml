@@ -78,4 +78,19 @@
     <string name="home_sug_fav_sub">Sterke foto\'s die nog geen favoriet zijn</string>
     <string name="home_memory_title">Herinneringsbeheer</string>
     <string name="home_memory_subtitle">Kies wat er onder Voor jou verschijnt</string>
+    <string name="photo_filter_all">Alles</string>
+    <string name="photo_filter_photo">Foto</string>
+    <string name="photo_filter_video">Video</string>
+    <string name="photo_filter_favorite">Favoriet</string>
+    <string name="photo_today">Vandaag</string>
+    <string name="photo_yesterday">Gisteren</string>
+    <string name="photo_empty_title">Nog geen foto\'s</string>
+    <string name="photo_empty_desc">Foto\'s die je maakt of bewaart verschijnen hier.</string>
+    <string name="photo_open_camera">Camera openen</string>
+    <string name="photo_filter_empty_title">Hier is nog niets</string>
+    <string name="photo_filter_empty_desc">Items die bij dit filter passen verschijnen hier.</string>
+    <string name="photo_error_title">Je bibliotheek kon niet worden geladen</string>
+    <string name="photo_error_desc">Er is iets misgegaan bij het lezen van je foto\'s en video\'s. Probeer het opnieuw.</string>
+    <string name="photo_permission_desc">Geef toegang om je foto\'s en video\'s hier te tonen.</string>
+    <string name="photo_allow_access">Toegang geven</string>
 </resources>

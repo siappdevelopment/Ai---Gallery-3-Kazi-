@@ -80,4 +80,19 @@
     <string name="home_sug_fav_sub">Удачные фото, которых ещё нет в избранном</string>
     <string name="home_memory_title">Управление воспоминаниями</string>
     <string name="home_memory_subtitle">Выберите, что показывать в «Для вас»</string>
+    <string name="photo_filter_all">Все</string>
+    <string name="photo_filter_photo">Фото</string>
+    <string name="photo_filter_video">Видео</string>
+    <string name="photo_filter_favorite">Избранное</string>
+    <string name="photo_today">Сегодня</string>
+    <string name="photo_yesterday">Вчера</string>
+    <string name="photo_empty_title">Пока нет фото</string>
+    <string name="photo_empty_desc">Снятые или сохранённые вами фото появятся здесь.</string>
+    <string name="photo_open_camera">Открыть камеру</string>
+    <string name="photo_filter_empty_title">Здесь пока ничего нет</string>
+    <string name="photo_filter_empty_desc">Элементы, подходящие под этот фильтр, появятся здесь.</string>
+    <string name="photo_error_title">Не удалось загрузить медиатеку</string>
+    <string name="photo_error_desc">Произошла ошибка при чтении ваших фото и видео. Повторите попытку.</string>
+    <string name="photo_permission_desc">Разрешите доступ, чтобы здесь отображались ваши фото и видео.</string>
+    <string name="photo_allow_access">Разрешить доступ</string>
 </resources>

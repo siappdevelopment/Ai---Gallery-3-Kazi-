@@ -78,4 +78,19 @@
     <string name="home_sug_fav_sub">Starke Fotos, die noch keine Favoriten sind</string>
     <string name="home_memory_title">Erinnerungs-Einstellungen</string>
     <string name="home_memory_subtitle">Wähle, was unter „Für dich“ erscheint</string>
+    <string name="photo_filter_all">Alle</string>
+    <string name="photo_filter_photo">Foto</string>
+    <string name="photo_filter_video">Video</string>
+    <string name="photo_filter_favorite">Favoriten</string>
+    <string name="photo_today">Heute</string>
+    <string name="photo_yesterday">Gestern</string>
+    <string name="photo_empty_title">Noch keine Fotos</string>
+    <string name="photo_empty_desc">Fotos, die du aufnimmst oder speicherst, erscheinen hier.</string>
+    <string name="photo_open_camera">Kamera öffnen</string>
+    <string name="photo_filter_empty_title">Noch nichts hier</string>
+    <string name="photo_filter_empty_desc">Elemente, die zu diesem Filter passen, erscheinen hier.</string>
+    <string name="photo_error_title">Mediathek konnte nicht geladen werden</string>
+    <string name="photo_error_desc">Beim Lesen deiner Fotos und Videos ist ein Fehler aufgetreten. Bitte versuche es erneut.</string>
+    <string name="photo_permission_desc">Erlaube den Zugriff, um deine Fotos und Videos hier anzuzeigen.</string>
+    <string name="photo_allow_access">Zugriff erlauben</string>
 </resources>

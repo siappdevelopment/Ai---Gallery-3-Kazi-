@@ -78,4 +78,19 @@
     <string name="home_sug_fav_sub">Δυνατές φωτογραφίες που δεν είναι ακόμη στα αγαπημένα</string>
     <string name="home_memory_title">Έλεγχος αναμνήσεων</string>
     <string name="home_memory_subtitle">Επιλέξτε τι εμφανίζεται στο «Για εσάς»</string>
+    <string name="photo_filter_all">Όλα</string>
+    <string name="photo_filter_photo">Φωτογραφία</string>
+    <string name="photo_filter_video">Βίντεο</string>
+    <string name="photo_filter_favorite">Αγαπημένα</string>
+    <string name="photo_today">Σήμερα</string>
+    <string name="photo_yesterday">Χθες</string>
+    <string name="photo_empty_title">Δεν υπάρχουν φωτογραφίες ακόμη</string>
+    <string name="photo_empty_desc">Οι φωτογραφίες που τραβάτε ή αποθηκεύετε θα εμφανίζονται εδώ.</string>
+    <string name="photo_open_camera">Άνοιγμα κάμερας</string>
+    <string name="photo_filter_empty_title">Τίποτα εδώ ακόμη</string>
+    <string name="photo_filter_empty_desc">Τα στοιχεία που ταιριάζουν με αυτό το φίλτρο θα εμφανίζονται εδώ.</string>
+    <string name="photo_error_title">Δεν ήταν δυνατή η φόρτωση της βιβλιοθήκης</string>
+    <string name="photo_error_desc">Παρουσιάστηκε σφάλμα κατά την ανάγνωση των φωτογραφιών και βίντεό σας. Δοκιμάστε ξανά.</string>
+    <string name="photo_permission_desc">Επιτρέψτε την πρόσβαση για να εμφανίζονται εδώ οι φωτογραφίες και τα βίντεό σας.</string>
+    <string name="photo_allow_access">Να επιτραπεί η πρόσβαση</string>
 </resources>

@@ -78,4 +78,19 @@
     <string name="home_sug_fav_sub">Sterk foto\'s wat nog nie gunstelinge is nie</string>
     <string name="home_memory_title">Herinneringbeheer</string>
     <string name="home_memory_subtitle">Kies wat in Vir jou verskyn</string>
+    <string name="photo_filter_all">Alles</string>
+    <string name="photo_filter_photo">Foto</string>
+    <string name="photo_filter_video">Video</string>
+    <string name="photo_filter_favorite">Gunsteling</string>
+    <string name="photo_today">Vandag</string>
+    <string name="photo_yesterday">Gister</string>
+    <string name="photo_empty_title">Nog geen foto\'s nie</string>
+    <string name="photo_empty_desc">Foto\'s wat jy neem of stoor, verskyn hier.</string>
+    <string name="photo_open_camera">Maak kamera oop</string>
+    <string name="photo_filter_empty_title">Niks hier nie</string>
+    <string name="photo_filter_empty_desc">Items wat by hierdie filter pas, verskyn hier.</string>
+    <string name="photo_error_title">Kon nie jou versameling laai nie</string>
+    <string name="photo_error_desc">Iets het verkeerd gegaan met die lees van jou foto\'s en video\'s. Probeer asseblief weer.</string>
+    <string name="photo_permission_desc">Gee toegang om jou foto\'s en video\'s hier te wys.</string>
+    <string name="photo_allow_access">Gee toegang</string>
 </resources>

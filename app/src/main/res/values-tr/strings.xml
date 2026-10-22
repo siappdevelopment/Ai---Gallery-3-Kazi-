@@ -78,4 +78,19 @@
     <string name="home_sug_fav_sub">Henüz favorilerde olmayan güçlü fotoğraflar</string>
     <string name="home_memory_title">Anı denetimleri</string>
     <string name="home_memory_subtitle">“Sizin için” bölümünde nelerin görüneceğini seçin</string>
+    <string name="photo_filter_all">Tümü</string>
+    <string name="photo_filter_photo">Fotoğraf</string>
+    <string name="photo_filter_video">Video</string>
+    <string name="photo_filter_favorite">Favori</string>
+    <string name="photo_today">Bugün</string>
+    <string name="photo_yesterday">Dün</string>
+    <string name="photo_empty_title">Henüz fotoğraf yok</string>
+    <string name="photo_empty_desc">Çektiğiniz veya kaydettiğiniz fotoğraflar burada görünecek.</string>
+    <string name="photo_open_camera">Kamerayı aç</string>
+    <string name="photo_filter_empty_title">Burada henüz bir şey yok</string>
+    <string name="photo_filter_empty_desc">Bu filtreyle eşleşen öğeler burada görünecek.</string>
+    <string name="photo_error_title">Kitaplığınız yüklenemedi</string>
+    <string name="photo_error_desc">Fotoğraf ve videolarınız okunurken bir sorun oluştu. Lütfen tekrar deneyin.</string>
+    <string name="photo_permission_desc">Fotoğraf ve videolarınızı burada göstermek için erişime izin verin.</string>
+    <string name="photo_allow_access">Erişime izin ver</string>
 </resources>

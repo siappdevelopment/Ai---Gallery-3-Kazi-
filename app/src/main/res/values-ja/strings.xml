@@ -77,4 +77,19 @@
     <string name="home_sug_fav_sub">まだお気に入りにない優れた写真</string>
     <string name="home_memory_title">思い出の設定</string>
     <string name="home_memory_subtitle">「おすすめ」に表示する内容を選択</string>
+    <string name="photo_filter_all">すべて</string>
+    <string name="photo_filter_photo">写真</string>
+    <string name="photo_filter_video">動画</string>
+    <string name="photo_filter_favorite">お気に入り</string>
+    <string name="photo_today">今日</string>
+    <string name="photo_yesterday">昨日</string>
+    <string name="photo_empty_title">写真はまだありません</string>
+    <string name="photo_empty_desc">撮影または保存した写真がここに表示されます。</string>
+    <string name="photo_open_camera">カメラを開く</string>
+    <string name="photo_filter_empty_title">まだ何もありません</string>
+    <string name="photo_filter_empty_desc">このフィルターに一致する項目がここに表示されます。</string>
+    <string name="photo_error_title">ライブラリを読み込めませんでした</string>
+    <string name="photo_error_desc">写真や動画の読み込み中に問題が発生しました。もう一度お試しください。</string>
+    <string name="photo_permission_desc">写真や動画をここに表示するには、アクセスを許可してください。</string>
+    <string name="photo_allow_access">アクセスを許可</string>
 </resources>

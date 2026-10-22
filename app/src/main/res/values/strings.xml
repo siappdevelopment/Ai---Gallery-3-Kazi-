@@ -84,4 +84,19 @@
     <string name="home_sug_fav_sub">Strong photos not in favorites yet</string>
     <string name="home_memory_title">Memory controls</string>
     <string name="home_memory_subtitle">Choose what appears in For you</string>
+    <string name="photo_filter_all">All</string>
+    <string name="photo_filter_photo">Photo</string>
+    <string name="photo_filter_video">Video</string>
+    <string name="photo_filter_favorite">Favorite</string>
+    <string name="photo_today">Today</string>
+    <string name="photo_yesterday">Yesterday</string>
+    <string name="photo_empty_title">No photos yet</string>
+    <string name="photo_empty_desc">Photos you take or save will appear here.</string>
+    <string name="photo_open_camera">Open camera</string>
+    <string name="photo_filter_empty_title">Nothing here yet</string>
+    <string name="photo_filter_empty_desc">Items matching this filter will appear here.</string>
+    <string name="photo_error_title">Couldn’t load your library</string>
+    <string name="photo_error_desc">Something went wrong while reading your photos and videos. Please try again.</string>
+    <string name="photo_permission_desc">Allow access to show your photos and videos here.</string>
+    <string name="photo_allow_access">Allow access</string>
 </resources>
