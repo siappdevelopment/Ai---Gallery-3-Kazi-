@@ -132,4 +132,25 @@
         <item quantity="one">%1$d Element zum Album hinzufügen</item>
         <item quantity="other">%1$d Elemente zum Album hinzufügen</item>
     </plurals>
+    <string name="albums_title">Alben</string>
+    <string name="albums_new">Neu</string>
+    <string name="albums_search_hint">Alben suchen</string>
+    <string name="albums_recent">Zuletzt verwendete Alben</string>
+    <string name="albums_view_all">Alle anzeigen</string>
+    <string name="albums_show_less">Weniger anzeigen</string>
+    <string name="albums_no_match">Keine Alben passen zu deiner Suche</string>
+    <string name="albums_none">Noch keine Alben</string>
+    <string name="albums_smart_title">Intelligente Sammlungen</string>
+    <string name="albums_smart_screenshots">Screenshots</string>
+    <string name="albums_smart_recent">Zuletzt hinzugefügt</string>
+    <string name="albums_sort_title">Alben sortieren</string>
+    <string name="albums_sort_newest">Neueste zuerst</string>
+    <string name="albums_sort_oldest">Älteste zuerst</string>
+    <string name="albums_sort_name">Name</string>
+    <string name="albums_back">Zurück</string>
+    <string name="albums_created">„%1$s“ erstellt</string>
+    <plurals name="albums_count">
+        <item quantity="one">%1$d Album</item>
+        <item quantity="other">%1$d Alben</item>
+    </plurals>
 </resources>

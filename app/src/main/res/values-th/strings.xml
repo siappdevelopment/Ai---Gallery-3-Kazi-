@@ -130,4 +130,24 @@
     <plurals name="photo_add_to_album_title">
         <item quantity="other">เพิ่ม %1$d รายการลงในอัลบั้ม</item>
     </plurals>
+    <string name="albums_title">อัลบั้ม</string>
+    <string name="albums_new">ใหม่</string>
+    <string name="albums_search_hint">ค้นหาอัลบั้ม</string>
+    <string name="albums_recent">อัลบั้มล่าสุด</string>
+    <string name="albums_view_all">ดูทั้งหมด</string>
+    <string name="albums_show_less">แสดงน้อยลง</string>
+    <string name="albums_no_match">ไม่มีอัลบั้มที่ตรงกับการค้นหา</string>
+    <string name="albums_none">ยังไม่มีอัลบั้ม</string>
+    <string name="albums_smart_title">คอลเลกชันอัจฉริยะ</string>
+    <string name="albums_smart_screenshots">ภาพหน้าจอ</string>
+    <string name="albums_smart_recent">เพิ่มล่าสุด</string>
+    <string name="albums_sort_title">เรียงลำดับอัลบั้ม</string>
+    <string name="albums_sort_newest">ใหม่สุดก่อน</string>
+    <string name="albums_sort_oldest">เก่าสุดก่อน</string>
+    <string name="albums_sort_name">ชื่อ</string>
+    <string name="albums_back">กลับ</string>
+    <string name="albums_created">สร้าง “%1$s” แล้ว</string>
+    <plurals name="albums_count">
+        <item quantity="other">%1$d อัลบั้ม</item>
+    </plurals>
 </resources>

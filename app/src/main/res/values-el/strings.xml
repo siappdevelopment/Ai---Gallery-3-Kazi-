@@ -132,4 +132,25 @@
         <item quantity="one">Προσθήκη %1$d στοιχείου σε άλμπουμ</item>
         <item quantity="other">Προσθήκη %1$d στοιχείων σε άλμπουμ</item>
     </plurals>
+    <string name="albums_title">Άλμπουμ</string>
+    <string name="albums_new">Νέο</string>
+    <string name="albums_search_hint">Αναζήτηση άλμπουμ</string>
+    <string name="albums_recent">Πρόσφατα άλμπουμ</string>
+    <string name="albums_view_all">Προβολή όλων</string>
+    <string name="albums_show_less">Λιγότερα</string>
+    <string name="albums_no_match">Κανένα άλμπουμ δεν ταιριάζει με την αναζήτησή σας</string>
+    <string name="albums_none">Δεν υπάρχουν άλμπουμ ακόμη</string>
+    <string name="albums_smart_title">Έξυπνες συλλογές</string>
+    <string name="albums_smart_screenshots">Στιγμιότυπα οθόνης</string>
+    <string name="albums_smart_recent">Προστέθηκαν πρόσφατα</string>
+    <string name="albums_sort_title">Ταξινόμηση άλμπουμ</string>
+    <string name="albums_sort_newest">Νεότερα πρώτα</string>
+    <string name="albums_sort_oldest">Παλαιότερα πρώτα</string>
+    <string name="albums_sort_name">Όνομα</string>
+    <string name="albums_back">Πίσω</string>
+    <string name="albums_created">Δημιουργήθηκε το «%1$s»</string>
+    <plurals name="albums_count">
+        <item quantity="one">%1$d άλμπουμ</item>
+        <item quantity="other">%1$d άλμπουμ</item>
+    </plurals>
 </resources>

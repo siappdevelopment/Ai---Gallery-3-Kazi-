@@ -136,4 +136,27 @@
         <item quantity="many">Добавить %1$d элементов в альбом</item>
         <item quantity="other">Добавить %1$d элемента в альбом</item>
     </plurals>
+    <string name="albums_title">Альбомы</string>
+    <string name="albums_new">Создать</string>
+    <string name="albums_search_hint">Поиск альбомов</string>
+    <string name="albums_recent">Недавние альбомы</string>
+    <string name="albums_view_all">Показать все</string>
+    <string name="albums_show_less">Свернуть</string>
+    <string name="albums_no_match">Нет альбомов, соответствующих запросу</string>
+    <string name="albums_none">Альбомов пока нет</string>
+    <string name="albums_smart_title">Умные коллекции</string>
+    <string name="albums_smart_screenshots">Скриншоты</string>
+    <string name="albums_smart_recent">Недавно добавленные</string>
+    <string name="albums_sort_title">Сортировка альбомов</string>
+    <string name="albums_sort_newest">Сначала новые</string>
+    <string name="albums_sort_oldest">Сначала старые</string>
+    <string name="albums_sort_name">Название</string>
+    <string name="albums_back">Назад</string>
+    <string name="albums_created">Создан альбом «%1$s»</string>
+    <plurals name="albums_count">
+        <item quantity="one">%1$d альбом</item>
+        <item quantity="few">%1$d альбома</item>
+        <item quantity="many">%1$d альбомов</item>
+        <item quantity="other">%1$d альбома</item>
+    </plurals>
 </resources>

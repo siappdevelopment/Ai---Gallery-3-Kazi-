@@ -2,6 +2,7 @@ package com.example.thirdgallery.repo
 
 import android.content.Context
 import androidx.lifecycle.LiveData
+import com.example.thirdgallery.database.AlbumCardRow
 import com.example.thirdgallery.database.AlbumDao
 import com.example.thirdgallery.database.AlbumEntity
 import com.example.thirdgallery.database.AlbumItemEntity
@@ -21,6 +22,9 @@ class AlbumRepository(context: Context) {
     private val dao: AlbumDao = database.albumDao()
 
     val albums: LiveData<List<UserAlbumRow>> = dao.observeAlbums()
+
+    /** App albums as Albums-tab cards (size and four newest items). */
+    val albumCards: LiveData<List<AlbumCardRow>> = dao.observeAlbumCards()
 
     fun addToAlbum(album: UserAlbumRow, uids: List<Long>, onDone: (Result) -> Unit) {
         executor.execute {

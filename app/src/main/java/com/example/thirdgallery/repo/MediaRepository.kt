@@ -12,6 +12,7 @@ import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import androidx.paging.liveData
 import com.example.thirdgallery.database.AppDatabase
+import com.example.thirdgallery.database.AlbumCardRow
 import com.example.thirdgallery.database.AlbumRow
 import com.example.thirdgallery.database.DayCount
 import com.example.thirdgallery.database.MediaDao
@@ -23,6 +24,7 @@ import com.example.thirdgallery.database.OffsetPagingSource
 import com.example.thirdgallery.database.MosaicRow
 import com.example.thirdgallery.helper.MediaPermissionHelper
 import com.example.thirdgallery.helper.MediaSyncPrefs
+import com.example.thirdgallery.model.AlbumKind
 import com.example.thirdgallery.model.MediaFilter
 import java.util.TimeZone
 import java.util.concurrent.Executors
@@ -106,6 +108,54 @@ class MediaRepository(context: Context) {
     fun months(): LiveData<List<MonthRow>> = dao.observeMonths()
 
     fun count(filter: MediaFilter): LiveData<Int> = dao.observeCount(filter.types, filter.minFavorite)
+
+    /** Every device folder with its size and four newest items (Albums tab). */
+    fun deviceAlbums(): LiveData<List<AlbumCardRow>> = dao.observeDeviceAlbums()
+
+    /** Items of a device folder or smart collection, paged straight from Room. */
+    fun pagedCollection(kind: AlbumKind, id: Long, sinceMs: Long): LiveData<PagingData<MediaEntity>> =
+        Pager(
+            config = PagingConfig(
+                pageSize = PAGE_SIZE,
+                prefetchDistance = PAGE_SIZE / 2,
+                initialLoadSize = PAGE_SIZE * 2,
+                enablePlaceholders = false,
+                maxSize = PAGE_SIZE * 6,
+            ),
+            pagingSourceFactory = { collectionSource(kind, id, sinceMs) },
+        ).liveData
+
+    fun collectionCount(kind: AlbumKind, id: Long, sinceMs: Long): LiveData<Int> = when (kind) {
+        AlbumKind.USER -> dao.observeUserAlbumCount(id)
+        else -> {
+            val q = query(kind, id, sinceMs)
+            dao.observeCollectionCount(q.bucketId, q.types, q.minFavorite, q.since, q.nameLike)
+        }
+    }
+
+    private class CollectionQuery(
+        val bucketId: Long,
+        val types: List<Int>,
+        val minFavorite: Int,
+        val since: Long,
+        val nameLike: String,
+    )
+
+    private fun query(kind: AlbumKind, id: Long, sinceMs: Long): CollectionQuery = when (kind) {
+        AlbumKind.FAVORITES -> CollectionQuery(0, MediaFilter.FAVORITES.types, 1, 0, "")
+        AlbumKind.VIDEOS -> CollectionQuery(0, MediaFilter.VIDEOS.types, 0, 0, "")
+        AlbumKind.SCREENSHOTS -> CollectionQuery(0, MediaFilter.ALL.types, 0, 0, SCREENSHOT_LIKE)
+        AlbumKind.RECENT -> CollectionQuery(0, MediaFilter.ALL.types, 0, sinceMs, "")
+        else -> CollectionQuery(id, MediaFilter.ALL.types, 0, 0, "")
+    }
+
+    private fun collectionSource(kind: AlbumKind, id: Long, sinceMs: Long) = when (kind) {
+        AlbumKind.USER -> dao.userAlbumSource(id)
+        else -> {
+            val q = query(kind, id, sinceMs)
+            dao.collectionSource(q.bucketId, q.types, q.minFavorite, q.since, q.nameLike)
+        }
+    }
 
     /** Forgets the indexed media (used when the photo permission is gone). */
     fun clearAsync() {
@@ -257,6 +307,7 @@ class MediaRepository(context: Context) {
     private companion object {
         const val PAGE_SIZE = 120
         const val BATCH_SIZE = 1000
+        const val SCREENSHOT_LIKE = "%screenshot%"
         const val JOURNAL_PAGE_SIZE = 8
         const val ALBUM_LIMIT = 12
 

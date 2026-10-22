@@ -1,6 +1,9 @@
 package com.example.thirdgallery.adapter
 
+import android.app.Activity
 import android.content.ContentUris
+import android.content.Context
+import android.content.ContextWrapper
 import android.provider.MediaStore
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -113,7 +116,19 @@ class MediaPagingAdapter(
         }
 
         fun clear() {
+            // Detaching the adapter in onDestroy() recycles the tiles after the activity is already
+            // destroyed; Glide.with() throws then, and its lifecycle has cleared these requests anyway.
+            if (isHostDestroyed(binding.root.context)) return
             Glide.with(binding.ivThumb).clear(binding.ivThumb)
+        }
+
+        private fun isHostDestroyed(context: Context): Boolean {
+            var current: Context? = context
+            while (current is ContextWrapper) {
+                if (current is Activity) return current.isDestroyed
+                current = current.baseContext
+            }
+            return false
         }
     }
 

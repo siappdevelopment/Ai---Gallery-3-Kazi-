@@ -130,4 +130,24 @@
     <plurals name="photo_add_to_album_title">
         <item quantity="other">将 %1$d 项添加到相册</item>
     </plurals>
+    <string name="albums_title">相册</string>
+    <string name="albums_new">新建</string>
+    <string name="albums_search_hint">搜索相册</string>
+    <string name="albums_recent">最近的相册</string>
+    <string name="albums_view_all">查看全部</string>
+    <string name="albums_show_less">收起</string>
+    <string name="albums_no_match">没有符合搜索条件的相册</string>
+    <string name="albums_none">还没有相册</string>
+    <string name="albums_smart_title">智能收藏</string>
+    <string name="albums_smart_screenshots">截图</string>
+    <string name="albums_smart_recent">最近添加</string>
+    <string name="albums_sort_title">相册排序</string>
+    <string name="albums_sort_newest">最新优先</string>
+    <string name="albums_sort_oldest">最早优先</string>
+    <string name="albums_sort_name">名称</string>
+    <string name="albums_back">返回</string>
+    <string name="albums_created">已创建“%1$s”</string>
+    <plurals name="albums_count">
+        <item quantity="other">%1$d 个相册</item>
+    </plurals>
 </resources>

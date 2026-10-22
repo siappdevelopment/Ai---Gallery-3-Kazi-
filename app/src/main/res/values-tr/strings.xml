@@ -132,4 +132,25 @@
         <item quantity="one">%1$d öğeyi albüme ekle</item>
         <item quantity="other">%1$d öğeyi albüme ekle</item>
     </plurals>
+    <string name="albums_title">Albümler</string>
+    <string name="albums_new">Yeni</string>
+    <string name="albums_search_hint">Albüm ara</string>
+    <string name="albums_recent">Son albümler</string>
+    <string name="albums_view_all">Tümünü gör</string>
+    <string name="albums_show_less">Daha az göster</string>
+    <string name="albums_no_match">Aramanızla eşleşen albüm yok</string>
+    <string name="albums_none">Henüz albüm yok</string>
+    <string name="albums_smart_title">Akıllı koleksiyonlar</string>
+    <string name="albums_smart_screenshots">Ekran görüntüleri</string>
+    <string name="albums_smart_recent">Son eklenenler</string>
+    <string name="albums_sort_title">Albümleri sırala</string>
+    <string name="albums_sort_newest">Önce en yeni</string>
+    <string name="albums_sort_oldest">Önce en eski</string>
+    <string name="albums_sort_name">Ad</string>
+    <string name="albums_back">Geri</string>
+    <string name="albums_created">“%1$s” oluşturuldu</string>
+    <plurals name="albums_count">
+        <item quantity="one">%1$d albüm</item>
+        <item quantity="other">%1$d albüm</item>
+    </plurals>
 </resources>

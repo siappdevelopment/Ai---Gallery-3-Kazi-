@@ -28,6 +28,9 @@ class AddToAlbumViewModel(
     private val filter: MediaFilter =
         MediaFilter.entries.getOrNull(state.get<Int>(ARG_FILTER) ?: 0) ?: MediaFilter.ALL
 
+    /** Opened from the Albums tab "New" button: only creates an empty album, no items to add. */
+    val isCreateOnly: Boolean = dayKey == CREATE_ONLY
+
     @Volatile
     private var uids: List<Long> = emptyList()
 
@@ -46,7 +49,10 @@ class AddToAlbumViewModel(
     val result: LiveData<Event<AlbumRepository.Result>> = _result
 
     init {
-        loader.execute {
+        if (isCreateOnly) {
+            _itemCount.value = 0
+            _loaded.value = true
+        } else loader.execute {
             try {
                 val list = mediaRepository.uidsOfDay(dayKey, filter)
                 uids = list
@@ -84,6 +90,7 @@ class AddToAlbumViewModel(
         const val ARG_DAY_KEY = "dayKey"
         const val ARG_FILTER = "filter"
         const val ARG_COUNT = "count"
+        const val CREATE_ONLY = -1L
         private val loader = Executors.newSingleThreadExecutor()
     }
 }

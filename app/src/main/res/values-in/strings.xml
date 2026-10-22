@@ -130,4 +130,24 @@
     <plurals name="photo_add_to_album_title">
         <item quantity="other">Tambahkan %1$d item ke album</item>
     </plurals>
+    <string name="albums_title">Album</string>
+    <string name="albums_new">Baru</string>
+    <string name="albums_search_hint">Cari album</string>
+    <string name="albums_recent">Album terbaru</string>
+    <string name="albums_view_all">Lihat semua</string>
+    <string name="albums_show_less">Tampilkan lebih sedikit</string>
+    <string name="albums_no_match">Tidak ada album yang cocok dengan pencarian Anda</string>
+    <string name="albums_none">Belum ada album</string>
+    <string name="albums_smart_title">Koleksi pintar</string>
+    <string name="albums_smart_screenshots">Tangkapan layar</string>
+    <string name="albums_smart_recent">Baru ditambahkan</string>
+    <string name="albums_sort_title">Urutkan album</string>
+    <string name="albums_sort_newest">Terbaru dulu</string>
+    <string name="albums_sort_oldest">Terlama dulu</string>
+    <string name="albums_sort_name">Nama</string>
+    <string name="albums_back">Kembali</string>
+    <string name="albums_created">“%1$s” dibuat</string>
+    <plurals name="albums_count">
+        <item quantity="other">%1$d album</item>
+    </plurals>
 </resources>

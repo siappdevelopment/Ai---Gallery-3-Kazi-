@@ -132,4 +132,25 @@
         <item quantity="one">Voeg %1$d item by album</item>
         <item quantity="other">Voeg %1$d items by album</item>
     </plurals>
+    <string name="albums_title">Albums</string>
+    <string name="albums_new">Nuut</string>
+    <string name="albums_search_hint">Soek albums</string>
+    <string name="albums_recent">Onlangse albums</string>
+    <string name="albums_view_all">Sien alles</string>
+    <string name="albums_show_less">Wys minder</string>
+    <string name="albums_no_match">Geen albums pas by jou soektog nie</string>
+    <string name="albums_none">Nog geen albums nie</string>
+    <string name="albums_smart_title">Slim versamelings</string>
+    <string name="albums_smart_screenshots">Skermkiekies</string>
+    <string name="albums_smart_recent">Onlangs bygevoeg</string>
+    <string name="albums_sort_title">Sorteer albums</string>
+    <string name="albums_sort_newest">Nuutste eerste</string>
+    <string name="albums_sort_oldest">Oudste eerste</string>
+    <string name="albums_sort_name">Naam</string>
+    <string name="albums_back">Terug</string>
+    <string name="albums_created">Geskep: “%1$s”</string>
+    <plurals name="albums_count">
+        <item quantity="one">%1$d album</item>
+        <item quantity="other">%1$d albums</item>
+    </plurals>
 </resources>

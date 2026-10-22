@@ -134,4 +134,26 @@
         <item quantity="other">Adicionar %1$d itens ao álbum</item>
         <item quantity="many">Adicionar %1$d de itens ao álbum</item>
     </plurals>
+    <string name="albums_title">Álbuns</string>
+    <string name="albums_new">Novo</string>
+    <string name="albums_search_hint">Pesquisar álbuns</string>
+    <string name="albums_recent">Álbuns recentes</string>
+    <string name="albums_view_all">Ver tudo</string>
+    <string name="albums_show_less">Ver menos</string>
+    <string name="albums_no_match">Nenhum álbum corresponde à sua pesquisa</string>
+    <string name="albums_none">Ainda não há álbuns</string>
+    <string name="albums_smart_title">Coleções inteligentes</string>
+    <string name="albums_smart_screenshots">Capturas de tela</string>
+    <string name="albums_smart_recent">Adicionados recentemente</string>
+    <string name="albums_sort_title">Ordenar álbuns</string>
+    <string name="albums_sort_newest">Mais recentes primeiro</string>
+    <string name="albums_sort_oldest">Mais antigos primeiro</string>
+    <string name="albums_sort_name">Nome</string>
+    <string name="albums_back">Voltar</string>
+    <string name="albums_created">“%1$s” criado</string>
+    <plurals name="albums_count">
+        <item quantity="one">%1$d álbum</item>
+        <item quantity="other">%1$d álbuns</item>
+        <item quantity="many">%1$d de álbuns</item>
+    </plurals>
 </resources>

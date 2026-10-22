@@ -132,4 +132,25 @@
         <item quantity="one">Magdagdag ng %1$d item sa album</item>
         <item quantity="other">Magdagdag ng %1$d item sa album</item>
     </plurals>
+    <string name="albums_title">Mga Album</string>
+    <string name="albums_new">Bago</string>
+    <string name="albums_search_hint">Maghanap ng album</string>
+    <string name="albums_recent">Mga kamakailang album</string>
+    <string name="albums_view_all">Tingnan lahat</string>
+    <string name="albums_show_less">Ipakita ang mas kaunti</string>
+    <string name="albums_no_match">Walang album na tumutugma sa hinahanap mo</string>
+    <string name="albums_none">Wala pang album</string>
+    <string name="albums_smart_title">Mga smart collection</string>
+    <string name="albums_smart_screenshots">Mga screenshot</string>
+    <string name="albums_smart_recent">Kamakailang idinagdag</string>
+    <string name="albums_sort_title">Pag-uri-uriin ang mga album</string>
+    <string name="albums_sort_newest">Pinakabago muna</string>
+    <string name="albums_sort_oldest">Pinakaluma muna</string>
+    <string name="albums_sort_name">Pangalan</string>
+    <string name="albums_back">Bumalik</string>
+    <string name="albums_created">Nagawa ang “%1$s”</string>
+    <plurals name="albums_count">
+        <item quantity="one">%1$d album</item>
+        <item quantity="other">%1$d album</item>
+    </plurals>
 </resources>

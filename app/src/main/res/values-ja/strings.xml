@@ -130,4 +130,24 @@
     <plurals name="photo_add_to_album_title">
         <item quantity="other">%1$d件をアルバムに追加</item>
     </plurals>
+    <string name="albums_title">アルバム</string>
+    <string name="albums_new">新規</string>
+    <string name="albums_search_hint">アルバムを検索</string>
+    <string name="albums_recent">最近のアルバム</string>
+    <string name="albums_view_all">すべて表示</string>
+    <string name="albums_show_less">表示を減らす</string>
+    <string name="albums_no_match">検索に一致するアルバムがありません</string>
+    <string name="albums_none">アルバムはまだありません</string>
+    <string name="albums_smart_title">スマートコレクション</string>
+    <string name="albums_smart_screenshots">スクリーンショット</string>
+    <string name="albums_smart_recent">最近追加</string>
+    <string name="albums_sort_title">アルバムを並べ替え</string>
+    <string name="albums_sort_newest">新しい順</string>
+    <string name="albums_sort_oldest">古い順</string>
+    <string name="albums_sort_name">名前</string>
+    <string name="albums_back">戻る</string>
+    <string name="albums_created">“%1$s”を作成しました</string>
+    <plurals name="albums_count">
+        <item quantity="other">%1$d個のアルバム</item>
+    </plurals>
 </resources>

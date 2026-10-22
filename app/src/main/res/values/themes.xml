@@ -50,6 +50,11 @@
         <item name="cornerSize">12dp</item>
     </style>
 
+    <style name="ShapeAppearance.ThirdGallery.SmallThumb" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">6dp</item>
+    </style>
+
     <style name="ShapeAppearance.ThirdGallery.Thumb" parent="">
         <item name="cornerFamily">rounded</item>
         <item name="cornerSize">8dp</item>

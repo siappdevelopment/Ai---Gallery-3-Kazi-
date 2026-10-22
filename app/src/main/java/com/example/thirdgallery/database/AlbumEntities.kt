@@ -35,3 +35,15 @@ data class JournalDayRow(
     val place: String?,
     val strip: String?,
 )
+
+/** An album for the Albums tab (device folder or app album) with its four newest items (uids, newest first). */
+data class AlbumCardRow(
+    val id: Long,
+    val name: String,
+    val total: Int,
+    val lastDate: Long,
+    val cover0: Long?,
+    val cover1: Long?,
+    val cover2: Long?,
+    val cover3: Long?,
+)

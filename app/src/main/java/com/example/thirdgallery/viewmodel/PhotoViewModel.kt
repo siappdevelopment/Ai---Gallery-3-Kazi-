@@ -21,6 +21,7 @@ import com.example.thirdgallery.database.MosaicRow
 import com.example.thirdgallery.helper.MediaPermissionHelper
 import com.example.thirdgallery.model.MediaFilter
 import com.example.thirdgallery.model.MediaUiModel
+import com.example.thirdgallery.model.withDayHeaders
 import com.example.thirdgallery.model.MosaicUi
 import com.example.thirdgallery.repo.MediaRepository
 import com.example.thirdgallery.utils.Event
@@ -37,17 +38,7 @@ class PhotoViewModel(application: Application) : AndroidViewModel(application) {
     /** Pages straight from Room, grouped by day; rebuilt when the filter changes. */
     val media: LiveData<PagingData<MediaUiModel>> = _filter.switchMap { filter ->
         repository.pagedMedia(filter)
-            .map { data ->
-                data.mapPaging<MediaEntity, MediaUiModel.Item> { MediaUiModel.Item(it) }
-                    .insertSeparators<MediaUiModel.Item, MediaUiModel> { before, after ->
-                        when {
-                            after == null -> null
-                            before == null || before.media.dayKey != after.media.dayKey ->
-                                MediaUiModel.DayHeader(after.media.dayKey)
-                            else -> null
-                        }
-                    }
-            }
+            .map { data -> data.withDayHeaders() }
             .cachedIn(viewModelScope)
     }
 

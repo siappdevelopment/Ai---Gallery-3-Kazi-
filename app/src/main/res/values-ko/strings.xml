@@ -130,4 +130,24 @@
     <plurals name="photo_add_to_album_title">
         <item quantity="other">항목 %1$d개를 앨범에 추가</item>
     </plurals>
+    <string name="albums_title">앨범</string>
+    <string name="albums_new">새로 만들기</string>
+    <string name="albums_search_hint">앨범 검색</string>
+    <string name="albums_recent">최근 앨범</string>
+    <string name="albums_view_all">모두 보기</string>
+    <string name="albums_show_less">간단히 보기</string>
+    <string name="albums_no_match">검색과 일치하는 앨범이 없습니다</string>
+    <string name="albums_none">아직 앨범이 없습니다</string>
+    <string name="albums_smart_title">스마트 컬렉션</string>
+    <string name="albums_smart_screenshots">스크린샷</string>
+    <string name="albums_smart_recent">최근 추가됨</string>
+    <string name="albums_sort_title">앨범 정렬</string>
+    <string name="albums_sort_newest">최신순</string>
+    <string name="albums_sort_oldest">오래된순</string>
+    <string name="albums_sort_name">이름</string>
+    <string name="albums_back">뒤로</string>
+    <string name="albums_created">“%1$s” 앨범을 만들었습니다</string>
+    <plurals name="albums_count">
+        <item quantity="other">앨범 %1$d개</item>
+    </plurals>
 </resources>

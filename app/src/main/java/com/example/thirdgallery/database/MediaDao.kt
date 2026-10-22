@@ -76,6 +76,44 @@ interface MediaDao {
     @Query("SELECT COUNT(*) FROM media WHERE mediaType IN (:types) AND isFavorite >= :minFavorite")
     fun observeCount(types: List<Int>, minFavorite: Int): LiveData<Int>
 
+    /** Every device folder with its size, newest item date and four newest items (Albums tab). */
+    @Query(
+        "SELECT m.bucketId AS id, m.bucketName AS name, COUNT(*) AS total, MAX(m.dateMs) AS lastDate, " +
+            "(SELECT c.uid FROM media c WHERE c.bucketId = m.bucketId ORDER BY c.dateMs DESC, c.uid DESC LIMIT 1) AS cover0, " +
+            "(SELECT c.uid FROM media c WHERE c.bucketId = m.bucketId ORDER BY c.dateMs DESC, c.uid DESC LIMIT 1 OFFSET 1) AS cover1, " +
+            "(SELECT c.uid FROM media c WHERE c.bucketId = m.bucketId ORDER BY c.dateMs DESC, c.uid DESC LIMIT 1 OFFSET 2) AS cover2, " +
+            "(SELECT c.uid FROM media c WHERE c.bucketId = m.bucketId ORDER BY c.dateMs DESC, c.uid DESC LIMIT 1 OFFSET 3) AS cover3 " +
+            "FROM media m WHERE m.bucketName != '' GROUP BY m.bucketId"
+    )
+    fun observeDeviceAlbums(): LiveData<List<AlbumCardRow>>
+
+    /**
+     * Items of a smart collection / device folder: [bucketId] 0 = any folder, [nameLike] '' = any
+     * folder name, [since] 0 = any date.
+     */
+    @Query(
+        "SELECT * FROM media WHERE (:bucketId = 0 OR bucketId = :bucketId) AND mediaType IN (:types) " +
+            "AND isFavorite >= :minFavorite AND dateMs >= :since AND (:nameLike = '' OR bucketName LIKE :nameLike) " +
+            "ORDER BY dateMs DESC, uid DESC"
+    )
+    fun collectionSource(bucketId: Long, types: List<Int>, minFavorite: Int, since: Long, nameLike: String): PagingSource<Int, MediaEntity>
+
+    @Query(
+        "SELECT COUNT(*) FROM media WHERE (:bucketId = 0 OR bucketId = :bucketId) AND mediaType IN (:types) " +
+            "AND isFavorite >= :minFavorite AND dateMs >= :since AND (:nameLike = '' OR bucketName LIKE :nameLike)"
+    )
+    fun observeCollectionCount(bucketId: Long, types: List<Int>, minFavorite: Int, since: Long, nameLike: String): LiveData<Int>
+
+    /** Items of an app album, most recently added first (items deleted from the device drop out). */
+    @Query(
+        "SELECT m.* FROM media m INNER JOIN album_items i ON i.mediaUid = m.uid WHERE i.albumId = :albumId " +
+            "ORDER BY i.addedAt DESC, m.uid DESC"
+    )
+    fun userAlbumSource(albumId: Long): PagingSource<Int, MediaEntity>
+
+    @Query("SELECT COUNT(*) FROM album_items i INNER JOIN media m ON m.uid = i.mediaUid WHERE i.albumId = :albumId")
+    fun observeUserAlbumCount(albumId: Long): LiveData<Int>
+
     @Query("SELECT COUNT(*) FROM media")
     fun observeTotal(): LiveData<Int>
 

@@ -44,7 +44,7 @@ class AddToAlbumBottomSheet : BottomSheetDialogFragment() {
         }
 
         b.rowNewAlbum.setOnClickListener { showForm(true) }
-        b.btnCancel.setOnClickListener { showForm(false) }
+        b.btnCancel.setOnClickListener { if (viewModel.isCreateOnly) dismissAllowingStateLoss() else showForm(false) }
         b.btnCreate.setOnClickListener { create() }
         b.etAlbumName.doAfterTextChanged { b.tvAlbumError.visibility = View.GONE }
         b.etAlbumName.setOnEditorActionListener { _, actionId, _ ->
@@ -53,8 +53,14 @@ class AddToAlbumBottomSheet : BottomSheetDialogFragment() {
         }
 
         val owner = viewLifecycleOwner
-        viewModel.itemCount.observe(owner) { count ->
-            b.tvSheetTitle.text = resources.getQuantityString(R.plurals.photo_add_to_album_title, count, count)
+        if (viewModel.isCreateOnly) {
+            // Opened from the Albums tab: straight to the name form.
+            b.tvSheetTitle.setText(R.string.photo_new_album)
+            if (savedInstanceState == null) showForm(true)
+        } else {
+            viewModel.itemCount.observe(owner) { count ->
+                b.tvSheetTitle.text = resources.getQuantityString(R.plurals.photo_add_to_album_title, count, count)
+            }
         }
         viewModel.albums.observe(owner) { renderAlbums(it.orEmpty()) }
         viewModel.result.observe(owner) { event ->
@@ -121,7 +127,7 @@ class AddToAlbumBottomSheet : BottomSheetDialogFragment() {
             null -> {
                 Toast.makeText(
                     requireContext().applicationContext,
-                    getString(R.string.photo_added_to_album, result.albumName),
+                    getString(if (viewModel.isCreateOnly) R.string.albums_created else R.string.photo_added_to_album, result.albumName),
                     Toast.LENGTH_SHORT,
                 ).show()
                 dismissAllowingStateLoss()
@@ -150,6 +156,15 @@ class AddToAlbumBottomSheet : BottomSheetDialogFragment() {
 
     companion object {
         const val TAG = "add_to_album"
+
+        /** "New album" from the Albums tab: creates an empty album. */
+        fun newCreateOnly() = AddToAlbumBottomSheet().apply {
+            arguments = Bundle().apply {
+                putLong(AddToAlbumViewModel.ARG_DAY_KEY, AddToAlbumViewModel.CREATE_ONLY)
+                putInt(AddToAlbumViewModel.ARG_FILTER, 0)
+                putInt(AddToAlbumViewModel.ARG_COUNT, 0)
+            }
+        }
 
         fun newInstance(dayKey: Long, filter: MediaFilter, count: Int) = AddToAlbumBottomSheet().apply {
             arguments = Bundle().apply {

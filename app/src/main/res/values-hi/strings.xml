@@ -132,4 +132,25 @@
         <item quantity="one">%1$d आइटम एल्बम में जोड़ें</item>
         <item quantity="other">%1$d आइटम एल्बम में जोड़ें</item>
     </plurals>
+    <string name="albums_title">एल्बम</string>
+    <string name="albums_new">नया</string>
+    <string name="albums_search_hint">एल्बम खोजें</string>
+    <string name="albums_recent">हाल के एल्बम</string>
+    <string name="albums_view_all">सभी देखें</string>
+    <string name="albums_show_less">कम दिखाएँ</string>
+    <string name="albums_no_match">आपकी खोज से कोई एल्बम मेल नहीं खाता</string>
+    <string name="albums_none">अभी कोई एल्बम नहीं</string>
+    <string name="albums_smart_title">स्मार्ट संग्रह</string>
+    <string name="albums_smart_screenshots">स्क्रीनशॉट</string>
+    <string name="albums_smart_recent">हाल ही में जोड़े गए</string>
+    <string name="albums_sort_title">एल्बम क्रमबद्ध करें</string>
+    <string name="albums_sort_newest">नए पहले</string>
+    <string name="albums_sort_oldest">पुराने पहले</string>
+    <string name="albums_sort_name">नाम</string>
+    <string name="albums_back">वापस</string>
+    <string name="albums_created">“%1$s” बनाया गया</string>
+    <plurals name="albums_count">
+        <item quantity="one">%1$d एल्बम</item>
+        <item quantity="other">%1$d एल्बम</item>
+    </plurals>
 </resources>

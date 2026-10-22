@@ -22,5 +22,6 @@
     <color name="home_doc_sheet">#FFF4F3F3</color>
     <color name="home_doc_line">#FFDDDADA</color>
     <color name="sheet_handle">#FFDDDADA</color>
+    <color name="album_chevron">#FFBDBABA</color>
     <color name="splash_progress_track">#1FFF4D7E</color>
 </resources>

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Bottom of the Albums tab: "Smart collections" -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:paddingTop="16dp">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:letterSpacing="-0.02"
+        android:paddingStart="11dp"
+        android:paddingEnd="11dp"
+        android:paddingBottom="12dp"
+        android:text="@string/albums_smart_title"
+        android:textColor="@color/splash_text_primary"
+        android:textSize="19sp"
+        android:textStyle="bold" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="11dp"
+        android:layout_marginEnd="11dp"
+        android:background="@drawable/bg_home_card"
+        android:orientation="vertical"
+        android:padding="4dp">
+
+        <include
+            android:id="@+id/rowFavorites"
+            layout="@layout/item_smart_row" />
+
+        <include
+            android:id="@+id/rowVideos"
+            layout="@layout/item_smart_row" />
+
+        <include
+            android:id="@+id/rowScreenshots"
+            layout="@layout/item_smart_row" />
+
+        <include
+            android:id="@+id/rowRecent"
+            layout="@layout/item_smart_row" />
+    </LinearLayout>
+</LinearLayout>
