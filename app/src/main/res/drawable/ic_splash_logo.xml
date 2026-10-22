@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:aapt="http://schemas.android.com/aapt"
+    android:width="96dp"
+    android:height="96dp"
+    android:viewportWidth="96"
+    android:viewportHeight="96">
+    <path android:pathData="M24,0h48a24,24 0,0 1,24 24v48a24,24 0,0 1,-24 24h-48a24,24 0,0 1,-24 -24v-48a24,24 0,0 1,24 -24z">
+        <aapt:attr name="android:fillColor">
+            <gradient
+                android:startX="0"
+                android:startY="0"
+                android:endX="96"
+                android:endY="96"
+                android:type="linear">
+                <item
+                    android:color="#FFFF6F95"
+                    android:offset="0" />
+                <item
+                    android:color="#FFE62E68"
+                    android:offset="1" />
+            </gradient>
+        </aapt:attr>
+    </path>
+    <!-- Top-left: circle -->
+    <path
+        android:fillColor="#FFFFFFFF"
+        android:pathData="M30,30m-14,0a14,14 0,1 1,28 0a14,14 0,1 1,-28 0" />
+    <!-- Top-right: soft tile -->
+    <path
+        android:fillColor="#B3FFFFFF"
+        android:pathData="M62,16h8a10,10 0,0 1,10 10v8a10,10 0,0 1,-10 10h-8a10,10 0,0 1,-10 -10v-8a10,10 0,0 1,10 -10z" />
+    <!-- Bottom-left: soft tile -->
+    <path
+        android:fillColor="#B3FFFFFF"
+        android:pathData="M26,52h8a10,10 0,0 1,10 10v8a10,10 0,0 1,-10 10h-8a10,10 0,0 1,-10 -10v-8a10,10 0,0 1,10 -10z" />
+    <!-- Bottom-right: solid tile -->
+    <path
+        android:fillColor="#FFFFFFFF"
+        android:pathData="M62,52h8a10,10 0,0 1,10 10v8a10,10 0,0 1,-10 10h-8a10,10 0,0 1,-10 -10v-8a10,10 0,0 1,10 -10z" />
+</vector>

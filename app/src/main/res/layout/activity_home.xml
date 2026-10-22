@@ -1,0 +1,220 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/language_background"
+    android:orientation="vertical"
+    tools:context=".activity.HomeActivity">
+
+    <!-- Top bar: logo + app name, search and settings -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingStart="12dp"
+        android:paddingTop="8dp"
+        android:paddingEnd="12dp"
+        android:paddingBottom="10dp">
+
+        <ImageView
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:importantForAccessibility="no"
+            android:src="@drawable/ic_splash_logo" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="9dp"
+            android:layout_weight="1"
+            android:ellipsize="end"
+            android:letterSpacing="-0.033"
+            android:maxLines="1"
+            android:text="@string/splash_title"
+            android:textColor="@color/splash_text_primary"
+            android:textSize="21sp"
+            android:textStyle="bold" />
+
+        <ImageButton
+            android:id="@+id/btnSearch"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="@drawable/bg_home_circle_button"
+            android:contentDescription="@string/home_search"
+            android:scaleType="center"
+            android:src="@drawable/ic_search"
+            app:tint="@color/splash_text_primary" />
+
+        <ImageButton
+            android:id="@+id/btnSettings"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginStart="8dp"
+            android:background="@drawable/bg_home_circle_button"
+            android:contentDescription="@string/home_settings"
+            android:scaleType="center"
+            android:src="@drawable/ic_settings"
+            app:tint="@color/splash_text_primary" />
+    </LinearLayout>
+
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/fragmentContainer"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
+
+    <!-- Bottom tabs: 70dp bar with 24dp top corners; the selected tab shows a pink top indicator -->
+    <LinearLayout
+        android:id="@+id/navBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_home_nav"
+        android:elevation="8dp"
+        android:orientation="horizontal">
+
+        <FrameLayout
+            android:id="@+id/tabForYou"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="?attr/selectableItemBackground"
+            android:clickable="true"
+            android:focusable="true"
+            android:minHeight="70dp">
+
+            <View
+                android:id="@+id/indicatorForYou"
+                android:layout_width="44dp"
+                android:layout_height="4dp"
+                android:layout_gravity="top|center_horizontal"
+                android:background="@drawable/bg_home_nav_indicator" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center_horizontal"
+                android:orientation="vertical"
+                android:paddingTop="6dp"
+                android:paddingBottom="4dp">
+
+                <ImageView
+                    android:id="@+id/iconForYou"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:importantForAccessibility="no"
+                    android:src="@drawable/ic_auto_awesome"
+                    app:tint="@color/home_nav_icon" />
+
+                <TextView
+                    android:id="@+id/labelForYou"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:text="@string/home_nav_for_you"
+                    android:textColor="@color/home_nav_label"
+                    android:textSize="11.5sp" />
+            </LinearLayout>
+        </FrameLayout>
+
+        <FrameLayout
+            android:id="@+id/tabGallery"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="?attr/selectableItemBackground"
+            android:clickable="true"
+            android:focusable="true"
+            android:minHeight="70dp">
+
+            <View
+                android:id="@+id/indicatorGallery"
+                android:layout_width="44dp"
+                android:layout_height="4dp"
+                android:layout_gravity="top|center_horizontal"
+                android:background="@drawable/bg_home_nav_indicator" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center_horizontal"
+                android:orientation="vertical"
+                android:paddingTop="6dp"
+                android:paddingBottom="4dp">
+
+                <ImageView
+                    android:id="@+id/iconGallery"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:importantForAccessibility="no"
+                    android:src="@drawable/ic_photo"
+                    app:tint="@color/home_nav_icon" />
+
+                <TextView
+                    android:id="@+id/labelGallery"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:text="@string/home_nav_gallery"
+                    android:textColor="@color/home_nav_label"
+                    android:textSize="11.5sp" />
+            </LinearLayout>
+        </FrameLayout>
+
+        <FrameLayout
+            android:id="@+id/tabAlbums"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="?attr/selectableItemBackground"
+            android:clickable="true"
+            android:focusable="true"
+            android:minHeight="70dp">
+
+            <View
+                android:id="@+id/indicatorAlbums"
+                android:layout_width="44dp"
+                android:layout_height="4dp"
+                android:layout_gravity="top|center_horizontal"
+                android:background="@drawable/bg_home_nav_indicator" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center_horizontal"
+                android:orientation="vertical"
+                android:paddingTop="6dp"
+                android:paddingBottom="4dp">
+
+                <ImageView
+                    android:id="@+id/iconAlbums"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:importantForAccessibility="no"
+                    android:src="@drawable/ic_photo_library"
+                    app:tint="@color/home_nav_icon" />
+
+                <TextView
+                    android:id="@+id/labelAlbums"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:text="@string/home_nav_albums"
+                    android:textColor="@color/home_nav_label"
+                    android:textSize="11.5sp" />
+            </LinearLayout>
+        </FrameLayout>
+    </LinearLayout>
+</LinearLayout>
