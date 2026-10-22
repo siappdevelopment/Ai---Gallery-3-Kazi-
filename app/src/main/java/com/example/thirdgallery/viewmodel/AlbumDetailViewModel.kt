@@ -22,6 +22,9 @@ class AlbumDetailViewModel(
     private val repository = MediaRepository(application)
 
     private val kind = AlbumKind.fromKey(state.get<String>(ARG_KIND))
+
+    /** Folders and user albums only; smart collections (Favorites, Videos, ...) cannot take new media. */
+    val isRegularAlbum: Boolean = kind == AlbumKind.DEVICE || kind == AlbumKind.USER
     private val id = state.get<Long>(ARG_ID) ?: 0L
     private val since = AlbumsViewModel.recentSince()
 

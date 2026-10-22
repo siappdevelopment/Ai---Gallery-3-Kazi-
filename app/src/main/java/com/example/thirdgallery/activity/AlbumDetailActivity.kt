@@ -45,6 +45,7 @@ class AlbumDetailActivity : AppCompatActivity() {
         val comingSoon = View.OnClickListener {
             android.widget.Toast.makeText(applicationContext, R.string.albums_coming_soon, android.widget.Toast.LENGTH_SHORT).show()
         }
+        b.btnAddPhotos.visibility = if (viewModel.isRegularAlbum) View.VISIBLE else View.GONE
         b.btnAddPhotos.setOnClickListener(comingSoon)
         b.btnSelect.setOnClickListener(comingSoon)
         b.btnMore.setOnClickListener(comingSoon)
