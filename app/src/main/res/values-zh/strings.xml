@@ -104,4 +104,12 @@
     <string name="photo_library_title">您的资料库</string>
     <string name="photo_items">%1$d 项</string>
     <string name="photo_all_albums">所有相册</string>
+    <string name="photo_zoom_years">年</string>
+    <string name="photo_zoom_months">月</string>
+    <string name="photo_zoom_days">日</string>
+    <string name="photo_zoom_in">放大</string>
+    <string name="photo_zoom_out">缩小</string>
+    <string name="photo_undated">无日期</string>
+    <string name="photo_chip_videos">视频</string>
+    <string name="photo_chip_favorites">收藏</string>
 </resources>

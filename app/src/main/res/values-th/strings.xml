@@ -104,4 +104,12 @@
     <string name="photo_library_title">คลังของคุณ</string>
     <string name="photo_items">%1$d รายการ</string>
     <string name="photo_all_albums">อัลบั้มทั้งหมด</string>
+    <string name="photo_zoom_years">ปี</string>
+    <string name="photo_zoom_months">เดือน</string>
+    <string name="photo_zoom_days">วัน</string>
+    <string name="photo_zoom_in">ซูมเข้า</string>
+    <string name="photo_zoom_out">ซูมออก</string>
+    <string name="photo_undated">ไม่มีวันที่</string>
+    <string name="photo_chip_videos">วิดีโอ</string>
+    <string name="photo_chip_favorites">รายการโปรด</string>
 </resources>

@@ -105,4 +105,12 @@
     <string name="photo_library_title">Kitaplığınız</string>
     <string name="photo_items">%1$d öğe</string>
     <string name="photo_all_albums">Tüm albümler</string>
+    <string name="photo_zoom_years">Yıllar</string>
+    <string name="photo_zoom_months">Aylar</string>
+    <string name="photo_zoom_days">Günler</string>
+    <string name="photo_zoom_in">Yakınlaştır</string>
+    <string name="photo_zoom_out">Uzaklaştır</string>
+    <string name="photo_undated">Tarih yok</string>
+    <string name="photo_chip_videos">Videolar</string>
+    <string name="photo_chip_favorites">Favoriler</string>
 </resources>

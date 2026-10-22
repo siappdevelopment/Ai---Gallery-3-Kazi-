@@ -32,6 +32,20 @@ interface MediaDao {
     )
     fun observeAlbums(limit: Int): LiveData<List<AlbumRow>>
 
+    @Query(
+        "SELECT m.monthKey AS monthKey, COUNT(*) AS total, " +
+            "(SELECT uid FROM media c WHERE c.monthKey = m.monthKey ORDER BY c.dateMs DESC, c.uid DESC LIMIT 1) AS cover0" + ", " +
+            "(SELECT uid FROM media c WHERE c.monthKey = m.monthKey ORDER BY c.dateMs DESC, c.uid DESC LIMIT 1 OFFSET 1) AS cover1" + ", " +
+            "(SELECT uid FROM media c WHERE c.monthKey = m.monthKey ORDER BY c.dateMs DESC, c.uid DESC LIMIT 1 OFFSET 2) AS cover2" + ", " +
+            "(SELECT uid FROM media c WHERE c.monthKey = m.monthKey ORDER BY c.dateMs DESC, c.uid DESC LIMIT 1 OFFSET 3) AS cover3" + ", " +
+            "(SELECT uid FROM media c WHERE c.monthKey = m.monthKey ORDER BY c.dateMs DESC, c.uid DESC LIMIT 1 OFFSET 4) AS cover4" +
+            " FROM media m GROUP BY m.monthKey ORDER BY m.monthKey DESC"
+    )
+    fun observeMonths(): LiveData<List<MonthRow>>
+
+    @Query("SELECT COUNT(*) FROM media WHERE mediaType IN (:types) AND isFavorite >= :minFavorite")
+    fun observeCount(types: List<Int>, minFavorite: Int): LiveData<Int>
+
     @Query("SELECT COUNT(*) FROM media")
     fun observeTotal(): LiveData<Int>
 

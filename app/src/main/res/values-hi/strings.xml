@@ -105,4 +105,12 @@
     <string name="photo_library_title">आपकी लाइब्रेरी</string>
     <string name="photo_items">%1$d आइटम</string>
     <string name="photo_all_albums">सभी एल्बम</string>
+    <string name="photo_zoom_years">साल</string>
+    <string name="photo_zoom_months">महीने</string>
+    <string name="photo_zoom_days">दिन</string>
+    <string name="photo_zoom_in">ज़ूम इन</string>
+    <string name="photo_zoom_out">ज़ूम आउट</string>
+    <string name="photo_undated">कोई तारीख़ नहीं</string>
+    <string name="photo_chip_videos">वीडियो</string>
+    <string name="photo_chip_favorites">पसंदीदा</string>
 </resources>

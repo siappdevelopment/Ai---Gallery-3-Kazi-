@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Top of the Timeline layout: collection chips, then the Years / Months / Days zoom and the day zoom buttons -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:paddingBottom="8dp">
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvChips"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:clipToPadding="false"
+        android:orientation="horizontal"
+        android:overScrollMode="never"
+        android:paddingStart="11dp"
+        android:paddingEnd="11dp"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingStart="11dp"
+        android:paddingEnd="11dp">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@drawable/bg_filter_bar"
+            android:orientation="horizontal"
+            android:padding="4dp">
+
+            <TextView
+                android:id="@+id/tabYears"
+                style="@style/Widget.ThirdGallery.FilterTab"
+                android:layout_width="0dp"
+                android:layout_height="36dp"
+                android:layout_weight="1"
+                android:text="@string/photo_zoom_years" />
+
+            <TextView
+                android:id="@+id/tabMonths"
+                style="@style/Widget.ThirdGallery.FilterTab"
+                android:layout_width="0dp"
+                android:layout_height="36dp"
+                android:layout_marginStart="4dp"
+                android:layout_weight="1"
+                android:text="@string/photo_zoom_months" />
+
+            <TextView
+                android:id="@+id/tabDays"
+                style="@style/Widget.ThirdGallery.FilterTab"
+                android:layout_width="0dp"
+                android:layout_height="36dp"
+                android:layout_marginStart="4dp"
+                android:layout_weight="1"
+                android:text="@string/photo_zoom_days" />
+        </LinearLayout>
+
+        <!-- Only for the day grid: fewer / more columns -->
+        <LinearLayout
+            android:id="@+id/zoomButtons"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:background="@drawable/bg_filter_bar"
+            android:orientation="horizontal"
+            android:padding="4dp">
+
+            <ImageButton
+                android:id="@+id/btnZoomIn"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:contentDescription="@string/photo_zoom_in"
+                android:src="@drawable/ic_zoom_in"
+                app:tint="@color/splash_text_primary" />
+
+            <ImageButton
+                android:id="@+id/btnZoomOut"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:layout_marginStart="2dp"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:contentDescription="@string/photo_zoom_out"
+                android:src="@drawable/ic_zoom_out"
+                app:tint="@color/splash_text_primary" />
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>

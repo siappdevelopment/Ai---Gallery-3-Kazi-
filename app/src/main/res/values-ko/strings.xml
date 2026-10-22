@@ -104,4 +104,12 @@
     <string name="photo_library_title">내 라이브러리</string>
     <string name="photo_items">항목 %1$d개</string>
     <string name="photo_all_albums">모든 앨범</string>
+    <string name="photo_zoom_years">연도</string>
+    <string name="photo_zoom_months">월</string>
+    <string name="photo_zoom_days">일</string>
+    <string name="photo_zoom_in">확대</string>
+    <string name="photo_zoom_out">축소</string>
+    <string name="photo_undated">날짜 없음</string>
+    <string name="photo_chip_videos">동영상</string>
+    <string name="photo_chip_favorites">즐겨찾기</string>
 </resources>

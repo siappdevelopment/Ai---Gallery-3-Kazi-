@@ -107,4 +107,12 @@
     <string name="photo_library_title">Ваша медиатека</string>
     <string name="photo_items">Элементов: %1$d</string>
     <string name="photo_all_albums">Все альбомы</string>
+    <string name="photo_zoom_years">Годы</string>
+    <string name="photo_zoom_months">Месяцы</string>
+    <string name="photo_zoom_days">Дни</string>
+    <string name="photo_zoom_in">Увеличить</string>
+    <string name="photo_zoom_out">Уменьшить</string>
+    <string name="photo_undated">Без даты</string>
+    <string name="photo_chip_videos">Видео</string>
+    <string name="photo_chip_favorites">Избранное</string>
 </resources>

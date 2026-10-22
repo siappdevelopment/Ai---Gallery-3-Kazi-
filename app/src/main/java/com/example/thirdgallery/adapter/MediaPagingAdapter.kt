@@ -21,10 +21,17 @@ import com.example.thirdgallery.model.MediaUiModel
  * through [MediaUiModelCallback], and thumbnails are decoded by Glide at tile size only.
  */
 class MediaPagingAdapter(
-    private val thumbSizePx: Int,
+    private var thumbSizePx: Int,
 ) : PagingDataAdapter<MediaUiModel, RecyclerView.ViewHolder>(MediaUiModelCallback) {
 
     private var dayCounts: Map<Long, Int> = emptyMap()
+
+    /** Tile size changed (grid zoom): rebind the visible tiles so thumbnails match the new size. */
+    fun setThumbSize(sizePx: Int) {
+        if (sizePx == thumbSizePx) return
+        thumbSizePx = sizePx
+        if (itemCount > 0) notifyItemRangeChanged(0, itemCount)
+    }
 
     fun isHeader(position: Int): Boolean = peek(position) is MediaUiModel.DayHeader
 

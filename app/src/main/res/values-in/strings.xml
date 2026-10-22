@@ -104,4 +104,12 @@
     <string name="photo_library_title">Pustaka Anda</string>
     <string name="photo_items">%1$d item</string>
     <string name="photo_all_albums">Semua album</string>
+    <string name="photo_zoom_years">Tahun</string>
+    <string name="photo_zoom_months">Bulan</string>
+    <string name="photo_zoom_days">Hari</string>
+    <string name="photo_zoom_in">Perbesar</string>
+    <string name="photo_zoom_out">Perkecil</string>
+    <string name="photo_undated">Tanpa tanggal</string>
+    <string name="photo_chip_videos">Video</string>
+    <string name="photo_chip_favorites">Favorit</string>
 </resources>

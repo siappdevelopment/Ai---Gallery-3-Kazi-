@@ -105,4 +105,12 @@
     <string name="photo_library_title">Your library</string>
     <string name="photo_items">%1$d items</string>
     <string name="photo_all_albums">All albums</string>
+    <string name="photo_zoom_years">Years</string>
+    <string name="photo_zoom_months">Months</string>
+    <string name="photo_zoom_days">Days</string>
+    <string name="photo_zoom_in">Zoom in</string>
+    <string name="photo_zoom_out">Zoom out</string>
+    <string name="photo_undated">No date</string>
+    <string name="photo_chip_videos">Videos</string>
+    <string name="photo_chip_favorites">Favourites</string>
 </resources>

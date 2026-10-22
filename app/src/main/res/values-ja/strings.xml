@@ -104,4 +104,12 @@
     <string name="photo_library_title">ライブラリ</string>
     <string name="photo_items">%1$d件</string>
     <string name="photo_all_albums">すべてのアルバム</string>
+    <string name="photo_zoom_years">年</string>
+    <string name="photo_zoom_months">月</string>
+    <string name="photo_zoom_days">日</string>
+    <string name="photo_zoom_in">拡大</string>
+    <string name="photo_zoom_out">縮小</string>
+    <string name="photo_undated">日付なし</string>
+    <string name="photo_chip_videos">動画</string>
+    <string name="photo_chip_favorites">お気に入り</string>
 </resources>

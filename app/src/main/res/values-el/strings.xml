@@ -105,4 +105,12 @@
     <string name="photo_library_title">Η βιβλιοθήκη σας</string>
     <string name="photo_items">%1$d στοιχεία</string>
     <string name="photo_all_albums">Όλα τα άλμπουμ</string>
+    <string name="photo_zoom_years">Έτη</string>
+    <string name="photo_zoom_months">Μήνες</string>
+    <string name="photo_zoom_days">Ημέρες</string>
+    <string name="photo_zoom_in">Μεγέθυνση</string>
+    <string name="photo_zoom_out">Σμίκρυνση</string>
+    <string name="photo_undated">Χωρίς ημερομηνία</string>
+    <string name="photo_chip_videos">Βίντεο</string>
+    <string name="photo_chip_favorites">Αγαπημένα</string>
 </resources>

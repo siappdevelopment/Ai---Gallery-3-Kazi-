@@ -105,4 +105,12 @@
     <string name="photo_library_title">Ang iyong library</string>
     <string name="photo_items">%1$d item</string>
     <string name="photo_all_albums">Lahat ng album</string>
+    <string name="photo_zoom_years">Mga Taon</string>
+    <string name="photo_zoom_months">Mga Buwan</string>
+    <string name="photo_zoom_days">Mga Araw</string>
+    <string name="photo_zoom_in">Mag-zoom in</string>
+    <string name="photo_zoom_out">Mag-zoom out</string>
+    <string name="photo_undated">Walang petsa</string>
+    <string name="photo_chip_videos">Mga Video</string>
+    <string name="photo_chip_favorites">Mga Paborito</string>
 </resources>

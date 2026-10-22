@@ -55,6 +55,18 @@ class PhotoViewModel(application: Application) : AndroidViewModel(application) {
     val libraryAlbums: LiveData<List<com.example.thirdgallery.database.AlbumRow>> = repository.libraryAlbums()
     val totalCount: LiveData<Int> = repository.totalCount()
 
+    /** Timeline months (newest first) and, derived from them, the years. */
+    val months: LiveData<List<com.example.thirdgallery.database.MonthRow>> = repository.months()
+    val years: LiveData<List<com.example.thirdgallery.database.YearRow>> = months.map { list ->
+        list.groupBy { (it.monthKey / 12).toInt() }
+            .map { (year, rows) -> com.example.thirdgallery.database.YearRow(year, rows.sumOf { it.total }, rows.first().cover0) }
+            .sortedByDescending { it.year }
+    }
+
+    /** Sizes of the Videos and Favorites chips at the top of the Timeline. */
+    val videoCount: LiveData<Int> = repository.count(MediaFilter.VIDEOS)
+    val favoriteCount: LiveData<Int> = repository.count(MediaFilter.FAVORITES)
+
     private val _syncing = MutableLiveData(false)
     val syncing: LiveData<Boolean> = _syncing
 

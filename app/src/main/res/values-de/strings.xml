@@ -105,4 +105,12 @@
     <string name="photo_library_title">Deine Mediathek</string>
     <string name="photo_items">%1$d Elemente</string>
     <string name="photo_all_albums">Alle Alben</string>
+    <string name="photo_zoom_years">Jahre</string>
+    <string name="photo_zoom_months">Monate</string>
+    <string name="photo_zoom_days">Tage</string>
+    <string name="photo_zoom_in">Vergrößern</string>
+    <string name="photo_zoom_out">Verkleinern</string>
+    <string name="photo_undated">Kein Datum</string>
+    <string name="photo_chip_videos">Videos</string>
+    <string name="photo_chip_favorites">Favoriten</string>
 </resources>

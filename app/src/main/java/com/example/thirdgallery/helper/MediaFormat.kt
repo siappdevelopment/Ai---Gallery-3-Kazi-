@@ -28,6 +28,8 @@ object MediaFormat {
 
     /** "Today", "Yesterday", "Monday, October 19" (this year) or "October 19, 2025" (older). */
     fun dayTitle(context: Context, dayKey: Long): String {
+        // Items without any date were stored with day 0 (1970): show them as one "No date" group.
+        if (dayKey <= 0L) return context.getString(R.string.photo_undated)
         val now = System.currentTimeMillis()
         val today = Math.floorDiv(now + TimeZone.getDefault().getOffset(now), DAY_MS)
         return when (today - dayKey) {
@@ -45,6 +47,20 @@ object MediaFormat {
             }
         }
     }
+
+    /** "October 2026" for a month key (year * 12 + month); "No date" for undated items. */
+    fun monthTitle(context: Context, monthKey: Long): String {
+        if (monthKey / 12 <= 1970) return context.getString(R.string.photo_undated)
+        val locale = context.resources.configuration.locales.get(0) ?: Locale.getDefault()
+        val calendar = java.util.Calendar.getInstance().apply {
+            clear()
+            set((monthKey / 12).toInt(), (monthKey % 12).toInt(), 1)
+        }
+        return SimpleDateFormat(DateFormat.getBestDateTimePattern(locale, "yMMMM"), locale).format(calendar.time)
+    }
+
+    fun yearTitle(context: Context, year: Int): String =
+        if (year <= 1970) context.getString(R.string.photo_undated) else year.toString()
 
     private fun yearOf(date: Date, locale: Locale): String =
         SimpleDateFormat("y", locale).apply { timeZone = TimeZone.getTimeZone("UTC") }.format(date)

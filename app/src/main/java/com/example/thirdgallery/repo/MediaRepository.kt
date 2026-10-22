@@ -17,6 +17,7 @@ import com.example.thirdgallery.database.DayCount
 import com.example.thirdgallery.database.MediaDao
 import com.example.thirdgallery.database.MediaEntity
 import com.example.thirdgallery.database.MediaTypes
+import com.example.thirdgallery.database.MonthRow
 import com.example.thirdgallery.helper.MediaPermissionHelper
 import com.example.thirdgallery.helper.MediaSyncPrefs
 import com.example.thirdgallery.model.MediaFilter
@@ -59,6 +60,11 @@ class MediaRepository(context: Context) {
     fun libraryAlbums(): LiveData<List<AlbumRow>> = dao.observeAlbums(ALBUM_LIMIT)
 
     fun totalCount(): LiveData<Int> = dao.observeTotal()
+
+    /** Months (newest first) with their five newest items: Timeline months and years. */
+    fun months(): LiveData<List<MonthRow>> = dao.observeMonths()
+
+    fun count(filter: MediaFilter): LiveData<Int> = dao.observeCount(filter.types, filter.minFavorite)
 
     /** Forgets the indexed media (used when the photo permission is gone). */
     fun clearAsync() {
@@ -137,6 +143,7 @@ class MediaRepository(context: Context) {
             val bucketIdCol = cursor.getColumnIndexOrThrow(MediaStore.MediaColumns.BUCKET_ID)
             val bucketNameCol = cursor.getColumnIndexOrThrow(MediaStore.MediaColumns.BUCKET_DISPLAY_NAME)
             val zone = TimeZone.getDefault()
+            val calendar = java.util.Calendar.getInstance(zone)
             val batch = ArrayList<MediaEntity>(BATCH_SIZE)
 
             while (cursor.moveToNext()) {
@@ -144,6 +151,8 @@ class MediaRepository(context: Context) {
                 val taken = cursor.getLong(takenCol)
                 val dateMs = if (taken > 0) taken else cursor.getLong(addedCol) * 1000L
                 val dayKey = Math.floorDiv(dateMs + zone.getOffset(dateMs), DAY_MS)
+                calendar.timeInMillis = dateMs
+                val monthKey = calendar.get(java.util.Calendar.YEAR) * 12L + calendar.get(java.util.Calendar.MONTH)
                 batch.add(
                     MediaEntity(
                         uid = MediaTypes.uid(id, mediaType),
@@ -156,6 +165,7 @@ class MediaRepository(context: Context) {
                         syncToken = token,
                         bucketId = cursor.getLong(bucketIdCol),
                         bucketName = cursor.getString(bucketNameCol).orEmpty(),
+                        monthKey = monthKey,
                     )
                 )
                 if (batch.size >= BATCH_SIZE) {
@@ -209,7 +219,7 @@ class MediaRepository(context: Context) {
         const val ALBUM_LIMIT = 12
 
         /** Bump when the indexed columns change so existing installs re-read MediaStore once. */
-        const val FINGERPRINT_VERSION = 3
+        const val FINGERPRINT_VERSION = 4
         const val DAY_MS = 86_400_000L
 
         @Suppress("DEPRECATION")

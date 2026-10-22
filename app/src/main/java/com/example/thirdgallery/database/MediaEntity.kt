@@ -16,6 +16,7 @@ import androidx.room.PrimaryKey
         Index("mediaType", "dateMs"),
         Index("dayKey"),
         Index("bucketId", "dateMs"),
+        Index("monthKey", "dateMs"),
     ],
 )
 data class MediaEntity(
@@ -35,6 +36,8 @@ data class MediaEntity(
     /** MediaStore album (folder) of the item; used for the "Your library" cards. */
     @ColumnInfo(defaultValue = "0") val bucketId: Long = 0,
     @ColumnInfo(defaultValue = "''") val bucketName: String = "",
+    /** Local year * 12 + month (0-based) of [dateMs]; groups the Timeline month and year views. */
+    @ColumnInfo(defaultValue = "0") val monthKey: Long = 0,
 )
 
 object MediaTypes {
@@ -61,4 +64,22 @@ data class AlbumRow(
     val cover0: Long?,
     val cover1: Long?,
     val cover2: Long?,
+)
+
+/** One Timeline month card: size and its five newest items (uids, newest first). */
+data class MonthRow(
+    val monthKey: Long,
+    val total: Int,
+    val cover0: Long?,
+    val cover1: Long?,
+    val cover2: Long?,
+    val cover3: Long?,
+    val cover4: Long?,
+)
+
+/** One Timeline year card, computed from the month rows. */
+data class YearRow(
+    val year: Int,
+    val total: Int,
+    val cover: Long?,
 )

@@ -10,6 +10,7 @@ import com.bumptech.glide.Glide
 import com.example.thirdgallery.R
 import com.example.thirdgallery.database.AlbumRow
 import com.example.thirdgallery.databinding.ItemLibraryAlbumBinding
+import com.example.thirdgallery.helper.AlbumIcons
 import com.example.thirdgallery.helper.MediaUris
 
 /** "Your library" cards: stacked cover of the album's newest photos, name and size. */
@@ -36,7 +37,7 @@ class LibraryAlbumAdapter : ListAdapter<AlbumRow, LibraryAlbumAdapter.ViewHolder
             load(binding.ivStrip1, album.cover1 ?: album.cover0, widthPx, (24 * density).toInt())
             load(binding.ivStrip2, album.cover2 ?: album.cover0, widthPx, (24 * density).toInt())
 
-            binding.ivAlbumIcon.setImageResource(iconFor(album.bucketName))
+            binding.ivAlbumIcon.setImageResource(AlbumIcons.forName(album.bucketName))
             binding.tvAlbumName.text = album.bucketName
             binding.tvAlbumCount.text = resources.getString(R.string.photo_items, album.total)
         }
@@ -61,14 +62,6 @@ class LibraryAlbumAdapter : ListAdapter<AlbumRow, LibraryAlbumAdapter.ViewHolder
                 .into(view)
         }
 
-        private fun iconFor(name: String): Int {
-            val n = name.lowercase()
-            return when {
-                n.contains("camera") || n == "dcim" -> R.drawable.ic_photo_camera
-                n.contains("screenshot") || n.contains("screen") -> R.drawable.ic_smartphone
-                else -> R.drawable.ic_folder
-            }
-        }
     }
 
     private companion object {

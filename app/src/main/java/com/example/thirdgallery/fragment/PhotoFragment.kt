@@ -20,20 +20,31 @@ import com.example.thirdgallery.activity.HomeActivity
 import com.example.thirdgallery.adapter.FilterEmptyAdapter
 import com.example.thirdgallery.adapter.GalleryHeaderAdapter
 import com.example.thirdgallery.adapter.MediaPagingAdapter
+import com.example.thirdgallery.adapter.MonthAdapter
+import com.example.thirdgallery.adapter.TimelineHeaderAdapter
+import com.example.thirdgallery.adapter.YearAdapter
+import com.example.thirdgallery.adapter.YearGridDecoration
 import com.example.thirdgallery.databinding.FragmentPhotoBinding
+import com.example.thirdgallery.helper.AlbumIcons
+import com.example.thirdgallery.helper.GalleryLayoutPrefs
 import com.example.thirdgallery.helper.MediaPermissionHelper
 import com.example.thirdgallery.model.GalleryLayout
 import com.example.thirdgallery.model.MediaFilter
+import com.example.thirdgallery.model.QuickChip
+import com.example.thirdgallery.model.TimelineZoom
 import com.example.thirdgallery.viewmodel.GalleryLayoutViewModel
 import com.example.thirdgallery.viewmodel.PhotoViewModel
 
 /**
- * Gallery tab: every photo and video on the device, grouped by day, paged from Room.
- * In the Classic layout a header row ("Your library" albums + filter) scrolls above the grid.
+ * Gallery tab: every photo and video on the device, paged from Room.
+ * Layouts: Classic (library + filter + day grid) and Timeline (chips + Years / Months / Days).
+ * Switching layout or zoom only swaps the adapters around the same data; nothing is reloaded.
  */
 class PhotoFragment : Fragment() {
 
     private enum class UiState { CONTENT, LOADING, EMPTY, FILTER_EMPTY, ERROR, PERMISSION }
+
+    private enum class Mode { CLASSIC, DAYS, MONTHS, YEARS }
 
     private var _binding: FragmentPhotoBinding? = null
     private val binding get() = _binding
@@ -42,8 +53,18 @@ class PhotoFragment : Fragment() {
     private val layoutViewModel: GalleryLayoutViewModel by activityViewModels()
 
     private var mediaAdapter: MediaPagingAdapter? = null
-    private var headerAdapter: GalleryHeaderAdapter? = null
+    private var classicHeader: GalleryHeaderAdapter? = null
+    private var timelineHeader: TimelineHeaderAdapter? = null
     private var filterEmptyAdapter: FilterEmptyAdapter? = null
+    private var monthAdapter: MonthAdapter? = null
+    private var yearAdapter: YearAdapter? = null
+    private var classicConcat: ConcatAdapter? = null
+    private var daysConcat: ConcatAdapter? = null
+    private var monthsConcat: ConcatAdapter? = null
+    private var yearsConcat: ConcatAdapter? = null
+    private var gridManager: GridLayoutManager? = null
+
+    private var mode: Mode? = null
     private var refreshState: LoadState? = null
     private var hasAccess = false
     private var requesting = false
@@ -69,36 +90,55 @@ class PhotoFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val b = binding ?: return
+        val density = resources.displayMetrics.density
 
-        // About 90dp per column (4 on a normal phone); thumbnails are decoded at tile size only.
-        val spanCount = (resources.configuration.screenWidthDp / 90).coerceIn(3, 8)
-        val thumbPx = (resources.displayMetrics.widthPixels / spanCount).coerceAtLeast(1)
-        val media = MediaPagingAdapter(thumbPx)
-        val header = GalleryHeaderAdapter(
+        val columns = layoutViewModel.columns.value ?: GalleryLayoutPrefs.DEFAULT_COLUMNS
+        val media = MediaPagingAdapter(tilePx(columns))
+        val classic = GalleryHeaderAdapter(
             onFilterSelected = { viewModel.setFilter(it) },
             onAllAlbums = { (activity as? HomeActivity)?.openAlbumsTab() },
         )
+        val timeline = TimelineHeaderAdapter(
+            onZoomSelected = { layoutViewModel.setZoom(it) },
+            onZoomIn = { layoutViewModel.zoomIn() },
+            onZoomOut = { layoutViewModel.zoomOut() },
+        )
         val filterEmpty = FilterEmptyAdapter()
+        // A month opens its days, a year opens its months (same as the design).
+        val months = MonthAdapter { layoutViewModel.setZoom(TimelineZoom.DAYS) }
+        val years = YearAdapter { layoutViewModel.setZoom(TimelineZoom.MONTHS) }
         mediaAdapter = media
-        headerAdapter = header
+        classicHeader = classic
+        timelineHeader = timeline
         filterEmptyAdapter = filterEmpty
+        monthAdapter = months
+        yearAdapter = years
 
-        // header row, then the paged photos, then (only when a filter matches nothing) the empty row
-        val concat = ConcatAdapter(header, media, filterEmpty)
-        val layoutManager = GridLayoutManager(requireContext(), spanCount)
-        layoutManager.spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
+        classicConcat = ConcatAdapter(classic, media, filterEmpty)
+        daysConcat = ConcatAdapter(timeline, media, filterEmpty)
+        monthsConcat = ConcatAdapter(timeline, months)
+        yearsConcat = ConcatAdapter(timeline, years)
+
+        val manager = GridLayoutManager(requireContext(), columns)
+        manager.spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
             override fun getSpanSize(position: Int): Int {
-                val headerCount = header.itemCount
-                if (position < headerCount) return spanCount
-                val index = position - headerCount
-                return if (index >= media.itemCount || media.isHeader(index)) spanCount else 1
+                val headerCount = timeline.itemCount + classic.itemCount
+                if (position < headerCount) return manager.spanCount
+                return when (mode) {
+                    Mode.CLASSIC, Mode.DAYS -> {
+                        val index = position - headerCount
+                        if (index >= media.itemCount || media.isHeader(index)) manager.spanCount else 1
+                    }
+                    else -> 1
+                }
             }
         }
-        b.rvMedia.layoutManager = layoutManager
-        b.rvMedia.adapter = concat
+        gridManager = manager
+        b.rvMedia.layoutManager = manager
         b.rvMedia.itemAnimator = null
         b.rvMedia.setHasFixedSize(true)
-        b.rvMedia.setItemViewCacheSize(spanCount * 3)
+        b.rvMedia.setItemViewCacheSize(12)
+        b.rvMedia.addItemDecoration(YearGridDecoration((7 * density).toInt()))
 
         media.addLoadStateListener { states ->
             refreshState = states.refresh
@@ -108,19 +148,39 @@ class PhotoFragment : Fragment() {
         val owner = viewLifecycleOwner
         viewModel.media.observe(owner) { data -> media.submitData(owner.lifecycle, data) }
         viewModel.dayCounts.observe(owner) { media.updateCounts(it) }
-        viewModel.filter.observe(owner) {
-            header.setFilter(it)
+        viewModel.months.observe(owner) {
+            months.submitList(it.orEmpty())
             render()
         }
-        viewModel.libraryAlbums.observe(owner) { header.setContent(viewModel.totalCount.value ?: 0, it.orEmpty()) }
-        viewModel.totalCount.observe(owner) { header.setContent(it ?: 0, viewModel.libraryAlbums.value.orEmpty()) }
+        viewModel.years.observe(owner) {
+            years.submitList(it.orEmpty())
+            render()
+        }
+        viewModel.filter.observe(owner) {
+            classic.setFilter(it)
+            render()
+        }
+        viewModel.libraryAlbums.observe(owner) {
+            classic.setContent(viewModel.totalCount.value ?: 0, it.orEmpty())
+            updateChips()
+        }
+        viewModel.totalCount.observe(owner) { classic.setContent(it ?: 0, viewModel.libraryAlbums.value.orEmpty()) }
+        viewModel.videoCount.observe(owner) { updateChips() }
+        viewModel.favoriteCount.observe(owner) { updateChips() }
         viewModel.syncing.observe(owner) { render() }
         viewModel.synced.observe(owner) { render() }
         viewModel.syncError.observe(owner) { render() }
-        // Switching layouts only swaps the header; the photo list is never reloaded.
-        layoutViewModel.layout.observe(owner) { render() }
+
+        layoutViewModel.layout.observe(owner) { layout ->
+            // The Timeline has no filter bar, so it always shows everything.
+            if (layout == GalleryLayout.TIMELINE) viewModel.setFilter(MediaFilter.ALL)
+            applyMode()
+        }
+        layoutViewModel.zoom.observe(owner) { applyMode() }
+        layoutViewModel.columns.observe(owner) { applyMode() }
 
         hasAccess = MediaPermissionHelper.hasAccess(requireContext())
+        applyMode()
         render()
     }
 
@@ -138,11 +198,93 @@ class PhotoFragment : Fragment() {
     override fun onDestroyView() {
         binding?.rvMedia?.adapter = null
         mediaAdapter = null
-        headerAdapter = null
+        classicHeader = null
+        timelineHeader = null
         filterEmptyAdapter = null
+        monthAdapter = null
+        yearAdapter = null
+        classicConcat = null
+        daysConcat = null
+        monthsConcat = null
+        yearsConcat = null
+        gridManager = null
+        mode = null
         refreshState = null
         _binding = null
         super.onDestroyView()
+    }
+
+    private fun tilePx(columns: Int): Int =
+        (resources.displayMetrics.widthPixels / columns.coerceAtLeast(1)).coerceAtLeast(1)
+
+    private fun currentMode(): Mode {
+        if (layoutViewModel.layout.value != GalleryLayout.TIMELINE) return Mode.CLASSIC
+        return when (layoutViewModel.zoom.value) {
+            TimelineZoom.YEARS -> Mode.YEARS
+            TimelineZoom.MONTHS -> Mode.MONTHS
+            else -> Mode.DAYS
+        }
+    }
+
+    /** Applies layout / zoom / columns: swaps adapters and the column count, never the data. */
+    private fun applyMode() {
+        val b = binding ?: return
+        val manager = gridManager ?: return
+        val columns = layoutViewModel.columns.value ?: GalleryLayoutPrefs.DEFAULT_COLUMNS
+        val zoom = layoutViewModel.zoom.value ?: TimelineZoom.DAYS
+        val newMode = currentMode()
+
+        mediaAdapter?.setThumbSize(tilePx(columns))
+        timelineHeader?.setState(
+            zoom = zoom,
+            chips = buildChips(),
+            canZoomIn = columns > GalleryLayoutPrefs.MIN_COLUMNS,
+            canZoomOut = columns < GalleryLayoutPrefs.MAX_COLUMNS,
+        )
+
+        val spanCount = when (newMode) {
+            Mode.CLASSIC, Mode.DAYS -> columns
+            Mode.MONTHS -> 1
+            Mode.YEARS -> 2
+        }
+        if (manager.spanCount != spanCount) manager.spanCount = spanCount
+
+        if (newMode != mode) {
+            mode = newMode
+            val target = when (newMode) {
+                Mode.CLASSIC -> classicConcat
+                Mode.DAYS -> daysConcat
+                Mode.MONTHS -> monthsConcat
+                Mode.YEARS -> yearsConcat
+            }
+            if (target != null) {
+                // setAdapter (not swapAdapter): each ConcatAdapter numbers its own view types from 0,
+                // so the old recycled rows must not be reused. swapAdapter keeps the recycler pool,
+                // which handed a Classic header row to the Timeline header and crashed on binding.
+                b.rvMedia.setAdapter(target)
+                b.rvMedia.scrollToPosition(0)
+            }
+        }
+        render()
+    }
+
+    private fun buildChips(): List<QuickChip> {
+        val chips = ArrayList<QuickChip>()
+        viewModel.libraryAlbums.value.orEmpty().forEach {
+            chips.add(QuickChip(AlbumIcons.forName(it.bucketName), it.bucketName, it.total))
+        }
+        chips.add(QuickChip(R.drawable.ic_smart_display, getString(R.string.photo_chip_videos), viewModel.videoCount.value ?: 0))
+        chips.add(QuickChip(R.drawable.ic_favorite, getString(R.string.photo_chip_favorites), viewModel.favoriteCount.value ?: 0))
+        return chips
+    }
+
+    private fun updateChips() {
+        val zoom = layoutViewModel.zoom.value ?: TimelineZoom.DAYS
+        val columns = layoutViewModel.columns.value ?: GalleryLayoutPrefs.DEFAULT_COLUMNS
+        timelineHeader?.setState(
+            zoom, buildChips(),
+            columns > GalleryLayoutPrefs.MIN_COLUMNS, columns < GalleryLayoutPrefs.MAX_COLUMNS,
+        )
     }
 
     private fun syncAccess() {
@@ -166,14 +308,20 @@ class PhotoFragment : Fragment() {
     }
 
     private fun currentState(): UiState {
-        val itemCount = mediaAdapter?.itemCount ?: 0
+        val timelineCards = when (mode) {
+            Mode.MONTHS -> monthAdapter?.itemCount ?: 0
+            Mode.YEARS -> yearAdapter?.itemCount ?: 0
+            else -> -1
+        }
+        val itemCount = if (timelineCards >= 0) timelineCards else mediaAdapter?.itemCount ?: 0
+        val pagedMode = timelineCards < 0
         val synced = viewModel.synced.value == true
         val filter = viewModel.filter.value ?: MediaFilter.ALL
         return when {
             !hasAccess -> UiState.PERMISSION
             itemCount > 0 -> UiState.CONTENT
-            refreshState is LoadState.Error || viewModel.syncError.value == true -> UiState.ERROR
-            viewModel.syncing.value == true || !synced || refreshState is LoadState.Loading -> UiState.LOADING
+            (pagedMode && refreshState is LoadState.Error) || viewModel.syncError.value == true -> UiState.ERROR
+            viewModel.syncing.value == true || !synced || (pagedMode && refreshState is LoadState.Loading) -> UiState.LOADING
             filter == MediaFilter.ALL -> UiState.EMPTY
             else -> UiState.FILTER_EMPTY
         }
@@ -182,32 +330,34 @@ class PhotoFragment : Fragment() {
     private fun render() {
         val b = binding ?: return
         val state = currentState()
-        val classic = (layoutViewModel.layout.value ?: GalleryLayout.CLASSIC) == GalleryLayout.CLASSIC
+        val inClassic = mode == Mode.CLASSIC
 
         // The grid stays visible when a filter matches nothing, so the filter bar stays usable.
-        val listVisible = state == UiState.CONTENT || state == UiState.FILTER_EMPTY
+        val listVisible = state == UiState.CONTENT || (state == UiState.FILTER_EMPTY && inClassic)
         b.rvMedia.visibility = if (listVisible) View.VISIBLE else View.INVISIBLE
-        headerAdapter?.setVisible(classic && listVisible)
-        filterEmptyAdapter?.setVisible(state == UiState.FILTER_EMPTY)
+        classicHeader?.setVisible(inClassic && listVisible)
+        timelineHeader?.setVisible(!inClassic && listVisible)
+        filterEmptyAdapter?.setVisible(state == UiState.FILTER_EMPTY && inClassic)
 
         b.progress.visibility = if (state == UiState.LOADING) View.VISIBLE else View.GONE
-        val showState = state == UiState.EMPTY || state == UiState.ERROR || state == UiState.PERMISSION
+        val showState = state == UiState.EMPTY || state == UiState.ERROR || state == UiState.PERMISSION ||
+            (state == UiState.FILTER_EMPTY && !inClassic)
         b.stateGroup.visibility = if (showState) View.VISIBLE else View.GONE
         if (!showState) return
 
         when (state) {
-            UiState.EMPTY -> showState(
-                R.drawable.ic_photo_library, R.string.photo_empty_title, R.string.photo_empty_desc,
-                R.string.photo_open_camera,
-            ) { openCamera() }
             UiState.ERROR -> showState(
                 R.drawable.ic_error, R.string.photo_error_title, R.string.photo_error_desc,
                 R.string.perm_denied_try_again,
             ) { viewModel.refresh(force = true); mediaAdapter?.refresh() }
-            else -> showState(
+            UiState.PERMISSION -> showState(
                 R.drawable.ic_no_photography, R.string.perm_denied_title, R.string.photo_permission_desc,
                 R.string.photo_allow_access,
             ) { requestAccess() }
+            else -> showState(
+                R.drawable.ic_photo_library, R.string.photo_empty_title, R.string.photo_empty_desc,
+                R.string.photo_open_camera,
+            ) { openCamera() }
         }
     }
 

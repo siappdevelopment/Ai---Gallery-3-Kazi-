@@ -106,4 +106,12 @@
     <string name="photo_library_title">Sua biblioteca</string>
     <string name="photo_items">%1$d itens</string>
     <string name="photo_all_albums">Todos os álbuns</string>
+    <string name="photo_zoom_years">Anos</string>
+    <string name="photo_zoom_months">Meses</string>
+    <string name="photo_zoom_days">Dias</string>
+    <string name="photo_zoom_in">Aumentar zoom</string>
+    <string name="photo_zoom_out">Diminuir zoom</string>
+    <string name="photo_undated">Sem data</string>
+    <string name="photo_chip_videos">Vídeos</string>
+    <string name="photo_chip_favorites">Favoritas</string>
 </resources>
