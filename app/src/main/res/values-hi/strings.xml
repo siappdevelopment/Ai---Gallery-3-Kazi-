@@ -172,4 +172,22 @@
     <string name="viewer_prev">पिछला</string>
     <string name="viewer_next">अगला</string>
     <string name="viewer_play">वीडियो चलाएँ</string>
+    <string name="bin_title">बिन</string>
+    <string name="bin_summary">%1$d आइटम · 30 दिन बाद स्थायी रूप से हटा दिए जाएँगे</string>
+    <string name="bin_restore_all">सभी रीस्टोर करें</string>
+    <string name="bin_empty_action">बिन खाली करें</string>
+    <string name="bin_empty_title">बिन खाली है</string>
+    <string name="bin_empty_desc">हटाए गए आइटम यहाँ 30 दिन तक रहते हैं।</string>
+    <string name="bin_days_left">%1$d दिन</string>
+    <string name="bin_empty_dialog_title">बिन खाली करें?</string>
+    <string name="bin_empty_dialog_body">%1$d आइटम स्थायी रूप से हटा दिए जाएँगे। इसे पूर्ववत नहीं किया जा सकता।</string>
+    <string name="bin_delete_forever">हमेशा के लिए हटाएँ</string>
+    <string name="bin_moved">बिन में ले जाया गया</string>
+    <string name="bin_restored">%1$d आइटम रीस्टोर किए गए</string>
+    <string name="bin_emptied">बिन खाली किया गया</string>
+    <string name="bin_failed">कुछ गड़बड़ हो गई। कृपया फिर से कोशिश करें।</string>
+    <string name="delete_photo_title">यह फ़ोटो हटाएँ?</string>
+    <string name="delete_video_title">यह वीडियो हटाएँ?</string>
+    <string name="delete_body">यह 30 दिन तक बिन में रहेगा, फिर स्थायी रूप से हटा दिया जाएगा।</string>
+    <string name="delete_move_to_bin">बिन में ले जाएँ</string>
 </resources>

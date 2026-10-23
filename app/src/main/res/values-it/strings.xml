@@ -175,4 +175,22 @@
     <string name="viewer_prev">Precedente</string>
     <string name="viewer_next">Successivo</string>
     <string name="viewer_play">Riproduci video</string>
+    <string name="bin_title">Cestino</string>
+    <string name="bin_summary">%1$d elementi · eliminati definitivamente dopo 30 giorni</string>
+    <string name="bin_restore_all">Ripristina tutto</string>
+    <string name="bin_empty_action">Svuota cestino</string>
+    <string name="bin_empty_title">Il cestino è vuoto</string>
+    <string name="bin_empty_desc">Gli elementi eliminati restano qui per 30 giorni.</string>
+    <string name="bin_days_left">%1$dg</string>
+    <string name="bin_empty_dialog_title">Svuotare il cestino?</string>
+    <string name="bin_empty_dialog_body">%1$d elementi verranno eliminati definitivamente. Non è possibile annullare.</string>
+    <string name="bin_delete_forever">Elimina definitivamente</string>
+    <string name="bin_moved">Spostato nel cestino</string>
+    <string name="bin_restored">%1$d elementi ripristinati</string>
+    <string name="bin_emptied">Cestino svuotato</string>
+    <string name="bin_failed">Qualcosa è andato storto. Riprova.</string>
+    <string name="delete_photo_title">Eliminare questa foto?</string>
+    <string name="delete_video_title">Eliminare questo video?</string>
+    <string name="delete_body">Resta nel cestino per 30 giorni, poi viene eliminato definitivamente.</string>
+    <string name="delete_move_to_bin">Sposta nel cestino</string>
 </resources>

@@ -172,4 +172,22 @@
     <string name="viewer_prev">Προηγούμενο</string>
     <string name="viewer_next">Επόμενο</string>
     <string name="viewer_play">Αναπαραγωγή βίντεο</string>
+    <string name="bin_title">Κάδος</string>
+    <string name="bin_summary">%1$d στοιχεία · διαγράφονται οριστικά μετά από 30 ημέρες</string>
+    <string name="bin_restore_all">Επαναφορά όλων</string>
+    <string name="bin_empty_action">Άδειασμα κάδου</string>
+    <string name="bin_empty_title">Ο κάδος είναι άδειος</string>
+    <string name="bin_empty_desc">Τα διαγραμμένα στοιχεία μένουν εδώ για 30 ημέρες.</string>
+    <string name="bin_days_left">%1$dμ</string>
+    <string name="bin_empty_dialog_title">Άδειασμα κάδου;</string>
+    <string name="bin_empty_dialog_body">%1$d στοιχεία θα διαγραφούν οριστικά. Δεν είναι δυνατή η αναίρεση.</string>
+    <string name="bin_delete_forever">Οριστική διαγραφή</string>
+    <string name="bin_moved">Μετακινήθηκε στον κάδο</string>
+    <string name="bin_restored">Επαναφέρθηκαν %1$d στοιχεία</string>
+    <string name="bin_emptied">Ο κάδος άδειασε</string>
+    <string name="bin_failed">Κάτι πήγε στραβά. Δοκιμάστε ξανά.</string>
+    <string name="delete_photo_title">Διαγραφή αυτής της φωτογραφίας;</string>
+    <string name="delete_video_title">Διαγραφή αυτού του βίντεο;</string>
+    <string name="delete_body">Παραμένει στον κάδο για 30 ημέρες και μετά διαγράφεται οριστικά.</string>
+    <string name="delete_move_to_bin">Μετακίνηση στον κάδο</string>
 </resources>

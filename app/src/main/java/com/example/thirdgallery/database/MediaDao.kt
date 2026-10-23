@@ -166,4 +166,7 @@ interface MediaDao {
 
     @Query("DELETE FROM media WHERE uid = :uid")
     fun deleteByUid(uid: Long)
+
+    @Query("DELETE FROM media WHERE uid IN (:uids)")
+    fun deleteByUids(uids: List<Long>)
 }

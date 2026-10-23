@@ -175,4 +175,22 @@
     <string name="viewer_prev">Précédent</string>
     <string name="viewer_next">Suivant</string>
     <string name="viewer_play">Lire la vidéo</string>
+    <string name="bin_title">Corbeille</string>
+    <string name="bin_summary">%1$d éléments · supprimés définitivement après 30 jours</string>
+    <string name="bin_restore_all">Tout restaurer</string>
+    <string name="bin_empty_action">Vider la corbeille</string>
+    <string name="bin_empty_title">La corbeille est vide</string>
+    <string name="bin_empty_desc">Les éléments supprimés restent ici 30 jours.</string>
+    <string name="bin_days_left">%1$d j</string>
+    <string name="bin_empty_dialog_title">Vider la corbeille ?</string>
+    <string name="bin_empty_dialog_body">%1$d éléments seront supprimés définitivement. Cette action est irréversible.</string>
+    <string name="bin_delete_forever">Supprimer définitivement</string>
+    <string name="bin_moved">Déplacé dans la corbeille</string>
+    <string name="bin_restored">%1$d éléments restaurés</string>
+    <string name="bin_emptied">Corbeille vidée</string>
+    <string name="bin_failed">Une erreur s’est produite. Veuillez réessayer.</string>
+    <string name="delete_photo_title">Supprimer cette photo ?</string>
+    <string name="delete_video_title">Supprimer cette vidéo ?</string>
+    <string name="delete_body">Elle reste 30 jours dans la corbeille, puis elle est supprimée définitivement.</string>
+    <string name="delete_move_to_bin">Mettre à la corbeille</string>
 </resources>

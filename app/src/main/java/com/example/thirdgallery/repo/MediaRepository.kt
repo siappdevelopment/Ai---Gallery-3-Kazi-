@@ -182,6 +182,12 @@ class MediaRepository(context: Context) {
 
     fun removeLocal(uid: Long) = dao.deleteByUid(uid)
 
+    /** Drops many items from the index in one transaction (chunked below SQLite's variable limit). */
+    fun removeLocalAll(uids: List<Long>) {
+        if (uids.isEmpty()) return
+        database.runInTransaction(Runnable { uids.chunked(REMOVE_CHUNK).forEach { dao.deleteByUids(it) } })
+    }
+
     /** Forgets the indexed media (used when the photo permission is gone). */
     fun clearAsync() {
         ioExecutor.execute {
@@ -331,6 +337,7 @@ class MediaRepository(context: Context) {
 
     private companion object {
         const val PAGE_SIZE = 120
+        const val REMOVE_CHUNK = 500
         const val BATCH_SIZE = 1000
         const val SCREENSHOT_LIKE = "%screenshot%"
         const val JOURNAL_PAGE_SIZE = 8

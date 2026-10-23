@@ -11,6 +11,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.ConcatAdapter
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.thirdgallery.activity.AlbumDetailActivity
+import com.example.thirdgallery.activity.TrashActivity
 import com.example.thirdgallery.adapter.AlbumCardAdapter
 import com.example.thirdgallery.adapter.AlbumsHeaderAdapter
 import com.example.thirdgallery.R
@@ -71,6 +72,16 @@ class AlbumFragment : Fragment() {
         val cardAdapter = AlbumCardAdapter { openAlbum(it) }
         val smartAdapter = SmartCollectionsAdapter(
             onOpen = { kind, title -> open(kind, 0L, title) },
+            onOpenBin = {
+                val ctx = context
+                if (ctx != null) {
+                    if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.R) {
+                        startActivity(TrashActivity.intent(ctx))
+                    } else {
+                        android.widget.Toast.makeText(ctx.applicationContext, R.string.viewer_unsupported, android.widget.Toast.LENGTH_SHORT).show()
+                    }
+                }
+            },
             onUnavailable = {
                 context?.applicationContext?.let {
                     android.widget.Toast.makeText(it, R.string.albums_coming_soon, android.widget.Toast.LENGTH_SHORT).show()

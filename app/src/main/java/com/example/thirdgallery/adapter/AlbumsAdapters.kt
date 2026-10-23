@@ -171,6 +171,7 @@ class AlbumCardAdapter(
 class SmartCollectionsAdapter(
     private val onOpen: (AlbumKind, String) -> Unit,
     private val onUnavailable: () -> Unit,
+    private val onOpenBin: () -> Unit,
 ) : RecyclerView.Adapter<SmartCollectionsAdapter.ViewHolder>() {
 
     private var counts = IntArray(4)
@@ -217,6 +218,7 @@ class SmartCollectionsAdapter(
                 row.tvLabel.setText(label)
                 row.root.setOnClickListener { onUnavailable() }
             }
+            binding.rowBin.root.setOnClickListener { onOpenBin() }
             binding.rowVault.tvCount.setText(R.string.albums_vault_setup)
             binding.rowHidden.tvCount.visibility = View.GONE
             binding.rowBin.tvCount.visibility = View.GONE

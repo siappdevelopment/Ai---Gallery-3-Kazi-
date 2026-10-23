@@ -175,4 +175,22 @@
     <string name="viewer_prev">Anterior</string>
     <string name="viewer_next">Seguinte</string>
     <string name="viewer_play">Reproduzir vídeo</string>
+    <string name="bin_title">Reciclagem</string>
+    <string name="bin_summary">%1$d itens · eliminados definitivamente após 30 dias</string>
+    <string name="bin_restore_all">Restaurar tudo</string>
+    <string name="bin_empty_action">Esvaziar reciclagem</string>
+    <string name="bin_empty_title">A reciclagem está vazia</string>
+    <string name="bin_empty_desc">Os itens eliminados ficam aqui durante 30 dias.</string>
+    <string name="bin_days_left">%1$dd</string>
+    <string name="bin_empty_dialog_title">Esvaziar a reciclagem?</string>
+    <string name="bin_empty_dialog_body">%1$d itens serão eliminados definitivamente. Esta ação não pode ser anulada.</string>
+    <string name="bin_delete_forever">Eliminar para sempre</string>
+    <string name="bin_moved">Movido para a reciclagem</string>
+    <string name="bin_restored">%1$d itens restaurados</string>
+    <string name="bin_emptied">Reciclagem esvaziada</string>
+    <string name="bin_failed">Algo correu mal. Tente novamente.</string>
+    <string name="delete_photo_title">Eliminar esta foto?</string>
+    <string name="delete_video_title">Eliminar este vídeo?</string>
+    <string name="delete_body">Fica na reciclagem durante 30 dias e depois é eliminado definitivamente.</string>
+    <string name="delete_move_to_bin">Mover para a reciclagem</string>
 </resources>

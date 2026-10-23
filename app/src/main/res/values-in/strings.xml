@@ -169,4 +169,22 @@
     <string name="viewer_prev">Sebelumnya</string>
     <string name="viewer_next">Berikutnya</string>
     <string name="viewer_play">Putar video</string>
+    <string name="bin_title">Sampah</string>
+    <string name="bin_summary">%1$d item · dihapus permanen setelah 30 hari</string>
+    <string name="bin_restore_all">Pulihkan semua</string>
+    <string name="bin_empty_action">Kosongkan Sampah</string>
+    <string name="bin_empty_title">Sampah kosong</string>
+    <string name="bin_empty_desc">Item yang dihapus tetap di sini selama 30 hari.</string>
+    <string name="bin_days_left">%1$dh</string>
+    <string name="bin_empty_dialog_title">Kosongkan Sampah?</string>
+    <string name="bin_empty_dialog_body">%1$d item akan dihapus permanen. Tindakan ini tidak dapat dibatalkan.</string>
+    <string name="bin_delete_forever">Hapus selamanya</string>
+    <string name="bin_moved">Dipindahkan ke Sampah</string>
+    <string name="bin_restored">%1$d item dipulihkan</string>
+    <string name="bin_emptied">Sampah dikosongkan</string>
+    <string name="bin_failed">Terjadi kesalahan. Silakan coba lagi.</string>
+    <string name="delete_photo_title">Hapus foto ini?</string>
+    <string name="delete_video_title">Hapus video ini?</string>
+    <string name="delete_body">Item tetap di Sampah selama 30 hari, lalu dihapus permanen.</string>
+    <string name="delete_move_to_bin">Pindahkan ke Sampah</string>
 </resources>

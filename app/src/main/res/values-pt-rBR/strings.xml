@@ -175,4 +175,22 @@
     <string name="viewer_prev">Anterior</string>
     <string name="viewer_next">Próximo</string>
     <string name="viewer_play">Reproduzir vídeo</string>
+    <string name="bin_title">Lixeira</string>
+    <string name="bin_summary">%1$d itens · excluídos permanentemente após 30 dias</string>
+    <string name="bin_restore_all">Restaurar tudo</string>
+    <string name="bin_empty_action">Esvaziar lixeira</string>
+    <string name="bin_empty_title">A lixeira está vazia</string>
+    <string name="bin_empty_desc">Os itens excluídos ficam aqui por 30 dias.</string>
+    <string name="bin_days_left">%1$dd</string>
+    <string name="bin_empty_dialog_title">Esvaziar a lixeira?</string>
+    <string name="bin_empty_dialog_body">%1$d itens serão excluídos permanentemente. Isso não pode ser desfeito.</string>
+    <string name="bin_delete_forever">Excluir para sempre</string>
+    <string name="bin_moved">Movido para a lixeira</string>
+    <string name="bin_restored">%1$d itens restaurados</string>
+    <string name="bin_emptied">Lixeira esvaziada</string>
+    <string name="bin_failed">Algo deu errado. Tente novamente.</string>
+    <string name="delete_photo_title">Excluir esta foto?</string>
+    <string name="delete_video_title">Excluir este vídeo?</string>
+    <string name="delete_body">Fica na lixeira por 30 dias e depois é excluído permanentemente.</string>
+    <string name="delete_move_to_bin">Mover para a lixeira</string>
 </resources>

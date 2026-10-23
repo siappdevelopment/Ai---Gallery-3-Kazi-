@@ -169,4 +169,22 @@
     <string name="viewer_prev">ก่อนหน้า</string>
     <string name="viewer_next">ถัดไป</string>
     <string name="viewer_play">เล่นวิดีโอ</string>
+    <string name="bin_title">ถังขยะ</string>
+    <string name="bin_summary">%1$d รายการ · ลบถาวรหลัง 30 วัน</string>
+    <string name="bin_restore_all">กู้คืนทั้งหมด</string>
+    <string name="bin_empty_action">ล้างถังขยะ</string>
+    <string name="bin_empty_title">ถังขยะว่างเปล่า</string>
+    <string name="bin_empty_desc">รายการที่ลบจะอยู่ที่นี่ 30 วัน</string>
+    <string name="bin_days_left">%1$d วัน</string>
+    <string name="bin_empty_dialog_title">ล้างถังขยะ?</string>
+    <string name="bin_empty_dialog_body">%1$d รายการจะถูกลบถาวร ไม่สามารถยกเลิกได้</string>
+    <string name="bin_delete_forever">ลบถาวร</string>
+    <string name="bin_moved">ย้ายไปที่ถังขยะแล้ว</string>
+    <string name="bin_restored">กู้คืน %1$d รายการแล้ว</string>
+    <string name="bin_emptied">ล้างถังขยะแล้ว</string>
+    <string name="bin_failed">เกิดข้อผิดพลาด โปรดลองอีกครั้ง</string>
+    <string name="delete_photo_title">ลบรูปภาพนี้?</string>
+    <string name="delete_video_title">ลบวิดีโอนี้?</string>
+    <string name="delete_body">จะอยู่ในถังขยะ 30 วัน แล้วลบถาวร</string>
+    <string name="delete_move_to_bin">ย้ายไปถังขยะ</string>
 </resources>

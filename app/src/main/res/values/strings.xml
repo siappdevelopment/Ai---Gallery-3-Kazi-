@@ -178,4 +178,22 @@
     <string name="viewer_prev">Previous</string>
     <string name="viewer_next">Next</string>
     <string name="viewer_play">Play video</string>
+    <string name="bin_title">Bin</string>
+    <string name="bin_summary">%1$d items · deleted permanently after 30 days</string>
+    <string name="bin_restore_all">Restore all</string>
+    <string name="bin_empty_action">Empty Bin</string>
+    <string name="bin_empty_title">Bin is empty</string>
+    <string name="bin_empty_desc">Deleted items stay here for 30 days.</string>
+    <string name="bin_days_left">%1$dd</string>
+    <string name="bin_empty_dialog_title">Empty Bin?</string>
+    <string name="bin_empty_dialog_body">%1$d items will be deleted permanently. This can’t be undone.</string>
+    <string name="bin_delete_forever">Delete forever</string>
+    <string name="bin_moved">Moved to Bin</string>
+    <string name="bin_restored">%1$d items restored</string>
+    <string name="bin_emptied">Bin emptied</string>
+    <string name="bin_failed">Something went wrong. Please try again.</string>
+    <string name="delete_photo_title">Delete this photo?</string>
+    <string name="delete_video_title">Delete this video?</string>
+    <string name="delete_body">It stays in Bin for 30 days, then it’s deleted permanently.</string>
+    <string name="delete_move_to_bin">Move to Bin</string>
 </resources>

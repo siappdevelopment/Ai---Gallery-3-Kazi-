@@ -172,4 +172,22 @@
     <string name="viewer_prev">Zurück</string>
     <string name="viewer_next">Weiter</string>
     <string name="viewer_play">Video abspielen</string>
+    <string name="bin_title">Papierkorb</string>
+    <string name="bin_summary">%1$d Elemente · nach 30 Tagen endgültig gelöscht</string>
+    <string name="bin_restore_all">Alle wiederherstellen</string>
+    <string name="bin_empty_action">Papierkorb leeren</string>
+    <string name="bin_empty_title">Papierkorb ist leer</string>
+    <string name="bin_empty_desc">Gelöschte Elemente bleiben hier 30 Tage.</string>
+    <string name="bin_days_left">%1$d T.</string>
+    <string name="bin_empty_dialog_title">Papierkorb leeren?</string>
+    <string name="bin_empty_dialog_body">%1$d Elemente werden endgültig gelöscht. Das kann nicht rückgängig gemacht werden.</string>
+    <string name="bin_delete_forever">Endgültig löschen</string>
+    <string name="bin_moved">In den Papierkorb verschoben</string>
+    <string name="bin_restored">%1$d Elemente wiederhergestellt</string>
+    <string name="bin_emptied">Papierkorb geleert</string>
+    <string name="bin_failed">Etwas ist schiefgelaufen. Bitte versuche es erneut.</string>
+    <string name="delete_photo_title">Dieses Foto löschen?</string>
+    <string name="delete_video_title">Dieses Video löschen?</string>
+    <string name="delete_body">Es bleibt 30 Tage im Papierkorb und wird dann endgültig gelöscht.</string>
+    <string name="delete_move_to_bin">In den Papierkorb</string>
 </resources>

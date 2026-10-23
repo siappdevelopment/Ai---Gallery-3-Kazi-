@@ -169,4 +169,22 @@
     <string name="viewer_prev">上一个</string>
     <string name="viewer_next">下一个</string>
     <string name="viewer_play">播放视频</string>
+    <string name="bin_title">回收站</string>
+    <string name="bin_summary">%1$d 项 · 30 天后永久删除</string>
+    <string name="bin_restore_all">全部恢复</string>
+    <string name="bin_empty_action">清空回收站</string>
+    <string name="bin_empty_title">回收站是空的</string>
+    <string name="bin_empty_desc">已删除的项目会在此保留 30 天。</string>
+    <string name="bin_days_left">%1$d天</string>
+    <string name="bin_empty_dialog_title">清空回收站？</string>
+    <string name="bin_empty_dialog_body">%1$d 项将被永久删除，此操作无法撤销。</string>
+    <string name="bin_delete_forever">永久删除</string>
+    <string name="bin_moved">已移至回收站</string>
+    <string name="bin_restored">已恢复 %1$d 项</string>
+    <string name="bin_emptied">回收站已清空</string>
+    <string name="bin_failed">出了点问题，请重试。</string>
+    <string name="delete_photo_title">删除这张照片？</string>
+    <string name="delete_video_title">删除这个视频？</string>
+    <string name="delete_body">它会在回收站保留 30 天，之后将被永久删除。</string>
+    <string name="delete_move_to_bin">移至回收站</string>
 </resources>

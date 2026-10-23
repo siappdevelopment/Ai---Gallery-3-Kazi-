@@ -27,6 +27,9 @@ import android.content.res.ColorStateList
 import com.example.thirdgallery.R
 import com.example.thirdgallery.adapter.ViewerPagerAdapter
 import com.example.thirdgallery.database.MediaEntity
+import com.example.thirdgallery.database.MediaTypes
+import com.example.thirdgallery.fragment.ConfirmDialogFragment
+import com.example.thirdgallery.repo.MediaRepository
 import com.example.thirdgallery.databinding.ActivityFullScreenMediaBinding
 import com.example.thirdgallery.helper.MediaFormat
 import com.example.thirdgallery.helper.MediaUris
@@ -60,7 +63,10 @@ class FullScreenMediaActivity : AppCompatActivity() {
         registerForActivityResult(ActivityResultContracts.StartIntentSenderForResult()) { result ->
             val action = pendingAction
             pendingAction = null
-            if (result.resultCode == RESULT_OK) action?.invoke()
+            if (result.resultCode == RESULT_OK) {
+                // After a recreation the follow-up is gone; re-reading the index brings it back in line.
+                if (action != null) action() else MediaRepository(applicationContext).sync(true) { }
+            }
         }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -123,6 +129,10 @@ class FullScreenMediaActivity : AppCompatActivity() {
         b.actionShare.setOnClickListener { share() }
         b.actionFavorite.setOnClickListener { toggleFavorite() }
         b.actionDelete.setOnClickListener { delete() }
+
+        supportFragmentManager.setFragmentResultListener(KEY_DELETE, this) { _, result ->
+            if (result.getBoolean(ConfirmDialogFragment.RESULT_CONFIRMED)) moveToBin()
+        }
 
         viewModel.uids.observe(this) { list -> onList(list.orEmpty()) }
         viewModel.current.observe(this) { render(it) }
@@ -218,15 +228,31 @@ class FullScreenMediaActivity : AppCompatActivity() {
         }
     }
 
+    /** Delete photo dialog (design 85); the system trash is Android 11+. */
     private fun delete() {
         val media = current() ?: return
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.R) {
             Toast.makeText(applicationContext, R.string.viewer_unsupported, Toast.LENGTH_SHORT).show()
             return
         }
+        val isVideo = media.mediaType == MediaTypes.VIDEO
+        ConfirmDialogFragment.show(
+            supportFragmentManager,
+            KEY_DELETE,
+            R.drawable.ic_delete,
+            getString(if (isVideo) R.string.delete_video_title else R.string.delete_photo_title),
+            getString(R.string.delete_body),
+            getString(R.string.delete_move_to_bin),
+        )
+    }
+
+    /** The user confirmed: ask the system to move the item to the Bin, then drop it from the gallery. */
+    private fun moveToBin() {
+        val media = current() ?: return
         val uri = MediaUris.of(media.mediaId, media.mediaType)
-        launchRequest(MediaStore.createDeleteRequest(contentResolver, listOf(uri))) {
+        launchRequest(MediaStore.createTrashRequest(contentResolver, listOf(uri), true)) {
             viewModel.remove(media.uid)
+            Toast.makeText(applicationContext, R.string.bin_moved, Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -254,6 +280,7 @@ class FullScreenMediaActivity : AppCompatActivity() {
 
     companion object {
         private const val KEY_CHROME = "chrome_visible"
+        private const val KEY_DELETE = "delete_media"
 
         /**
          * Opens [uid] inside the list it was tapped in: a device folder / smart collection / app album

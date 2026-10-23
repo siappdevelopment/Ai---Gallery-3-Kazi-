@@ -178,4 +178,22 @@
     <string name="viewer_prev">Назад</string>
     <string name="viewer_next">Далее</string>
     <string name="viewer_play">Воспроизвести видео</string>
+    <string name="bin_title">Корзина</string>
+    <string name="bin_summary">%1$d элементов · будут удалены навсегда через 30 дней</string>
+    <string name="bin_restore_all">Восстановить все</string>
+    <string name="bin_empty_action">Очистить корзину</string>
+    <string name="bin_empty_title">Корзина пуста</string>
+    <string name="bin_empty_desc">Удалённые элементы хранятся здесь 30 дней.</string>
+    <string name="bin_days_left">%1$d д.</string>
+    <string name="bin_empty_dialog_title">Очистить корзину?</string>
+    <string name="bin_empty_dialog_body">%1$d элементов будут удалены навсегда. Это действие нельзя отменить.</string>
+    <string name="bin_delete_forever">Удалить навсегда</string>
+    <string name="bin_moved">Перемещено в корзину</string>
+    <string name="bin_restored">Восстановлено элементов: %1$d</string>
+    <string name="bin_emptied">Корзина очищена</string>
+    <string name="bin_failed">Что-то пошло не так. Повторите попытку.</string>
+    <string name="delete_photo_title">Удалить это фото?</string>
+    <string name="delete_video_title">Удалить это видео?</string>
+    <string name="delete_body">Оно будет храниться в корзине 30 дней, затем удалится навсегда.</string>
+    <string name="delete_move_to_bin">В корзину</string>
 </resources>

@@ -175,4 +175,22 @@
     <string name="viewer_prev">Anterior</string>
     <string name="viewer_next">Siguiente</string>
     <string name="viewer_play">Reproducir vídeo</string>
+    <string name="bin_title">Papelera</string>
+    <string name="bin_summary">%1$d elementos · se eliminan definitivamente tras 30 días</string>
+    <string name="bin_restore_all">Restaurar todo</string>
+    <string name="bin_empty_action">Vaciar papelera</string>
+    <string name="bin_empty_title">La papelera está vacía</string>
+    <string name="bin_empty_desc">Los elementos eliminados permanecen aquí 30 días.</string>
+    <string name="bin_days_left">%1$dd</string>
+    <string name="bin_empty_dialog_title">¿Vaciar la papelera?</string>
+    <string name="bin_empty_dialog_body">Se eliminarán definitivamente %1$d elementos. Esta acción no se puede deshacer.</string>
+    <string name="bin_delete_forever">Eliminar para siempre</string>
+    <string name="bin_moved">Movido a la papelera</string>
+    <string name="bin_restored">%1$d elementos restaurados</string>
+    <string name="bin_emptied">Papelera vaciada</string>
+    <string name="bin_failed">Algo salió mal. Inténtalo de nuevo.</string>
+    <string name="delete_photo_title">¿Eliminar esta foto?</string>
+    <string name="delete_video_title">¿Eliminar este vídeo?</string>
+    <string name="delete_body">Permanece en la papelera 30 días y después se elimina definitivamente.</string>
+    <string name="delete_move_to_bin">Mover a la papelera</string>
 </resources>

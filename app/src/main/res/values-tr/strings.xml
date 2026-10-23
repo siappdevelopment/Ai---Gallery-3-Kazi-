@@ -172,4 +172,22 @@
     <string name="viewer_prev">Önceki</string>
     <string name="viewer_next">Sonraki</string>
     <string name="viewer_play">Videoyu oynat</string>
+    <string name="bin_title">Çöp kutusu</string>
+    <string name="bin_summary">%1$d öğe · 30 gün sonra kalıcı olarak silinir</string>
+    <string name="bin_restore_all">Tümünü geri yükle</string>
+    <string name="bin_empty_action">Çöp kutusunu boşalt</string>
+    <string name="bin_empty_title">Çöp kutusu boş</string>
+    <string name="bin_empty_desc">Silinen öğeler burada 30 gün kalır.</string>
+    <string name="bin_days_left">%1$dg</string>
+    <string name="bin_empty_dialog_title">Çöp kutusu boşaltılsın mı?</string>
+    <string name="bin_empty_dialog_body">%1$d öğe kalıcı olarak silinecek. Bu işlem geri alınamaz.</string>
+    <string name="bin_delete_forever">Kalıcı olarak sil</string>
+    <string name="bin_moved">Çöp kutusuna taşındı</string>
+    <string name="bin_restored">%1$d öğe geri yüklendi</string>
+    <string name="bin_emptied">Çöp kutusu boşaltıldı</string>
+    <string name="bin_failed">Bir hata oluştu. Lütfen tekrar deneyin.</string>
+    <string name="delete_photo_title">Bu fotoğraf silinsin mi?</string>
+    <string name="delete_video_title">Bu video silinsin mi?</string>
+    <string name="delete_body">30 gün çöp kutusunda kalır, sonra kalıcı olarak silinir.</string>
+    <string name="delete_move_to_bin">Çöp kutusuna taşı</string>
 </resources>

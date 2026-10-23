@@ -169,4 +169,22 @@
     <string name="viewer_prev">이전</string>
     <string name="viewer_next">다음</string>
     <string name="viewer_play">동영상 재생</string>
+    <string name="bin_title">휴지통</string>
+    <string name="bin_summary">항목 %1$d개 · 30일 후 영구 삭제됩니다</string>
+    <string name="bin_restore_all">모두 복원</string>
+    <string name="bin_empty_action">휴지통 비우기</string>
+    <string name="bin_empty_title">휴지통이 비어 있습니다</string>
+    <string name="bin_empty_desc">삭제한 항목은 30일 동안 여기에 보관됩니다.</string>
+    <string name="bin_days_left">%1$d일</string>
+    <string name="bin_empty_dialog_title">휴지통을 비울까요?</string>
+    <string name="bin_empty_dialog_body">항목 %1$d개가 영구적으로 삭제됩니다. 이 작업은 되돌릴 수 없습니다.</string>
+    <string name="bin_delete_forever">영구 삭제</string>
+    <string name="bin_moved">휴지통으로 이동했습니다</string>
+    <string name="bin_restored">항목 %1$d개를 복원했습니다</string>
+    <string name="bin_emptied">휴지통을 비웠습니다</string>
+    <string name="bin_failed">문제가 발생했습니다. 다시 시도해 주세요.</string>
+    <string name="delete_photo_title">이 사진을 삭제할까요?</string>
+    <string name="delete_video_title">이 동영상을 삭제할까요?</string>
+    <string name="delete_body">30일 동안 휴지통에 보관된 후 영구적으로 삭제됩니다.</string>
+    <string name="delete_move_to_bin">휴지통으로 이동</string>
 </resources>

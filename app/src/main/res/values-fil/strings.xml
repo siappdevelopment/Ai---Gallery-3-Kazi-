@@ -172,4 +172,22 @@
     <string name="viewer_prev">Nakaraan</string>
     <string name="viewer_next">Susunod</string>
     <string name="viewer_play">I-play ang video</string>
+    <string name="bin_title">Bin</string>
+    <string name="bin_summary">%1$d item · permanenteng made-delete pagkatapos ng 30 araw</string>
+    <string name="bin_restore_all">Ibalik lahat</string>
+    <string name="bin_empty_action">Alisin ang laman ng Bin</string>
+    <string name="bin_empty_title">Walang laman ang Bin</string>
+    <string name="bin_empty_desc">Nananatili rito ang mga na-delete na item sa loob ng 30 araw.</string>
+    <string name="bin_days_left">%1$dd</string>
+    <string name="bin_empty_dialog_title">Alisin ang laman ng Bin?</string>
+    <string name="bin_empty_dialog_body">Permanenteng made-delete ang %1$d item. Hindi na ito maibabalik.</string>
+    <string name="bin_delete_forever">Burahin nang tuluyan</string>
+    <string name="bin_moved">Inilipat sa Bin</string>
+    <string name="bin_restored">Naibalik ang %1$d item</string>
+    <string name="bin_emptied">Walang laman na ang Bin</string>
+    <string name="bin_failed">May nagkamali. Subukan ulit.</string>
+    <string name="delete_photo_title">Burahin ang larawang ito?</string>
+    <string name="delete_video_title">Burahin ang video na ito?</string>
+    <string name="delete_body">Mananatili ito sa Bin sa loob ng 30 araw, saka permanenteng made-delete.</string>
+    <string name="delete_move_to_bin">Ilipat sa Bin</string>
 </resources>

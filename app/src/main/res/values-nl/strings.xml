@@ -172,4 +172,22 @@
     <string name="viewer_prev">Vorige</string>
     <string name="viewer_next">Volgende</string>
     <string name="viewer_play">Video afspelen</string>
+    <string name="bin_title">Prullenbak</string>
+    <string name="bin_summary">%1$d items · na 30 dagen definitief verwijderd</string>
+    <string name="bin_restore_all">Alles herstellen</string>
+    <string name="bin_empty_action">Prullenbak legen</string>
+    <string name="bin_empty_title">Prullenbak is leeg</string>
+    <string name="bin_empty_desc">Verwijderde items blijven hier 30 dagen.</string>
+    <string name="bin_days_left">%1$dd</string>
+    <string name="bin_empty_dialog_title">Prullenbak legen?</string>
+    <string name="bin_empty_dialog_body">%1$d items worden definitief verwijderd. Dit kan niet ongedaan worden gemaakt.</string>
+    <string name="bin_delete_forever">Definitief verwijderen</string>
+    <string name="bin_moved">Naar prullenbak verplaatst</string>
+    <string name="bin_restored">%1$d items hersteld</string>
+    <string name="bin_emptied">Prullenbak geleegd</string>
+    <string name="bin_failed">Er is iets misgegaan. Probeer het opnieuw.</string>
+    <string name="delete_photo_title">Deze foto verwijderen?</string>
+    <string name="delete_video_title">Deze video verwijderen?</string>
+    <string name="delete_body">Blijft 30 dagen in de prullenbak en wordt daarna definitief verwijderd.</string>
+    <string name="delete_move_to_bin">Naar prullenbak</string>
 </resources>
