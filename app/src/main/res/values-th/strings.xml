@@ -207,4 +207,19 @@
     <string name="details_size">ขนาด</string>
     <string name="details_camera">กล้อง</string>
     <string name="details_location">สถานที่</string>
+    <string name="viewer_more_options">ตัวเลือกเพิ่มเติม</string>
+    <string name="viewer_move_to_album">ย้ายไปอัลบั้ม</string>
+    <string name="viewer_copy_to_album">คัดลอกไปอัลบั้ม</string>
+    <string name="viewer_rename">เปลี่ยนชื่อ</string>
+    <string name="viewer_wallpaper">ตั้งเป็นวอลเปเปอร์</string>
+    <string name="viewer_move_to_vault">ย้ายไปห้องนิรภัย</string>
+    <string name="viewer_copied_to">คัดลอกไปที่ “%1$s” แล้ว</string>
+    <string name="viewer_rename_hint">ชื่อไฟล์</string>
+    <string name="viewer_save">บันทึก</string>
+    <string name="viewer_renamed">เปลี่ยนชื่อแล้ว</string>
+    <string name="viewer_rename_empty">ป้อนชื่อ</string>
+    <string name="viewer_rename_invalid">ชื่อมีอักขระที่ไม่อนุญาต</string>
+    <string name="viewer_rename_exists">มีไฟล์ชื่อนี้อยู่แล้ว</string>
+    <string name="viewer_rename_failed">ไม่สามารถเปลี่ยนชื่อไฟล์นี้ได้</string>
+    <string name="viewer_wallpaper_photos_only">ตั้งเป็นวอลเปเปอร์ได้เฉพาะรูปภาพ</string>
 </resources>

@@ -210,4 +210,19 @@
     <string name="details_size">Grootte</string>
     <string name="details_camera">Kamera</string>
     <string name="details_location">Ligging</string>
+    <string name="viewer_more_options">Meer opsies</string>
+    <string name="viewer_move_to_album">Skuif na album</string>
+    <string name="viewer_copy_to_album">Kopieer na album</string>
+    <string name="viewer_rename">Hernoem</string>
+    <string name="viewer_wallpaper">Stel as muurpapier</string>
+    <string name="viewer_move_to_vault">Skuif na kluis</string>
+    <string name="viewer_copied_to">Gekopieer na %1$s</string>
+    <string name="viewer_rename_hint">Lêernaam</string>
+    <string name="viewer_save">Stoor</string>
+    <string name="viewer_renamed">Hernoem</string>
+    <string name="viewer_rename_empty">Voer ’n naam in</string>
+    <string name="viewer_rename_invalid">Die naam bevat karakters wat nie toegelaat word nie</string>
+    <string name="viewer_rename_exists">’n Lêer met hierdie naam bestaan reeds</string>
+    <string name="viewer_rename_failed">Kon nie hierdie lêer hernoem nie</string>
+    <string name="viewer_wallpaper_photos_only">Net foto’s kan as muurpapier gestel word</string>
 </resources>

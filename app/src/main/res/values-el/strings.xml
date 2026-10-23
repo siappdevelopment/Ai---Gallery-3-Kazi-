@@ -210,4 +210,19 @@
     <string name="details_size">Μέγεθος</string>
     <string name="details_camera">Κάμερα</string>
     <string name="details_location">Τοποθεσία</string>
+    <string name="viewer_more_options">Περισσότερες επιλογές</string>
+    <string name="viewer_move_to_album">Μετακίνηση σε άλμπουμ</string>
+    <string name="viewer_copy_to_album">Αντιγραφή σε άλμπουμ</string>
+    <string name="viewer_rename">Μετονομασία</string>
+    <string name="viewer_wallpaper">Ορισμός ως ταπετσαρία</string>
+    <string name="viewer_move_to_vault">Μετακίνηση στο θησαυροφυλάκιο</string>
+    <string name="viewer_copied_to">Αντιγράφηκε στο %1$s</string>
+    <string name="viewer_rename_hint">Όνομα αρχείου</string>
+    <string name="viewer_save">Αποθήκευση</string>
+    <string name="viewer_renamed">Μετονομάστηκε</string>
+    <string name="viewer_rename_empty">Εισαγάγετε όνομα</string>
+    <string name="viewer_rename_invalid">Το όνομα περιέχει μη επιτρεπτούς χαρακτήρες</string>
+    <string name="viewer_rename_exists">Υπάρχει ήδη αρχείο με αυτό το όνομα</string>
+    <string name="viewer_rename_failed">Δεν ήταν δυνατή η μετονομασία του αρχείου</string>
+    <string name="viewer_wallpaper_photos_only">Μόνο φωτογραφίες μπορούν να οριστούν ως ταπετσαρία</string>
 </resources>

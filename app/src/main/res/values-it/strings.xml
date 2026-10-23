@@ -213,4 +213,19 @@
     <string name="details_size">Dimensioni</string>
     <string name="details_camera">Fotocamera</string>
     <string name="details_location">Posizione</string>
+    <string name="viewer_more_options">Altre opzioni</string>
+    <string name="viewer_move_to_album">Sposta in album</string>
+    <string name="viewer_copy_to_album">Copia in album</string>
+    <string name="viewer_rename">Rinomina</string>
+    <string name="viewer_wallpaper">Imposta come sfondo</string>
+    <string name="viewer_move_to_vault">Sposta nella cassaforte</string>
+    <string name="viewer_copied_to">Copiato in %1$s</string>
+    <string name="viewer_rename_hint">Nome file</string>
+    <string name="viewer_save">Salva</string>
+    <string name="viewer_renamed">Rinominato</string>
+    <string name="viewer_rename_empty">Inserisci un nome</string>
+    <string name="viewer_rename_invalid">Il nome contiene caratteri non consentiti</string>
+    <string name="viewer_rename_exists">Esiste già un file con questo nome</string>
+    <string name="viewer_rename_failed">Impossibile rinominare il file</string>
+    <string name="viewer_wallpaper_photos_only">Solo le foto possono essere impostate come sfondo</string>
 </resources>

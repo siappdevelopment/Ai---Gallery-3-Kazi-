@@ -64,6 +64,13 @@ object MediaDetailsReader {
         return rows
     }
 
+    /** The current file name (with extension), or null when it cannot be read. Blocking. */
+    fun fileName(context: Context, media: MediaEntity): String? = try {
+        queryFile(context, media)?.name?.takeIf { it.isNotBlank() }
+    } catch (e: SecurityException) {
+        null
+    }
+
     private class FileInfo(val name: String, val path: String, val size: Long, val width: Int, val height: Int)
 
     private fun queryFile(context: Context, media: MediaEntity): FileInfo? {

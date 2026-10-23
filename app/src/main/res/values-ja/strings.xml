@@ -207,4 +207,19 @@
     <string name="details_size">サイズ</string>
     <string name="details_camera">カメラ</string>
     <string name="details_location">場所</string>
+    <string name="viewer_more_options">その他のオプション</string>
+    <string name="viewer_move_to_album">アルバムに移動</string>
+    <string name="viewer_copy_to_album">アルバムにコピー</string>
+    <string name="viewer_rename">名前を変更</string>
+    <string name="viewer_wallpaper">壁紙に設定</string>
+    <string name="viewer_move_to_vault">金庫に移動</string>
+    <string name="viewer_copied_to">“%1$s”にコピーしました</string>
+    <string name="viewer_rename_hint">ファイル名</string>
+    <string name="viewer_save">保存</string>
+    <string name="viewer_renamed">名前を変更しました</string>
+    <string name="viewer_rename_empty">名前を入力してください</string>
+    <string name="viewer_rename_invalid">使用できない文字が含まれています</string>
+    <string name="viewer_rename_exists">同じ名前のファイルが既にあります</string>
+    <string name="viewer_rename_failed">このファイルの名前を変更できませんでした</string>
+    <string name="viewer_wallpaper_photos_only">壁紙に設定できるのは写真のみです</string>
 </resources>

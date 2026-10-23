@@ -207,4 +207,19 @@
     <string name="details_size">大小</string>
     <string name="details_camera">相机</string>
     <string name="details_location">位置</string>
+    <string name="viewer_more_options">更多选项</string>
+    <string name="viewer_move_to_album">移动到相册</string>
+    <string name="viewer_copy_to_album">复制到相册</string>
+    <string name="viewer_rename">重命名</string>
+    <string name="viewer_wallpaper">设为壁纸</string>
+    <string name="viewer_move_to_vault">移至保险箱</string>
+    <string name="viewer_copied_to">已复制到“%1$s”</string>
+    <string name="viewer_rename_hint">文件名</string>
+    <string name="viewer_save">保存</string>
+    <string name="viewer_renamed">已重命名</string>
+    <string name="viewer_rename_empty">请输入名称</string>
+    <string name="viewer_rename_invalid">名称包含不允许的字符</string>
+    <string name="viewer_rename_exists">已存在同名文件</string>
+    <string name="viewer_rename_failed">无法重命名此文件</string>
+    <string name="viewer_wallpaper_photos_only">只有照片可以设为壁纸</string>
 </resources>

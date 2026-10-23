@@ -210,4 +210,19 @@
     <string name="details_size">Boyut</string>
     <string name="details_camera">Kamera</string>
     <string name="details_location">Konum</string>
+    <string name="viewer_more_options">Diğer seçenekler</string>
+    <string name="viewer_move_to_album">Albüme taşı</string>
+    <string name="viewer_copy_to_album">Albüme kopyala</string>
+    <string name="viewer_rename">Yeniden adlandır</string>
+    <string name="viewer_wallpaper">Duvar kâğıdı yap</string>
+    <string name="viewer_move_to_vault">Kasaya taşı</string>
+    <string name="viewer_copied_to">“%1$s” albümüne kopyalandı</string>
+    <string name="viewer_rename_hint">Dosya adı</string>
+    <string name="viewer_save">Kaydet</string>
+    <string name="viewer_renamed">Yeniden adlandırıldı</string>
+    <string name="viewer_rename_empty">Bir ad girin</string>
+    <string name="viewer_rename_invalid">Ad, izin verilmeyen karakterler içeriyor</string>
+    <string name="viewer_rename_exists">Bu ada sahip bir dosya zaten var</string>
+    <string name="viewer_rename_failed">Bu dosya yeniden adlandırılamadı</string>
+    <string name="viewer_wallpaper_photos_only">Yalnızca fotoğraflar duvar kâğıdı yapılabilir</string>
 </resources>

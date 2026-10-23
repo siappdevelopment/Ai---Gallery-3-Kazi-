@@ -216,4 +216,19 @@
     <string name="details_size">Size</string>
     <string name="details_camera">Camera</string>
     <string name="details_location">Location</string>
+    <string name="viewer_more_options">More options</string>
+    <string name="viewer_move_to_album">Move to album</string>
+    <string name="viewer_copy_to_album">Copy to album</string>
+    <string name="viewer_rename">Rename</string>
+    <string name="viewer_wallpaper">Set as wallpaper</string>
+    <string name="viewer_move_to_vault">Move to vault</string>
+    <string name="viewer_copied_to">Copied to %1$s</string>
+    <string name="viewer_rename_hint">File name</string>
+    <string name="viewer_save">Save</string>
+    <string name="viewer_renamed">Renamed</string>
+    <string name="viewer_rename_empty">Enter a name</string>
+    <string name="viewer_rename_invalid">The name contains characters that aren’t allowed</string>
+    <string name="viewer_rename_exists">A file with this name already exists</string>
+    <string name="viewer_rename_failed">Couldn’t rename this file</string>
+    <string name="viewer_wallpaper_photos_only">Only photos can be set as wallpaper</string>
 </resources>

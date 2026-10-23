@@ -213,4 +213,19 @@
     <string name="details_size">Taille</string>
     <string name="details_camera">Appareil photo</string>
     <string name="details_location">Lieu</string>
+    <string name="viewer_more_options">Plus d’options</string>
+    <string name="viewer_move_to_album">Déplacer vers un album</string>
+    <string name="viewer_copy_to_album">Copier vers un album</string>
+    <string name="viewer_rename">Renommer</string>
+    <string name="viewer_wallpaper">Définir comme fond d’écran</string>
+    <string name="viewer_move_to_vault">Déplacer vers le coffre-fort</string>
+    <string name="viewer_copied_to">Copié dans %1$s</string>
+    <string name="viewer_rename_hint">Nom du fichier</string>
+    <string name="viewer_save">Enregistrer</string>
+    <string name="viewer_renamed">Renommé</string>
+    <string name="viewer_rename_empty">Saisissez un nom</string>
+    <string name="viewer_rename_invalid">Le nom contient des caractères non autorisés</string>
+    <string name="viewer_rename_exists">Un fichier portant ce nom existe déjà</string>
+    <string name="viewer_rename_failed">Impossible de renommer ce fichier</string>
+    <string name="viewer_wallpaper_photos_only">Seules les photos peuvent servir de fond d’écran</string>
 </resources>

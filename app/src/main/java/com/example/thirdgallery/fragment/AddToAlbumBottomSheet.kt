@@ -79,7 +79,9 @@ class AddToAlbumBottomSheet : BottomSheetDialogFragment() {
             if (savedInstanceState == null) showForm(true)
         } else {
             viewModel.itemCount.observe(owner) { count ->
-                b.tvSheetTitle.text = if (viewModel.isMove) {
+                b.tvSheetTitle.text = if (viewModel.titleRes != 0) {
+                    getString(viewModel.titleRes)
+                } else if (viewModel.isMove) {
                     getString(R.string.selection_move_title, count)
                 } else {
                     resources.getQuantityString(R.plurals.photo_add_to_album_title, count, count)
@@ -159,6 +161,7 @@ class AddToAlbumBottomSheet : BottomSheetDialogFragment() {
                         when {
                             viewModel.isCreateOnly -> R.string.albums_created
                             viewModel.isMove -> R.string.selection_moved_to
+                            viewModel.isCopy -> R.string.viewer_copied_to
                             else -> R.string.photo_added_to_album
                         },
                         result.albumName,
@@ -166,6 +169,7 @@ class AddToAlbumBottomSheet : BottomSheetDialogFragment() {
                     Toast.LENGTH_SHORT,
                 ).show()
                 if (viewModel.isSelection) selectionViewModel.clear()
+                parentFragmentManager.setFragmentResult(RESULT_KEY, androidx.core.os.bundleOf(RESULT_MOVED to viewModel.isMove))
                 dismissAllowingStateLoss()
             }
             AlbumRepository.Failure.EMPTY_NAME -> showError(b, R.string.photo_album_name_empty)
@@ -192,6 +196,10 @@ class AddToAlbumBottomSheet : BottomSheetDialogFragment() {
 
     companion object {
         const val TAG = "add_to_album"
+
+        /** Fragment result after the items were added / moved / copied. */
+        const val RESULT_KEY = "album_pick_done"
+        const val RESULT_MOVED = "moved"
         private const val VISIBLE_ROWS = 6
         private const val ROW_HEIGHT_DP = 64f
         private const val MAX_LIST_SCREEN_FRACTION = 0.5f
@@ -206,7 +214,13 @@ class AddToAlbumBottomSheet : BottomSheetDialogFragment() {
         }
 
         /** "Add to album" / "Move" for the multi-selection; [sourceAlbumId] is the app album Move takes the items out of. */
-        fun newForSelection(uids: List<Long>, move: Boolean, sourceAlbumId: Long) = AddToAlbumBottomSheet().apply {
+        fun newForSelection(
+            uids: List<Long>,
+            move: Boolean,
+            sourceAlbumId: Long,
+            titleRes: Int = 0,
+            copy: Boolean = false,
+        ) = AddToAlbumBottomSheet().apply {
             arguments = Bundle().apply {
                 putLong(AddToAlbumViewModel.ARG_DAY_KEY, AddToAlbumViewModel.SELECTION)
                 putInt(AddToAlbumViewModel.ARG_FILTER, 0)
@@ -214,6 +228,8 @@ class AddToAlbumBottomSheet : BottomSheetDialogFragment() {
                 putLongArray(AddToAlbumViewModel.ARG_UIDS, uids.toLongArray())
                 putBoolean(AddToAlbumViewModel.ARG_MOVE, move)
                 putLong(AddToAlbumViewModel.ARG_SOURCE, sourceAlbumId)
+                putBoolean(AddToAlbumViewModel.ARG_COPY, copy)
+                putInt(AddToAlbumViewModel.ARG_TITLE, titleRes)
             }
         }
 

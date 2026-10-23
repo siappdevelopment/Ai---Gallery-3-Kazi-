@@ -210,4 +210,19 @@
     <string name="details_size">Laki</string>
     <string name="details_camera">Camera</string>
     <string name="details_location">Lokasyon</string>
+    <string name="viewer_more_options">Higit pang opsyon</string>
+    <string name="viewer_move_to_album">Ilipat sa album</string>
+    <string name="viewer_copy_to_album">Kopyahin sa album</string>
+    <string name="viewer_rename">Palitan ang pangalan</string>
+    <string name="viewer_wallpaper">Itakda bilang wallpaper</string>
+    <string name="viewer_move_to_vault">Ilipat sa vault</string>
+    <string name="viewer_copied_to">Nakopya sa %1$s</string>
+    <string name="viewer_rename_hint">Pangalan ng file</string>
+    <string name="viewer_save">I-save</string>
+    <string name="viewer_renamed">Napalitan ang pangalan</string>
+    <string name="viewer_rename_empty">Maglagay ng pangalan</string>
+    <string name="viewer_rename_invalid">May mga hindi pinapayagang character ang pangalan</string>
+    <string name="viewer_rename_exists">May file na may ganitong pangalan na</string>
+    <string name="viewer_rename_failed">Hindi mapalitan ang pangalan ng file</string>
+    <string name="viewer_wallpaper_photos_only">Mga larawan lang ang puwedeng gawing wallpaper</string>
 </resources>

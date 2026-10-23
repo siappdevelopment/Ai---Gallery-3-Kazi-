@@ -210,4 +210,19 @@
     <string name="details_size">Größe</string>
     <string name="details_camera">Kamera</string>
     <string name="details_location">Ort</string>
+    <string name="viewer_more_options">Weitere Optionen</string>
+    <string name="viewer_move_to_album">In Album verschieben</string>
+    <string name="viewer_copy_to_album">In Album kopieren</string>
+    <string name="viewer_rename">Umbenennen</string>
+    <string name="viewer_wallpaper">Als Hintergrund festlegen</string>
+    <string name="viewer_move_to_vault">In Tresor verschieben</string>
+    <string name="viewer_copied_to">Nach „%1$s“ kopiert</string>
+    <string name="viewer_rename_hint">Dateiname</string>
+    <string name="viewer_save">Speichern</string>
+    <string name="viewer_renamed">Umbenannt</string>
+    <string name="viewer_rename_empty">Namen eingeben</string>
+    <string name="viewer_rename_invalid">Der Name enthält unzulässige Zeichen</string>
+    <string name="viewer_rename_exists">Eine Datei mit diesem Namen existiert bereits</string>
+    <string name="viewer_rename_failed">Datei konnte nicht umbenannt werden</string>
+    <string name="viewer_wallpaper_photos_only">Nur Fotos können als Hintergrund festgelegt werden</string>
 </resources>

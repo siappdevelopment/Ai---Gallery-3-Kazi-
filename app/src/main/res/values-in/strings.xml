@@ -207,4 +207,19 @@
     <string name="details_size">Ukuran</string>
     <string name="details_camera">Kamera</string>
     <string name="details_location">Lokasi</string>
+    <string name="viewer_more_options">Opsi lainnya</string>
+    <string name="viewer_move_to_album">Pindahkan ke album</string>
+    <string name="viewer_copy_to_album">Salin ke album</string>
+    <string name="viewer_rename">Ganti nama</string>
+    <string name="viewer_wallpaper">Jadikan wallpaper</string>
+    <string name="viewer_move_to_vault">Pindahkan ke brankas</string>
+    <string name="viewer_copied_to">Disalin ke %1$s</string>
+    <string name="viewer_rename_hint">Nama file</string>
+    <string name="viewer_save">Simpan</string>
+    <string name="viewer_renamed">Nama diganti</string>
+    <string name="viewer_rename_empty">Masukkan nama</string>
+    <string name="viewer_rename_invalid">Nama berisi karakter yang tidak diizinkan</string>
+    <string name="viewer_rename_exists">File dengan nama ini sudah ada</string>
+    <string name="viewer_rename_failed">Tidak dapat mengganti nama file ini</string>
+    <string name="viewer_wallpaper_photos_only">Hanya foto yang dapat dijadikan wallpaper</string>
 </resources>

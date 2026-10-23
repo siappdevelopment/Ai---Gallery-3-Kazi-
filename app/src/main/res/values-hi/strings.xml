@@ -210,4 +210,19 @@
     <string name="details_size">आकार</string>
     <string name="details_camera">कैमरा</string>
     <string name="details_location">स्थान</string>
+    <string name="viewer_more_options">और विकल्प</string>
+    <string name="viewer_move_to_album">एल्बम में ले जाएँ</string>
+    <string name="viewer_copy_to_album">एल्बम में कॉपी करें</string>
+    <string name="viewer_rename">नाम बदलें</string>
+    <string name="viewer_wallpaper">वॉलपेपर के रूप में सेट करें</string>
+    <string name="viewer_move_to_vault">वॉल्ट में ले जाएँ</string>
+    <string name="viewer_copied_to">%1$s में कॉपी किया गया</string>
+    <string name="viewer_rename_hint">फ़ाइल का नाम</string>
+    <string name="viewer_save">सहेजें</string>
+    <string name="viewer_renamed">नाम बदल दिया गया</string>
+    <string name="viewer_rename_empty">नाम दर्ज करें</string>
+    <string name="viewer_rename_invalid">नाम में ऐसे अक्षर हैं जिनकी अनुमति नहीं है</string>
+    <string name="viewer_rename_exists">इस नाम की फ़ाइल पहले से मौजूद है</string>
+    <string name="viewer_rename_failed">इस फ़ाइल का नाम नहीं बदला जा सका</string>
+    <string name="viewer_wallpaper_photos_only">केवल फ़ोटो को वॉलपेपर बनाया जा सकता है</string>
 </resources>

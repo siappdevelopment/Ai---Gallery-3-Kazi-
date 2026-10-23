@@ -210,4 +210,19 @@
     <string name="details_size">Grootte</string>
     <string name="details_camera">Camera</string>
     <string name="details_location">Locatie</string>
+    <string name="viewer_more_options">Meer opties</string>
+    <string name="viewer_move_to_album">Naar album verplaatsen</string>
+    <string name="viewer_copy_to_album">Naar album kopiëren</string>
+    <string name="viewer_rename">Naam wijzigen</string>
+    <string name="viewer_wallpaper">Instellen als achtergrond</string>
+    <string name="viewer_move_to_vault">Naar kluis verplaatsen</string>
+    <string name="viewer_copied_to">Gekopieerd naar %1$s</string>
+    <string name="viewer_rename_hint">Bestandsnaam</string>
+    <string name="viewer_save">Opslaan</string>
+    <string name="viewer_renamed">Naam gewijzigd</string>
+    <string name="viewer_rename_empty">Voer een naam in</string>
+    <string name="viewer_rename_invalid">De naam bevat tekens die niet zijn toegestaan</string>
+    <string name="viewer_rename_exists">Er bestaat al een bestand met deze naam</string>
+    <string name="viewer_rename_failed">Kan dit bestand niet hernoemen</string>
+    <string name="viewer_wallpaper_photos_only">Alleen foto’s kunnen als achtergrond worden ingesteld</string>
 </resources>

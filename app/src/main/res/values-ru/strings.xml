@@ -216,4 +216,19 @@
     <string name="details_size">Размер</string>
     <string name="details_camera">Камера</string>
     <string name="details_location">Место</string>
+    <string name="viewer_more_options">Ещё</string>
+    <string name="viewer_move_to_album">Переместить в альбом</string>
+    <string name="viewer_copy_to_album">Копировать в альбом</string>
+    <string name="viewer_rename">Переименовать</string>
+    <string name="viewer_wallpaper">Установить как обои</string>
+    <string name="viewer_move_to_vault">Переместить в сейф</string>
+    <string name="viewer_copied_to">Скопировано в «%1$s»</string>
+    <string name="viewer_rename_hint">Имя файла</string>
+    <string name="viewer_save">Сохранить</string>
+    <string name="viewer_renamed">Переименовано</string>
+    <string name="viewer_rename_empty">Введите имя</string>
+    <string name="viewer_rename_invalid">Имя содержит недопустимые символы</string>
+    <string name="viewer_rename_exists">Файл с таким именем уже существует</string>
+    <string name="viewer_rename_failed">Не удалось переименовать файл</string>
+    <string name="viewer_wallpaper_photos_only">В качестве обоев можно установить только фото</string>
 </resources>

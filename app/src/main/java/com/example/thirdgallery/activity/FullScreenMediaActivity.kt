@@ -1,6 +1,7 @@
 package com.example.thirdgallery.activity
 
 import android.app.PendingIntent
+import android.app.WallpaperManager
 import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
@@ -28,7 +29,11 @@ import com.example.thirdgallery.R
 import com.example.thirdgallery.adapter.ViewerPagerAdapter
 import com.example.thirdgallery.database.MediaEntity
 import com.example.thirdgallery.database.MediaTypes
+import com.example.thirdgallery.fragment.AddToAlbumBottomSheet
 import com.example.thirdgallery.fragment.ConfirmDialogFragment
+import com.example.thirdgallery.fragment.MoreOptionsBottomSheet
+import com.example.thirdgallery.fragment.RenameBottomSheet
+import com.example.thirdgallery.viewmodel.RenameEvent
 import com.example.thirdgallery.fragment.DetailsDialogFragment
 import com.example.thirdgallery.repo.MediaRepository
 import com.example.thirdgallery.databinding.ActivityFullScreenMediaBinding
@@ -124,13 +129,29 @@ class FullScreenMediaActivity : AppCompatActivity() {
         val comingSoon = View.OnClickListener {
             Toast.makeText(applicationContext, R.string.albums_coming_soon, Toast.LENGTH_SHORT).show()
         }
-        b.btnMoreTop.setOnClickListener(comingSoon)
+        b.btnMoreTop.setOnClickListener { MoreOptionsBottomSheet.show(supportFragmentManager) }
         b.actionEdit.setOnClickListener(comingSoon)
         b.actionDetails.setOnClickListener { showDetails() }
         b.actionShare.setOnClickListener { share() }
         b.actionFavorite.setOnClickListener { toggleFavorite() }
         b.actionDelete.setOnClickListener { delete() }
 
+        supportFragmentManager.setFragmentResultListener(MoreOptionsBottomSheet.RESULT_KEY, this) { _, result ->
+            onMoreOption(result.getString(MoreOptionsBottomSheet.RESULT_ACTION).orEmpty())
+        }
+        supportFragmentManager.setFragmentResultListener(RenameBottomSheet.RESULT_KEY, this) { _, result ->
+            result.getString(RenameBottomSheet.RESULT_NAME)?.let { startRename(it) }
+        }
+        supportFragmentManager.setFragmentResultListener(AddToAlbumBottomSheet.RESULT_KEY, this) { _, result ->
+            // Move out of the app album that is being viewed: the item no longer belongs to this swipe list.
+            if (result.getBoolean(AddToAlbumBottomSheet.RESULT_MOVED) && viewModel.sourceAlbumId > 0) {
+                uids.getOrNull(position)?.let { viewModel.forget(it) }
+            }
+        }
+        viewModel.renameName.observe(this) { event ->
+            event.getContentIfNotHandled()?.let { RenameBottomSheet.show(supportFragmentManager, it) }
+        }
+        viewModel.rename.observe(this) { event -> event.getContentIfNotHandled()?.let { onRenameResult(it) } }
         supportFragmentManager.setFragmentResultListener(KEY_DELETE, this) { _, result ->
             if (result.getBoolean(ConfirmDialogFragment.RESULT_CONFIRMED)) moveToBin()
         }
@@ -215,6 +236,77 @@ class FullScreenMediaActivity : AppCompatActivity() {
     /** Details of the item that is on screen right now (read in the background, then shown). */
     private fun showDetails() {
         current()?.let { viewModel.loadDetails(it) }
+    }
+
+    private fun onMoreOption(action: String) {
+        val media = current() ?: return
+        when (action) {
+            MoreOptionsBottomSheet.ACTION_ADD -> showAlbumSheet(media, move = false, copy = false, titleRes = 0)
+            MoreOptionsBottomSheet.ACTION_MOVE -> showAlbumSheet(media, move = true, copy = false, titleRes = R.string.viewer_move_to_album)
+            MoreOptionsBottomSheet.ACTION_COPY -> showAlbumSheet(media, move = false, copy = true, titleRes = R.string.viewer_copy_to_album)
+            MoreOptionsBottomSheet.ACTION_RENAME -> viewModel.requestRename(media)
+            MoreOptionsBottomSheet.ACTION_WALLPAPER -> setWallpaper(media)
+            MoreOptionsBottomSheet.ACTION_VAULT ->
+                Toast.makeText(applicationContext, R.string.albums_coming_soon, Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    /** The shared album picker: Add / Move / Copy only differ in title and in what happens on pick. */
+    private fun showAlbumSheet(media: MediaEntity, move: Boolean, copy: Boolean, titleRes: Int) {
+        val fm = supportFragmentManager
+        if (fm.isStateSaved || fm.findFragmentByTag(AddToAlbumBottomSheet.TAG) != null) return
+        AddToAlbumBottomSheet.newForSelection(listOf(media.uid), move, viewModel.sourceAlbumId, titleRes, copy)
+            .show(fm, AddToAlbumBottomSheet.TAG)
+    }
+
+    /** Android 11+ asks for write access first; Android 10 asks (if needed) after the first try; older: directly. */
+    private fun startRename(newName: String) {
+        val media = current() ?: return
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            val uri = MediaUris.of(media.mediaId, media.mediaType)
+            launchRequest(MediaStore.createWriteRequest(contentResolver, listOf(uri))) {
+                viewModel.rename(media.uid, newName)
+            }
+        } else {
+            viewModel.rename(media.uid, newName)
+        }
+    }
+
+    private fun onRenameResult(result: RenameEvent) {
+        when (result) {
+            RenameEvent.Done ->
+                Toast.makeText(applicationContext, R.string.viewer_renamed, Toast.LENGTH_SHORT).show()
+            is RenameEvent.Consent -> {
+                pendingAction = { viewModel.retryRename() }
+                requestLauncher.launch(IntentSenderRequest.Builder(result.sender).build())
+            }
+            is RenameEvent.Failed ->
+                Toast.makeText(applicationContext, result.message, Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    /** Photos open the system "crop and set wallpaper" screen; videos are not supported. */
+    private fun setWallpaper(media: MediaEntity) {
+        if (media.mediaType != MediaTypes.IMAGE) {
+            Toast.makeText(applicationContext, R.string.viewer_wallpaper_photos_only, Toast.LENGTH_SHORT).show()
+            return
+        }
+        val uri = MediaUris.of(media.mediaId, media.mediaType)
+        val crop = try {
+            WallpaperManager.getInstance(this).getCropAndSetWallpaperIntent(uri)
+        } catch (e: IllegalArgumentException) {
+            null
+        }
+        val intent = crop ?: Intent.createChooser(
+            Intent(Intent.ACTION_ATTACH_DATA).setDataAndType(uri, "image/*").putExtra("mimeType", "image/*"),
+            getString(R.string.viewer_wallpaper),
+        )
+        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+        try {
+            startActivity(intent)
+        } catch (e: ActivityNotFoundException) {
+            Toast.makeText(applicationContext, R.string.viewer_unsupported, Toast.LENGTH_SHORT).show()
+        }
     }
 
     private fun share() {

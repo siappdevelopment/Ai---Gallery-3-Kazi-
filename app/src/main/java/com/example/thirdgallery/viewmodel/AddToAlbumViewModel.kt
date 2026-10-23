@@ -39,6 +39,12 @@ class AddToAlbumViewModel(
     val isMove: Boolean = state.get<Boolean>(ARG_MOVE) ?: false
     private val moveFrom: Long = state.get<Long>(ARG_SOURCE) ?: 0L
 
+    /** "Copy to album" (same as Add; only the wording differs). */
+    val isCopy: Boolean = state.get<Boolean>(ARG_COPY) ?: false
+
+    /** A fixed title for the sheet (0 = the default one for the mode). */
+    val titleRes: Int = state.get<Int>(ARG_TITLE) ?: 0
+
     @Volatile
     private var uids: List<Long> = emptyList()
 
@@ -135,6 +141,8 @@ class AddToAlbumViewModel(
         const val ARG_UIDS = "uids"
         const val ARG_MOVE = "move"
         const val ARG_SOURCE = "source"
+        const val ARG_COPY = "copy"
+        const val ARG_TITLE = "title"
         private val loader = Executors.newSingleThreadExecutor()
     }
 }
