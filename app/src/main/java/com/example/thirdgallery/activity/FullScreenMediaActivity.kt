@@ -389,11 +389,19 @@ class FullScreenMediaActivity : AppCompatActivity() {
          * Opens [uid] inside the list it was tapped in: a device folder / smart collection / app album
          * ([kind] + [id]), or the whole gallery ([AlbumKind.DEVICE] with id 0) under [filter].
          */
-        fun intent(context: Context, uid: Long, kind: AlbumKind, id: Long, filter: MediaFilter = MediaFilter.ALL): Intent =
+        fun intent(
+            context: Context,
+            uid: Long,
+            kind: AlbumKind,
+            id: Long,
+            filter: MediaFilter = MediaFilter.ALL,
+            query: String = "",
+        ): Intent =
             Intent(context, FullScreenMediaActivity::class.java)
                 .putExtra(FullScreenMediaViewModel.ARG_UID, uid)
                 .putExtra(FullScreenMediaViewModel.ARG_KIND, kind.key)
                 .putExtra(FullScreenMediaViewModel.ARG_ID, id)
                 .putExtra(FullScreenMediaViewModel.ARG_FILTER, filter.ordinal)
+                .putExtra(FullScreenMediaViewModel.ARG_QUERY, query)
     }
 }

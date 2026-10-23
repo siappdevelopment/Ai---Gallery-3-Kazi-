@@ -230,4 +230,14 @@
     <string name="viewer_wallpaper_photos_only">Solo las fotos se pueden usar como fondo de pantalla</string>
     <string name="viewer_transfer_partial">No se pudieron copiar ni mover %1$d de %2$d elementos</string>
     <string name="viewer_transfer_failed">No se pudieron copiar ni mover los elementos</string>
+    <string name="search_hint">Buscar fotos y vídeos</string>
+    <string name="search_clear">Borrar búsqueda</string>
+    <string name="search_recent">Recientes</string>
+    <string name="search_people">Personas</string>
+    <string name="search_browse">Explorar</string>
+    <string name="search_browse_photos">Fotos</string>
+    <string name="search_browse_documents">Documentos</string>
+    <string name="search_results_title">Fotos y vídeos</string>
+    <string name="search_no_results">Sin resultados</string>
+    <string name="search_no_results_desc">Prueba con otro nombre de archivo.</string>
 </resources>

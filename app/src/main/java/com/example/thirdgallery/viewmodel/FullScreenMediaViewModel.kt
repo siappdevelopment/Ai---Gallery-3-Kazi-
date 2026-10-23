@@ -42,6 +42,7 @@ class FullScreenMediaViewModel(
 
     private val kind = AlbumKind.fromKey(state.get<String>(ARG_KIND))
     private val albumId = state.get<Long>(ARG_ID) ?: 0L
+    private val query = state.get<String>(ARG_QUERY).orEmpty()
     private val filter = MediaFilter.entries.getOrNull(state.get<Int>(ARG_FILTER) ?: 0) ?: MediaFilter.ALL
 
     @Volatile
@@ -77,7 +78,7 @@ class FullScreenMediaViewModel(
     init {
         worker.execute {
             list = try {
-                repository.viewerUids(kind, albumId, AlbumsViewModel.recentSince(), filter)
+                repository.viewerUids(kind, albumId, AlbumsViewModel.recentSince(), filter, query)
             } catch (e: Exception) {
                 emptyList()
             }
@@ -166,6 +167,7 @@ class FullScreenMediaViewModel(
         const val ARG_KIND = "kind"
         const val ARG_ID = "id"
         const val ARG_FILTER = "filter"
+        const val ARG_QUERY = "query"
         private val worker = Executors.newSingleThreadExecutor()
     }
 }

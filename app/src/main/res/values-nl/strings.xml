@@ -227,4 +227,14 @@
     <string name="viewer_wallpaper_photos_only">Alleen foto’s kunnen als achtergrond worden ingesteld</string>
     <string name="viewer_transfer_partial">%1$d van %2$d items kon niet worden gekopieerd of verplaatst</string>
     <string name="viewer_transfer_failed">De items kunnen niet worden gekopieerd of verplaatst</string>
+    <string name="search_hint">Foto’s en video’s zoeken</string>
+    <string name="search_clear">Zoekopdracht wissen</string>
+    <string name="search_recent">Recent</string>
+    <string name="search_people">Personen</string>
+    <string name="search_browse">Bladeren</string>
+    <string name="search_browse_photos">Foto’s</string>
+    <string name="search_browse_documents">Documenten</string>
+    <string name="search_results_title">Foto’s en video’s</string>
+    <string name="search_no_results">Geen resultaten</string>
+    <string name="search_no_results_desc">Probeer een andere bestandsnaam.</string>
 </resources>

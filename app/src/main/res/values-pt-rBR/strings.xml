@@ -230,4 +230,14 @@
     <string name="viewer_wallpaper_photos_only">Somente fotos podem ser definidas como plano de fundo</string>
     <string name="viewer_transfer_partial">%1$d de %2$d itens não puderam ser copiados ou movidos</string>
     <string name="viewer_transfer_failed">Não foi possível copiar ou mover os itens</string>
+    <string name="search_hint">Pesquisar fotos e vídeos</string>
+    <string name="search_clear">Limpar pesquisa</string>
+    <string name="search_recent">Recentes</string>
+    <string name="search_people">Pessoas</string>
+    <string name="search_browse">Explorar</string>
+    <string name="search_browse_photos">Fotos</string>
+    <string name="search_browse_documents">Documentos</string>
+    <string name="search_results_title">Fotos e vídeos</string>
+    <string name="search_no_results">Nenhum resultado</string>
+    <string name="search_no_results_desc">Tente outro nome de arquivo.</string>
 </resources>

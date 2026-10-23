@@ -224,4 +224,14 @@
     <string name="viewer_wallpaper_photos_only">壁紙に設定できるのは写真のみです</string>
     <string name="viewer_transfer_partial">%2$d 件中 %1$d 件をコピーまたは移動できませんでした</string>
     <string name="viewer_transfer_failed">項目をコピーまたは移動できませんでした</string>
+    <string name="search_hint">写真と動画を検索</string>
+    <string name="search_clear">検索をクリア</string>
+    <string name="search_recent">最近</string>
+    <string name="search_people">人物</string>
+    <string name="search_browse">見る</string>
+    <string name="search_browse_photos">写真</string>
+    <string name="search_browse_documents">ドキュメント</string>
+    <string name="search_results_title">写真と動画</string>
+    <string name="search_no_results">結果がありません</string>
+    <string name="search_no_results_desc">別のファイル名をお試しください。</string>
 </resources>

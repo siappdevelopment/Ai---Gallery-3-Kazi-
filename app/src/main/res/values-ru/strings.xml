@@ -233,4 +233,14 @@
     <string name="viewer_wallpaper_photos_only">В качестве обоев можно установить только фото</string>
     <string name="viewer_transfer_partial">Не удалось скопировать или переместить элементов: %1$d из %2$d</string>
     <string name="viewer_transfer_failed">Не удалось скопировать или переместить элементы</string>
+    <string name="search_hint">Поиск фото и видео</string>
+    <string name="search_clear">Очистить поиск</string>
+    <string name="search_recent">Недавние</string>
+    <string name="search_people">Люди</string>
+    <string name="search_browse">Обзор</string>
+    <string name="search_browse_photos">Фото</string>
+    <string name="search_browse_documents">Документы</string>
+    <string name="search_results_title">Фото и видео</string>
+    <string name="search_no_results">Ничего не найдено</string>
+    <string name="search_no_results_desc">Попробуйте другое имя файла.</string>
 </resources>

@@ -227,4 +227,14 @@
     <string name="viewer_wallpaper_photos_only">Yalnızca fotoğraflar duvar kâğıdı yapılabilir</string>
     <string name="viewer_transfer_partial">%2$d öğeden %1$d tanesi kopyalanamadı veya taşınamadı</string>
     <string name="viewer_transfer_failed">Öğeler kopyalanamadı veya taşınamadı</string>
+    <string name="search_hint">Fotoğraf ve video ara</string>
+    <string name="search_clear">Aramayı temizle</string>
+    <string name="search_recent">Son</string>
+    <string name="search_people">Kişiler</string>
+    <string name="search_browse">Göz at</string>
+    <string name="search_browse_photos">Fotoğraflar</string>
+    <string name="search_browse_documents">Belgeler</string>
+    <string name="search_results_title">Fotoğraflar ve videolar</string>
+    <string name="search_no_results">Sonuç yok</string>
+    <string name="search_no_results_desc">Başka bir dosya adı deneyin.</string>
 </resources>

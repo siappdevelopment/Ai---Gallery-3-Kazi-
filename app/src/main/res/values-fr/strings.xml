@@ -230,4 +230,14 @@
     <string name="viewer_wallpaper_photos_only">Seules les photos peuvent servir de fond d’écran</string>
     <string name="viewer_transfer_partial">%1$d éléments sur %2$d n’ont pas pu être copiés ou déplacés</string>
     <string name="viewer_transfer_failed">Impossible de copier ou de déplacer les éléments</string>
+    <string name="search_hint">Rechercher des photos et vidéos</string>
+    <string name="search_clear">Effacer la recherche</string>
+    <string name="search_recent">Récents</string>
+    <string name="search_people">Personnes</string>
+    <string name="search_browse">Parcourir</string>
+    <string name="search_browse_photos">Photos</string>
+    <string name="search_browse_documents">Documents</string>
+    <string name="search_results_title">Photos et vidéos</string>
+    <string name="search_no_results">Aucun résultat</string>
+    <string name="search_no_results_desc">Essayez un autre nom de fichier.</string>
 </resources>

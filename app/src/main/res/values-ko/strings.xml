@@ -224,4 +224,14 @@
     <string name="viewer_wallpaper_photos_only">사진만 배경화면으로 설정할 수 있습니다</string>
     <string name="viewer_transfer_partial">%2$d개 중 %1$d개 항목을 복사하거나 이동할 수 없습니다</string>
     <string name="viewer_transfer_failed">항목을 복사하거나 이동할 수 없습니다</string>
+    <string name="search_hint">사진 및 동영상 검색</string>
+    <string name="search_clear">검색어 지우기</string>
+    <string name="search_recent">최근</string>
+    <string name="search_people">사람</string>
+    <string name="search_browse">둘러보기</string>
+    <string name="search_browse_photos">사진</string>
+    <string name="search_browse_documents">문서</string>
+    <string name="search_results_title">사진 및 동영상</string>
+    <string name="search_no_results">결과 없음</string>
+    <string name="search_no_results_desc">다른 파일 이름으로 검색해 보세요.</string>
 </resources>

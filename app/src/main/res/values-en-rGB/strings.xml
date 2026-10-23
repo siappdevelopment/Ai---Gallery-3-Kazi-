@@ -227,4 +227,14 @@
     <string name="viewer_wallpaper_photos_only">Only photos can be set as wallpaper</string>
     <string name="viewer_transfer_partial">%1$d of %2$d items couldn’t be copied or moved</string>
     <string name="viewer_transfer_failed">Couldn’t copy or move the items</string>
+    <string name="search_hint">Search photos and videos</string>
+    <string name="search_clear">Clear search</string>
+    <string name="search_recent">Recent</string>
+    <string name="search_people">People</string>
+    <string name="search_browse">Browse</string>
+    <string name="search_browse_photos">Photos</string>
+    <string name="search_browse_documents">Documents</string>
+    <string name="search_results_title">Photos &amp; videos</string>
+    <string name="search_no_results">No results</string>
+    <string name="search_no_results_desc">Try a different file name.</string>
 </resources>

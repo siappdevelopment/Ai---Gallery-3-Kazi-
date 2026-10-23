@@ -227,4 +227,14 @@
     <string name="viewer_wallpaper_photos_only">Mga larawan lang ang puwedeng gawing wallpaper</string>
     <string name="viewer_transfer_partial">%1$d sa %2$d item ang hindi makopya o mailipat</string>
     <string name="viewer_transfer_failed">Hindi makopya o mailipat ang mga item</string>
+    <string name="search_hint">Maghanap ng mga larawan at video</string>
+    <string name="search_clear">I-clear ang paghahanap</string>
+    <string name="search_recent">Kamakailan</string>
+    <string name="search_people">Mga tao</string>
+    <string name="search_browse">Mag-browse</string>
+    <string name="search_browse_photos">Mga larawan</string>
+    <string name="search_browse_documents">Mga dokumento</string>
+    <string name="search_results_title">Mga larawan at video</string>
+    <string name="search_no_results">Walang resulta</string>
+    <string name="search_no_results_desc">Subukan ang ibang pangalan ng file.</string>
 </resources>

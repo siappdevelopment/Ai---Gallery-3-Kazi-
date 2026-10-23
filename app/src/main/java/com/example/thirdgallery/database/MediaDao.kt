@@ -172,4 +172,13 @@ interface MediaDao {
 
     @Query("UPDATE media SET isFavorite = :favorite WHERE uid IN (:uids)")
     fun setFavorites(uids: List<Long>, favorite: Boolean)
+
+    @Query("SELECT * FROM media WHERE displayName LIKE '%' || :pattern || '%' ESCAPE '\\' ORDER BY dateMs DESC, uid DESC")
+    fun searchSource(pattern: String): PagingSource<Int, MediaEntity>
+
+    @Query("SELECT uid FROM media WHERE displayName LIKE '%' || :pattern || '%' ESCAPE '\\' ORDER BY dateMs DESC, uid DESC")
+    fun searchUids(pattern: String): List<Long>
+
+    @Query("SELECT COUNT(*) FROM media WHERE displayName LIKE '%' || :pattern || '%' ESCAPE '\\'")
+    fun observeSearchCount(pattern: String): LiveData<Int>
 }

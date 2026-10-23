@@ -41,6 +41,7 @@ class HomeActivity : AppCompatActivity() {
         b.tabGallery.setOnClickListener { selectTab(TAB_GALLERY) }
         b.tabAlbums.setOnClickListener { selectTab(TAB_ALBUMS) }
         b.btnLayout.setOnClickListener { showLayoutPicker() }
+        b.btnSearch.setOnClickListener { startActivity(SearchActivity.intent(this)) }
 
         selectedTab = savedInstanceState?.getInt(KEY_TAB, TAB_FOR_YOU) ?: TAB_FOR_YOU
         selectTab(selectedTab, force = true)

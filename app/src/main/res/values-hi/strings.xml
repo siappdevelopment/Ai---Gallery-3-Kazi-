@@ -227,4 +227,14 @@
     <string name="viewer_wallpaper_photos_only">केवल फ़ोटो को वॉलपेपर बनाया जा सकता है</string>
     <string name="viewer_transfer_partial">%2$d में से %1$d आइटम कॉपी या मूव नहीं हो सके</string>
     <string name="viewer_transfer_failed">आइटम कॉपी या मूव नहीं हो सके</string>
+    <string name="search_hint">फ़ोटो और वीडियो खोजें</string>
+    <string name="search_clear">खोज साफ़ करें</string>
+    <string name="search_recent">हाल के</string>
+    <string name="search_people">लोग</string>
+    <string name="search_browse">ब्राउज़ करें</string>
+    <string name="search_browse_photos">फ़ोटो</string>
+    <string name="search_browse_documents">दस्तावेज़</string>
+    <string name="search_results_title">फ़ोटो और वीडियो</string>
+    <string name="search_no_results">कोई परिणाम नहीं</string>
+    <string name="search_no_results_desc">कोई दूसरा फ़ाइल नाम आज़माएँ।</string>
 </resources>

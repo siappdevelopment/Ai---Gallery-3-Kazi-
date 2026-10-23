@@ -227,4 +227,14 @@
     <string name="viewer_wallpaper_photos_only">Μόνο φωτογραφίες μπορούν να οριστούν ως ταπετσαρία</string>
     <string name="viewer_transfer_partial">Δεν ήταν δυνατή η αντιγραφή ή μετακίνηση %1$d από %2$d στοιχεία</string>
     <string name="viewer_transfer_failed">Δεν ήταν δυνατή η αντιγραφή ή μετακίνηση των στοιχείων</string>
+    <string name="search_hint">Αναζήτηση φωτογραφιών και βίντεο</string>
+    <string name="search_clear">Απαλοιφή αναζήτησης</string>
+    <string name="search_recent">Πρόσφατα</string>
+    <string name="search_people">Άτομα</string>
+    <string name="search_browse">Περιήγηση</string>
+    <string name="search_browse_photos">Φωτογραφίες</string>
+    <string name="search_browse_documents">Έγγραφα</string>
+    <string name="search_results_title">Φωτογραφίες και βίντεο</string>
+    <string name="search_no_results">Κανένα αποτέλεσμα</string>
+    <string name="search_no_results_desc">Δοκιμάστε διαφορετικό όνομα αρχείου.</string>
 </resources>

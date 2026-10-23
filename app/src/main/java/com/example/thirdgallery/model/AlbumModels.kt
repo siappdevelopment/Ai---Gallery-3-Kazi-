@@ -17,7 +17,10 @@ enum class AlbumKind(val key: String) {
     SCREENSHOTS("screenshots"),
     RECENT("recent"),
     YEAR("year"),
-    MONTH("month");
+    MONTH("month"),
+
+    /** The results of a file-name search (the query travels separately). */
+    SEARCH("search");
 
     companion object {
         fun fromKey(key: String?): AlbumKind = entries.firstOrNull { it.key == key } ?: DEVICE

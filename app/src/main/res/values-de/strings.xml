@@ -227,4 +227,14 @@
     <string name="viewer_wallpaper_photos_only">Nur Fotos können als Hintergrund festgelegt werden</string>
     <string name="viewer_transfer_partial">%1$d von %2$d Elementen konnten nicht kopiert oder verschoben werden</string>
     <string name="viewer_transfer_failed">Die Elemente konnten nicht kopiert oder verschoben werden</string>
+    <string name="search_hint">Fotos und Videos suchen</string>
+    <string name="search_clear">Suche löschen</string>
+    <string name="search_recent">Zuletzt</string>
+    <string name="search_people">Personen</string>
+    <string name="search_browse">Durchsuchen</string>
+    <string name="search_browse_photos">Fotos</string>
+    <string name="search_browse_documents">Dokumente</string>
+    <string name="search_results_title">Fotos und Videos</string>
+    <string name="search_no_results">Keine Ergebnisse</string>
+    <string name="search_no_results_desc">Versuche es mit einem anderen Dateinamen.</string>
 </resources>

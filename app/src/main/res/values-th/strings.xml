@@ -224,4 +224,14 @@
     <string name="viewer_wallpaper_photos_only">ตั้งเป็นวอลเปเปอร์ได้เฉพาะรูปภาพ</string>
     <string name="viewer_transfer_partial">คัดลอกหรือย้ายไม่ได้ %1$d จาก %2$d รายการ</string>
     <string name="viewer_transfer_failed">ไม่สามารถคัดลอกหรือย้ายรายการได้</string>
+    <string name="search_hint">ค้นหารูปภาพและวิดีโอ</string>
+    <string name="search_clear">ล้างการค้นหา</string>
+    <string name="search_recent">ล่าสุด</string>
+    <string name="search_people">บุคคล</string>
+    <string name="search_browse">เรียกดู</string>
+    <string name="search_browse_photos">รูปภาพ</string>
+    <string name="search_browse_documents">เอกสาร</string>
+    <string name="search_results_title">รูปภาพและวิดีโอ</string>
+    <string name="search_no_results">ไม่พบผลลัพธ์</string>
+    <string name="search_no_results_desc">ลองใช้ชื่อไฟล์อื่น</string>
 </resources>

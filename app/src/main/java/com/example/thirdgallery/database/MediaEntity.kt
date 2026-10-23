@@ -39,6 +39,8 @@ data class MediaEntity(
     @ColumnInfo(defaultValue = "''") val bucketName: String = "",
     /** Local year * 12 + month (0-based) of [dateMs]; groups the Timeline month and year views. */
     @ColumnInfo(defaultValue = "0") val monthKey: Long = 0,
+    /** File name with extension (MediaStore DISPLAY_NAME); the search matches against it. */
+    @ColumnInfo(defaultValue = "''") val displayName: String = "",
 )
 
 object MediaTypes {

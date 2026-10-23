@@ -165,7 +165,8 @@ class MediaRepository(context: Context) {
      * The ordered ids behind the photo viewer, in the same order as the grid the item was tapped in.
      * [AlbumKind.DEVICE] with id 0 is the whole gallery under [filter]. Blocking: call it off the main thread.
      */
-    fun viewerUids(kind: AlbumKind, id: Long, sinceMs: Long, filter: MediaFilter): List<Long> = when (kind) {
+    fun viewerUids(kind: AlbumKind, id: Long, sinceMs: Long, filter: MediaFilter, searchQuery: String = ""): List<Long> = when (kind) {
+        AlbumKind.SEARCH -> dao.searchUids(likePattern(searchQuery))
         AlbumKind.USER -> dao.userAlbumUids(id)
         AlbumKind.YEAR -> dao.yearUids(id.toInt())
         AlbumKind.MONTH -> dao.monthUids(id)
@@ -177,6 +178,29 @@ class MediaRepository(context: Context) {
     }
 
     fun find(uid: Long): MediaEntity? = dao.byUid(uid)
+
+    /** Photos and videos whose file name contains [query], newest first. */
+    fun searchPaged(query: String): LiveData<PagingData<MediaEntity>> =
+        Pager(
+            config = PagingConfig(
+                pageSize = PAGE_SIZE,
+                prefetchDistance = PAGE_SIZE / 2,
+                initialLoadSize = PAGE_SIZE * 2,
+                enablePlaceholders = false,
+                maxSize = PAGE_SIZE * 6,
+            ),
+            pagingSourceFactory = { dao.searchSource(likePattern(query)) },
+        ).liveData
+
+    fun searchCount(query: String): LiveData<Int> = dao.observeSearchCount(likePattern(query))
+
+    /**
+     * The query as a LIKE operand: the characters % and _ (and the escape character) stay literal, and the
+     * words may be separated by anything in the name ("nooedl edit" finds "Nooedl_Edit.jpg").
+     */
+    private fun likePattern(query: String): String =
+        query.trim().split(Regex("\\s+")).filter { it.isNotEmpty() }
+            .joinToString("%") { it.replace("\\", "\\\\").replace("%", "\\%").replace("_", "\\_") }
 
     fun setFavoriteLocal(uid: Long, favorite: Boolean) = dao.setFavorite(uid, favorite)
 
@@ -258,6 +282,7 @@ class MediaRepository(context: Context) {
             add(DATE_TAKEN)
             add(MediaStore.MediaColumns.BUCKET_ID)
             add(MediaStore.MediaColumns.BUCKET_DISPLAY_NAME)
+            add(MediaStore.MediaColumns.DISPLAY_NAME)
             if (isVideo) add(MediaStore.Video.Media.DURATION)
             if (Build.VERSION.SDK_INT >= 30) add(MediaStore.MediaColumns.IS_FAVORITE)
         }.toTypedArray()
@@ -270,6 +295,7 @@ class MediaRepository(context: Context) {
             val favoriteCol = if (Build.VERSION.SDK_INT >= 30) cursor.getColumnIndex(MediaStore.MediaColumns.IS_FAVORITE) else -1
             val bucketIdCol = cursor.getColumnIndexOrThrow(MediaStore.MediaColumns.BUCKET_ID)
             val bucketNameCol = cursor.getColumnIndexOrThrow(MediaStore.MediaColumns.BUCKET_DISPLAY_NAME)
+            val nameCol = cursor.getColumnIndexOrThrow(MediaStore.MediaColumns.DISPLAY_NAME)
             val zone = TimeZone.getDefault()
             val calendar = java.util.Calendar.getInstance(zone)
             val batch = ArrayList<MediaEntity>(BATCH_SIZE)
@@ -293,6 +319,7 @@ class MediaRepository(context: Context) {
                         syncToken = token,
                         bucketId = cursor.getLong(bucketIdCol),
                         bucketName = cursor.getString(bucketNameCol).orEmpty(),
+                        displayName = cursor.getString(nameCol).orEmpty(),
                         monthKey = monthKey,
                     )
                 )
@@ -350,7 +377,7 @@ class MediaRepository(context: Context) {
         const val ALBUM_LIMIT = 12
 
         /** Bump when the indexed columns change so existing installs re-read MediaStore once. */
-        const val FINGERPRINT_VERSION = 4
+        const val FINGERPRINT_VERSION = 5
         const val DAY_MS = 86_400_000L
 
         @Suppress("DEPRECATION")

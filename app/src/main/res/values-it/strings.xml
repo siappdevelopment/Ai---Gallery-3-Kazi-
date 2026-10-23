@@ -230,4 +230,14 @@
     <string name="viewer_wallpaper_photos_only">Solo le foto possono essere impostate come sfondo</string>
     <string name="viewer_transfer_partial">Impossibile copiare o spostare %1$d elementi su %2$d</string>
     <string name="viewer_transfer_failed">Impossibile copiare o spostare gli elementi</string>
+    <string name="search_hint">Cerca foto e video</string>
+    <string name="search_clear">Cancella ricerca</string>
+    <string name="search_recent">Recenti</string>
+    <string name="search_people">Persone</string>
+    <string name="search_browse">Sfoglia</string>
+    <string name="search_browse_photos">Foto</string>
+    <string name="search_browse_documents">Documenti</string>
+    <string name="search_results_title">Foto e video</string>
+    <string name="search_no_results">Nessun risultato</string>
+    <string name="search_no_results_desc">Prova con un altro nome file.</string>
 </resources>

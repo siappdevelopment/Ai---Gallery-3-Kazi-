@@ -227,4 +227,14 @@
     <string name="viewer_wallpaper_photos_only">Net foto’s kan as muurpapier gestel word</string>
     <string name="viewer_transfer_partial">%1$d van %2$d items kon nie gekopieer of geskuif word nie</string>
     <string name="viewer_transfer_failed">Kon nie die items kopieer of skuif nie</string>
+    <string name="search_hint">Soek foto’s en video’s</string>
+    <string name="search_clear">Maak soektog skoon</string>
+    <string name="search_recent">Onlangs</string>
+    <string name="search_people">Mense</string>
+    <string name="search_browse">Blaai</string>
+    <string name="search_browse_photos">Foto’s</string>
+    <string name="search_browse_documents">Dokumente</string>
+    <string name="search_results_title">Foto’s en video’s</string>
+    <string name="search_no_results">Geen resultate nie</string>
+    <string name="search_no_results_desc">Probeer ’n ander lêernaam.</string>
 </resources>

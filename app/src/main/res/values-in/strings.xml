@@ -224,4 +224,14 @@
     <string name="viewer_wallpaper_photos_only">Hanya foto yang dapat dijadikan wallpaper</string>
     <string name="viewer_transfer_partial">%1$d dari %2$d item tidak dapat disalin atau dipindahkan</string>
     <string name="viewer_transfer_failed">Tidak dapat menyalin atau memindahkan item</string>
+    <string name="search_hint">Cari foto dan video</string>
+    <string name="search_clear">Hapus pencarian</string>
+    <string name="search_recent">Terbaru</string>
+    <string name="search_people">Orang</string>
+    <string name="search_browse">Jelajahi</string>
+    <string name="search_browse_photos">Foto</string>
+    <string name="search_browse_documents">Dokumen</string>
+    <string name="search_results_title">Foto &amp; video</string>
+    <string name="search_no_results">Tidak ada hasil</string>
+    <string name="search_no_results_desc">Coba nama file yang lain.</string>
 </resources>
