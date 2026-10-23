@@ -228,4 +228,6 @@
     <string name="viewer_rename_exists">Un fichier portant ce nom existe déjà</string>
     <string name="viewer_rename_failed">Impossible de renommer ce fichier</string>
     <string name="viewer_wallpaper_photos_only">Seules les photos peuvent servir de fond d’écran</string>
+    <string name="viewer_transfer_partial">%1$d éléments sur %2$d n’ont pas pu être copiés ou déplacés</string>
+    <string name="viewer_transfer_failed">Impossible de copier ou de déplacer les éléments</string>
 </resources>

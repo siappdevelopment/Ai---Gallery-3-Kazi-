@@ -56,6 +56,9 @@ class FullScreenMediaViewModel(
     /** App album the viewer was opened from (0 when it is not one): "Move to album" takes the item out of it. */
     val sourceAlbumId: Long = if (kind == AlbumKind.USER) albumId else 0L
 
+    /** Device folder the viewer was opened from (0 = whole gallery or not a folder). */
+    val sourceFolderId: Long = if (kind == AlbumKind.DEVICE) albumId else 0L
+
     private val _renameName = MutableLiveData<Event<String>>()
     val renameName: LiveData<Event<String>> = _renameName
 

@@ -231,4 +231,6 @@
     <string name="viewer_rename_exists">Файл с таким именем уже существует</string>
     <string name="viewer_rename_failed">Не удалось переименовать файл</string>
     <string name="viewer_wallpaper_photos_only">В качестве обоев можно установить только фото</string>
+    <string name="viewer_transfer_partial">Не удалось скопировать или переместить элементов: %1$d из %2$d</string>
+    <string name="viewer_transfer_failed">Не удалось скопировать или переместить элементы</string>
 </resources>

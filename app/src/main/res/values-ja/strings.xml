@@ -222,4 +222,6 @@
     <string name="viewer_rename_exists">同じ名前のファイルが既にあります</string>
     <string name="viewer_rename_failed">このファイルの名前を変更できませんでした</string>
     <string name="viewer_wallpaper_photos_only">壁紙に設定できるのは写真のみです</string>
+    <string name="viewer_transfer_partial">%2$d 件中 %1$d 件をコピーまたは移動できませんでした</string>
+    <string name="viewer_transfer_failed">項目をコピーまたは移動できませんでした</string>
 </resources>

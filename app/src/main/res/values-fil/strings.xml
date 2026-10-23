@@ -225,4 +225,6 @@
     <string name="viewer_rename_exists">May file na may ganitong pangalan na</string>
     <string name="viewer_rename_failed">Hindi mapalitan ang pangalan ng file</string>
     <string name="viewer_wallpaper_photos_only">Mga larawan lang ang puwedeng gawing wallpaper</string>
+    <string name="viewer_transfer_partial">%1$d sa %2$d item ang hindi makopya o mailipat</string>
+    <string name="viewer_transfer_failed">Hindi makopya o mailipat ang mga item</string>
 </resources>

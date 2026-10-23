@@ -222,4 +222,6 @@
     <string name="viewer_rename_exists">已存在同名文件</string>
     <string name="viewer_rename_failed">无法重命名此文件</string>
     <string name="viewer_wallpaper_photos_only">只有照片可以设为壁纸</string>
+    <string name="viewer_transfer_partial">%2$d 项中有 %1$d 项无法复制或移动</string>
+    <string name="viewer_transfer_failed">无法复制或移动这些项目</string>
 </resources>

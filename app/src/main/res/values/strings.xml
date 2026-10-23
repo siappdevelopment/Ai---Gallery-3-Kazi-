@@ -231,4 +231,6 @@
     <string name="viewer_rename_exists">A file with this name already exists</string>
     <string name="viewer_rename_failed">Couldn’t rename this file</string>
     <string name="viewer_wallpaper_photos_only">Only photos can be set as wallpaper</string>
+    <string name="viewer_transfer_partial">%1$d of %2$d items couldn’t be copied or moved</string>
+    <string name="viewer_transfer_failed">Couldn’t copy or move the items</string>
 </resources>

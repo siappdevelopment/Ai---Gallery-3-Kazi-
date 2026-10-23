@@ -222,4 +222,6 @@
     <string name="viewer_rename_exists">File dengan nama ini sudah ada</string>
     <string name="viewer_rename_failed">Tidak dapat mengganti nama file ini</string>
     <string name="viewer_wallpaper_photos_only">Hanya foto yang dapat dijadikan wallpaper</string>
+    <string name="viewer_transfer_partial">%1$d dari %2$d item tidak dapat disalin atau dipindahkan</string>
+    <string name="viewer_transfer_failed">Tidak dapat menyalin atau memindahkan item</string>
 </resources>

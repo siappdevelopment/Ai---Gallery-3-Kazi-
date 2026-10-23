@@ -10,6 +10,8 @@ import android.widget.Toast
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.widget.doAfterTextChanged
+import androidx.activity.result.IntentSenderRequest
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -20,6 +22,7 @@ import com.example.thirdgallery.model.MediaFilter
 import com.example.thirdgallery.repo.AlbumRepository
 import com.example.thirdgallery.viewmodel.AddToAlbumViewModel
 import com.example.thirdgallery.viewmodel.PickAlbum
+import com.example.thirdgallery.viewmodel.TransferOutcome
 import com.example.thirdgallery.viewmodel.SelectionViewModel
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 
@@ -31,6 +34,10 @@ class AddToAlbumBottomSheet : BottomSheetDialogFragment() {
 
     private val viewModel: AddToAlbumViewModel by viewModels()
     private val selectionViewModel: SelectionViewModel by activityViewModels()
+
+    private val consentLauncher = registerForActivityResult(ActivityResultContracts.StartIntentSenderForResult()) { result ->
+        viewModel.onConsent(result.resultCode == android.app.Activity.RESULT_OK)
+    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         val b = BottomSheetAddAlbumBinding.inflate(inflater, container, false)
@@ -89,6 +96,12 @@ class AddToAlbumBottomSheet : BottomSheetDialogFragment() {
             }
         }
         viewModel.albums.observe(owner) { renderAlbums(albumAdapter, it.orEmpty()) }
+        viewModel.consent.observe(owner) { event ->
+            event.getContentIfNotHandled()?.let { consentLauncher.launch(IntentSenderRequest.Builder(it.intentSender).build()) }
+        }
+        viewModel.transfer.observe(owner) { event ->
+            event.getContentIfNotHandled()?.let { handleTransfer(it) }
+        }
         viewModel.result.observe(owner) { event ->
             event.getContentIfNotHandled()?.let { handleResult(it) }
         }
@@ -151,6 +164,31 @@ class AddToAlbumBottomSheet : BottomSheetDialogFragment() {
         }
     }
 
+    /** Copy / Move into a device folder finished: all, some or none of the files went through. */
+    private fun handleTransfer(outcome: TransferOutcome) {
+        val context = context?.applicationContext ?: return
+        when {
+            outcome.done == 0 ->
+                Toast.makeText(context, R.string.viewer_transfer_failed, Toast.LENGTH_SHORT).show()
+            outcome.failed > 0 -> {
+                val total = outcome.done + outcome.failed
+                Toast.makeText(context, getString(R.string.viewer_transfer_partial, outcome.failed, total), Toast.LENGTH_LONG).show()
+            }
+            else -> {
+                val text = if (outcome.move) R.string.selection_moved_to else R.string.viewer_copied_to
+                Toast.makeText(context, getString(text, outcome.albumName), Toast.LENGTH_SHORT).show()
+            }
+        }
+        if (outcome.done > 0) {
+            if (viewModel.isSelection) selectionViewModel.clear()
+            parentFragmentManager.setFragmentResult(
+                RESULT_KEY,
+                androidx.core.os.bundleOf(RESULT_LEFT_ALBUM to outcome.leftAlbum, RESULT_LEFT_FOLDER to outcome.move),
+            )
+            dismissAllowingStateLoss()
+        }
+    }
+
     private fun handleResult(result: AlbumRepository.Result) {
         val b = binding
         when (result.failure) {
@@ -169,7 +207,10 @@ class AddToAlbumBottomSheet : BottomSheetDialogFragment() {
                     Toast.LENGTH_SHORT,
                 ).show()
                 if (viewModel.isSelection) selectionViewModel.clear()
-                parentFragmentManager.setFragmentResult(RESULT_KEY, androidx.core.os.bundleOf(RESULT_MOVED to viewModel.isMove))
+                parentFragmentManager.setFragmentResult(
+                    RESULT_KEY,
+                    androidx.core.os.bundleOf(RESULT_LEFT_ALBUM to viewModel.leavesAlbum, RESULT_LEFT_FOLDER to false),
+                )
                 dismissAllowingStateLoss()
             }
             AlbumRepository.Failure.EMPTY_NAME -> showError(b, R.string.photo_album_name_empty)
@@ -199,7 +240,8 @@ class AddToAlbumBottomSheet : BottomSheetDialogFragment() {
 
         /** Fragment result after the items were added / moved / copied. */
         const val RESULT_KEY = "album_pick_done"
-        const val RESULT_MOVED = "moved"
+        const val RESULT_LEFT_ALBUM = "left_album"
+        const val RESULT_LEFT_FOLDER = "left_folder"
         private const val VISIBLE_ROWS = 6
         private const val ROW_HEIGHT_DP = 64f
         private const val MAX_LIST_SCREEN_FRACTION = 0.5f

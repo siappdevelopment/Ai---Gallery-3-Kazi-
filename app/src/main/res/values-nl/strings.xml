@@ -225,4 +225,6 @@
     <string name="viewer_rename_exists">Er bestaat al een bestand met deze naam</string>
     <string name="viewer_rename_failed">Kan dit bestand niet hernoemen</string>
     <string name="viewer_wallpaper_photos_only">Alleen foto’s kunnen als achtergrond worden ingesteld</string>
+    <string name="viewer_transfer_partial">%1$d van %2$d items kon niet worden gekopieerd of verplaatst</string>
+    <string name="viewer_transfer_failed">De items kunnen niet worden gekopieerd of verplaatst</string>
 </resources>

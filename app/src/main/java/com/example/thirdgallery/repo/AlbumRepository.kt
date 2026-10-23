@@ -69,6 +69,12 @@ class AlbumRepository(context: Context) {
         }
     }
 
+    /** Takes [uids] out of an app album in one transaction. Blocking: call it off the main thread. */
+    fun removeItems(albumId: Long, uids: List<Long>) {
+        if (uids.isEmpty()) return
+        database.runInTransaction(Runnable { removeFrom(albumId, uids) })
+    }
+
     private fun removeFrom(albumId: Long, uids: List<Long>) {
         uids.chunked(REMOVE_CHUNK).forEach { dao.deleteItems(albumId, it) }
     }

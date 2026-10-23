@@ -225,4 +225,6 @@
     <string name="viewer_rename_exists">’n Lêer met hierdie naam bestaan reeds</string>
     <string name="viewer_rename_failed">Kon nie hierdie lêer hernoem nie</string>
     <string name="viewer_wallpaper_photos_only">Net foto’s kan as muurpapier gestel word</string>
+    <string name="viewer_transfer_partial">%1$d van %2$d items kon nie gekopieer of geskuif word nie</string>
+    <string name="viewer_transfer_failed">Kon nie die items kopieer of skuif nie</string>
 </resources>

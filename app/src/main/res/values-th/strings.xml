@@ -222,4 +222,6 @@
     <string name="viewer_rename_exists">มีไฟล์ชื่อนี้อยู่แล้ว</string>
     <string name="viewer_rename_failed">ไม่สามารถเปลี่ยนชื่อไฟล์นี้ได้</string>
     <string name="viewer_wallpaper_photos_only">ตั้งเป็นวอลเปเปอร์ได้เฉพาะรูปภาพ</string>
+    <string name="viewer_transfer_partial">คัดลอกหรือย้ายไม่ได้ %1$d จาก %2$d รายการ</string>
+    <string name="viewer_transfer_failed">ไม่สามารถคัดลอกหรือย้ายรายการได้</string>
 </resources>

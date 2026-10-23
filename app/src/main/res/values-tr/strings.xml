@@ -225,4 +225,6 @@
     <string name="viewer_rename_exists">Bu ada sahip bir dosya zaten var</string>
     <string name="viewer_rename_failed">Bu dosya yeniden adlandırılamadı</string>
     <string name="viewer_wallpaper_photos_only">Yalnızca fotoğraflar duvar kâğıdı yapılabilir</string>
+    <string name="viewer_transfer_partial">%2$d öğeden %1$d tanesi kopyalanamadı veya taşınamadı</string>
+    <string name="viewer_transfer_failed">Öğeler kopyalanamadı veya taşınamadı</string>
 </resources>

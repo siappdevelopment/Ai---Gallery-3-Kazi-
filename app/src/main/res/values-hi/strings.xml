@@ -225,4 +225,6 @@
     <string name="viewer_rename_exists">इस नाम की फ़ाइल पहले से मौजूद है</string>
     <string name="viewer_rename_failed">इस फ़ाइल का नाम नहीं बदला जा सका</string>
     <string name="viewer_wallpaper_photos_only">केवल फ़ोटो को वॉलपेपर बनाया जा सकता है</string>
+    <string name="viewer_transfer_partial">%2$d में से %1$d आइटम कॉपी या मूव नहीं हो सके</string>
+    <string name="viewer_transfer_failed">आइटम कॉपी या मूव नहीं हो सके</string>
 </resources>

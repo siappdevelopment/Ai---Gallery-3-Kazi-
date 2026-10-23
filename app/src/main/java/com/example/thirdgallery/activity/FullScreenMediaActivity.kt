@@ -143,8 +143,10 @@ class FullScreenMediaActivity : AppCompatActivity() {
             result.getString(RenameBottomSheet.RESULT_NAME)?.let { startRename(it) }
         }
         supportFragmentManager.setFragmentResultListener(AddToAlbumBottomSheet.RESULT_KEY, this) { _, result ->
-            // Move out of the app album that is being viewed: the item no longer belongs to this swipe list.
-            if (result.getBoolean(AddToAlbumBottomSheet.RESULT_MOVED) && viewModel.sourceAlbumId > 0) {
+            // The item left the album or folder being viewed: it no longer belongs to this swipe list.
+            val leftAlbum = result.getBoolean(AddToAlbumBottomSheet.RESULT_LEFT_ALBUM) && viewModel.sourceAlbumId > 0
+            val leftFolder = result.getBoolean(AddToAlbumBottomSheet.RESULT_LEFT_FOLDER) && viewModel.sourceFolderId > 0
+            if (leftAlbum || leftFolder) {
                 uids.getOrNull(position)?.let { viewModel.forget(it) }
             }
         }
