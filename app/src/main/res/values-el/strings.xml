@@ -202,4 +202,12 @@
     <string name="selection_moved_to">Μετακινήθηκε στο %1$s</string>
     <string name="selection_unfavorite">Κατάργηση αγαπημένου</string>
     <string name="selection_removed_favorites">Αφαιρέθηκαν %1$d από τα Αγαπημένα</string>
+    <string name="details_title">Λεπτομέρειες</string>
+    <string name="details_done">Τέλος</string>
+    <string name="details_date">Ημερομηνία</string>
+    <string name="details_name">Όνομα</string>
+    <string name="details_path">Διαδρομή</string>
+    <string name="details_size">Μέγεθος</string>
+    <string name="details_camera">Κάμερα</string>
+    <string name="details_location">Τοποθεσία</string>
 </resources>

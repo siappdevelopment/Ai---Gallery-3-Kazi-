@@ -199,4 +199,12 @@
     <string name="selection_moved_to">ย้ายไปที่ “%1$s” แล้ว</string>
     <string name="selection_unfavorite">เลิกชื่นชอบ</string>
     <string name="selection_removed_favorites">นำ %1$d รายการออกจากรายการโปรดแล้ว</string>
+    <string name="details_title">รายละเอียด</string>
+    <string name="details_done">เสร็จสิ้น</string>
+    <string name="details_date">วันที่</string>
+    <string name="details_name">ชื่อ</string>
+    <string name="details_path">เส้นทาง</string>
+    <string name="details_size">ขนาด</string>
+    <string name="details_camera">กล้อง</string>
+    <string name="details_location">สถานที่</string>
 </resources>

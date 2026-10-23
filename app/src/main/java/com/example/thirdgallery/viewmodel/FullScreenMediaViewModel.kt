@@ -6,6 +6,9 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
 import com.example.thirdgallery.database.MediaEntity
+import com.example.thirdgallery.helper.DetailRow
+import com.example.thirdgallery.helper.MediaDetailsReader
+import com.example.thirdgallery.utils.Event
 import com.example.thirdgallery.model.AlbumKind
 import com.example.thirdgallery.model.MediaFilter
 import com.example.thirdgallery.repo.MediaRepository
@@ -35,6 +38,9 @@ class FullScreenMediaViewModel(
     private val _current = MutableLiveData<MediaEntity?>()
     val current: LiveData<MediaEntity?> = _current
 
+    private val _details = MutableLiveData<Event<List<DetailRow>>>()
+    val details: LiveData<Event<List<DetailRow>>> = _details
+
     /** The item that is (or should be) on screen; survives rotation and process death. */
     val currentUid: Long get() = state.get<Long>(ARG_UID) ?: 0L
 
@@ -52,6 +58,12 @@ class FullScreenMediaViewModel(
     fun select(uid: Long) {
         state[ARG_UID] = uid
         worker.execute { _current.postValue(repository.find(uid)) }
+    }
+
+    fun loadDetails(media: MediaEntity) {
+        worker.execute {
+            _details.postValue(Event(MediaDetailsReader.read(getApplication(), media)))
+        }
     }
 
     fun setFavorite(uid: Long, favorite: Boolean) {

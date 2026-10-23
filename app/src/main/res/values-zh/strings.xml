@@ -199,4 +199,12 @@
     <string name="selection_moved_to">已移动到“%1$s”</string>
     <string name="selection_unfavorite">取消收藏</string>
     <string name="selection_removed_favorites">已将 %1$d 项移出收藏</string>
+    <string name="details_title">详细信息</string>
+    <string name="details_done">完成</string>
+    <string name="details_date">日期</string>
+    <string name="details_name">名称</string>
+    <string name="details_path">路径</string>
+    <string name="details_size">大小</string>
+    <string name="details_camera">相机</string>
+    <string name="details_location">位置</string>
 </resources>

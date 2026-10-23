@@ -199,4 +199,12 @@
     <string name="selection_moved_to">Dipindahkan ke %1$s</string>
     <string name="selection_unfavorite">Hapus favorit</string>
     <string name="selection_removed_favorites">%1$d dihapus dari Favorit</string>
+    <string name="details_title">Detail</string>
+    <string name="details_done">Selesai</string>
+    <string name="details_date">Tanggal</string>
+    <string name="details_name">Nama</string>
+    <string name="details_path">Path</string>
+    <string name="details_size">Ukuran</string>
+    <string name="details_camera">Kamera</string>
+    <string name="details_location">Lokasi</string>
 </resources>

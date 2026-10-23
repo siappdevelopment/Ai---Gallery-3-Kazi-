@@ -202,4 +202,12 @@
     <string name="selection_moved_to">Inilipat sa %1$s</string>
     <string name="selection_unfavorite">Alisin sa paborito</string>
     <string name="selection_removed_favorites">%1$d ang inalis sa Mga Paborito</string>
+    <string name="details_title">Mga detalye</string>
+    <string name="details_done">Tapos na</string>
+    <string name="details_date">Petsa</string>
+    <string name="details_name">Pangalan</string>
+    <string name="details_path">Path</string>
+    <string name="details_size">Laki</string>
+    <string name="details_camera">Camera</string>
+    <string name="details_location">Lokasyon</string>
 </resources>

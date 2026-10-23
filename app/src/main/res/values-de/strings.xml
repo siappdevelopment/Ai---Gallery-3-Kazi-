@@ -202,4 +202,12 @@
     <string name="selection_moved_to">Nach „%1$s“ verschoben</string>
     <string name="selection_unfavorite">Favorit entfernen</string>
     <string name="selection_removed_favorites">%1$d aus Favoriten entfernt</string>
+    <string name="details_title">Details</string>
+    <string name="details_done">Fertig</string>
+    <string name="details_date">Datum</string>
+    <string name="details_name">Name</string>
+    <string name="details_path">Pfad</string>
+    <string name="details_size">Größe</string>
+    <string name="details_camera">Kamera</string>
+    <string name="details_location">Ort</string>
 </resources>

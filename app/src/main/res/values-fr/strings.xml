@@ -205,4 +205,12 @@
     <string name="selection_moved_to">Déplacé vers %1$s</string>
     <string name="selection_unfavorite">Retirer des favoris</string>
     <string name="selection_removed_favorites">%1$d retirés des favoris</string>
+    <string name="details_title">Détails</string>
+    <string name="details_done">Terminé</string>
+    <string name="details_date">Date</string>
+    <string name="details_name">Nom</string>
+    <string name="details_path">Chemin</string>
+    <string name="details_size">Taille</string>
+    <string name="details_camera">Appareil photo</string>
+    <string name="details_location">Lieu</string>
 </resources>

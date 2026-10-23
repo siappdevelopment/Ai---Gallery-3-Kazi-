@@ -29,6 +29,7 @@ import com.example.thirdgallery.adapter.ViewerPagerAdapter
 import com.example.thirdgallery.database.MediaEntity
 import com.example.thirdgallery.database.MediaTypes
 import com.example.thirdgallery.fragment.ConfirmDialogFragment
+import com.example.thirdgallery.fragment.DetailsDialogFragment
 import com.example.thirdgallery.repo.MediaRepository
 import com.example.thirdgallery.databinding.ActivityFullScreenMediaBinding
 import com.example.thirdgallery.helper.MediaFormat
@@ -125,7 +126,7 @@ class FullScreenMediaActivity : AppCompatActivity() {
         }
         b.btnMoreTop.setOnClickListener(comingSoon)
         b.actionEdit.setOnClickListener(comingSoon)
-        b.actionMore.setOnClickListener(comingSoon)
+        b.actionDetails.setOnClickListener { showDetails() }
         b.actionShare.setOnClickListener { share() }
         b.actionFavorite.setOnClickListener { toggleFavorite() }
         b.actionDelete.setOnClickListener { delete() }
@@ -136,6 +137,9 @@ class FullScreenMediaActivity : AppCompatActivity() {
 
         viewModel.uids.observe(this) { list -> onList(list.orEmpty()) }
         viewModel.current.observe(this) { render(it) }
+        viewModel.details.observe(this) { event ->
+            event.getContentIfNotHandled()?.let { DetailsDialogFragment.show(supportFragmentManager, it) }
+        }
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
@@ -207,6 +211,11 @@ class FullScreenMediaActivity : AppCompatActivity() {
 
     private fun current(): MediaEntity? =
         viewModel.current.value?.takeIf { it.uid == uids.getOrNull(position) }
+
+    /** Details of the item that is on screen right now (read in the background, then shown). */
+    private fun showDetails() {
+        current()?.let { viewModel.loadDetails(it) }
+    }
 
     private fun share() {
         val uid = uids.getOrNull(position) ?: return

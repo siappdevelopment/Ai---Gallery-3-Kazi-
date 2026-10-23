@@ -202,4 +202,12 @@
     <string name="selection_moved_to">%1$s में ले जाया गया</string>
     <string name="selection_unfavorite">पसंदीदा हटाएँ</string>
     <string name="selection_removed_favorites">%1$d पसंदीदा से हटाए गए</string>
+    <string name="details_title">विवरण</string>
+    <string name="details_done">पूर्ण</string>
+    <string name="details_date">तारीख</string>
+    <string name="details_name">नाम</string>
+    <string name="details_path">पथ</string>
+    <string name="details_size">आकार</string>
+    <string name="details_camera">कैमरा</string>
+    <string name="details_location">स्थान</string>
 </resources>

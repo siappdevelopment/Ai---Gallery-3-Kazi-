@@ -202,4 +202,12 @@
     <string name="selection_moved_to">“%1$s” albümüne taşındı</string>
     <string name="selection_unfavorite">Favoriden çıkar</string>
     <string name="selection_removed_favorites">%1$d öğe Favorilerden kaldırıldı</string>
+    <string name="details_title">Ayrıntılar</string>
+    <string name="details_done">Bitti</string>
+    <string name="details_date">Tarih</string>
+    <string name="details_name">Ad</string>
+    <string name="details_path">Yol</string>
+    <string name="details_size">Boyut</string>
+    <string name="details_camera">Kamera</string>
+    <string name="details_location">Konum</string>
 </resources>

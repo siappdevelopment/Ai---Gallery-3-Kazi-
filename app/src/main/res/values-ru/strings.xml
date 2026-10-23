@@ -208,4 +208,12 @@
     <string name="selection_moved_to">Перемещено в «%1$s»</string>
     <string name="selection_unfavorite">Убрать из избранного</string>
     <string name="selection_removed_favorites">Убрано из избранного: %1$d</string>
+    <string name="details_title">Сведения</string>
+    <string name="details_done">Готово</string>
+    <string name="details_date">Дата</string>
+    <string name="details_name">Имя</string>
+    <string name="details_path">Путь</string>
+    <string name="details_size">Размер</string>
+    <string name="details_camera">Камера</string>
+    <string name="details_location">Место</string>
 </resources>

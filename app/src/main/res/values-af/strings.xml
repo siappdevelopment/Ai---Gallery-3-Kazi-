@@ -202,4 +202,12 @@
     <string name="selection_moved_to">Geskuif na %1$s</string>
     <string name="selection_unfavorite">Verwyder gunsteling</string>
     <string name="selection_removed_favorites">%1$d uit gunstelinge verwyder</string>
+    <string name="details_title">Besonderhede</string>
+    <string name="details_done">Klaar</string>
+    <string name="details_date">Datum</string>
+    <string name="details_name">Naam</string>
+    <string name="details_path">Pad</string>
+    <string name="details_size">Grootte</string>
+    <string name="details_camera">Kamera</string>
+    <string name="details_location">Ligging</string>
 </resources>
