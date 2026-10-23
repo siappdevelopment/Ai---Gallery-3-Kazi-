@@ -190,4 +190,14 @@
     <string name="delete_video_title">Deze video verwijderen?</string>
     <string name="delete_body">Blijft 30 dagen in de prullenbak en wordt daarna definitief verwijderd.</string>
     <string name="delete_move_to_bin">Naar prullenbak</string>
+    <string name="selection_selected">%1$d geselecteerd</string>
+    <string name="selection_select_all">Alles selecteren</string>
+    <string name="selection_clear">Selectie wissen</string>
+    <string name="selection_add_to_album">Toevoegen aan album</string>
+    <string name="selection_move">Verplaatsen</string>
+    <string name="selection_added_favorites">%1$d toegevoegd aan Favorieten</string>
+    <string name="selection_moved_bin">%1$d items naar prullenbak verplaatst</string>
+    <string name="selection_delete_title">%1$d items naar prullenbak verplaatsen?</string>
+    <string name="selection_move_title">Selectie (%1$d) verplaatsen naar…</string>
+    <string name="selection_moved_to">Verplaatst naar %1$s</string>
 </resources>

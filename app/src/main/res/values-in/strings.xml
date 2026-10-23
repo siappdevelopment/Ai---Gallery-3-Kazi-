@@ -187,4 +187,14 @@
     <string name="delete_video_title">Hapus video ini?</string>
     <string name="delete_body">Item tetap di Sampah selama 30 hari, lalu dihapus permanen.</string>
     <string name="delete_move_to_bin">Pindahkan ke Sampah</string>
+    <string name="selection_selected">%1$d dipilih</string>
+    <string name="selection_select_all">Pilih semua</string>
+    <string name="selection_clear">Hapus pilihan</string>
+    <string name="selection_add_to_album">Tambahkan ke album</string>
+    <string name="selection_move">Pindahkan</string>
+    <string name="selection_added_favorites">%1$d ditambahkan ke Favorit</string>
+    <string name="selection_moved_bin">%1$d item dipindahkan ke Sampah</string>
+    <string name="selection_delete_title">Pindahkan %1$d item ke Sampah?</string>
+    <string name="selection_move_title">Pindahkan pilihan (%1$d) ke…</string>
+    <string name="selection_moved_to">Dipindahkan ke %1$s</string>
 </resources>

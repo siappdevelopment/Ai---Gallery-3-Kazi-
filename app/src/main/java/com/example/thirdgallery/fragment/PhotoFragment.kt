@@ -19,6 +19,8 @@ import androidx.recyclerview.widget.ConcatAdapter
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.thirdgallery.R
 import com.example.thirdgallery.activity.AlbumDetailActivity
+import com.example.thirdgallery.helper.SelectionBarController
+import com.example.thirdgallery.viewmodel.SelectionViewModel
 import com.example.thirdgallery.activity.FullScreenMediaActivity
 import com.example.thirdgallery.activity.HomeActivity
 import com.example.thirdgallery.database.AlbumRow
@@ -66,6 +68,14 @@ class PhotoFragment : Fragment() {
 
     private val viewModel: PhotoViewModel by viewModels()
     private val layoutViewModel: GalleryLayoutViewModel by activityViewModels()
+    private val selectionViewModel: SelectionViewModel by activityViewModels()
+    private var selectionBars: SelectionBarController? = null
+    private var lastFilter: MediaFilter? = null
+    private var lastLayout: GalleryLayout? = null
+
+    private val selectionLauncher = registerForActivityResult(ActivityResultContracts.StartIntentSenderForResult()) { result ->
+        selectionViewModel.onRequestResult(result.resultCode == android.app.Activity.RESULT_OK)
+    }
 
     private var mediaAdapter: MediaPagingAdapter? = null
     private var classicHeader: GalleryHeaderAdapter? = null
@@ -118,8 +128,23 @@ class PhotoFragment : Fragment() {
         val b = binding ?: return
         val density = resources.displayMetrics.density
 
+        val host = activity as? androidx.appcompat.app.AppCompatActivity ?: return
+        val bars = SelectionBarController(
+            bars = b.selectionBars,
+            activity = host,
+            owner = viewLifecycleOwner,
+            viewModel = selectionViewModel,
+            sourceAlbumId = { 0L },
+            launch = { selectionLauncher.launch(androidx.activity.result.IntentSenderRequest.Builder(it.intentSender).build()) },
+            onSelectionChanged = {
+                mediaAdapter?.refreshSelection()
+                mosaicAdapter?.refreshSelection()
+            },
+        )
+        selectionBars = bars
+
         val columns = layoutViewModel.columns.value ?: GalleryLayoutPrefs.DEFAULT_COLUMNS
-        val media = MediaPagingAdapter(tilePx(columns), ::openMedia)
+        val media = MediaPagingAdapter(tilePx(columns), ::openMedia, bars.selection)
         val classic = GalleryHeaderAdapter(
             onFilterSelected = { viewModel.setFilter(it) },
             onAllAlbums = { (activity as? HomeActivity)?.openAlbumsTab() },
@@ -144,7 +169,7 @@ class PhotoFragment : Fragment() {
             onAllAlbums = { (activity as? HomeActivity)?.openAlbumsTab() },
             onOpenAlbum = ::openAlbum,
         )
-        val mosaic = MosaicPagingAdapter(resources.displayMetrics.widthPixels, ::openMedia)
+        val mosaic = MosaicPagingAdapter(resources.displayMetrics.widthPixels, ::openMedia, bars.selection)
         val journalTopAdapter = MosaicTopAdapter(
             onFilterSelected = { viewModel.setFilter(it) },
             onAllAlbums = { (activity as? HomeActivity)?.openAlbumsTab() },
@@ -227,6 +252,9 @@ class PhotoFragment : Fragment() {
             render()
         }
         viewModel.filter.observe(owner) {
+            selectionViewModel.setSource(AlbumKind.DEVICE, 0L, it)
+            if (lastFilter != null && lastFilter != it) selectionViewModel.clear()
+            lastFilter = it
             classic.setFilter(it)
             mosaicTopAdapter.setFilter(it)
             journalTopAdapter.setFilter(it)
@@ -254,6 +282,8 @@ class PhotoFragment : Fragment() {
         viewModel.syncError.observe(owner) { render() }
 
         layoutViewModel.layout.observe(owner) { layout ->
+            if (lastLayout != null && lastLayout != layout) selectionViewModel.clear()
+            lastLayout = layout
             // The Timeline has no filter bar, so it always shows everything.
             if (layout == GalleryLayout.TIMELINE) viewModel.setFilter(MediaFilter.ALL)
             applyMode()
@@ -277,7 +307,14 @@ class PhotoFragment : Fragment() {
         syncAccess()
     }
 
+    override fun onHiddenChanged(hidden: Boolean) {
+        super.onHiddenChanged(hidden)
+        // Another tab was opened: leave selection mode.
+        if (hidden) selectionViewModel.clear()
+    }
+
     override fun onDestroyView() {
+        selectionBars = null
         binding?.rvMedia?.adapter = null
         stopMosaicData()
         stopJournalData()

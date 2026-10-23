@@ -196,4 +196,14 @@
     <string name="delete_video_title">Удалить это видео?</string>
     <string name="delete_body">Оно будет храниться в корзине 30 дней, затем удалится навсегда.</string>
     <string name="delete_move_to_bin">В корзину</string>
+    <string name="selection_selected">Выбрано: %1$d</string>
+    <string name="selection_select_all">Выбрать все</string>
+    <string name="selection_clear">Снять выбор</string>
+    <string name="selection_add_to_album">Добавить в альбом</string>
+    <string name="selection_move">Переместить</string>
+    <string name="selection_added_favorites">В избранное добавлено: %1$d</string>
+    <string name="selection_moved_bin">В корзину перемещено элементов: %1$d</string>
+    <string name="selection_delete_title">Переместить в корзину элементы (%1$d)?</string>
+    <string name="selection_move_title">Переместить выбранное (%1$d) в…</string>
+    <string name="selection_moved_to">Перемещено в «%1$s»</string>
 </resources>

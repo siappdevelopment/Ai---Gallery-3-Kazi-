@@ -5,6 +5,8 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.activity.enableEdgeToEdge
+import androidx.activity.result.IntentSenderRequest
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -17,7 +19,10 @@ import com.example.thirdgallery.adapter.AlbumDetailHeaderAdapter
 import com.example.thirdgallery.adapter.MediaPagingAdapter
 import com.example.thirdgallery.databinding.ActivityAlbumDetailBinding
 import com.example.thirdgallery.helper.GalleryLayoutPrefs
+import com.example.thirdgallery.helper.SelectionBarController
 import com.example.thirdgallery.model.AlbumKind
+import com.example.thirdgallery.model.MediaFilter
+import com.example.thirdgallery.viewmodel.SelectionViewModel
 import com.example.thirdgallery.viewmodel.AlbumDetailViewModel
 
 /** The photos and videos of one album, folder or smart collection, grouped by day. */
@@ -27,6 +32,11 @@ class AlbumDetailActivity : AppCompatActivity() {
     private val viewModel: AlbumDetailViewModel by viewModels()
     private var adapter: MediaPagingAdapter? = null
     private var lastOpenAt = 0L
+    private val selectionViewModel: SelectionViewModel by viewModels()
+
+    private val selectionLauncher = registerForActivityResult(ActivityResultContracts.StartIntentSenderForResult()) { result ->
+        selectionViewModel.onRequestResult(result.resultCode == RESULT_OK)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -49,13 +59,26 @@ class AlbumDetailActivity : AppCompatActivity() {
         }
         b.btnAddPhotos.visibility = if (viewModel.isRegularAlbum) View.VISIBLE else View.GONE
         b.btnAddPhotos.setOnClickListener(comingSoon)
-        b.btnSelect.setOnClickListener(comingSoon)
         b.btnMore.setOnClickListener(comingSoon)
 
         // Same grid as the Gallery tab: the saved column count, day headers across the full width.
         val columns = GalleryLayoutPrefs.getColumns(this)
         val headerAdapter = AlbumDetailHeaderAdapter(viewModel.title)
-        val mediaAdapter = MediaPagingAdapter((resources.displayMetrics.widthPixels / columns).coerceAtLeast(1)) { openMedia(it) }
+        selectionViewModel.setSource(viewModel.sourceKind, viewModel.sourceId, MediaFilter.ALL)
+        var gridAdapter: MediaPagingAdapter? = null
+        val bars = SelectionBarController(
+            bars = b.selectionBars,
+            activity = this,
+            owner = this,
+            viewModel = selectionViewModel,
+            // Move takes the items out of this album when it is an app album.
+            sourceAlbumId = { if (viewModel.sourceKind == AlbumKind.USER) viewModel.sourceId else 0L },
+            launch = { selectionLauncher.launch(IntentSenderRequest.Builder(it.intentSender).build()) },
+            onSelectionChanged = { gridAdapter?.refreshSelection() },
+        )
+        b.btnSelect.setOnClickListener { selectionViewModel.begin() }
+        val mediaAdapter = MediaPagingAdapter((resources.displayMetrics.widthPixels / columns).coerceAtLeast(1), { openMedia(it) }, bars.selection)
+        gridAdapter = mediaAdapter
         adapter = mediaAdapter
         val manager = GridLayoutManager(this, columns)
         manager.spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {

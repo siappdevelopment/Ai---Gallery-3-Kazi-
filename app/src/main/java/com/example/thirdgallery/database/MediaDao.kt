@@ -169,4 +169,7 @@ interface MediaDao {
 
     @Query("DELETE FROM media WHERE uid IN (:uids)")
     fun deleteByUids(uids: List<Long>)
+
+    @Query("UPDATE media SET isFavorite = :favorite WHERE uid IN (:uids)")
+    fun setFavorites(uids: List<Long>, favorite: Boolean)
 }

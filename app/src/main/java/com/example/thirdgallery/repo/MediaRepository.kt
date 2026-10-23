@@ -182,6 +182,12 @@ class MediaRepository(context: Context) {
 
     fun removeLocal(uid: Long) = dao.deleteByUid(uid)
 
+    /** Marks many items as favorite (or not) in one transaction; grids and counts follow through LiveData. */
+    fun setFavoritesLocal(uids: List<Long>, favorite: Boolean) {
+        if (uids.isEmpty()) return
+        database.runInTransaction(Runnable { uids.chunked(REMOVE_CHUNK).forEach { dao.setFavorites(it, favorite) } })
+    }
+
     /** Drops many items from the index in one transaction (chunked below SQLite's variable limit). */
     fun removeLocalAll(uids: List<Long>) {
         if (uids.isEmpty()) return

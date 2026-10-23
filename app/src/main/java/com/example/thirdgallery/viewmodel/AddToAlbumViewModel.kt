@@ -32,6 +32,13 @@ class AddToAlbumViewModel(
     /** Opened from the Albums tab "New" button: only creates an empty album, no items to add. */
     val isCreateOnly: Boolean = dayKey == CREATE_ONLY
 
+    /** Opened from the multi-selection: the items are the chosen ones. */
+    val isSelection: Boolean = dayKey == SELECTION
+
+    /** "Move" instead of "Add": the items also leave the app album they were opened from. */
+    val isMove: Boolean = state.get<Boolean>(ARG_MOVE) ?: false
+    private val moveFrom: Long = state.get<Long>(ARG_SOURCE) ?: 0L
+
     @Volatile
     private var uids: List<Long> = emptyList()
 
@@ -76,6 +83,10 @@ class AddToAlbumViewModel(
         if (isCreateOnly) {
             _itemCount.value = 0
             _loaded.value = true
+        } else if (isSelection) {
+            uids = state.get<LongArray>(ARG_UIDS)?.toList().orEmpty()
+            _itemCount.value = uids.size
+            _loaded.value = true
         } else loader.execute {
             try {
                 val list = mediaRepository.uidsOfDay(dayKey, filter)
@@ -92,15 +103,15 @@ class AddToAlbumViewModel(
         if (!canStart()) return
         val existing = album.user
         if (existing != null) {
-            albumRepository.addToAlbum(existing, uids, ::finish)
+            albumRepository.addToAlbum(existing, uids, ::finish, moveFrom)
         } else {
-            albumRepository.createAlbum(album.name, uids, ::finish)
+            albumRepository.createAlbum(album.name, uids, ::finish, moveFrom)
         }
     }
 
     fun createAndAdd(name: String) {
         if (!canStart()) return
-        albumRepository.createAlbum(name, uids, ::finish)
+        albumRepository.createAlbum(name, uids, ::finish, moveFrom)
     }
 
     /** Ignores taps while a previous one is still running or the items are not loaded yet. */
@@ -120,6 +131,10 @@ class AddToAlbumViewModel(
         const val ARG_FILTER = "filter"
         const val ARG_COUNT = "count"
         const val CREATE_ONLY = -1L
+        const val SELECTION = -2L
+        const val ARG_UIDS = "uids"
+        const val ARG_MOVE = "move"
+        const val ARG_SOURCE = "source"
         private val loader = Executors.newSingleThreadExecutor()
     }
 }

@@ -26,11 +26,15 @@ class AlbumRepository(context: Context) {
     /** App albums as Albums-tab cards (size and four newest items). */
     val albumCards: LiveData<List<AlbumCardRow>> = dao.observeAlbumCards()
 
-    fun addToAlbum(album: UserAlbumRow, uids: List<Long>, onDone: (Result) -> Unit) {
+    /** Adds [uids] to [album]; with [moveFrom] > 0 they are taken out of that app album in the same transaction (Move). */
+    fun addToAlbum(album: UserAlbumRow, uids: List<Long>, onDone: (Result) -> Unit, moveFrom: Long = 0L) {
         executor.execute {
             val result = try {
                 val now = System.currentTimeMillis()
-                dao.insertItems(uids.map { AlbumItemEntity(album.id, it, now) })
+                database.runInTransaction(Runnable {
+                    dao.insertItems(uids.map { AlbumItemEntity(album.id, it, now) })
+                    if (moveFrom > 0 && moveFrom != album.id) removeFrom(moveFrom, uids)
+                })
                 Result(album.name)
             } catch (e: Exception) {
                 Result(album.name, Failure.FAILED)
@@ -39,7 +43,7 @@ class AlbumRepository(context: Context) {
         }
     }
 
-    fun createAlbum(rawName: String, uids: List<Long>, onDone: (Result) -> Unit) {
+    fun createAlbum(rawName: String, uids: List<Long>, onDone: (Result) -> Unit, moveFrom: Long = 0L) {
         val name = rawName.trim().take(MAX_NAME)
         if (name.isEmpty()) {
             onDone(Result(name, Failure.EMPTY_NAME))
@@ -54,6 +58,7 @@ class AlbumRepository(context: Context) {
                     database.runInTransaction(Runnable {
                         val id = dao.insertAlbum(AlbumEntity(name = name, createdAt = now))
                         dao.insertItems(uids.map { AlbumItemEntity(id, it, now) })
+                        if (moveFrom > 0) removeFrom(moveFrom, uids)
                     })
                     Result(name)
                 }
@@ -64,7 +69,12 @@ class AlbumRepository(context: Context) {
         }
     }
 
+    private fun removeFrom(albumId: Long, uids: List<Long>) {
+        uids.chunked(REMOVE_CHUNK).forEach { dao.deleteItems(albumId, it) }
+    }
+
     private companion object {
+        const val REMOVE_CHUNK = 500
         const val MAX_NAME = 60
         val executor = Executors.newSingleThreadExecutor()
     }

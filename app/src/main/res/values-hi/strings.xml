@@ -190,4 +190,14 @@
     <string name="delete_video_title">यह वीडियो हटाएँ?</string>
     <string name="delete_body">यह 30 दिन तक बिन में रहेगा, फिर स्थायी रूप से हटा दिया जाएगा।</string>
     <string name="delete_move_to_bin">बिन में ले जाएँ</string>
+    <string name="selection_selected">%1$d चुने गए</string>
+    <string name="selection_select_all">सभी चुनें</string>
+    <string name="selection_clear">चयन हटाएँ</string>
+    <string name="selection_add_to_album">एल्बम में जोड़ें</string>
+    <string name="selection_move">ले जाएँ</string>
+    <string name="selection_added_favorites">%1$d पसंदीदा में जोड़े गए</string>
+    <string name="selection_moved_bin">%1$d आइटम बिन में ले जाए गए</string>
+    <string name="selection_delete_title">%1$d आइटम बिन में ले जाएँ?</string>
+    <string name="selection_move_title">चुने हुए (%1$d) को यहाँ ले जाएँ…</string>
+    <string name="selection_moved_to">%1$s में ले जाया गया</string>
 </resources>

@@ -69,6 +69,17 @@
             android:textColor="@color/white"
             android:textSize="11sp"
             android:textStyle="bold" />
+        <ImageView
+            android:id="@+id/ivCheck"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_gravity="top|start"
+            android:layout_margin="6dp"
+            android:importantForAccessibility="no"
+            android:padding="4dp"
+            android:visibility="gone"
+            app:tint="@color/white" />
+    
     </FrameLayout>
 
     <!-- Two small tiles; together exactly as tall as the big one -->

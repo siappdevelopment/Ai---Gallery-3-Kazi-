@@ -94,5 +94,9 @@
                 app:backgroundTint="@color/brand_pink"
                 app:cornerRadius="16dp" />
         </LinearLayout>
+
+        <include
+            android:id="@+id/selectionBars"
+            layout="@layout/view_selection_bars" />
     </FrameLayout>
 </LinearLayout>

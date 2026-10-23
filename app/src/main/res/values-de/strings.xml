@@ -190,4 +190,14 @@
     <string name="delete_video_title">Dieses Video löschen?</string>
     <string name="delete_body">Es bleibt 30 Tage im Papierkorb und wird dann endgültig gelöscht.</string>
     <string name="delete_move_to_bin">In den Papierkorb</string>
+    <string name="selection_selected">%1$d ausgewählt</string>
+    <string name="selection_select_all">Alle auswählen</string>
+    <string name="selection_clear">Auswahl aufheben</string>
+    <string name="selection_add_to_album">Zu Album hinzufügen</string>
+    <string name="selection_move">Verschieben</string>
+    <string name="selection_added_favorites">%1$d zu Favoriten hinzugefügt</string>
+    <string name="selection_moved_bin">%1$d Elemente in den Papierkorb verschoben</string>
+    <string name="selection_delete_title">%1$d Elemente in den Papierkorb verschieben?</string>
+    <string name="selection_move_title">Auswahl (%1$d) verschieben nach…</string>
+    <string name="selection_moved_to">Nach „%1$s“ verschoben</string>
 </resources>

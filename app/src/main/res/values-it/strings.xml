@@ -193,4 +193,14 @@
     <string name="delete_video_title">Eliminare questo video?</string>
     <string name="delete_body">Resta nel cestino per 30 giorni, poi viene eliminato definitivamente.</string>
     <string name="delete_move_to_bin">Sposta nel cestino</string>
+    <string name="selection_selected">%1$d selezionati</string>
+    <string name="selection_select_all">Seleziona tutto</string>
+    <string name="selection_clear">Annulla selezione</string>
+    <string name="selection_add_to_album">Aggiungi all’album</string>
+    <string name="selection_move">Sposta</string>
+    <string name="selection_added_favorites">%1$d aggiunti ai preferiti</string>
+    <string name="selection_moved_bin">%1$d elementi spostati nel cestino</string>
+    <string name="selection_delete_title">Spostare %1$d elementi nel cestino?</string>
+    <string name="selection_move_title">Sposta selezione (%1$d) in…</string>
+    <string name="selection_moved_to">Spostato in %1$s</string>
 </resources>

@@ -190,4 +190,14 @@
     <string name="delete_video_title">Διαγραφή αυτού του βίντεο;</string>
     <string name="delete_body">Παραμένει στον κάδο για 30 ημέρες και μετά διαγράφεται οριστικά.</string>
     <string name="delete_move_to_bin">Μετακίνηση στον κάδο</string>
+    <string name="selection_selected">%1$d επιλεγμένα</string>
+    <string name="selection_select_all">Επιλογή όλων</string>
+    <string name="selection_clear">Απαλοιφή επιλογής</string>
+    <string name="selection_add_to_album">Προσθήκη σε άλμπουμ</string>
+    <string name="selection_move">Μετακίνηση</string>
+    <string name="selection_added_favorites">Προστέθηκαν %1$d στα Αγαπημένα</string>
+    <string name="selection_moved_bin">Μετακινήθηκαν %1$d στοιχεία στον κάδο</string>
+    <string name="selection_delete_title">Μετακίνηση %1$d στοιχείων στον κάδο;</string>
+    <string name="selection_move_title">Μετακίνηση επιλεγμένων (%1$d) σε…</string>
+    <string name="selection_moved_to">Μετακινήθηκε στο %1$s</string>
 </resources>

@@ -26,6 +26,7 @@ import com.example.thirdgallery.model.MediaUiModel
 class MediaPagingAdapter(
     private var thumbSizePx: Int,
     private val onOpen: (Long) -> Unit,
+    private val selection: MediaSelection = MediaSelection.NONE,
 ) : PagingDataAdapter<MediaUiModel, RecyclerView.ViewHolder>(MediaUiModelCallback) {
 
     private var dayCounts: Map<Long, Int> = emptyMap()
@@ -35,6 +36,11 @@ class MediaPagingAdapter(
         if (sizePx == thumbSizePx) return
         thumbSizePx = sizePx
         if (itemCount > 0) notifyItemRangeChanged(0, itemCount)
+    }
+
+    /** Selection changed: redraw the check marks of the tiles on screen, nothing else. */
+    fun refreshSelection() {
+        if (itemCount > 0) notifyItemRangeChanged(0, itemCount, PAYLOAD_SELECTION)
     }
 
     fun isHeader(position: Int): Boolean = peek(position) is MediaUiModel.DayHeader
@@ -54,7 +60,7 @@ class MediaPagingAdapter(
         return if (viewType == TYPE_HEADER) {
             HeaderHolder(ItemMediaHeaderBinding.inflate(inflater, parent, false))
         } else {
-            ItemHolder(ItemMediaBinding.inflate(inflater, parent, false), onOpen)
+            ItemHolder(ItemMediaBinding.inflate(inflater, parent, false), onOpen, selection)
         }
     }
 
@@ -67,7 +73,10 @@ class MediaPagingAdapter(
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int, payloads: MutableList<Any>) {
-        if (payloads.contains(PAYLOAD_COUNT)) {
+        if (payloads.contains(PAYLOAD_SELECTION)) {
+            val model = peek(position)
+            if (holder is ItemHolder && model is MediaUiModel.Item) holder.bindSelection(model.media.uid)
+        } else if (payloads.contains(PAYLOAD_COUNT)) {
             // Only a header shows a count; photo tiles stay untouched (no reload, no flicker).
             val model = peek(position)
             if (holder is HeaderHolder && model is MediaUiModel.DayHeader) {
@@ -97,6 +106,7 @@ class MediaPagingAdapter(
     class ItemHolder(
         private val binding: ItemMediaBinding,
         private val onOpen: (Long) -> Unit,
+        private val selection: MediaSelection,
     ) : RecyclerView.ViewHolder(binding.root) {
         fun bind(media: MediaEntity, sizePx: Int) {
             val isVideo = media.mediaType == MediaTypes.VIDEO
@@ -117,7 +127,16 @@ class MediaPagingAdapter(
             binding.tvDuration.visibility = if (isVideo) android.view.View.VISIBLE else android.view.View.GONE
             if (isVideo) binding.tvDuration.text = MediaFormat.duration(media.durationMs)
             binding.ivFavorite.visibility = if (media.isFavorite) android.view.View.VISIBLE else android.view.View.GONE
-            binding.root.setOnClickListener { onOpen(media.uid) }
+            binding.root.setOnClickListener { if (selection.active) selection.onToggle(media.uid) else onOpen(media.uid) }
+            binding.root.setOnLongClickListener {
+                selection.onLongPress(media.uid)
+                true
+            }
+            bindSelection(media.uid)
+        }
+
+        fun bindSelection(uid: Long) {
+            drawSelection(binding.ivCheck, binding.ivThumb, selection.active, selection.active && selection.isSelected(uid))
         }
 
         fun clear() {

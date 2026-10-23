@@ -190,4 +190,14 @@
     <string name="delete_video_title">Bu video silinsin mi?</string>
     <string name="delete_body">30 gün çöp kutusunda kalır, sonra kalıcı olarak silinir.</string>
     <string name="delete_move_to_bin">Çöp kutusuna taşı</string>
+    <string name="selection_selected">%1$d seçildi</string>
+    <string name="selection_select_all">Tümünü seç</string>
+    <string name="selection_clear">Seçimi temizle</string>
+    <string name="selection_add_to_album">Albüme ekle</string>
+    <string name="selection_move">Taşı</string>
+    <string name="selection_added_favorites">%1$d öğe Favorilere eklendi</string>
+    <string name="selection_moved_bin">%1$d öğe çöp kutusuna taşındı</string>
+    <string name="selection_delete_title">%1$d öğe çöp kutusuna taşınsın mı?</string>
+    <string name="selection_move_title">Seçilenleri (%1$d) şuraya taşı…</string>
+    <string name="selection_moved_to">“%1$s” albümüne taşındı</string>
 </resources>

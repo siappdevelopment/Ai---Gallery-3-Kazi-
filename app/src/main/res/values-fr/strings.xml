@@ -193,4 +193,14 @@
     <string name="delete_video_title">Supprimer cette vidéo ?</string>
     <string name="delete_body">Elle reste 30 jours dans la corbeille, puis elle est supprimée définitivement.</string>
     <string name="delete_move_to_bin">Mettre à la corbeille</string>
+    <string name="selection_selected">%1$d sélectionnés</string>
+    <string name="selection_select_all">Tout sélectionner</string>
+    <string name="selection_clear">Effacer la sélection</string>
+    <string name="selection_add_to_album">Ajouter à l’album</string>
+    <string name="selection_move">Déplacer</string>
+    <string name="selection_added_favorites">%1$d ajoutés aux favoris</string>
+    <string name="selection_moved_bin">%1$d éléments mis à la corbeille</string>
+    <string name="selection_delete_title">Mettre %1$d éléments à la corbeille ?</string>
+    <string name="selection_move_title">Déplacer la sélection (%1$d) vers…</string>
+    <string name="selection_moved_to">Déplacé vers %1$s</string>
 </resources>

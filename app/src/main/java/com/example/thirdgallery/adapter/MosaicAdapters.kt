@@ -166,6 +166,7 @@ class MosaicTopAdapter(
 class MosaicPagingAdapter(
     private var widthPx: Int,
     private val onOpen: (Long) -> Unit,
+    private val selection: MediaSelection = MediaSelection.NONE,
 ) : PagingDataAdapter<MosaicUi, RecyclerView.ViewHolder>(MosaicCallback) {
 
     private var dayCounts: Map<Long, Int> = emptyMap()
@@ -175,6 +176,11 @@ class MosaicPagingAdapter(
         if (px == widthPx) return
         widthPx = px
         if (itemCount > 0) notifyItemRangeChanged(0, itemCount)
+    }
+
+    /** Selection changed: redraw the check marks of the tiles on screen, nothing else. */
+    fun refreshSelection() {
+        if (itemCount > 0) notifyItemRangeChanged(0, itemCount, PAYLOAD_SELECTION)
     }
 
     fun updateCounts(counts: Map<Long, Int>) {
@@ -218,7 +224,13 @@ class MosaicPagingAdapter(
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int, payloads: MutableList<Any>) {
-        if (payloads.contains(PAYLOAD_COUNT)) {
+        if (payloads.contains(PAYLOAD_SELECTION)) {
+            when (val item = peek(position)) {
+                is MosaicUi.Hero -> (holder as? HeroHolder)?.bindSelection(item)
+                is MosaicUi.Tile -> (holder as? TileHolder)?.bindSelection(item.media.uid)
+                else -> Unit
+            }
+        } else if (payloads.contains(PAYLOAD_COUNT)) {
             val item = peek(position)
             if (holder is HeaderHolder && item is MosaicUi.Header) holder.bindCount(dayCounts[item.dayKey])
         } else {
@@ -232,6 +244,22 @@ class MosaicPagingAdapter(
             is TileHolder -> holder.clear()
         }
         super.onViewRecycled(holder)
+    }
+
+    /** Tap opens the item (toggles it while selecting); long press starts the selection. */
+    private fun wire(view: View, uid: Long?) {
+        if (uid == null) {
+            view.setOnClickListener(null)
+            view.setOnLongClickListener(null)
+            view.isClickable = false
+            view.isLongClickable = false
+            return
+        }
+        view.setOnClickListener { if (selection.active) selection.onToggle(uid) else onOpen(uid) }
+        view.setOnLongClickListener {
+            selection.onLongPress(uid)
+            true
+        }
     }
 
     private fun bindBadges(duration: android.widget.TextView, favorite: View, media: MediaEntity) {
@@ -261,9 +289,24 @@ class MosaicPagingAdapter(
             loadThumb(binding.ivSmall1, item.next1, third, third)
             loadThumb(binding.ivSmall2, item.next2, third, third)
             bindBadges(binding.tvDuration, binding.ivFavorite, item.media)
-            binding.ivBig.setOnClickListener { onOpen(item.media.uid) }
-            binding.ivSmall1.setOnClickListener { item.next1?.let(onOpen) }
-            binding.ivSmall2.setOnClickListener { item.next2?.let(onOpen) }
+            wire(binding.ivBig, item.media.uid)
+            wire(binding.ivSmall1, item.next1)
+            wire(binding.ivSmall2, item.next2)
+            bindSelection(item)
+        }
+
+        /** The big tile has the check circle; the two small ones only shrink and dim. */
+        fun bindSelection(item: MosaicUi.Hero) {
+            drawSelection(binding.ivCheck, binding.ivBig, selection.active, selection.active && selection.isSelected(item.media.uid))
+            drawSmall(binding.ivSmall1, item.next1)
+            drawSmall(binding.ivSmall2, item.next2)
+        }
+
+        private fun drawSmall(view: View, uid: Long?) {
+            val on = selection.active && uid != null && selection.isSelected(uid)
+            view.scaleX = if (on) 0.88f else 1f
+            view.scaleY = view.scaleX
+            view.alpha = if (on) 0.7f else 1f
         }
 
         fun clear() {
@@ -283,7 +326,12 @@ class MosaicPagingAdapter(
         fun bind(media: MediaEntity, third: Int) {
             loadThumb(binding.ivThumb, media.uid, if (wide) third * 2 else third, third)
             bindBadges(binding.tvDuration, binding.ivFavorite, media)
-            binding.root.setOnClickListener { onOpen(media.uid) }
+            wire(binding.root, media.uid)
+            bindSelection(media.uid)
+        }
+
+        fun bindSelection(uid: Long) {
+            drawSelection(binding.ivCheck, binding.ivThumb, selection.active, selection.active && selection.isSelected(uid))
         }
 
         fun clear() {

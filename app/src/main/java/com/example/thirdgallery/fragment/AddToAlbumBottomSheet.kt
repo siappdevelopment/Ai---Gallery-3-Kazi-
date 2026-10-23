@@ -10,6 +10,7 @@ import android.widget.Toast
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.widget.doAfterTextChanged
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.thirdgallery.adapter.PickAlbumAdapter
@@ -19,6 +20,7 @@ import com.example.thirdgallery.model.MediaFilter
 import com.example.thirdgallery.repo.AlbumRepository
 import com.example.thirdgallery.viewmodel.AddToAlbumViewModel
 import com.example.thirdgallery.viewmodel.PickAlbum
+import com.example.thirdgallery.viewmodel.SelectionViewModel
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 
 /** "Add to album" sheet (design 46): pick an album or create a new one for the items of a day. */
@@ -28,6 +30,7 @@ class AddToAlbumBottomSheet : BottomSheetDialogFragment() {
     private val binding get() = _binding
 
     private val viewModel: AddToAlbumViewModel by viewModels()
+    private val selectionViewModel: SelectionViewModel by activityViewModels()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         val b = BottomSheetAddAlbumBinding.inflate(inflater, container, false)
@@ -76,7 +79,11 @@ class AddToAlbumBottomSheet : BottomSheetDialogFragment() {
             if (savedInstanceState == null) showForm(true)
         } else {
             viewModel.itemCount.observe(owner) { count ->
-                b.tvSheetTitle.text = resources.getQuantityString(R.plurals.photo_add_to_album_title, count, count)
+                b.tvSheetTitle.text = if (viewModel.isMove) {
+                    getString(R.string.selection_move_title, count)
+                } else {
+                    resources.getQuantityString(R.plurals.photo_add_to_album_title, count, count)
+                }
             }
         }
         viewModel.albums.observe(owner) { renderAlbums(albumAdapter, it.orEmpty()) }
@@ -148,9 +155,17 @@ class AddToAlbumBottomSheet : BottomSheetDialogFragment() {
             null -> {
                 Toast.makeText(
                     requireContext().applicationContext,
-                    getString(if (viewModel.isCreateOnly) R.string.albums_created else R.string.photo_added_to_album, result.albumName),
+                    getString(
+                        when {
+                            viewModel.isCreateOnly -> R.string.albums_created
+                            viewModel.isMove -> R.string.selection_moved_to
+                            else -> R.string.photo_added_to_album
+                        },
+                        result.albumName,
+                    ),
                     Toast.LENGTH_SHORT,
                 ).show()
+                if (viewModel.isSelection) selectionViewModel.clear()
                 dismissAllowingStateLoss()
             }
             AlbumRepository.Failure.EMPTY_NAME -> showError(b, R.string.photo_album_name_empty)
@@ -187,6 +202,18 @@ class AddToAlbumBottomSheet : BottomSheetDialogFragment() {
                 putLong(AddToAlbumViewModel.ARG_DAY_KEY, AddToAlbumViewModel.CREATE_ONLY)
                 putInt(AddToAlbumViewModel.ARG_FILTER, 0)
                 putInt(AddToAlbumViewModel.ARG_COUNT, 0)
+            }
+        }
+
+        /** "Add to album" / "Move" for the multi-selection; [sourceAlbumId] is the app album Move takes the items out of. */
+        fun newForSelection(uids: List<Long>, move: Boolean, sourceAlbumId: Long) = AddToAlbumBottomSheet().apply {
+            arguments = Bundle().apply {
+                putLong(AddToAlbumViewModel.ARG_DAY_KEY, AddToAlbumViewModel.SELECTION)
+                putInt(AddToAlbumViewModel.ARG_FILTER, 0)
+                putInt(AddToAlbumViewModel.ARG_COUNT, uids.size)
+                putLongArray(AddToAlbumViewModel.ARG_UIDS, uids.toLongArray())
+                putBoolean(AddToAlbumViewModel.ARG_MOVE, move)
+                putLong(AddToAlbumViewModel.ARG_SOURCE, sourceAlbumId)
             }
         }
 

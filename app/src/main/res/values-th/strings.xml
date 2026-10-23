@@ -187,4 +187,14 @@
     <string name="delete_video_title">ลบวิดีโอนี้?</string>
     <string name="delete_body">จะอยู่ในถังขยะ 30 วัน แล้วลบถาวร</string>
     <string name="delete_move_to_bin">ย้ายไปถังขยะ</string>
+    <string name="selection_selected">เลือกแล้ว %1$d</string>
+    <string name="selection_select_all">เลือกทั้งหมด</string>
+    <string name="selection_clear">ล้างการเลือก</string>
+    <string name="selection_add_to_album">เพิ่มในอัลบั้ม</string>
+    <string name="selection_move">ย้าย</string>
+    <string name="selection_added_favorites">เพิ่ม %1$d รายการในรายการโปรดแล้ว</string>
+    <string name="selection_moved_bin">ย้าย %1$d รายการไปที่ถังขยะแล้ว</string>
+    <string name="selection_delete_title">ย้าย %1$d รายการไปถังขยะ?</string>
+    <string name="selection_move_title">ย้ายรายการที่เลือก (%1$d) ไปที่…</string>
+    <string name="selection_moved_to">ย้ายไปที่ “%1$s” แล้ว</string>
 </resources>

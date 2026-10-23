@@ -35,4 +35,7 @@ interface AlbumDao {
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     fun insertItems(items: List<AlbumItemEntity>)
+
+    @Query("DELETE FROM album_items WHERE albumId = :albumId AND mediaUid IN (:uids)")
+    fun deleteItems(albumId: Long, uids: List<Long>)
 }

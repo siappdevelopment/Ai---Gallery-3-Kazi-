@@ -193,4 +193,14 @@
     <string name="delete_video_title">Eliminar este vídeo?</string>
     <string name="delete_body">Fica na reciclagem durante 30 dias e depois é eliminado definitivamente.</string>
     <string name="delete_move_to_bin">Mover para a reciclagem</string>
+    <string name="selection_selected">%1$d selecionados</string>
+    <string name="selection_select_all">Selecionar tudo</string>
+    <string name="selection_clear">Limpar seleção</string>
+    <string name="selection_add_to_album">Adicionar ao álbum</string>
+    <string name="selection_move">Mover</string>
+    <string name="selection_added_favorites">%1$d adicionados aos Favoritos</string>
+    <string name="selection_moved_bin">%1$d itens movidos para a reciclagem</string>
+    <string name="selection_delete_title">Mover %1$d itens para a reciclagem?</string>
+    <string name="selection_move_title">Mover selecionados (%1$d) para…</string>
+    <string name="selection_moved_to">Movido para %1$s</string>
 </resources>

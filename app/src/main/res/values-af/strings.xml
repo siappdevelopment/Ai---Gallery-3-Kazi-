@@ -190,4 +190,14 @@
     <string name="delete_video_title">Vee hierdie video uit?</string>
     <string name="delete_body">Dit bly 30 dae in die asblik en word dan permanent uitgevee.</string>
     <string name="delete_move_to_bin">Skuif na asblik</string>
+    <string name="selection_selected">%1$d gekies</string>
+    <string name="selection_select_all">Kies alles</string>
+    <string name="selection_clear">Maak keuse skoon</string>
+    <string name="selection_add_to_album">Voeg by album</string>
+    <string name="selection_move">Skuif</string>
+    <string name="selection_added_favorites">%1$d by gunstelinge gevoeg</string>
+    <string name="selection_moved_bin">%1$d items na asblik geskuif</string>
+    <string name="selection_delete_title">Skuif %1$d items na asblik?</string>
+    <string name="selection_move_title">Skuif gekiesde (%1$d) na…</string>
+    <string name="selection_moved_to">Geskuif na %1$s</string>
 </resources>

@@ -190,4 +190,14 @@
     <string name="delete_video_title">Delete this video?</string>
     <string name="delete_body">It stays in Bin for 30 days, then it’s deleted permanently.</string>
     <string name="delete_move_to_bin">Move to Bin</string>
+    <string name="selection_selected">%1$d selected</string>
+    <string name="selection_select_all">Select all</string>
+    <string name="selection_clear">Clear selection</string>
+    <string name="selection_add_to_album">Add to album</string>
+    <string name="selection_move">Move</string>
+    <string name="selection_added_favorites">%1$d added to Favourites</string>
+    <string name="selection_moved_bin">%1$d items moved to Bin</string>
+    <string name="selection_delete_title">Move %1$d items to Bin?</string>
+    <string name="selection_move_title">Move selected (%1$d) to…</string>
+    <string name="selection_moved_to">Moved to %1$s</string>
 </resources>

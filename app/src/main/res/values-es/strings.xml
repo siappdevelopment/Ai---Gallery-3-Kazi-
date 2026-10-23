@@ -193,4 +193,14 @@
     <string name="delete_video_title">¿Eliminar este vídeo?</string>
     <string name="delete_body">Permanece en la papelera 30 días y después se elimina definitivamente.</string>
     <string name="delete_move_to_bin">Mover a la papelera</string>
+    <string name="selection_selected">%1$d seleccionados</string>
+    <string name="selection_select_all">Seleccionar todo</string>
+    <string name="selection_clear">Borrar selección</string>
+    <string name="selection_add_to_album">Añadir al álbum</string>
+    <string name="selection_move">Mover</string>
+    <string name="selection_added_favorites">%1$d añadidos a Favoritos</string>
+    <string name="selection_moved_bin">%1$d elementos movidos a la papelera</string>
+    <string name="selection_delete_title">¿Mover %1$d elementos a la papelera?</string>
+    <string name="selection_move_title">Mover selección (%1$d) a…</string>
+    <string name="selection_moved_to">Movido a %1$s</string>
 </resources>
