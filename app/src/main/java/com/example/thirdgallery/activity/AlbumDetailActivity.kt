@@ -26,6 +26,7 @@ class AlbumDetailActivity : AppCompatActivity() {
     private var binding: ActivityAlbumDetailBinding? = null
     private val viewModel: AlbumDetailViewModel by viewModels()
     private var adapter: MediaPagingAdapter? = null
+    private var lastOpenAt = 0L
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -54,7 +55,7 @@ class AlbumDetailActivity : AppCompatActivity() {
         // Same grid as the Gallery tab: the saved column count, day headers across the full width.
         val columns = GalleryLayoutPrefs.getColumns(this)
         val headerAdapter = AlbumDetailHeaderAdapter(viewModel.title)
-        val mediaAdapter = MediaPagingAdapter((resources.displayMetrics.widthPixels / columns).coerceAtLeast(1))
+        val mediaAdapter = MediaPagingAdapter((resources.displayMetrics.widthPixels / columns).coerceAtLeast(1)) { openMedia(it) }
         adapter = mediaAdapter
         val manager = GridLayoutManager(this, columns)
         manager.spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
@@ -75,6 +76,14 @@ class AlbumDetailActivity : AppCompatActivity() {
         viewModel.count.observe(this) { headerAdapter.setCount(it ?: 0) }
     }
 
+    /** Opens the tapped item in the photo viewer, inside this album; double taps are ignored. */
+    private fun openMedia(uid: Long) {
+        val now = android.os.SystemClock.elapsedRealtime()
+        if (now - lastOpenAt < OPEN_GAP_MS) return
+        lastOpenAt = now
+        startActivity(FullScreenMediaActivity.intent(this, uid, viewModel.sourceKind, viewModel.sourceId))
+    }
+
     override fun onDestroy() {
         binding?.rvMedia?.adapter = null
         adapter = null
@@ -83,6 +92,8 @@ class AlbumDetailActivity : AppCompatActivity() {
     }
 
     companion object {
+        private const val OPEN_GAP_MS = 600L
+
         fun intent(context: Context, kind: AlbumKind, id: Long, title: String): Intent =
             Intent(context, AlbumDetailActivity::class.java)
                 .putExtra(AlbumDetailViewModel.ARG_KIND, kind.key)

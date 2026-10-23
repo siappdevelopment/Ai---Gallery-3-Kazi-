@@ -137,4 +137,33 @@ interface MediaDao {
 
     @Query("DELETE FROM media")
     fun clear()
+
+    /** The ordered ids of a device folder / smart collection (the photo viewer's swipe list). */
+    @Query(
+        "SELECT uid FROM media WHERE (:bucketId = 0 OR bucketId = :bucketId) AND mediaType IN (:types) " +
+            "AND isFavorite >= :minFavorite AND dateMs >= :since AND (:nameLike = '' OR bucketName LIKE :nameLike) " +
+            "ORDER BY dateMs DESC, uid DESC"
+    )
+    fun collectionUids(bucketId: Long, types: List<Int>, minFavorite: Int, since: Long, nameLike: String): List<Long>
+
+    @Query(
+        "SELECT m.uid FROM media m INNER JOIN album_items i ON i.mediaUid = m.uid WHERE i.albumId = :albumId " +
+            "ORDER BY i.addedAt DESC, m.uid DESC"
+    )
+    fun userAlbumUids(albumId: Long): List<Long>
+
+    @Query("SELECT uid FROM media WHERE (monthKey / 12 = :year) ORDER BY dateMs DESC, uid DESC")
+    fun yearUids(year: Int): List<Long>
+
+    @Query("SELECT uid FROM media WHERE monthKey = :monthKey ORDER BY dateMs DESC, uid DESC")
+    fun monthUids(monthKey: Long): List<Long>
+
+    @Query("SELECT * FROM media WHERE uid = :uid")
+    fun byUid(uid: Long): MediaEntity?
+
+    @Query("UPDATE media SET isFavorite = :favorite WHERE uid = :uid")
+    fun setFavorite(uid: Long, favorite: Boolean)
+
+    @Query("DELETE FROM media WHERE uid = :uid")
+    fun deleteByUid(uid: Long)
 }

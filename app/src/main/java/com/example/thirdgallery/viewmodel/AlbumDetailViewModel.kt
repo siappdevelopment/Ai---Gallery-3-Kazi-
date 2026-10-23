@@ -23,9 +23,13 @@ class AlbumDetailViewModel(
 
     private val kind = AlbumKind.fromKey(state.get<String>(ARG_KIND))
 
+    /** Where the photo viewer opens from, so it swipes through this album. */
+    val sourceKind: AlbumKind = kind
+
     /** Folders and user albums only; smart collections (Favorites, Videos, ...) cannot take new media. */
     val isRegularAlbum: Boolean = kind == AlbumKind.DEVICE || kind == AlbumKind.USER
     private val id = state.get<Long>(ARG_ID) ?: 0L
+    val sourceId: Long = id
     private val since = AlbumsViewModel.recentSince()
 
     val title: String = state.get<String>(ARG_TITLE).orEmpty()

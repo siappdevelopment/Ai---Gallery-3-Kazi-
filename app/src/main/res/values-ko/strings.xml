@@ -158,4 +158,15 @@
     <string name="albums_add_photos">사진 추가</string>
     <string name="albums_select">선택</string>
     <string name="albums_more">옵션 더보기</string>
+    <string name="viewer_share">공유</string>
+    <string name="viewer_edit">편집</string>
+    <string name="viewer_favorite">즐겨찾기</string>
+    <string name="viewer_delete">삭제</string>
+    <string name="viewer_more">더보기</string>
+    <string name="viewer_position">%1$d / %2$d</string>
+    <string name="viewer_meta">%1$s · %2$s</string>
+    <string name="viewer_unsupported">이 Android 버전에서는 사용할 수 없습니다</string>
+    <string name="viewer_prev">이전</string>
+    <string name="viewer_next">다음</string>
+    <string name="viewer_play">동영상 재생</string>
 </resources>

@@ -164,4 +164,15 @@
     <string name="albums_add_photos">Añadir fotos</string>
     <string name="albums_select">Seleccionar</string>
     <string name="albums_more">Más opciones</string>
+    <string name="viewer_share">Compartir</string>
+    <string name="viewer_edit">Editar</string>
+    <string name="viewer_favorite">Favorito</string>
+    <string name="viewer_delete">Eliminar</string>
+    <string name="viewer_more">Más</string>
+    <string name="viewer_position">%1$d de %2$d</string>
+    <string name="viewer_meta">%1$s · %2$s</string>
+    <string name="viewer_unsupported">No disponible en esta versión de Android</string>
+    <string name="viewer_prev">Anterior</string>
+    <string name="viewer_next">Siguiente</string>
+    <string name="viewer_play">Reproducir vídeo</string>
 </resources>

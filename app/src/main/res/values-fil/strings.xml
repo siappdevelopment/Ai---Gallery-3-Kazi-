@@ -161,4 +161,15 @@
     <string name="albums_add_photos">Magdagdag ng mga larawan</string>
     <string name="albums_select">Pumili</string>
     <string name="albums_more">Higit pang opsyon</string>
+    <string name="viewer_share">I-share</string>
+    <string name="viewer_edit">I-edit</string>
+    <string name="viewer_favorite">Paborito</string>
+    <string name="viewer_delete">Burahin</string>
+    <string name="viewer_more">Higit pa</string>
+    <string name="viewer_position">%1$d sa %2$d</string>
+    <string name="viewer_meta">%1$s · %2$s</string>
+    <string name="viewer_unsupported">Hindi available sa bersyong ito ng Android</string>
+    <string name="viewer_prev">Nakaraan</string>
+    <string name="viewer_next">Susunod</string>
+    <string name="viewer_play">I-play ang video</string>
 </resources>

@@ -165,6 +165,7 @@ class MosaicTopAdapter(
  */
 class MosaicPagingAdapter(
     private var widthPx: Int,
+    private val onOpen: (Long) -> Unit,
 ) : PagingDataAdapter<MosaicUi, RecyclerView.ViewHolder>(MosaicCallback) {
 
     private var dayCounts: Map<Long, Int> = emptyMap()
@@ -260,6 +261,9 @@ class MosaicPagingAdapter(
             loadThumb(binding.ivSmall1, item.next1, third, third)
             loadThumb(binding.ivSmall2, item.next2, third, third)
             bindBadges(binding.tvDuration, binding.ivFavorite, item.media)
+            binding.ivBig.setOnClickListener { onOpen(item.media.uid) }
+            binding.ivSmall1.setOnClickListener { item.next1?.let(onOpen) }
+            binding.ivSmall2.setOnClickListener { item.next2?.let(onOpen) }
         }
 
         fun clear() {
@@ -279,6 +283,7 @@ class MosaicPagingAdapter(
         fun bind(media: MediaEntity, third: Int) {
             loadThumb(binding.ivThumb, media.uid, if (wide) third * 2 else third, third)
             bindBadges(binding.tvDuration, binding.ivFavorite, media)
+            binding.root.setOnClickListener { onOpen(media.uid) }
         }
 
         fun clear() {

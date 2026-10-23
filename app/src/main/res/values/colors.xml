@@ -24,4 +24,5 @@
     <color name="sheet_handle">#FFDDDADA</color>
     <color name="album_chevron">#FFBDBABA</color>
     <color name="splash_progress_track">#1FFF4D7E</color>
+    <color name="viewer_background">#FF0E0E0E</color>
 </resources>

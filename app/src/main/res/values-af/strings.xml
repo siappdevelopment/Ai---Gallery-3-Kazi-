@@ -161,4 +161,15 @@
     <string name="albums_add_photos">Voeg foto’s by</string>
     <string name="albums_select">Kies</string>
     <string name="albums_more">Meer opsies</string>
+    <string name="viewer_share">Deel</string>
+    <string name="viewer_edit">Wysig</string>
+    <string name="viewer_favorite">Gunsteling</string>
+    <string name="viewer_delete">Vee uit</string>
+    <string name="viewer_more">Meer</string>
+    <string name="viewer_position">%1$d van %2$d</string>
+    <string name="viewer_meta">%1$s · %2$s</string>
+    <string name="viewer_unsupported">Nie beskikbaar op hierdie Android-weergawe nie</string>
+    <string name="viewer_prev">Vorige</string>
+    <string name="viewer_next">Volgende</string>
+    <string name="viewer_play">Speel video</string>
 </resources>

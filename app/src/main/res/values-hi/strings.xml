@@ -161,4 +161,15 @@
     <string name="albums_add_photos">फ़ोटो जोड़ें</string>
     <string name="albums_select">चुनें</string>
     <string name="albums_more">और विकल्प</string>
+    <string name="viewer_share">शेयर करें</string>
+    <string name="viewer_edit">संपादित करें</string>
+    <string name="viewer_favorite">पसंदीदा</string>
+    <string name="viewer_delete">हटाएँ</string>
+    <string name="viewer_more">और</string>
+    <string name="viewer_position">%2$d में से %1$d</string>
+    <string name="viewer_meta">%1$s · %2$s</string>
+    <string name="viewer_unsupported">Android के इस संस्करण पर उपलब्ध नहीं है</string>
+    <string name="viewer_prev">पिछला</string>
+    <string name="viewer_next">अगला</string>
+    <string name="viewer_play">वीडियो चलाएँ</string>
 </resources>

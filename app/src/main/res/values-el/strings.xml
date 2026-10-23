@@ -161,4 +161,15 @@
     <string name="albums_add_photos">Προσθήκη φωτογραφιών</string>
     <string name="albums_select">Επιλογή</string>
     <string name="albums_more">Περισσότερες επιλογές</string>
+    <string name="viewer_share">Κοινοποίηση</string>
+    <string name="viewer_edit">Επεξεργασία</string>
+    <string name="viewer_favorite">Αγαπημένο</string>
+    <string name="viewer_delete">Διαγραφή</string>
+    <string name="viewer_more">Περισσότερα</string>
+    <string name="viewer_position">%1$d από %2$d</string>
+    <string name="viewer_meta">%1$s · %2$s</string>
+    <string name="viewer_unsupported">Μη διαθέσιμο σε αυτήν την έκδοση του Android</string>
+    <string name="viewer_prev">Προηγούμενο</string>
+    <string name="viewer_next">Επόμενο</string>
+    <string name="viewer_play">Αναπαραγωγή βίντεο</string>
 </resources>

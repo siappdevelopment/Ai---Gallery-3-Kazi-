@@ -25,6 +25,7 @@ import com.example.thirdgallery.model.MediaUiModel
  */
 class MediaPagingAdapter(
     private var thumbSizePx: Int,
+    private val onOpen: (Long) -> Unit,
 ) : PagingDataAdapter<MediaUiModel, RecyclerView.ViewHolder>(MediaUiModelCallback) {
 
     private var dayCounts: Map<Long, Int> = emptyMap()
@@ -53,7 +54,7 @@ class MediaPagingAdapter(
         return if (viewType == TYPE_HEADER) {
             HeaderHolder(ItemMediaHeaderBinding.inflate(inflater, parent, false))
         } else {
-            ItemHolder(ItemMediaBinding.inflate(inflater, parent, false))
+            ItemHolder(ItemMediaBinding.inflate(inflater, parent, false), onOpen)
         }
     }
 
@@ -93,7 +94,10 @@ class MediaPagingAdapter(
         }
     }
 
-    class ItemHolder(private val binding: ItemMediaBinding) : RecyclerView.ViewHolder(binding.root) {
+    class ItemHolder(
+        private val binding: ItemMediaBinding,
+        private val onOpen: (Long) -> Unit,
+    ) : RecyclerView.ViewHolder(binding.root) {
         fun bind(media: MediaEntity, sizePx: Int) {
             val isVideo = media.mediaType == MediaTypes.VIDEO
             val base = if (isVideo) MediaStore.Video.Media.EXTERNAL_CONTENT_URI else MediaStore.Images.Media.EXTERNAL_CONTENT_URI
@@ -113,6 +117,7 @@ class MediaPagingAdapter(
             binding.tvDuration.visibility = if (isVideo) android.view.View.VISIBLE else android.view.View.GONE
             if (isVideo) binding.tvDuration.text = MediaFormat.duration(media.durationMs)
             binding.ivFavorite.visibility = if (media.isFavorite) android.view.View.VISIBLE else android.view.View.GONE
+            binding.root.setOnClickListener { onOpen(media.uid) }
         }
 
         fun clear() {

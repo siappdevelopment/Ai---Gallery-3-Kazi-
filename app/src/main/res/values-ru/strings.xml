@@ -167,4 +167,15 @@
     <string name="albums_add_photos">Добавить фото</string>
     <string name="albums_select">Выбрать</string>
     <string name="albums_more">Ещё</string>
+    <string name="viewer_share">Поделиться</string>
+    <string name="viewer_edit">Изменить</string>
+    <string name="viewer_favorite">В избранное</string>
+    <string name="viewer_delete">Удалить</string>
+    <string name="viewer_more">Ещё</string>
+    <string name="viewer_position">%1$d из %2$d</string>
+    <string name="viewer_meta">%1$s · %2$s</string>
+    <string name="viewer_unsupported">Недоступно в этой версии Android</string>
+    <string name="viewer_prev">Назад</string>
+    <string name="viewer_next">Далее</string>
+    <string name="viewer_play">Воспроизвести видео</string>
 </resources>

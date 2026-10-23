@@ -161,4 +161,15 @@
     <string name="albums_add_photos">Fotoğraf ekle</string>
     <string name="albums_select">Seç</string>
     <string name="albums_more">Diğer seçenekler</string>
+    <string name="viewer_share">Paylaş</string>
+    <string name="viewer_edit">Düzenle</string>
+    <string name="viewer_favorite">Favori</string>
+    <string name="viewer_delete">Sil</string>
+    <string name="viewer_more">Daha fazla</string>
+    <string name="viewer_position">%1$d / %2$d</string>
+    <string name="viewer_meta">%1$s · %2$s</string>
+    <string name="viewer_unsupported">Bu Android sürümünde kullanılamıyor</string>
+    <string name="viewer_prev">Önceki</string>
+    <string name="viewer_next">Sonraki</string>
+    <string name="viewer_play">Videoyu oynat</string>
 </resources>

@@ -161,6 +161,27 @@ class MediaRepository(context: Context) {
         }
     }
 
+    /**
+     * The ordered ids behind the photo viewer, in the same order as the grid the item was tapped in.
+     * [AlbumKind.DEVICE] with id 0 is the whole gallery under [filter]. Blocking: call it off the main thread.
+     */
+    fun viewerUids(kind: AlbumKind, id: Long, sinceMs: Long, filter: MediaFilter): List<Long> = when (kind) {
+        AlbumKind.USER -> dao.userAlbumUids(id)
+        AlbumKind.YEAR -> dao.yearUids(id.toInt())
+        AlbumKind.MONTH -> dao.monthUids(id)
+        AlbumKind.DEVICE -> dao.collectionUids(id, filter.types, filter.minFavorite, 0, "")
+        else -> {
+            val q = query(kind, id, sinceMs)
+            dao.collectionUids(q.bucketId, q.types, q.minFavorite, q.since, q.nameLike)
+        }
+    }
+
+    fun find(uid: Long): MediaEntity? = dao.byUid(uid)
+
+    fun setFavoriteLocal(uid: Long, favorite: Boolean) = dao.setFavorite(uid, favorite)
+
+    fun removeLocal(uid: Long) = dao.deleteByUid(uid)
+
     /** Forgets the indexed media (used when the photo permission is gone). */
     fun clearAsync() {
         ioExecutor.execute {

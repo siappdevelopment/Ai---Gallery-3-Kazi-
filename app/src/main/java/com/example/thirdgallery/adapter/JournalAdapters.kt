@@ -72,10 +72,12 @@ class JournalAlbumAdapter(
 }
 
 /** The small tiles under a Journal day's hero photo. */
-class JournalStripAdapter : ListAdapter<Long, JournalStripAdapter.ViewHolder>(DIFF) {
+class JournalStripAdapter(
+    private val onOpen: (Long) -> Unit,
+) : ListAdapter<Long, JournalStripAdapter.ViewHolder>(DIFF) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
-        ViewHolder(ItemJournalStripBinding.inflate(LayoutInflater.from(parent.context), parent, false))
+        ViewHolder(ItemJournalStripBinding.inflate(LayoutInflater.from(parent.context), parent, false), onOpen)
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) = holder.bind(getItem(position))
 
@@ -84,11 +86,15 @@ class JournalStripAdapter : ListAdapter<Long, JournalStripAdapter.ViewHolder>(DI
         super.onViewRecycled(holder)
     }
 
-    class ViewHolder(private val binding: ItemJournalStripBinding) : RecyclerView.ViewHolder(binding.root) {
+    class ViewHolder(
+        private val binding: ItemJournalStripBinding,
+        private val onOpen: (Long) -> Unit,
+    ) : RecyclerView.ViewHolder(binding.root) {
         fun bind(uid: Long) {
             val px = (66 * binding.root.resources.displayMetrics.density).toInt()
             loadInto(binding.ivStrip, uid, px, px)
             binding.videoBadge.visibility = if (MediaTypes.typeOf(uid) == MediaTypes.VIDEO) View.VISIBLE else View.GONE
+            binding.root.setOnClickListener { onOpen(uid) }
         }
 
         fun clear() {
@@ -111,6 +117,7 @@ class JournalStripAdapter : ListAdapter<Long, JournalStripAdapter.ViewHolder>(DI
 class JournalPagingAdapter(
     private val onAddToAlbum: (JournalDayRow) -> Unit,
     private val onShare: (JournalDayRow) -> Unit,
+    private val onOpen: (Long) -> Unit,
 ) : PagingDataAdapter<JournalDayRow, JournalPagingAdapter.ViewHolder>(DIFF) {
 
     // One pool for every strip, so tiles scrolled off in one card are reused by the next.
@@ -130,7 +137,7 @@ class JournalPagingAdapter(
 
     inner class ViewHolder(private val binding: ItemJournalDayBinding) : RecyclerView.ViewHolder(binding.root) {
 
-        private val stripAdapter = JournalStripAdapter()
+        private val stripAdapter = JournalStripAdapter(onOpen)
         private var row: JournalDayRow? = null
 
         init {
@@ -148,6 +155,7 @@ class JournalPagingAdapter(
             val context = binding.root.context
             val metrics = context.resources.displayMetrics
             loadInto(binding.ivHero, item.heroUid, metrics.widthPixels, (210 * metrics.density).toInt())
+            binding.ivHero.setOnClickListener { item.heroUid?.let(onOpen) }
 
             binding.tvTitle.text = MediaFormat.dayTitle(context, item.dayKey)
             binding.tvCount.text = context.getString(R.string.photo_items, item.total)

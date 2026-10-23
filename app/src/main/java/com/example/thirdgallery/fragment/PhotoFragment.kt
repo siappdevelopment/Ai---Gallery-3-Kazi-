@@ -19,6 +19,7 @@ import androidx.recyclerview.widget.ConcatAdapter
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.thirdgallery.R
 import com.example.thirdgallery.activity.AlbumDetailActivity
+import com.example.thirdgallery.activity.FullScreenMediaActivity
 import com.example.thirdgallery.activity.HomeActivity
 import com.example.thirdgallery.database.AlbumRow
 import com.example.thirdgallery.model.AlbumKind
@@ -118,7 +119,7 @@ class PhotoFragment : Fragment() {
         val density = resources.displayMetrics.density
 
         val columns = layoutViewModel.columns.value ?: GalleryLayoutPrefs.DEFAULT_COLUMNS
-        val media = MediaPagingAdapter(tilePx(columns))
+        val media = MediaPagingAdapter(tilePx(columns), ::openMedia)
         val classic = GalleryHeaderAdapter(
             onFilterSelected = { viewModel.setFilter(it) },
             onAllAlbums = { (activity as? HomeActivity)?.openAlbumsTab() },
@@ -143,7 +144,7 @@ class PhotoFragment : Fragment() {
             onAllAlbums = { (activity as? HomeActivity)?.openAlbumsTab() },
             onOpenAlbum = ::openAlbum,
         )
-        val mosaic = MosaicPagingAdapter(resources.displayMetrics.widthPixels)
+        val mosaic = MosaicPagingAdapter(resources.displayMetrics.widthPixels, ::openMedia)
         val journalTopAdapter = MosaicTopAdapter(
             onFilterSelected = { viewModel.setFilter(it) },
             onAllAlbums = { (activity as? HomeActivity)?.openAlbumsTab() },
@@ -153,6 +154,7 @@ class PhotoFragment : Fragment() {
         val journal = JournalPagingAdapter(
             onAddToAlbum = { showAddToAlbum(it) },
             onShare = { viewModel.requestShare(it.dayKey) },
+            onOpen = ::openMedia,
         )
         journalAdapter = journal
         journalTop = journalTopAdapter
@@ -399,6 +401,16 @@ class PhotoFragment : Fragment() {
     }
 
     /** Opens a library folder card in the album screen; ignores empty rows and double taps. */
+    /** Opens the tapped photo or video in the viewer, inside the gallery under the active filter. */
+    private fun openMedia(uid: Long) {
+        val context = context ?: return
+        val now = android.os.SystemClock.elapsedRealtime()
+        if (now - lastAlbumOpenAt < ALBUM_OPEN_GAP_MS) return
+        lastAlbumOpenAt = now
+        val filter = viewModel.filter.value ?: MediaFilter.ALL
+        startActivity(FullScreenMediaActivity.intent(context, uid, AlbumKind.DEVICE, 0L, filter))
+    }
+
     private fun openAlbum(album: AlbumRow) = open(AlbumKind.DEVICE, album.bucketId, album.bucketName)
 
     private fun open(kind: AlbumKind, id: Long, name: String) {
