@@ -197,4 +197,6 @@
     <string name="selection_delete_title">ย้าย %1$d รายการไปถังขยะ?</string>
     <string name="selection_move_title">ย้ายรายการที่เลือก (%1$d) ไปที่…</string>
     <string name="selection_moved_to">ย้ายไปที่ “%1$s” แล้ว</string>
+    <string name="selection_unfavorite">เลิกชื่นชอบ</string>
+    <string name="selection_removed_favorites">นำ %1$d รายการออกจากรายการโปรดแล้ว</string>
 </resources>

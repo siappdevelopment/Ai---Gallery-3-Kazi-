@@ -17,6 +17,8 @@ class HomeActivity : AppCompatActivity() {
 
     private var binding: ActivityHomeBinding? = null
     private var selectedTab = TAB_FOR_YOU
+    private var systemBottomInset = 0
+    private var chromeVisible = true
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -29,7 +31,8 @@ class HomeActivity : AppCompatActivity() {
         ViewCompat.setOnApplyWindowInsetsListener(b.root) { v, insets ->
             val bars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             // The tab bar extends under the system navigation bar, so it takes the bottom inset.
-            v.setPadding(bars.left, bars.top, bars.right, 0)
+            systemBottomInset = bars.bottom
+            v.setPadding(bars.left, bars.top, bars.right, if (chromeVisible) 0 else bars.bottom)
             b.navBar.setPadding(0, 0, 0, bars.bottom)
             insets
         }
@@ -51,6 +54,20 @@ class HomeActivity : AppCompatActivity() {
     override fun onDestroy() {
         binding = null
         super.onDestroy()
+    }
+
+    /**
+     * Hides (selection mode) or restores the normal top bar and the tab bar. Without the tab bar the
+     * screen takes the system navigation bar inset itself, so nothing slides under it.
+     */
+    fun setChromeVisible(visible: Boolean) {
+        if (chromeVisible == visible) return
+        chromeVisible = visible
+        val b = binding ?: return
+        val visibility = if (visible) android.view.View.VISIBLE else android.view.View.GONE
+        b.topBar.visibility = visibility
+        b.navBar.visibility = visibility
+        b.root.setPadding(b.root.paddingLeft, b.root.paddingTop, b.root.paddingRight, if (visible) 0 else systemBottomInset)
     }
 
     /** Switches to the Albums tab (used by the Gallery's "All albums" link). */

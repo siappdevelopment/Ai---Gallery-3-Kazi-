@@ -197,4 +197,6 @@
     <string name="selection_delete_title">%1$d 件をゴミ箱に移動しますか？</string>
     <string name="selection_move_title">選択した項目（%1$d）の移動先…</string>
     <string name="selection_moved_to">“%1$s”に移動しました</string>
+    <string name="selection_unfavorite">お気に入り解除</string>
+    <string name="selection_removed_favorites">%1$d 件をお気に入りから削除しました</string>
 </resources>

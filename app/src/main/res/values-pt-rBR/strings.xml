@@ -203,4 +203,6 @@
     <string name="selection_delete_title">Mover %1$d itens para a lixeira?</string>
     <string name="selection_move_title">Mover selecionados (%1$d) para…</string>
     <string name="selection_moved_to">Movido para %1$s</string>
+    <string name="selection_unfavorite">Desfavoritar</string>
+    <string name="selection_removed_favorites">%1$d removidos dos Favoritos</string>
 </resources>

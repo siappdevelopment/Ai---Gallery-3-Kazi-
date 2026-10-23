@@ -203,4 +203,6 @@
     <string name="selection_delete_title">Mettre %1$d éléments à la corbeille ?</string>
     <string name="selection_move_title">Déplacer la sélection (%1$d) vers…</string>
     <string name="selection_moved_to">Déplacé vers %1$s</string>
+    <string name="selection_unfavorite">Retirer des favoris</string>
+    <string name="selection_removed_favorites">%1$d retirés des favoris</string>
 </resources>

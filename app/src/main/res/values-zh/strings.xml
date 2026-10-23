@@ -197,4 +197,6 @@
     <string name="selection_delete_title">将 %1$d 项移至回收站？</string>
     <string name="selection_move_title">将所选项目（%1$d）移动到…</string>
     <string name="selection_moved_to">已移动到“%1$s”</string>
+    <string name="selection_unfavorite">取消收藏</string>
+    <string name="selection_removed_favorites">已将 %1$d 项移出收藏</string>
 </resources>

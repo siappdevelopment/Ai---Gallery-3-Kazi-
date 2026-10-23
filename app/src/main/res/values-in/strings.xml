@@ -197,4 +197,6 @@
     <string name="selection_delete_title">Pindahkan %1$d item ke Sampah?</string>
     <string name="selection_move_title">Pindahkan pilihan (%1$d) ke…</string>
     <string name="selection_moved_to">Dipindahkan ke %1$s</string>
+    <string name="selection_unfavorite">Hapus favorit</string>
+    <string name="selection_removed_favorites">%1$d dihapus dari Favorit</string>
 </resources>

@@ -200,4 +200,6 @@
     <string name="selection_delete_title">%1$d Elemente in den Papierkorb verschieben?</string>
     <string name="selection_move_title">Auswahl (%1$d) verschieben nach…</string>
     <string name="selection_moved_to">Nach „%1$s“ verschoben</string>
+    <string name="selection_unfavorite">Favorit entfernen</string>
+    <string name="selection_removed_favorites">%1$d aus Favoriten entfernt</string>
 </resources>

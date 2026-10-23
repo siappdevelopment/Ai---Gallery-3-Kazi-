@@ -197,4 +197,6 @@
     <string name="selection_delete_title">%1$d개 항목을 휴지통으로 이동할까요?</string>
     <string name="selection_move_title">선택한 항목(%1$d) 이동 위치…</string>
     <string name="selection_moved_to">“%1$s”(으)로 이동했습니다</string>
+    <string name="selection_unfavorite">즐겨찾기 해제</string>
+    <string name="selection_removed_favorites">%1$d개를 즐겨찾기에서 삭제했습니다</string>
 </resources>

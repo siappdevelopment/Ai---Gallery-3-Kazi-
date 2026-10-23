@@ -28,6 +28,8 @@ class SelectionBarController(
     private val launch: (PendingIntent) -> Unit,
     /** Called after every selection change so the grid can redraw its check marks. */
     private val onSelectionChanged: () -> Unit,
+    /** Selection mode started or ended (the Gallery hides its normal bars while it is on). */
+    private val onActiveChanged: (Boolean) -> Unit = {},
 ) {
 
     private val backCallback = object : OnBackPressedCallback(false) {
@@ -74,6 +76,10 @@ class SelectionBarController(
         val active = viewModel.isActive
         bars.root.visibility = if (active) View.VISIBLE else View.GONE
         backCallback.isEnabled = active
+        val unfavorite = viewModel.isUnfavoriteMode
+        bars.ivFavoriteAction.setImageResource(if (unfavorite) R.drawable.ic_favorite else R.drawable.ic_favorite_border)
+        bars.tvFavoriteAction.setText(if (unfavorite) R.string.selection_unfavorite else R.string.viewer_favorite)
+        onActiveChanged(active)
         bars.tvSelected.text = activity.getString(R.string.selection_selected, viewModel.count())
         onSelectionChanged()
     }

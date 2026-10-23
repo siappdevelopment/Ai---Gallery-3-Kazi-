@@ -200,4 +200,6 @@
     <string name="selection_delete_title">%1$d items naar prullenbak verplaatsen?</string>
     <string name="selection_move_title">Selectie (%1$d) verplaatsen naar…</string>
     <string name="selection_moved_to">Verplaatst naar %1$s</string>
+    <string name="selection_unfavorite">Uit favorieten</string>
+    <string name="selection_removed_favorites">%1$d verwijderd uit Favorieten</string>
 </resources>

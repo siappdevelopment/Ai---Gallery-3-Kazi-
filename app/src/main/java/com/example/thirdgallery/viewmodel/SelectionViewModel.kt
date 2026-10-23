@@ -35,7 +35,7 @@ class SelectionViewModel(
     private val state: SavedStateHandle,
 ) : AndroidViewModel(application) {
 
-    private enum class Pending { FAVORITE, TRASH }
+    private enum class Pending { FAVORITE, UNFAVORITE, TRASH }
 
     private val repository = MediaRepository(application)
 
@@ -66,6 +66,9 @@ class SelectionViewModel(
 
     val isActive: Boolean get() = _active.value == true
 
+    /** Selecting inside the Favorite filter / collection: the Favorite action becomes Unfavorite. */
+    val isUnfavoriteMode: Boolean get() = sourceFilter == MediaFilter.FAVORITES || sourceKind == AlbumKind.FAVORITES
+
     fun isSelected(uid: Long): Boolean = _selected.value?.contains(uid) == true
 
     fun count(): Int = _selected.value?.size ?: 0
@@ -90,7 +93,9 @@ class SelectionViewModel(
 
     fun toggle(uid: Long) {
         val current = _selected.value.orEmpty()
-        publish(if (uid in current) current - uid else current + uid)
+        val next = if (uid in current) current - uid else current + uid
+        // Deselecting the last item ends selection mode (the normal bars come back at once).
+        if (next.isEmpty()) clear() else publish(next)
     }
 
     fun clear() {
@@ -114,7 +119,7 @@ class SelectionViewModel(
             _events.value = Event(SelectionEvent.Message(R.string.viewer_unsupported))
             return
         }
-        request(Pending.FAVORITE)
+        request(if (isUnfavoriteMode) Pending.UNFAVORITE else Pending.FAVORITE)
     }
 
     fun moveToBin() {
@@ -132,10 +137,10 @@ class SelectionViewModel(
             val resolver = getApplication<Application>().contentResolver
             val uris = uids.map { MediaUris.ofUid(it) }
             val intent = try {
-                if (action == Pending.FAVORITE) {
-                    MediaStore.createFavoriteRequest(resolver, uris, true)
-                } else {
-                    MediaStore.createTrashRequest(resolver, uris, true)
+                when (action) {
+                    Pending.FAVORITE -> MediaStore.createFavoriteRequest(resolver, uris, true)
+                    Pending.UNFAVORITE -> MediaStore.createFavoriteRequest(resolver, uris, false)
+                    Pending.TRASH -> MediaStore.createTrashRequest(resolver, uris, true)
                 }
             } catch (e: SecurityException) {
                 null
@@ -165,12 +170,16 @@ class SelectionViewModel(
             return
         }
         worker.execute {
-            if (action == Pending.FAVORITE) {
-                repository.setFavoritesLocal(uids, true)
-            } else {
-                repository.removeLocalAll(uids)
+            when (action) {
+                Pending.FAVORITE -> repository.setFavoritesLocal(uids, true)
+                Pending.UNFAVORITE -> repository.setFavoritesLocal(uids, false)
+                Pending.TRASH -> repository.removeLocalAll(uids)
             }
-            val message = if (action == Pending.FAVORITE) R.string.selection_added_favorites else R.string.selection_moved_bin
+            val message = when (action) {
+                Pending.FAVORITE -> R.string.selection_added_favorites
+                Pending.UNFAVORITE -> R.string.selection_removed_favorites
+                Pending.TRASH -> R.string.selection_moved_bin
+            }
             _events.postValue(Event(SelectionEvent.Message(message, uids.size)))
             mainHandler.post { clear() }
         }

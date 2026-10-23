@@ -200,4 +200,6 @@
     <string name="selection_delete_title">%1$d आइटम बिन में ले जाएँ?</string>
     <string name="selection_move_title">चुने हुए (%1$d) को यहाँ ले जाएँ…</string>
     <string name="selection_moved_to">%1$s में ले जाया गया</string>
+    <string name="selection_unfavorite">पसंदीदा हटाएँ</string>
+    <string name="selection_removed_favorites">%1$d पसंदीदा से हटाए गए</string>
 </resources>

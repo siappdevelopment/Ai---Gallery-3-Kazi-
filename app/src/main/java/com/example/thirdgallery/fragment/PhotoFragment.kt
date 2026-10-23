@@ -140,6 +140,7 @@ class PhotoFragment : Fragment() {
                 mediaAdapter?.refreshSelection()
                 mosaicAdapter?.refreshSelection()
             },
+            onActiveChanged = { (activity as? HomeActivity)?.setChromeVisible(!it) },
         )
         selectionBars = bars
 
@@ -314,6 +315,8 @@ class PhotoFragment : Fragment() {
     }
 
     override fun onDestroyView() {
+        // The bars must come back even when the view goes away while selecting.
+        (activity as? HomeActivity)?.setChromeVisible(true)
         selectionBars = null
         binding?.rvMedia?.adapter = null
         stopMosaicData()

@@ -110,6 +110,7 @@
             android:orientation="vertical">
 
             <ImageView
+                android:id="@+id/ivFavoriteAction"
                 android:layout_width="22dp"
                 android:layout_height="22dp"
                 android:importantForAccessibility="no"
@@ -117,6 +118,7 @@
                 app:tint="@color/splash_text_primary" />
 
             <TextView
+                android:id="@+id/tvFavoriteAction"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="3dp"

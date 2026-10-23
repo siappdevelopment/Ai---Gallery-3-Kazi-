@@ -200,4 +200,6 @@
     <string name="selection_delete_title">Skuif %1$d items na asblik?</string>
     <string name="selection_move_title">Skuif gekiesde (%1$d) na…</string>
     <string name="selection_moved_to">Geskuif na %1$s</string>
+    <string name="selection_unfavorite">Verwyder gunsteling</string>
+    <string name="selection_removed_favorites">%1$d uit gunstelinge verwyder</string>
 </resources>

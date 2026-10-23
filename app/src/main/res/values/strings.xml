@@ -206,4 +206,6 @@
     <string name="selection_delete_title">Move %1$d items to Bin?</string>
     <string name="selection_move_title">Move selected (%1$d) to…</string>
     <string name="selection_moved_to">Moved to %1$s</string>
+    <string name="selection_unfavorite">Unfavorite</string>
+    <string name="selection_removed_favorites">%1$d removed from Favorites</string>
 </resources>

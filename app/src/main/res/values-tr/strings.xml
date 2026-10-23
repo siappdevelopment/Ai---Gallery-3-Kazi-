@@ -200,4 +200,6 @@
     <string name="selection_delete_title">%1$d öğe çöp kutusuna taşınsın mı?</string>
     <string name="selection_move_title">Seçilenleri (%1$d) şuraya taşı…</string>
     <string name="selection_moved_to">“%1$s” albümüne taşındı</string>
+    <string name="selection_unfavorite">Favoriden çıkar</string>
+    <string name="selection_removed_favorites">%1$d öğe Favorilerden kaldırıldı</string>
 </resources>

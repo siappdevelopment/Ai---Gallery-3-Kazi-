@@ -206,4 +206,6 @@
     <string name="selection_delete_title">Переместить в корзину элементы (%1$d)?</string>
     <string name="selection_move_title">Переместить выбранное (%1$d) в…</string>
     <string name="selection_moved_to">Перемещено в «%1$s»</string>
+    <string name="selection_unfavorite">Убрать из избранного</string>
+    <string name="selection_removed_favorites">Убрано из избранного: %1$d</string>
 </resources>

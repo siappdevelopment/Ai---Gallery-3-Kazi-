@@ -203,4 +203,6 @@
     <string name="selection_delete_title">¿Mover %1$d elementos a la papelera?</string>
     <string name="selection_move_title">Mover selección (%1$d) a…</string>
     <string name="selection_moved_to">Movido a %1$s</string>
+    <string name="selection_unfavorite">Quitar favorito</string>
+    <string name="selection_removed_favorites">%1$d quitados de Favoritos</string>
 </resources>

@@ -200,4 +200,6 @@
     <string name="selection_delete_title">Ilipat ang %1$d item sa Bin?</string>
     <string name="selection_move_title">Ilipat ang napili (%1$d) sa…</string>
     <string name="selection_moved_to">Inilipat sa %1$s</string>
+    <string name="selection_unfavorite">Alisin sa paborito</string>
+    <string name="selection_removed_favorites">%1$d ang inalis sa Mga Paborito</string>
 </resources>

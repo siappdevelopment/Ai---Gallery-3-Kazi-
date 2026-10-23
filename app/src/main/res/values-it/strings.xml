@@ -203,4 +203,6 @@
     <string name="selection_delete_title">Spostare %1$d elementi nel cestino?</string>
     <string name="selection_move_title">Sposta selezione (%1$d) in…</string>
     <string name="selection_moved_to">Spostato in %1$s</string>
+    <string name="selection_unfavorite">Rimuovi dai preferiti</string>
+    <string name="selection_removed_favorites">%1$d rimossi dai preferiti</string>
 </resources>

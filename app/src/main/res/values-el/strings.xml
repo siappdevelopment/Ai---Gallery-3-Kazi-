@@ -200,4 +200,6 @@
     <string name="selection_delete_title">Μετακίνηση %1$d στοιχείων στον κάδο;</string>
     <string name="selection_move_title">Μετακίνηση επιλεγμένων (%1$d) σε…</string>
     <string name="selection_moved_to">Μετακινήθηκε στο %1$s</string>
+    <string name="selection_unfavorite">Κατάργηση αγαπημένου</string>
+    <string name="selection_removed_favorites">Αφαιρέθηκαν %1$d από τα Αγαπημένα</string>
 </resources>
