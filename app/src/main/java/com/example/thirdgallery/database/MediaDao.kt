@@ -161,6 +161,9 @@ interface MediaDao {
     @Query("SELECT * FROM media WHERE uid = :uid")
     fun byUid(uid: Long): MediaEntity?
 
+    @Query("SELECT * FROM media WHERE uid IN (:uids)")
+    fun byUids(uids: List<Long>): List<MediaEntity>
+
     @Query("UPDATE media SET isFavorite = :favorite WHERE uid = :uid")
     fun setFavorite(uid: Long, favorite: Boolean)
 

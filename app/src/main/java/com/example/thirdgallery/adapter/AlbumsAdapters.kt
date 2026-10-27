@@ -166,20 +166,28 @@ class AlbumCardAdapter(
 
 /**
  * "Smart collections": Favorites, Videos, Screenshots and Recently added open with live counts. Photo vault
- * and Bin have no storage yet, so they are shown as in the design and only call [onUnavailable].
+ * and Bin open their own screens; the vault shows "Set up" until it has a PIN, then its item count.
  */
 class SmartCollectionsAdapter(
     private val onOpen: (AlbumKind, String) -> Unit,
-    private val onUnavailable: () -> Unit,
+    private val onOpenVault: () -> Unit,
     private val onOpenBin: () -> Unit,
 ) : RecyclerView.Adapter<SmartCollectionsAdapter.ViewHolder>() {
 
     private var counts = IntArray(4)
+    private var vaultCount: Int? = null
 
     fun setCounts(favorites: Int, videos: Int, screenshots: Int, recent: Int) {
         val next = intArrayOf(favorites, videos, screenshots, recent)
         if (next.contentEquals(counts)) return
         counts = next
+        notifyItemChanged(0)
+    }
+
+    /** Items in the vault, or null while the vault has not been set up. */
+    fun setVaultCount(count: Int?) {
+        if (count == vaultCount) return
+        vaultCount = count
         notifyItemChanged(0)
     }
 
@@ -199,7 +207,7 @@ class SmartCollectionsAdapter(
             Row(binding.rowRecent, AlbumKind.RECENT, R.drawable.ic_schedule, R.string.albums_smart_recent),
         )
 
-        private val unavailableRows = listOf(
+        private val linkRows = listOf(
             Triple(binding.rowVault, R.drawable.ic_vault, R.string.albums_smart_vault),
             Triple(binding.rowBin, R.drawable.ic_delete, R.string.albums_smart_bin),
         )
@@ -212,18 +220,23 @@ class SmartCollectionsAdapter(
                     onOpen(row.kind, row.binding.root.resources.getString(row.label))
                 }
             }
-            unavailableRows.forEach { (row, icon, label) ->
+            linkRows.forEach { (row, icon, label) ->
                 row.ivIcon.setImageResource(icon)
                 row.tvLabel.setText(label)
-                row.root.setOnClickListener { onUnavailable() }
             }
+            binding.rowVault.root.setOnClickListener { onOpenVault() }
             binding.rowBin.root.setOnClickListener { onOpenBin() }
-            binding.rowVault.tvCount.setText(R.string.albums_vault_setup)
             binding.rowBin.tvCount.visibility = View.GONE
         }
 
         fun bind(counts: IntArray) {
             rows.forEachIndexed { index, row -> row.binding.tvCount.text = counts[index].toString() }
+            val vault = vaultCount
+            if (vault == null) {
+                binding.rowVault.tvCount.setText(R.string.albums_vault_setup)
+            } else {
+                binding.rowVault.tvCount.text = vault.toString()
+            }
         }
     }
 

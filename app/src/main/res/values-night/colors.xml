@@ -19,4 +19,11 @@
     <color name="sheet_handle">#FF45454D</color>
     <color name="album_chevron">#FF5A5A62</color>
     <color name="splash_progress_track">#33FF4D7E</color>
+    <color name="vault_error">#FFFF6B7F</color>
+    <color name="vault_dot_off">#FF34343A</color>
+    <color name="vault_dot_error">#FF6B2A38</color>
+    <color name="vault_verified">#FF4CC38A</color>
+    <color name="vault_illustration_back">#FF5A2A3D</color>
+    <color name="vault_illustration_front">#FF3F3358</color>
+    <color name="vault_folder_cover">#FF2A2A30</color>
 </resources>

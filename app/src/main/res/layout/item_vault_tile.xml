@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 1dp margin on every side gives the design's 2dp gaps between square tiles -->
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="1dp"
+    android:clickable="true"
+    android:focusable="true">
+
+    <com.example.thirdgallery.utils.SquareImageView
+        android:id="@+id/ivThumb"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:importantForAccessibility="no"
+        android:scaleType="centerCrop" />
+
+    <TextView
+        android:id="@+id/tvDuration"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_margin="5dp"
+        android:background="@drawable/bg_media_badge"
+        android:drawableStart="@drawable/ic_play_badge"
+        android:drawablePadding="1dp"
+        android:gravity="center_vertical"
+        android:paddingStart="3dp"
+        android:paddingTop="2dp"
+        android:paddingEnd="6dp"
+        android:paddingBottom="2dp"
+        android:textColor="@color/white"
+        android:textSize="10.5sp"
+        android:textStyle="bold"
+        android:visibility="gone" />
+</FrameLayout>

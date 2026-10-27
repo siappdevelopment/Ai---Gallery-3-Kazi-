@@ -247,4 +247,70 @@
     <string name="search_person_2" translatable="false">Liam</string>
     <string name="search_person_3" translatable="false">Olivia</string>
     <string name="search_person_4" translatable="false">Noah</string>
+
+    <string name="vault_intro_desc">Keep private photos and videos behind a PIN. They’re hidden from Gallery, albums and search.</string>
+    <string name="vault_intro_point_1">Locked with a 4-digit PIN or fingerprint</string>
+    <string name="vault_intro_point_2">Hidden from Gallery, For you and search</string>
+    <string name="vault_intro_point_3">Stays on this device. Nothing is uploaded</string>
+    <string name="vault_intro_cta">Set up vault</string>
+    <string name="vault_intro_footer">Takes less than a minute</string>
+    <string name="vault_step">Step %1$d of %2$d</string>
+    <string name="vault_pin_create_title">Create a PIN</string>
+    <string name="vault_pin_create_desc">Choose 4 digits you’ll remember.</string>
+    <string name="vault_pin_confirm_title">Confirm your PIN</string>
+    <string name="vault_pin_confirm_desc">Enter the same 4 digits again.</string>
+    <string name="vault_pin_unlock_title">Enter PIN</string>
+    <string name="vault_pin_unlock_desc">Unlock your photo vault.</string>
+    <string name="vault_pin_mismatch">PINs didn’t match. Try again.</string>
+    <string name="vault_pin_wrong">Wrong PIN. Try again.</string>
+    <string name="vault_pin_wrong_attempts">Wrong PIN. %1$d failed attempts.</string>
+    <string name="vault_pin_forgot">Forgot PIN?</string>
+    <string name="vault_key_delete">Delete</string>
+    <string name="vault_key_fingerprint">Use fingerprint</string>
+    <string name="vault_recovery_title">Add a recovery question</string>
+    <string name="vault_recovery_desc">If you forget your PIN, answering this lets you set a new one.</string>
+    <string name="vault_recovery_q1">What was the name of your first pet?</string>
+    <string name="vault_recovery_q2">What city were you born in?</string>
+    <string name="vault_recovery_q3">What was your favorite teacher’s name?</string>
+    <string name="vault_recovery_answer_label">Your answer</string>
+    <string name="vault_recovery_answer_hint">Type your answer</string>
+    <string name="vault_recovery_note">Answers aren’t case-sensitive.</string>
+    <string name="vault_recovery_skip">Skip for now</string>
+    <string name="vault_recovery_save">Save and continue</string>
+    <string name="vault_recovery_enter_answer">Enter an answer</string>
+    <string name="vault_fp_title">Unlock with fingerprint</string>
+    <string name="vault_fp_desc">Open your vault faster with the fingerprint saved on this phone. Your PIN still works anytime.</string>
+    <string name="vault_fp_use">Use fingerprint</string>
+    <string name="vault_fp_later">Not now</string>
+    <string name="vault_fp_none_enrolled">Add a fingerprint in your phone’s settings first.</string>
+    <string name="vault_fp_unavailable">Fingerprint isn’t available on this phone.</string>
+    <string name="vault_scan_title">Unlock vault</string>
+    <string name="vault_scan_desc">Touch the fingerprint sensor</string>
+    <string name="vault_scan_use_pin">Use PIN instead</string>
+    <string name="vault_ready">Vault is ready</string>
+    <string name="vault_locked">Vault locked</string>
+    <string name="vault_lock">Lock</string>
+    <string name="vault_lock_description">Lock vault</string>
+    <string name="vault_settings_description">Vault settings</string>
+    <string name="vault_home_subtitle">Locked with your PIN · only on this device</string>
+    <string name="vault_stat_items">Items</string>
+    <string name="vault_stat_photos">Photos</string>
+    <string name="vault_stat_videos">Videos</string>
+    <string name="vault_stat_size">Size</string>
+    <string name="vault_folders">Folders</string>
+    <string name="vault_new_folder">New folder</string>
+    <string name="vault_recent">Recently added</string>
+    <string name="vault_view_all">View all</string>
+    <string name="vault_folder_all">All items</string>
+    <string name="vault_folder_photos">Photos</string>
+    <string name="vault_folder_videos">Videos</string>
+    <string name="vault_folder_documents">Documents</string>
+    <string name="vault_folder_personal">Personal</string>
+    <string name="vault_empty_title">Your vault is empty</string>
+    <string name="vault_empty_desc">Add photos and videos you want to keep private. They’ll be removed from Gallery.</string>
+    <string name="vault_add">Add to vault</string>
+    <plurals name="vault_folder_items">
+        <item quantity="one">%1$d item</item>
+        <item quantity="other">%1$d items</item>
+    </plurals>
 </resources>

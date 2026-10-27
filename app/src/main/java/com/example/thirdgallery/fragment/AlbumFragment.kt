@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.ConcatAdapter
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.thirdgallery.activity.AlbumDetailActivity
 import com.example.thirdgallery.activity.TrashActivity
+import com.example.thirdgallery.activity.VaultSetupActivity
 import com.example.thirdgallery.adapter.AlbumCardAdapter
 import com.example.thirdgallery.adapter.AlbumsHeaderAdapter
 import com.example.thirdgallery.R
@@ -20,6 +21,7 @@ import com.example.thirdgallery.databinding.FragmentAlbumsBinding
 import com.example.thirdgallery.helper.MediaPermissionHelper
 import com.example.thirdgallery.model.AlbumCard
 import com.example.thirdgallery.model.AlbumKind
+import com.example.thirdgallery.repo.VaultRepository
 import com.example.thirdgallery.viewmodel.AlbumsUi
 import com.example.thirdgallery.viewmodel.AlbumsViewModel
 
@@ -82,11 +84,7 @@ class AlbumFragment : Fragment() {
                     }
                 }
             },
-            onUnavailable = {
-                context?.applicationContext?.let {
-                    android.widget.Toast.makeText(it, R.string.albums_coming_soon, android.widget.Toast.LENGTH_SHORT).show()
-                }
-            },
+            onOpenVault = { context?.let { startActivity(VaultSetupActivity.intent(it)) } },
         )
         header = headerAdapter
         cards = cardAdapter
@@ -140,6 +138,9 @@ class AlbumFragment : Fragment() {
     override fun onStart() {
         super.onStart()
         if (hasAccess) viewModel.refresh()
+        // The vault may have been set up or filled since this tab was last on screen.
+        val vault = VaultRepository(requireContext())
+        smart?.setVaultCount(if (vault.isSetUp) vault.itemCount() else null)
     }
 
     override fun onResume() {

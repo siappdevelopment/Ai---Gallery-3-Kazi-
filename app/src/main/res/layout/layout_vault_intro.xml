@@ -1,0 +1,229 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Design 60: Vault intro -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/root"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingStart="12dp"
+        android:paddingTop="8dp"
+        android:paddingEnd="12dp"
+        android:paddingBottom="8dp">
+
+        <ImageButton
+            android:id="@+id/btnBack"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="@drawable/bg_home_circle_button"
+            android:contentDescription="@string/albums_back"
+            android:scaleType="center"
+            android:src="@drawable/ic_arrow_back"
+            app:tint="@color/splash_text_primary" />
+    </LinearLayout>
+
+    <!-- Content is centred and scrolls on very large fonts; the button stays pinned below -->
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:fillViewport="true"
+        android:overScrollMode="never"
+        android:paddingStart="@dimen/intro_horizontal_padding"
+        android:paddingEnd="@dimen/intro_horizontal_padding"
+        android:scrollbars="none">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="vertical"
+            android:paddingStart="20dp"
+            android:paddingEnd="20dp">
+
+            <!-- Illustration: two soft tiles and the pink lock badge (180 x 150) -->
+            <FrameLayout
+                android:layout_width="180dp"
+                android:layout_height="150dp"
+                android:clipChildren="false"
+                android:importantForAccessibility="no">
+
+                <View
+                    android:layout_width="92dp"
+                    android:layout_height="116dp"
+                    android:layout_marginTop="22dp"
+                    android:alpha="0.9"
+                    android:background="@drawable/bg_vault_illustration_back"
+                    android:rotation="-9" />
+
+                <View
+                    android:layout_width="96dp"
+                    android:layout_height="120dp"
+                    android:layout_marginStart="58dp"
+                    android:layout_marginTop="4dp"
+                    android:alpha="0.9"
+                    android:background="@drawable/bg_vault_illustration_front"
+                    android:rotation="5" />
+
+                <FrameLayout
+                    android:layout_width="62dp"
+                    android:layout_height="62dp"
+                    android:layout_marginStart="58dp"
+                    android:layout_marginTop="86dp"
+                    android:background="@drawable/bg_vault_lock_badge"
+                    android:elevation="6dp">
+
+                    <ImageView
+                        android:layout_width="32dp"
+                        android:layout_height="32dp"
+                        android:layout_gravity="center"
+                        android:importantForAccessibility="no"
+                        android:src="@drawable/ic_lock"
+                        app:tint="@color/white" />
+                </FrameLayout>
+            </FrameLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="22dp"
+                android:letterSpacing="-0.036"
+                android:text="@string/albums_smart_vault"
+                android:textColor="@color/splash_text_primary"
+                android:textSize="28sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:lineSpacingMultiplier="1.15"
+                android:text="@string/vault_intro_desc"
+                android:textColor="@color/splash_text_secondary"
+                android:textSize="14.5sp" />
+
+            <!-- Three benefit rows -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="22dp"
+                android:background="@drawable/bg_perm_card"
+                android:orientation="vertical"
+                android:paddingStart="14dp"
+                android:paddingTop="6dp"
+                android:paddingEnd="14dp"
+                android:paddingBottom="6dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:paddingTop="11dp"
+                    android:paddingBottom="11dp">
+
+                    <ImageView
+                        android:layout_width="21dp"
+                        android:layout_height="21dp"
+                        android:importantForAccessibility="no"
+                        android:src="@drawable/ic_vault_pin"
+                        app:tint="@color/perm_icon_tint" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="12dp"
+                        android:layout_weight="1"
+                        android:text="@string/vault_intro_point_1"
+                        android:textColor="@color/splash_text_primary"
+                        android:textSize="13.5sp"
+                        android:textStyle="bold" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:paddingTop="11dp"
+                    android:paddingBottom="11dp">
+
+                    <ImageView
+                        android:layout_width="21dp"
+                        android:layout_height="21dp"
+                        android:importantForAccessibility="no"
+                        android:src="@drawable/ic_visibility_off"
+                        app:tint="@color/perm_icon_tint" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="12dp"
+                        android:layout_weight="1"
+                        android:text="@string/vault_intro_point_2"
+                        android:textColor="@color/splash_text_primary"
+                        android:textSize="13.5sp"
+                        android:textStyle="bold" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:paddingTop="11dp"
+                    android:paddingBottom="11dp">
+
+                    <ImageView
+                        android:layout_width="21dp"
+                        android:layout_height="21dp"
+                        android:importantForAccessibility="no"
+                        android:src="@drawable/ic_smartphone"
+                        app:tint="@color/perm_icon_tint" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="12dp"
+                        android:layout_weight="1"
+                        android:text="@string/vault_intro_point_3"
+                        android:textColor="@color/splash_text_primary"
+                        android:textSize="13.5sp"
+                        android:textStyle="bold" />
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+
+    <TextView
+        android:id="@+id/btnSetUp"
+        android:layout_width="match_parent"
+        android:layout_height="52dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginEnd="20dp"
+        android:background="@drawable/bg_vault_primary_button"
+        android:clickable="true"
+        android:focusable="true"
+        android:gravity="center"
+        android:text="@string/vault_intro_cta"
+        android:textColor="@color/white"
+        android:textSize="15.5sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:paddingTop="10dp"
+        android:paddingBottom="16dp"
+        android:text="@string/vault_intro_footer"
+        android:textColor="@color/home_text_muted"
+        android:textSize="12sp"
+        android:textStyle="bold" />
+</LinearLayout>

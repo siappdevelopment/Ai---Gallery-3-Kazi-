@@ -75,6 +75,56 @@
         <item name="cornerSize">10dp</item>
     </style>
 
+    <style name="Widget.ThirdGallery.VaultKeyRow" parent="">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:orientation">horizontal</item>
+    </style>
+
+    <style name="Widget.ThirdGallery.VaultKey" parent="">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">62dp</item>
+        <item name="android:layout_margin">5dp</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:background">@drawable/bg_vault_key</item>
+        <item name="android:clickable">true</item>
+        <item name="android:focusable">true</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textColor">@color/splash_text_primary</item>
+        <item name="android:textSize">26sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="Widget.ThirdGallery.VaultIconKey" parent="">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">62dp</item>
+        <item name="android:layout_margin">5dp</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:background">@drawable/bg_vault_key_flat</item>
+        <item name="android:clickable">true</item>
+        <item name="android:focusable">true</item>
+        <item name="android:paddingTop">17dp</item>
+        <item name="android:paddingBottom">17dp</item>
+        <item name="android:scaleType">centerInside</item>
+    </style>
+
+    <style name="Widget.ThirdGallery.VaultStatValue" parent="">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:letterSpacing">-0.024</item>
+        <item name="android:textColor">@color/splash_text_primary</item>
+        <item name="android:textSize">21sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="Widget.ThirdGallery.VaultStatLabel" parent="">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/home_text_muted</item>
+        <item name="android:textSize">11.5sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
     <style name="Theme.ThirdGallery.Splash" parent="Theme.ThirdGallery">
         <item name="android:windowBackground">@color/splash_background</item>
     </style>

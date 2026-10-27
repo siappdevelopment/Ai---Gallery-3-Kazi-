@@ -25,4 +25,11 @@
     <color name="album_chevron">#FFBDBABA</color>
     <color name="splash_progress_track">#1FFF4D7E</color>
     <color name="viewer_background">#FF0E0E0E</color>
+    <color name="vault_error">#FFD7263D</color>
+    <color name="vault_dot_off">#FFE2DFDF</color>
+    <color name="vault_dot_error">#FFF2B8C0</color>
+    <color name="vault_verified">#FF2E9E6A</color>
+    <color name="vault_illustration_back">#FFF3B9CF</color>
+    <color name="vault_illustration_front">#FFD9C2F2</color>
+    <color name="vault_folder_cover">#FFF0F0F0</color>
 </resources>
