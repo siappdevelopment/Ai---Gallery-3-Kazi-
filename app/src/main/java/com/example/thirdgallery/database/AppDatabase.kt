@@ -21,8 +21,10 @@ import androidx.sqlite.db.SupportSQLiteDatabase
         AlbumEntity::class,
         AlbumItemEntity::class,
         VaultItemEntity::class,
+        VaultFolderEntity::class,
+        VaultAlertEntity::class,
     ],
-    version = 7,
+    version = 8,
     exportSchema = true,
 )
 abstract class AppDatabase : RoomDatabase() {
@@ -119,6 +121,21 @@ abstract class AppDatabase : RoomDatabase() {
             }
         }
 
+        /** v8 adds the vault folders, the break-in alerts and the folder of each vault item. */
+        private val MIGRATION_7_8 = object : Migration(7, 8) {
+            override fun migrate(db: SupportSQLiteDatabase) {
+                db.execSQL(
+                    "CREATE TABLE IF NOT EXISTS `vault_folders` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, " +
+                        "`name` TEXT NOT NULL, `createdAt` INTEGER NOT NULL)"
+                )
+                db.execSQL(
+                    "CREATE TABLE IF NOT EXISTS `vault_alerts` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, " +
+                        "`attemptedAt` INTEGER NOT NULL, `attempt` INTEGER NOT NULL)"
+                )
+                db.execSQL("ALTER TABLE `vault_items` ADD COLUMN `folderId` INTEGER NOT NULL DEFAULT 0")
+            }
+        }
+
         @Volatile
         private var instance: AppDatabase? = null
 
@@ -128,7 +145,7 @@ abstract class AppDatabase : RoomDatabase() {
                     context.applicationContext,
                     AppDatabase::class.java,
                     NAME,
-                ).addMigrations(MIGRATION_1_2, MIGRATION_2_3, MIGRATION_3_4, MIGRATION_4_5, MIGRATION_5_6, MIGRATION_6_7).build().also { instance = it }
+                ).addMigrations(MIGRATION_1_2, MIGRATION_2_3, MIGRATION_3_4, MIGRATION_4_5, MIGRATION_5_6, MIGRATION_6_7, MIGRATION_7_8).build().also { instance = it }
             }
     }
 }

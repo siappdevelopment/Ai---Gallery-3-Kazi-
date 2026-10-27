@@ -1,5 +1,6 @@
 package com.example.thirdgallery.database
 
+import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.Index
 import androidx.room.PrimaryKey
@@ -29,4 +30,6 @@ data class VaultItemEntity(
     /** [MediaEntity.uid] of the original that is being (or was) moved here. */
     val sourceUid: Long,
     val committed: Boolean,
+    /** [VaultFolderEntity.id] the item was filed into, 0 = no folder (only in "All items"). */
+    @ColumnInfo(defaultValue = "0") val folderId: Long = 0,
 )

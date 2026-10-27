@@ -26,4 +26,7 @@
     <color name="vault_illustration_back">#FF5A2A3D</color>
     <color name="vault_illustration_front">#FF3F3358</color>
     <color name="vault_folder_cover">#FF2A2A30</color>
+    <color name="vault_switch_off">#FF4A4A52</color>
+    <color name="vault_alert_bg">#FF3A1D27</color>
+    <color name="vault_secure_bg">#FF16301F</color>
 </resources>

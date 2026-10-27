@@ -32,4 +32,7 @@
     <color name="vault_illustration_back">#FFF3B9CF</color>
     <color name="vault_illustration_front">#FFD9C2F2</color>
     <color name="vault_folder_cover">#FFF0F0F0</color>
+    <color name="vault_switch_off">#FFD9D6D6</color>
+    <color name="vault_alert_bg">#FFFDE8EB</color>
+    <color name="vault_secure_bg">#FFE5F5EC</color>
 </resources>

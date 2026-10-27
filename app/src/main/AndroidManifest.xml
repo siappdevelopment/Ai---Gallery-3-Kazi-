@@ -49,6 +49,26 @@
             android:exported="false"
             android:screenOrientation="portrait" />
         <activity
+            android:name=".activity.VaultFolderActivity"
+            android:exported="false"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.VaultViewerActivity"
+            android:exported="false"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.VaultPickActivity"
+            android:exported="false"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.VaultSettingsActivity"
+            android:exported="false"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.VaultAlertsActivity"
+            android:exported="false"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".activity.AlbumDetailActivity"
             android:exported="false"
             android:screenOrientation="portrait" />

@@ -8,7 +8,6 @@ import android.view.View
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.recyclerview.widget.GridLayoutManager
@@ -16,18 +15,22 @@ import com.example.thirdgallery.R
 import com.example.thirdgallery.adapter.VaultFolderAdapter
 import com.example.thirdgallery.adapter.VaultTileAdapter
 import com.example.thirdgallery.databinding.ActivityVaultMediaBinding
+import com.example.thirdgallery.fragment.VaultFolderSheet
 import com.example.thirdgallery.helper.VaultSession
+import com.example.thirdgallery.model.VaultFolderKey
 import com.example.thirdgallery.model.VaultSummary
 import com.example.thirdgallery.viewmodel.VaultMediaViewModel
 
 /**
- * The Photo vault home (design 69): item counts, folders and the newest items. The vault locks as soon as
- * this screen leaves the foreground, so coming back always asks for the PIN again.
+ * The Photo vault home (designs 69 and 70): item counts, folders and the newest items, with the way to every
+ * other vault screen (folders, settings, Add to vault, New folder). Follows the vault live. The vault locks
+ * according to its auto-lock setting once this and the other vault screens leave the foreground.
  */
-class VaultMediaActivity : AppCompatActivity() {
+class VaultMediaActivity : VaultScreenActivity() {
 
     private var binding: ActivityVaultMediaBinding? = null
     private val viewModel: VaultMediaViewModel by viewModels()
+    private var allIds: List<Long> = emptyList()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -47,31 +50,27 @@ class VaultMediaActivity : AppCompatActivity() {
         b.btnLock.setOnClickListener {
             VaultSession.lock()
             Toast.makeText(applicationContext, R.string.vault_locked, Toast.LENGTH_SHORT).show()
-            finish()
+            VaultSession.finishScreens()
         }
+        b.btnSettings.setOnClickListener { startActivity(VaultSettingsActivity.intent(this)) }
+        b.btnNewFolder.setOnClickListener { VaultFolderSheet.show(supportFragmentManager) }
+        b.btnViewAll.setOnClickListener { startActivity(VaultFolderActivity.intent(this, VaultFolderKey.ALL)) }
+        b.btnAdd.setOnClickListener { startActivity(VaultPickActivity.intent(this)) }
 
-        // Folders, tiles, the vault settings and adding items are separate screens that come later.
-        val comingSoon = View.OnClickListener {
-            Toast.makeText(applicationContext, R.string.albums_coming_soon, Toast.LENGTH_SHORT).show()
-        }
-        b.btnSettings.setOnClickListener(comingSoon)
-        b.btnNewFolder.setOnClickListener(comingSoon)
-        b.btnViewAll.setOnClickListener(comingSoon)
-        b.btnAdd.setOnClickListener(comingSoon)
-
-        val folders = VaultFolderAdapter { comingSoon.onClick(b.root) }
+        val folders = VaultFolderAdapter { startActivity(VaultFolderActivity.intent(this, it.key)) }
         b.rvFolders.layoutManager = GridLayoutManager(this, FOLDER_COLUMNS)
         b.rvFolders.adapter = folders
         b.rvFolders.itemAnimator = null
 
-        val tiles = VaultTileAdapter((resources.displayMetrics.widthPixels / TILE_COLUMNS).coerceAtLeast(1)) {
-            comingSoon.onClick(b.root)
+        val tiles = VaultTileAdapter((resources.displayMetrics.widthPixels / TILE_COLUMNS).coerceAtLeast(1)) { item ->
+            startActivity(VaultViewerActivity.intent(this, allIds, item.id))
         }
         b.rvRecent.layoutManager = GridLayoutManager(this, TILE_COLUMNS)
         b.rvRecent.adapter = tiles
         b.rvRecent.itemAnimator = null
 
         viewModel.summary.observe(this) { summary ->
+            allIds = summary.ids
             render(b, summary)
             folders.submitList(summary.folders)
             tiles.submitList(summary.recent)
@@ -88,21 +87,7 @@ class VaultMediaActivity : AppCompatActivity() {
         b.tvSize.text = Formatter.formatShortFileSize(this, summary.sizeBytes)
     }
 
-    override fun onStart() {
-        super.onStart()
-        if (!VaultSession.isUnlocked) {
-            // Back from the background, or opened without the PIN: unlock first.
-            startActivity(VaultSetupActivity.intent(this))
-            finish()
-            return
-        }
-        viewModel.refresh()
-    }
-
-    override fun onStop() {
-        super.onStop()
-        if (!isChangingConfigurations) VaultSession.lock()
-    }
+    override fun onVaultOpen() = viewModel.refresh()
 
     override fun onDestroy() {
         binding = null

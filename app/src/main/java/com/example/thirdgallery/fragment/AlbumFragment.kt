@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.ConcatAdapter
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.thirdgallery.activity.AlbumDetailActivity
 import com.example.thirdgallery.activity.TrashActivity
+import com.example.thirdgallery.activity.VaultMediaActivity
 import com.example.thirdgallery.activity.VaultSetupActivity
 import com.example.thirdgallery.adapter.AlbumCardAdapter
 import com.example.thirdgallery.adapter.AlbumsHeaderAdapter
@@ -19,6 +20,7 @@ import com.example.thirdgallery.R
 import com.example.thirdgallery.adapter.SmartCollectionsAdapter
 import com.example.thirdgallery.databinding.FragmentAlbumsBinding
 import com.example.thirdgallery.helper.MediaPermissionHelper
+import com.example.thirdgallery.helper.VaultSession
 import com.example.thirdgallery.model.AlbumCard
 import com.example.thirdgallery.model.AlbumKind
 import com.example.thirdgallery.repo.VaultRepository
@@ -85,7 +87,7 @@ class AlbumFragment : Fragment() {
                     }
                 }
             },
-            onOpenVault = { context?.let { startActivity(VaultSetupActivity.intent(it)) } },
+            onOpenVault = { context?.let { openVault(it) } },
         )
         header = headerAdapter
         cards = cardAdapter
@@ -152,6 +154,12 @@ class AlbumFragment : Fragment() {
         super.onResume()
         // Permission may have been granted or revoked in Settings while the app was in the background.
         syncAccess()
+    }
+
+    /** The vault opens straight away while it is unlocked (auto-lock), otherwise through the PIN screen. */
+    private fun openVault(context: android.content.Context) {
+        val unlocked = VaultSession.isOpen(context) && VaultRepository(context).isSetUp
+        startActivity(if (unlocked) VaultMediaActivity.intent(context) else VaultSetupActivity.intent(context))
     }
 
     /** "Set up" until the vault has a PIN, then the live number of items in it. */

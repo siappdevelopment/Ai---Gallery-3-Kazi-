@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Opens a vault item: swipe between the items of the folder, Unhide or Delete the one on screen -->
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/viewer_background"
+    tools:context=".activity.VaultViewerActivity">
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/pager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:overScrollMode="never" />
+
+    <LinearLayout
+        android:id="@+id/topBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top"
+        android:background="@drawable/bg_viewer_top"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingStart="12dp"
+        android:paddingTop="8dp"
+        android:paddingEnd="12dp"
+        android:paddingBottom="20dp">
+
+        <ImageButton
+            android:id="@+id/btnBack"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="@drawable/bg_viewer_button"
+            android:contentDescription="@string/albums_back"
+            android:scaleType="center"
+            android:src="@drawable/ic_arrow_back"
+            app:tint="@color/white" />
+
+        <TextView
+            android:id="@+id/tvPosition"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:layout_weight="1"
+            android:textColor="@color/white"
+            android:textSize="15sp"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/bottomBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:background="@drawable/bg_viewer_bottom"
+        android:orientation="horizontal"
+        android:paddingStart="24dp"
+        android:paddingTop="20dp"
+        android:paddingEnd="24dp"
+        android:paddingBottom="12dp">
+
+        <LinearLayout
+            android:id="@+id/actUnhide"
+            style="@style/Widget.ThirdGallery.VaultAction"
+            android:layout_height="56dp">
+
+            <ImageView
+                style="@style/Widget.ThirdGallery.VaultActionIcon"
+                android:src="@drawable/ic_vault_visibility"
+                app:tint="@color/white" />
+
+            <TextView
+                style="@style/Widget.ThirdGallery.VaultActionLabel"
+                android:text="@string/vault_unhide"
+                android:textColor="@color/white" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/actDelete"
+            style="@style/Widget.ThirdGallery.VaultAction"
+            android:layout_height="56dp">
+
+            <ImageView
+                style="@style/Widget.ThirdGallery.VaultActionIcon"
+                android:src="@drawable/ic_delete"
+                app:tint="@color/white" />
+
+            <TextView
+                style="@style/Widget.ThirdGallery.VaultActionLabel"
+                android:text="@string/vault_key_delete"
+                android:textColor="@color/white" />
+        </LinearLayout>
+    </LinearLayout>
+</FrameLayout>
