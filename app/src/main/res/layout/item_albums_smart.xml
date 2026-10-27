@@ -48,10 +48,6 @@
             layout="@layout/item_smart_row" />
 
         <include
-            android:id="@+id/rowHidden"
-            layout="@layout/item_smart_row" />
-
-        <include
             android:id="@+id/rowBin"
             layout="@layout/item_smart_row" />
     </LinearLayout>

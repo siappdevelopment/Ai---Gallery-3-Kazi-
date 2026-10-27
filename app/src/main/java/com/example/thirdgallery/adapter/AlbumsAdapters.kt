@@ -165,8 +165,8 @@ class AlbumCardAdapter(
 }
 
 /**
- * "Smart collections": Favorites, Videos, Screenshots and Recently added open with live counts. Photo vault,
- * Hidden and Bin have no storage yet, so they are shown as in the design and only call [onUnavailable].
+ * "Smart collections": Favorites, Videos, Screenshots and Recently added open with live counts. Photo vault
+ * and Bin have no storage yet, so they are shown as in the design and only call [onUnavailable].
  */
 class SmartCollectionsAdapter(
     private val onOpen: (AlbumKind, String) -> Unit,
@@ -201,7 +201,6 @@ class SmartCollectionsAdapter(
 
         private val unavailableRows = listOf(
             Triple(binding.rowVault, R.drawable.ic_vault, R.string.albums_smart_vault),
-            Triple(binding.rowHidden, R.drawable.ic_visibility_off, R.string.albums_smart_hidden),
             Triple(binding.rowBin, R.drawable.ic_delete, R.string.albums_smart_bin),
         )
 
@@ -220,7 +219,6 @@ class SmartCollectionsAdapter(
             }
             binding.rowBin.root.setOnClickListener { onOpenBin() }
             binding.rowVault.tvCount.setText(R.string.albums_vault_setup)
-            binding.rowHidden.tvCount.visibility = View.GONE
             binding.rowBin.tvCount.visibility = View.GONE
         }
 
