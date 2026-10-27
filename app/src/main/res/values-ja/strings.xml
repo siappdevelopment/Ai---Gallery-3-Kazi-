@@ -299,4 +299,10 @@
     <plurals name="vault_folder_items">
         <item quantity="other">%1$d件</item>
     </plurals>
+    <string name="vault_move_title_photo">この写真を非表示にしますか？</string>
+    <string name="vault_move_title_video">この動画を非表示にしますか？</string>
+    <string name="vault_move_body">ギャラリー、アルバム、検索から外れ、フォト金庫に移動します。見るにはPINが必要です。</string>
+    <string name="vault_move_confirm">非表示にする</string>
+    <string name="vault_moved">金庫に移動しました</string>
+    <string name="vault_move_failed">金庫に移動できませんでした。もう一度お試しください。</string>
 </resources>

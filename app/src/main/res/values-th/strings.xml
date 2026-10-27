@@ -299,4 +299,10 @@
     <plurals name="vault_folder_items">
         <item quantity="other">%1$d รายการ</item>
     </plurals>
+    <string name="vault_move_title_photo">ซ่อนรูปภาพนี้ไหม</string>
+    <string name="vault_move_title_video">ซ่อนวิดีโอนี้ไหม</string>
+    <string name="vault_move_body">รายการจะถูกย้ายออกจากแกลเลอรี อัลบั้ม และการค้นหา ไปยังห้องนิรภัยรูปภาพของคุณ ต้องใช้ PIN จึงจะดูได้</string>
+    <string name="vault_move_confirm">ซ่อน</string>
+    <string name="vault_moved">ย้ายไปยังห้องนิรภัยแล้ว</string>
+    <string name="vault_move_failed">ย้ายไปยังห้องนิรภัยไม่สำเร็จ โปรดลองอีกครั้ง</string>
 </resources>

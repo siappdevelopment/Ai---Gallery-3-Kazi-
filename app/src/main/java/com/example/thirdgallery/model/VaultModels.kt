@@ -2,7 +2,7 @@ package com.example.thirdgallery.model
 
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
-import com.example.thirdgallery.database.MediaEntity
+import com.example.thirdgallery.database.VaultItemEntity
 
 /** The setup / unlock screens of the vault; each one is a panel of VaultSetupActivity. */
 enum class VaultStep { INTRO, PIN, RECOVERY, FINGERPRINT }
@@ -23,13 +23,13 @@ data class VaultPinUi(
     val fingerprintKey: Boolean,
 )
 
-/** One folder card on the vault home: the built-in ones (All items, Photos, Videos) and the default ones. */
+/** One folder card on the vault home: the built-in ones (All items, Photos, Videos) and the default ones. [coverFile] names the newest item's file in the vault folder. */
 data class VaultFolderUi(
     val key: String,
     @StringRes val name: Int,
     @DrawableRes val icon: Int,
     val count: Int,
-    val coverUid: Long?,
+    val coverFile: String?,
 )
 
 /** Everything the vault home shows. [recent] holds the newest items, newest first. */
@@ -39,5 +39,5 @@ data class VaultSummary(
     val videos: Int,
     val sizeBytes: Long,
     val folders: List<VaultFolderUi>,
-    val recent: List<MediaEntity>,
+    val recent: List<VaultItemEntity>,
 )

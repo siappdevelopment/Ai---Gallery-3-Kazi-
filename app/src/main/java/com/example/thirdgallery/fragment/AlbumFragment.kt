@@ -39,6 +39,7 @@ class AlbumFragment : Fragment() {
     private var header: AlbumsHeaderAdapter? = null
     private var cards: AlbumCardAdapter? = null
     private var smart: SmartCollectionsAdapter? = null
+    private var vaultItems = 0
 
     private var latestUi: AlbumsUi? = null
     private var hasAccess = false
@@ -131,6 +132,11 @@ class AlbumFragment : Fragment() {
         viewModel.screenshotCount.observe(owner, updateCounts)
         viewModel.recentCount.observe(owner, updateCounts)
 
+        VaultRepository(requireContext()).observeCount().observe(owner) {
+            vaultItems = it ?: 0
+            showVaultCount()
+        }
+
         hasAccess = MediaPermissionHelper.hasAccess(requireContext())
         render()
     }
@@ -138,15 +144,20 @@ class AlbumFragment : Fragment() {
     override fun onStart() {
         super.onStart()
         if (hasAccess) viewModel.refresh()
-        // The vault may have been set up or filled since this tab was last on screen.
-        val vault = VaultRepository(requireContext())
-        smart?.setVaultCount(if (vault.isSetUp) vault.itemCount() else null)
+        // The vault may have been set up since this tab was last on screen.
+        showVaultCount()
     }
 
     override fun onResume() {
         super.onResume()
         // Permission may have been granted or revoked in Settings while the app was in the background.
         syncAccess()
+    }
+
+    /** "Set up" until the vault has a PIN, then the live number of items in it. */
+    private fun showVaultCount() {
+        val ctx = context ?: return
+        smart?.setVaultCount(if (VaultRepository(ctx).isSetUp) vaultItems else null)
     }
 
     override fun onDestroyView() {

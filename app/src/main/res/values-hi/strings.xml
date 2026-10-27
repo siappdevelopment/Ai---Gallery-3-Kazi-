@@ -303,4 +303,10 @@
         <item quantity="one">%1$d आइटम</item>
         <item quantity="other">%1$d आइटम</item>
     </plurals>
+    <string name="vault_move_title_photo">यह फ़ोटो छिपाएँ?</string>
+    <string name="vault_move_title_video">यह वीडियो छिपाएँ?</string>
+    <string name="vault_move_body">यह गैलरी, एल्बम और खोज से हटकर आपके फ़ोटो वॉल्ट में चला जाएगा। इसे देखने के लिए आपको अपना PIN चाहिए होगा।</string>
+    <string name="vault_move_confirm">छिपाएँ</string>
+    <string name="vault_moved">वॉल्ट में ले जाया गया</string>
+    <string name="vault_move_failed">वॉल्ट में नहीं ले जा सके। फिर से कोशिश करें।</string>
 </resources>

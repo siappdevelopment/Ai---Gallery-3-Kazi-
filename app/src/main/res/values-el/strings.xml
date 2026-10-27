@@ -303,4 +303,10 @@
         <item quantity="one">%1$d στοιχείο</item>
         <item quantity="other">%1$d στοιχεία</item>
     </plurals>
+    <string name="vault_move_title_photo">Απόκρυψη αυτής της φωτογραφίας;</string>
+    <string name="vault_move_title_video">Απόκρυψη αυτού του βίντεο;</string>
+    <string name="vault_move_body">Μετακινείται από τη Συλλογή, τα άλμπουμ και την αναζήτηση στο θησαυροφυλάκιο φωτογραφιών. Θα χρειαστείτε το PIN σας για να το δείτε.</string>
+    <string name="vault_move_confirm">Απόκρυψη</string>
+    <string name="vault_moved">Μετακινήθηκε στο θησαυροφυλάκιο</string>
+    <string name="vault_move_failed">Αδυναμία μετακίνησης στο θησαυροφυλάκιο. Δοκιμάστε ξανά.</string>
 </resources>

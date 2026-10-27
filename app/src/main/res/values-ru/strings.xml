@@ -311,4 +311,10 @@
         <item quantity="many">%1$d элементов</item>
         <item quantity="other">%1$d элемента</item>
     </plurals>
+    <string name="vault_move_title_photo">Скрыть это фото?</string>
+    <string name="vault_move_title_video">Скрыть это видео?</string>
+    <string name="vault_move_body">Оно исчезнет из Галереи, альбомов и поиска и переместится в сейф с фото. Чтобы увидеть его, понадобится PIN-код.</string>
+    <string name="vault_move_confirm">Скрыть</string>
+    <string name="vault_moved">Перемещено в сейф</string>
+    <string name="vault_move_failed">Не удалось переместить в сейф. Попробуйте снова.</string>
 </resources>

@@ -303,4 +303,10 @@
         <item quantity="one">%1$d item</item>
         <item quantity="other">%1$d items</item>
     </plurals>
+    <string name="vault_move_title_photo">Versteek hierdie foto?</string>
+    <string name="vault_move_title_video">Versteek hierdie video?</string>
+    <string name="vault_move_body">Dit skuif uit Galery, albums en soektogte na jou fotokluis. Jy sal jou PIN nodig hê om dit te sien.</string>
+    <string name="vault_move_confirm">Versteek</string>
+    <string name="vault_moved">Na kluis geskuif</string>
+    <string name="vault_move_failed">Kon nie na die kluis skuif nie. Probeer asseblief weer.</string>
 </resources>

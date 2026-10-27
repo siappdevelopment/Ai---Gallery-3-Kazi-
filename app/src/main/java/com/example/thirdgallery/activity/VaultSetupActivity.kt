@@ -96,6 +96,12 @@ class VaultSetupActivity : AppCompatActivity() {
                 finish()
             }
         }
+        viewModel.setupDone.observe(this) { event ->
+            event.getContentIfNotHandled()?.let {
+                setResult(RESULT_OK)
+                finish()
+            }
+        }
         viewModel.finish.observe(this) { event ->
             event.getContentIfNotHandled()?.let { finish() }
         }
@@ -233,6 +239,9 @@ class VaultSetupActivity : AppCompatActivity() {
         private const val FAILED_ATTEMPTS_SHOWN = 3
         private const val DOT_FILLED_SCALE = 1.15f
 
-        fun intent(context: Context): Intent = Intent(context, VaultSetupActivity::class.java)
+        /** [returnToCaller]: finish with RESULT_OK once the setup is done instead of opening the vault. */
+        fun intent(context: Context, returnToCaller: Boolean = false): Intent =
+            Intent(context, VaultSetupActivity::class.java)
+                .putExtra(VaultSetupViewModel.ARG_RETURN, returnToCaller)
     }
 }

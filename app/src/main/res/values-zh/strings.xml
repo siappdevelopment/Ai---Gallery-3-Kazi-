@@ -299,4 +299,10 @@
     <plurals name="vault_folder_items">
         <item quantity="other">%1$d 个项目</item>
     </plurals>
+    <string name="vault_move_title_photo">隐藏这张照片？</string>
+    <string name="vault_move_title_video">隐藏这个视频？</string>
+    <string name="vault_move_body">它将从图库、相册和搜索中移出，放入你的照片保险箱。查看时需要输入 PIN 码。</string>
+    <string name="vault_move_confirm">隐藏</string>
+    <string name="vault_moved">已移入保险箱</string>
+    <string name="vault_move_failed">无法移入保险箱，请重试。</string>
 </resources>

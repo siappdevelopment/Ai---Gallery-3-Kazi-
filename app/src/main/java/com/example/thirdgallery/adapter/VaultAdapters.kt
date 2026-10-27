@@ -11,12 +11,12 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.thirdgallery.R
-import com.example.thirdgallery.database.MediaEntity
+import com.example.thirdgallery.database.VaultItemEntity
 import com.example.thirdgallery.database.MediaTypes
 import com.example.thirdgallery.databinding.ItemVaultFolderBinding
 import com.example.thirdgallery.databinding.ItemVaultTileBinding
 import com.example.thirdgallery.helper.MediaFormat
-import com.example.thirdgallery.helper.MediaUris
+import com.example.thirdgallery.helper.VaultFiles
 import com.example.thirdgallery.model.VaultFolderUi
 
 /** The two-column folder cards of the vault home (All items, Photos, Videos and the default folders). */
@@ -42,13 +42,13 @@ class VaultFolderAdapter(
             binding.tvName.setText(folder.name)
             binding.tvCount.text = res.getQuantityString(R.plurals.vault_folder_items, folder.count, folder.count)
             binding.root.setOnClickListener { onOpen(folder) }
-            val cover = folder.coverUid
+            val cover = folder.coverFile
             if (cover == null) {
                 clear()
                 binding.ivCover.setImageResource(R.color.vault_folder_cover)
             } else {
                 Glide.with(binding.ivCover)
-                    .load(MediaUris.ofUid(cover))
+                    .load(VaultFiles.file(binding.root.context, cover))
                     .centerCrop()
                     .dontAnimate()
                     .placeholder(R.color.vault_folder_cover)
@@ -73,8 +73,8 @@ class VaultFolderAdapter(
 /** The square "Recently added" tiles of the vault home, with the length on videos. */
 class VaultTileAdapter(
     private val thumbSizePx: Int,
-    private val onOpen: (MediaEntity) -> Unit,
-) : ListAdapter<MediaEntity, VaultTileAdapter.ViewHolder>(DIFF) {
+    private val onOpen: (VaultItemEntity) -> Unit,
+) : ListAdapter<VaultItemEntity, VaultTileAdapter.ViewHolder>(DIFF) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
         ViewHolder(ItemVaultTileBinding.inflate(LayoutInflater.from(parent.context), parent, false))
@@ -89,9 +89,9 @@ class VaultTileAdapter(
 
     class ViewHolder(private val binding: ItemVaultTileBinding) : RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(item: MediaEntity, sizePx: Int, onOpen: (MediaEntity) -> Unit) {
+        fun bind(item: VaultItemEntity, sizePx: Int, onOpen: (VaultItemEntity) -> Unit) {
             Glide.with(binding.ivThumb)
-                .load(MediaUris.of(item.mediaId, item.mediaType))
+                .load(VaultFiles.file(binding.root.context, item.fileName))
                 .override(sizePx, sizePx)
                 .centerCrop()
                 .dontAnimate()
@@ -110,9 +110,9 @@ class VaultTileAdapter(
     }
 
     private companion object {
-        val DIFF = object : DiffUtil.ItemCallback<MediaEntity>() {
-            override fun areItemsTheSame(old: MediaEntity, new: MediaEntity) = old.uid == new.uid
-            override fun areContentsTheSame(old: MediaEntity, new: MediaEntity) = old == new
+        val DIFF = object : DiffUtil.ItemCallback<VaultItemEntity>() {
+            override fun areItemsTheSame(old: VaultItemEntity, new: VaultItemEntity) = old.id == new.id
+            override fun areContentsTheSame(old: VaultItemEntity, new: VaultItemEntity) = old == new
         }
     }
 }

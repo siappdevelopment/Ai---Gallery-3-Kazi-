@@ -313,4 +313,10 @@
         <item quantity="one">%1$d item</item>
         <item quantity="other">%1$d items</item>
     </plurals>
+    <string name="vault_move_title_photo">Hide this photo?</string>
+    <string name="vault_move_title_video">Hide this video?</string>
+    <string name="vault_move_body">It moves out of Gallery, albums and search into your Photo vault. You’ll need your PIN to see it.</string>
+    <string name="vault_move_confirm">Hide</string>
+    <string name="vault_moved">Moved to vault</string>
+    <string name="vault_move_failed">Couldn’t move to the vault. Please try again.</string>
 </resources>

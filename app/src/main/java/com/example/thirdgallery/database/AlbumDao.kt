@@ -38,4 +38,8 @@ interface AlbumDao {
 
     @Query("DELETE FROM album_items WHERE albumId = :albumId AND mediaUid IN (:uids)")
     fun deleteItems(albumId: Long, uids: List<Long>)
+
+    /** The item left the gallery (moved to the vault): it belongs to no album any more. */
+    @Query("DELETE FROM album_items WHERE mediaUid = :uid")
+    fun deleteItemEverywhere(uid: Long)
 }

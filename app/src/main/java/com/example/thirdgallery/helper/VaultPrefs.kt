@@ -7,8 +7,8 @@ import java.security.SecureRandom
 
 /**
  * What the Photo vault remembers: a salted hash of the 4-digit PIN, the recovery question (its index and
- * a hash of the answer), whether fingerprint unlock is on, and the uids of the items kept in the vault
- * (newest first). Kept in its own file so it never mixes with the onboarding preferences.
+ * a hash of the answer) and whether fingerprint unlock is on. The vault items themselves are in the database
+ * and the private vault folder (see VaultItemEntity). Kept in its own file so it never mixes with the onboarding preferences.
  */
 object VaultPrefs {
 
@@ -19,7 +19,6 @@ object VaultPrefs {
     private const val KEY_ANSWER_HASH = "recovery_answer_hash"
     private const val KEY_ANSWER_SALT = "recovery_answer_salt"
     private const val KEY_FINGERPRINT = "fingerprint"
-    private const val KEY_ITEMS = "items"
 
     fun hasPin(context: Context): Boolean = prefs(context)?.contains(KEY_PIN_HASH) == true
 
@@ -56,13 +55,6 @@ object VaultPrefs {
     fun setFingerprintEnabled(context: Context, enabled: Boolean) {
         prefs(context)?.edit()?.putBoolean(KEY_FINGERPRINT, enabled)?.commit()
     }
-
-    /** Uids (see MediaTypes.uid) of the vault items, newest first. */
-    fun itemUids(context: Context): List<Long> =
-        prefs(context)?.getString(KEY_ITEMS, null)
-            ?.split(',')
-            ?.mapNotNull { it.toLongOrNull() }
-            .orEmpty()
 
     private fun prefs(context: Context) = try {
         context.applicationContext.getSharedPreferences(FILE, Context.MODE_PRIVATE)

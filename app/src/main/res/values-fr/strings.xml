@@ -307,4 +307,10 @@
         <item quantity="other">%1$d éléments</item>
         <item quantity="many">%1$d d’éléments</item>
     </plurals>
+    <string name="vault_move_title_photo">Masquer cette photo ?</string>
+    <string name="vault_move_title_video">Masquer cette vidéo ?</string>
+    <string name="vault_move_body">Elle quitte la Galerie, les albums et la recherche pour rejoindre votre coffre-fort photo. Il faudra votre code PIN pour la voir.</string>
+    <string name="vault_move_confirm">Masquer</string>
+    <string name="vault_moved">Déplacé dans le coffre-fort</string>
+    <string name="vault_move_failed">Impossible de déplacer dans le coffre-fort. Réessayez.</string>
 </resources>

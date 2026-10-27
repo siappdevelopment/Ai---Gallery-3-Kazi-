@@ -303,4 +303,10 @@
         <item quantity="one">%1$d item</item>
         <item quantity="other">%1$d item</item>
     </plurals>
+    <string name="vault_move_title_photo">Itago ang larawang ito?</string>
+    <string name="vault_move_title_video">Itago ang video na ito?</string>
+    <string name="vault_move_body">Lilipat ito mula sa Gallery, mga album, at paghahanap papunta sa iyong photo vault. Kakailanganin mo ang PIN mo para makita ito.</string>
+    <string name="vault_move_confirm">Itago</string>
+    <string name="vault_moved">Inilipat sa vault</string>
+    <string name="vault_move_failed">Hindi nailipat sa vault. Subukan ulit.</string>
 </resources>

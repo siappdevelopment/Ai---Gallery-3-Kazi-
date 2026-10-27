@@ -303,4 +303,10 @@
         <item quantity="one">%1$d öğe</item>
         <item quantity="other">%1$d öğe</item>
     </plurals>
+    <string name="vault_move_title_photo">Bu fotoğraf gizlensin mi?</string>
+    <string name="vault_move_title_video">Bu video gizlensin mi?</string>
+    <string name="vault_move_body">Galeri, albümler ve aramadan çıkıp fotoğraf kasanıza taşınır. Görmek için PIN’inize ihtiyacınız olacak.</string>
+    <string name="vault_move_confirm">Gizle</string>
+    <string name="vault_moved">Kasaya taşındı</string>
+    <string name="vault_move_failed">Kasaya taşınamadı. Lütfen tekrar deneyin.</string>
 </resources>

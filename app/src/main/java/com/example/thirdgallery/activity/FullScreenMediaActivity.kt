@@ -36,6 +36,7 @@ import com.example.thirdgallery.fragment.RenameBottomSheet
 import com.example.thirdgallery.viewmodel.RenameEvent
 import com.example.thirdgallery.fragment.DetailsDialogFragment
 import com.example.thirdgallery.repo.MediaRepository
+import com.example.thirdgallery.repo.VaultRepository
 import com.example.thirdgallery.databinding.ActivityFullScreenMediaBinding
 import com.example.thirdgallery.helper.MediaFormat
 import com.example.thirdgallery.helper.MediaUris
@@ -73,6 +74,20 @@ class FullScreenMediaActivity : AppCompatActivity() {
                 // After a recreation the follow-up is gone; re-reading the index brings it back in line.
                 if (action != null) action() else MediaRepository(applicationContext).sync(true) { }
             }
+        }
+
+    /** Vault setup opened from "Move to vault"; a successful setup continues the move. */
+    private val setupLauncher =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            val waiting = viewModel.awaitingVaultSetup
+            viewModel.awaitingVaultSetup = false
+            if (waiting && result.resultCode == RESULT_OK) confirmMoveToVault()
+        }
+
+    /** The system request that deletes the original once its copy is safe in the vault. */
+    private val vaultRequestLauncher =
+        registerForActivityResult(ActivityResultContracts.StartIntentSenderForResult()) { result ->
+            viewModel.onVaultRequestResult(result.resultCode == RESULT_OK)
         }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -156,6 +171,26 @@ class FullScreenMediaActivity : AppCompatActivity() {
         viewModel.rename.observe(this) { event -> event.getContentIfNotHandled()?.let { onRenameResult(it) } }
         supportFragmentManager.setFragmentResultListener(KEY_DELETE, this) { _, result ->
             if (result.getBoolean(ConfirmDialogFragment.RESULT_CONFIRMED)) moveToBin()
+        }
+
+        supportFragmentManager.setFragmentResultListener(KEY_VAULT, this) { _, result ->
+            if (result.getBoolean(ConfirmDialogFragment.RESULT_CONFIRMED)) {
+                current()?.let { viewModel.moveToVault(it.uid) }
+            }
+        }
+        viewModel.vaultRequest.observe(this) { event ->
+            event.getContentIfNotHandled()?.let {
+                vaultRequestLauncher.launch(IntentSenderRequest.Builder(it.intentSender).build())
+            }
+        }
+        viewModel.vaultResult.observe(this) { event ->
+            event.getContentIfNotHandled()?.let { moved ->
+                Toast.makeText(
+                    applicationContext,
+                    if (moved) R.string.vault_moved else R.string.vault_move_failed,
+                    Toast.LENGTH_SHORT,
+                ).show()
+            }
         }
 
         viewModel.uids.observe(this) { list -> onList(list.orEmpty()) }
@@ -248,8 +283,7 @@ class FullScreenMediaActivity : AppCompatActivity() {
             MoreOptionsBottomSheet.ACTION_COPY -> showAlbumSheet(media, move = false, copy = true, titleRes = R.string.viewer_copy_to_album)
             MoreOptionsBottomSheet.ACTION_RENAME -> viewModel.requestRename(media)
             MoreOptionsBottomSheet.ACTION_WALLPAPER -> setWallpaper(media)
-            MoreOptionsBottomSheet.ACTION_VAULT ->
-                Toast.makeText(applicationContext, R.string.albums_coming_soon, Toast.LENGTH_SHORT).show()
+            MoreOptionsBottomSheet.ACTION_VAULT -> startMoveToVault()
         }
     }
 
@@ -331,6 +365,34 @@ class FullScreenMediaActivity : AppCompatActivity() {
         }
     }
 
+    /** Move to vault: set the vault up first when it has no PIN yet, then confirm (the delete request is Android 11+). */
+    private fun startMoveToVault() {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.R) {
+            Toast.makeText(applicationContext, R.string.viewer_unsupported, Toast.LENGTH_SHORT).show()
+            return
+        }
+        if (VaultRepository(this).isSetUp) {
+            confirmMoveToVault()
+        } else {
+            viewModel.awaitingVaultSetup = true
+            setupLauncher.launch(VaultSetupActivity.intent(this, returnToCaller = true))
+        }
+    }
+
+    /** The Delete dialog, reworded: Hide moves the item into the vault and out of Gallery. */
+    private fun confirmMoveToVault() {
+        val media = current() ?: return
+        val isVideo = media.mediaType == MediaTypes.VIDEO
+        ConfirmDialogFragment.show(
+            supportFragmentManager,
+            KEY_VAULT,
+            R.drawable.ic_visibility_off,
+            getString(if (isVideo) R.string.vault_move_title_video else R.string.vault_move_title_photo),
+            getString(R.string.vault_move_body),
+            getString(R.string.vault_move_confirm),
+        )
+    }
+
     /** Delete photo dialog (design 85); the system trash is Android 11+. */
     private fun delete() {
         val media = current() ?: return
@@ -384,6 +446,7 @@ class FullScreenMediaActivity : AppCompatActivity() {
     companion object {
         private const val KEY_CHROME = "chrome_visible"
         private const val KEY_DELETE = "delete_media"
+        private const val KEY_VAULT = "vault_media"
 
         /**
          * Opens [uid] inside the list it was tapped in: a device folder / smart collection / app album

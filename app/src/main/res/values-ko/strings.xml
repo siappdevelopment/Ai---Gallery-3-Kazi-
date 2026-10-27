@@ -299,4 +299,10 @@
     <plurals name="vault_folder_items">
         <item quantity="other">항목 %1$d개</item>
     </plurals>
+    <string name="vault_move_title_photo">이 사진을 숨길까요?</string>
+    <string name="vault_move_title_video">이 동영상을 숨길까요?</string>
+    <string name="vault_move_body">갤러리, 앨범, 검색에서 사라지고 사진 보관함으로 이동합니다. 보려면 PIN이 필요합니다.</string>
+    <string name="vault_move_confirm">숨기기</string>
+    <string name="vault_moved">보관함으로 이동했습니다</string>
+    <string name="vault_move_failed">보관함으로 이동하지 못했습니다. 다시 시도하세요.</string>
 </resources>

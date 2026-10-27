@@ -307,4 +307,10 @@
         <item quantity="other">%1$d elementi</item>
         <item quantity="many">%1$d di elementi</item>
     </plurals>
+    <string name="vault_move_title_photo">Nascondere questa foto?</string>
+    <string name="vault_move_title_video">Nascondere questo video?</string>
+    <string name="vault_move_body">Esce da Galleria, album e ricerca e passa nella tua cassaforte foto. Ti servirà il PIN per vederlo.</string>
+    <string name="vault_move_confirm">Nascondi</string>
+    <string name="vault_moved">Spostato nella cassaforte</string>
+    <string name="vault_move_failed">Impossibile spostare nella cassaforte. Riprova.</string>
 </resources>

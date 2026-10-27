@@ -70,6 +70,12 @@ class VaultSetupViewModel(
     private val _finish = MutableLiveData<Event<Unit>>()
     val finish: LiveData<Event<Unit>> = _finish
 
+    /** Set up from "Move to vault": the screen ends with RESULT_OK instead of opening the vault. */
+    private val returnToCaller: Boolean = state.get<Boolean>(ARG_RETURN) == true
+
+    private val _setupDone = MutableLiveData<Event<Unit>>()
+    val setupDone: LiveData<Event<Unit>> = _setupDone
+
     /** True while the fingerprint prompt is for turning fingerprint unlock on (setup), not for unlocking. */
     var enrollingFingerprint = false
         private set
@@ -226,7 +232,8 @@ class VaultSetupViewModel(
 
     private fun completeSetup() {
         _message.value = Event(R.string.vault_ready)
-        unlocked()
+        // Moving an item in does not open the vault, so it stays locked and asks for the PIN on the next visit.
+        if (returnToCaller) _setupDone.value = Event(Unit) else unlocked()
     }
 
     private fun unlocked() {
@@ -265,13 +272,14 @@ class VaultSetupViewModel(
         super.onCleared()
     }
 
-    private companion object {
-        const val KEY_STEP = "vault_step"
-        const val KEY_PIN_MODE = "vault_pin_mode"
-        const val KEY_QUESTION = "vault_question"
-        const val KEY_ANSWER = "vault_answer"
-        const val PIN_LENGTH = 4
-        const val MIN_ANSWER = 2
-        const val CHECK_DELAY_MS = 200L
+    companion object {
+        const val ARG_RETURN = "return_to_caller"
+        private const val KEY_STEP = "vault_step"
+        private const val KEY_PIN_MODE = "vault_pin_mode"
+        private const val KEY_QUESTION = "vault_question"
+        private const val KEY_ANSWER = "vault_answer"
+        private const val PIN_LENGTH = 4
+        private const val MIN_ANSWER = 2
+        private const val CHECK_DELAY_MS = 200L
     }
 }

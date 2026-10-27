@@ -20,8 +20,9 @@ import androidx.sqlite.db.SupportSQLiteDatabase
         MediaEntity::class,
         AlbumEntity::class,
         AlbumItemEntity::class,
+        VaultItemEntity::class,
     ],
-    version = 6,
+    version = 7,
     exportSchema = true,
 )
 abstract class AppDatabase : RoomDatabase() {
@@ -31,6 +32,8 @@ abstract class AppDatabase : RoomDatabase() {
     abstract fun mediaDao(): MediaDao
 
     abstract fun albumDao(): AlbumDao
+
+    abstract fun vaultDao(): VaultDao
 
     companion object {
         private const val NAME = "gallery.db"
@@ -94,6 +97,28 @@ abstract class AppDatabase : RoomDatabase() {
             }
         }
 
+        /** v7 adds the Photo vault items (files kept in the app's private vault folder). */
+        private val MIGRATION_6_7 = object : Migration(6, 7) {
+            override fun migrate(db: SupportSQLiteDatabase) {
+                db.execSQL(
+                    "CREATE TABLE IF NOT EXISTS `vault_items` (" +
+                        "`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, " +
+                        "`fileName` TEXT NOT NULL, " +
+                        "`mediaType` INTEGER NOT NULL, " +
+                        "`displayName` TEXT NOT NULL, " +
+                        "`mimeType` TEXT NOT NULL, " +
+                        "`dateMs` INTEGER NOT NULL, " +
+                        "`durationMs` INTEGER NOT NULL, " +
+                        "`sizeBytes` INTEGER NOT NULL, " +
+                        "`isFavorite` INTEGER NOT NULL, " +
+                        "`addedAt` INTEGER NOT NULL, " +
+                        "`sourceUid` INTEGER NOT NULL, " +
+                        "`committed` INTEGER NOT NULL)"
+                )
+                db.execSQL("CREATE INDEX IF NOT EXISTS `index_vault_items_addedAt` ON `vault_items` (`addedAt`)")
+            }
+        }
+
         @Volatile
         private var instance: AppDatabase? = null
 
@@ -103,7 +128,7 @@ abstract class AppDatabase : RoomDatabase() {
                     context.applicationContext,
                     AppDatabase::class.java,
                     NAME,
-                ).addMigrations(MIGRATION_1_2, MIGRATION_2_3, MIGRATION_3_4, MIGRATION_4_5, MIGRATION_5_6).build().also { instance = it }
+                ).addMigrations(MIGRATION_1_2, MIGRATION_2_3, MIGRATION_3_4, MIGRATION_4_5, MIGRATION_5_6, MIGRATION_6_7).build().also { instance = it }
             }
     }
 }

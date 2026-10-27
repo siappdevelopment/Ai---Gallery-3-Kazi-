@@ -307,4 +307,10 @@
         <item quantity="other">%1$d itens</item>
         <item quantity="many">%1$d de itens</item>
     </plurals>
+    <string name="vault_move_title_photo">Ocultar esta foto?</string>
+    <string name="vault_move_title_video">Ocultar este vídeo?</string>
+    <string name="vault_move_body">Sai da Galeria, dos álbuns e da pesquisa e vai para o seu cofre de fotos. Vai precisar do PIN para o ver.</string>
+    <string name="vault_move_confirm">Ocultar</string>
+    <string name="vault_moved">Movido para o cofre</string>
+    <string name="vault_move_failed">Não foi possível mover para o cofre. Tente novamente.</string>
 </resources>

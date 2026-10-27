@@ -303,4 +303,10 @@
         <item quantity="one">%1$d item</item>
         <item quantity="other">%1$d items</item>
     </plurals>
+    <string name="vault_move_title_photo">Deze foto verbergen?</string>
+    <string name="vault_move_title_video">Deze video verbergen?</string>
+    <string name="vault_move_body">Hij verdwijnt uit Galerij, albums en zoeken en gaat naar je fotokluis. Je hebt je pincode nodig om hem te zien.</string>
+    <string name="vault_move_confirm">Verbergen</string>
+    <string name="vault_moved">Naar kluis verplaatst</string>
+    <string name="vault_move_failed">Verplaatsen naar de kluis is mislukt. Probeer het opnieuw.</string>
 </resources>

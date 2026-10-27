@@ -307,4 +307,10 @@
         <item quantity="other">%1$d elementos</item>
         <item quantity="many">%1$d de elementos</item>
     </plurals>
+    <string name="vault_move_title_photo">¿Ocultar esta foto?</string>
+    <string name="vault_move_title_video">¿Ocultar este vídeo?</string>
+    <string name="vault_move_body">Saldrá de la Galería, los álbumes y la búsqueda y pasará a tu caja fuerte de fotos. Necesitarás tu PIN para verlo.</string>
+    <string name="vault_move_confirm">Ocultar</string>
+    <string name="vault_moved">Movido a la caja fuerte</string>
+    <string name="vault_move_failed">No se pudo mover a la caja fuerte. Inténtalo de nuevo.</string>
 </resources>

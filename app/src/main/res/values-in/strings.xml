@@ -299,4 +299,10 @@
     <plurals name="vault_folder_items">
         <item quantity="other">%1$d item</item>
     </plurals>
+    <string name="vault_move_title_photo">Sembunyikan foto ini?</string>
+    <string name="vault_move_title_video">Sembunyikan video ini?</string>
+    <string name="vault_move_body">Item ini dipindahkan dari Galeri, album, dan pencarian ke brankas foto Anda. Anda memerlukan PIN untuk melihatnya.</string>
+    <string name="vault_move_confirm">Sembunyikan</string>
+    <string name="vault_moved">Dipindahkan ke brankas</string>
+    <string name="vault_move_failed">Gagal memindahkan ke brankas. Coba lagi.</string>
 </resources>

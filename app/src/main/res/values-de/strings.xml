@@ -303,4 +303,10 @@
         <item quantity="one">%1$d Objekt</item>
         <item quantity="other">%1$d Objekte</item>
     </plurals>
+    <string name="vault_move_title_photo">Dieses Foto ausblenden?</string>
+    <string name="vault_move_title_video">Dieses Video ausblenden?</string>
+    <string name="vault_move_body">Es verschwindet aus Galerie, Alben und Suche und landet in deinem Foto-Tresor. Zum Ansehen brauchst du deine PIN.</string>
+    <string name="vault_move_confirm">Ausblenden</string>
+    <string name="vault_moved">In den Tresor verschoben</string>
+    <string name="vault_move_failed">Verschieben in den Tresor fehlgeschlagen. Versuche es erneut.</string>
 </resources>

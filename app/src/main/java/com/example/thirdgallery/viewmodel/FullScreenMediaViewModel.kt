@@ -2,6 +2,7 @@ package com.example.thirdgallery.viewmodel
 
 import android.app.Application
 import android.app.RecoverableSecurityException
+import android.app.PendingIntent
 import android.content.ContentValues
 import android.content.IntentSender
 import android.os.Build
@@ -20,6 +21,7 @@ import com.example.thirdgallery.utils.Event
 import com.example.thirdgallery.model.AlbumKind
 import com.example.thirdgallery.model.MediaFilter
 import com.example.thirdgallery.repo.MediaRepository
+import com.example.thirdgallery.repo.VaultRepository
 import java.util.concurrent.Executors
 
 /** Outcome of a rename: done, needs the user's consent (Android 10), or failed with a message. */
@@ -39,6 +41,7 @@ class FullScreenMediaViewModel(
 ) : AndroidViewModel(application) {
 
     private val repository = MediaRepository(application)
+    private val vault = VaultRepository(application)
 
     private val kind = AlbumKind.fromKey(state.get<String>(ARG_KIND))
     private val albumId = state.get<Long>(ARG_ID) ?: 0L
@@ -72,10 +75,30 @@ class FullScreenMediaViewModel(
     private val _details = MutableLiveData<Event<List<DetailRow>>>()
     val details: LiveData<Event<List<DetailRow>>> = _details
 
+    /** True while the vault setup opened from "Move to vault" is running; the move continues when it succeeds. */
+    var awaitingVaultSetup = false
+
+    private var stagedMove: VaultRepository.Staged? = null
+
+    private val _vaultRequest = MutableLiveData<Event<PendingIntent>>()
+    val vaultRequest: LiveData<Event<PendingIntent>> = _vaultRequest
+
+    /** True when the item is now in the vault, false when the move failed (a cancelled move says nothing). */
+    private val _vaultResult = MutableLiveData<Event<Boolean>>()
+    val vaultResult: LiveData<Event<Boolean>> = _vaultResult
+
     /** The item that is (or should be) on screen; survives rotation and process death. */
     val currentUid: Long get() = state.get<Long>(ARG_UID) ?: 0L
 
     init {
+        // A move interrupted earlier (app killed during the system dialog) is settled in the background.
+        worker.execute {
+            try {
+                vault.settleInterrupted()
+            } catch (e: Exception) {
+                // Retried the next time a viewer or the vault opens.
+            }
+        }
         worker.execute {
             list = try {
                 repository.viewerUids(kind, albumId, AlbumsViewModel.recentSince(), filter, query)
@@ -159,6 +182,45 @@ class FullScreenMediaViewModel(
             repository.removeLocal(uid)
             list = list.filter { it != uid }
             _uids.postValue(list)
+        }
+    }
+
+    /**
+     * "Hide" was confirmed: copies [uid] into the private vault folder, then hands the screen the system
+     * request that deletes the original. Nothing is lost if that request is refused: the copy is dropped again.
+     */
+    fun moveToVault(uid: Long) {
+        worker.execute {
+            val staged = vault.stage(uid)
+            if (staged == null) {
+                _vaultResult.postValue(Event(false))
+                return@execute
+            }
+            val request = try {
+                MediaStore.createDeleteRequest(getApplication<Application>().contentResolver, listOf(MediaUris.ofUid(uid)))
+            } catch (e: RuntimeException) {
+                vault.rollback(staged)
+                _vaultResult.postValue(Event(false))
+                return@execute
+            }
+            stagedMove = staged
+            _vaultRequest.postValue(Event(request))
+        }
+    }
+
+    /** The system request was answered: finish the move, or undo it when it was refused. */
+    fun onVaultRequestResult(accepted: Boolean) {
+        val staged = stagedMove ?: return
+        stagedMove = null
+        worker.execute {
+            if (accepted && vault.commit(staged)) {
+                list = list.filter { it != staged.sourceUid }
+                _uids.postValue(list)
+                _vaultResult.postValue(Event(true))
+            } else {
+                vault.rollback(staged)
+                if (accepted) _vaultResult.postValue(Event(false))
+            }
         }
     }
 
