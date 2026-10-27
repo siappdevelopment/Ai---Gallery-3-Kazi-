@@ -32,7 +32,8 @@ class VaultFolderSheet : BottomSheetDialogFragment() {
 
         val basePadding = b.sheetRoot.paddingBottom
         ViewCompat.setOnApplyWindowInsetsListener(b.sheetRoot) { v, insets ->
-            val bottom = insets.getInsets(WindowInsetsCompat.Type.systemBars() or WindowInsetsCompat.Type.ime()).bottom
+            // Only the system bars: the dialog window already resizes above the keyboard (like the Rename sheet).
+            val bottom = insets.getInsets(WindowInsetsCompat.Type.systemBars()).bottom
             v.setPadding(v.paddingLeft, v.paddingTop, v.paddingRight, basePadding + bottom)
             insets
         }
