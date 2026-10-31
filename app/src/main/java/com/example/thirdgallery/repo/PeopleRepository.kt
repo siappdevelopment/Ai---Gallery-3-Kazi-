@@ -48,9 +48,13 @@ class PeopleRepository(context: Context) {
 
     fun observeProgress(): LiveData<ScanProgress> = dao.observeProgress()
 
-    /** Blocking: reads the database. Every group is listed: confident ones as people, all the others as unnamed groups. */
+    /**
+     * Blocking: reads the database. Every group is listed once: a group with a name (given by the user) is a person, every group
+     * without one is an unnamed group, however many photos it has. Both lists have the biggest group first.
+     */
     fun load(): PeopleResult {
-        val names = dao.names().associate { it.clusterId to it.name }
+        // A blank name counts as no name, so a group can never sit in the named list without a name to show.
+        val names = dao.names().filter { it.name.isNotBlank() }.associate { it.clusterId to it.name.trim() }
         val people = ArrayList<PersonUi>()
         val unnamed = ArrayList<PersonUi>()
         for (count in dao.peopleCounts(UNNAMED_MIN_PHOTOS, GROUP_LIMIT)) {
@@ -67,7 +71,7 @@ class PeopleRepository(context: Context) {
                 boxRight = face.boxRight,
                 boxBottom = face.boxBottom,
             )
-            if (name != null || count.photoCount >= PERSON_MIN_PHOTOS) people.add(person) else unnamed.add(person)
+            if (name != null) people.add(person) else unnamed.add(person)
         }
         return PeopleResult(people, unnamed)
     }
@@ -81,9 +85,6 @@ class PeopleRepository(context: Context) {
     }
 
     companion object {
-        /** A face seen in this many photos counts as a person; fewer: an unnamed group. */
-        const val PERSON_MIN_PHOTOS = 3
-
         /** A face seen in a single photo is listed too (as an unnamed group), so no detected face is hidden. */
         private const val UNNAMED_MIN_PHOTOS = 1
         private const val GROUP_LIMIT = 1500
