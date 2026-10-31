@@ -5,18 +5,21 @@ import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.os.Bundle
+import android.os.SystemClock
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.example.thirdgallery.R
+import com.example.thirdgallery.activity.HighlightsDetailActivity
 import com.example.thirdgallery.adapter.HighlightAdapter
 import com.example.thirdgallery.adapter.PeopleAdapter
 import com.example.thirdgallery.adapter.PlaceAdapter
 import com.example.thirdgallery.adapter.SuggestionAdapter
 import com.example.thirdgallery.databinding.FragmentForYouBinding
 import com.example.thirdgallery.helper.HorizontalSpacingDecoration
+import com.example.thirdgallery.model.HighlightCard
 import com.example.thirdgallery.viewmodel.ForYouViewModel
 
 class ForYouFragment : Fragment() {
@@ -26,7 +29,8 @@ class ForYouFragment : Fragment() {
 
     private val viewModel: ForYouViewModel by viewModels()
 
-    private val highlightAdapter = HighlightAdapter()
+    private val highlightAdapter = HighlightAdapter { openHighlight(it) }
+    private var lastOpenAt = 0L
     private val peopleAdapter = PeopleAdapter()
     private val placeAdapter = PlaceAdapter()
     private val suggestionAdapter = SuggestionAdapter()
@@ -73,6 +77,15 @@ class ForYouFragment : Fragment() {
         viewModel.suggestions.observe(owner) { suggestionAdapter.submitList(it.orEmpty()) }
     }
 
+    /** A highlight card was tapped: open its detail (a second tap while it opens is ignored). */
+    private fun openHighlight(card: HighlightCard) {
+        val context = context ?: return
+        val now = SystemClock.elapsedRealtime()
+        if (now - lastOpenAt < OPEN_GAP_MS) return
+        lastOpenAt = now
+        startActivity(HighlightsDetailActivity.intent(context, card))
+    }
+
     override fun onStart() {
         super.onStart()
         // Cards come and go by date (Monday/Tuesday, the 1st to the 3rd...): rebuild when the screen returns
@@ -116,6 +129,7 @@ class ForYouFragment : Fragment() {
     }
 
     private companion object {
+        const val OPEN_GAP_MS = 600L
         const val PICKS = 24
         const val PORTRAITS = 30
         const val EDITED = 6

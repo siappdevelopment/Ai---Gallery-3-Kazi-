@@ -100,7 +100,8 @@ class FullScreenMediaViewModel(
             }
         }
         worker.execute {
-            list = try {
+            val fixed = state.get<LongArray>(ARG_UIDS)
+            list = if (fixed != null) fixed.toList() else try {
                 repository.viewerUids(kind, albumId, AlbumsViewModel.recentSince(), filter, query)
             } catch (e: Exception) {
                 emptyList()
@@ -230,6 +231,9 @@ class FullScreenMediaViewModel(
         const val ARG_ID = "id"
         const val ARG_FILTER = "filter"
         const val ARG_QUERY = "query"
+
+        /** A fixed list to swipe through (a highlight) instead of an album or the gallery. */
+        const val ARG_UIDS = "uids"
         private val worker = Executors.newSingleThreadExecutor()
     }
 }

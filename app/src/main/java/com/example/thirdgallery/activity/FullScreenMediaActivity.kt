@@ -448,6 +448,11 @@ class FullScreenMediaActivity : AppCompatActivity() {
         private const val KEY_DELETE = "delete_media"
         private const val KEY_VAULT = "vault_media"
 
+        /** Opens [uid] inside a fixed list of [uids] (the media of a highlight), in that order. */
+        fun intentForList(context: Context, uid: Long, uids: List<Long>): Intent =
+            intent(context, uid, AlbumKind.DEVICE, 0L)
+                .putExtra(FullScreenMediaViewModel.ARG_UIDS, uids.toLongArray())
+
         /**
          * Opens [uid] inside the list it was tapped in: a device folder / smart collection / app album
          * ([kind] + [id]), or the whole gallery ([AlbumKind.DEVICE] with id 0) under [filter].

@@ -416,4 +416,8 @@
     <string name="highlight_last_year">Прошлый год</string>
     <string name="highlight_last_24h">Последние 24 часа</string>
     <string name="highlight_best_of">Лучшее за %1$s</string>
+    <string name="highlight_play">Воспроизвести</string>
+    <string name="highlight_tap_to_close">Коснитесь в любом месте, чтобы закрыть</string>
+    <string name="highlight_empty_title">Нечего показать</string>
+    <string name="highlight_empty_desc">Фото и видео этой подборки больше недоступны.</string>
 </resources>

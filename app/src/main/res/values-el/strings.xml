@@ -402,4 +402,8 @@
     <string name="highlight_last_year">Προηγούμενο έτος</string>
     <string name="highlight_last_24h">Τελευταίες 24 ώρες</string>
     <string name="highlight_best_of">Τα καλύτερα: %1$s</string>
+    <string name="highlight_play">Αναπαραγωγή</string>
+    <string name="highlight_tap_to_close">Πατήστε οπουδήποτε για κλείσιμο</string>
+    <string name="highlight_empty_title">Δεν υπάρχει τίποτα για εμφάνιση</string>
+    <string name="highlight_empty_desc">Οι φωτογραφίες και τα βίντεο αυτού του highlight δεν είναι πλέον διαθέσιμα.</string>
 </resources>

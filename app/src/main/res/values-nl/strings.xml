@@ -402,4 +402,8 @@
     <string name="highlight_last_year">Vorig jaar</string>
     <string name="highlight_last_24h">Laatste 24 uur</string>
     <string name="highlight_best_of">Het beste van %1$s</string>
+    <string name="highlight_play">Afspelen</string>
+    <string name="highlight_tap_to_close">Tik ergens om te sluiten</string>
+    <string name="highlight_empty_title">Niets om te tonen</string>
+    <string name="highlight_empty_desc">De foto’s en video’s van deze highlight zijn niet meer beschikbaar.</string>
 </resources>

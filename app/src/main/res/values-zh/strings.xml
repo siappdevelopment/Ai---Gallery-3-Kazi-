@@ -395,4 +395,8 @@
     <string name="highlight_last_year">去年</string>
     <string name="highlight_last_24h">过去 24 小时</string>
     <string name="highlight_best_of">%1$s 精选</string>
+    <string name="highlight_play">播放</string>
+    <string name="highlight_tap_to_close">点按任意位置关闭</string>
+    <string name="highlight_empty_title">没有可显示的内容</string>
+    <string name="highlight_empty_desc">此精彩回顾中的照片和视频已不可用。</string>
 </resources>

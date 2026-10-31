@@ -409,4 +409,8 @@
     <string name="highlight_last_year">Año pasado</string>
     <string name="highlight_last_24h">Últimas 24 horas</string>
     <string name="highlight_best_of">Lo mejor de %1$s</string>
+    <string name="highlight_play">Reproducir</string>
+    <string name="highlight_tap_to_close">Toca en cualquier lugar para cerrar</string>
+    <string name="highlight_empty_title">Nada que mostrar</string>
+    <string name="highlight_empty_desc">Las fotos y los vídeos de este momento destacado ya no están disponibles.</string>
 </resources>

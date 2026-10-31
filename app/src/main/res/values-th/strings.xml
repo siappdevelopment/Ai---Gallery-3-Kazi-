@@ -395,4 +395,8 @@
     <string name="highlight_last_year">ปีที่แล้ว</string>
     <string name="highlight_last_24h">24 ชั่วโมงที่ผ่านมา</string>
     <string name="highlight_best_of">ที่ดีที่สุดของ %1$s</string>
+    <string name="highlight_play">เล่น</string>
+    <string name="highlight_tap_to_close">แตะที่ใดก็ได้เพื่อปิด</string>
+    <string name="highlight_empty_title">ไม่มีอะไรให้แสดง</string>
+    <string name="highlight_empty_desc">รูปภาพและวิดีโอของไฮไลต์นี้ไม่พร้อมใช้งานอีกต่อไป</string>
 </resources>

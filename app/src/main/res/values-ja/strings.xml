@@ -395,4 +395,8 @@
     <string name="highlight_last_year">昨年</string>
     <string name="highlight_last_24h">過去24時間</string>
     <string name="highlight_best_of">%1$sのベスト</string>
+    <string name="highlight_play">再生</string>
+    <string name="highlight_tap_to_close">どこかをタップして閉じる</string>
+    <string name="highlight_empty_title">表示するものがありません</string>
+    <string name="highlight_empty_desc">このハイライトの写真と動画は利用できなくなりました。</string>
 </resources>

@@ -190,6 +190,10 @@ interface MediaDao {
     @Query("SELECT COUNT(*) FROM media WHERE addedMs >= :from AND addedMs < :to")
     fun countAdded(from: Long, to: Long): Int
 
+    /** Everything added in a period, for the highlight detail screen. */
+    @Query("SELECT * FROM media WHERE addedMs >= :from AND addedMs < :to ORDER BY dateMs DESC, uid DESC")
+    fun mediaAdded(from: Long, to: Long): List<MediaEntity>
+
     /** Totals of every day before [today] (and not older than [minDay]) with more than 5 items added. */
     @Query(
         "SELECT addedDay AS day, COUNT(*) AS total, COALESCE(SUM(isFavorite), 0) AS favorites, " +

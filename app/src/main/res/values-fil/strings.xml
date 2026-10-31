@@ -402,4 +402,8 @@
     <string name="highlight_last_year">Nakaraang taon</string>
     <string name="highlight_last_24h">Huling 24 oras</string>
     <string name="highlight_best_of">Pinakamaganda sa %1$s</string>
+    <string name="highlight_play">I-play</string>
+    <string name="highlight_tap_to_close">I-tap kahit saan para isara</string>
+    <string name="highlight_empty_title">Walang maipapakita</string>
+    <string name="highlight_empty_desc">Hindi na available ang mga larawan at video ng highlight na ito.</string>
 </resources>

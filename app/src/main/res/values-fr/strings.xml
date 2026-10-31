@@ -409,4 +409,8 @@
     <string name="highlight_last_year">Année dernière</string>
     <string name="highlight_last_24h">24 dernières heures</string>
     <string name="highlight_best_of">Le meilleur de %1$s</string>
+    <string name="highlight_play">Lire</string>
+    <string name="highlight_tap_to_close">Touchez n’importe où pour fermer</string>
+    <string name="highlight_empty_title">Rien à afficher</string>
+    <string name="highlight_empty_desc">Les photos et vidéos de ce souvenir ne sont plus disponibles.</string>
 </resources>

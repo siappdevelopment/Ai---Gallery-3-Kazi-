@@ -69,6 +69,14 @@
             android:exported="false"
             android:screenOrientation="portrait" />
         <activity
+            android:name=".activity.HighlightsDetailActivity"
+            android:exported="false"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.HighlightsStartActivity"
+            android:exported="false"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".activity.AlbumDetailActivity"
             android:exported="false"
             android:screenOrientation="portrait" />

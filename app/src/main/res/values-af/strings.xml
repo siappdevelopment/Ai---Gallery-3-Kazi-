@@ -402,4 +402,8 @@
     <string name="highlight_last_year">Verlede jaar</string>
     <string name="highlight_last_24h">Laaste 24 uur</string>
     <string name="highlight_best_of">Beste van %1$s</string>
+    <string name="highlight_play">Speel</string>
+    <string name="highlight_tap_to_close">Tik êrens om toe te maak</string>
+    <string name="highlight_empty_title">Niks om te wys nie</string>
+    <string name="highlight_empty_desc">Die foto’s en video’s van hierdie hoogtepunt is nie meer beskikbaar nie.</string>
 </resources>

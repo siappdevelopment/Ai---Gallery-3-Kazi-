@@ -402,4 +402,8 @@
     <string name="highlight_last_year">Geçen yıl</string>
     <string name="highlight_last_24h">Son 24 saat</string>
     <string name="highlight_best_of">%1$s’in en iyileri</string>
+    <string name="highlight_play">Oynat</string>
+    <string name="highlight_tap_to_close">Kapatmak için herhangi bir yere dokunun</string>
+    <string name="highlight_empty_title">Gösterilecek bir şey yok</string>
+    <string name="highlight_empty_desc">Bu öne çıkanın fotoğraf ve videoları artık kullanılamıyor.</string>
 </resources>

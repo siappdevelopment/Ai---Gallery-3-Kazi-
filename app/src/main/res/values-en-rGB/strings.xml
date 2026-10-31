@@ -402,4 +402,8 @@
     <string name="highlight_last_year">Last year</string>
     <string name="highlight_last_24h">Last 24 hours</string>
     <string name="highlight_best_of">Best of %1$s</string>
+    <string name="highlight_play">Play</string>
+    <string name="highlight_tap_to_close">Tap anywhere to close</string>
+    <string name="highlight_empty_title">Nothing to show</string>
+    <string name="highlight_empty_desc">The photos and videos of this highlight are no longer available.</string>
 </resources>

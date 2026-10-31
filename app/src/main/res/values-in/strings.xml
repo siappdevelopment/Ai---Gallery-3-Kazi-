@@ -395,4 +395,8 @@
     <string name="highlight_last_year">Tahun lalu</string>
     <string name="highlight_last_24h">24 jam terakhir</string>
     <string name="highlight_best_of">Terbaik %1$s</string>
+    <string name="highlight_play">Putar</string>
+    <string name="highlight_tap_to_close">Ketuk di mana saja untuk menutup</string>
+    <string name="highlight_empty_title">Tidak ada yang ditampilkan</string>
+    <string name="highlight_empty_desc">Foto dan video sorotan ini sudah tidak tersedia.</string>
 </resources>

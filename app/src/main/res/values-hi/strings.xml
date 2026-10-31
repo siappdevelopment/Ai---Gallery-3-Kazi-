@@ -402,4 +402,8 @@
     <string name="highlight_last_year">पिछला साल</string>
     <string name="highlight_last_24h">पिछले 24 घंटे</string>
     <string name="highlight_best_of">%1$s का सर्वश्रेष्ठ</string>
+    <string name="highlight_play">चलाएँ</string>
+    <string name="highlight_tap_to_close">बंद करने के लिए कहीं भी टैप करें</string>
+    <string name="highlight_empty_title">दिखाने के लिए कुछ नहीं</string>
+    <string name="highlight_empty_desc">इस हाइलाइट की फ़ोटो और वीडियो अब उपलब्ध नहीं हैं।</string>
 </resources>
