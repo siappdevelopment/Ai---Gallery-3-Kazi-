@@ -399,4 +399,15 @@
     <string name="highlight_tap_to_close">Ketuk di mana saja untuk menutup</string>
     <string name="highlight_empty_title">Tidak ada yang ditampilkan</string>
     <string name="highlight_empty_desc">Foto dan video sorotan ini sudah tidak tersedia.</string>
+    <string name="people_search_hint">Cari orang</string>
+    <string name="people_unnamed_title">Grup tanpa nama</string>
+    <string name="people_add_name">Tambahkan nama</string>
+    <string name="people_name_sheet_title">Beri nama orang ini</string>
+    <string name="people_name_hint">Nama</string>
+    <string name="people_no_match">Tidak ada orang yang cocok dengan pencarian Anda</string>
+    <string name="people_none">Belum ada orang yang ditemukan. Foto dengan wajah yang jelas akan muncul di sini.</string>
+    <string name="people_scanning">Mencari wajah… %1$d dari %2$d foto</string>
+    <string name="people_no_access">Izinkan akses ke foto Anda untuk menemukan orang</string>
+    <string name="people_failed">Pencarian wajah tidak dapat diselesaikan. Ketuk untuk mencoba lagi.</string>
+    <string name="people_unnamed_person">Orang tanpa nama</string>
 </resources>

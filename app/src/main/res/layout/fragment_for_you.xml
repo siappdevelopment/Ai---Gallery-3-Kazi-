@@ -107,6 +107,20 @@
                 android:textStyle="bold" />
         </LinearLayout>
 
+        <TextView
+            android:id="@+id/tvPeopleStatus"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="?attr/selectableItemBackground"
+            android:paddingStart="24dp"
+            android:paddingTop="4dp"
+            android:paddingEnd="24dp"
+            android:paddingBottom="8dp"
+            android:textColor="@color/home_text_muted"
+            android:textSize="12.5sp"
+            android:textStyle="bold"
+            android:visibility="gone" />
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rvPeople"
             android:layout_width="match_parent"

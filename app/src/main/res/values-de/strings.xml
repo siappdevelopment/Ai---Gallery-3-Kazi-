@@ -406,4 +406,15 @@
     <string name="highlight_tap_to_close">Zum Schließen irgendwo tippen</string>
     <string name="highlight_empty_title">Nichts anzuzeigen</string>
     <string name="highlight_empty_desc">Die Fotos und Videos dieses Highlights sind nicht mehr verfügbar.</string>
+    <string name="people_search_hint">Personen suchen</string>
+    <string name="people_unnamed_title">Gruppen ohne Namen</string>
+    <string name="people_add_name">Namen hinzufügen</string>
+    <string name="people_name_sheet_title">Person benennen</string>
+    <string name="people_name_hint">Name</string>
+    <string name="people_no_match">Keine Personen passen zu deiner Suche</string>
+    <string name="people_none">Noch keine Personen gefunden. Fotos mit gut erkennbaren Gesichtern erscheinen hier.</string>
+    <string name="people_scanning">Suche nach Gesichtern… %1$d von %2$d Fotos</string>
+    <string name="people_no_access">Erlaube den Zugriff auf deine Fotos, um Personen zu finden</string>
+    <string name="people_failed">Die Gesichtersuche konnte nicht abgeschlossen werden. Tippe, um es erneut zu versuchen.</string>
+    <string name="people_unnamed_person">Person ohne Namen</string>
 </resources>

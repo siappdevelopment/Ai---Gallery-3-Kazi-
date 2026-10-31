@@ -127,6 +127,7 @@ class MediaRepository(context: Context) {
 
     fun collectionCount(kind: AlbumKind, id: Long, sinceMs: Long): LiveData<Int> = when (kind) {
         AlbumKind.USER -> dao.observeUserAlbumCount(id)
+        AlbumKind.PERSON -> dao.observePersonCount(id)
         AlbumKind.YEAR -> dao.observeYearCount(id.toInt())
         AlbumKind.MONTH -> dao.observeMonthCount(id)
         else -> {
@@ -153,6 +154,7 @@ class MediaRepository(context: Context) {
 
     private fun collectionSource(kind: AlbumKind, id: Long, sinceMs: Long) = when (kind) {
         AlbumKind.USER -> dao.userAlbumSource(id)
+        AlbumKind.PERSON -> dao.personSource(id)
         AlbumKind.YEAR -> dao.yearSource(id.toInt())
         AlbumKind.MONTH -> dao.monthSource(id)
         else -> {
@@ -168,6 +170,7 @@ class MediaRepository(context: Context) {
     fun viewerUids(kind: AlbumKind, id: Long, sinceMs: Long, filter: MediaFilter, searchQuery: String = ""): List<Long> = when (kind) {
         AlbumKind.SEARCH -> dao.searchUids(likePattern(searchQuery))
         AlbumKind.USER -> dao.userAlbumUids(id)
+        AlbumKind.PERSON -> dao.personUids(id)
         AlbumKind.YEAR -> dao.yearUids(id.toInt())
         AlbumKind.MONTH -> dao.monthUids(id)
         AlbumKind.DEVICE -> dao.collectionUids(id, filter.types, filter.minFavorite, 0, "")
@@ -279,6 +282,7 @@ class MediaRepository(context: Context) {
         val projection = buildList {
             add(MediaStore.MediaColumns._ID)
             add(MediaStore.MediaColumns.DATE_ADDED)
+            add(MediaStore.MediaColumns.DATE_MODIFIED)
             add(DATE_TAKEN)
             add(MediaStore.MediaColumns.BUCKET_ID)
             add(MediaStore.MediaColumns.BUCKET_DISPLAY_NAME)
@@ -290,6 +294,7 @@ class MediaRepository(context: Context) {
         resolver.query(uri, projection, null, null, null)?.use { cursor ->
             val idCol = cursor.getColumnIndexOrThrow(MediaStore.MediaColumns._ID)
             val addedCol = cursor.getColumnIndexOrThrow(MediaStore.MediaColumns.DATE_ADDED)
+            val modifiedCol = cursor.getColumnIndexOrThrow(MediaStore.MediaColumns.DATE_MODIFIED)
             val takenCol = cursor.getColumnIndexOrThrow(DATE_TAKEN)
             val durationCol = if (isVideo) cursor.getColumnIndexOrThrow(MediaStore.Video.Media.DURATION) else -1
             val favoriteCol = if (Build.VERSION.SDK_INT >= 30) cursor.getColumnIndex(MediaStore.MediaColumns.IS_FAVORITE) else -1
@@ -325,6 +330,7 @@ class MediaRepository(context: Context) {
                         monthKey = monthKey,
                         addedMs = addedMs,
                         addedDay = addedDay,
+                        modifiedMs = cursor.getLong(modifiedCol) * 1000L,
                     )
                 )
                 if (batch.size >= BATCH_SIZE) {
@@ -381,7 +387,7 @@ class MediaRepository(context: Context) {
         const val ALBUM_LIMIT = 12
 
         /** Bump when the indexed columns change so existing installs re-read MediaStore once. */
-        const val FINGERPRINT_VERSION = 6
+        const val FINGERPRINT_VERSION = 7
         const val DAY_MS = 86_400_000L
 
         @Suppress("DEPRECATION")

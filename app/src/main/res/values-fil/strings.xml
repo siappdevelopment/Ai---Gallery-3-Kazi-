@@ -406,4 +406,15 @@
     <string name="highlight_tap_to_close">I-tap kahit saan para isara</string>
     <string name="highlight_empty_title">Walang maipapakita</string>
     <string name="highlight_empty_desc">Hindi na available ang mga larawan at video ng highlight na ito.</string>
+    <string name="people_search_hint">Maghanap ng tao</string>
+    <string name="people_unnamed_title">Mga grupong walang pangalan</string>
+    <string name="people_add_name">Magdagdag ng pangalan</string>
+    <string name="people_name_sheet_title">Pangalanan ang taong ito</string>
+    <string name="people_name_hint">Pangalan</string>
+    <string name="people_no_match">Walang tugmang tao sa paghahanap mo</string>
+    <string name="people_none">Wala pang nahanap na tao. Dito lalabas ang mga larawang may malinaw na mukha.</string>
+    <string name="people_scanning">Naghahanap ng mga mukha… %1$d sa %2$d larawan</string>
+    <string name="people_no_access">Payagan ang access sa iyong mga larawan para makahanap ng mga tao</string>
+    <string name="people_failed">Hindi natapos ang paghahanap ng mukha. I-tap para subukan ulit.</string>
+    <string name="people_unnamed_person">Taong walang pangalan</string>
 </resources>

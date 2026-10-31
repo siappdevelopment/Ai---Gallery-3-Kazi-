@@ -406,4 +406,15 @@
     <string name="highlight_tap_to_close">Tik êrens om toe te maak</string>
     <string name="highlight_empty_title">Niks om te wys nie</string>
     <string name="highlight_empty_desc">Die foto’s en video’s van hierdie hoogtepunt is nie meer beskikbaar nie.</string>
+    <string name="people_search_hint">Soek mense</string>
+    <string name="people_unnamed_title">Groepe sonder naam</string>
+    <string name="people_add_name">Voeg naam by</string>
+    <string name="people_name_sheet_title">Noem hierdie persoon</string>
+    <string name="people_name_hint">Naam</string>
+    <string name="people_no_match">Geen mense stem met jou soektog ooreen nie</string>
+    <string name="people_none">Nog geen mense gevind nie. Foto’s met duidelike gesigte verskyn hier.</string>
+    <string name="people_scanning">Soek gesigte… %1$d van %2$d foto’s</string>
+    <string name="people_no_access">Gee toegang tot jou foto’s om mense te vind</string>
+    <string name="people_failed">Kon nie klaar na gesigte soek nie. Tik om weer te probeer.</string>
+    <string name="people_unnamed_person">Persoon sonder naam</string>
 </resources>

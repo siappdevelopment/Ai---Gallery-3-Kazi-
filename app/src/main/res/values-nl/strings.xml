@@ -406,4 +406,15 @@
     <string name="highlight_tap_to_close">Tik ergens om te sluiten</string>
     <string name="highlight_empty_title">Niets om te tonen</string>
     <string name="highlight_empty_desc">De foto’s en video’s van deze highlight zijn niet meer beschikbaar.</string>
+    <string name="people_search_hint">Personen zoeken</string>
+    <string name="people_unnamed_title">Groepen zonder naam</string>
+    <string name="people_add_name">Naam toevoegen</string>
+    <string name="people_name_sheet_title">Deze persoon een naam geven</string>
+    <string name="people_name_hint">Naam</string>
+    <string name="people_no_match">Geen personen komen overeen met je zoekopdracht</string>
+    <string name="people_none">Nog geen personen gevonden. Foto’s met duidelijke gezichten verschijnen hier.</string>
+    <string name="people_scanning">Gezichten zoeken… %1$d van %2$d foto’s</string>
+    <string name="people_no_access">Geef toegang tot je foto’s om personen te vinden</string>
+    <string name="people_failed">Gezichten zoeken is niet voltooid. Tik om het opnieuw te proberen.</string>
+    <string name="people_unnamed_person">Persoon zonder naam</string>
 </resources>

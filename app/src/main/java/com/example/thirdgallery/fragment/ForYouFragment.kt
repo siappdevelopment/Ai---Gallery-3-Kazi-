@@ -12,14 +12,20 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.example.thirdgallery.R
+import com.example.thirdgallery.activity.AlbumDetailActivity
 import com.example.thirdgallery.activity.HighlightsDetailActivity
+import com.example.thirdgallery.activity.PeopleAndFaceActivity
 import com.example.thirdgallery.adapter.HighlightAdapter
 import com.example.thirdgallery.adapter.PeopleAdapter
 import com.example.thirdgallery.adapter.PlaceAdapter
 import com.example.thirdgallery.adapter.SuggestionAdapter
 import com.example.thirdgallery.databinding.FragmentForYouBinding
 import com.example.thirdgallery.helper.HorizontalSpacingDecoration
+import com.example.thirdgallery.helper.PeopleText
+import com.example.thirdgallery.model.AlbumKind
 import com.example.thirdgallery.model.HighlightCard
+import com.example.thirdgallery.model.PersonUi
+import com.example.thirdgallery.repo.FaceScanManager
 import com.example.thirdgallery.viewmodel.ForYouViewModel
 
 class ForYouFragment : Fragment() {
@@ -31,7 +37,7 @@ class ForYouFragment : Fragment() {
 
     private val highlightAdapter = HighlightAdapter { openHighlight(it) }
     private var lastOpenAt = 0L
-    private val peopleAdapter = PeopleAdapter()
+    private val peopleAdapter = PeopleAdapter(onOpen = { openPerson(it) }, onRename = { renamePerson(it) })
     private val placeAdapter = PlaceAdapter()
     private val suggestionAdapter = SuggestionAdapter()
     private var dateReceiver: BroadcastReceiver? = null
@@ -72,10 +78,48 @@ class ForYouFragment : Fragment() {
             b.highlightsHeader.visibility = visibility
             b.rvHighlights.visibility = visibility
         }
-        viewModel.persons.observe(owner) { peopleAdapter.submitList(it.orEmpty()) }
+        viewModel.people.observe(owner) { renderPeople() }
+        viewModel.scanStatus.observe(owner) { renderPeople() }
+        viewModel.scanProgress.observe(owner) { renderPeople() }
+        b.tvPeopleViewAll.setOnClickListener { context?.let { startActivity(PeopleAndFaceActivity.intent(it)) } }
+        b.tvPeopleStatus.setOnClickListener {
+            if (viewModel.scanStatus.value == FaceScanManager.Status.FAILED) viewModel.retryScan()
+        }
+        parentFragmentManager.setFragmentResultListener(PersonNameSheet.RESULT_KEY, owner) { _, result ->
+            viewModel.renamePerson(result.getLong(PersonNameSheet.RESULT_ID), result.getString(PersonNameSheet.RESULT_NAME).orEmpty())
+        }
         viewModel.places.observe(owner) { placeAdapter.submitList(it.orEmpty()) }
         viewModel.suggestions.observe(owner) { suggestionAdapter.submitList(it.orEmpty()) }
     }
+
+    /** Up to six people in the row (the full list is behind View all); a line tells about the scan when there are none. */
+    private fun renderPeople() {
+        val b = binding ?: return
+        val result = viewModel.people.value
+        // The row shows the people first and, while there are fewer than six, the unnamed groups after them.
+        val people = (result?.people.orEmpty() + result?.unnamed.orEmpty()).take(MAX_PEOPLE)
+        peopleAdapter.submitList(people)
+        val status = PeopleText.status(
+            requireContext(),
+            viewModel.scanStatus.value,
+            viewModel.scanProgress.value,
+            hasPeople = people.isNotEmpty(),
+        )
+        b.tvPeopleStatus.text = status.orEmpty()
+        b.tvPeopleStatus.visibility = if (status != null && people.isEmpty()) View.VISIBLE else View.GONE
+        b.rvPeople.visibility = if (people.isEmpty()) View.GONE else View.VISIBLE
+    }
+
+    private fun openPerson(person: PersonUi) {
+        val context = context ?: return
+        val now = SystemClock.elapsedRealtime()
+        if (now - lastOpenAt < OPEN_GAP_MS) return
+        lastOpenAt = now
+        val title = person.name ?: getString(R.string.people_unnamed_person)
+        startActivity(AlbumDetailActivity.intent(context, AlbumKind.PERSON, person.clusterId, title))
+    }
+
+    private fun renamePerson(person: PersonUi) = PersonNameSheet.show(parentFragmentManager, person.clusterId, person.name)
 
     /** A highlight card was tapped: open its detail (a second tap while it opens is ignored). */
     private fun openHighlight(card: HighlightCard) {
@@ -91,6 +135,7 @@ class ForYouFragment : Fragment() {
         // Cards come and go by date (Monday/Tuesday, the 1st to the 3rd...): rebuild when the screen returns
         // and whenever the day, time or time zone changes while it is open.
         viewModel.refreshHighlights()
+        viewModel.refreshPeople()
         val receiver = object : BroadcastReceiver() {
             override fun onReceive(context: Context, intent: Intent) = viewModel.refreshHighlights()
         }
@@ -130,6 +175,7 @@ class ForYouFragment : Fragment() {
 
     private companion object {
         const val OPEN_GAP_MS = 600L
+        const val MAX_PEOPLE = 6
         const val PICKS = 24
         const val PORTRAITS = 30
         const val EDITED = 6

@@ -399,4 +399,15 @@
     <string name="highlight_tap_to_close">แตะที่ใดก็ได้เพื่อปิด</string>
     <string name="highlight_empty_title">ไม่มีอะไรให้แสดง</string>
     <string name="highlight_empty_desc">รูปภาพและวิดีโอของไฮไลต์นี้ไม่พร้อมใช้งานอีกต่อไป</string>
+    <string name="people_search_hint">ค้นหาบุคคล</string>
+    <string name="people_unnamed_title">กลุ่มที่ยังไม่มีชื่อ</string>
+    <string name="people_add_name">เพิ่มชื่อ</string>
+    <string name="people_name_sheet_title">ตั้งชื่อบุคคลนี้</string>
+    <string name="people_name_hint">ชื่อ</string>
+    <string name="people_no_match">ไม่มีบุคคลที่ตรงกับการค้นหา</string>
+    <string name="people_none">ยังไม่พบบุคคล รูปภาพที่มีใบหน้าชัดเจนจะแสดงที่นี่</string>
+    <string name="people_scanning">กำลังค้นหาใบหน้า… %1$d จาก %2$d รูป</string>
+    <string name="people_no_access">อนุญาตให้เข้าถึงรูปภาพเพื่อค้นหาบุคคล</string>
+    <string name="people_failed">ค้นหาใบหน้าไม่สำเร็จ แตะเพื่อลองอีกครั้ง</string>
+    <string name="people_unnamed_person">บุคคลที่ไม่มีชื่อ</string>
 </resources>

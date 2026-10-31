@@ -23,8 +23,11 @@ import androidx.sqlite.db.SupportSQLiteDatabase
         VaultItemEntity::class,
         VaultFolderEntity::class,
         VaultAlertEntity::class,
+        FaceEntity::class,
+        FaceScanEntity::class,
+        FacePersonEntity::class,
     ],
-    version = 9,
+    version = 11,
     exportSchema = true,
 )
 abstract class AppDatabase : RoomDatabase() {
@@ -36,6 +39,8 @@ abstract class AppDatabase : RoomDatabase() {
     abstract fun albumDao(): AlbumDao
 
     abstract fun vaultDao(): VaultDao
+
+    abstract fun faceDao(): FaceDao
 
     companion object {
         private const val NAME = "gallery.db"
@@ -146,6 +151,30 @@ abstract class AppDatabase : RoomDatabase() {
             }
         }
 
+        /** v10 adds the faces found in photos (People & faces), which photos were scanned, and the names given to people. */
+        private val MIGRATION_9_10 = object : Migration(9, 10) {
+            override fun migrate(db: SupportSQLiteDatabase) {
+                db.execSQL("ALTER TABLE `media` ADD COLUMN `modifiedMs` INTEGER NOT NULL DEFAULT 0")
+                db.execSQL(
+                    "CREATE TABLE IF NOT EXISTS `faces` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, " +
+                        "`mediaUid` INTEGER NOT NULL, `boxLeft` REAL NOT NULL, `boxTop` REAL NOT NULL, " +
+                        "`boxRight` REAL NOT NULL, `boxBottom` REAL NOT NULL, `descriptor` BLOB NOT NULL, `clusterId` INTEGER)"
+                )
+                db.execSQL("CREATE INDEX IF NOT EXISTS `index_faces_mediaUid` ON `faces` (`mediaUid`)")
+                db.execSQL("CREATE INDEX IF NOT EXISTS `index_faces_clusterId` ON `faces` (`clusterId`)")
+                db.execSQL("CREATE TABLE IF NOT EXISTS `face_scans` (`mediaUid` INTEGER PRIMARY KEY NOT NULL, `modifiedMs` INTEGER NOT NULL)")
+                db.execSQL("CREATE TABLE IF NOT EXISTS `face_people` (`clusterId` INTEGER PRIMARY KEY NOT NULL, `name` TEXT NOT NULL)")
+            }
+        }
+
+        /** v11 lets a photo that could not be read be tried again later (face scan). */
+        private val MIGRATION_10_11 = object : Migration(10, 11) {
+            override fun migrate(db: SupportSQLiteDatabase) {
+                db.execSQL("ALTER TABLE `face_scans` ADD COLUMN `failures` INTEGER NOT NULL DEFAULT 0")
+                db.execSQL("ALTER TABLE `face_scans` ADD COLUMN `stamp` INTEGER NOT NULL DEFAULT 0")
+            }
+        }
+
         @Volatile
         private var instance: AppDatabase? = null
 
@@ -155,7 +184,7 @@ abstract class AppDatabase : RoomDatabase() {
                     context.applicationContext,
                     AppDatabase::class.java,
                     NAME,
-                ).addMigrations(MIGRATION_1_2, MIGRATION_2_3, MIGRATION_3_4, MIGRATION_4_5, MIGRATION_5_6, MIGRATION_6_7, MIGRATION_7_8, MIGRATION_8_9).build().also { instance = it }
+                ).addMigrations(MIGRATION_1_2, MIGRATION_2_3, MIGRATION_3_4, MIGRATION_4_5, MIGRATION_5_6, MIGRATION_6_7, MIGRATION_7_8, MIGRATION_8_9, MIGRATION_9_10, MIGRATION_10_11).build().also { instance = it }
             }
     }
 }

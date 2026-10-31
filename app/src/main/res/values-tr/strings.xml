@@ -406,4 +406,15 @@
     <string name="highlight_tap_to_close">Kapatmak için herhangi bir yere dokunun</string>
     <string name="highlight_empty_title">Gösterilecek bir şey yok</string>
     <string name="highlight_empty_desc">Bu öne çıkanın fotoğraf ve videoları artık kullanılamıyor.</string>
+    <string name="people_search_hint">Kişi ara</string>
+    <string name="people_unnamed_title">Adsız gruplar</string>
+    <string name="people_add_name">Ad ekle</string>
+    <string name="people_name_sheet_title">Bu kişiye ad ver</string>
+    <string name="people_name_hint">Ad</string>
+    <string name="people_no_match">Aramanızla eşleşen kişi yok</string>
+    <string name="people_none">Henüz kimse bulunamadı. Yüzleri net görünen fotoğraflar burada görünecek.</string>
+    <string name="people_scanning">Yüzler aranıyor… %1$d / %2$d fotoğraf</string>
+    <string name="people_no_access">Kişileri bulmak için fotoğraflarınıza erişime izin verin</string>
+    <string name="people_failed">Yüz arama tamamlanamadı. Tekrar denemek için dokunun.</string>
+    <string name="people_unnamed_person">Adsız kişi</string>
 </resources>

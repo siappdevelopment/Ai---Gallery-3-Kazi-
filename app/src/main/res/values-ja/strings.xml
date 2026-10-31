@@ -399,4 +399,15 @@
     <string name="highlight_tap_to_close">どこかをタップして閉じる</string>
     <string name="highlight_empty_title">表示するものがありません</string>
     <string name="highlight_empty_desc">このハイライトの写真と動画は利用できなくなりました。</string>
+    <string name="people_search_hint">人を検索</string>
+    <string name="people_unnamed_title">名前のないグループ</string>
+    <string name="people_add_name">名前を追加</string>
+    <string name="people_name_sheet_title">この人に名前を付ける</string>
+    <string name="people_name_hint">名前</string>
+    <string name="people_no_match">検索に一致する人はいません</string>
+    <string name="people_none">まだ人が見つかっていません。顔がはっきり写った写真がここに表示されます。</string>
+    <string name="people_scanning">顔を検索中… %2$d枚中%1$d枚</string>
+    <string name="people_no_access">人を見つけるには写真へのアクセスを許可してください</string>
+    <string name="people_failed">顔の検索を完了できませんでした。タップして再試行してください。</string>
+    <string name="people_unnamed_person">名前のない人</string>
 </resources>

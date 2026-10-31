@@ -399,4 +399,15 @@
     <string name="highlight_tap_to_close">点按任意位置关闭</string>
     <string name="highlight_empty_title">没有可显示的内容</string>
     <string name="highlight_empty_desc">此精彩回顾中的照片和视频已不可用。</string>
+    <string name="people_search_hint">搜索人物</string>
+    <string name="people_unnamed_title">未命名分组</string>
+    <string name="people_add_name">添加名称</string>
+    <string name="people_name_sheet_title">为此人命名</string>
+    <string name="people_name_hint">名称</string>
+    <string name="people_no_match">没有与搜索匹配的人物</string>
+    <string name="people_none">尚未发现人物。面部清晰的照片会显示在这里。</string>
+    <string name="people_scanning">正在查找人脸… %1$d / %2$d 张照片</string>
+    <string name="people_no_access">请允许访问照片以查找人物</string>
+    <string name="people_failed">未能完成人脸查找。点按重试。</string>
+    <string name="people_unnamed_person">未命名人物</string>
 </resources>

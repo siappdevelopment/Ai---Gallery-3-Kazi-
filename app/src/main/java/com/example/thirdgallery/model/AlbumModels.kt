@@ -19,6 +19,9 @@ enum class AlbumKind(val key: String) {
     YEAR("year"),
     MONTH("month"),
 
+    /** The photos of one person (a face group of People & faces); the id is the group's cluster id. */
+    PERSON("person"),
+
     /** The results of a file-name search (the query travels separately). */
     SEARCH("search");
 

@@ -187,6 +187,17 @@ interface MediaDao {
     )
     fun periodStats(from: Long, to: Long): PeriodStats
 
+    // The photos of one person (face group), newest first
+
+    @Query("SELECT * FROM media WHERE uid IN (SELECT mediaUid FROM faces WHERE clusterId = :clusterId) ORDER BY dateMs DESC, uid DESC")
+    fun personSource(clusterId: Long): PagingSource<Int, MediaEntity>
+
+    @Query("SELECT COUNT(*) FROM media WHERE uid IN (SELECT mediaUid FROM faces WHERE clusterId = :clusterId)")
+    fun observePersonCount(clusterId: Long): LiveData<Int>
+
+    @Query("SELECT uid FROM media WHERE uid IN (SELECT mediaUid FROM faces WHERE clusterId = :clusterId) ORDER BY dateMs DESC, uid DESC")
+    fun personUids(clusterId: Long): List<Long>
+
     @Query("SELECT COUNT(*) FROM media WHERE addedMs >= :from AND addedMs < :to")
     fun countAdded(from: Long, to: Long): Int
 

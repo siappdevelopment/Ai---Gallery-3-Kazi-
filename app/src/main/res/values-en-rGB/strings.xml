@@ -406,4 +406,15 @@
     <string name="highlight_tap_to_close">Tap anywhere to close</string>
     <string name="highlight_empty_title">Nothing to show</string>
     <string name="highlight_empty_desc">The photos and videos of this highlight are no longer available.</string>
+    <string name="people_search_hint">Search people</string>
+    <string name="people_unnamed_title">Unnamed groups</string>
+    <string name="people_add_name">Add name</string>
+    <string name="people_name_sheet_title">Name this person</string>
+    <string name="people_name_hint">Name</string>
+    <string name="people_no_match">No people match your search</string>
+    <string name="people_none">No people found yet. Photos with clear faces will show up here.</string>
+    <string name="people_scanning">Looking for faces… %1$d of %2$d photos</string>
+    <string name="people_no_access">Allow access to your photos to find people</string>
+    <string name="people_failed">Couldn’t finish looking for faces. Tap to try again.</string>
+    <string name="people_unnamed_person">Unnamed person</string>
 </resources>

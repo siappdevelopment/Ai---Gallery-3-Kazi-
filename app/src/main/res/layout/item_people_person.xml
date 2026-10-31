@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- A person in the People & faces grid: 92dp face, name (or "Add name") and photo count -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="?attr/selectableItemBackground"
+    android:clickable="true"
+    android:focusable="true"
+    android:gravity="center_horizontal"
+    android:orientation="vertical"
+    android:paddingTop="9dp"
+    android:paddingBottom="9dp">
+
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/ivAvatar"
+        android:layout_width="92dp"
+        android:layout_height="92dp"
+        android:background="@color/language_check_off"
+        android:importantForAccessibility="no"
+        android:scaleType="centerCrop"
+        app:shapeAppearance="@style/ShapeAppearance.ThirdGallery.Circle" />
+
+    <TextView
+        android:id="@+id/tvName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="7dp"
+        android:background="?attr/selectableItemBackground"
+        android:ellipsize="end"
+        android:maxWidth="110dp"
+        android:maxLines="1"
+        android:textColor="@color/splash_text_primary"
+        android:textSize="14sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/tvCount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/home_text_muted"
+        android:textSize="11.5sp"
+        android:textStyle="bold" />
+</LinearLayout>

@@ -413,4 +413,15 @@
     <string name="highlight_tap_to_close">Toque em qualquer lugar para fechar</string>
     <string name="highlight_empty_title">Nada para mostrar</string>
     <string name="highlight_empty_desc">As fotos e os vídeos deste destaque não estão mais disponíveis.</string>
+    <string name="people_search_hint">Pesquisar pessoas</string>
+    <string name="people_unnamed_title">Grupos sem nome</string>
+    <string name="people_add_name">Adicionar nome</string>
+    <string name="people_name_sheet_title">Dar um nome a esta pessoa</string>
+    <string name="people_name_hint">Nome</string>
+    <string name="people_no_match">Nenhuma pessoa corresponde à sua pesquisa</string>
+    <string name="people_none">Nenhuma pessoa encontrada ainda. As fotos com rostos nítidos aparecerão aqui.</string>
+    <string name="people_scanning">Procurando rostos… %1$d de %2$d fotos</string>
+    <string name="people_no_access">Permita o acesso às suas fotos para encontrar pessoas</string>
+    <string name="people_failed">Não foi possível terminar a busca por rostos. Toque para tentar novamente.</string>
+    <string name="people_unnamed_person">Pessoa sem nome</string>
 </resources>

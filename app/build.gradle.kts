@@ -52,6 +52,9 @@ dependencies {
     ksp(libs.androidx.room.compiler)
     implementation(libs.androidx.paging.runtime)
     implementation(libs.glide)
+    // Face detection for People & faces: the model is bundled, so it runs on the device without Play services.
+    implementation(libs.mlkit.face.detection)
+    implementation(libs.androidx.exifinterface)
     implementation(libs.androidx.biometric)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.espresso.core)

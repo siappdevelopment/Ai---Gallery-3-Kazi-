@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- An unnamed group: 76dp face, the pink "Add name" action and the photo count -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="?attr/selectableItemBackground"
+    android:clickable="true"
+    android:focusable="true"
+    android:gravity="center_horizontal"
+    android:orientation="vertical"
+    android:paddingTop="4dp"
+    android:paddingBottom="4dp">
+
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/ivAvatar"
+        android:layout_width="76dp"
+        android:layout_height="76dp"
+        android:background="@color/language_check_off"
+        android:importantForAccessibility="no"
+        android:scaleType="centerCrop"
+        app:shapeAppearance="@style/ShapeAppearance.ThirdGallery.Circle" />
+
+    <TextView
+        android:id="@+id/btnAddName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="7dp"
+        android:background="?attr/selectableItemBackground"
+        android:clickable="true"
+        android:focusable="true"
+        android:paddingStart="8dp"
+        android:paddingTop="2dp"
+        android:paddingEnd="8dp"
+        android:paddingBottom="2dp"
+        android:text="@string/people_add_name"
+        android:textColor="@color/perm_icon_tint"
+        android:textSize="13sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/tvCount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/home_text_muted"
+        android:textSize="11.5sp"
+        android:textStyle="bold" />
+</LinearLayout>

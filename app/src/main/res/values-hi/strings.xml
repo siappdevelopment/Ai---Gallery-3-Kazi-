@@ -406,4 +406,15 @@
     <string name="highlight_tap_to_close">बंद करने के लिए कहीं भी टैप करें</string>
     <string name="highlight_empty_title">दिखाने के लिए कुछ नहीं</string>
     <string name="highlight_empty_desc">इस हाइलाइट की फ़ोटो और वीडियो अब उपलब्ध नहीं हैं।</string>
+    <string name="people_search_hint">लोगों को खोजें</string>
+    <string name="people_unnamed_title">बिना नाम वाले समूह</string>
+    <string name="people_add_name">नाम जोड़ें</string>
+    <string name="people_name_sheet_title">इस व्यक्ति को नाम दें</string>
+    <string name="people_name_hint">नाम</string>
+    <string name="people_no_match">आपकी खोज से कोई व्यक्ति मेल नहीं खाता</string>
+    <string name="people_none">अभी तक कोई व्यक्ति नहीं मिला। साफ़ चेहरों वाली फ़ोटो यहाँ दिखेंगी।</string>
+    <string name="people_scanning">चेहरे खोजे जा रहे हैं… %2$d में से %1$d फ़ोटो</string>
+    <string name="people_no_access">लोगों को खोजने के लिए अपनी फ़ोटो तक पहुँच की अनुमति दें</string>
+    <string name="people_failed">चेहरे खोजना पूरा नहीं हो सका। फिर से कोशिश करने के लिए टैप करें।</string>
+    <string name="people_unnamed_person">बिना नाम का व्यक्ति</string>
 </resources>

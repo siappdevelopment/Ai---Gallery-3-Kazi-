@@ -420,4 +420,15 @@
     <string name="highlight_tap_to_close">Коснитесь в любом месте, чтобы закрыть</string>
     <string name="highlight_empty_title">Нечего показать</string>
     <string name="highlight_empty_desc">Фото и видео этой подборки больше недоступны.</string>
+    <string name="people_search_hint">Поиск людей</string>
+    <string name="people_unnamed_title">Группы без имени</string>
+    <string name="people_add_name">Добавить имя</string>
+    <string name="people_name_sheet_title">Назвать этого человека</string>
+    <string name="people_name_hint">Имя</string>
+    <string name="people_no_match">Нет людей, подходящих под ваш запрос</string>
+    <string name="people_none">Людей пока не найдено. Здесь появятся фото с чёткими лицами.</string>
+    <string name="people_scanning">Поиск лиц… %1$d из %2$d фото</string>
+    <string name="people_no_access">Разрешите доступ к фото, чтобы находить людей</string>
+    <string name="people_failed">Не удалось завершить поиск лиц. Нажмите, чтобы повторить.</string>
+    <string name="people_unnamed_person">Человек без имени</string>
 </resources>
