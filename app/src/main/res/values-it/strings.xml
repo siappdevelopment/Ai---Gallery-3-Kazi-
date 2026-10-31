@@ -403,4 +403,10 @@
         <item quantity="other">%1$d tentativi</item>
         <item quantity="many">%1$d di tentativi</item>
     </plurals>
+    <string name="highlight_recent">Aggiunti di recente</string>
+    <string name="highlight_last_week">Settimana scorsa</string>
+    <string name="highlight_last_month">Mese scorso</string>
+    <string name="highlight_last_year">Anno scorso</string>
+    <string name="highlight_last_24h">Ultime 24 ore</string>
+    <string name="highlight_best_of">Il meglio di %1$s</string>
 </resources>

@@ -396,4 +396,10 @@
         <item quantity="one">%1$d Versuch</item>
         <item quantity="other">%1$d Versuche</item>
     </plurals>
+    <string name="highlight_recent">Zuletzt hinzugefügt</string>
+    <string name="highlight_last_week">Letzte Woche</string>
+    <string name="highlight_last_month">Letzter Monat</string>
+    <string name="highlight_last_year">Letztes Jahr</string>
+    <string name="highlight_last_24h">Letzte 24 Stunden</string>
+    <string name="highlight_best_of">Das Beste aus %1$s</string>
 </resources>

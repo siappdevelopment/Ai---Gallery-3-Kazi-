@@ -389,4 +389,10 @@
     <plurals name="vault_alerts_count">
         <item quantity="other">%1$d 次</item>
     </plurals>
+    <string name="highlight_recent">最近添加</string>
+    <string name="highlight_last_week">上周</string>
+    <string name="highlight_last_month">上个月</string>
+    <string name="highlight_last_year">去年</string>
+    <string name="highlight_last_24h">过去 24 小时</string>
+    <string name="highlight_best_of">%1$s 精选</string>
 </resources>

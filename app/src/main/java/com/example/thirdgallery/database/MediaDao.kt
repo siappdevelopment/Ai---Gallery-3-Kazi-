@@ -161,6 +161,43 @@ interface MediaDao {
     @Query("SELECT * FROM media WHERE uid = :uid")
     fun byUid(uid: Long): MediaEntity?
 
+    // For you highlights (all by the date the media was added)
+
+    @Query(
+        "SELECT uid, isFavorite, dateMs, mediaType, durationMs, " +
+            "(bucketName LIKE '%screenshot%' OR displayName LIKE '%screenshot%') AS isShot, " +
+            "(bucketName = 'Camera' COLLATE NOCASE) AS isCamera " +
+            "FROM media WHERE addedMs >= :from AND addedMs < :to"
+    )
+    fun candidatesAdded(from: Long, to: Long): List<HighlightCandidate>
+
+    @Query(
+        "SELECT uid, isFavorite, dateMs, mediaType, durationMs, " +
+            "(bucketName LIKE '%screenshot%' OR displayName LIKE '%screenshot%') AS isShot, " +
+            "(bucketName = 'Camera' COLLATE NOCASE) AS isCamera " +
+            "FROM media WHERE addedDay = :day"
+    )
+    fun candidatesAddedOn(day: Long): List<HighlightCandidate>
+
+    /** Cheap totals of a period, to find the most relevant one without loading its items. */
+    @Query(
+        "SELECT COUNT(*) AS total, COALESCE(SUM(isFavorite), 0) AS favorites, " +
+            "COALESCE(SUM(CASE WHEN bucketName LIKE '%screenshot%' OR displayName LIKE '%screenshot%' THEN 0 ELSE 1 END), 0) AS plain " +
+            "FROM media WHERE addedMs >= :from AND addedMs < :to"
+    )
+    fun periodStats(from: Long, to: Long): PeriodStats
+
+    @Query("SELECT COUNT(*) FROM media WHERE addedMs >= :from AND addedMs < :to")
+    fun countAdded(from: Long, to: Long): Int
+
+    /** Totals of every day before [today] (and not older than [minDay]) with more than 5 items added. */
+    @Query(
+        "SELECT addedDay AS day, COUNT(*) AS total, COALESCE(SUM(isFavorite), 0) AS favorites, " +
+            "COALESCE(SUM(CASE WHEN bucketName LIKE '%screenshot%' OR displayName LIKE '%screenshot%' THEN 0 ELSE 1 END), 0) AS plain " +
+            "FROM media WHERE addedDay >= :minDay AND addedDay < :today GROUP BY addedDay HAVING COUNT(*) > 5"
+    )
+    fun busyDays(minDay: Long, today: Long): List<DayStats>
+
     @Query("SELECT * FROM media WHERE uid IN (:uids)")
     fun byUids(uids: List<Long>): List<MediaEntity>
 

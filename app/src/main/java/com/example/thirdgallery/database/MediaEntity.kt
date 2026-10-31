@@ -18,6 +18,8 @@ import androidx.room.PrimaryKey
         Index("dayKey"),
         Index("bucketId", "dateMs"),
         Index("monthKey", "dateMs"),
+        Index("addedMs"),
+        Index("addedDay"),
     ],
 )
 data class MediaEntity(
@@ -41,6 +43,10 @@ data class MediaEntity(
     @ColumnInfo(defaultValue = "0") val monthKey: Long = 0,
     /** File name with extension (MediaStore DISPLAY_NAME); the search matches against it. */
     @ColumnInfo(defaultValue = "''") val displayName: String = "",
+    /** When the file was added to the device (MediaStore DATE_ADDED) in epoch milliseconds; the For you highlights use it. */
+    @ColumnInfo(defaultValue = "0") val addedMs: Long = 0,
+    /** Local calendar day of [addedMs], as epoch days. */
+    @ColumnInfo(defaultValue = "0") val addedDay: Long = 0,
 )
 
 object MediaTypes {
@@ -53,6 +59,34 @@ object MediaTypes {
 
     fun typeOf(uid: Long): Int = if (uid and 1L == 1L) VIDEO else IMAGE
 }
+
+/** What the For you highlights need to rank an item: nothing but light metadata. */
+data class HighlightCandidate(
+    val uid: Long,
+    val isFavorite: Boolean,
+    val dateMs: Long,
+    /** Screenshots are rarely the "best" of a period, so they are left out unless nothing else is there. */
+    val isShot: Boolean,
+    val mediaType: Int,
+    val durationMs: Long,
+    /** Taken with the camera app (the "Camera" folder) rather than saved or received from elsewhere. */
+    val isCamera: Boolean,
+)
+
+/** Counts of one period: everything, the favorites, and everything that is not a screenshot. */
+data class PeriodStats(
+    val total: Int,
+    val favorites: Int,
+    val plain: Int,
+)
+
+/** [PeriodStats] of one day (an epoch day of the added date). */
+data class DayStats(
+    val day: Long,
+    val total: Int,
+    val favorites: Int,
+    val plain: Int,
+)
 
 data class DayCount(
     val dayKey: Long,

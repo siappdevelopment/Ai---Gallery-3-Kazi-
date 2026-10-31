@@ -396,4 +396,10 @@
         <item quantity="one">%1$d pagtatangka</item>
         <item quantity="other">%1$d pagtatangka</item>
     </plurals>
+    <string name="highlight_recent">Kamakailang idinagdag</string>
+    <string name="highlight_last_week">Nakaraang linggo</string>
+    <string name="highlight_last_month">Nakaraang buwan</string>
+    <string name="highlight_last_year">Nakaraang taon</string>
+    <string name="highlight_last_24h">Huling 24 oras</string>
+    <string name="highlight_best_of">Pinakamaganda sa %1$s</string>
 </resources>

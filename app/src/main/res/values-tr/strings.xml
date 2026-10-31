@@ -396,4 +396,10 @@
         <item quantity="one">%1$d deneme</item>
         <item quantity="other">%1$d deneme</item>
     </plurals>
+    <string name="highlight_recent">Son eklenenler</string>
+    <string name="highlight_last_week">Geçen hafta</string>
+    <string name="highlight_last_month">Geçen ay</string>
+    <string name="highlight_last_year">Geçen yıl</string>
+    <string name="highlight_last_24h">Son 24 saat</string>
+    <string name="highlight_best_of">%1$s’in en iyileri</string>
 </resources>

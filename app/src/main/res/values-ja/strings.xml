@@ -389,4 +389,10 @@
     <plurals name="vault_alerts_count">
         <item quantity="other">%1$d回</item>
     </plurals>
+    <string name="highlight_recent">最近追加</string>
+    <string name="highlight_last_week">先週</string>
+    <string name="highlight_last_month">先月</string>
+    <string name="highlight_last_year">昨年</string>
+    <string name="highlight_last_24h">過去24時間</string>
+    <string name="highlight_best_of">%1$sのベスト</string>
 </resources>

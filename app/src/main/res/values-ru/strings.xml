@@ -410,4 +410,10 @@
         <item quantity="many">%1$d попыток</item>
         <item quantity="other">%1$d попытки</item>
     </plurals>
+    <string name="highlight_recent">Недавно добавленные</string>
+    <string name="highlight_last_week">Прошлая неделя</string>
+    <string name="highlight_last_month">Прошлый месяц</string>
+    <string name="highlight_last_year">Прошлый год</string>
+    <string name="highlight_last_24h">Последние 24 часа</string>
+    <string name="highlight_best_of">Лучшее за %1$s</string>
 </resources>

@@ -389,4 +389,10 @@
     <plurals name="vault_alerts_count">
         <item quantity="other">%1$d회</item>
     </plurals>
+    <string name="highlight_recent">최근 추가됨</string>
+    <string name="highlight_last_week">지난주</string>
+    <string name="highlight_last_month">지난달</string>
+    <string name="highlight_last_year">작년</string>
+    <string name="highlight_last_24h">최근 24시간</string>
+    <string name="highlight_best_of">%1$s 베스트</string>
 </resources>

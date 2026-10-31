@@ -305,6 +305,8 @@ class MediaRepository(context: Context) {
                 val taken = cursor.getLong(takenCol)
                 val dateMs = if (taken > 0) taken else cursor.getLong(addedCol) * 1000L
                 val dayKey = Math.floorDiv(dateMs + zone.getOffset(dateMs), DAY_MS)
+                val addedMs = cursor.getLong(addedCol) * 1000L
+                val addedDay = Math.floorDiv(addedMs + zone.getOffset(addedMs), DAY_MS)
                 calendar.timeInMillis = dateMs
                 val monthKey = calendar.get(java.util.Calendar.YEAR) * 12L + calendar.get(java.util.Calendar.MONTH)
                 batch.add(
@@ -321,6 +323,8 @@ class MediaRepository(context: Context) {
                         bucketName = cursor.getString(bucketNameCol).orEmpty(),
                         displayName = cursor.getString(nameCol).orEmpty(),
                         monthKey = monthKey,
+                        addedMs = addedMs,
+                        addedDay = addedDay,
                     )
                 )
                 if (batch.size >= BATCH_SIZE) {
@@ -377,7 +381,7 @@ class MediaRepository(context: Context) {
         const val ALBUM_LIMIT = 12
 
         /** Bump when the indexed columns change so existing installs re-read MediaStore once. */
-        const val FINGERPRINT_VERSION = 5
+        const val FINGERPRINT_VERSION = 6
         const val DAY_MS = 86_400_000L
 
         @Suppress("DEPRECATION")

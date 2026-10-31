@@ -24,7 +24,7 @@ import androidx.sqlite.db.SupportSQLiteDatabase
         VaultFolderEntity::class,
         VaultAlertEntity::class,
     ],
-    version = 8,
+    version = 9,
     exportSchema = true,
 )
 abstract class AppDatabase : RoomDatabase() {
@@ -136,6 +136,16 @@ abstract class AppDatabase : RoomDatabase() {
             }
         }
 
+        /** v9 adds when each media file was added to the device (the For you highlights). */
+        private val MIGRATION_8_9 = object : Migration(8, 9) {
+            override fun migrate(db: SupportSQLiteDatabase) {
+                db.execSQL("ALTER TABLE `media` ADD COLUMN `addedMs` INTEGER NOT NULL DEFAULT 0")
+                db.execSQL("ALTER TABLE `media` ADD COLUMN `addedDay` INTEGER NOT NULL DEFAULT 0")
+                db.execSQL("CREATE INDEX IF NOT EXISTS `index_media_addedMs` ON `media` (`addedMs`)")
+                db.execSQL("CREATE INDEX IF NOT EXISTS `index_media_addedDay` ON `media` (`addedDay`)")
+            }
+        }
+
         @Volatile
         private var instance: AppDatabase? = null
 
@@ -145,7 +155,7 @@ abstract class AppDatabase : RoomDatabase() {
                     context.applicationContext,
                     AppDatabase::class.java,
                     NAME,
-                ).addMigrations(MIGRATION_1_2, MIGRATION_2_3, MIGRATION_3_4, MIGRATION_4_5, MIGRATION_5_6, MIGRATION_6_7, MIGRATION_7_8).build().also { instance = it }
+                ).addMigrations(MIGRATION_1_2, MIGRATION_2_3, MIGRATION_3_4, MIGRATION_4_5, MIGRATION_5_6, MIGRATION_6_7, MIGRATION_7_8, MIGRATION_8_9).build().also { instance = it }
             }
     }
 }

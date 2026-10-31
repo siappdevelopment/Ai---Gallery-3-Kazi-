@@ -396,4 +396,10 @@
         <item quantity="one">%1$d προσπάθεια</item>
         <item quantity="other">%1$d προσπάθειες</item>
     </plurals>
+    <string name="highlight_recent">Προστέθηκαν πρόσφατα</string>
+    <string name="highlight_last_week">Προηγούμενη εβδομάδα</string>
+    <string name="highlight_last_month">Προηγούμενος μήνας</string>
+    <string name="highlight_last_year">Προηγούμενο έτος</string>
+    <string name="highlight_last_24h">Τελευταίες 24 ώρες</string>
+    <string name="highlight_best_of">Τα καλύτερα: %1$s</string>
 </resources>

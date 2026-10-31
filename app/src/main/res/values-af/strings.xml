@@ -396,4 +396,10 @@
         <item quantity="one">%1$d poging</item>
         <item quantity="other">%1$d pogings</item>
     </plurals>
+    <string name="highlight_recent">Onlangs bygevoeg</string>
+    <string name="highlight_last_week">Verlede week</string>
+    <string name="highlight_last_month">Verlede maand</string>
+    <string name="highlight_last_year">Verlede jaar</string>
+    <string name="highlight_last_24h">Laaste 24 uur</string>
+    <string name="highlight_best_of">Beste van %1$s</string>
 </resources>

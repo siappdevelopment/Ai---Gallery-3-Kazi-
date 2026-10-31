@@ -406,4 +406,10 @@
         <item quantity="one">%1$d attempt</item>
         <item quantity="other">%1$d attempts</item>
     </plurals>
+    <string name="highlight_recent">Recently added</string>
+    <string name="highlight_last_week">Last week</string>
+    <string name="highlight_last_month">Last month</string>
+    <string name="highlight_last_year">Last year</string>
+    <string name="highlight_last_24h">Last 24 hours</string>
+    <string name="highlight_best_of">Best of %1$s</string>
 </resources>

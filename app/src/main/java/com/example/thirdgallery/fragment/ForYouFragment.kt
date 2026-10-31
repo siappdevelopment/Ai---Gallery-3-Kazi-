@@ -1,5 +1,9 @@
 package com.example.thirdgallery.fragment
 
+import android.content.BroadcastReceiver
+import android.content.Context
+import android.content.Intent
+import android.content.IntentFilter
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -26,6 +30,7 @@ class ForYouFragment : Fragment() {
     private val peopleAdapter = PeopleAdapter()
     private val placeAdapter = PlaceAdapter()
     private val suggestionAdapter = SuggestionAdapter()
+    private var dateReceiver: BroadcastReceiver? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         val b = FragmentForYouBinding.inflate(inflater, container, false)
@@ -56,10 +61,47 @@ class ForYouFragment : Fragment() {
         b.tvDocsSummary.text = getString(R.string.home_docs_summary, DOC_ITEMS, DOC_RECEIPTS)
 
         val owner = viewLifecycleOwner
-        viewModel.highlights.observe(owner) { highlightAdapter.submitList(it.orEmpty()) }
+        viewModel.highlights.observe(owner) { cards ->
+            highlightAdapter.submitList(cards.orEmpty())
+            // With nothing to recap the whole Highlights block steps aside instead of showing an empty row.
+            val visibility = if (cards.isNullOrEmpty()) View.GONE else View.VISIBLE
+            b.highlightsHeader.visibility = visibility
+            b.rvHighlights.visibility = visibility
+        }
         viewModel.persons.observe(owner) { peopleAdapter.submitList(it.orEmpty()) }
         viewModel.places.observe(owner) { placeAdapter.submitList(it.orEmpty()) }
         viewModel.suggestions.observe(owner) { suggestionAdapter.submitList(it.orEmpty()) }
+    }
+
+    override fun onStart() {
+        super.onStart()
+        // Cards come and go by date (Monday/Tuesday, the 1st to the 3rd...): rebuild when the screen returns
+        // and whenever the day, time or time zone changes while it is open.
+        viewModel.refreshHighlights()
+        val receiver = object : BroadcastReceiver() {
+            override fun onReceive(context: Context, intent: Intent) = viewModel.refreshHighlights()
+        }
+        dateReceiver = receiver
+        requireContext().registerReceiver(
+            receiver,
+            IntentFilter().apply {
+                addAction(Intent.ACTION_DATE_CHANGED)
+                addAction(Intent.ACTION_TIME_CHANGED)
+                addAction(Intent.ACTION_TIMEZONE_CHANGED)
+            },
+        )
+    }
+
+    override fun onStop() {
+        dateReceiver?.let { receiver ->
+            try {
+                requireContext().unregisterReceiver(receiver)
+            } catch (e: IllegalArgumentException) {
+                // Already gone.
+            }
+        }
+        dateReceiver = null
+        super.onStop()
     }
 
     override fun onDestroyView() {

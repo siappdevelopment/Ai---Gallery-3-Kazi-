@@ -389,4 +389,10 @@
     <plurals name="vault_alerts_count">
         <item quantity="other">%1$d percobaan</item>
     </plurals>
+    <string name="highlight_recent">Baru ditambahkan</string>
+    <string name="highlight_last_week">Minggu lalu</string>
+    <string name="highlight_last_month">Bulan lalu</string>
+    <string name="highlight_last_year">Tahun lalu</string>
+    <string name="highlight_last_24h">24 jam terakhir</string>
+    <string name="highlight_best_of">Terbaik %1$s</string>
 </resources>

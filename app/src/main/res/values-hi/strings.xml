@@ -396,4 +396,10 @@
         <item quantity="one">%1$d प्रयास</item>
         <item quantity="other">%1$d प्रयास</item>
     </plurals>
+    <string name="highlight_recent">हाल ही में जोड़े गए</string>
+    <string name="highlight_last_week">पिछला सप्ताह</string>
+    <string name="highlight_last_month">पिछला महीना</string>
+    <string name="highlight_last_year">पिछला साल</string>
+    <string name="highlight_last_24h">पिछले 24 घंटे</string>
+    <string name="highlight_best_of">%1$s का सर्वश्रेष्ठ</string>
 </resources>

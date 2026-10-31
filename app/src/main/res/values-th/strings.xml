@@ -389,4 +389,10 @@
     <plurals name="vault_alerts_count">
         <item quantity="other">%1$d ครั้ง</item>
     </plurals>
+    <string name="highlight_recent">เพิ่มล่าสุด</string>
+    <string name="highlight_last_week">สัปดาห์ที่แล้ว</string>
+    <string name="highlight_last_month">เดือนที่แล้ว</string>
+    <string name="highlight_last_year">ปีที่แล้ว</string>
+    <string name="highlight_last_24h">24 ชั่วโมงที่ผ่านมา</string>
+    <string name="highlight_best_of">ที่ดีที่สุดของ %1$s</string>
 </resources>
