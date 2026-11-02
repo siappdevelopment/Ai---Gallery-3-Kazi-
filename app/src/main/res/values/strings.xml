@@ -1,5 +1,6 @@
 <resources>
-    <string name="app_name">ThirdGallery</string>
+    <string name="app_name">Gallery</string>
+    <string name="setting_app_name">#Gallery</string>
     <string name="splash_logo_description">Gallery app logo</string>
     <string name="splash_title">Gallery</string>
     <string name="splash_tagline">Your memories, beautifully organized</string>
