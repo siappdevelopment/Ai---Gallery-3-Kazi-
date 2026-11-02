@@ -653,4 +653,7 @@
     <string name="report_done">Concluir</string>
     <string name="report_title">Relatório de limpeza</string>
     <string name="default_home_guide_text">Toque para definir como a sua app de início predefinida</string>
+    <string name="overlay_card_message">Permita a sobreposição para apresentar ferramentas de fotografia flutuantes sobre outras aplicações.</string>
+    <string name="overlay_card_allow">Permitir</string>
+    <string name="overlay_guide_message">Ative \"Permitir apresentação sobre outras apps\" para esta app</string>
 </resources>

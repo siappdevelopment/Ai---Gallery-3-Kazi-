@@ -639,4 +639,7 @@
     <string name="report_done">Selesai</string>
     <string name="report_title">Laporan pembersihan</string>
     <string name="default_home_guide_text">Ketuk untuk menjadikannya aplikasi layar utama default</string>
+    <string name="overlay_card_message">Izinkan izin hamparan untuk menampilkan alat foto mengambang di atas aplikasi lain.</string>
+    <string name="overlay_card_allow">Izinkan</string>
+    <string name="overlay_guide_message">Aktifkan \"Izinkan tampil di atas aplikasi lain\" untuk aplikasi ini</string>
 </resources>

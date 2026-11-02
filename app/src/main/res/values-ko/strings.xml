@@ -639,4 +639,7 @@
     <string name="report_done">완료</string>
     <string name="report_title">정리 보고서</string>
     <string name="default_home_guide_text">탭하여 기본 홈 앱으로 설정</string>
+    <string name="overlay_card_message">다른 앱 위에 플로팅 사진 도구를 표시하려면 오버레이 권한을 허용해 주세요.</string>
+    <string name="overlay_card_allow">허용</string>
+    <string name="overlay_guide_message">이 앱의 \"다른 앱 위에 표시\"를 켜세요</string>
 </resources>

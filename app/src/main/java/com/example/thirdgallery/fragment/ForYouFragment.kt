@@ -9,6 +9,8 @@ import android.content.IntentFilter
 import android.os.Build
 import android.os.Bundle
 import android.os.SystemClock
+import com.example.thirdgallery.activity.OverlayPermissionGuideActivity
+import com.example.thirdgallery.helper.OverlayPermission
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -53,6 +55,7 @@ class ForYouFragment : Fragment() {
 
     private val highlightAdapter = HighlightAdapter { openHighlight(it) }
     private var lastOpenAt = 0L
+    private var lastOverlayAskAt = 0L
     private val peopleAdapter = PeopleAdapter(onOpen = { openPerson(it) }, onRename = { renamePerson(it) })
     private val placeAdapter = PlaceAdapter { openPlace(it) }
 
@@ -74,6 +77,8 @@ class ForYouFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val b = binding ?: return
+
+        b.btnAllowOverlay.setOnClickListener { askOverlay() }
 
         b.rvHighlights.adapter = highlightAdapter
         b.rvPeople.adapter = peopleAdapter
@@ -268,6 +273,36 @@ class ForYouFragment : Fragment() {
         startActivity(HighlightsDetailActivity.intent(context, card))
     }
 
+    override fun onResume() {
+        super.onResume()
+        // Back from the system settings (or any other screen): the permission is read again, never remembered.
+        showOverlayCard()
+    }
+
+    /** The card is shown while "Display over other apps" is not granted; the guide closes itself once it is. */
+    private fun showOverlayCard() {
+        val b = binding ?: return
+        b.cardOverlayPermission.visibility = if (OverlayPermission.isGranted(context)) View.GONE else View.VISIBLE
+    }
+
+    private fun askOverlay() {
+        val context = context ?: return
+        if (OverlayPermission.isGranted(context)) {
+            showOverlayCard()
+            return
+        }
+        val now = SystemClock.elapsedRealtime()
+        if (now - lastOverlayAskAt < OVERLAY_ASK_GAP_MS) return
+        lastOverlayAskAt = now
+        try {
+            startActivity(OverlayPermission.settingsIntent(context))
+            // The tutorial card goes over the system screen; it ends itself when the permission is granted.
+            OverlayPermissionGuideActivity.show(context)
+        } catch (e: Exception) {
+            // No such settings page on this phone: the card simply stays.
+        }
+    }
+
     override fun onStart() {
         super.onStart()
         // Cards come and go by date (Monday/Tuesday, the 1st to the 3rd...): rebuild when the screen returns
@@ -316,6 +351,7 @@ class ForYouFragment : Fragment() {
 
     private companion object {
         const val OPEN_GAP_MS = 600L
+        const val OVERLAY_ASK_GAP_MS = 1_500L
         const val MAX_PEOPLE = 6
         const val MAX_PLACES = 6
         const val COVER_PX = 600

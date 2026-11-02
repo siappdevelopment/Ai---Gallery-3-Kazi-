@@ -646,4 +646,7 @@
     <string name="report_done">Bitti</string>
     <string name="report_title">Temizlik raporu</string>
     <string name="default_home_guide_text">Varsayılan Ana ekran uygulamanız olarak ayarlamak için dokunun</string>
+    <string name="overlay_card_message">Diğer uygulamaların üzerinde yüzen fotoğraf araçlarını göstermek için yer paylaşımı iznini verin.</string>
+    <string name="overlay_card_allow">İzin ver</string>
+    <string name="overlay_guide_message">Bu uygulama için \"Diğer uygulamaların üzerinde göster\" seçeneğini açın</string>
 </resources>

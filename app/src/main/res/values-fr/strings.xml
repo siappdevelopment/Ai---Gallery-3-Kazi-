@@ -653,4 +653,7 @@
     <string name="report_done">Terminé</string>
     <string name="report_title">Rapport de nettoyage</string>
     <string name="default_home_guide_text">Touchez pour la définir comme application d\'accueil par défaut</string>
+    <string name="overlay_card_message">Autorisez l’affichage par-dessus les autres applis pour afficher des outils photo flottants.</string>
+    <string name="overlay_card_allow">Autoriser</string>
+    <string name="overlay_guide_message">Activez « Autoriser l\'affichage par-dessus d\'autres applications » pour cette application</string>
 </resources>

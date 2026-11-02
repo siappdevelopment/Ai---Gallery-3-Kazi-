@@ -646,4 +646,7 @@
     <string name="report_done">Τέλος</string>
     <string name="report_title">Αναφορά καθαρισμού</string>
     <string name="default_home_guide_text">Πατήστε για ορισμό ως προεπιλεγμένης αρχικής εφαρμογής</string>
+    <string name="overlay_card_message">Επιτρέψτε την άδεια εμφάνισης πάνω από άλλες εφαρμογές για να εμφανίζονται πλωτά εργαλεία φωτογραφιών.</string>
+    <string name="overlay_card_allow">Να επιτρέπεται</string>
+    <string name="overlay_guide_message">Ενεργοποιήστε το «Να επιτρέπεται η εμφάνιση πάνω από άλλες εφαρμογές» για αυτήν την εφαρμογή</string>
 </resources>

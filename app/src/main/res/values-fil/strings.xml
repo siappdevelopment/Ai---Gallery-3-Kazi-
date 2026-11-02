@@ -646,4 +646,7 @@
     <string name="report_done">Tapos na</string>
     <string name="report_title">Ulat ng paglilinis</string>
     <string name="default_home_guide_text">I-tap para itakda bilang iyong default na Home app</string>
+    <string name="overlay_card_message">Payagan ang overlay permission para maipakita ang mga lumulutang na photo tool sa ibabaw ng ibang app.</string>
+    <string name="overlay_card_allow">Payagan</string>
+    <string name="overlay_guide_message">I-on ang \"Payagan ang pagpapakita sa ibabaw ng ibang app\" para sa app na ito</string>
 </resources>

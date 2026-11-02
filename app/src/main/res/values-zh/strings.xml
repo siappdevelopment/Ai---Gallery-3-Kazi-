@@ -639,4 +639,7 @@
     <string name="report_done">完成</string>
     <string name="report_title">清理报告</string>
     <string name="default_home_guide_text">点按即可设为默认主屏幕应用</string>
+    <string name="overlay_card_message">允许悬浮窗权限，以便在其他应用上方显示悬浮的照片工具。</string>
+    <string name="overlay_card_allow">允许</string>
+    <string name="overlay_guide_message">请为此应用开启“显示在其他应用上层”</string>
 </resources>

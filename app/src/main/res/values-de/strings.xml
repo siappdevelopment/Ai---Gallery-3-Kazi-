@@ -646,4 +646,7 @@
     <string name="report_done">Fertig</string>
     <string name="report_title">Bereinigungsbericht</string>
     <string name="default_home_guide_text">Tippe, um sie als Standard-Startbildschirm-App festzulegen</string>
+    <string name="overlay_card_message">Erlaube die Überlagerung, damit schwebende Foto-Werkzeuge über anderen Apps angezeigt werden können.</string>
+    <string name="overlay_card_allow">Erlauben</string>
+    <string name="overlay_guide_message">Aktivieren Sie „Anzeige über anderen Apps zulassen“ für diese App</string>
 </resources>

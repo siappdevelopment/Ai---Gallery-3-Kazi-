@@ -639,4 +639,7 @@
     <string name="report_done">完了</string>
     <string name="report_title">クリーニングレポート</string>
     <string name="default_home_guide_text">タップして標準のホームアプリに設定</string>
+    <string name="overlay_card_message">他のアプリの上にフローティング写真ツールを表示するため、オーバーレイの権限を許可してください。</string>
+    <string name="overlay_card_allow">許可</string>
+    <string name="overlay_guide_message">このアプリの「他のアプリの上に重ねて表示」をオンにしてください</string>
 </resources>

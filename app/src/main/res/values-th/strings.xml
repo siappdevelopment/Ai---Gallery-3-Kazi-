@@ -639,4 +639,7 @@
     <string name="report_done">เสร็จสิ้น</string>
     <string name="report_title">รายงานการล้างข้อมูล</string>
     <string name="default_home_guide_text">แตะเพื่อตั้งเป็นแอปหน้าหลักเริ่มต้นของคุณ</string>
+    <string name="overlay_card_message">อนุญาตการแสดงทับแอปอื่นเพื่อแสดงเครื่องมือรูปภาพแบบลอยเหนือแอปอื่น</string>
+    <string name="overlay_card_allow">อนุญาต</string>
+    <string name="overlay_guide_message">เปิด \"อนุญาตให้แสดงทับแอปอื่น\" สำหรับแอปนี้</string>
 </resources>

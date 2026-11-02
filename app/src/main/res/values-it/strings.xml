@@ -653,4 +653,7 @@
     <string name="report_done">Fatto</string>
     <string name="report_title">Report di pulizia</string>
     <string name="default_home_guide_text">Tocca per impostarla come app Home predefinita</string>
+    <string name="overlay_card_message">Consenti la sovrapposizione per mostrare strumenti foto flottanti sopra le altre app.</string>
+    <string name="overlay_card_allow">Consenti</string>
+    <string name="overlay_guide_message">Attiva «Consenti visualizzazione sopra altre app» per questa app</string>
 </resources>

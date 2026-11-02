@@ -653,4 +653,7 @@
     <string name="report_done">Hecho</string>
     <string name="report_title">Informe de limpieza</string>
     <string name="default_home_guide_text">Toca para establecerla como tu app de inicio predeterminada</string>
+    <string name="overlay_card_message">Permite superponer sobre otras apps para mostrar herramientas flotantes de fotos.</string>
+    <string name="overlay_card_allow">Permitir</string>
+    <string name="overlay_guide_message">Activa «Permitir mostrar sobre otras aplicaciones» para esta aplicación</string>
 </resources>

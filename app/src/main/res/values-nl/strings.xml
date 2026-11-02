@@ -646,4 +646,7 @@
     <string name="report_done">Klaar</string>
     <string name="report_title">Opschoonrapport</string>
     <string name="default_home_guide_text">Tik om in te stellen als je standaard startscherm-app</string>
+    <string name="overlay_card_message">Sta overlay toe om zwevende fototools over andere apps weer te geven.</string>
+    <string name="overlay_card_allow">Toestaan</string>
+    <string name="overlay_guide_message">Zet \"Weergave over andere apps toestaan\" aan voor deze app</string>
 </resources>

@@ -19,6 +19,11 @@
         <item name="android:windowNoTitle">true</item>
     </style>
 
+    <!-- Same floating card, no dim: the toggle of the system screen must stay fully visible. -->
+    <style name="Theme.ThirdGallery.OverlayGuide" parent="Theme.ThirdGallery.DefaultHomeGuide">
+        <item name="android:backgroundDimEnabled">false</item>
+    </style>
+
     <style name="ShapeAppearance.ThirdGallery.IntroTileLarge" parent="">
         <item name="cornerFamily">rounded</item>
         <item name="cornerSize">15dp</item>

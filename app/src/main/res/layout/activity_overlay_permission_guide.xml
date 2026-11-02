@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Guide card at the bottom, over the system "Display over other apps" screen: the app icon and name, the hint, and a small
+     animation of the toggle being switched on (the hand taps, the thumb slides right, the track turns blue). -->
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:id="@+id/guideRoot"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:background="@drawable/bg_default_home_guide"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:padding="20dp">
+
+        <ImageView
+            android:id="@+id/guideIcon"
+            android:layout_width="56dp"
+            android:layout_height="56dp"
+            android:contentDescription="@null"
+            android:src="@drawable/ic_splash_logo" />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/guideName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:textColor="@color/splash_text_primary"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:text="@string/overlay_guide_message"
+                android:textColor="@color/splash_text_secondary"
+                android:textSize="12.5sp" />
+        </LinearLayout>
+
+        <FrameLayout
+            android:layout_width="76dp"
+            android:layout_height="138dp"
+            android:clipChildren="false"
+            android:clipToPadding="false">
+
+            <!-- Toggle switch: the "on" track fades in over the "off" track while the thumb slides right. -->
+            <FrameLayout
+                android:layout_width="56dp"
+                android:layout_height="32dp"
+                android:layout_gravity="center">
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/bg_overlay_guide_track_off" />
+
+                <View
+                    android:id="@+id/guideTrackOn"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:alpha="0"
+                    android:background="@drawable/bg_overlay_guide_track_on" />
+
+                <View
+                    android:id="@+id/guideThumb"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_gravity="start|center_vertical"
+                    android:layout_marginStart="4dp"
+                    android:background="@drawable/bg_overlay_guide_thumb" />
+            </FrameLayout>
+
+            <TextView
+                android:id="@+id/guideHand"
+                android:layout_width="60dp"
+                android:layout_height="69dp"
+                android:layout_gravity="top|center_horizontal"
+                android:layout_marginTop="69dp"
+                android:fontFamily="sans"
+                android:gravity="top|center_horizontal"
+                android:includeFontPadding="false"
+                android:text="@string/home_selection_tap_hand"
+                android:textSize="52sp" />
+        </FrameLayout>
+    </LinearLayout>
+</FrameLayout>

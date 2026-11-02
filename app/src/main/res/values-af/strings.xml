@@ -646,4 +646,7 @@
     <string name="report_done">Klaar</string>
     <string name="report_title">Skoonmaakverslag</string>
     <string name="default_home_guide_text">Tik om as jou verstek-tuisprogram te stel</string>
+    <string name="overlay_card_message">Laat oorlegtoestemming toe om swewende fotogereedskap oor ander toepassings te wys.</string>
+    <string name="overlay_card_allow">Laat toe</string>
+    <string name="overlay_guide_message">Skakel \"Laat vertoning oor ander toepassings toe\" vir hierdie toepassing aan</string>
 </resources>

@@ -645,4 +645,7 @@
     <string name="report_done">Done</string>
     <string name="report_title">Cleaning report</string>
     <string name="default_home_guide_text">Tap to set as your default Home app</string>
+    <string name="overlay_card_message">Allow overlay permission to display floating photo tools over other apps.</string>
+    <string name="overlay_card_allow">Allow</string>
+    <string name="overlay_guide_message">Turn on \"Allow display over other apps\" for this app</string>
 </resources>

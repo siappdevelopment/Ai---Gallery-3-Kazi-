@@ -192,6 +192,14 @@
             android:exported="false"
             android:noHistory="true"
             android:theme="@style/Theme.ThirdGallery.DefaultHomeGuide" />
+        <!-- Tutorial card over the system "Display over other apps" screen; never a Recents entry of its own. -->
+        <activity
+            android:name=".activity.OverlayPermissionGuideActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden|screenLayout"
+            android:excludeFromRecents="true"
+            android:exported="false"
+            android:noHistory="true"
+            android:theme="@style/Theme.ThirdGallery.OverlayGuide" />
         <activity
             android:name=".activity.DefaultAppActivity"
             android:exported="false"

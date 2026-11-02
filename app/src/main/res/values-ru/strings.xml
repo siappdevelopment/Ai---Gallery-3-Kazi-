@@ -660,4 +660,7 @@
     <string name="report_done">Готово</string>
     <string name="report_title">Отчёт об очистке</string>
     <string name="default_home_guide_text">Нажмите, чтобы выбрать основным приложением главного экрана</string>
+    <string name="overlay_card_message">Разрешите наложение, чтобы показывать плавающие инструменты для фото поверх других приложений.</string>
+    <string name="overlay_card_allow">Разрешить</string>
+    <string name="overlay_guide_message">Включите «Показ поверх других приложений» для этого приложения</string>
 </resources>
