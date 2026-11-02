@@ -56,13 +56,11 @@ class LauncherHomeActivity : AppCompatActivity(), LauncherHost, LauncherSettings
     private var maxFling = 0
 
     private var wallpaperRefreshPending = false
-    private var roleStartedAt = 0L
-    private var roleIsSettings = false
 
     /** The call summary screen needs phone access to know when a call ends; asked once, the answer is kept by the system. */
     private val phoneAccessLauncher = registerForActivityResult(ActivityResultContracts.RequestPermission()) { }
 
-    private val roleLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { onRoleResult() }
+    private val defaultHome = DefaultHomeRequest(this) { onRoleResult() }
 
     private val packageReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context, intent: Intent) {
@@ -95,10 +93,17 @@ class LauncherHomeActivity : AppCompatActivity(), LauncherHost, LauncherSettings
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        askPhoneAccessOnce(savedInstanceState)
         // A translucent surface is cleared between frames; an opaque one piles up old frames after a recreate.
         window.setFormat(PixelFormat.TRANSLUCENT)
         super.onCreate(savedInstanceState)
+        // The Home key or a widget can reach the launcher before the onboarding (permissions, default app) is finished:
+        // the screen of the step the user is on opens instead (not the splash: it would show a second time).
+        if (com.example.thirdgallery.helper.OnboardingPrefs.getStep(this) != com.example.thirdgallery.helper.OnboardingPrefs.STEP_DONE) {
+            startActivity(com.example.thirdgallery.helper.OnboardingRouter.resume(this))
+            finish()
+            return
+        }
+        askPhoneAccessOnce(savedInstanceState)
         enableEdgeToEdge(
             statusBarStyle = SystemBarStyle.dark(Color.TRANSPARENT),
             navigationBarStyle = SystemBarStyle.dark(Color.TRANSPARENT),
@@ -335,38 +340,12 @@ class LauncherHomeActivity : AppCompatActivity(), LauncherHost, LauncherSettings
 
     // ---- default launcher ----
 
-    override fun requestDefaultLauncher() {
-        val intent = LauncherNav.defaultHomeIntent(this)
-        if (intent == null) {
-            Toast.makeText(applicationContext, R.string.settings_open_failed, Toast.LENGTH_SHORT).show()
-            return
-        }
-        roleIsSettings = intent.action != null && intent.action != "android.app.role.action.REQUEST_ROLE"
-        roleStartedAt = SystemClock.elapsedRealtime()
-        try {
-            roleLauncher.launch(intent)
-        } catch (e: Exception) {
-            Toast.makeText(applicationContext, R.string.settings_open_failed, Toast.LENGTH_SHORT).show()
-        }
-    }
+    override fun requestDefaultLauncher() = defaultHome.request()
 
     /** The state is read from the system, never from the result code. */
     private fun onRoleResult() {
         binding?.appsDrawer?.refreshDefaultPromo()
         homeFragment()?.refreshDefaultPromo()
-        if (LauncherNav.isDefaultHome(this) || roleIsSettings) return
-        // A role dialog that closes almost at once was skipped by the system: send the user to the Home settings.
-        if (SystemClock.elapsedRealtime() - roleStartedAt < SILENT_CANCEL_MS) {
-            LauncherNav.homeSettingsIntent(this)?.let {
-                roleIsSettings = true
-                roleStartedAt = SystemClock.elapsedRealtime()
-                try {
-                    roleLauncher.launch(it)
-                } catch (e: Exception) {
-                    // Nothing more to try.
-                }
-            }
-        }
     }
 
     // ---- pager ----
@@ -386,7 +365,6 @@ class LauncherHomeActivity : AppCompatActivity(), LauncherHost, LauncherSettings
         private const val GESTURE_DRAWER = 1
         private const val GESTURE_PAGER = 2
         private const val VERTICAL_DOMINANCE = 1.35f
-        private const val SILENT_CANCEL_MS = 800L
 
         fun intent(context: Context): Intent = Intent(context, LauncherHomeActivity::class.java)
     }

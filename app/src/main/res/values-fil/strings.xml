@@ -619,4 +619,20 @@
     <string name="callend_recent">Kamakailan</string>
     <string name="callend_unknown_number">Hindi kilalang numero</string>
     <string name="callend_duration">Tagal: %1$s</string>
+    <string name="onb_default_title">Gawing default ang Gallery</string>
+    <string name="onb_default_desc">Buksan ang bawat larawan at video diretso sa Gallery, nang walang app picker sa bawat pagkakataon</string>
+    <string name="onb_opt_other_launcher">Ibang App Launcher</string>
+    <string name="onb_opt_gallery_app">Gallery app</string>
+    <string name="onb_opt_system_launcher">System Launcher</string>
+    <string name="onb_media_title">Kinakailangang pahintulot</string>
+    <string name="onb_media_desc">Kailangan para maipakita at maisaayos ang iyong mga larawan at video sa isang lugar</string>
+    <string name="onb_media_cta">Payagan ang pahintulot</string>
+    <string name="onb_opt_dont_allow">Huwag payagan</string>
+    <string name="onb_opt_allow_all">Payagan ang lahat ng larawan at video</string>
+    <string name="onb_opt_allow_limited">Payagan ang limitadong access</string>
+    <string name="onb_noti_title">Manatiling updated</string>
+    <string name="onb_noti_desc">Hanggang isa o dalawang banayad na alerto kada linggo kapag handa na ang bagong highlight</string>
+    <string name="onb_opt_mute">I-mute ang mga alaala</string>
+    <string name="onb_opt_allow_noti">Payagan ang mga notification</string>
+    <string name="onb_opt_weekly">Lingguhang buod lang</string>
 </resources>

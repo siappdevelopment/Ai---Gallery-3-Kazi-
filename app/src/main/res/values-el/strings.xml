@@ -619,4 +619,20 @@
     <string name="callend_recent">Πρόσφατα</string>
     <string name="callend_unknown_number">Άγνωστος αριθμός</string>
     <string name="callend_duration">Διάρκεια: %1$s</string>
+    <string name="onb_default_title">Ορισμός της Συλλογής ως προεπιλογής</string>
+    <string name="onb_default_desc">Ανοίξτε κάθε φωτογραφία και βίντεο απευθείας στη Συλλογή, χωρίς επιλογέα εφαρμογής κάθε φορά</string>
+    <string name="onb_opt_other_launcher">Άλλο πρόγραμμα εκκίνησης</string>
+    <string name="onb_opt_gallery_app">Εφαρμογή Συλλογής</string>
+    <string name="onb_opt_system_launcher">Πρόγραμμα εκκίνησης συστήματος</string>
+    <string name="onb_media_title">Απαιτούμενη άδεια</string>
+    <string name="onb_media_desc">Απαραίτητη για την εμφάνιση και οργάνωση των φωτογραφιών και βίντεό σας σε ένα σημείο</string>
+    <string name="onb_media_cta">Να επιτραπεί η άδεια</string>
+    <string name="onb_opt_dont_allow">Να μην επιτραπεί</string>
+    <string name="onb_opt_allow_all">Να επιτραπούν όλες οι φωτογραφίες και τα βίντεο</string>
+    <string name="onb_opt_allow_limited">Να επιτραπεί περιορισμένη πρόσβαση</string>
+    <string name="onb_noti_title">Μείνετε ενημερωμένοι</string>
+    <string name="onb_noti_desc">Το πολύ μία ή δύο διακριτικές ειδοποιήσεις την εβδομάδα όταν είναι έτοιμο ένα νέο highlight</string>
+    <string name="onb_opt_mute">Σίγαση αναμνήσεων</string>
+    <string name="onb_opt_allow_noti">Να επιτρέπονται οι ειδοποιήσεις</string>
+    <string name="onb_opt_weekly">Μόνο εβδομαδιαία σύνοψη</string>
 </resources>

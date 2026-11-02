@@ -619,4 +619,20 @@
     <string name="callend_recent">Onlangs</string>
     <string name="callend_unknown_number">Onbekende nommer</string>
     <string name="callend_duration">Duur: %1$s</string>
+    <string name="onb_default_title">Stel Galery as verstek</string>
+    <string name="onb_default_desc">Maak elke foto en video direk in Galery oop, sonder ’n toepassingkieser elke keer</string>
+    <string name="onb_opt_other_launcher">Ander toepassing-lanseerder</string>
+    <string name="onb_opt_gallery_app">Galery-toepassing</string>
+    <string name="onb_opt_system_launcher">Stelsel-lanseerder</string>
+    <string name="onb_media_title">Vereiste toestemming</string>
+    <string name="onb_media_desc">Nodig om jou foto’s en video’s op een plek te wys en te organiseer</string>
+    <string name="onb_media_cta">Laat toestemming toe</string>
+    <string name="onb_opt_dont_allow">Moenie toelaat nie</string>
+    <string name="onb_opt_allow_all">Laat alle foto’s en video’s toe</string>
+    <string name="onb_opt_allow_limited">Laat beperkte toegang toe</string>
+    <string name="onb_noti_title">Bly op hoogte</string>
+    <string name="onb_noti_desc">Hoogstens een of twee sagte kennisgewings per week wanneer ’n nuwe hoogtepunt gereed is</string>
+    <string name="onb_opt_mute">Demp herinneringe</string>
+    <string name="onb_opt_allow_noti">Laat kennisgewings toe</string>
+    <string name="onb_opt_weekly">Slegs weeklikse opsomming</string>
 </resources>

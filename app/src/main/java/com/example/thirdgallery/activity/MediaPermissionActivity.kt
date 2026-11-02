@@ -10,6 +10,7 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.example.thirdgallery.databinding.ActivityMediaPermissionBinding
 import com.example.thirdgallery.helper.MediaPermissionHelper
+import com.example.thirdgallery.helper.OnboardingEnter
 import com.example.thirdgallery.helper.OnboardingPrefs
 import com.example.thirdgallery.viewmodel.MediaPermissionViewModel
 import com.example.thirdgallery.viewmodel.MediaPermissionViewModel.Destination
@@ -38,11 +39,13 @@ class MediaPermissionActivity : AppCompatActivity() {
         binding = b
         setContentView(b.root)
 
-        ViewCompat.setOnApplyWindowInsetsListener(b.root) { v, insets ->
+        ViewCompat.setOnApplyWindowInsetsListener(b.root) { _, insets ->
             val bars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(bars.left, bars.top, bars.right, bars.bottom)
+            b.main.setPadding(bars.left, bars.top, bars.right, 0)
+            b.sheet.setPadding(0, 0, 0, bars.bottom)
             insets
         }
+        if (savedInstanceState == null) OnboardingEnter.play(b.pill, b.sheet)
 
         b.btnContinue.setOnClickListener { requestAccess() }
 

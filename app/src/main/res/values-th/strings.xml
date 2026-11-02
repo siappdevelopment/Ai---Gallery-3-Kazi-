@@ -612,4 +612,20 @@
     <string name="callend_recent">ล่าสุด</string>
     <string name="callend_unknown_number">หมายเลขที่ไม่รู้จัก</string>
     <string name="callend_duration">ระยะเวลา: %1$s</string>
+    <string name="onb_default_title">ตั้งแกลเลอรีเป็นค่าเริ่มต้น</string>
+    <string name="onb_default_desc">เปิดรูปภาพและวิดีโอทุกรายการในแกลเลอรีโดยตรง ไม่ต้องเลือกแอปทุกครั้ง</string>
+    <string name="onb_opt_other_launcher">แอปตัวเปิดอื่น</string>
+    <string name="onb_opt_gallery_app">แอปแกลเลอรี</string>
+    <string name="onb_opt_system_launcher">ตัวเปิดของระบบ</string>
+    <string name="onb_media_title">การอนุญาตที่จำเป็น</string>
+    <string name="onb_media_desc">จำเป็นสำหรับแสดงและจัดระเบียบรูปภาพและวิดีโอของคุณในที่เดียว</string>
+    <string name="onb_media_cta">อนุญาต</string>
+    <string name="onb_opt_dont_allow">ไม่อนุญาต</string>
+    <string name="onb_opt_allow_all">อนุญาตรูปภาพและวิดีโอทั้งหมด</string>
+    <string name="onb_opt_allow_limited">อนุญาตการเข้าถึงแบบจำกัด</string>
+    <string name="onb_noti_title">ไม่พลาดทุกเรื่องราว</string>
+    <string name="onb_noti_desc">แจ้งเตือนเบา ๆ สัปดาห์ละไม่เกินหนึ่งถึงสองครั้งเมื่อไฮไลต์ใหม่พร้อม</string>
+    <string name="onb_opt_mute">ปิดเสียงความทรงจำ</string>
+    <string name="onb_opt_allow_noti">อนุญาตการแจ้งเตือน</string>
+    <string name="onb_opt_weekly">เฉพาะสรุปรายสัปดาห์</string>
 </resources>

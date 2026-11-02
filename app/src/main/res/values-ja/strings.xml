@@ -612,4 +612,20 @@
     <string name="callend_recent">最近</string>
     <string name="callend_unknown_number">不明な番号</string>
     <string name="callend_duration">通話時間: %1$s</string>
+    <string name="onb_default_title">ギャラリーを既定に設定</string>
+    <string name="onb_default_desc">すべての写真と動画を、毎回アプリを選ばずにギャラリーで直接開きます</string>
+    <string name="onb_opt_other_launcher">別のホームアプリ</string>
+    <string name="onb_opt_gallery_app">ギャラリーアプリ</string>
+    <string name="onb_opt_system_launcher">システムのホームアプリ</string>
+    <string name="onb_media_title">必要な権限</string>
+    <string name="onb_media_desc">写真と動画を一か所で表示・整理するために必要です</string>
+    <string name="onb_media_cta">権限を許可</string>
+    <string name="onb_opt_dont_allow">許可しない</string>
+    <string name="onb_opt_allow_all">すべての写真と動画を許可</string>
+    <string name="onb_opt_allow_limited">制限付きアクセスを許可</string>
+    <string name="onb_noti_title">最新情報をお届け</string>
+    <string name="onb_noti_desc">新しいハイライトの準備ができたときに、週に1〜2回までお知らせします</string>
+    <string name="onb_opt_mute">思い出を通知しない</string>
+    <string name="onb_opt_allow_noti">通知を許可</string>
+    <string name="onb_opt_weekly">週間サマリーのみ</string>
 </resources>

@@ -612,4 +612,20 @@
     <string name="callend_recent">Terbaru</string>
     <string name="callend_unknown_number">Nomor tidak dikenal</string>
     <string name="callend_duration">Durasi: %1$s</string>
+    <string name="onb_default_title">Jadikan Galeri sebagai default</string>
+    <string name="onb_default_desc">Buka setiap foto dan video langsung di Galeri, tanpa memilih aplikasi setiap kali</string>
+    <string name="onb_opt_other_launcher">Peluncur aplikasi lain</string>
+    <string name="onb_opt_gallery_app">Aplikasi Galeri</string>
+    <string name="onb_opt_system_launcher">Peluncur sistem</string>
+    <string name="onb_media_title">Izin diperlukan</string>
+    <string name="onb_media_desc">Diperlukan untuk menampilkan dan mengatur foto dan video Anda di satu tempat</string>
+    <string name="onb_media_cta">Izinkan akses</string>
+    <string name="onb_opt_dont_allow">Jangan izinkan</string>
+    <string name="onb_opt_allow_all">Izinkan semua foto &amp; video</string>
+    <string name="onb_opt_allow_limited">Izinkan akses terbatas</string>
+    <string name="onb_noti_title">Tetap terhubung</string>
+    <string name="onb_noti_desc">Paling banyak satu atau dua pemberitahuan lembut per minggu saat sorotan baru siap</string>
+    <string name="onb_opt_mute">Bisukan kenangan</string>
+    <string name="onb_opt_allow_noti">Izinkan notifikasi</string>
+    <string name="onb_opt_weekly">Hanya ringkasan mingguan</string>
 </resources>

@@ -633,4 +633,20 @@
     <string name="callend_recent">Недавние</string>
     <string name="callend_unknown_number">Неизвестный номер</string>
     <string name="callend_duration">Длительность: %1$s</string>
+    <string name="onb_default_title">Сделать Галерею приложением по умолчанию</string>
+    <string name="onb_default_desc">Открывайте каждое фото и видео сразу в Галерее, без выбора приложения каждый раз</string>
+    <string name="onb_opt_other_launcher">Другое приложение-лаунчер</string>
+    <string name="onb_opt_gallery_app">Приложение «Галерея»</string>
+    <string name="onb_opt_system_launcher">Системный лаунчер</string>
+    <string name="onb_media_title">Необходимое разрешение</string>
+    <string name="onb_media_desc">Нужно, чтобы показывать и упорядочивать ваши фото и видео в одном месте</string>
+    <string name="onb_media_cta">Разрешить доступ</string>
+    <string name="onb_opt_dont_allow">Не разрешать</string>
+    <string name="onb_opt_allow_all">Разрешить все фото и видео</string>
+    <string name="onb_opt_allow_limited">Разрешить ограниченный доступ</string>
+    <string name="onb_noti_title">Будьте в курсе</string>
+    <string name="onb_noti_desc">Не более одного-двух ненавязчивых уведомлений в неделю, когда готова новая подборка</string>
+    <string name="onb_opt_mute">Отключить воспоминания</string>
+    <string name="onb_opt_allow_noti">Разрешить уведомления</string>
+    <string name="onb_opt_weekly">Только еженедельная сводка</string>
 </resources>

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- The mini phone of the design: white, 30dp corners, a 5dp black frame -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android" android:shape="rectangle">
+    <solid android:color="#FFFFFFFF" />
+    <stroke
+        android:width="5dp"
+        android:color="#FF161616" />
+    <corners android:radius="30dp" />
+</shape>

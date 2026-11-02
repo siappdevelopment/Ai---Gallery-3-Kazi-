@@ -618,4 +618,20 @@
     <string name="callend_recent">Recent</string>
     <string name="callend_unknown_number">Unknown number</string>
     <string name="callend_duration">Duration: %1$s</string>
+    <string name="onb_default_title">Set Gallery as default</string>
+    <string name="onb_default_desc">Open every photo and video straight in Gallery, with no app picker each time</string>
+    <string name="onb_opt_other_launcher">Other App Launcher</string>
+    <string name="onb_opt_gallery_app">Gallery app</string>
+    <string name="onb_opt_system_launcher">System Launcher</string>
+    <string name="onb_media_title">Required Permission</string>
+    <string name="onb_media_desc">Required to show and organise your photos and videos in one place</string>
+    <string name="onb_media_cta">Allow Permission</string>
+    <string name="onb_opt_dont_allow">Don’t allow</string>
+    <string name="onb_opt_allow_all">Allow all photos &amp; videos</string>
+    <string name="onb_opt_allow_limited">Allow limited access</string>
+    <string name="onb_noti_title">Stay in the loop</string>
+    <string name="onb_noti_desc">At most one or two gentle alerts a week when a new highlight is ready</string>
+    <string name="onb_opt_mute">Mute memories</string>
+    <string name="onb_opt_allow_noti">Allow notifications</string>
+    <string name="onb_opt_weekly">Weekly summary only</string>
 </resources>

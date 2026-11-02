@@ -10,7 +10,7 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.example.thirdgallery.R
 import com.example.thirdgallery.databinding.ActivitySplashBinding
-import com.example.thirdgallery.helper.OnboardingPrefs
+import com.example.thirdgallery.helper.OnboardingRouter
 import com.example.thirdgallery.launcher.LauncherHomeActivity
 
 class SplashActivity : AppCompatActivity() {
@@ -81,18 +81,7 @@ class SplashActivity : AppCompatActivity() {
     private fun navigateNext() {
         if (isFinishing || isDestroyed) return
         // Resume the onboarding flow where the user left off.
-        val next = when (OnboardingPrefs.getStep(this)) {
-            OnboardingPrefs.STEP_INTRO1 -> Intro1Activity::class.java
-            OnboardingPrefs.STEP_INTRO2 -> Intro2Activity::class.java
-            OnboardingPrefs.STEP_INTRO3 -> Intro3Activity::class.java
-            OnboardingPrefs.STEP_INTRO4 -> Intro4Activity::class.java
-            OnboardingPrefs.STEP_MEDIA -> MediaPermissionActivity::class.java
-            OnboardingPrefs.STEP_MEDIA_DENIED -> MediaDeniteActivity::class.java
-            OnboardingPrefs.STEP_NOTI -> NotiPermissionActivity::class.java
-            OnboardingPrefs.STEP_DONE -> LauncherHomeActivity::class.java
-            else -> LanguageActivity::class.java
-        }
-        startActivity(Intent(this, next))
+        startActivity(OnboardingRouter.intent(this))
         finish()
     }
 

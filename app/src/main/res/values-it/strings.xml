@@ -626,4 +626,20 @@
     <string name="callend_recent">Recenti</string>
     <string name="callend_unknown_number">Numero sconosciuto</string>
     <string name="callend_duration">Durata: %1$s</string>
+    <string name="onb_default_title">Imposta Galleria come predefinita</string>
+    <string name="onb_default_desc">Apri ogni foto e video direttamente in Galleria, senza scegliere un’app ogni volta</string>
+    <string name="onb_opt_other_launcher">Altro launcher</string>
+    <string name="onb_opt_gallery_app">App Galleria</string>
+    <string name="onb_opt_system_launcher">Launcher di sistema</string>
+    <string name="onb_media_title">Autorizzazione richiesta</string>
+    <string name="onb_media_desc">Necessaria per mostrare e organizzare foto e video in un unico posto</string>
+    <string name="onb_media_cta">Consenti accesso</string>
+    <string name="onb_opt_dont_allow">Non consentire</string>
+    <string name="onb_opt_allow_all">Consenti tutte le foto e i video</string>
+    <string name="onb_opt_allow_limited">Consenti accesso limitato</string>
+    <string name="onb_noti_title">Resta aggiornato</string>
+    <string name="onb_noti_desc">Al massimo uno o due avvisi discreti a settimana quando è pronto un nuovo momento da ricordare</string>
+    <string name="onb_opt_mute">Silenzia i ricordi</string>
+    <string name="onb_opt_allow_noti">Consenti notifiche</string>
+    <string name="onb_opt_weekly">Solo riepilogo settimanale</string>
 </resources>

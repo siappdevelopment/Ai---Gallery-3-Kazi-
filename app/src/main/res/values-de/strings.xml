@@ -619,4 +619,20 @@
     <string name="callend_recent">Zuletzt</string>
     <string name="callend_unknown_number">Unbekannte Nummer</string>
     <string name="callend_duration">Dauer: %1$s</string>
+    <string name="onb_default_title">Galerie als Standard festlegen</string>
+    <string name="onb_default_desc">Öffne jedes Foto und Video direkt in der Galerie, ohne jedes Mal eine App auszuwählen</string>
+    <string name="onb_opt_other_launcher">Andere Launcher-App</string>
+    <string name="onb_opt_gallery_app">Galerie-App</string>
+    <string name="onb_opt_system_launcher">System-Launcher</string>
+    <string name="onb_media_title">Erforderliche Berechtigung</string>
+    <string name="onb_media_desc">Erforderlich, um deine Fotos und Videos an einem Ort anzuzeigen und zu organisieren</string>
+    <string name="onb_media_cta">Berechtigung erteilen</string>
+    <string name="onb_opt_dont_allow">Nicht erlauben</string>
+    <string name="onb_opt_allow_all">Alle Fotos und Videos erlauben</string>
+    <string name="onb_opt_allow_limited">Eingeschränkten Zugriff erlauben</string>
+    <string name="onb_noti_title">Immer auf dem Laufenden</string>
+    <string name="onb_noti_desc">Höchstens ein bis zwei dezente Hinweise pro Woche, wenn ein neues Highlight bereit ist</string>
+    <string name="onb_opt_mute">Erinnerungen stummschalten</string>
+    <string name="onb_opt_allow_noti">Benachrichtigungen erlauben</string>
+    <string name="onb_opt_weekly">Nur wöchentliche Zusammenfassung</string>
 </resources>

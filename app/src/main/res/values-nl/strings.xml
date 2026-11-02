@@ -619,4 +619,20 @@
     <string name="callend_recent">Recent</string>
     <string name="callend_unknown_number">Onbekend nummer</string>
     <string name="callend_duration">Duur: %1$s</string>
+    <string name="onb_default_title">Galerij als standaard instellen</string>
+    <string name="onb_default_desc">Open elke foto en video direct in Galerij, zonder elke keer een app te kiezen</string>
+    <string name="onb_opt_other_launcher">Andere app-launcher</string>
+    <string name="onb_opt_gallery_app">Galerij-app</string>
+    <string name="onb_opt_system_launcher">Systeemlauncher</string>
+    <string name="onb_media_title">Vereiste toestemming</string>
+    <string name="onb_media_desc">Nodig om je foto’s en video’s op één plek te tonen en te ordenen</string>
+    <string name="onb_media_cta">Toestemming geven</string>
+    <string name="onb_opt_dont_allow">Niet toestaan</string>
+    <string name="onb_opt_allow_all">Alle foto’s en video’s toestaan</string>
+    <string name="onb_opt_allow_limited">Beperkte toegang toestaan</string>
+    <string name="onb_noti_title">Blijf op de hoogte</string>
+    <string name="onb_noti_desc">Hooguit een of twee rustige meldingen per week als er een nieuw hoogtepunt klaar is</string>
+    <string name="onb_opt_mute">Herinneringen dempen</string>
+    <string name="onb_opt_allow_noti">Meldingen toestaan</string>
+    <string name="onb_opt_weekly">Alleen wekelijks overzicht</string>
 </resources>

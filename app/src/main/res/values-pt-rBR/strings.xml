@@ -626,4 +626,20 @@
     <string name="callend_recent">Recentes</string>
     <string name="callend_unknown_number">Número desconhecido</string>
     <string name="callend_duration">Duração: %1$s</string>
+    <string name="onb_default_title">Definir Galeria como padrão</string>
+    <string name="onb_default_desc">Abra cada foto e vídeo direto na Galeria, sem escolher um app toda vez</string>
+    <string name="onb_opt_other_launcher">Outro launcher</string>
+    <string name="onb_opt_gallery_app">App Galeria</string>
+    <string name="onb_opt_system_launcher">Launcher do sistema</string>
+    <string name="onb_media_title">Permissão necessária</string>
+    <string name="onb_media_desc">Necessária para mostrar e organizar suas fotos e vídeos em um só lugar</string>
+    <string name="onb_media_cta">Permitir acesso</string>
+    <string name="onb_opt_dont_allow">Não permitir</string>
+    <string name="onb_opt_allow_all">Permitir todas as fotos e vídeos</string>
+    <string name="onb_opt_allow_limited">Permitir acesso limitado</string>
+    <string name="onb_noti_title">Fique por dentro</string>
+    <string name="onb_noti_desc">No máximo um ou dois alertas discretos por semana quando um novo destaque estiver pronto</string>
+    <string name="onb_opt_mute">Silenciar lembranças</string>
+    <string name="onb_opt_allow_noti">Permitir notificações</string>
+    <string name="onb_opt_weekly">Somente resumo semanal</string>
 </resources>

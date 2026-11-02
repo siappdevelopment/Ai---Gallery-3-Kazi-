@@ -619,4 +619,20 @@
     <string name="callend_recent">हाल का</string>
     <string name="callend_unknown_number">अज्ञात नंबर</string>
     <string name="callend_duration">अवधि: %1$s</string>
+    <string name="onb_default_title">गैलरी को डिफ़ॉल्ट बनाएँ</string>
+    <string name="onb_default_desc">हर फ़ोटो और वीडियो सीधे गैलरी में खोलें, हर बार ऐप चुनने की ज़रूरत नहीं</string>
+    <string name="onb_opt_other_launcher">अन्य ऐप लॉन्चर</string>
+    <string name="onb_opt_gallery_app">गैलरी ऐप</string>
+    <string name="onb_opt_system_launcher">सिस्टम लॉन्चर</string>
+    <string name="onb_media_title">आवश्यक अनुमति</string>
+    <string name="onb_media_desc">आपकी फ़ोटो और वीडियो को एक जगह दिखाने और व्यवस्थित करने के लिए ज़रूरी</string>
+    <string name="onb_media_cta">अनुमति दें</string>
+    <string name="onb_opt_dont_allow">अनुमति न दें</string>
+    <string name="onb_opt_allow_all">सभी फ़ोटो और वीडियो की अनुमति दें</string>
+    <string name="onb_opt_allow_limited">सीमित पहुँच की अनुमति दें</string>
+    <string name="onb_noti_title">जुड़े रहें</string>
+    <string name="onb_noti_desc">नया हाइलाइट तैयार होने पर हफ़्ते में अधिकतम एक या दो हल्की सूचनाएँ</string>
+    <string name="onb_opt_mute">यादें म्यूट करें</string>
+    <string name="onb_opt_allow_noti">सूचनाओं की अनुमति दें</string>
+    <string name="onb_opt_weekly">केवल साप्ताहिक सारांश</string>
 </resources>

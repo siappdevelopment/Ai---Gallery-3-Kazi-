@@ -12,7 +12,7 @@ import androidx.core.view.WindowInsetsCompat
 import com.example.thirdgallery.databinding.ActivityNotiPermissionBinding
 import com.example.thirdgallery.helper.MediaPermissionHelper
 import com.example.thirdgallery.helper.OnboardingPrefs
-import com.example.thirdgallery.launcher.LauncherHomeActivity
+import com.example.thirdgallery.helper.OnboardingEnter
 import com.example.thirdgallery.viewmodel.NotiPermissionViewModel
 
 class NotiPermissionActivity : AppCompatActivity() {
@@ -39,19 +39,22 @@ class NotiPermissionActivity : AppCompatActivity() {
         binding = b
         setContentView(b.root)
 
-        ViewCompat.setOnApplyWindowInsetsListener(b.root) { v, insets ->
+        ViewCompat.setOnApplyWindowInsetsListener(b.root) { _, insets ->
             val bars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(bars.left, bars.top, bars.right, bars.bottom)
+            b.main.setPadding(bars.left, bars.top, bars.right, 0)
+            b.sheet.setPadding(0, 0, 0, bars.bottom)
             insets
         }
+        if (savedInstanceState == null) OnboardingEnter.play(b.pill, b.sheet)
 
         b.btnTurnOn.setOnClickListener { requestNotifications() }
         b.btnNotNow.setOnClickListener { viewModel.onFinished() }
 
         viewModel.navigateNext.observe(this) { event ->
             event.getContentIfNotHandled()?.let {
-                OnboardingPrefs.setStep(this, OnboardingPrefs.STEP_DONE)
-                startActivity(Intent(this, LauncherHomeActivity::class.java))
+                // The permissions are done: the onboarding pages follow.
+                OnboardingPrefs.setStep(this, OnboardingPrefs.STEP_INTRO1)
+                startActivity(Intent(this, Intro1Activity::class.java))
                 finish()
             }
         }

@@ -9,6 +9,7 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.example.thirdgallery.databinding.ActivityIntro4Binding
 import com.example.thirdgallery.helper.OnboardingPrefs
+import com.example.thirdgallery.launcher.LauncherHomeActivity
 import com.example.thirdgallery.viewmodel.Intro4ViewModel
 
 class Intro4Activity : AppCompatActivity() {
@@ -35,10 +36,10 @@ class Intro4Activity : AppCompatActivity() {
         b.btnNext.setOnClickListener { viewModel.onGetStartedClicked() }
 
         viewModel.navigateNext.observe(this) { event ->
-            // Last onboarding page: continue to the permission flow.
+            // Last onboarding page: the onboarding is complete, on to the launcher.
             event.getContentIfNotHandled()?.let {
-                OnboardingPrefs.setStep(this, OnboardingPrefs.STEP_MEDIA)
-                startActivity(Intent(this, MediaPermissionActivity::class.java))
+                OnboardingPrefs.setStep(this, OnboardingPrefs.STEP_DONE)
+                startActivity(Intent(this, LauncherHomeActivity::class.java))
                 finish()
             }
         }

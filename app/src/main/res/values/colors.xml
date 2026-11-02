@@ -37,4 +37,8 @@
     <color name="vault_secure_bg">#FFE5F5EC</color>
     <color name="edit_muted">#FFBDBABA</color>
     <color name="edit_chip_text_on">#FF161616</color>
+    <color name="onb_background">#FFF0F0F0</color>
+    <color name="onb_option_text">#FF3E3B3B</color>
+    <color name="onb_radio_off">#FFE9E6E6</color>
+    <color name="onb_desc">#FF6B6767</color>
 </resources>

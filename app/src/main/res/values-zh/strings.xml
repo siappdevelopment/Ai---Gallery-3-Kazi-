@@ -612,4 +612,20 @@
     <string name="callend_recent">最近</string>
     <string name="callend_unknown_number">未知号码</string>
     <string name="callend_duration">时长：%1$s</string>
+    <string name="onb_default_title">将图库设为默认</string>
+    <string name="onb_default_desc">无需每次选择应用，直接在图库中打开每张照片和视频</string>
+    <string name="onb_opt_other_launcher">其他应用启动器</string>
+    <string name="onb_opt_gallery_app">图库应用</string>
+    <string name="onb_opt_system_launcher">系统启动器</string>
+    <string name="onb_media_title">必需权限</string>
+    <string name="onb_media_desc">用于在一个地方显示和整理你的照片和视频</string>
+    <string name="onb_media_cta">允许权限</string>
+    <string name="onb_opt_dont_allow">不允许</string>
+    <string name="onb_opt_allow_all">允许所有照片和视频</string>
+    <string name="onb_opt_allow_limited">允许有限访问</string>
+    <string name="onb_noti_title">随时掌握动态</string>
+    <string name="onb_noti_desc">新精彩回顾准备好时，每周最多一两条轻柔提醒</string>
+    <string name="onb_opt_mute">静音回忆</string>
+    <string name="onb_opt_allow_noti">允许通知</string>
+    <string name="onb_opt_weekly">仅每周摘要</string>
 </resources>

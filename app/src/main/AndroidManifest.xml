@@ -185,6 +185,10 @@
         </receiver>
 
         <activity
+            android:name=".activity.DefaultAppActivity"
+            android:exported="false"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".callend.CallEndActivity"
             android:excludeFromRecents="true"
             android:exported="false"

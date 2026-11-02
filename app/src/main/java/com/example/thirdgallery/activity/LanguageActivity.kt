@@ -95,6 +95,6 @@ class LanguageActivity : AppCompatActivity() {
         finish()
         LocaleHelper.apply(tag)
         // From Settings the language is all that changes; during onboarding the next step follows.
-        if (!viewModel.fromSettings) startActivity(Intent(this, Intro1Activity::class.java))
+        if (!viewModel.fromSettings) startActivity(Intent(this, MediaPermissionActivity::class.java))
     }
 }

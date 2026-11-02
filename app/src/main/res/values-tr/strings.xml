@@ -619,4 +619,20 @@
     <string name="callend_recent">Son</string>
     <string name="callend_unknown_number">Bilinmeyen numara</string>
     <string name="callend_duration">Süre: %1$s</string>
+    <string name="onb_default_title">Galeri’yi varsayılan yap</string>
+    <string name="onb_default_desc">Her fotoğrafı ve videoyu her seferinde uygulama seçmeden doğrudan Galeri’de açın</string>
+    <string name="onb_opt_other_launcher">Diğer uygulama başlatıcı</string>
+    <string name="onb_opt_gallery_app">Galeri uygulaması</string>
+    <string name="onb_opt_system_launcher">Sistem başlatıcı</string>
+    <string name="onb_media_title">Gerekli izin</string>
+    <string name="onb_media_desc">Fotoğraf ve videolarınızı tek yerde göstermek ve düzenlemek için gereklidir</string>
+    <string name="onb_media_cta">İzin ver</string>
+    <string name="onb_opt_dont_allow">İzin verme</string>
+    <string name="onb_opt_allow_all">Tüm fotoğraf ve videolara izin ver</string>
+    <string name="onb_opt_allow_limited">Sınırlı erişime izin ver</string>
+    <string name="onb_noti_title">Haberdar olun</string>
+    <string name="onb_noti_desc">Yeni bir öne çıkan hazır olduğunda haftada en fazla bir veya iki hafif uyarı</string>
+    <string name="onb_opt_mute">Anıları sessize al</string>
+    <string name="onb_opt_allow_noti">Bildirimlere izin ver</string>
+    <string name="onb_opt_weekly">Yalnızca haftalık özet</string>
 </resources>

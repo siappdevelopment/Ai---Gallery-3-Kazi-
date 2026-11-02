@@ -626,4 +626,20 @@
     <string name="callend_recent">Récent</string>
     <string name="callend_unknown_number">Numéro inconnu</string>
     <string name="callend_duration">Durée : %1$s</string>
+    <string name="onb_default_title">Définir Galerie par défaut</string>
+    <string name="onb_default_desc">Ouvrez chaque photo et vidéo directement dans Galerie, sans choisir une appli à chaque fois</string>
+    <string name="onb_opt_other_launcher">Autre lanceur</string>
+    <string name="onb_opt_gallery_app">Appli Galerie</string>
+    <string name="onb_opt_system_launcher">Lanceur système</string>
+    <string name="onb_media_title">Autorisation requise</string>
+    <string name="onb_media_desc">Nécessaire pour afficher et organiser vos photos et vidéos au même endroit</string>
+    <string name="onb_media_cta">Autoriser l’accès</string>
+    <string name="onb_opt_dont_allow">Ne pas autoriser</string>
+    <string name="onb_opt_allow_all">Autoriser toutes les photos et vidéos</string>
+    <string name="onb_opt_allow_limited">Autoriser l’accès limité</string>
+    <string name="onb_noti_title">Restez informé</string>
+    <string name="onb_noti_desc">Une ou deux alertes discrètes par semaine au maximum, quand un nouveau temps fort est prêt</string>
+    <string name="onb_opt_mute">Désactiver les souvenirs</string>
+    <string name="onb_opt_allow_noti">Autoriser les notifications</string>
+    <string name="onb_opt_weekly">Résumé hebdomadaire uniquement</string>
 </resources>
