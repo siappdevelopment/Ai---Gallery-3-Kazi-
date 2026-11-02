@@ -145,7 +145,7 @@ class FullScreenMediaActivity : AppCompatActivity() {
             Toast.makeText(applicationContext, R.string.albums_coming_soon, Toast.LENGTH_SHORT).show()
         }
         b.btnMoreTop.setOnClickListener { MoreOptionsBottomSheet.show(supportFragmentManager) }
-        b.actionEdit.setOnClickListener(comingSoon)
+        b.actionEdit.setOnClickListener { openEditor() }
         b.actionDetails.setOnClickListener { showDetails() }
         b.actionShare.setOnClickListener { share() }
         b.actionFavorite.setOnClickListener { toggleFavorite() }
@@ -343,6 +343,16 @@ class FullScreenMediaActivity : AppCompatActivity() {
         } catch (e: ActivityNotFoundException) {
             Toast.makeText(applicationContext, R.string.viewer_unsupported, Toast.LENGTH_SHORT).show()
         }
+    }
+
+    /** The Edit button: the photo editor for the photo on screen (videos cannot be edited). */
+    private fun openEditor() {
+        val media = current() ?: return
+        if (media.mediaType != MediaTypes.IMAGE) {
+            Toast.makeText(applicationContext, R.string.edit_photos_only, Toast.LENGTH_SHORT).show()
+            return
+        }
+        startActivity(EditMediaActivity.intent(this, media.uid))
     }
 
     private fun share() {

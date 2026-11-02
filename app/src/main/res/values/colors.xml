@@ -35,4 +35,6 @@
     <color name="vault_switch_off">#FFD9D6D6</color>
     <color name="vault_alert_bg">#FFFDE8EB</color>
     <color name="vault_secure_bg">#FFE5F5EC</color>
+    <color name="edit_muted">#FFBDBABA</color>
+    <color name="edit_chip_text_on">#FF161616</color>
 </resources>
