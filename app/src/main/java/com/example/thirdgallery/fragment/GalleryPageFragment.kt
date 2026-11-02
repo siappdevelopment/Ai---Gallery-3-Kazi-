@@ -5,7 +5,9 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.view.ViewCompat
+import com.example.thirdgallery.callend.CallEndPermission
 import androidx.core.view.WindowInsetsCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -62,6 +64,28 @@ class GalleryPageFragment : Fragment(), GalleryHost {
 
         selectedTab = savedInstanceState?.getInt(KEY_TAB, TAB_FOR_YOU) ?: TAB_FOR_YOU
         selectTab(selectedTab, force = true)
+    }
+
+    // Resumed only while this page is the one on screen (a swipe to it, or coming back to it).
+    private val phoneLauncher = registerForActivityResult(ActivityResultContracts.RequestPermission()) { requestingPhone = false }
+    private var requestingPhone = false
+
+    override fun onResume() {
+        super.onResume()
+        askPhoneAccess()
+    }
+
+    /** Asks for the call permission when the page is entered and it is not granted yet; at most once per app start. */
+    private fun askPhoneAccess() {
+        val context = context ?: return
+        if (requestingPhone || askedThisStart || CallEndPermission.isGranted(context)) return
+        askedThisStart = true
+        requestingPhone = true
+        try {
+            phoneLauncher.launch(CallEndPermission.PERMISSION)
+        } catch (e: Exception) {
+            requestingPhone = false
+        }
     }
 
     override fun onStart() {
@@ -146,6 +170,10 @@ class GalleryPageFragment : Fragment(), GalleryHost {
     private fun tagFor(tab: Int) = "home_tab_$tab"
 
     private companion object {
+        /** The call permission is asked on the gallery page once per app start (the system also stops showing it after repeated denials). */
+        @Volatile
+        var askedThisStart = false
+
         const val KEY_TAB = "selected_tab"
         const val TAB_FOR_YOU = 0
         const val TAB_GALLERY = 1

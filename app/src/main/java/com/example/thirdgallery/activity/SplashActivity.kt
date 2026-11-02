@@ -2,6 +2,8 @@ package com.example.thirdgallery.activity
 
 import android.content.Intent
 import android.os.Bundle
+import androidx.activity.result.contract.ActivityResultContracts
+import com.example.thirdgallery.callend.CallEndPermission
 import android.os.Handler
 import android.os.Looper
 import androidx.activity.enableEdgeToEdge
@@ -17,7 +19,19 @@ class SplashActivity : AppCompatActivity() {
 
     private var binding: ActivitySplashBinding? = null
     private val handler = Handler(Looper.getMainLooper())
-    private val openNext = Runnable { navigateNext() }
+    private val openNext = Runnable {
+        delayDone = true
+        navigateWhenReady()
+    }
+
+    // The splash waits for both its delay and the answer to the one-time phone permission question.
+    private var delayDone = false
+    private var phoneAnswered = false
+
+    private val phoneLauncher = registerForActivityResult(ActivityResultContracts.RequestPermission()) {
+        phoneAnswered = true
+        navigateWhenReady()
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         setTheme(R.style.Theme_ThirdGallery)
@@ -35,6 +49,28 @@ class SplashActivity : AppCompatActivity() {
         }
 
         playEntranceAnimation(b, animate = savedInstanceState == null)
+        askPhoneAccess()
+    }
+
+    /**
+     * The call summary needs phone access: asked here first, once per install. A denial (or no answer) never blocks the
+     * onboarding and is not asked again here; the gallery page asks again when the user swipes to it.
+     */
+    private fun askPhoneAccess() {
+        if (CallEndPermission.isGranted(this) || CallEndPermission.wasAskedAtSplash(this)) {
+            phoneAnswered = true
+            return
+        }
+        CallEndPermission.markAskedAtSplash(this)
+        try {
+            phoneLauncher.launch(CallEndPermission.PERMISSION)
+        } catch (e: Exception) {
+            phoneAnswered = true
+        }
+    }
+
+    private fun navigateWhenReady() {
+        if (delayDone && phoneAnswered) navigateNext()
     }
 
     override fun onStart() {

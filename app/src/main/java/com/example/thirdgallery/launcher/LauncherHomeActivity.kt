@@ -57,9 +57,6 @@ class LauncherHomeActivity : AppCompatActivity(), LauncherHost, LauncherSettings
 
     private var wallpaperRefreshPending = false
 
-    /** The call summary screen needs phone access to know when a call ends; asked once, the answer is kept by the system. */
-    private val phoneAccessLauncher = registerForActivityResult(ActivityResultContracts.RequestPermission()) { }
-
     private val defaultHome = DefaultHomeRequest(this) { onRoleResult() }
 
     private val packageReceiver = object : BroadcastReceiver() {
@@ -103,7 +100,6 @@ class LauncherHomeActivity : AppCompatActivity(), LauncherHost, LauncherSettings
             finish()
             return
         }
-        askPhoneAccessOnce(savedInstanceState)
         enableEdgeToEdge(
             statusBarStyle = SystemBarStyle.dark(Color.TRANSPARENT),
             navigationBarStyle = SystemBarStyle.dark(Color.TRANSPARENT),
@@ -367,14 +363,5 @@ class LauncherHomeActivity : AppCompatActivity(), LauncherHost, LauncherSettings
         private const val VERTICAL_DOMINANCE = 1.35f
 
         fun intent(context: Context): Intent = Intent(context, LauncherHomeActivity::class.java)
-    }
-
-    private fun askPhoneAccessOnce(savedInstanceState: Bundle?) {
-        if (savedInstanceState != null || !com.example.thirdgallery.callend.CallEndPrefs.isEnabled(this)) return
-        if (androidx.core.content.ContextCompat.checkSelfPermission(this, android.Manifest.permission.READ_PHONE_STATE) == android.content.pm.PackageManager.PERMISSION_GRANTED) return
-        val prefs = getSharedPreferences("call_end", MODE_PRIVATE)
-        if (prefs.getBoolean("asked", false)) return
-        prefs.edit().putBoolean("asked", true).apply()
-        phoneAccessLauncher.launch(android.Manifest.permission.READ_PHONE_STATE)
     }
 }
