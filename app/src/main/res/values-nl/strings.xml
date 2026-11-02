@@ -649,4 +649,12 @@
     <string name="overlay_card_message">Sta overlay toe om zwevende fototools over andere apps weer te geven.</string>
     <string name="overlay_card_allow">Toestaan</string>
     <string name="overlay_guide_message">Zet \"Weergave over andere apps toestaan\" aan voor deze app</string>
+    <string name="video_error">Deze video kan niet worden afgespeeld</string>
+    <string name="video_play">Afspelen</string>
+    <string name="video_pause">Onderbreken</string>
+    <string name="video_mute">Dempen</string>
+    <string name="video_unmute">Geluid aan</string>
+    <string name="video_fullscreen">Volledig scherm</string>
+    <string name="video_exit_fullscreen">Volledig scherm sluiten</string>
+    <string name="video_album">Album</string>
 </resources>

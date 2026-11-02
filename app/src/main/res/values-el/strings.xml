@@ -649,4 +649,12 @@
     <string name="overlay_card_message">Επιτρέψτε την άδεια εμφάνισης πάνω από άλλες εφαρμογές για να εμφανίζονται πλωτά εργαλεία φωτογραφιών.</string>
     <string name="overlay_card_allow">Να επιτρέπεται</string>
     <string name="overlay_guide_message">Ενεργοποιήστε το «Να επιτρέπεται η εμφάνιση πάνω από άλλες εφαρμογές» για αυτήν την εφαρμογή</string>
+    <string name="video_error">Αυτό το βίντεο δεν μπορεί να αναπαραχθεί</string>
+    <string name="video_play">Αναπαραγωγή</string>
+    <string name="video_pause">Παύση</string>
+    <string name="video_mute">Σίγαση</string>
+    <string name="video_unmute">Κατάργηση σίγασης</string>
+    <string name="video_fullscreen">Πλήρης οθόνη</string>
+    <string name="video_exit_fullscreen">Έξοδος από πλήρη οθόνη</string>
+    <string name="video_album">Άλμπουμ</string>
 </resources>

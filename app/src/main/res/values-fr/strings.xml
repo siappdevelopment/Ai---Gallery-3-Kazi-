@@ -656,4 +656,12 @@
     <string name="overlay_card_message">Autorisez l’affichage par-dessus les autres applis pour afficher des outils photo flottants.</string>
     <string name="overlay_card_allow">Autoriser</string>
     <string name="overlay_guide_message">Activez « Autoriser l\'affichage par-dessus d\'autres applications » pour cette application</string>
+    <string name="video_error">Cette vidéo ne peut pas être lue</string>
+    <string name="video_play">Lire</string>
+    <string name="video_pause">Pause</string>
+    <string name="video_mute">Couper le son</string>
+    <string name="video_unmute">Activer le son</string>
+    <string name="video_fullscreen">Plein écran</string>
+    <string name="video_exit_fullscreen">Quitter le plein écran</string>
+    <string name="video_album">Album</string>
 </resources>

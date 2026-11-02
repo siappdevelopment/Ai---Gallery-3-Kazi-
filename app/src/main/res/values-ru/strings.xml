@@ -663,4 +663,12 @@
     <string name="overlay_card_message">Разрешите наложение, чтобы показывать плавающие инструменты для фото поверх других приложений.</string>
     <string name="overlay_card_allow">Разрешить</string>
     <string name="overlay_guide_message">Включите «Показ поверх других приложений» для этого приложения</string>
+    <string name="video_error">Не удаётся воспроизвести это видео</string>
+    <string name="video_play">Воспроизвести</string>
+    <string name="video_pause">Пауза</string>
+    <string name="video_mute">Выключить звук</string>
+    <string name="video_unmute">Включить звук</string>
+    <string name="video_fullscreen">Во весь экран</string>
+    <string name="video_exit_fullscreen">Выйти из полноэкранного режима</string>
+    <string name="video_album">Альбом</string>
 </resources>

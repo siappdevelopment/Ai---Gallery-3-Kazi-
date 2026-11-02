@@ -656,4 +656,12 @@
     <string name="overlay_card_message">Permita a sobreposição para apresentar ferramentas de fotografia flutuantes sobre outras aplicações.</string>
     <string name="overlay_card_allow">Permitir</string>
     <string name="overlay_guide_message">Ative \"Permitir apresentação sobre outras apps\" para esta app</string>
+    <string name="video_error">Não foi possível reproduzir este vídeo</string>
+    <string name="video_play">Reproduzir</string>
+    <string name="video_pause">Pausar</string>
+    <string name="video_mute">Silenciar</string>
+    <string name="video_unmute">Ativar som</string>
+    <string name="video_fullscreen">Ecrã inteiro</string>
+    <string name="video_exit_fullscreen">Sair do ecrã inteiro</string>
+    <string name="video_album">Álbum</string>
 </resources>

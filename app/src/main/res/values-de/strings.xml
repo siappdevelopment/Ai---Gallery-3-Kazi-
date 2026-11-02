@@ -649,4 +649,12 @@
     <string name="overlay_card_message">Erlaube die Überlagerung, damit schwebende Foto-Werkzeuge über anderen Apps angezeigt werden können.</string>
     <string name="overlay_card_allow">Erlauben</string>
     <string name="overlay_guide_message">Aktivieren Sie „Anzeige über anderen Apps zulassen“ für diese App</string>
+    <string name="video_error">Dieses Video kann nicht abgespielt werden</string>
+    <string name="video_play">Abspielen</string>
+    <string name="video_pause">Pause</string>
+    <string name="video_mute">Stummschalten</string>
+    <string name="video_unmute">Ton einschalten</string>
+    <string name="video_fullscreen">Vollbild</string>
+    <string name="video_exit_fullscreen">Vollbild beenden</string>
+    <string name="video_album">Album</string>
 </resources>

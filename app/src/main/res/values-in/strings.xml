@@ -642,4 +642,12 @@
     <string name="overlay_card_message">Izinkan izin hamparan untuk menampilkan alat foto mengambang di atas aplikasi lain.</string>
     <string name="overlay_card_allow">Izinkan</string>
     <string name="overlay_guide_message">Aktifkan \"Izinkan tampil di atas aplikasi lain\" untuk aplikasi ini</string>
+    <string name="video_error">Video ini tidak dapat diputar</string>
+    <string name="video_play">Putar</string>
+    <string name="video_pause">Jeda</string>
+    <string name="video_mute">Bisukan</string>
+    <string name="video_unmute">Aktifkan suara</string>
+    <string name="video_fullscreen">Layar penuh</string>
+    <string name="video_exit_fullscreen">Keluar dari layar penuh</string>
+    <string name="video_album">Album</string>
 </resources>

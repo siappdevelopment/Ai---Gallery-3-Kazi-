@@ -649,4 +649,12 @@
     <string name="overlay_card_message">Laat oorlegtoestemming toe om swewende fotogereedskap oor ander toepassings te wys.</string>
     <string name="overlay_card_allow">Laat toe</string>
     <string name="overlay_guide_message">Skakel \"Laat vertoning oor ander toepassings toe\" vir hierdie toepassing aan</string>
+    <string name="video_error">Hierdie video kan nie gespeel word nie</string>
+    <string name="video_play">Speel</string>
+    <string name="video_pause">Onderbreek</string>
+    <string name="video_mute">Demp</string>
+    <string name="video_unmute">Hef demping op</string>
+    <string name="video_fullscreen">Volskerm</string>
+    <string name="video_exit_fullscreen">Verlaat volskerm</string>
+    <string name="video_album">Album</string>
 </resources>

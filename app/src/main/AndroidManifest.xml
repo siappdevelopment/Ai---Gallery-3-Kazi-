@@ -212,6 +212,11 @@
             android:screenOrientation="portrait"
             android:taskAffinity="" />
         <activity
+            android:name=".activity.VideoPlayerActivity"
+            android:configChanges="orientation|screenSize|screenLayout|keyboardHidden"
+            android:exported="false"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".activity.EditMediaActivity"
             android:exported="false"
             android:screenOrientation="portrait"

@@ -649,4 +649,12 @@
     <string name="overlay_card_message">अन्य ऐप्स के ऊपर फ़्लोटिंग फ़ोटो टूल दिखाने के लिए ओवरले अनुमति दें।</string>
     <string name="overlay_card_allow">अनुमति दें</string>
     <string name="overlay_guide_message">इस ऐप के लिए \"अन्य ऐप्स के ऊपर दिखाने की अनुमति दें\" चालू करें</string>
+    <string name="video_error">यह वीडियो चलाया नहीं जा सकता</string>
+    <string name="video_play">चलाएँ</string>
+    <string name="video_pause">रोकें</string>
+    <string name="video_mute">म्यूट करें</string>
+    <string name="video_unmute">अनम्यूट करें</string>
+    <string name="video_fullscreen">फ़ुल स्क्रीन</string>
+    <string name="video_exit_fullscreen">फ़ुल स्क्रीन से बाहर निकलें</string>
+    <string name="video_album">एल्बम</string>
 </resources>

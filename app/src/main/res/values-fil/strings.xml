@@ -649,4 +649,12 @@
     <string name="overlay_card_message">Payagan ang overlay permission para maipakita ang mga lumulutang na photo tool sa ibabaw ng ibang app.</string>
     <string name="overlay_card_allow">Payagan</string>
     <string name="overlay_guide_message">I-on ang \"Payagan ang pagpapakita sa ibabaw ng ibang app\" para sa app na ito</string>
+    <string name="video_error">Hindi ma-play ang video na ito</string>
+    <string name="video_play">I-play</string>
+    <string name="video_pause">I-pause</string>
+    <string name="video_mute">I-mute</string>
+    <string name="video_unmute">I-unmute</string>
+    <string name="video_fullscreen">Buong screen</string>
+    <string name="video_exit_fullscreen">Lumabas sa buong screen</string>
+    <string name="video_album">Album</string>
 </resources>

@@ -436,15 +436,9 @@ class FullScreenMediaActivity : AppCompatActivity() {
         requestLauncher.launch(IntentSenderRequest.Builder(request.intentSender).build())
     }
 
+    /** A video is played in its own screen (the video player). */
     private fun playVideo(uid: Long) {
-        val intent = Intent(Intent.ACTION_VIEW)
-            .setDataAndType(MediaUris.ofUid(uid), "video/*")
-            .addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
-        try {
-            startActivity(intent)
-        } catch (e: ActivityNotFoundException) {
-            Toast.makeText(applicationContext, R.string.viewer_unsupported, Toast.LENGTH_SHORT).show()
-        }
+        startActivity(VideoPlayerActivity.intent(this, uid))
     }
 
     /** Horizontal pager whose swiping can be switched off while a page is zoomed. */

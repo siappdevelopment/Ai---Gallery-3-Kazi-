@@ -656,4 +656,12 @@
     <string name="overlay_card_message">Consenti la sovrapposizione per mostrare strumenti foto flottanti sopra le altre app.</string>
     <string name="overlay_card_allow">Consenti</string>
     <string name="overlay_guide_message">Attiva «Consenti visualizzazione sopra altre app» per questa app</string>
+    <string name="video_error">Impossibile riprodurre questo video</string>
+    <string name="video_play">Riproduci</string>
+    <string name="video_pause">Pausa</string>
+    <string name="video_mute">Disattiva audio</string>
+    <string name="video_unmute">Attiva audio</string>
+    <string name="video_fullscreen">Schermo intero</string>
+    <string name="video_exit_fullscreen">Esci da schermo intero</string>
+    <string name="video_album">Album</string>
 </resources>

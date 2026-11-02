@@ -642,4 +642,12 @@
     <string name="overlay_card_message">อนุญาตการแสดงทับแอปอื่นเพื่อแสดงเครื่องมือรูปภาพแบบลอยเหนือแอปอื่น</string>
     <string name="overlay_card_allow">อนุญาต</string>
     <string name="overlay_guide_message">เปิด \"อนุญาตให้แสดงทับแอปอื่น\" สำหรับแอปนี้</string>
+    <string name="video_error">ไม่สามารถเล่นวิดีโอนี้ได้</string>
+    <string name="video_play">เล่น</string>
+    <string name="video_pause">หยุดชั่วคราว</string>
+    <string name="video_mute">ปิดเสียง</string>
+    <string name="video_unmute">เปิดเสียง</string>
+    <string name="video_fullscreen">เต็มหน้าจอ</string>
+    <string name="video_exit_fullscreen">ออกจากเต็มหน้าจอ</string>
+    <string name="video_album">อัลบั้ม</string>
 </resources>

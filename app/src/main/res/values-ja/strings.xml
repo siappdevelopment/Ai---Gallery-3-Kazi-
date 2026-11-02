@@ -642,4 +642,12 @@
     <string name="overlay_card_message">他のアプリの上にフローティング写真ツールを表示するため、オーバーレイの権限を許可してください。</string>
     <string name="overlay_card_allow">許可</string>
     <string name="overlay_guide_message">このアプリの「他のアプリの上に重ねて表示」をオンにしてください</string>
+    <string name="video_error">この動画は再生できません</string>
+    <string name="video_play">再生</string>
+    <string name="video_pause">一時停止</string>
+    <string name="video_mute">ミュート</string>
+    <string name="video_unmute">ミュート解除</string>
+    <string name="video_fullscreen">全画面表示</string>
+    <string name="video_exit_fullscreen">全画面表示を終了</string>
+    <string name="video_album">アルバム</string>
 </resources>

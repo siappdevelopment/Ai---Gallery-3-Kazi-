@@ -649,4 +649,12 @@
     <string name="overlay_card_message">Diğer uygulamaların üzerinde yüzen fotoğraf araçlarını göstermek için yer paylaşımı iznini verin.</string>
     <string name="overlay_card_allow">İzin ver</string>
     <string name="overlay_guide_message">Bu uygulama için \"Diğer uygulamaların üzerinde göster\" seçeneğini açın</string>
+    <string name="video_error">Bu video oynatılamıyor</string>
+    <string name="video_play">Oynat</string>
+    <string name="video_pause">Duraklat</string>
+    <string name="video_mute">Sessize al</string>
+    <string name="video_unmute">Sesi aç</string>
+    <string name="video_fullscreen">Tam ekran</string>
+    <string name="video_exit_fullscreen">Tam ekrandan çık</string>
+    <string name="video_album">Albüm</string>
 </resources>

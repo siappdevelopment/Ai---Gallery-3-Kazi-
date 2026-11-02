@@ -642,4 +642,12 @@
     <string name="overlay_card_message">다른 앱 위에 플로팅 사진 도구를 표시하려면 오버레이 권한을 허용해 주세요.</string>
     <string name="overlay_card_allow">허용</string>
     <string name="overlay_guide_message">이 앱의 \"다른 앱 위에 표시\"를 켜세요</string>
+    <string name="video_error">이 동영상을 재생할 수 없습니다</string>
+    <string name="video_play">재생</string>
+    <string name="video_pause">일시정지</string>
+    <string name="video_mute">음소거</string>
+    <string name="video_unmute">음소거 해제</string>
+    <string name="video_fullscreen">전체 화면</string>
+    <string name="video_exit_fullscreen">전체 화면 종료</string>
+    <string name="video_album">앨범</string>
 </resources>
