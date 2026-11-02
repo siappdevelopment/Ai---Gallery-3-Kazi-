@@ -410,4 +410,16 @@
     <string name="people_no_access">อนุญาตให้เข้าถึงรูปภาพเพื่อค้นหาบุคคล</string>
     <string name="people_failed">ค้นหาใบหน้าไม่สำเร็จ แตะเพื่อลองอีกครั้ง</string>
     <string name="people_unnamed_person">บุคคลที่ไม่มีชื่อ</string>
+    <string name="places_screen_subtitle">จากตำแหน่งที่บันทึกไว้ในรูปภาพของคุณ</string>
+    <string name="places_search_hint">ค้นหาสถานที่</string>
+    <string name="places_sort_title">เรียงลำดับสถานที่</string>
+    <string name="places_sort_most">รูปภาพมากที่สุด</string>
+    <string name="places_sort_name">ชื่อ</string>
+    <string name="places_sort_newest">ใหม่ล่าสุดก่อน</string>
+    <string name="places_unknown">ตำแหน่งที่ไม่ทราบ</string>
+    <string name="places_no_permission">แตะเพื่ออนุญาตการเข้าถึงตำแหน่งของรูปภาพและดูว่าถ่ายที่ใด</string>
+    <string name="places_scanning">กำลังอ่านตำแหน่งของรูปภาพ… %1$d จาก %2$d รูป</string>
+    <string name="places_none">ยังไม่มีสถานที่ รูปภาพที่บันทึกพร้อมตำแหน่งจะแสดงที่นี่</string>
+    <string name="places_failed">อ่านตำแหน่งของรูปภาพไม่สำเร็จ แตะเพื่อลองอีกครั้ง</string>
+    <string name="places_no_match">ไม่มีสถานที่ที่ตรงกับการค้นหา</string>
 </resources>

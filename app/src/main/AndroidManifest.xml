@@ -11,6 +11,9 @@
         android:maxSdkVersion="32" />
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
 
+    <!-- Lets the app read the GPS position saved inside the user's own photos (Places); it is not the phone's live location. -->
+    <uses-permission android:name="android.permission.ACCESS_MEDIA_LOCATION" />
+
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -81,6 +84,10 @@
             android:exported="false"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name=".activity.PlacesActivity"
+            android:exported="false"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activity.AlbumDetailActivity"
             android:exported="false"

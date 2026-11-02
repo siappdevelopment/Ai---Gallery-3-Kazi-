@@ -410,4 +410,16 @@
     <string name="people_no_access">Izinkan akses ke foto Anda untuk menemukan orang</string>
     <string name="people_failed">Pencarian wajah tidak dapat diselesaikan. Ketuk untuk mencoba lagi.</string>
     <string name="people_unnamed_person">Orang tanpa nama</string>
+    <string name="places_screen_subtitle">Dari lokasi yang tersimpan di dalam foto Anda</string>
+    <string name="places_search_hint">Cari tempat</string>
+    <string name="places_sort_title">Urutkan tempat</string>
+    <string name="places_sort_most">Foto terbanyak</string>
+    <string name="places_sort_name">Nama</string>
+    <string name="places_sort_newest">Terbaru dulu</string>
+    <string name="places_unknown">Lokasi tidak diketahui</string>
+    <string name="places_no_permission">Ketuk untuk mengizinkan akses ke lokasi foto dan melihat di mana foto Anda diambil</string>
+    <string name="places_scanning">Membaca lokasi foto… %1$d dari %2$d foto</string>
+    <string name="places_none">Belum ada tempat. Foto yang tersimpan dengan lokasi akan muncul di sini.</string>
+    <string name="places_failed">Tidak dapat membaca lokasi foto. Ketuk untuk mencoba lagi.</string>
+    <string name="places_no_match">Tidak ada tempat yang cocok dengan pencarian Anda</string>
 </resources>

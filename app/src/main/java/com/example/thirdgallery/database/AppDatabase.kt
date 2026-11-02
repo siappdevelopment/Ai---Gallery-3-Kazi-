@@ -26,8 +26,10 @@ import androidx.sqlite.db.SupportSQLiteDatabase
         FaceEntity::class,
         FaceScanEntity::class,
         FacePersonEntity::class,
+        MediaLocationEntity::class,
+        PlaceNameEntity::class,
     ],
-    version = 11,
+    version = 12,
     exportSchema = true,
 )
 abstract class AppDatabase : RoomDatabase() {
@@ -41,6 +43,8 @@ abstract class AppDatabase : RoomDatabase() {
     abstract fun vaultDao(): VaultDao
 
     abstract fun faceDao(): FaceDao
+
+    abstract fun locationDao(): LocationDao
 
     companion object {
         private const val NAME = "gallery.db"
@@ -175,6 +179,18 @@ abstract class AppDatabase : RoomDatabase() {
             }
         }
 
+        /** v12 adds the GPS position read from each photo (Places) and the names found for the places. */
+        private val MIGRATION_11_12 = object : Migration(11, 12) {
+            override fun migrate(db: SupportSQLiteDatabase) {
+                db.execSQL(
+                    "CREATE TABLE IF NOT EXISTS `media_locations` (`mediaUid` INTEGER PRIMARY KEY NOT NULL, " +
+                        "`modifiedMs` INTEGER NOT NULL, `cell` INTEGER, `latitude` REAL NOT NULL, `longitude` REAL NOT NULL)"
+                )
+                db.execSQL("CREATE INDEX IF NOT EXISTS `index_media_locations_cell` ON `media_locations` (`cell`)")
+                db.execSQL("CREATE TABLE IF NOT EXISTS `place_names` (`cell` INTEGER PRIMARY KEY NOT NULL, `name` TEXT NOT NULL)")
+            }
+        }
+
         @Volatile
         private var instance: AppDatabase? = null
 
@@ -184,7 +200,7 @@ abstract class AppDatabase : RoomDatabase() {
                     context.applicationContext,
                     AppDatabase::class.java,
                     NAME,
-                ).addMigrations(MIGRATION_1_2, MIGRATION_2_3, MIGRATION_3_4, MIGRATION_4_5, MIGRATION_5_6, MIGRATION_6_7, MIGRATION_7_8, MIGRATION_8_9, MIGRATION_9_10, MIGRATION_10_11).build().also { instance = it }
+                ).addMigrations(MIGRATION_1_2, MIGRATION_2_3, MIGRATION_3_4, MIGRATION_4_5, MIGRATION_5_6, MIGRATION_6_7, MIGRATION_7_8, MIGRATION_8_9, MIGRATION_9_10, MIGRATION_10_11, MIGRATION_11_12).build().also { instance = it }
             }
     }
 }

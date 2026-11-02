@@ -424,4 +424,16 @@
     <string name="people_no_access">Permita o acesso às suas fotos para encontrar pessoas</string>
     <string name="people_failed">Não foi possível terminar a procura de rostos. Toque para tentar novamente.</string>
     <string name="people_unnamed_person">Pessoa sem nome</string>
+    <string name="places_screen_subtitle">Dos locais guardados nas suas fotos</string>
+    <string name="places_search_hint">Pesquisar lugares</string>
+    <string name="places_sort_title">Ordenar lugares</string>
+    <string name="places_sort_most">Mais fotos</string>
+    <string name="places_sort_name">Nome</string>
+    <string name="places_sort_newest">Mais recentes primeiro</string>
+    <string name="places_unknown">Local desconhecido</string>
+    <string name="places_no_permission">Toque para permitir o acesso aos locais das fotos e ver onde foram tiradas</string>
+    <string name="places_scanning">A ler os locais das fotos… %1$d de %2$d fotos</string>
+    <string name="places_none">Ainda não há lugares. As fotos guardadas com um local aparecerão aqui.</string>
+    <string name="places_failed">Não foi possível ler os locais das fotos. Toque para tentar novamente.</string>
+    <string name="places_no_match">Nenhum lugar corresponde à sua pesquisa</string>
 </resources>

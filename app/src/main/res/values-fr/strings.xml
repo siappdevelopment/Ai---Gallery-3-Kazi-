@@ -424,4 +424,16 @@
     <string name="people_no_access">Autorisez l’accès à vos photos pour trouver des personnes</string>
     <string name="people_failed">La recherche de visages n’a pas pu aboutir. Touchez pour réessayer.</string>
     <string name="people_unnamed_person">Personne sans nom</string>
+    <string name="places_screen_subtitle">À partir des lieux enregistrés dans vos photos</string>
+    <string name="places_search_hint">Rechercher des lieux</string>
+    <string name="places_sort_title">Trier les lieux</string>
+    <string name="places_sort_most">Plus de photos</string>
+    <string name="places_sort_name">Nom</string>
+    <string name="places_sort_newest">Plus récents d’abord</string>
+    <string name="places_unknown">Lieu inconnu</string>
+    <string name="places_no_permission">Touchez pour autoriser l’accès aux lieux des photos et voir où elles ont été prises</string>
+    <string name="places_scanning">Lecture des lieux des photos… %1$d sur %2$d photos</string>
+    <string name="places_none">Aucun lieu pour le moment. Les photos enregistrées avec un lieu apparaîtront ici.</string>
+    <string name="places_failed">Impossible de lire les lieux des photos. Touchez pour réessayer.</string>
+    <string name="places_no_match">Aucun lieu ne correspond à votre recherche</string>
 </resources>

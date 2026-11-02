@@ -410,4 +410,16 @@
     <string name="people_no_access">请允许访问照片以查找人物</string>
     <string name="people_failed">未能完成人脸查找。点按重试。</string>
     <string name="people_unnamed_person">未命名人物</string>
+    <string name="places_screen_subtitle">来自照片中保存的位置信息</string>
+    <string name="places_search_hint">搜索地点</string>
+    <string name="places_sort_title">地点排序</string>
+    <string name="places_sort_most">照片最多</string>
+    <string name="places_sort_name">名称</string>
+    <string name="places_sort_newest">最新优先</string>
+    <string name="places_unknown">未知位置</string>
+    <string name="places_no_permission">点按以允许访问照片位置，查看照片的拍摄地点</string>
+    <string name="places_scanning">正在读取照片位置… %1$d / %2$d 张照片</string>
+    <string name="places_none">暂无地点。带位置信息保存的照片会显示在这里。</string>
+    <string name="places_failed">无法读取照片位置。点按重试。</string>
+    <string name="places_no_match">没有与搜索匹配的地点</string>
 </resources>

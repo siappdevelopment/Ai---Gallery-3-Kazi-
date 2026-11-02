@@ -1,31 +1,38 @@
 package com.example.thirdgallery.fragment
 
+import android.Manifest
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
+import android.os.Build
 import android.os.Bundle
 import android.os.SystemClock
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.example.thirdgallery.R
 import com.example.thirdgallery.activity.AlbumDetailActivity
 import com.example.thirdgallery.activity.HighlightsDetailActivity
 import com.example.thirdgallery.activity.PeopleAndFaceActivity
+import com.example.thirdgallery.activity.PlacesActivity
 import com.example.thirdgallery.adapter.HighlightAdapter
 import com.example.thirdgallery.adapter.PeopleAdapter
 import com.example.thirdgallery.adapter.PlaceAdapter
 import com.example.thirdgallery.adapter.SuggestionAdapter
 import com.example.thirdgallery.databinding.FragmentForYouBinding
 import com.example.thirdgallery.helper.HorizontalSpacingDecoration
+import com.example.thirdgallery.database.PlaceSummary
 import com.example.thirdgallery.helper.PeopleText
+import com.example.thirdgallery.helper.PlaceText
 import com.example.thirdgallery.model.AlbumKind
 import com.example.thirdgallery.model.HighlightCard
 import com.example.thirdgallery.model.PersonUi
 import com.example.thirdgallery.repo.FaceScanManager
+import com.example.thirdgallery.repo.PlaceScanManager
 import com.example.thirdgallery.viewmodel.ForYouViewModel
 
 class ForYouFragment : Fragment() {
@@ -38,7 +45,14 @@ class ForYouFragment : Fragment() {
     private val highlightAdapter = HighlightAdapter { openHighlight(it) }
     private var lastOpenAt = 0L
     private val peopleAdapter = PeopleAdapter(onOpen = { openPerson(it) }, onRename = { renamePerson(it) })
-    private val placeAdapter = PlaceAdapter()
+    private val placeAdapter = PlaceAdapter { openPlace(it) }
+
+    /** Android 10+: the app may read the GPS saved inside the user's own photos only with this permission. */
+    private val locationPermission =
+        registerForActivityResult(ActivityResultContracts.RequestPermission()) {
+            context?.let { PlaceScanManager.scanNow(it) }
+            renderPlaces()
+        }
     private val suggestionAdapter = SuggestionAdapter()
     private var dateReceiver: BroadcastReceiver? = null
 
@@ -88,7 +102,12 @@ class ForYouFragment : Fragment() {
         parentFragmentManager.setFragmentResultListener(PersonNameSheet.RESULT_KEY, owner) { _, result ->
             viewModel.renamePerson(result.getLong(PersonNameSheet.RESULT_ID), result.getString(PersonNameSheet.RESULT_NAME).orEmpty())
         }
-        viewModel.places.observe(owner) { placeAdapter.submitList(it.orEmpty()) }
+        viewModel.places.observe(owner) { renderPlaces() }
+        viewModel.placeStatus.observe(owner) { renderPlaces() }
+        viewModel.placeProgress.observe(owner) { renderPlaces() }
+        // View all only appears when there are more than the six places of the row (see renderPlaces).
+        b.tvPlacesViewAll.setOnClickListener { context?.let { startActivity(PlacesActivity.intent(it)) } }
+        b.tvPlacesStatus.setOnClickListener { onPlacesStatusTap() }
         viewModel.suggestions.observe(owner) { suggestionAdapter.submitList(it.orEmpty()) }
     }
 
@@ -108,6 +127,43 @@ class ForYouFragment : Fragment() {
         b.tvPeopleStatus.text = status.orEmpty()
         b.tvPeopleStatus.visibility = if (status != null && people.isEmpty()) View.VISIBLE else View.GONE
         b.rvPeople.visibility = if (people.isEmpty()) View.GONE else View.VISIBLE
+    }
+
+    /** Up to six places in the row; View all shows only when there are more; a line tells about the reading when there are none. */
+    private fun renderPlaces() {
+        val b = binding ?: return
+        val context = context ?: return
+        val all = viewModel.places.value.orEmpty()
+        placeAdapter.submitList(all.take(MAX_PLACES))
+        b.tvPlacesViewAll.visibility = if (all.size > MAX_PLACES) View.VISIBLE else View.GONE
+        b.rvPlaces.visibility = if (all.isEmpty()) View.GONE else View.VISIBLE
+        val status = PlaceText.status(
+            context,
+            viewModel.placeStatus.value,
+            PlaceScanManager.canReadLocations(context),
+            viewModel.placeProgress.value,
+            hasPlaces = all.isNotEmpty(),
+        )
+        b.tvPlacesStatus.text = status.orEmpty()
+        b.tvPlacesStatus.visibility = if (status != null && all.isEmpty()) View.VISIBLE else View.GONE
+    }
+
+    /** The status line is also the action: ask for the permission, or try the reading again. */
+    private fun onPlacesStatusTap() {
+        val context = context ?: return
+        when {
+            !PlaceScanManager.canReadLocations(context) && Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q ->
+                locationPermission.launch(Manifest.permission.ACCESS_MEDIA_LOCATION)
+            viewModel.placeStatus.value == PlaceScanManager.Status.FAILED -> viewModel.retryPlaces()
+        }
+    }
+
+    private fun openPlace(place: PlaceSummary) {
+        val context = context ?: return
+        val now = SystemClock.elapsedRealtime()
+        if (now - lastOpenAt < OPEN_GAP_MS) return
+        lastOpenAt = now
+        startActivity(AlbumDetailActivity.intent(context, AlbumKind.PLACE, place.cell, PlaceText.name(context, place)))
     }
 
     private fun openPerson(person: PersonUi) {
@@ -136,6 +192,7 @@ class ForYouFragment : Fragment() {
         // and whenever the day, time or time zone changes while it is open.
         viewModel.refreshHighlights()
         viewModel.refreshPeople()
+        viewModel.refreshPlaces()
         val receiver = object : BroadcastReceiver() {
             override fun onReceive(context: Context, intent: Intent) = viewModel.refreshHighlights()
         }
@@ -176,6 +233,7 @@ class ForYouFragment : Fragment() {
     private companion object {
         const val OPEN_GAP_MS = 600L
         const val MAX_PEOPLE = 6
+        const val MAX_PLACES = 6
         const val PICKS = 24
         const val PORTRAITS = 30
         const val EDITED = 6

@@ -417,4 +417,16 @@
     <string name="people_no_access">Gee toegang tot jou foto’s om mense te vind</string>
     <string name="people_failed">Kon nie klaar na gesigte soek nie. Tik om weer te probeer.</string>
     <string name="people_unnamed_person">Persoon sonder naam</string>
+    <string name="places_screen_subtitle">Uit liggings wat in jou foto’s gestoor is</string>
+    <string name="places_search_hint">Soek plekke</string>
+    <string name="places_sort_title">Sorteer plekke</string>
+    <string name="places_sort_most">Meeste foto’s</string>
+    <string name="places_sort_name">Naam</string>
+    <string name="places_sort_newest">Nuutste eerste</string>
+    <string name="places_unknown">Onbekende ligging</string>
+    <string name="places_no_permission">Tik om toegang tot fotoliggings toe te laat en te sien waar jou foto’s geneem is</string>
+    <string name="places_scanning">Lees fotoliggings… %1$d van %2$d foto’s</string>
+    <string name="places_none">Nog geen plekke nie. Foto’s wat met ’n ligging gestoor is, verskyn hier.</string>
+    <string name="places_failed">Kon nie fotoliggings lees nie. Tik om weer te probeer.</string>
+    <string name="places_no_match">Geen plekke stem met jou soektog ooreen nie</string>
 </resources>

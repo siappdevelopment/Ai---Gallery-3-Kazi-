@@ -424,4 +424,16 @@
     <string name="people_no_access">Consenti l’accesso alle foto per trovare le persone</string>
     <string name="people_failed">Impossibile completare la ricerca dei volti. Tocca per riprovare.</string>
     <string name="people_unnamed_person">Persona senza nome</string>
+    <string name="places_screen_subtitle">Dai luoghi salvati nelle tue foto</string>
+    <string name="places_search_hint">Cerca luoghi</string>
+    <string name="places_sort_title">Ordina luoghi</string>
+    <string name="places_sort_most">Più foto</string>
+    <string name="places_sort_name">Nome</string>
+    <string name="places_sort_newest">Più recenti prima</string>
+    <string name="places_unknown">Luogo sconosciuto</string>
+    <string name="places_no_permission">Tocca per consentire l’accesso ai luoghi delle foto e vedere dove sono state scattate</string>
+    <string name="places_scanning">Lettura dei luoghi delle foto… %1$d di %2$d foto</string>
+    <string name="places_none">Ancora nessun luogo. Le foto salvate con un luogo compariranno qui.</string>
+    <string name="places_failed">Impossibile leggere i luoghi delle foto. Tocca per riprovare.</string>
+    <string name="places_no_match">Nessun luogo corrisponde alla ricerca</string>
 </resources>

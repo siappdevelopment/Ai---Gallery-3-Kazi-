@@ -187,6 +187,17 @@ interface MediaDao {
     )
     fun periodStats(from: Long, to: Long): PeriodStats
 
+    // The photos of one place (a 0.1 degree square of photo positions), newest first
+
+    @Query("SELECT * FROM media WHERE uid IN (SELECT mediaUid FROM media_locations WHERE cell = :cell) ORDER BY dateMs DESC, uid DESC")
+    fun placeSource(cell: Long): PagingSource<Int, MediaEntity>
+
+    @Query("SELECT COUNT(*) FROM media WHERE uid IN (SELECT mediaUid FROM media_locations WHERE cell = :cell)")
+    fun observePlaceCount(cell: Long): LiveData<Int>
+
+    @Query("SELECT uid FROM media WHERE uid IN (SELECT mediaUid FROM media_locations WHERE cell = :cell) ORDER BY dateMs DESC, uid DESC")
+    fun placeUids(cell: Long): List<Long>
+
     // The photos of one person (face group), newest first
 
     @Query("SELECT * FROM media WHERE uid IN (SELECT mediaUid FROM faces WHERE clusterId = :clusterId) ORDER BY dateMs DESC, uid DESC")

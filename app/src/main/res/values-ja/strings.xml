@@ -410,4 +410,16 @@
     <string name="people_no_access">人を見つけるには写真へのアクセスを許可してください</string>
     <string name="people_failed">顔の検索を完了できませんでした。タップして再試行してください。</string>
     <string name="people_unnamed_person">名前のない人</string>
+    <string name="places_screen_subtitle">写真に保存された位置情報から</string>
+    <string name="places_search_hint">場所を検索</string>
+    <string name="places_sort_title">場所を並べ替え</string>
+    <string name="places_sort_most">写真が多い順</string>
+    <string name="places_sort_name">名前</string>
+    <string name="places_sort_newest">新しい順</string>
+    <string name="places_unknown">不明な場所</string>
+    <string name="places_no_permission">タップして写真の位置情報へのアクセスを許可すると、写真を撮った場所が表示されます</string>
+    <string name="places_scanning">写真の位置情報を読み取り中… %2$d枚中%1$d枚</string>
+    <string name="places_none">まだ場所がありません。位置情報付きで保存された写真がここに表示されます。</string>
+    <string name="places_failed">写真の位置情報を読み取れませんでした。タップして再試行してください。</string>
+    <string name="places_no_match">検索に一致する場所はありません</string>
 </resources>

@@ -417,4 +417,16 @@
     <string name="people_no_access">Payagan ang access sa iyong mga larawan para makahanap ng mga tao</string>
     <string name="people_failed">Hindi natapos ang paghahanap ng mukha. I-tap para subukan ulit.</string>
     <string name="people_unnamed_person">Taong walang pangalan</string>
+    <string name="places_screen_subtitle">Mula sa mga lokasyong naka-save sa loob ng iyong mga larawan</string>
+    <string name="places_search_hint">Maghanap ng lugar</string>
+    <string name="places_sort_title">I-sort ang mga lugar</string>
+    <string name="places_sort_most">Pinakamaraming larawan</string>
+    <string name="places_sort_name">Pangalan</string>
+    <string name="places_sort_newest">Pinakabago muna</string>
+    <string name="places_unknown">Hindi kilalang lokasyon</string>
+    <string name="places_no_permission">I-tap para payagan ang access sa mga lokasyon ng larawan at makita kung saan kinunan ang mga ito</string>
+    <string name="places_scanning">Binabasa ang mga lokasyon ng larawan… %1$d sa %2$d larawan</string>
+    <string name="places_none">Wala pang lugar. Dito lalabas ang mga larawang may naka-save na lokasyon.</string>
+    <string name="places_failed">Hindi mabasa ang mga lokasyon ng larawan. I-tap para subukan ulit.</string>
+    <string name="places_no_match">Walang lugar na tugma sa paghahanap mo</string>
 </resources>

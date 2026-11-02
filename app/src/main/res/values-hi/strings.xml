@@ -417,4 +417,16 @@
     <string name="people_no_access">लोगों को खोजने के लिए अपनी फ़ोटो तक पहुँच की अनुमति दें</string>
     <string name="people_failed">चेहरे खोजना पूरा नहीं हो सका। फिर से कोशिश करने के लिए टैप करें।</string>
     <string name="people_unnamed_person">बिना नाम का व्यक्ति</string>
+    <string name="places_screen_subtitle">आपकी फ़ोटो में सहेजे गए स्थानों से</string>
+    <string name="places_search_hint">स्थान खोजें</string>
+    <string name="places_sort_title">स्थान क्रमबद्ध करें</string>
+    <string name="places_sort_most">सबसे ज़्यादा फ़ोटो</string>
+    <string name="places_sort_name">नाम</string>
+    <string name="places_sort_newest">सबसे नए पहले</string>
+    <string name="places_unknown">अज्ञात स्थान</string>
+    <string name="places_no_permission">फ़ोटो के स्थानों तक पहुँच की अनुमति देने और यह देखने के लिए टैप करें कि फ़ोटो कहाँ ली गईं</string>
+    <string name="places_scanning">फ़ोटो के स्थान पढ़े जा रहे हैं… %2$d में से %1$d फ़ोटो</string>
+    <string name="places_none">अभी कोई स्थान नहीं। स्थान के साथ सहेजी गई फ़ोटो यहाँ दिखेंगी।</string>
+    <string name="places_failed">फ़ोटो के स्थान पढ़े नहीं जा सके। फिर से कोशिश करने के लिए टैप करें।</string>
+    <string name="places_no_match">आपकी खोज से कोई स्थान मेल नहीं खाता</string>
 </resources>

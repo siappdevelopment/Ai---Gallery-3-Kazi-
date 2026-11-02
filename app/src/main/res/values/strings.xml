@@ -427,4 +427,16 @@
     <string name="people_no_access">Allow access to your photos to find people</string>
     <string name="people_failed">Couldn’t finish looking for faces. Tap to try again.</string>
     <string name="people_unnamed_person">Unnamed person</string>
+    <string name="places_screen_subtitle">From locations saved inside your photos</string>
+    <string name="places_search_hint">Search places</string>
+    <string name="places_sort_title">Sort places</string>
+    <string name="places_sort_most">Most photos</string>
+    <string name="places_sort_name">Name</string>
+    <string name="places_sort_newest">Newest first</string>
+    <string name="places_unknown">Unknown location</string>
+    <string name="places_no_permission">Tap to allow access to photo locations and see where your photos were taken</string>
+    <string name="places_scanning">Reading photo locations… %1$d of %2$d photos</string>
+    <string name="places_none">No places yet. Photos saved with a location will show up here.</string>
+    <string name="places_failed">Couldn’t read photo locations. Tap to try again.</string>
+    <string name="places_no_match">No places match your search</string>
 </resources>

@@ -417,4 +417,16 @@
     <string name="people_no_access">Erlaube den Zugriff auf deine Fotos, um Personen zu finden</string>
     <string name="people_failed">Die Gesichtersuche konnte nicht abgeschlossen werden. Tippe, um es erneut zu versuchen.</string>
     <string name="people_unnamed_person">Person ohne Namen</string>
+    <string name="places_screen_subtitle">Aus den in deinen Fotos gespeicherten Orten</string>
+    <string name="places_search_hint">Orte suchen</string>
+    <string name="places_sort_title">Orte sortieren</string>
+    <string name="places_sort_most">Meiste Fotos</string>
+    <string name="places_sort_name">Name</string>
+    <string name="places_sort_newest">Neueste zuerst</string>
+    <string name="places_unknown">Unbekannter Ort</string>
+    <string name="places_no_permission">Tippe, um den Zugriff auf Fotostandorte zu erlauben und zu sehen, wo deine Fotos aufgenommen wurden</string>
+    <string name="places_scanning">Fotostandorte werden gelesen… %1$d von %2$d Fotos</string>
+    <string name="places_none">Noch keine Orte. Fotos mit gespeichertem Standort erscheinen hier.</string>
+    <string name="places_failed">Die Fotostandorte konnten nicht gelesen werden. Tippe, um es erneut zu versuchen.</string>
+    <string name="places_no_match">Keine Orte passen zu deiner Suche</string>
 </resources>

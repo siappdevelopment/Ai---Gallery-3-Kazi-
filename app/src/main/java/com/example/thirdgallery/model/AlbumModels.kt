@@ -22,6 +22,9 @@ enum class AlbumKind(val key: String) {
     /** The photos of one person (a face group of People & faces); the id is the group's cluster id. */
     PERSON("person"),
 
+    /** The photos of one place (photos with a GPS position in the same 0.1 degree square); the id is the place's cell. */
+    PLACE("place"),
+
     /** The results of a file-name search (the query travels separately). */
     SEARCH("search");
 

@@ -128,6 +128,7 @@ class MediaRepository(context: Context) {
     fun collectionCount(kind: AlbumKind, id: Long, sinceMs: Long): LiveData<Int> = when (kind) {
         AlbumKind.USER -> dao.observeUserAlbumCount(id)
         AlbumKind.PERSON -> dao.observePersonCount(id)
+        AlbumKind.PLACE -> dao.observePlaceCount(id)
         AlbumKind.YEAR -> dao.observeYearCount(id.toInt())
         AlbumKind.MONTH -> dao.observeMonthCount(id)
         else -> {
@@ -155,6 +156,7 @@ class MediaRepository(context: Context) {
     private fun collectionSource(kind: AlbumKind, id: Long, sinceMs: Long) = when (kind) {
         AlbumKind.USER -> dao.userAlbumSource(id)
         AlbumKind.PERSON -> dao.personSource(id)
+        AlbumKind.PLACE -> dao.placeSource(id)
         AlbumKind.YEAR -> dao.yearSource(id.toInt())
         AlbumKind.MONTH -> dao.monthSource(id)
         else -> {
@@ -171,6 +173,7 @@ class MediaRepository(context: Context) {
         AlbumKind.SEARCH -> dao.searchUids(likePattern(searchQuery))
         AlbumKind.USER -> dao.userAlbumUids(id)
         AlbumKind.PERSON -> dao.personUids(id)
+        AlbumKind.PLACE -> dao.placeUids(id)
         AlbumKind.YEAR -> dao.yearUids(id.toInt())
         AlbumKind.MONTH -> dao.monthUids(id)
         AlbumKind.DEVICE -> dao.collectionUids(id, filter.types, filter.minFavorite, 0, "")

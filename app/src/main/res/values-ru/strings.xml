@@ -431,4 +431,16 @@
     <string name="people_no_access">Разрешите доступ к фото, чтобы находить людей</string>
     <string name="people_failed">Не удалось завершить поиск лиц. Нажмите, чтобы повторить.</string>
     <string name="people_unnamed_person">Человек без имени</string>
+    <string name="places_screen_subtitle">По местам, сохранённым в ваших фото</string>
+    <string name="places_search_hint">Поиск мест</string>
+    <string name="places_sort_title">Сортировка мест</string>
+    <string name="places_sort_most">Больше всего фото</string>
+    <string name="places_sort_name">Название</string>
+    <string name="places_sort_newest">Сначала новые</string>
+    <string name="places_unknown">Неизвестное место</string>
+    <string name="places_no_permission">Нажмите, чтобы разрешить доступ к геопозиции фото и увидеть, где они сняты</string>
+    <string name="places_scanning">Чтение мест из фото… %1$d из %2$d фото</string>
+    <string name="places_none">Мест пока нет. Здесь появятся фото, сохранённые с местом съёмки.</string>
+    <string name="places_failed">Не удалось прочитать места из фото. Нажмите, чтобы повторить.</string>
+    <string name="places_no_match">Нет мест, подходящих под ваш запрос</string>
 </resources>

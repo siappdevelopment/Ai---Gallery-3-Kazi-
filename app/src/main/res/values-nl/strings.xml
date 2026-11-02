@@ -417,4 +417,16 @@
     <string name="people_no_access">Geef toegang tot je foto’s om personen te vinden</string>
     <string name="people_failed">Gezichten zoeken is niet voltooid. Tik om het opnieuw te proberen.</string>
     <string name="people_unnamed_person">Persoon zonder naam</string>
+    <string name="places_screen_subtitle">Van locaties die in je foto’s zijn opgeslagen</string>
+    <string name="places_search_hint">Plaatsen zoeken</string>
+    <string name="places_sort_title">Plaatsen sorteren</string>
+    <string name="places_sort_most">Meeste foto’s</string>
+    <string name="places_sort_name">Naam</string>
+    <string name="places_sort_newest">Nieuwste eerst</string>
+    <string name="places_unknown">Onbekende locatie</string>
+    <string name="places_no_permission">Tik om toegang tot fotolocaties toe te staan en te zien waar je foto’s zijn genomen</string>
+    <string name="places_scanning">Fotolocaties lezen… %1$d van %2$d foto’s</string>
+    <string name="places_none">Nog geen plaatsen. Foto’s die met een locatie zijn opgeslagen verschijnen hier.</string>
+    <string name="places_failed">Fotolocaties lezen is mislukt. Tik om het opnieuw te proberen.</string>
+    <string name="places_no_match">Geen plaatsen komen overeen met je zoekopdracht</string>
 </resources>

@@ -417,4 +417,16 @@
     <string name="people_no_access">Kişileri bulmak için fotoğraflarınıza erişime izin verin</string>
     <string name="people_failed">Yüz arama tamamlanamadı. Tekrar denemek için dokunun.</string>
     <string name="people_unnamed_person">Adsız kişi</string>
+    <string name="places_screen_subtitle">Fotoğraflarınızda kayıtlı konumlardan</string>
+    <string name="places_search_hint">Yer ara</string>
+    <string name="places_sort_title">Yerleri sırala</string>
+    <string name="places_sort_most">En çok fotoğraf</string>
+    <string name="places_sort_name">Ad</string>
+    <string name="places_sort_newest">Önce en yeni</string>
+    <string name="places_unknown">Bilinmeyen konum</string>
+    <string name="places_no_permission">Fotoğraf konumlarına erişime izin vermek ve fotoğraflarınızın nerede çekildiğini görmek için dokunun</string>
+    <string name="places_scanning">Fotoğraf konumları okunuyor… %1$d / %2$d fotoğraf</string>
+    <string name="places_none">Henüz yer yok. Konumla kaydedilen fotoğraflar burada görünecek.</string>
+    <string name="places_failed">Fotoğraf konumları okunamadı. Tekrar denemek için dokunun.</string>
+    <string name="places_no_match">Aramanızla eşleşen yer yok</string>
 </resources>

@@ -417,4 +417,16 @@
     <string name="people_no_access">Επιτρέψτε πρόσβαση στις φωτογραφίες σας για να βρεθούν άτομα</string>
     <string name="people_failed">Δεν ολοκληρώθηκε η αναζήτηση προσώπων. Πατήστε για να δοκιμάσετε ξανά.</string>
     <string name="people_unnamed_person">Άτομο χωρίς όνομα</string>
+    <string name="places_screen_subtitle">Από τοποθεσίες που αποθηκεύονται μέσα στις φωτογραφίες σας</string>
+    <string name="places_search_hint">Αναζήτηση τοποθεσιών</string>
+    <string name="places_sort_title">Ταξινόμηση τοποθεσιών</string>
+    <string name="places_sort_most">Περισσότερες φωτογραφίες</string>
+    <string name="places_sort_name">Όνομα</string>
+    <string name="places_sort_newest">Πρώτα τα πιο πρόσφατα</string>
+    <string name="places_unknown">Άγνωστη τοποθεσία</string>
+    <string name="places_no_permission">Πατήστε για να επιτρέψετε την πρόσβαση στις τοποθεσίες των φωτογραφιών και να δείτε πού τραβήχτηκαν</string>
+    <string name="places_scanning">Ανάγνωση τοποθεσιών φωτογραφιών… %1$d από %2$d φωτογραφίες</string>
+    <string name="places_none">Δεν υπάρχουν τοποθεσίες ακόμη. Οι φωτογραφίες με αποθηκευμένη τοποθεσία θα εμφανίζονται εδώ.</string>
+    <string name="places_failed">Δεν ήταν δυνατή η ανάγνωση των τοποθεσιών. Πατήστε για να δοκιμάσετε ξανά.</string>
+    <string name="places_no_match">Καμία τοποθεσία δεν ταιριάζει με την αναζήτηση</string>
 </resources>
