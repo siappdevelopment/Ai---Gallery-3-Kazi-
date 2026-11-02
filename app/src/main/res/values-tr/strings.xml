@@ -437,4 +437,17 @@
     <string name="category_scanning_short">KONTROL EDİLİYOR…</string>
     <string name="category_empty_title">Burada henüz bir şey yok</string>
     <string name="category_empty_desc">Uygun fotoğraflar, kitaplığınız bu cihazda kontrol edildikçe burada görünür.</string>
+    <string name="suggest_album_row_sub">%1$s tarihli fotoğraflar</string>
+    <string name="suggest_album_desc">%2$s tarihli %1$d fotoğraf tek bir geziye benziyor.</string>
+    <string name="suggest_fav_desc">Henüz favorilere eklemediğiniz keskin, iyi aydınlatılmış kareler.</string>
+    <string name="suggest_cta_album">%1$d öğeyi albüme ekle</string>
+    <string name="suggest_cta_fav">%1$d öğeyi Favorilere ekle</string>
+    <string name="suggest_deselect_all">Tüm seçimi kaldır</string>
+    <string name="suggest_dismiss">Kapat</string>
+    <string name="burst_desc">Her seriden bir kare seçin. Gerisi silinebilir.</string>
+    <string name="burst_shots">%1$d kare</string>
+    <string name="burst_keep">Seçileni tut</string>
+    <string name="burst_kept">En iyi kare saklandı</string>
+    <string name="burst_kept_toast">1 kare saklandı · diğerleri çöp kutusuna taşındı</string>
+    <string name="burst_empty">İncelenecek seri yok</string>
 </resources>

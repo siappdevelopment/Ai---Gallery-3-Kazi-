@@ -155,4 +155,14 @@
     <style name="Theme.ThirdGallery.Splash" parent="Theme.ThirdGallery">
         <item name="android:windowBackground">@color/splash_background</item>
     </style>
+
+    <style name="ShapeAppearance.ThirdGallery.BurstBig" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">10dp</item>
+    </style>
+
+    <style name="ShapeAppearance.ThirdGallery.BurstFrame" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">7dp</item>
+    </style>
 </resources>

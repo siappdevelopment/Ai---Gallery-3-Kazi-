@@ -437,4 +437,17 @@
     <string name="category_scanning_short">KYK TANS…</string>
     <string name="category_empty_title">Nog niks hier nie</string>
     <string name="category_empty_desc">Foto’s wat pas, verskyn hier soos jou versameling op hierdie toestel nagegaan word.</string>
+    <string name="suggest_album_row_sub">Foto’s van %1$s</string>
+    <string name="suggest_album_desc">%1$d foto’s van %2$s lyk soos een reis.</string>
+    <string name="suggest_fav_desc">Skerp, goed belig foto’s wat jy nog nie as gunsteling gemerk het nie.</string>
+    <string name="suggest_cta_album">Voeg %1$d by album</string>
+    <string name="suggest_cta_fav">Voeg %1$d by gunstelinge</string>
+    <string name="suggest_deselect_all">Ontkies alles</string>
+    <string name="suggest_dismiss">Maak toe</string>
+    <string name="burst_desc">Kies een skoot uit elke reeks. Die res kan weg.</string>
+    <string name="burst_shots">%1$d skote</string>
+    <string name="burst_keep">Hou gekiesde</string>
+    <string name="burst_kept">Beste skoot gehou</string>
+    <string name="burst_kept_toast">1 skoot gehou · die res na asblik geskuif</string>
+    <string name="burst_empty">Geen reekse om na te gaan nie</string>
 </resources>

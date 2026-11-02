@@ -430,4 +430,17 @@
     <string name="category_scanning_short">MEMERIKSA…</string>
     <string name="category_empty_title">Belum ada apa-apa</string>
     <string name="category_empty_desc">Foto yang cocok muncul di sini saat pustaka Anda diperiksa di perangkat ini.</string>
+    <string name="suggest_album_row_sub">Foto dari %1$s</string>
+    <string name="suggest_album_desc">%1$d foto dari %2$s tampak seperti satu perjalanan.</string>
+    <string name="suggest_fav_desc">Foto tajam dan terang yang belum menjadi favorit.</string>
+    <string name="suggest_cta_album">Tambahkan %1$d ke album</string>
+    <string name="suggest_cta_fav">Tambahkan %1$d ke Favorit</string>
+    <string name="suggest_deselect_all">Batalkan semua pilihan</string>
+    <string name="suggest_dismiss">Tutup</string>
+    <string name="burst_desc">Pilih satu bidikan dari setiap rangkaian. Sisanya bisa dihapus.</string>
+    <string name="burst_shots">%1$d bidikan</string>
+    <string name="burst_keep">Simpan yang dipilih</string>
+    <string name="burst_kept">Bidikan terbaik disimpan</string>
+    <string name="burst_kept_toast">1 bidikan disimpan · sisanya dipindahkan ke Sampah</string>
+    <string name="burst_empty">Tidak ada rangkaian untuk ditinjau</string>
 </resources>

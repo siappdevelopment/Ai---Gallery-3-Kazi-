@@ -191,6 +191,12 @@ class MediaRepository(context: Context) {
 
     fun find(uid: Long): MediaEntity? = dao.byUid(uid)
 
+    /** The indexed items among [uids] (at most a few hundred per call); missing ones are simply absent. */
+    fun byUids(uids: List<Long>): List<MediaEntity> = dao.byUids(uids)
+
+    /** How many photos and videos are favorites (changes when something is favorited or un-favorited). */
+    fun favoriteCount(): LiveData<Int> = dao.observeCount(MediaFilter.FAVORITES.types, 1)
+
     /** Photos and videos whose file name contains [query], newest first. */
     fun searchPaged(query: String): LiveData<PagingData<MediaEntity>> =
         Pager(

@@ -444,4 +444,17 @@
     <string name="category_scanning_short">ANALYSE…</string>
     <string name="category_empty_title">Rien ici pour le moment</string>
     <string name="category_empty_desc">Les photos correspondantes apparaissent ici au fur et à mesure de l’analyse de votre bibliothèque sur cet appareil.</string>
+    <string name="suggest_album_row_sub">Photos du %1$s</string>
+    <string name="suggest_album_desc">%1$d photos du %2$s ressemblent à un même voyage.</string>
+    <string name="suggest_fav_desc">Photos nettes et bien exposées qui ne sont pas encore en favoris.</string>
+    <string name="suggest_cta_album">Ajouter %1$d à l’album</string>
+    <string name="suggest_cta_fav">Ajouter %1$d aux favoris</string>
+    <string name="suggest_deselect_all">Tout désélectionner</string>
+    <string name="suggest_dismiss">Ignorer</string>
+    <string name="burst_desc">Choisissez une photo par rafale. Le reste peut partir.</string>
+    <string name="burst_shots">%1$d prises</string>
+    <string name="burst_keep">Garder la sélection</string>
+    <string name="burst_kept">Meilleure prise gardée</string>
+    <string name="burst_kept_toast">1 prise gardée · les autres mises à la corbeille</string>
+    <string name="burst_empty">Aucune rafale à examiner</string>
 </resources>

@@ -16,7 +16,11 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.example.thirdgallery.R
 import com.example.thirdgallery.activity.AlbumDetailActivity
+import com.example.thirdgallery.activity.BurstsActivity
 import com.example.thirdgallery.activity.CategoryMediaActivity
+import com.example.thirdgallery.activity.SuggestionPickActivity
+import com.example.thirdgallery.model.SuggestionCard
+import com.example.thirdgallery.model.SuggestionKind
 import com.example.thirdgallery.activity.HighlightsDetailActivity
 import com.example.thirdgallery.activity.PeopleAndFaceActivity
 import com.example.thirdgallery.activity.PlacesActivity
@@ -57,7 +61,7 @@ class ForYouFragment : Fragment() {
             context?.let { PlaceScanManager.scanNow(it) }
             renderPlaces()
         }
-    private val suggestionAdapter = SuggestionAdapter()
+    private val suggestionAdapter = SuggestionAdapter { openSuggestion(it) }
     private var dateReceiver: BroadcastReceiver? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
@@ -123,7 +127,13 @@ class ForYouFragment : Fragment() {
         // View all only appears when there are more than the six places of the row (see renderPlaces).
         b.tvPlacesViewAll.setOnClickListener { context?.let { startActivity(PlacesActivity.intent(it)) } }
         b.tvPlacesStatus.setOnClickListener { onPlacesStatusTap() }
-        viewModel.suggestions.observe(owner) { suggestionAdapter.submitList(it.orEmpty()) }
+        viewModel.suggestions.observe(owner) { cards ->
+            suggestionAdapter.submitList(cards.orEmpty())
+            // With nothing to suggest the whole Suggestions block steps aside instead of showing an empty list.
+            val visibility = if (cards.isNullOrEmpty()) View.GONE else View.VISIBLE
+            b.suggestionsHeader.visibility = visibility
+            b.rvSuggestions.visibility = visibility
+        }
     }
 
     /** The counts under the three "Made for you" cards; "Checking photos…" while a still empty category is being worked out. */
@@ -157,6 +167,20 @@ class ForYouFragment : Fragment() {
             return
         }
         Glide.with(view).load(MediaUris.ofUid(uid)).centerCrop().override(COVER_PX).dontAnimate().into(view)
+    }
+
+    /** A suggestion row was tapped: open its own screen (a second tap while it opens is ignored). */
+    private fun openSuggestion(card: SuggestionCard) {
+        val context = context ?: return
+        val now = SystemClock.elapsedRealtime()
+        if (now - lastOpenAt < OPEN_GAP_MS) return
+        lastOpenAt = now
+        val intent = when (card.kind) {
+            SuggestionKind.ALBUM -> SuggestionPickActivity.intent(context, SuggestionKind.ALBUM, card.uids, card.fromMs, card.toMs)
+            SuggestionKind.FAVORITES -> SuggestionPickActivity.intent(context, SuggestionKind.FAVORITES, card.uids, 0L, 0L)
+            SuggestionKind.BURSTS -> BurstsActivity.intent(context)
+        }
+        startActivity(intent)
     }
 
     /** A category card was tapped: open the reusable category screen (a second tap while it opens is ignored). */
@@ -251,6 +275,7 @@ class ForYouFragment : Fragment() {
         viewModel.refreshPeople()
         viewModel.refreshPlaces()
         viewModel.refreshCategories()
+        viewModel.refreshSuggestions()
         val receiver = object : BroadcastReceiver() {
             override fun onReceive(context: Context, intent: Intent) = viewModel.refreshHighlights()
         }

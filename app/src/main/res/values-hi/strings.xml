@@ -437,4 +437,17 @@
     <string name="category_scanning_short">जाँच जारी…</string>
     <string name="category_empty_title">यहाँ अभी कुछ नहीं है</string>
     <string name="category_empty_desc">इस डिवाइस पर आपकी लाइब्रेरी जाँचे जाने के साथ मेल खाती फ़ोटो यहाँ दिखेंगी।</string>
+    <string name="suggest_album_row_sub">%1$s की फ़ोटो</string>
+    <string name="suggest_album_desc">%2$s की %1$d फ़ोटो एक ही यात्रा जैसी लगती हैं।</string>
+    <string name="suggest_fav_desc">तीखी, अच्छी रोशनी वाली तस्वीरें जो अभी पसंदीदा नहीं हैं।</string>
+    <string name="suggest_cta_album">%1$d को एल्बम में जोड़ें</string>
+    <string name="suggest_cta_fav">%1$d को पसंदीदा में जोड़ें</string>
+    <string name="suggest_deselect_all">सभी चयन हटाएँ</string>
+    <string name="suggest_dismiss">खारिज करें</string>
+    <string name="burst_desc">हर बर्स्ट से एक शॉट चुनें। बाकी हटाए जा सकते हैं।</string>
+    <string name="burst_shots">%1$d शॉट</string>
+    <string name="burst_keep">चुना हुआ रखें</string>
+    <string name="burst_kept">सबसे अच्छा शॉट रखा गया</string>
+    <string name="burst_kept_toast">1 शॉट रखा गया · बाकी बिन में भेजे गए</string>
+    <string name="burst_empty">जाँचने के लिए कोई बर्स्ट नहीं</string>
 </resources>

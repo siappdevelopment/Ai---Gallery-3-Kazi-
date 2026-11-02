@@ -430,4 +430,17 @@
     <string name="category_scanning_short">확인 중…</string>
     <string name="category_empty_title">아직 아무것도 없습니다</string>
     <string name="category_empty_desc">이 기기에서 보관함을 확인하는 동안 조건에 맞는 사진이 여기에 표시됩니다.</string>
+    <string name="suggest_album_row_sub">%1$s 사진</string>
+    <string name="suggest_album_desc">%2$s의 사진 %1$d장이 하나의 여행처럼 보입니다.</string>
+    <string name="suggest_fav_desc">아직 즐겨찾기하지 않은 선명하고 밝은 사진입니다.</string>
+    <string name="suggest_cta_album">%1$d장을 앨범에 추가</string>
+    <string name="suggest_cta_fav">%1$d장을 즐겨찾기에 추가</string>
+    <string name="suggest_deselect_all">모두 선택 해제</string>
+    <string name="suggest_dismiss">닫기</string>
+    <string name="burst_desc">각 연속 촬영에서 한 장을 고르세요. 나머지는 삭제할 수 있습니다.</string>
+    <string name="burst_shots">%1$d장</string>
+    <string name="burst_keep">선택한 사진 유지</string>
+    <string name="burst_kept">베스트 샷을 유지했습니다</string>
+    <string name="burst_kept_toast">1장 유지 · 나머지는 휴지통으로 이동했습니다</string>
+    <string name="burst_empty">검토할 연속 촬영이 없습니다</string>
 </resources>

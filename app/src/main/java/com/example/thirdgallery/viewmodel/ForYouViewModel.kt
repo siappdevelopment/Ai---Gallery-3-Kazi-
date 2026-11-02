@@ -11,7 +11,10 @@ import androidx.lifecycle.MediatorLiveData
 import com.example.thirdgallery.database.ScanProgress
 import com.example.thirdgallery.database.PlaceScanProgress
 import com.example.thirdgallery.database.PlaceSummary
-import com.example.thirdgallery.database.SuggestionEntity
+import com.example.thirdgallery.model.SuggestionCard
+import com.example.thirdgallery.model.SuggestionKind
+import com.example.thirdgallery.repo.AlbumRepository
+import com.example.thirdgallery.repo.SuggestionsRepository
 import com.example.thirdgallery.model.HighlightCard
 import com.example.thirdgallery.model.PeopleResult
 import com.example.thirdgallery.repo.CategoryRepository
@@ -62,7 +65,20 @@ class ForYouViewModel(application: Application) : AndroidViewModel(application) 
 
     val placeStatus: LiveData<PlaceScanManager.Status> = PlaceScanManager.status
     val placeProgress: LiveData<PlaceScanProgress> = placeRepository.observeProgress()
-    val suggestions: LiveData<List<SuggestionEntity>> = repository.suggestions
+
+    private val suggestionsRepository = SuggestionsRepository(application)
+    private val albumRepository = AlbumRepository(application)
+
+    /**
+     * The three suggestions, worked out from the media index (see [SuggestionsRepository]) and rebuilt when the
+     * media, the favorites or the albums change. A part without a suggestion is simply missing from the list.
+     */
+    val suggestions: LiveData<List<SuggestionCard>> = MediatorLiveData<List<SuggestionCard>>().also { result ->
+        val rebuild = { _: Any? -> buildSuggestions(result) }
+        result.addSource(highlightsRepository.observeMediaCount(), rebuild)
+        result.addSource(MediaRepository(application).favoriteCount(), rebuild)
+        result.addSource(albumRepository.albums, rebuild)
+    }
 
     private val mediaRepository = MediaRepository(application)
     private val mainHandler = Handler(Looper.getMainLooper())
@@ -136,6 +152,29 @@ class ForYouViewModel(application: Application) : AndroidViewModel(application) 
     fun retryScan() = FaceScanManager.retry(getApplication())
 
     fun renamePerson(clusterId: Long, name: String) = peopleRepository.rename(clusterId, name)
+
+    /** Looks at the suggestions again (the For you screen came back, or one was dismissed). */
+    fun refreshSuggestions() {
+        (suggestions as? MediatorLiveData<List<SuggestionCard>>)?.let { buildSuggestions(it) }
+    }
+
+    private fun buildSuggestions(target: MediatorLiveData<List<SuggestionCard>>) {
+        worker.execute {
+            val cards = try {
+                val set = suggestionsRepository.load()
+                buildList {
+                    set.album?.let { add(SuggestionCard(SuggestionKind.ALBUM, it.uids.size, it.uids.take(3), it.uids, it.fromMs, it.toMs)) }
+                    if (set.bursts.isNotEmpty()) {
+                        add(SuggestionCard(SuggestionKind.BURSTS, set.bursts.size, set.bursts.take(3).map { b -> b.bestUid }, emptyList(), 0L, 0L))
+                    }
+                    set.favorites?.let { add(SuggestionCard(SuggestionKind.FAVORITES, it.uids.size, it.uids.take(3), it.uids, 0L, 0L)) }
+                }
+            } catch (e: Exception) {
+                emptyList()
+            }
+            target.postValue(cards)
+        }
+    }
 
     /** Rebuilds the Highlights cards for the current moment. */
     fun refreshHighlights() {

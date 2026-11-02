@@ -93,6 +93,14 @@
             android:exported="false"
             android:screenOrientation="portrait" />
         <activity
+            android:name=".activity.SuggestionPickActivity"
+            android:exported="false"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.BurstsActivity"
+            android:exported="false"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".activity.AlbumDetailActivity"
             android:exported="false"
             android:screenOrientation="portrait" />

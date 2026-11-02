@@ -437,4 +437,17 @@
     <string name="category_scanning_short">SINUSURI…</string>
     <string name="category_empty_title">Wala pa rito</string>
     <string name="category_empty_desc">Lalabas dito ang mga tumutugmang larawan habang sinusuri ang iyong library sa device na ito.</string>
+    <string name="suggest_album_row_sub">Mga larawan mula %1$s</string>
+    <string name="suggest_album_desc">%1$d larawan mula %2$s ay mukhang iisang biyahe.</string>
+    <string name="suggest_fav_desc">Matatalas at maliwanag na kuha na hindi pa paborito.</string>
+    <string name="suggest_cta_album">Idagdag ang %1$d sa album</string>
+    <string name="suggest_cta_fav">Idagdag ang %1$d sa Mga Paborito</string>
+    <string name="suggest_deselect_all">Alisin ang lahat ng napili</string>
+    <string name="suggest_dismiss">Isara</string>
+    <string name="burst_desc">Pumili ng isang kuha sa bawat burst. Puwede nang alisin ang iba.</string>
+    <string name="burst_shots">%1$d kuha</string>
+    <string name="burst_keep">Itago ang napili</string>
+    <string name="burst_kept">Naitago ang pinakamagandang kuha</string>
+    <string name="burst_kept_toast">Naitago ang 1 kuha · inilipat sa Bin ang iba</string>
+    <string name="burst_empty">Walang burst na susuriin</string>
 </resources>

@@ -444,4 +444,17 @@
     <string name="category_scanning_short">REVISANDO…</string>
     <string name="category_empty_title">Aún no hay nada</string>
     <string name="category_empty_desc">Las fotos que cumplen aparecen aquí a medida que se revisa tu biblioteca en este dispositivo.</string>
+    <string name="suggest_album_row_sub">Fotos de %1$s</string>
+    <string name="suggest_album_desc">%1$d fotos de %2$s parecen un solo viaje.</string>
+    <string name="suggest_fav_desc">Fotos nítidas y bien iluminadas que aún no son favoritas.</string>
+    <string name="suggest_cta_album">Añadir %1$d al álbum</string>
+    <string name="suggest_cta_fav">Añadir %1$d a Favoritos</string>
+    <string name="suggest_deselect_all">Deseleccionar todo</string>
+    <string name="suggest_dismiss">Descartar</string>
+    <string name="burst_desc">Elige una toma de cada ráfaga. El resto puede irse.</string>
+    <string name="burst_shots">%1$d tomas</string>
+    <string name="burst_keep">Conservar la seleccionada</string>
+    <string name="burst_kept">Mejor toma conservada</string>
+    <string name="burst_kept_toast">Se conservó 1 toma · las demás, a la papelera</string>
+    <string name="burst_empty">No hay ráfagas que revisar</string>
 </resources>

@@ -430,4 +430,17 @@
     <string name="category_scanning_short">检查中…</string>
     <string name="category_empty_title">这里还没有内容</string>
     <string name="category_empty_desc">在此设备上检查你的图库时，符合条件的照片会显示在这里。</string>
+    <string name="suggest_album_row_sub">%1$s的照片</string>
+    <string name="suggest_album_desc">%2$s的 %1$d 张照片看起来像同一次旅行。</string>
+    <string name="suggest_fav_desc">尚未收藏的清晰、光线良好的照片。</string>
+    <string name="suggest_cta_album">将 %1$d 项添加到相册</string>
+    <string name="suggest_cta_fav">将 %1$d 项添加到收藏</string>
+    <string name="suggest_deselect_all">取消全选</string>
+    <string name="suggest_dismiss">忽略</string>
+    <string name="burst_desc">从每组连拍中选一张，其余可以删除。</string>
+    <string name="burst_shots">%1$d 张</string>
+    <string name="burst_keep">保留所选</string>
+    <string name="burst_kept">已保留最佳照片</string>
+    <string name="burst_kept_toast">已保留 1 张 · 其余已移至回收站</string>
+    <string name="burst_empty">没有需要查看的连拍</string>
 </resources>

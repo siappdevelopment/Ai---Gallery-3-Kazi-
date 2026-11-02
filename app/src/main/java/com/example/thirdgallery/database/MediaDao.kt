@@ -285,4 +285,29 @@ interface MediaDao {
 
     @Query("SELECT m.uid " + CategorySql.EDITED + "ORDER BY q.editedAtMs DESC, m.uid DESC LIMIT 1")
     fun observeEditedCovers(since: Long): LiveData<List<Long>>
+
+    // Suggestions of For you (see SuggestionsRepository)
+
+    /** Photos in no app album yet (screenshots left out), newest first: the base of "Add these to an album". */
+    @Query(
+        "SELECT m.uid AS uid, m.dateMs AS dateMs, m.bucketId AS bucketId FROM media m WHERE m.mediaType = 1 " +
+            "AND m.uid NOT IN (SELECT mediaUid FROM album_items) " +
+            "AND m.bucketName NOT LIKE '%screenshot%' AND m.displayName NOT LIKE '%screenshot%' " +
+            "ORDER BY m.dateMs DESC, m.uid DESC LIMIT :limit"
+    )
+    fun albumCandidates(limit: Int): List<PhotoTime>
+
+    /** Every photo (screenshots left out) with its time and folder, newest first: the base of burst detection. */
+    @Query(
+        "SELECT uid, dateMs, bucketId FROM media WHERE mediaType = 1 " +
+            "AND bucketName NOT LIKE '%screenshot%' AND displayName NOT LIKE '%screenshot%' ORDER BY dateMs DESC, uid DESC"
+    )
+    fun photoTimes(): List<PhotoTime>
+
+    @Query("SELECT mediaUid AS uid, score AS score FROM media_quality WHERE mediaUid IN (:uids) AND failures = 0")
+    fun qualityScores(uids: List<Long>): List<QualityScore>
+
+    /** "Best photos" that are not favorites yet, best first. */
+    @Query("SELECT m.uid " + CategorySql.BEST + "AND m.isFavorite = 0 ORDER BY q.score DESC, m.dateMs DESC, m.uid DESC LIMIT :limit")
+    fun favoriteCandidates(limit: Int): List<Long>
 }

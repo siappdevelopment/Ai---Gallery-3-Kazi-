@@ -437,4 +437,17 @@
     <string name="category_scanning_short">ΕΛΕΓΧΟΣ…</string>
     <string name="category_empty_title">Δεν υπάρχει τίποτα ακόμη</string>
     <string name="category_empty_desc">Οι φωτογραφίες που ταιριάζουν εμφανίζονται εδώ καθώς ελέγχεται η βιβλιοθήκη σας σε αυτήν τη συσκευή.</string>
+    <string name="suggest_album_row_sub">Φωτογραφίες από %1$s</string>
+    <string name="suggest_album_desc">%1$d φωτογραφίες από %2$s μοιάζουν με ένα ταξίδι.</string>
+    <string name="suggest_fav_desc">Καθαρές, καλά φωτισμένες λήψεις που δεν είναι ακόμη αγαπημένες.</string>
+    <string name="suggest_cta_album">Προσθήκη %1$d σε άλμπουμ</string>
+    <string name="suggest_cta_fav">Προσθήκη %1$d στα Αγαπημένα</string>
+    <string name="suggest_deselect_all">Αποεπιλογή όλων</string>
+    <string name="suggest_dismiss">Απόρριψη</string>
+    <string name="burst_desc">Διάλεξε μία λήψη από κάθε ριπή. Οι υπόλοιπες μπορούν να φύγουν.</string>
+    <string name="burst_shots">%1$d λήψεις</string>
+    <string name="burst_keep">Διατήρηση επιλεγμένης</string>
+    <string name="burst_kept">Διατηρήθηκε η καλύτερη λήψη</string>
+    <string name="burst_kept_toast">Διατηρήθηκε 1 λήψη · οι άλλες μετακινήθηκαν στον κάδο</string>
+    <string name="burst_empty">Δεν υπάρχουν ριπές για έλεγχο</string>
 </resources>

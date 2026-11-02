@@ -437,4 +437,17 @@
     <string name="category_scanning_short">CONTROLEREN…</string>
     <string name="category_empty_title">Hier staat nog niets</string>
     <string name="category_empty_desc">Passende foto’s verschijnen hier terwijl je bibliotheek op dit apparaat wordt gecontroleerd.</string>
+    <string name="suggest_album_row_sub">Foto’s van %1$s</string>
+    <string name="suggest_album_desc">%1$d foto’s van %2$s lijken op één reis.</string>
+    <string name="suggest_fav_desc">Scherpe, goed belichte foto’s die nog geen favoriet zijn.</string>
+    <string name="suggest_cta_album">%1$d toevoegen aan album</string>
+    <string name="suggest_cta_fav">%1$d toevoegen aan Favorieten</string>
+    <string name="suggest_deselect_all">Selectie opheffen</string>
+    <string name="suggest_dismiss">Negeren</string>
+    <string name="burst_desc">Kies één opname uit elke serie. De rest mag weg.</string>
+    <string name="burst_shots">%1$d opnamen</string>
+    <string name="burst_keep">Geselecteerde bewaren</string>
+    <string name="burst_kept">Beste opname bewaard</string>
+    <string name="burst_kept_toast">1 opname bewaard · rest naar prullenbak verplaatst</string>
+    <string name="burst_empty">Geen series om te bekijken</string>
 </resources>

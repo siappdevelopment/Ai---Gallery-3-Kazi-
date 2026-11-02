@@ -430,4 +430,17 @@
     <string name="category_scanning_short">กำลังตรวจสอบ…</string>
     <string name="category_empty_title">ยังไม่มีรายการ</string>
     <string name="category_empty_desc">รูปภาพที่ตรงเงื่อนไขจะแสดงที่นี่เมื่อคลังภาพบนอุปกรณ์นี้ได้รับการตรวจสอบ</string>
+    <string name="suggest_album_row_sub">รูปภาพจาก %1$s</string>
+    <string name="suggest_album_desc">รูปภาพ %1$d รูปจาก %2$s ดูเหมือนเป็นทริปเดียวกัน</string>
+    <string name="suggest_fav_desc">ภาพคมชัดและสว่างที่ยังไม่ได้เป็นรายการโปรด</string>
+    <string name="suggest_cta_album">เพิ่ม %1$d ในอัลบั้ม</string>
+    <string name="suggest_cta_fav">เพิ่ม %1$d ในรายการโปรด</string>
+    <string name="suggest_deselect_all">ยกเลิกการเลือกทั้งหมด</string>
+    <string name="suggest_dismiss">ปิด</string>
+    <string name="burst_desc">เลือกหนึ่งภาพจากแต่ละชุดภาพต่อเนื่อง ที่เหลือลบได้</string>
+    <string name="burst_shots">%1$d ภาพ</string>
+    <string name="burst_keep">เก็บภาพที่เลือก</string>
+    <string name="burst_kept">เก็บภาพที่ดีที่สุดแล้ว</string>
+    <string name="burst_kept_toast">เก็บ 1 ภาพแล้ว · ย้ายภาพอื่นไปที่ถังขยะ</string>
+    <string name="burst_empty">ไม่มีชุดภาพต่อเนื่องให้ตรวจสอบ</string>
 </resources>

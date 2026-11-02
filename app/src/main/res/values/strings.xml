@@ -447,4 +447,17 @@
     <string name="category_scanning_short">CHECKING…</string>
     <string name="category_empty_title">Nothing here yet</string>
     <string name="category_empty_desc">Photos that match show up here as your library is checked on this device.</string>
+    <string name="suggest_album_row_sub">Photos from %1$s</string>
+    <string name="suggest_album_desc">%1$d photos from %2$s look like one trip.</string>
+    <string name="suggest_fav_desc">Sharp, well-lit shots you haven’t favorited yet.</string>
+    <string name="suggest_cta_album">Add %1$d to album</string>
+    <string name="suggest_cta_fav">Add %1$d to Favorites</string>
+    <string name="suggest_deselect_all">Deselect all</string>
+    <string name="suggest_dismiss">Dismiss</string>
+    <string name="burst_desc">Pick one shot from each burst. The rest can go.</string>
+    <string name="burst_shots">%1$d shots</string>
+    <string name="burst_keep">Keep selected</string>
+    <string name="burst_kept">Best shot kept</string>
+    <string name="burst_kept_toast">Kept 1 shot · others moved to Bin</string>
+    <string name="burst_empty">No bursts to review</string>
 </resources>

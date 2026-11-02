@@ -430,4 +430,17 @@
     <string name="category_scanning_short">確認中…</string>
     <string name="category_empty_title">まだ何もありません</string>
     <string name="category_empty_desc">このデバイス上でライブラリが確認されると、条件に合う写真がここに表示されます。</string>
+    <string name="suggest_album_row_sub">%1$sの写真</string>
+    <string name="suggest_album_desc">%2$sの写真 %1$d 枚は1つの旅行のようです。</string>
+    <string name="suggest_fav_desc">まだお気に入りにしていない、シャープで明るい写真です。</string>
+    <string name="suggest_cta_album">%1$d 枚をアルバムに追加</string>
+    <string name="suggest_cta_fav">%1$d 枚をお気に入りに追加</string>
+    <string name="suggest_deselect_all">すべて選択解除</string>
+    <string name="suggest_dismiss">閉じる</string>
+    <string name="burst_desc">各連写から1枚を選んでください。残りは削除できます。</string>
+    <string name="burst_shots">%1$d 枚</string>
+    <string name="burst_keep">選択を残す</string>
+    <string name="burst_kept">ベストショットを残しました</string>
+    <string name="burst_kept_toast">1枚を残しました · 他はゴミ箱に移動しました</string>
+    <string name="burst_empty">確認する連写はありません</string>
 </resources>

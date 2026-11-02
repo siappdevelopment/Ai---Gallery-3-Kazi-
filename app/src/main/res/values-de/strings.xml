@@ -437,4 +437,17 @@
     <string name="category_scanning_short">PRÜFUNG LÄUFT…</string>
     <string name="category_empty_title">Noch nichts hier</string>
     <string name="category_empty_desc">Passende Fotos erscheinen hier, sobald deine Mediathek auf diesem Gerät geprüft wurde.</string>
+    <string name="suggest_album_row_sub">Fotos vom %1$s</string>
+    <string name="suggest_album_desc">%1$d Fotos vom %2$s sehen nach einer Reise aus.</string>
+    <string name="suggest_fav_desc">Scharfe, gut belichtete Aufnahmen, die noch keine Favoriten sind.</string>
+    <string name="suggest_cta_album">%1$d zum Album hinzufügen</string>
+    <string name="suggest_cta_fav">%1$d zu Favoriten hinzufügen</string>
+    <string name="suggest_deselect_all">Auswahl aufheben</string>
+    <string name="suggest_dismiss">Verwerfen</string>
+    <string name="burst_desc">Wähle aus jeder Serie ein Foto. Der Rest kann weg.</string>
+    <string name="burst_shots">%1$d Aufnahmen</string>
+    <string name="burst_keep">Auswahl behalten</string>
+    <string name="burst_kept">Bestes Foto behalten</string>
+    <string name="burst_kept_toast">1 Foto behalten · übrige in den Papierkorb verschoben</string>
+    <string name="burst_empty">Keine Serien zu prüfen</string>
 </resources>

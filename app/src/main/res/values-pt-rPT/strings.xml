@@ -444,4 +444,17 @@
     <string name="category_scanning_short">A VERIFICAR…</string>
     <string name="category_empty_title">Ainda nada aqui</string>
     <string name="category_empty_desc">As fotografias correspondentes aparecem aqui à medida que a biblioteca é verificada neste dispositivo.</string>
+    <string name="suggest_album_row_sub">Fotografias de %1$s</string>
+    <string name="suggest_album_desc">%1$d fotografias de %2$s parecem uma só viagem.</string>
+    <string name="suggest_fav_desc">Fotografias nítidas e bem iluminadas que ainda não são favoritas.</string>
+    <string name="suggest_cta_album">Adicionar %1$d ao álbum</string>
+    <string name="suggest_cta_fav">Adicionar %1$d aos Favoritos</string>
+    <string name="suggest_deselect_all">Desselecionar tudo</string>
+    <string name="suggest_dismiss">Dispensar</string>
+    <string name="burst_desc">Escolha uma fotografia de cada rajada. O resto pode ir.</string>
+    <string name="burst_shots">%1$d fotografias</string>
+    <string name="burst_keep">Manter selecionada</string>
+    <string name="burst_kept">Melhor fotografia mantida</string>
+    <string name="burst_kept_toast">1 fotografia mantida · as outras foram para a reciclagem</string>
+    <string name="burst_empty">Nenhuma rajada para rever</string>
 </resources>

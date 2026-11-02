@@ -444,4 +444,17 @@
     <string name="category_scanning_short">CONTROLLO…</string>
     <string name="category_empty_title">Ancora niente qui</string>
     <string name="category_empty_desc">Le foto che corrispondono compaiono qui man mano che la libreria viene controllata su questo dispositivo.</string>
+    <string name="suggest_album_row_sub">Foto del %1$s</string>
+    <string name="suggest_album_desc">%1$d foto del %2$s sembrano un unico viaggio.</string>
+    <string name="suggest_fav_desc">Scatti nitidi e ben illuminati che non sono ancora preferiti.</string>
+    <string name="suggest_cta_album">Aggiungi %1$d all’album</string>
+    <string name="suggest_cta_fav">Aggiungi %1$d ai preferiti</string>
+    <string name="suggest_deselect_all">Deseleziona tutto</string>
+    <string name="suggest_dismiss">Ignora</string>
+    <string name="burst_desc">Scegli uno scatto per ogni raffica. Il resto può andare.</string>
+    <string name="burst_shots">%1$d scatti</string>
+    <string name="burst_keep">Mantieni selezionato</string>
+    <string name="burst_kept">Scatto migliore mantenuto</string>
+    <string name="burst_kept_toast">1 scatto mantenuto · gli altri spostati nel cestino</string>
+    <string name="burst_empty">Nessuna raffica da rivedere</string>
 </resources>
