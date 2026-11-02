@@ -1,5 +1,6 @@
 package com.example.thirdgallery.adapter
 
+import com.example.thirdgallery.helper.clearImage
 import android.app.Activity
 import android.content.Context
 import android.content.ContextWrapper
@@ -48,7 +49,7 @@ class TrashAdapter(
         fun clear() {
             // The grid is detached while the activity is destroyed; Glide.with() throws then.
             if (isHostDestroyed(binding.root.context)) return
-            Glide.with(binding.ivThumb).clear(binding.ivThumb)
+            clearImage(binding.ivThumb)
         }
 
         private fun daysLeft(expiresMs: Long): Int? {

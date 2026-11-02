@@ -1,5 +1,6 @@
 package com.example.thirdgallery.adapter
 
+import com.example.thirdgallery.helper.clearImage
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -23,7 +24,7 @@ import com.example.thirdgallery.helper.MediaUris
 
 private fun loadInto(view: ImageView, uid: Long?, widthPx: Int, heightPx: Int) {
     if (uid == null) {
-        Glide.with(view).clear(view)
+        clearImage(view)
         view.setImageDrawable(null)
         return
     }
@@ -59,7 +60,7 @@ class JournalAlbumAdapter(
         }
 
         fun clear() {
-            Glide.with(binding.ivCover).clear(binding.ivCover)
+            clearImage(binding.ivCover)
         }
     }
 
@@ -98,7 +99,7 @@ class JournalStripAdapter(
         }
 
         fun clear() {
-            Glide.with(binding.ivStrip).clear(binding.ivStrip)
+            clearImage(binding.ivStrip)
         }
     }
 
@@ -170,7 +171,7 @@ class JournalPagingAdapter(
         }
 
         fun clear() {
-            Glide.with(binding.ivHero).clear(binding.ivHero)
+            clearImage(binding.ivHero)
             row = null
         }
     }

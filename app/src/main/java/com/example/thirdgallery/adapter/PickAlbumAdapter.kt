@@ -1,5 +1,6 @@
 package com.example.thirdgallery.adapter
 
+import com.example.thirdgallery.helper.clearImage
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
@@ -35,7 +36,7 @@ class PickAlbumAdapter(
                 Glide.with(binding.ivAlbumCover).load(MediaUris.ofUid(cover)).override(px, px).centerCrop().dontAnimate()
                     .into(binding.ivAlbumCover)
             } else {
-                Glide.with(binding.ivAlbumCover).clear(binding.ivAlbumCover)
+                clearImage(binding.ivAlbumCover)
                 binding.ivAlbumCover.setImageDrawable(null)
             }
             binding.root.setOnClickListener { onPick(album) }

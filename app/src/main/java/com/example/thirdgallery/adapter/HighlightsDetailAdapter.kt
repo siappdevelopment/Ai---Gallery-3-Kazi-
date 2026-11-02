@@ -1,5 +1,6 @@
 package com.example.thirdgallery.adapter
 
+import com.example.thirdgallery.helper.clearImage
 import android.app.Activity
 import android.content.Context
 import android.content.ContextWrapper
@@ -76,7 +77,7 @@ class HighlightsDetailAdapter(
 
         private fun load(view: ImageView, uid: Long?, sizePx: Int) {
             if (uid == null) {
-                Glide.with(view).clear(view)
+                clearImage(view)
                 view.setImageResource(R.color.language_check_off)
                 return
             }
@@ -91,7 +92,7 @@ class HighlightsDetailAdapter(
 
         fun clear() {
             if (isHostDestroyed(binding.root.context)) return
-            listOf(binding.ivBig, binding.ivTop, binding.ivBottom).forEach { Glide.with(it).clear(it) }
+            listOf(binding.ivBig, binding.ivTop, binding.ivBottom).forEach { clearImage(it) }
         }
     }
 
@@ -123,7 +124,7 @@ class HighlightsDetailAdapter(
 
         fun clear() {
             if (isHostDestroyed(binding.root.context)) return
-            Glide.with(binding.ivThumb).clear(binding.ivThumb)
+            clearImage(binding.ivThumb)
         }
     }
 

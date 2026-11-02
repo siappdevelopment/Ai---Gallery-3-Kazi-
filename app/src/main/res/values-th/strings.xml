@@ -487,4 +487,8 @@
     <string name="storage_unknown">ไม่ทราบ</string>
     <string name="storage_no_access">อนุญาตการเข้าถึงรูปภาพและวิดีโอเพื่อดูว่าใช้พื้นที่เท่าไร</string>
     <string name="storage_error">ไม่สามารถอ่านพื้นที่เก็บข้อมูลได้ในขณะนี้</string>
+    <string name="about_title">เกี่ยวกับแอป</string>
+    <string name="about_version">เวอร์ชัน %1$s (%2$d)</string>
+    <string name="about_version_unknown">ไม่ทราบเวอร์ชัน</string>
+    <string name="about_description">เรียกดู จัดระเบียบ และค้นพบรูปภาพและวิดีโอของคุณอีกครั้ง ทุกอย่างประมวลผลบนอุปกรณ์นี้</string>
 </resources>

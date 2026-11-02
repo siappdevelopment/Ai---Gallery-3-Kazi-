@@ -1,5 +1,6 @@
 package com.example.thirdgallery.fragment
 
+import com.example.thirdgallery.helper.clearImage
 import android.Manifest
 import android.content.BroadcastReceiver
 import android.content.Context
@@ -162,7 +163,7 @@ class ForYouFragment : Fragment() {
     /** A cover photo of a card; a card without one keeps its plain background. */
     private fun loadCover(view: android.widget.ImageView, uid: Long?) {
         if (uid == null) {
-            Glide.with(view).clear(view)
+            clearImage(view)
             view.setImageDrawable(null)
             return
         }

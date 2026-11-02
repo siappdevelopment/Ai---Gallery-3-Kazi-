@@ -1,5 +1,6 @@
 package com.example.thirdgallery.adapter
 
+import com.example.thirdgallery.helper.clearImage
 import android.app.Activity
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -58,7 +59,7 @@ class PlaceAdapter(
         fun clear() {
             val context = binding.root.context
             if (context is Activity && context.isDestroyed) return
-            Glide.with(binding.ivPhoto).clear(binding.ivPhoto)
+            clearImage(binding.ivPhoto)
         }
     }
 

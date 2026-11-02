@@ -1,5 +1,6 @@
 package com.example.thirdgallery.adapter
 
+import com.example.thirdgallery.helper.clearImage
 import android.app.Activity
 import android.content.Context
 import android.content.ContextWrapper
@@ -27,18 +28,8 @@ fun loadFace(view: ImageView, person: PersonUi) {
         .into(view)
 }
 
-/** Stops loading a face picture; Glide.with() throws once the screen is destroyed, so that is checked first. */
-fun clearFace(view: ImageView) {
-    var context: Context? = view.context
-    while (context is ContextWrapper) {
-        if (context is Activity) {
-            if (context.isDestroyed) return
-            break
-        }
-        context = context.baseContext
-    }
-    Glide.with(view).clear(view)
-}
+/** Stops loading a face picture (see [clearImage]: nothing is touched once the screen is destroyed). */
+fun clearFace(view: ImageView) = clearImage(view)
 
 private const val FACE_SOURCE_PX = 1024
 

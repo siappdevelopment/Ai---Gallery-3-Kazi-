@@ -1,5 +1,6 @@
 package com.example.thirdgallery.adapter
 
+import com.example.thirdgallery.helper.clearImage
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -27,7 +28,7 @@ import com.example.thirdgallery.model.MosaicUi
 
 private fun loadThumb(view: ImageView, uid: Long?, widthPx: Int, heightPx: Int) {
     if (uid == null) {
-        Glide.with(view).clear(view)
+        clearImage(view)
         view.setImageDrawable(null)
         return
     }
@@ -69,7 +70,7 @@ class MosaicAlbumAdapter(
         }
 
         fun clear() {
-            Glide.with(binding.ivCover).clear(binding.ivCover)
+            clearImage(binding.ivCover)
         }
     }
 
@@ -310,9 +311,9 @@ class MosaicPagingAdapter(
         }
 
         fun clear() {
-            Glide.with(binding.ivBig).clear(binding.ivBig)
-            Glide.with(binding.ivSmall1).clear(binding.ivSmall1)
-            Glide.with(binding.ivSmall2).clear(binding.ivSmall2)
+            clearImage(binding.ivBig)
+            clearImage(binding.ivSmall1)
+            clearImage(binding.ivSmall2)
         }
     }
 
@@ -335,7 +336,7 @@ class MosaicPagingAdapter(
         }
 
         fun clear() {
-            Glide.with(binding.ivThumb).clear(binding.ivThumb)
+            clearImage(binding.ivThumb)
         }
     }
 

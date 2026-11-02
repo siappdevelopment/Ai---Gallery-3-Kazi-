@@ -501,4 +501,8 @@
     <string name="storage_unknown">Desconocido</string>
     <string name="storage_no_access">Permite el acceso a fotos y vídeos para ver cuánto espacio ocupan.</string>
     <string name="storage_error">No se puede leer el almacenamiento ahora</string>
+    <string name="about_title">Acerca de la app</string>
+    <string name="about_version">Versión %1$s (%2$d)</string>
+    <string name="about_version_unknown">Versión desconocida</string>
+    <string name="about_description">Explora, organiza y redescubre tus fotos y vídeos. Todo se procesa en este dispositivo.</string>
 </resources>

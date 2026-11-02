@@ -508,4 +508,8 @@
     <string name="storage_unknown">Неизвестно</string>
     <string name="storage_no_access">Разрешите доступ к фото и видео, чтобы узнать, сколько места они занимают.</string>
     <string name="storage_error">Сейчас не удаётся прочитать данные о памяти</string>
+    <string name="about_title">О приложении</string>
+    <string name="about_version">Версия %1$s (%2$d)</string>
+    <string name="about_version_unknown">Версия неизвестна</string>
+    <string name="about_description">Просматривайте, упорядочивайте и заново открывайте свои фото и видео. Всё обрабатывается на этом устройстве.</string>
 </resources>

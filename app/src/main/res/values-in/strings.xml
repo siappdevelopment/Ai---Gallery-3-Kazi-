@@ -487,4 +487,8 @@
     <string name="storage_unknown">Tidak diketahui</string>
     <string name="storage_no_access">Izinkan akses ke foto dan video untuk melihat ruang yang mereka gunakan.</string>
     <string name="storage_error">Penyimpanan tidak dapat dibaca saat ini</string>
+    <string name="about_title">Tentang aplikasi</string>
+    <string name="about_version">Versi %1$s (%2$d)</string>
+    <string name="about_version_unknown">Versi tidak diketahui</string>
+    <string name="about_description">Jelajahi, atur, dan temukan kembali foto dan video Anda. Semuanya diproses di perangkat ini.</string>
 </resources>

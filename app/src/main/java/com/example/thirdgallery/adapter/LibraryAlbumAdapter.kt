@@ -1,5 +1,6 @@
 package com.example.thirdgallery.adapter
 
+import com.example.thirdgallery.helper.clearImage
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.ImageView
@@ -49,14 +50,14 @@ class LibraryAlbumAdapter(
         }
 
         fun clear() {
-            Glide.with(binding.ivCover).clear(binding.ivCover)
-            Glide.with(binding.ivStrip1).clear(binding.ivStrip1)
-            Glide.with(binding.ivStrip2).clear(binding.ivStrip2)
+            clearImage(binding.ivCover)
+            clearImage(binding.ivStrip1)
+            clearImage(binding.ivStrip2)
         }
 
         private fun load(view: ImageView, uid: Long?, width: Int, height: Int) {
             if (uid == null) {
-                Glide.with(view).clear(view)
+                clearImage(view)
                 view.setImageDrawable(null)
                 return
             }

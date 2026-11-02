@@ -1,5 +1,6 @@
 package com.example.thirdgallery.adapter
 
+import com.example.thirdgallery.helper.clearImage
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -19,7 +20,7 @@ import com.example.thirdgallery.model.AlbumKind
 
 private fun loadCover(view: ImageView, uid: Long?, widthPx: Int, heightPx: Int) {
     if (uid == null) {
-        Glide.with(view).clear(view)
+        clearImage(view)
         view.setImageDrawable(null)
         return
     }
@@ -149,10 +150,10 @@ class AlbumCardAdapter(
         }
 
         fun clear() {
-            Glide.with(binding.ivCover).clear(binding.ivCover)
-            Glide.with(binding.ivThumb1).clear(binding.ivThumb1)
-            Glide.with(binding.ivThumb2).clear(binding.ivThumb2)
-            Glide.with(binding.ivThumb3).clear(binding.ivThumb3)
+            clearImage(binding.ivCover)
+            clearImage(binding.ivThumb1)
+            clearImage(binding.ivThumb2)
+            clearImage(binding.ivThumb3)
         }
     }
 

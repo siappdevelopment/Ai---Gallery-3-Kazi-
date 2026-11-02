@@ -494,4 +494,8 @@
     <string name="storage_unknown">अज्ञात</string>
     <string name="storage_no_access">फ़ोटो और वीडियो कितनी जगह लेते हैं यह देखने के लिए उन तक पहुँच की अनुमति दें।</string>
     <string name="storage_error">अभी स्टोरेज पढ़ा नहीं जा सकता</string>
+    <string name="about_title">ऐप के बारे में</string>
+    <string name="about_version">संस्करण %1$s (%2$d)</string>
+    <string name="about_version_unknown">संस्करण अज्ञात</string>
+    <string name="about_description">अपनी फ़ोटो और वीडियो देखें, व्यवस्थित करें और फिर से खोजें। सब कुछ इसी डिवाइस पर प्रोसेस होता है।</string>
 </resources>

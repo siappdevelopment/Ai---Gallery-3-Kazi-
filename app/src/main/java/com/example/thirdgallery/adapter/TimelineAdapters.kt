@@ -1,5 +1,6 @@
 package com.example.thirdgallery.adapter
 
+import com.example.thirdgallery.helper.clearImage
 import android.graphics.Rect
 import android.view.LayoutInflater
 import android.view.View
@@ -25,7 +26,7 @@ import com.example.thirdgallery.model.TimelineZoom
 
 private fun loadCover(view: ImageView, uid: Long?, widthPx: Int, heightPx: Int) {
     if (uid == null) {
-        Glide.with(view).clear(view)
+        clearImage(view)
         view.setImageDrawable(null)
         return
     }
@@ -177,7 +178,7 @@ class MonthAdapter(
         }
 
         fun clear() {
-            photos.forEach { Glide.with(it).clear(it) }
+            photos.forEach { clearImage(it) }
         }
     }
 
@@ -200,7 +201,7 @@ class YearAdapter(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) = holder.bind(getItem(position))
 
     override fun onViewRecycled(holder: ViewHolder) {
-        Glide.with(holder.itemView).clear(holder.coverView)
+        clearImage(holder.coverView)
         super.onViewRecycled(holder)
     }
 

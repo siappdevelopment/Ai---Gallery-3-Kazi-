@@ -1,5 +1,6 @@
 package com.example.thirdgallery.adapter
 
+import com.example.thirdgallery.helper.clearImage
 import android.app.Activity
 import android.content.Context
 import android.content.ContextWrapper
@@ -62,7 +63,7 @@ class VaultFolderAdapter(
 
         fun clear() {
             if (isHostDestroyed(binding.root.context)) return
-            Glide.with(binding.ivCover).clear(binding.ivCover)
+            clearImage(binding.ivCover)
         }
     }
 
@@ -149,7 +150,7 @@ class VaultTileAdapter(
 
         fun clear() {
             if (isHostDestroyed(binding.root.context)) return
-            Glide.with(binding.ivThumb).clear(binding.ivThumb)
+            clearImage(binding.ivThumb)
         }
     }
 
@@ -217,7 +218,7 @@ class VaultPickAdapter(
 
         fun clear() {
             if (isHostDestroyed(binding.root.context)) return
-            Glide.with(binding.ivThumb).clear(binding.ivThumb)
+            clearImage(binding.ivThumb)
         }
     }
 

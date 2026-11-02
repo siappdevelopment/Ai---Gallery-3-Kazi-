@@ -160,7 +160,7 @@ class SettingActivity : AppCompatActivity() {
             Group(
                 R.string.settings_group_about,
                 listOf(
-                    Row(R.drawable.ic_tag, R.string.settings_version, state.versionName, null),
+                    Row(R.drawable.ic_tag, R.string.settings_version, state.versionName) { open { VersionActivity.intent(this) } },
                     Row(R.drawable.ic_share, R.string.settings_share, null) { shareApp() },
                     Row(R.drawable.ic_star_small, R.string.settings_rate, null) { rateApp() },
                 ),

@@ -1,5 +1,6 @@
 package com.example.thirdgallery.adapter
 
+import com.example.thirdgallery.helper.clearImage
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.ImageView
@@ -48,7 +49,7 @@ class HighlightAdapter(
 
         private fun load(view: ImageView, uid: Long?, sizePx: Int) {
             if (uid == null) {
-                Glide.with(view).clear(view)
+                clearImage(view)
                 view.setImageResource(R.color.language_check_off)
                 return
             }
@@ -64,7 +65,7 @@ class HighlightAdapter(
         fun clear() {
             val context = binding.root.context
             if (context is android.app.Activity && context.isDestroyed) return
-            listOf(binding.ivBig, binding.ivTop, binding.ivBottom).forEach { Glide.with(it).clear(it) }
+            listOf(binding.ivBig, binding.ivTop, binding.ivBottom).forEach { clearImage(it) }
         }
     }
 

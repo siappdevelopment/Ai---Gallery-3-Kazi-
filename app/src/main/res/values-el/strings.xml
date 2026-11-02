@@ -494,4 +494,8 @@
     <string name="storage_unknown">Άγνωστο</string>
     <string name="storage_no_access">Επιτρέψτε την πρόσβαση σε φωτογραφίες και βίντεο για να δείτε πόσο χώρο καταλαμβάνουν.</string>
     <string name="storage_error">Δεν είναι δυνατή η ανάγνωση του χώρου αποθήκευσης αυτήν τη στιγμή</string>
+    <string name="about_title">Σχετικά με την εφαρμογή</string>
+    <string name="about_version">Έκδοση %1$s (%2$d)</string>
+    <string name="about_version_unknown">Άγνωστη έκδοση</string>
+    <string name="about_description">Περιηγηθείτε, οργανώστε και ανακαλύψτε ξανά τις φωτογραφίες και τα βίντεό σας. Όλα επεξεργάζονται σε αυτήν τη συσκευή.</string>
 </resources>

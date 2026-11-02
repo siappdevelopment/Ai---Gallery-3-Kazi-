@@ -494,4 +494,8 @@
     <string name="storage_unknown">Onbekend</string>
     <string name="storage_no_access">Laat toegang tot foto’s en video’s toe om te sien hoeveel spasie hulle gebruik.</string>
     <string name="storage_error">Berging kan nou nie gelees word nie</string>
+    <string name="about_title">Oor die toepassing</string>
+    <string name="about_version">Weergawe %1$s (%2$d)</string>
+    <string name="about_version_unknown">Weergawe onbekend</string>
+    <string name="about_description">Blaai deur, organiseer en herontdek jou foto’s en video’s. Alles word op hierdie toestel verwerk.</string>
 </resources>
