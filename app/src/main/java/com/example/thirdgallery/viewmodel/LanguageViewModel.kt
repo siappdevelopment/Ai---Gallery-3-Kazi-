@@ -19,7 +19,11 @@ class LanguageViewModel(
 
     // Nothing is selected until the user picks a language. Kept in SavedStateHandle so it
     // survives rotation and process death.
+    /** Opened from Settings: the current language is selected at first and Continue only changes the language. */
+    val fromSettings: Boolean = state.get<Boolean>(ARG_FROM_SETTINGS) ?: false
+
     private var selectedTag: String? = state.get<String>(KEY_TAG)?.takeIf { repository.isValidTag(it) }
+        ?: if (fromSettings) repository.currentTag() else null
     private var query: String = state.get<String>(KEY_QUERY).orEmpty()
     private var continued = false
 
@@ -59,7 +63,7 @@ class LanguageViewModel(
         val tag = selectedTag ?: return
         if (continued) return
         continued = true
-        repository.saveSelection(tag)
+        if (fromSettings) repository.saveSettingSelection(tag) else repository.saveSelection(tag)
         _navigateNext.value = Event(tag)
     }
 
@@ -73,8 +77,9 @@ class LanguageViewModel(
         _items.value = repository.search(query).map { LanguageUiItem(it, it.tag == selectedTag) }
     }
 
-    private companion object {
-        const val KEY_TAG = "selected_tag"
-        const val KEY_QUERY = "query"
+    companion object {
+        const val ARG_FROM_SETTINGS = "from_settings"
+        private const val KEY_TAG = "selected_tag"
+        private const val KEY_QUERY = "query"
     }
 }

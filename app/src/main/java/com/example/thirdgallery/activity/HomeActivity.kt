@@ -2,7 +2,9 @@ package com.example.thirdgallery.activity
 
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import com.example.thirdgallery.viewmodel.GalleryLayoutViewModel
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.fragment.app.Fragment
@@ -17,6 +19,7 @@ class HomeActivity : AppCompatActivity() {
 
     private var binding: ActivityHomeBinding? = null
     private var selectedTab = TAB_FOR_YOU
+    private val galleryLayout: GalleryLayoutViewModel by viewModels()
     private var systemBottomInset = 0
     private var chromeVisible = true
 
@@ -41,10 +44,17 @@ class HomeActivity : AppCompatActivity() {
         b.tabGallery.setOnClickListener { selectTab(TAB_GALLERY) }
         b.tabAlbums.setOnClickListener { selectTab(TAB_ALBUMS) }
         b.btnLayout.setOnClickListener { showLayoutPicker() }
+        b.btnSettings.setOnClickListener { startActivity(SettingActivity.intent(this)) }
         b.btnSearch.setOnClickListener { startActivity(SearchActivity.intent(this)) }
 
         selectedTab = savedInstanceState?.getInt(KEY_TAB, TAB_FOR_YOU) ?: TAB_FOR_YOU
         selectTab(selectedTab, force = true)
+    }
+
+    override fun onStart() {
+        super.onStart()
+        // Settings may have changed the number of columns while the Gallery tab was behind it.
+        galleryLayout.reload()
     }
 
     override fun onSaveInstanceState(outState: Bundle) {

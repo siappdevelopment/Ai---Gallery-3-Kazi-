@@ -23,6 +23,12 @@ class GalleryLayoutViewModel(application: Application) : AndroidViewModel(applic
     private val _columns = MutableLiveData(GalleryLayoutPrefs.getColumns(application))
     val columns: LiveData<Int> = _columns
 
+    /** Reads the choices again: Settings can change the number of columns while the Gallery tab is not looking. */
+    fun reload() {
+        GalleryLayoutPrefs.getColumns(getApplication()).let { if (_columns.value != it) _columns.value = it }
+        GalleryLayoutPrefs.getLayout(getApplication()).let { if (_layout.value != it) _layout.value = it }
+    }
+
     /** Ignores layouts that are not available and repeated selections of the current one. */
     fun select(layout: GalleryLayout) {
         if (!layout.implemented || _layout.value == layout) return

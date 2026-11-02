@@ -23,6 +23,19 @@ object LanguagePrefs {
         null
     }
 
+    /** Saves a language chosen later in Settings: the onboarding step is left alone. Written synchronously. */
+    fun saveTagOnly(context: Context, tag: String) {
+        try {
+            context.applicationContext.getSharedPreferences(FILE, Context.MODE_PRIVATE)
+                .edit()
+                .putBoolean(KEY_SELECTED, true)
+                .putString(KEY_TAG, tag)
+                .commit()
+        } catch (e: Exception) {
+            // Best effort; AppCompat keeps the locale itself.
+        }
+    }
+
     /**
      * Saves the language and moves onboarding on to Intro1 in a single write, so a kill in
      * between can never leave "language chosen" without the matching step.

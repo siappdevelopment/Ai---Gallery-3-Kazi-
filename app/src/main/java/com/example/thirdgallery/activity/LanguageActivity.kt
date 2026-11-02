@@ -2,6 +2,7 @@ package com.example.thirdgallery.activity
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.ViewGroup
 import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
@@ -38,6 +39,15 @@ class LanguageActivity : AppCompatActivity() {
             insets
         }
 
+        if (viewModel.fromSettings) {
+            // Opened from Settings: a back button, and the title moves below it.
+            b.btnBack.visibility = android.view.View.VISIBLE
+            b.btnBack.setOnClickListener { finish() }
+            (b.tvTitle.layoutParams as? ViewGroup.MarginLayoutParams)?.let {
+                it.topMargin += (56 * resources.displayMetrics.density).toInt()
+                b.tvTitle.layoutParams = it
+            }
+        }
         b.rvLanguages.layoutManager = LinearLayoutManager(this)
         b.rvLanguages.itemAnimator = null
         b.rvLanguages.adapter = adapter
@@ -71,6 +81,11 @@ class LanguageActivity : AppCompatActivity() {
         super.onDestroy()
     }
 
+    companion object {
+        fun intent(context: android.content.Context, fromSettings: Boolean = false): Intent =
+            Intent(context, LanguageActivity::class.java).putExtra(LanguageViewModel.ARG_FROM_SETTINGS, fromSettings)
+    }
+
     private fun TextView.setTextIfChanged(value: String) {
         if (text?.toString() != value) text = value
     }
@@ -79,6 +94,7 @@ class LanguageActivity : AppCompatActivity() {
         // Finish first so a locale-triggered recreate never rebuilds this screen.
         finish()
         LocaleHelper.apply(tag)
-        startActivity(Intent(this, Intro1Activity::class.java))
+        // From Settings the language is all that changes; during onboarding the next step follows.
+        if (!viewModel.fromSettings) startActivity(Intent(this, Intro1Activity::class.java))
     }
 }

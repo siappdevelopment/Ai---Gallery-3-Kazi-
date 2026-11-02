@@ -2,6 +2,7 @@ package com.example.thirdgallery.repo
 
 import android.content.Context
 import android.content.res.Configuration
+import androidx.appcompat.app.AppCompatDelegate
 import com.example.thirdgallery.R
 import com.example.thirdgallery.helper.LanguagePrefs
 import com.example.thirdgallery.language.Languages
@@ -50,4 +51,15 @@ class LanguageRepository(context: Context) {
     }
 
     fun saveSelection(tag: String) = LanguagePrefs.save(appContext, tag)
+
+    /** Saves a language chosen in Settings (onboarding is not touched). */
+    fun saveSettingSelection(tag: String) = LanguagePrefs.saveTagOnly(appContext, tag)
+
+    /** The language the app shows now, as one of [Languages.all] tags (null when it is none of them). */
+    fun currentTag(): String? {
+        val chosen = AppCompatDelegate.getApplicationLocales()
+        val tag = if (!chosen.isEmpty) chosen.toLanguageTags().substringBefore(',') else LanguagePrefs.getSavedTag(appContext) ?: Locale.getDefault().toLanguageTag()
+        return Languages.all.firstOrNull { it.tag.equals(tag, ignoreCase = true) }?.tag
+            ?: Languages.all.firstOrNull { it.tag.substringBefore('-').equals(tag.substringBefore('-'), ignoreCase = true) }?.tag
+    }
 }

@@ -8,6 +8,21 @@
     android:background="@color/language_background"
     tools:context=".activity.LanguageActivity">
 
+    <ImageButton
+        android:id="@+id/btnBack"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/bg_home_circle_button"
+        android:contentDescription="@string/albums_back"
+        android:scaleType="center"
+        android:src="@drawable/ic_arrow_back"
+        android:visibility="gone"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:tint="@color/splash_text_primary" />
+
     <TextView
         android:id="@+id/tvTitle"
         android:layout_width="0dp"
