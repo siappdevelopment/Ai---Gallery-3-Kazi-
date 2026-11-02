@@ -635,4 +635,14 @@
     <string name="onb_opt_mute">यादें म्यूट करें</string>
     <string name="onb_opt_allow_noti">सूचनाओं की अनुमति दें</string>
     <string name="onb_opt_weekly">केवल साप्ताहिक सारांश</string>
+    <string name="report_complete">सफ़ाई पूरी हुई</string>
+    <string name="report_complete_message">अतिरिक्त शॉट बिन में भेज दिए गए। उनकी जगह खाली करने के लिए बिन खाली करें।</string>
+    <string name="report_already_clean">पहले से साफ़</string>
+    <string name="report_already_clean_message">अभी तक कुछ साफ़ नहीं किया गया। मिलते-जुलते शॉट व्यवस्थित करने के लिए “बर्स्ट से सर्वश्रेष्ठ” का उपयोग करें।</string>
+    <string name="report_space_label">बिन में</string>
+    <string name="report_items_label">भेजे गए आइटम</string>
+    <string name="report_storage_title">डिवाइस स्टोरेज</string>
+    <string name="report_storage_detail">%2$s में से %1$s उपयोग में</string>
+    <string name="report_done">हो गया</string>
+    <string name="report_title">सफ़ाई रिपोर्ट</string>
 </resources>

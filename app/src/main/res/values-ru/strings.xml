@@ -649,4 +649,14 @@
     <string name="onb_opt_mute">Отключить воспоминания</string>
     <string name="onb_opt_allow_noti">Разрешить уведомления</string>
     <string name="onb_opt_weekly">Только еженедельная сводка</string>
+    <string name="report_complete">Очистка завершена</string>
+    <string name="report_complete_message">Лишние кадры перемещены в Корзину. Очистите Корзину, чтобы освободить место.</string>
+    <string name="report_already_clean">Уже чисто</string>
+    <string name="report_already_clean_message">Пока ничего не очищено. Используйте «Лучшее из серий», чтобы упорядочить похожие кадры.</string>
+    <string name="report_space_label">В Корзине</string>
+    <string name="report_items_label">Перемещено элементов</string>
+    <string name="report_storage_title">Память устройства</string>
+    <string name="report_storage_detail">Занято %1$s из %2$s</string>
+    <string name="report_done">Готово</string>
+    <string name="report_title">Отчёт об очистке</string>
 </resources>

@@ -642,4 +642,14 @@
     <string name="onb_opt_mute">Silenzia i ricordi</string>
     <string name="onb_opt_allow_noti">Consenti notifiche</string>
     <string name="onb_opt_weekly">Solo riepilogo settimanale</string>
+    <string name="report_complete">Pulizia completata</string>
+    <string name="report_complete_message">Gli scatti in più sono stati spostati nel Cestino. Svuota il Cestino per liberare il loro spazio.</string>
+    <string name="report_already_clean">Già in ordine</string>
+    <string name="report_already_clean_message">Non è stato ancora pulito nulla. Usa “Il meglio dalle raffiche” per riordinare gli scatti simili.</string>
+    <string name="report_space_label">Nel Cestino</string>
+    <string name="report_items_label">Elementi spostati</string>
+    <string name="report_storage_title">Spazio del dispositivo</string>
+    <string name="report_storage_detail">%1$s usati su %2$s</string>
+    <string name="report_done">Fatto</string>
+    <string name="report_title">Report di pulizia</string>
 </resources>

@@ -628,4 +628,14 @@
     <string name="onb_opt_mute">ปิดเสียงความทรงจำ</string>
     <string name="onb_opt_allow_noti">อนุญาตการแจ้งเตือน</string>
     <string name="onb_opt_weekly">เฉพาะสรุปรายสัปดาห์</string>
+    <string name="report_complete">ล้างข้อมูลเสร็จแล้ว</string>
+    <string name="report_complete_message">ย้ายภาพที่เกินไปยังถังขยะแล้ว ล้างถังขยะเพื่อคืนพื้นที่</string>
+    <string name="report_already_clean">สะอาดอยู่แล้ว</string>
+    <string name="report_already_clean_message">ยังไม่มีการล้างข้อมูล ใช้ “ภาพที่ดีที่สุดจากภาพถ่ายต่อเนื่อง” เพื่อจัดระเบียบภาพที่คล้ายกัน</string>
+    <string name="report_space_label">ในถังขยะ</string>
+    <string name="report_items_label">รายการที่ย้าย</string>
+    <string name="report_storage_title">พื้นที่จัดเก็บของอุปกรณ์</string>
+    <string name="report_storage_detail">ใช้ไป %1$s จาก %2$s</string>
+    <string name="report_done">เสร็จสิ้น</string>
+    <string name="report_title">รายงานการล้างข้อมูล</string>
 </resources>

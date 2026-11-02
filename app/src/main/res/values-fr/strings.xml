@@ -642,4 +642,14 @@
     <string name="onb_opt_mute">Désactiver les souvenirs</string>
     <string name="onb_opt_allow_noti">Autoriser les notifications</string>
     <string name="onb_opt_weekly">Résumé hebdomadaire uniquement</string>
+    <string name="report_complete">Nettoyage terminé</string>
+    <string name="report_complete_message">Les prises en trop ont été déplacées dans la Corbeille. Videz la Corbeille pour libérer leur espace.</string>
+    <string name="report_already_clean">Déjà propre</string>
+    <string name="report_already_clean_message">Rien n’a encore été nettoyé. Utilisez « Le meilleur des rafales » pour trier les prises similaires.</string>
+    <string name="report_space_label">Dans la Corbeille</string>
+    <string name="report_items_label">Éléments déplacés</string>
+    <string name="report_storage_title">Stockage de l’appareil</string>
+    <string name="report_storage_detail">%1$s utilisés sur %2$s</string>
+    <string name="report_done">Terminé</string>
+    <string name="report_title">Rapport de nettoyage</string>
 </resources>

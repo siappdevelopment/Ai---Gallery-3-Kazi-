@@ -642,4 +642,14 @@
     <string name="onb_opt_mute">Silenciar lembranças</string>
     <string name="onb_opt_allow_noti">Permitir notificações</string>
     <string name="onb_opt_weekly">Somente resumo semanal</string>
+    <string name="report_complete">Limpeza concluída</string>
+    <string name="report_complete_message">As fotos extras foram movidas para a Lixeira. Esvazie a Lixeira para liberar o espaço delas.</string>
+    <string name="report_already_clean">Já está limpo</string>
+    <string name="report_already_clean_message">Nada foi limpo ainda. Use “Melhores das rajadas” para organizar fotos parecidas.</string>
+    <string name="report_space_label">Na Lixeira</string>
+    <string name="report_items_label">Itens movidos</string>
+    <string name="report_storage_title">Armazenamento do dispositivo</string>
+    <string name="report_storage_detail">%1$s usados de %2$s</string>
+    <string name="report_done">Concluir</string>
+    <string name="report_title">Relatório de limpeza</string>
 </resources>

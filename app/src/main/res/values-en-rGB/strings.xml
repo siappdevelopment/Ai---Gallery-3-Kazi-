@@ -634,4 +634,14 @@
     <string name="onb_opt_mute">Mute memories</string>
     <string name="onb_opt_allow_noti">Allow notifications</string>
     <string name="onb_opt_weekly">Weekly summary only</string>
+    <string name="report_complete">Cleanup complete</string>
+    <string name="report_complete_message">The extra shots were moved to your Bin. Empty the Bin to free their space.</string>
+    <string name="report_already_clean">Already clean</string>
+    <string name="report_already_clean_message">Nothing has been cleaned up yet. Use “Best from bursts” to tidy similar shots.</string>
+    <string name="report_space_label">In the Bin</string>
+    <string name="report_items_label">Items moved</string>
+    <string name="report_storage_title">Device storage</string>
+    <string name="report_storage_detail">%1$s used of %2$s</string>
+    <string name="report_done">Done</string>
+    <string name="report_title">Cleaning report</string>
 </resources>

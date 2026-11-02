@@ -635,4 +635,14 @@
     <string name="onb_opt_mute">Erinnerungen stummschalten</string>
     <string name="onb_opt_allow_noti">Benachrichtigungen erlauben</string>
     <string name="onb_opt_weekly">Nur wöchentliche Zusammenfassung</string>
+    <string name="report_complete">Bereinigung abgeschlossen</string>
+    <string name="report_complete_message">Die überzähligen Aufnahmen wurden in den Papierkorb verschoben. Leere den Papierkorb, um den Speicherplatz freizugeben.</string>
+    <string name="report_already_clean">Bereits aufgeräumt</string>
+    <string name="report_already_clean_message">Es wurde noch nichts bereinigt. Nutze „Beste aus Serien“, um ähnliche Aufnahmen aufzuräumen.</string>
+    <string name="report_space_label">Im Papierkorb</string>
+    <string name="report_items_label">Verschobene Elemente</string>
+    <string name="report_storage_title">Gerätespeicher</string>
+    <string name="report_storage_detail">%1$s von %2$s belegt</string>
+    <string name="report_done">Fertig</string>
+    <string name="report_title">Bereinigungsbericht</string>
 </resources>

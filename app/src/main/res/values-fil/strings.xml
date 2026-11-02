@@ -635,4 +635,14 @@
     <string name="onb_opt_mute">I-mute ang mga alaala</string>
     <string name="onb_opt_allow_noti">Payagan ang mga notification</string>
     <string name="onb_opt_weekly">Lingguhang buod lang</string>
+    <string name="report_complete">Tapos na ang paglilinis</string>
+    <string name="report_complete_message">Inilipat sa Bin ang mga sobrang kuha. Alisin ang laman ng Bin para mabakante ang espasyo nila.</string>
+    <string name="report_already_clean">Malinis na</string>
+    <string name="report_already_clean_message">Wala pang nalilinis. Gamitin ang “Best from bursts” para ayusin ang magkakahawig na kuha.</string>
+    <string name="report_space_label">Nasa Bin</string>
+    <string name="report_items_label">Mga inilipat na item</string>
+    <string name="report_storage_title">Storage ng device</string>
+    <string name="report_storage_detail">%1$s ang gamit sa %2$s</string>
+    <string name="report_done">Tapos na</string>
+    <string name="report_title">Ulat ng paglilinis</string>
 </resources>

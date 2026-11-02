@@ -635,4 +635,14 @@
     <string name="onb_opt_mute">Demp herinneringe</string>
     <string name="onb_opt_allow_noti">Laat kennisgewings toe</string>
     <string name="onb_opt_weekly">Slegs weeklikse opsomming</string>
+    <string name="report_complete">Opruiming voltooi</string>
+    <string name="report_complete_message">Die ekstra foto’s is na jou asblik geskuif. Maak die asblik leeg om hul spasie vry te maak.</string>
+    <string name="report_already_clean">Reeds skoon</string>
+    <string name="report_already_clean_message">Niks is nog opgeruim nie. Gebruik “Beste uit rafale” om soortgelyke foto’s reg te maak.</string>
+    <string name="report_space_label">In die asblik</string>
+    <string name="report_items_label">Items geskuif</string>
+    <string name="report_storage_title">Toestelberging</string>
+    <string name="report_storage_detail">%1$s van %2$s gebruik</string>
+    <string name="report_done">Klaar</string>
+    <string name="report_title">Skoonmaakverslag</string>
 </resources>

@@ -635,4 +635,14 @@
     <string name="onb_opt_mute">Σίγαση αναμνήσεων</string>
     <string name="onb_opt_allow_noti">Να επιτρέπονται οι ειδοποιήσεις</string>
     <string name="onb_opt_weekly">Μόνο εβδομαδιαία σύνοψη</string>
+    <string name="report_complete">Ο καθαρισμός ολοκληρώθηκε</string>
+    <string name="report_complete_message">Οι επιπλέον λήψεις μεταφέρθηκαν στον Κάδο. Αδειάστε τον Κάδο για να ελευθερωθεί ο χώρος τους.</string>
+    <string name="report_already_clean">Ήδη καθαρό</string>
+    <string name="report_already_clean_message">Δεν έχει γίνει ακόμα κάποιος καθαρισμός. Χρησιμοποιήστε το «Καλύτερο από ριπές» για να τακτοποιήσετε παρόμοιες λήψεις.</string>
+    <string name="report_space_label">Στον Κάδο</string>
+    <string name="report_items_label">Στοιχεία που μεταφέρθηκαν</string>
+    <string name="report_storage_title">Αποθηκευτικός χώρος συσκευής</string>
+    <string name="report_storage_detail">Χρήση %1$s από %2$s</string>
+    <string name="report_done">Τέλος</string>
+    <string name="report_title">Αναφορά καθαρισμού</string>
 </resources>

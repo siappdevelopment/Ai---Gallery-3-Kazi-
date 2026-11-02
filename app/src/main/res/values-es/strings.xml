@@ -642,4 +642,14 @@
     <string name="onb_opt_mute">Silenciar recuerdos</string>
     <string name="onb_opt_allow_noti">Permitir notificaciones</string>
     <string name="onb_opt_weekly">Solo resumen semanal</string>
+    <string name="report_complete">Limpieza completada</string>
+    <string name="report_complete_message">Las tomas sobrantes se movieron a la Papelera. Vacía la Papelera para liberar su espacio.</string>
+    <string name="report_already_clean">Ya está limpio</string>
+    <string name="report_already_clean_message">Aún no se ha limpiado nada. Usa «Lo mejor de las ráfagas» para ordenar tomas parecidas.</string>
+    <string name="report_space_label">En la Papelera</string>
+    <string name="report_items_label">Elementos movidos</string>
+    <string name="report_storage_title">Almacenamiento del dispositivo</string>
+    <string name="report_storage_detail">%1$s usados de %2$s</string>
+    <string name="report_done">Hecho</string>
+    <string name="report_title">Informe de limpieza</string>
 </resources>

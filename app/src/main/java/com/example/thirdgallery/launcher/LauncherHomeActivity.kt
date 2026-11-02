@@ -34,6 +34,9 @@ interface LauncherHost {
     fun openGallery()
     fun openDrawer()
     fun requestDefaultLauncher()
+
+    /** Back to the home page from the report page. */
+    fun showHome()
 }
 
 /**
@@ -68,7 +71,7 @@ class LauncherHomeActivity : AppCompatActivity(), LauncherHost, LauncherSettings
         }
     }
 
-    /** Back: closes the drawer, or goes from the gallery page back to home. */
+    /** Back: closes the drawer, or goes from the gallery or report page back to home. */
     private val backHandler = object : OnBackPressedCallback(false) {
         override fun handleOnBackPressed() {
             if (b.appsDrawer.isOpen) {
@@ -220,6 +223,8 @@ class LauncherHomeActivity : AppCompatActivity(), LauncherHost, LauncherSettings
         binding?.vpLauncher?.setCurrentItem(PAGE_GALLERY, true)
     }
 
+    override fun showHome() = showHomePage(smooth = true)
+
     override fun openDrawer() {
         val binding = binding ?: return
         if (binding.vpLauncher.currentItem != PAGE_HOME) return
@@ -347,14 +352,18 @@ class LauncherHomeActivity : AppCompatActivity(), LauncherHost, LauncherSettings
     // ---- pager ----
 
     private class PagerAdapter(activity: FragmentActivity) : FragmentStateAdapter(activity) {
-        override fun getItemCount() = 2
-        override fun createFragment(position: Int): Fragment =
-            if (position == PAGE_GALLERY) GalleryPageFragment() else LauncherHomeFragment()
+        override fun getItemCount() = 3
+        override fun createFragment(position: Int): Fragment = when (position) {
+            PAGE_GALLERY -> GalleryPageFragment()
+            PAGE_REPORT -> CleaningReportFragment()
+            else -> LauncherHomeFragment()
+        }
     }
 
     companion object {
         const val PAGE_GALLERY = 0
         const val PAGE_HOME = 1
+        const val PAGE_REPORT = 2
 
         private const val KEY_PAGE = "launcher_page"
         private const val GESTURE_NONE = 0

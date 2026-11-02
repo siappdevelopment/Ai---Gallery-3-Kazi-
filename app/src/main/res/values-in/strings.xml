@@ -628,4 +628,14 @@
     <string name="onb_opt_mute">Bisukan kenangan</string>
     <string name="onb_opt_allow_noti">Izinkan notifikasi</string>
     <string name="onb_opt_weekly">Hanya ringkasan mingguan</string>
+    <string name="report_complete">Pembersihan selesai</string>
+    <string name="report_complete_message">Bidikan tambahan dipindahkan ke Tempat Sampah. Kosongkan Tempat Sampah untuk membebaskan ruangnya.</string>
+    <string name="report_already_clean">Sudah bersih</string>
+    <string name="report_already_clean_message">Belum ada yang dibersihkan. Gunakan “Terbaik dari rentetan” untuk merapikan bidikan yang mirip.</string>
+    <string name="report_space_label">Di Tempat Sampah</string>
+    <string name="report_items_label">Item dipindahkan</string>
+    <string name="report_storage_title">Penyimpanan perangkat</string>
+    <string name="report_storage_detail">%1$s terpakai dari %2$s</string>
+    <string name="report_done">Selesai</string>
+    <string name="report_title">Laporan pembersihan</string>
 </resources>

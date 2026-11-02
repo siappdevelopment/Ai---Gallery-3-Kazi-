@@ -8,6 +8,7 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.thirdgallery.R
+import com.example.thirdgallery.helper.CleaningReportStore
 import com.example.thirdgallery.helper.MediaUris
 import com.example.thirdgallery.repo.MediaRepository
 import com.example.thirdgallery.repo.SuggestionsRepository
@@ -33,7 +34,7 @@ class BurstsViewModel(application: Application) : AndroidViewModel(application) 
 
     private enum class Action { KEEP, FAVORITE }
 
-    private class Pending(val action: Action, val key: Long, val uids: List<Long>)
+    private class Pending(val action: Action, val key: Long, val uids: List<Long>, val bytes: Long)
 
     private val repository = MediaRepository(application)
     private val suggestions = SuggestionsRepository(application)
@@ -110,7 +111,9 @@ class BurstsViewModel(application: Application) : AndroidViewModel(application) 
                 _events.postValue(Event(PickEvent.Message(R.string.bin_failed)))
                 return@execute
             }
-            pending = Pending(action, key, uids)
+            // The size of what is about to leave, for the Cleaning report.
+            val bytes = if (action == Action.KEEP) CleaningReportStore.sizeOf(resolver, uris) else 0L
+            pending = Pending(action, key, uids, bytes)
             _events.postValue(Event(PickEvent.Launch(intent)))
         }
     }
@@ -128,6 +131,7 @@ class BurstsViewModel(application: Application) : AndroidViewModel(application) 
         worker.execute {
             if (done.action == Action.KEEP) {
                 repository.removeLocalAll(done.uids)
+                CleaningReportStore.record(getApplication(), done.bytes, done.uids.size)
                 update(done.key) { it.copy(done = true) }
                 _events.postValue(Event(PickEvent.Message(R.string.burst_kept_toast)))
             } else {

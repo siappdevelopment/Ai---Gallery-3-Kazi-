@@ -628,4 +628,14 @@
     <string name="onb_opt_mute">추억 알림 끄기</string>
     <string name="onb_opt_allow_noti">알림 허용</string>
     <string name="onb_opt_weekly">주간 요약만</string>
+    <string name="report_complete">정리 완료</string>
+    <string name="report_complete_message">불필요한 사진을 휴지통으로 옮겼습니다. 휴지통을 비우면 공간이 확보됩니다.</string>
+    <string name="report_already_clean">이미 깨끗합니다</string>
+    <string name="report_already_clean_message">아직 정리한 항목이 없습니다. “연속 촬영 베스트”로 비슷한 사진을 정리해 보세요.</string>
+    <string name="report_space_label">휴지통에 있음</string>
+    <string name="report_items_label">이동한 항목</string>
+    <string name="report_storage_title">기기 저장공간</string>
+    <string name="report_storage_detail">%2$s 중 %1$s 사용</string>
+    <string name="report_done">완료</string>
+    <string name="report_title">정리 보고서</string>
 </resources>

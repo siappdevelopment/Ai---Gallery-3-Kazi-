@@ -628,4 +628,14 @@
     <string name="onb_opt_mute">静音回忆</string>
     <string name="onb_opt_allow_noti">允许通知</string>
     <string name="onb_opt_weekly">仅每周摘要</string>
+    <string name="report_complete">清理完成</string>
+    <string name="report_complete_message">多余的照片已移到回收站。清空回收站即可释放空间。</string>
+    <string name="report_already_clean">已经很干净</string>
+    <string name="report_already_clean_message">尚未清理任何内容。使用“连拍精选”来整理相似的照片。</string>
+    <string name="report_space_label">在回收站中</string>
+    <string name="report_items_label">已移动的项目</string>
+    <string name="report_storage_title">设备存储</string>
+    <string name="report_storage_detail">已用 %1$s，共 %2$s</string>
+    <string name="report_done">完成</string>
+    <string name="report_title">清理报告</string>
 </resources>

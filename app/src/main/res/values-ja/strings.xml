@@ -628,4 +628,14 @@
     <string name="onb_opt_mute">思い出を通知しない</string>
     <string name="onb_opt_allow_noti">通知を許可</string>
     <string name="onb_opt_weekly">週間サマリーのみ</string>
+    <string name="report_complete">クリーンアップが完了しました</string>
+    <string name="report_complete_message">余分なショットをゴミ箱に移動しました。ゴミ箱を空にすると容量が空きます。</string>
+    <string name="report_already_clean">すでにきれいです</string>
+    <string name="report_already_clean_message">まだ整理されていません。「連写のベスト」で似たショットを整理しましょう。</string>
+    <string name="report_space_label">ゴミ箱内</string>
+    <string name="report_items_label">移動した項目</string>
+    <string name="report_storage_title">端末のストレージ</string>
+    <string name="report_storage_detail">%2$s のうち %1$s を使用中</string>
+    <string name="report_done">完了</string>
+    <string name="report_title">クリーニングレポート</string>
 </resources>

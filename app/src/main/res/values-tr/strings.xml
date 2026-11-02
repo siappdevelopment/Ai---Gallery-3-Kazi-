@@ -635,4 +635,14 @@
     <string name="onb_opt_mute">Anıları sessize al</string>
     <string name="onb_opt_allow_noti">Bildirimlere izin ver</string>
     <string name="onb_opt_weekly">Yalnızca haftalık özet</string>
+    <string name="report_complete">Temizlik tamamlandı</string>
+    <string name="report_complete_message">Fazla çekimler Çöp Kutusu’na taşındı. Yerini boşaltmak için Çöp Kutusu’nu boşaltın.</string>
+    <string name="report_already_clean">Zaten temiz</string>
+    <string name="report_already_clean_message">Henüz hiçbir şey temizlenmedi. Benzer çekimleri düzenlemek için “Seri çekimlerin en iyisi”ni kullanın.</string>
+    <string name="report_space_label">Çöp Kutusu’nda</string>
+    <string name="report_items_label">Taşınan öğeler</string>
+    <string name="report_storage_title">Cihaz depolaması</string>
+    <string name="report_storage_detail">%2$s içinde %1$s kullanıldı</string>
+    <string name="report_done">Bitti</string>
+    <string name="report_title">Temizlik raporu</string>
 </resources>

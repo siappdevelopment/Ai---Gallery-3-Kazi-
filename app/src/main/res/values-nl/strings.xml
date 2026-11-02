@@ -635,4 +635,14 @@
     <string name="onb_opt_mute">Herinneringen dempen</string>
     <string name="onb_opt_allow_noti">Meldingen toestaan</string>
     <string name="onb_opt_weekly">Alleen wekelijks overzicht</string>
+    <string name="report_complete">Opruimen voltooid</string>
+    <string name="report_complete_message">De overtollige opnamen zijn naar de Prullenbak verplaatst. Leeg de Prullenbak om ruimte vrij te maken.</string>
+    <string name="report_already_clean">Al schoon</string>
+    <string name="report_already_clean_message">Er is nog niets opgeruimd. Gebruik “Beste uit serieopnamen” om vergelijkbare opnamen op te ruimen.</string>
+    <string name="report_space_label">In de Prullenbak</string>
+    <string name="report_items_label">Verplaatste items</string>
+    <string name="report_storage_title">Opslag van apparaat</string>
+    <string name="report_storage_detail">%1$s gebruikt van %2$s</string>
+    <string name="report_done">Klaar</string>
+    <string name="report_title">Opschoonrapport</string>
 </resources>
