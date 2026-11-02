@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "838193542382",
+    "project_id": "gallerykz--memories",
+    "storage_bucket": "gallerykz--memories.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:838193542382:android:ccffe0d3e08b06069cefff",
+        "android_client_info": {
+          "package_name": "com.photovideo.gallerykz.memories"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAjaYitgum-DiWywWxIyeDvhnZd4A-0tlA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
