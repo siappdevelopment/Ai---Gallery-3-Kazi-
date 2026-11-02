@@ -12,6 +12,7 @@ import androidx.core.view.WindowInsetsCompat
 import com.example.thirdgallery.databinding.ActivityNotiPermissionBinding
 import com.example.thirdgallery.helper.MediaPermissionHelper
 import com.example.thirdgallery.helper.OnboardingPrefs
+import com.example.thirdgallery.launcher.LauncherHomeActivity
 import com.example.thirdgallery.viewmodel.NotiPermissionViewModel
 
 class NotiPermissionActivity : AppCompatActivity() {
@@ -50,7 +51,7 @@ class NotiPermissionActivity : AppCompatActivity() {
         viewModel.navigateNext.observe(this) { event ->
             event.getContentIfNotHandled()?.let {
                 OnboardingPrefs.setStep(this, OnboardingPrefs.STEP_DONE)
-                startActivity(Intent(this, HomeActivity::class.java))
+                startActivity(Intent(this, LauncherHomeActivity::class.java))
                 finish()
             }
         }

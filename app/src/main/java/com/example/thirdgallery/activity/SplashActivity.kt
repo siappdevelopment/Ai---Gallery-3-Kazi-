@@ -11,6 +11,7 @@ import androidx.core.view.WindowInsetsCompat
 import com.example.thirdgallery.R
 import com.example.thirdgallery.databinding.ActivitySplashBinding
 import com.example.thirdgallery.helper.OnboardingPrefs
+import com.example.thirdgallery.launcher.LauncherHomeActivity
 
 class SplashActivity : AppCompatActivity() {
 
@@ -88,7 +89,7 @@ class SplashActivity : AppCompatActivity() {
             OnboardingPrefs.STEP_MEDIA -> MediaPermissionActivity::class.java
             OnboardingPrefs.STEP_MEDIA_DENIED -> MediaDeniteActivity::class.java
             OnboardingPrefs.STEP_NOTI -> NotiPermissionActivity::class.java
-            OnboardingPrefs.STEP_DONE -> HomeActivity::class.java
+            OnboardingPrefs.STEP_DONE -> LauncherHomeActivity::class.java
             else -> LanguageActivity::class.java
         }
         startActivity(Intent(this, next))

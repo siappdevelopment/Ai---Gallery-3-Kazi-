@@ -1,0 +1,321 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Launcher home page: search, clock, default-home card, folders and shortcuts, gallery/widgets tiles, dock -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/homeRoot"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".launcher.LauncherHomeFragment">
+
+    <LinearLayout
+        android:id="@+id/llSearch"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginEnd="16dp"
+        android:background="@drawable/bg_launcher_glass"
+        android:clickable="true"
+        android:focusable="true"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingStart="16dp"
+        android:paddingEnd="6dp">
+
+        <ImageView
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:importantForAccessibility="no"
+            android:src="@drawable/ic_search"
+            app:tint="@color/white" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_weight="1"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:text="@string/launcher_google_search"
+            android:textColor="@color/white"
+            android:textSize="15sp" />
+
+        <ImageButton
+            android:id="@+id/ivMic"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="@string/launcher_voice_search"
+            android:scaleType="center"
+            android:src="@drawable/ic_launcher_mic"
+            app:tint="@color/white" />
+    </LinearLayout>
+
+    <TextClock
+        android:id="@+id/tvTime"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="14dp"
+        android:format12Hour="h:mm"
+        android:format24Hour="HH:mm"
+        android:gravity="center"
+        android:shadowColor="#66000000"
+        android:shadowRadius="8"
+        android:textColor="@color/white"
+        android:textSize="64sp" />
+
+    <TextClock
+        android:id="@+id/tvDate"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:format12Hour="EEEE, d MMMM"
+        android:format24Hour="EEEE, d MMMM"
+        android:gravity="center"
+        android:shadowColor="#66000000"
+        android:shadowRadius="6"
+        android:textColor="@color/white"
+        android:textSize="16sp"
+        android:textStyle="bold" />
+
+    <!-- Shown only while this app is not the Home app -->
+    <LinearLayout
+        android:id="@+id/promo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginEnd="16dp"
+        android:background="@drawable/bg_launcher_glass"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:padding="12dp"
+        android:visibility="gone">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/launcher_default_title"
+            android:textColor="@color/white"
+            android:textSize="14sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/btnSetDefault"
+            android:layout_width="wrap_content"
+            android:layout_height="36dp"
+            android:layout_marginStart="10dp"
+            android:background="@drawable/bg_dialog_primary"
+            android:gravity="center"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:text="@string/launcher_default_action"
+            android:textColor="@color/white"
+            android:textSize="13sp"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+    <!-- Folders and top shortcuts -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:baselineAligned="false"
+            android:orientation="horizontal"
+            android:paddingStart="12dp"
+            android:paddingEnd="12dp">
+
+            <LinearLayout
+                android:id="@+id/cellGoogle"
+                style="@style/Widget.ThirdGallery.LauncherCell">
+
+                <FrameLayout
+                    android:id="@+id/folderGoogle"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp">
+
+                    <GridLayout
+                        android:id="@+id/gridGoogle"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:columnCount="3" />
+                </FrameLayout>
+
+                <TextView
+                    android:id="@+id/tvGoogle"
+                    style="@style/Widget.ThirdGallery.LauncherCellLabel"
+                    android:text="@string/launcher_folder_google" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/cellTools"
+                style="@style/Widget.ThirdGallery.LauncherCell">
+
+                <FrameLayout
+                    android:id="@+id/folderTools"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp">
+
+                    <GridLayout
+                        android:id="@+id/gridTools"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:columnCount="3" />
+                </FrameLayout>
+
+                <TextView
+                    android:id="@+id/tvTools"
+                    style="@style/Widget.ThirdGallery.LauncherCellLabel"
+                    android:text="@string/launcher_folder_tools" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/cellCalendar"
+                style="@style/Widget.ThirdGallery.LauncherCell">
+
+                <ImageView
+                    android:id="@+id/ivCalendar"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:importantForAccessibility="no" />
+
+                <TextView
+                    android:id="@+id/tvCalendar"
+                    style="@style/Widget.ThirdGallery.LauncherCellLabel" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/cellSettings"
+                style="@style/Widget.ThirdGallery.LauncherCell">
+
+                <ImageView
+                    android:id="@+id/ivSettings"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:importantForAccessibility="no"
+                    android:src="@drawable/ic_settings"
+                    app:tint="@color/white" />
+
+                <TextView
+                    android:id="@+id/tvSettings"
+                    style="@style/Widget.ThirdGallery.LauncherCellLabel"
+                    android:text="@string/launcher_settings_short" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="22dp"
+            android:orientation="horizontal"
+            android:paddingStart="20dp"
+            android:paddingEnd="20dp">
+
+            <LinearLayout
+                android:id="@+id/tileGallery"
+                style="@style/Widget.ThirdGallery.LauncherTile">
+
+                <ImageView
+                    android:layout_width="28dp"
+                    android:layout_height="28dp"
+                    android:importantForAccessibility="no"
+                    android:src="@drawable/ic_photo_library"
+                    app:tint="@color/white" />
+
+                <TextView
+                    style="@style/Widget.ThirdGallery.LauncherTileLabel"
+                    android:text="@string/launcher_gallery" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/tileWidgets"
+                style="@style/Widget.ThirdGallery.LauncherTile">
+
+                <ImageView
+                    android:layout_width="28dp"
+                    android:layout_height="28dp"
+                    android:importantForAccessibility="no"
+                    android:src="@drawable/ic_dashboard"
+                    app:tint="@color/white" />
+
+                <TextView
+                    style="@style/Widget.ThirdGallery.LauncherTileLabel"
+                    android:text="@string/launcher_widgets" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="14dp"
+            android:gravity="center"
+            android:shadowColor="#66000000"
+            android:shadowRadius="6"
+            android:text="@string/launcher_swipe_right_hint"
+            android:textColor="@color/white"
+            android:textSize="13sp" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/tvSwipeHint"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?attr/selectableItemBackground"
+        android:gravity="center"
+        android:paddingTop="6dp"
+        android:paddingBottom="8dp"
+        android:shadowColor="#66000000"
+        android:shadowRadius="6"
+        android:text="@string/launcher_swipe_hint"
+        android:textColor="@color/white"
+        android:textSize="13sp"
+        android:textStyle="bold"
+        app:drawableTopCompat="@drawable/ic_launcher_swipe_up" />
+
+    <LinearLayout
+        android:id="@+id/dock"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="12dp"
+        android:background="@drawable/bg_launcher_glass"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp">
+
+        <ImageView
+            android:id="@+id/dockContacts"
+            style="@style/Widget.ThirdGallery.LauncherDockIcon"
+            android:contentDescription="@string/launcher_dock_contacts" />
+
+        <ImageView
+            android:id="@+id/dockPhone"
+            style="@style/Widget.ThirdGallery.LauncherDockIcon"
+            android:contentDescription="@string/launcher_dock_phone" />
+
+        <ImageView
+            android:id="@+id/dockMessages"
+            style="@style/Widget.ThirdGallery.LauncherDockIcon"
+            android:contentDescription="@string/launcher_dock_messages" />
+
+        <ImageView
+            android:id="@+id/dockBrowser"
+            style="@style/Widget.ThirdGallery.LauncherDockIcon"
+            android:contentDescription="@string/launcher_dock_browser" />
+
+        <ImageView
+            android:id="@+id/dockCamera"
+            style="@style/Widget.ThirdGallery.LauncherDockIcon"
+            android:contentDescription="@string/launcher_dock_camera" />
+    </LinearLayout>
+</LinearLayout>

@@ -22,7 +22,6 @@ import com.example.thirdgallery.activity.AlbumDetailActivity
 import com.example.thirdgallery.helper.SelectionBarController
 import com.example.thirdgallery.viewmodel.SelectionViewModel
 import com.example.thirdgallery.activity.FullScreenMediaActivity
-import com.example.thirdgallery.activity.HomeActivity
 import com.example.thirdgallery.database.AlbumRow
 import com.example.thirdgallery.model.AlbumKind
 import com.example.thirdgallery.adapter.FilterEmptyAdapter
@@ -140,7 +139,7 @@ class PhotoFragment : Fragment() {
                 mediaAdapter?.refreshSelection()
                 mosaicAdapter?.refreshSelection()
             },
-            onActiveChanged = { (activity as? HomeActivity)?.setChromeVisible(!it) },
+            onActiveChanged = { galleryHost()?.setChromeVisible(!it) },
         )
         selectionBars = bars
 
@@ -148,7 +147,7 @@ class PhotoFragment : Fragment() {
         val media = MediaPagingAdapter(tilePx(columns), ::openMedia, bars.selection)
         val classic = GalleryHeaderAdapter(
             onFilterSelected = { viewModel.setFilter(it) },
-            onAllAlbums = { (activity as? HomeActivity)?.openAlbumsTab() },
+            onAllAlbums = { galleryHost()?.openAlbumsTab() },
             onOpenAlbum = ::openAlbum,
         )
         val timeline = TimelineHeaderAdapter(
@@ -167,13 +166,13 @@ class PhotoFragment : Fragment() {
         }
         val mosaicTopAdapter = MosaicTopAdapter(
             onFilterSelected = { viewModel.setFilter(it) },
-            onAllAlbums = { (activity as? HomeActivity)?.openAlbumsTab() },
+            onAllAlbums = { galleryHost()?.openAlbumsTab() },
             onOpenAlbum = ::openAlbum,
         )
         val mosaic = MosaicPagingAdapter(resources.displayMetrics.widthPixels, ::openMedia, bars.selection)
         val journalTopAdapter = MosaicTopAdapter(
             onFilterSelected = { viewModel.setFilter(it) },
-            onAllAlbums = { (activity as? HomeActivity)?.openAlbumsTab() },
+            onAllAlbums = { galleryHost()?.openAlbumsTab() },
             onOpenAlbum = ::openAlbum,
             compactCards = true,
         )
@@ -314,9 +313,12 @@ class PhotoFragment : Fragment() {
         if (hidden) selectionViewModel.clear()
     }
 
+    /** The Gallery page this tab lives in (inside the launcher or on its own). */
+    private fun galleryHost(): GalleryHost? = (parentFragment as? GalleryHost) ?: (activity as? GalleryHost)
+
     override fun onDestroyView() {
         // The bars must come back even when the view goes away while selecting.
-        (activity as? HomeActivity)?.setChromeVisible(true)
+        galleryHost()?.setChromeVisible(true)
         selectionBars = null
         binding?.rvMedia?.adapter = null
         stopMosaicData()

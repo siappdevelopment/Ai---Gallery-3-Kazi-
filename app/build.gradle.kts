@@ -60,4 +60,6 @@ dependencies {
     androidTestImplementation(libs.androidx.espresso.core)
     androidTestImplementation(libs.androidx.junit)
     implementation(libs.androidx.fragment.ktx)
+    // The launcher pager (gallery | home).
+    implementation("androidx.viewpager2:viewpager2:1.1.0")
 }

@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:background="@color/language_background"
     android:orientation="vertical"
-    tools:context=".activity.HomeActivity">
+    tools:context=".fragment.GalleryPageFragment">
 
     <!-- Top bar: logo + app name, search and settings -->
     <LinearLayout

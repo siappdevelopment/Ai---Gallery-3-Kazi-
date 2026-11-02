@@ -14,6 +14,63 @@
     <!-- Lets the app read the GPS position saved inside the user's own photos (Places); it is not the phone's live location. -->
     <uses-permission android:name="android.permission.ACCESS_MEDIA_LOCATION" />
 
+    <!-- Launcher: uninstall from the drawer's long-press menu, and Clear all on the Recent page. -->
+    <uses-permission android:name="android.permission.REQUEST_DELETE_PACKAGES" />
+    <uses-permission android:name="android.permission.KILL_BACKGROUND_PROCESSES" />
+
+    <!-- Android 11+ hides other apps unless they are declared here: the drawer lists every app with a launcher icon,
+         the dock and the shortcuts find the phone, messages, browser, camera, Contacts and Calendar apps, and the
+         Google search bar finds the Google app. -->
+    <queries>
+        <package android:name="com.google.android.googlequicksearchbox" />
+        <package android:name="com.android.chrome" />
+        <intent>
+            <action android:name="android.intent.action.MAIN" />
+            <category android:name="android.intent.category.LAUNCHER" />
+        </intent>
+        <intent>
+            <action android:name="android.intent.action.MAIN" />
+            <category android:name="android.intent.category.HOME" />
+        </intent>
+        <intent>
+            <action android:name="android.intent.action.DIAL" />
+        </intent>
+        <intent>
+            <action android:name="android.intent.action.MAIN" />
+            <category android:name="android.intent.category.APP_MESSAGING" />
+        </intent>
+        <intent>
+            <action android:name="android.intent.action.MAIN" />
+            <category android:name="android.intent.category.APP_BROWSER" />
+        </intent>
+        <intent>
+            <action android:name="android.intent.action.MAIN" />
+            <category android:name="android.intent.category.APP_CONTACTS" />
+        </intent>
+        <intent>
+            <action android:name="android.intent.action.MAIN" />
+            <category android:name="android.intent.category.APP_CALENDAR" />
+        </intent>
+        <intent>
+            <action android:name="android.intent.action.VIEW" />
+            <category android:name="android.intent.category.BROWSABLE" />
+            <data android:scheme="http" />
+        </intent>
+        <intent>
+            <action android:name="android.intent.action.SENDTO" />
+            <data android:scheme="smsto" />
+        </intent>
+        <intent>
+            <action android:name="android.media.action.STILL_IMAGE_CAMERA" />
+        </intent>
+        <intent>
+            <action android:name="android.speech.action.WEB_SEARCH" />
+        </intent>
+        <intent>
+            <action android:name="android.intent.action.VOICE_COMMAND" />
+        </intent>
+    </queries>
+
     <application
         android:name=".GalleryApp"
         android:allowBackup="true"
@@ -166,6 +223,76 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <!-- Launcher: the main screen after the onboarding. The HOME filter lets the phone offer it as the Home app. -->
+        <activity
+            android:name=".launcher.LauncherHomeActivity"
+            android:clearTaskOnLaunch="true"
+            android:exported="true"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"
+            android:taskAffinity=""
+            android:theme="@style/Theme.ThirdGallery.Launcher"
+            android:windowSoftInputMode="adjustResize">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.HOME" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".launcher.LauncherSettingsActivity"
+            android:exported="false"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".launcher.LauncherWidgetsActivity"
+            android:exported="false"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".launcher.RecentActivity"
+            android:excludeFromRecents="true"
+            android:exported="false"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"
+            android:taskAffinity="" />
+
+        <receiver
+            android:name=".launcher.GalleryWidgetProvider"
+            android:exported="false"
+            android:label="@string/launcher_widget_gallery_title">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/launcher_widget_gallery_info" />
+        </receiver>
+        <receiver
+            android:name=".launcher.SearchWidgetProvider"
+            android:exported="false"
+            android:label="@string/launcher_widget_search_title">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/launcher_widget_search_info" />
+        </receiver>
+        <receiver
+            android:name=".launcher.CameraWidgetProvider"
+            android:exported="false"
+            android:label="@string/launcher_widget_camera_title">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/launcher_widget_camera_info" />
+        </receiver>
 
         <!-- Persists the per-app language on API < 33. -->
         <service

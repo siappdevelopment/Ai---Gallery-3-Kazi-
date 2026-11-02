@@ -29,6 +29,9 @@ import com.example.thirdgallery.helper.MediaPermissionHelper
 import com.example.thirdgallery.helper.ThemePrefs
 import com.example.thirdgallery.helper.VaultSession
 import com.example.thirdgallery.language.Languages
+import com.example.thirdgallery.launcher.LauncherHomeActivity
+import com.example.thirdgallery.launcher.LauncherSettingsActivity
+import com.example.thirdgallery.launcher.LauncherWidgetsActivity
 import com.example.thirdgallery.repo.VaultRepository
 import com.example.thirdgallery.viewmodel.MediaAccess
 import com.example.thirdgallery.viewmodel.SettingState

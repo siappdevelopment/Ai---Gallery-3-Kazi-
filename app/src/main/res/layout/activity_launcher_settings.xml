@@ -1,0 +1,298 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Launcher settings: default home app, live preview, name visibility, sizes and sort order -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/language_background"
+    android:orientation="vertical"
+    tools:context=".launcher.LauncherSettingsActivity">
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:overScrollMode="never">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingBottom="30dp">
+
+            <ImageButton
+                android:id="@+id/btnBack"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_margin="12dp"
+                android:background="@drawable/bg_home_circle_button"
+                android:contentDescription="@string/albums_back"
+                android:scaleType="center"
+                android:src="@drawable/ic_arrow_back"
+                app:tint="@color/splash_text_primary" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:letterSpacing="-0.033"
+                android:paddingStart="12dp"
+                android:paddingEnd="12dp"
+                android:paddingBottom="16dp"
+                android:text="@string/launcher_settings"
+                android:textColor="@color/splash_text_primary"
+                android:textSize="27sp"
+                android:textStyle="bold" />
+
+            <!-- Default home app -->
+            <LinearLayout
+                style="@style/Widget.ThirdGallery.LauncherSettingsCard"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/launcher_default_title"
+                    android:textColor="@color/splash_text_primary"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/tvDefaultSub"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:textColor="@color/splash_text_secondary"
+                    android:textSize="13.5sp" />
+
+                <TextView
+                    android:id="@+id/btnDefault"
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:layout_marginTop="12dp"
+                    android:background="@drawable/bg_dialog_primary"
+                    android:gravity="center"
+                    android:paddingStart="20dp"
+                    android:paddingEnd="20dp"
+                    android:text="@string/launcher_default_action"
+                    android:textColor="@color/white"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+            <!-- Preview -->
+            <TextView
+                style="@style/Widget.ThirdGallery.LauncherSettingsTitle"
+                android:text="@string/launcher_preview" />
+
+            <LinearLayout
+                style="@style/Widget.ThirdGallery.LauncherSettingsCard"
+                android:orientation="horizontal"
+                android:paddingStart="8dp"
+                android:paddingEnd="8dp">
+
+                <LinearLayout
+                    android:id="@+id/preview1"
+                    style="@style/Widget.ThirdGallery.LauncherPreviewItem">
+
+                    <ImageView
+                        android:id="@+id/ivPreview1"
+                        android:layout_width="60dp"
+                        android:layout_height="60dp"
+                        android:importantForAccessibility="no" />
+
+                    <TextView
+                        android:id="@+id/tvPreview1"
+                        style="@style/Widget.ThirdGallery.LauncherPreviewLabel" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/preview2"
+                    style="@style/Widget.ThirdGallery.LauncherPreviewItem">
+
+                    <ImageView
+                        android:id="@+id/ivPreview2"
+                        android:layout_width="60dp"
+                        android:layout_height="60dp"
+                        android:importantForAccessibility="no" />
+
+                    <TextView
+                        android:id="@+id/tvPreview2"
+                        style="@style/Widget.ThirdGallery.LauncherPreviewLabel" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/preview3"
+                    style="@style/Widget.ThirdGallery.LauncherPreviewItem">
+
+                    <ImageView
+                        android:id="@+id/ivPreview3"
+                        android:layout_width="60dp"
+                        android:layout_height="60dp"
+                        android:importantForAccessibility="no" />
+
+                    <TextView
+                        android:id="@+id/tvPreview3"
+                        style="@style/Widget.ThirdGallery.LauncherPreviewLabel" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/preview4"
+                    style="@style/Widget.ThirdGallery.LauncherPreviewItem">
+
+                    <ImageView
+                        android:id="@+id/ivPreview4"
+                        android:layout_width="60dp"
+                        android:layout_height="60dp"
+                        android:importantForAccessibility="no" />
+
+                    <TextView
+                        android:id="@+id/tvPreview4"
+                        style="@style/Widget.ThirdGallery.LauncherPreviewLabel" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <!-- Display -->
+            <LinearLayout
+                style="@style/Widget.ThirdGallery.LauncherSettingsCard"
+                android:layout_marginTop="14dp"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/launcher_label_visibility"
+                            android:textColor="@color/splash_text_primary"
+                            android:textSize="15.5sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="2dp"
+                            android:text="@string/launcher_label_visibility_sub"
+                            android:textColor="@color/splash_text_secondary"
+                            android:textSize="12.5sp" />
+                    </LinearLayout>
+
+                    <androidx.appcompat.widget.SwitchCompat
+                        android:id="@+id/switchLabels"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:minHeight="48dp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="14dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/launcher_icon_size"
+                        android:textColor="@color/splash_text_primary"
+                        android:textSize="15.5sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/tvIconSize"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/splash_text_secondary"
+                        android:textSize="14sp" />
+                </LinearLayout>
+
+                <SeekBar
+                    android:id="@+id/seekIcon"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:max="40"
+                    android:minHeight="40dp" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/launcher_label_size"
+                        android:textColor="@color/splash_text_primary"
+                        android:textSize="15.5sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/tvLabelSize"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/splash_text_secondary"
+                        android:textSize="14sp" />
+                </LinearLayout>
+
+                <SeekBar
+                    android:id="@+id/seekLabel"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:max="6"
+                    android:minHeight="40dp" />
+            </LinearLayout>
+
+            <!-- Sort -->
+            <TextView
+                style="@style/Widget.ThirdGallery.LauncherSettingsTitle"
+                android:text="@string/launcher_sort" />
+
+            <RadioGroup
+                android:id="@+id/groupSort"
+                style="@style/Widget.ThirdGallery.LauncherSettingsCard"
+                android:orientation="vertical">
+
+                <RadioButton
+                    android:id="@+id/sortAz"
+                    style="@style/Widget.ThirdGallery.LauncherSortOption"
+                    android:text="@string/launcher_sort_az" />
+
+                <RadioButton
+                    android:id="@+id/sortZa"
+                    style="@style/Widget.ThirdGallery.LauncherSortOption"
+                    android:text="@string/launcher_sort_za" />
+
+                <RadioButton
+                    android:id="@+id/sortDate"
+                    style="@style/Widget.ThirdGallery.LauncherSortOption"
+                    android:text="@string/launcher_sort_date" />
+            </RadioGroup>
+
+            <!-- Widgets -->
+            <TextView
+                android:id="@+id/btnWidgets"
+                style="@style/Widget.ThirdGallery.LauncherSettingsCard"
+                android:layout_marginTop="14dp"
+                android:gravity="center_vertical"
+                android:text="@string/launcher_widgets"
+                android:textColor="@color/splash_text_primary"
+                android:textSize="15.5sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+</LinearLayout>
