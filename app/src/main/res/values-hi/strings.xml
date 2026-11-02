@@ -429,4 +429,12 @@
     <string name="places_none">अभी कोई स्थान नहीं। स्थान के साथ सहेजी गई फ़ोटो यहाँ दिखेंगी।</string>
     <string name="places_failed">फ़ोटो के स्थान पढ़े नहीं जा सके। फिर से कोशिश करने के लिए टैप करें।</string>
     <string name="places_no_match">आपकी खोज से कोई स्थान मेल नहीं खाता</string>
+    <string name="category_meta">%1$d आइटम · %2$s</string>
+    <string name="category_best_subtitle">तीखी, साफ़ तस्वीरें</string>
+    <string name="category_portraits_subtitle">साफ़ पोर्ट्रेट तस्वीरें</string>
+    <string name="category_edited_subtitle">हाल के एडिट और कॉपी</string>
+    <string name="category_scanning">आपकी फ़ोटो जाँची जा रही हैं…</string>
+    <string name="category_scanning_short">जाँच जारी…</string>
+    <string name="category_empty_title">यहाँ अभी कुछ नहीं है</string>
+    <string name="category_empty_desc">इस डिवाइस पर आपकी लाइब्रेरी जाँचे जाने के साथ मेल खाती फ़ोटो यहाँ दिखेंगी।</string>
 </resources>

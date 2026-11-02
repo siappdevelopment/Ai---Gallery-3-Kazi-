@@ -429,4 +429,12 @@
     <string name="places_none">Noch keine Orte. Fotos mit gespeichertem Standort erscheinen hier.</string>
     <string name="places_failed">Die Fotostandorte konnten nicht gelesen werden. Tippe, um es erneut zu versuchen.</string>
     <string name="places_no_match">Keine Orte passen zu deiner Suche</string>
+    <string name="category_meta">%1$d Elemente · %2$s</string>
+    <string name="category_best_subtitle">Scharfe, klare Aufnahmen</string>
+    <string name="category_portraits_subtitle">Klare Porträtaufnahmen</string>
+    <string name="category_edited_subtitle">Neueste Bearbeitungen und Kopien</string>
+    <string name="category_scanning">Deine Fotos werden geprüft…</string>
+    <string name="category_scanning_short">PRÜFUNG LÄUFT…</string>
+    <string name="category_empty_title">Noch nichts hier</string>
+    <string name="category_empty_desc">Passende Fotos erscheinen hier, sobald deine Mediathek auf diesem Gerät geprüft wurde.</string>
 </resources>

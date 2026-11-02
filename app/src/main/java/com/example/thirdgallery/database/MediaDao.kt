@@ -247,4 +247,42 @@ interface MediaDao {
 
     @Query("SELECT COUNT(*) FROM media WHERE displayName LIKE '%' || :pattern || '%' ESCAPE '\\'")
     fun observeSearchCount(pattern: String): LiveData<Int>
+
+    // "Made for you" categories (the rules are in CategorySql), newest first
+
+    @Query("SELECT m.* " + CategorySql.BEST + "ORDER BY m.dateMs DESC, m.uid DESC")
+    fun bestSource(): PagingSource<Int, MediaEntity>
+
+    @Query("SELECT COUNT(*) " + CategorySql.BEST)
+    fun observeBestCount(): LiveData<Int>
+
+    @Query("SELECT m.uid " + CategorySql.BEST + "ORDER BY m.dateMs DESC, m.uid DESC")
+    fun bestUids(): List<Long>
+
+    @Query("SELECT m.uid " + CategorySql.BEST + "ORDER BY (q.score + m.isFavorite * 8) DESC, m.dateMs DESC, m.uid DESC LIMIT 2")
+    fun observeBestCovers(): LiveData<List<Long>>
+
+    @Query("SELECT m.* " + CategorySql.PORTRAITS + "ORDER BY m.dateMs DESC, m.uid DESC")
+    fun portraitSource(): PagingSource<Int, MediaEntity>
+
+    @Query("SELECT COUNT(*) " + CategorySql.PORTRAITS)
+    fun observePortraitCount(): LiveData<Int>
+
+    @Query("SELECT m.uid " + CategorySql.PORTRAITS + "ORDER BY m.dateMs DESC, m.uid DESC")
+    fun portraitUids(): List<Long>
+
+    @Query("SELECT m.uid " + CategorySql.PORTRAITS + "ORDER BY m.dateMs DESC, m.uid DESC LIMIT 1")
+    fun observePortraitCovers(): LiveData<List<Long>>
+
+    @Query("SELECT m.* " + CategorySql.EDITED + "ORDER BY q.editedAtMs DESC, m.uid DESC")
+    fun editedSource(since: Long): PagingSource<Int, MediaEntity>
+
+    @Query("SELECT COUNT(*) " + CategorySql.EDITED)
+    fun observeEditedCount(since: Long): LiveData<Int>
+
+    @Query("SELECT m.uid " + CategorySql.EDITED + "ORDER BY q.editedAtMs DESC, m.uid DESC")
+    fun editedUids(since: Long): List<Long>
+
+    @Query("SELECT m.uid " + CategorySql.EDITED + "ORDER BY q.editedAtMs DESC, m.uid DESC LIMIT 1")
+    fun observeEditedCovers(since: Long): LiveData<List<Long>>
 }

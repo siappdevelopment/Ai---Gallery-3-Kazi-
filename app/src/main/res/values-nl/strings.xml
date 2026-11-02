@@ -429,4 +429,12 @@
     <string name="places_none">Nog geen plaatsen. Foto’s die met een locatie zijn opgeslagen verschijnen hier.</string>
     <string name="places_failed">Fotolocaties lezen is mislukt. Tik om het opnieuw te proberen.</string>
     <string name="places_no_match">Geen plaatsen komen overeen met je zoekopdracht</string>
+    <string name="category_meta">%1$d items · %2$s</string>
+    <string name="category_best_subtitle">Scherpe, heldere foto’s</string>
+    <string name="category_portraits_subtitle">Heldere portretten</string>
+    <string name="category_edited_subtitle">Laatste bewerkingen en kopieën</string>
+    <string name="category_scanning">Je foto’s worden gecontroleerd…</string>
+    <string name="category_scanning_short">CONTROLEREN…</string>
+    <string name="category_empty_title">Hier staat nog niets</string>
+    <string name="category_empty_desc">Passende foto’s verschijnen hier terwijl je bibliotheek op dit apparaat wordt gecontroleerd.</string>
 </resources>

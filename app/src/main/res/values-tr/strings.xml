@@ -429,4 +429,12 @@
     <string name="places_none">Henüz yer yok. Konumla kaydedilen fotoğraflar burada görünecek.</string>
     <string name="places_failed">Fotoğraf konumları okunamadı. Tekrar denemek için dokunun.</string>
     <string name="places_no_match">Aramanızla eşleşen yer yok</string>
+    <string name="category_meta">%1$d öğe · %2$s</string>
+    <string name="category_best_subtitle">Keskin, net çekimler</string>
+    <string name="category_portraits_subtitle">Net portre çekimleri</string>
+    <string name="category_edited_subtitle">Son düzenlemeler ve kopyalar</string>
+    <string name="category_scanning">Fotoğraflarınız kontrol ediliyor…</string>
+    <string name="category_scanning_short">KONTROL EDİLİYOR…</string>
+    <string name="category_empty_title">Burada henüz bir şey yok</string>
+    <string name="category_empty_desc">Uygun fotoğraflar, kitaplığınız bu cihazda kontrol edildikçe burada görünür.</string>
 </resources>

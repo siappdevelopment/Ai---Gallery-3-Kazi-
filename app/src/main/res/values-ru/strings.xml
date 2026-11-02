@@ -443,4 +443,12 @@
     <string name="places_none">Мест пока нет. Здесь появятся фото, сохранённые с местом съёмки.</string>
     <string name="places_failed">Не удалось прочитать места из фото. Нажмите, чтобы повторить.</string>
     <string name="places_no_match">Нет мест, подходящих под ваш запрос</string>
+    <string name="category_meta">Элементов: %1$d · %2$s</string>
+    <string name="category_best_subtitle">Резкие, чёткие снимки</string>
+    <string name="category_portraits_subtitle">Чёткие портреты</string>
+    <string name="category_edited_subtitle">Последние правки и копии</string>
+    <string name="category_scanning">Проверяем ваши фото…</string>
+    <string name="category_scanning_short">ПРОВЕРКА…</string>
+    <string name="category_empty_title">Здесь пока ничего нет</string>
+    <string name="category_empty_desc">Подходящие фото появятся здесь по мере проверки вашей библиотеки на этом устройстве.</string>
 </resources>

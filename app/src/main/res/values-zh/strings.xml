@@ -422,4 +422,12 @@
     <string name="places_none">暂无地点。带位置信息保存的照片会显示在这里。</string>
     <string name="places_failed">无法读取照片位置。点按重试。</string>
     <string name="places_no_match">没有与搜索匹配的地点</string>
+    <string name="category_meta">%1$d 项 · %2$s</string>
+    <string name="category_best_subtitle">清晰锐利的照片</string>
+    <string name="category_portraits_subtitle">清晰的人像照片</string>
+    <string name="category_edited_subtitle">最近的编辑和副本</string>
+    <string name="category_scanning">正在检查你的照片…</string>
+    <string name="category_scanning_short">检查中…</string>
+    <string name="category_empty_title">这里还没有内容</string>
+    <string name="category_empty_desc">在此设备上检查你的图库时，符合条件的照片会显示在这里。</string>
 </resources>

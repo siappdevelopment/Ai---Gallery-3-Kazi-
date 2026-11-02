@@ -248,6 +248,7 @@
 
             <!-- Best photos: spans both rows (150 + 8 + 150) -->
             <com.google.android.material.card.MaterialCardView
+                android:id="@+id/cardBest"
                 android:layout_width="0dp"
                 android:layout_height="308dp"
                 android:layout_marginEnd="4dp"
@@ -264,19 +265,21 @@
                     android:layout_height="match_parent">
 
                     <ImageView
+                        android:id="@+id/ivBestBig"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:importantForAccessibility="no"
                         android:scaleType="centerCrop"
-                        android:src="@drawable/home_p30" />
+                        android:background="@null" />
 
                     <com.google.android.material.imageview.ShapeableImageView
+                        android:id="@+id/ivBestSmall"
                         android:layout_width="match_parent"
                         android:layout_height="150dp"
                         android:layout_margin="12dp"
                         android:importantForAccessibility="no"
                         android:scaleType="centerCrop"
-                        android:src="@drawable/home_p31"
+                        android:background="@null"
                         app:shapeAppearance="@style/ShapeAppearance.ThirdGallery.IntroTileSmall" />
 
                     <View
@@ -344,6 +347,7 @@
 
                 <!-- Best portraits -->
                 <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/cardPortraits"
                     android:layout_width="match_parent"
                     android:layout_height="150dp"
                     android:layout_marginBottom="4dp"
@@ -359,11 +363,12 @@
                         android:layout_height="match_parent">
 
                         <ImageView
+                            android:id="@+id/ivPortrait"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:importantForAccessibility="no"
                             android:scaleType="centerCrop"
-                            android:src="@drawable/home_p40" />
+                            android:background="@null" />
 
                         <View
                             android:layout_width="match_parent"
@@ -400,6 +405,7 @@
 
                 <!-- Recently edited -->
                 <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/cardEdited"
                     android:layout_width="match_parent"
                     android:layout_height="150dp"
                     android:layout_marginTop="4dp"
@@ -415,11 +421,12 @@
                         android:layout_height="match_parent">
 
                         <ImageView
+                            android:id="@+id/ivEdited"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:importantForAccessibility="no"
                             android:scaleType="centerCrop"
-                            android:src="@drawable/home_p50" />
+                            android:background="@null" />
 
                         <View
                             android:layout_width="match_parent"

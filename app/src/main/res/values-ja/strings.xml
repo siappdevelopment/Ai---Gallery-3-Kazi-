@@ -422,4 +422,12 @@
     <string name="places_none">まだ場所がありません。位置情報付きで保存された写真がここに表示されます。</string>
     <string name="places_failed">写真の位置情報を読み取れませんでした。タップして再試行してください。</string>
     <string name="places_no_match">検索に一致する場所はありません</string>
+    <string name="category_meta">%1$d 件 · %2$s</string>
+    <string name="category_best_subtitle">シャープで鮮明なショット</string>
+    <string name="category_portraits_subtitle">鮮明なポートレート</string>
+    <string name="category_edited_subtitle">最近の編集とコピー</string>
+    <string name="category_scanning">写真を確認しています…</string>
+    <string name="category_scanning_short">確認中…</string>
+    <string name="category_empty_title">まだ何もありません</string>
+    <string name="category_empty_desc">このデバイス上でライブラリが確認されると、条件に合う写真がここに表示されます。</string>
 </resources>

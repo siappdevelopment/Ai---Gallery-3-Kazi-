@@ -436,4 +436,12 @@
     <string name="places_none">Ancora nessun luogo. Le foto salvate con un luogo compariranno qui.</string>
     <string name="places_failed">Impossibile leggere i luoghi delle foto. Tocca per riprovare.</string>
     <string name="places_no_match">Nessun luogo corrisponde alla ricerca</string>
+    <string name="category_meta">%1$d elementi · %2$s</string>
+    <string name="category_best_subtitle">Scatti nitidi e chiari</string>
+    <string name="category_portraits_subtitle">Ritratti nitidi</string>
+    <string name="category_edited_subtitle">Ultime modifiche e copie</string>
+    <string name="category_scanning">Controllo delle foto in corso…</string>
+    <string name="category_scanning_short">CONTROLLO…</string>
+    <string name="category_empty_title">Ancora niente qui</string>
+    <string name="category_empty_desc">Le foto che corrispondono compaiono qui man mano che la libreria viene controllata su questo dispositivo.</string>
 </resources>

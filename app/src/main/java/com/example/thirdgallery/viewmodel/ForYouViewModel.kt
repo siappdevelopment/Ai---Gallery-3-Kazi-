@@ -14,7 +14,9 @@ import com.example.thirdgallery.database.PlaceSummary
 import com.example.thirdgallery.database.SuggestionEntity
 import com.example.thirdgallery.model.HighlightCard
 import com.example.thirdgallery.model.PeopleResult
+import com.example.thirdgallery.repo.CategoryRepository
 import com.example.thirdgallery.repo.FaceScanManager
+import com.example.thirdgallery.repo.MediaQualityScanManager
 import com.example.thirdgallery.repo.ForYouRepository
 import com.example.thirdgallery.repo.HighlightsRepository
 import com.example.thirdgallery.repo.MediaRepository
@@ -29,6 +31,18 @@ class ForYouViewModel(application: Application) : AndroidViewModel(application) 
     private val highlightsRepository = HighlightsRepository(application)
     private val peopleRepository = PeopleRepository(application)
     private val placeRepository = PlaceRepository(application)
+    private val categoryRepository = CategoryRepository(application)
+
+    // "Made for you": how many photos each category has and which photos cover its card (see CategorySql).
+    val bestCount: LiveData<Int> = categoryRepository.bestCount
+    val bestCovers: LiveData<List<Long>> = categoryRepository.bestCovers
+    val portraitCount: LiveData<Int> = categoryRepository.portraitCount
+    val portraitCovers: LiveData<List<Long>> = categoryRepository.portraitCovers
+    val editedCount: LiveData<Int> = categoryRepository.editedCount
+    val editedCovers: LiveData<List<Long>> = categoryRepository.editedCovers
+
+    /** Whether the library is still being checked for the categories (so a 0 can say "checking" instead). */
+    val qualityStatus: LiveData<MediaQualityScanManager.Status> = MediaQualityScanManager.status
 
     /**
      * The Highlights row, built from the real media: rebuilt whenever the media index changes and, through
@@ -75,6 +89,8 @@ class ForYouViewModel(application: Application) : AndroidViewModel(application) 
         FaceScanManager.start(application)
         // Reads the GPS saved inside photos in the background (once per process; unchanged photos are never read again).
         PlaceScanManager.start(application)
+        // Measures every photo once (quality, edits) in the background; unchanged photos are never measured again.
+        MediaQualityScanManager.start(application)
         // People, Places and Highlights read the media index, which the Photos tab used to be the only one to fill.
         syncMedia()
     }
@@ -87,7 +103,10 @@ class ForYouViewModel(application: Application) : AndroidViewModel(application) 
         val app = getApplication<Application>()
         mediaRepository.sync(false) { result ->
             // The index changed behind the media count's back (e.g. a photo was edited): look at the locations again.
-            if (result == MediaRepository.SyncResult.SYNCED) PlaceScanManager.refresh(app)
+            if (result == MediaRepository.SyncResult.SYNCED) {
+                PlaceScanManager.refresh(app)
+                MediaQualityScanManager.refresh(app)
+            }
         }
     }
 
@@ -107,6 +126,9 @@ class ForYouViewModel(application: Application) : AndroidViewModel(application) 
     }
 
     fun retryPlaces() = PlaceScanManager.scanNow(getApplication())
+
+    /** The For you screen came to the front: look for new or edited photos for the categories soon. */
+    fun refreshCategories() = MediaQualityScanManager.refresh(getApplication())
 
     /** The For you screen came to the front: look for new or edited photos soon. */
     fun refreshPeople() = FaceScanManager.refresh(getApplication())

@@ -28,8 +28,9 @@ import androidx.sqlite.db.SupportSQLiteDatabase
         FacePersonEntity::class,
         MediaLocationEntity::class,
         PlaceNameEntity::class,
+        MediaQualityEntity::class,
     ],
-    version = 12,
+    version = 13,
     exportSchema = true,
 )
 abstract class AppDatabase : RoomDatabase() {
@@ -45,6 +46,8 @@ abstract class AppDatabase : RoomDatabase() {
     abstract fun faceDao(): FaceDao
 
     abstract fun locationDao(): LocationDao
+
+    abstract fun qualityDao(): QualityDao
 
     companion object {
         private const val NAME = "gallery.db"
@@ -191,6 +194,21 @@ abstract class AppDatabase : RoomDatabase() {
             }
         }
 
+        /** v13 adds the measurements behind the "Made for you" categories (Best photos, Best portraits, Recently edited). */
+        private val MIGRATION_12_13 = object : Migration(12, 13) {
+            override fun migrate(db: SupportSQLiteDatabase) {
+                db.execSQL(
+                    "CREATE TABLE IF NOT EXISTS `media_quality` (`mediaUid` INTEGER PRIMARY KEY NOT NULL, " +
+                        "`modifiedMs` INTEGER NOT NULL, `version` INTEGER NOT NULL, `sharpness` INTEGER NOT NULL, " +
+                        "`exposure` INTEGER NOT NULL, `score` INTEGER NOT NULL, `width` INTEGER NOT NULL, " +
+                        "`height` INTEGER NOT NULL, `editedAtMs` INTEGER NOT NULL, " +
+                        "`failures` INTEGER NOT NULL DEFAULT 0, `stamp` INTEGER NOT NULL DEFAULT 0)"
+                )
+                db.execSQL("CREATE INDEX IF NOT EXISTS `index_media_quality_score` ON `media_quality` (`score`)")
+                db.execSQL("CREATE INDEX IF NOT EXISTS `index_media_quality_editedAtMs` ON `media_quality` (`editedAtMs`)")
+            }
+        }
+
         @Volatile
         private var instance: AppDatabase? = null
 
@@ -200,7 +218,7 @@ abstract class AppDatabase : RoomDatabase() {
                     context.applicationContext,
                     AppDatabase::class.java,
                     NAME,
-                ).addMigrations(MIGRATION_1_2, MIGRATION_2_3, MIGRATION_3_4, MIGRATION_4_5, MIGRATION_5_6, MIGRATION_6_7, MIGRATION_7_8, MIGRATION_8_9, MIGRATION_9_10, MIGRATION_10_11, MIGRATION_11_12).build().also { instance = it }
+                ).addMigrations(MIGRATION_1_2, MIGRATION_2_3, MIGRATION_3_4, MIGRATION_4_5, MIGRATION_5_6, MIGRATION_6_7, MIGRATION_7_8, MIGRATION_8_9, MIGRATION_9_10, MIGRATION_10_11, MIGRATION_11_12, MIGRATION_12_13).build().also { instance = it }
             }
     }
 }

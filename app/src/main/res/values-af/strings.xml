@@ -429,4 +429,12 @@
     <string name="places_none">Nog geen plekke nie. Foto’s wat met ’n ligging gestoor is, verskyn hier.</string>
     <string name="places_failed">Kon nie fotoliggings lees nie. Tik om weer te probeer.</string>
     <string name="places_no_match">Geen plekke stem met jou soektog ooreen nie</string>
+    <string name="category_meta">%1$d items · %2$s</string>
+    <string name="category_best_subtitle">Skerp, duidelike foto’s</string>
+    <string name="category_portraits_subtitle">Duidelike portrette</string>
+    <string name="category_edited_subtitle">Jongste wysigings en kopieë</string>
+    <string name="category_scanning">Kyk tans na jou foto’s…</string>
+    <string name="category_scanning_short">KYK TANS…</string>
+    <string name="category_empty_title">Nog niks hier nie</string>
+    <string name="category_empty_desc">Foto’s wat pas, verskyn hier soos jou versameling op hierdie toestel nagegaan word.</string>
 </resources>

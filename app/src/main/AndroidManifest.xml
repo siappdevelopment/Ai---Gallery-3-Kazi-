@@ -89,6 +89,10 @@
             android:exported="false"
             android:screenOrientation="portrait" />
         <activity
+            android:name=".activity.CategoryMediaActivity"
+            android:exported="false"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".activity.AlbumDetailActivity"
             android:exported="false"
             android:screenOrientation="portrait" />

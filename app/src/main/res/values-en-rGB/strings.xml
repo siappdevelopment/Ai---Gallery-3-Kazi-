@@ -429,4 +429,12 @@
     <string name="places_none">No places yet. Photos saved with a location will show up here.</string>
     <string name="places_failed">Couldn’t read photo locations. Tap to try again.</string>
     <string name="places_no_match">No places match your search</string>
+    <string name="category_meta">%1$d items · %2$s</string>
+    <string name="category_best_subtitle">Sharp, clear shots</string>
+    <string name="category_portraits_subtitle">Clear portrait shots</string>
+    <string name="category_edited_subtitle">Latest edits and copies</string>
+    <string name="category_scanning">Checking your photos…</string>
+    <string name="category_scanning_short">CHECKING…</string>
+    <string name="category_empty_title">Nothing here yet</string>
+    <string name="category_empty_desc">Photos that match show up here as your library is checked on this device.</string>
 </resources>

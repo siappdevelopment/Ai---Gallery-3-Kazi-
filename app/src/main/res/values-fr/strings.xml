@@ -436,4 +436,12 @@
     <string name="places_none">Aucun lieu pour le moment. Les photos enregistrées avec un lieu apparaîtront ici.</string>
     <string name="places_failed">Impossible de lire les lieux des photos. Touchez pour réessayer.</string>
     <string name="places_no_match">Aucun lieu ne correspond à votre recherche</string>
+    <string name="category_meta">%1$d éléments · %2$s</string>
+    <string name="category_best_subtitle">Photos nettes et claires</string>
+    <string name="category_portraits_subtitle">Portraits nets</string>
+    <string name="category_edited_subtitle">Dernières modifications et copies</string>
+    <string name="category_scanning">Analyse de vos photos…</string>
+    <string name="category_scanning_short">ANALYSE…</string>
+    <string name="category_empty_title">Rien ici pour le moment</string>
+    <string name="category_empty_desc">Les photos correspondantes apparaissent ici au fur et à mesure de l’analyse de votre bibliothèque sur cet appareil.</string>
 </resources>

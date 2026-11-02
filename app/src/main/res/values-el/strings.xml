@@ -429,4 +429,12 @@
     <string name="places_none">Δεν υπάρχουν τοποθεσίες ακόμη. Οι φωτογραφίες με αποθηκευμένη τοποθεσία θα εμφανίζονται εδώ.</string>
     <string name="places_failed">Δεν ήταν δυνατή η ανάγνωση των τοποθεσιών. Πατήστε για να δοκιμάσετε ξανά.</string>
     <string name="places_no_match">Καμία τοποθεσία δεν ταιριάζει με την αναζήτηση</string>
+    <string name="category_meta">%1$d στοιχεία · %2$s</string>
+    <string name="category_best_subtitle">Καθαρές, ευκρινείς λήψεις</string>
+    <string name="category_portraits_subtitle">Καθαρά πορτρέτα</string>
+    <string name="category_edited_subtitle">Πρόσφατες επεξεργασίες και αντίγραφα</string>
+    <string name="category_scanning">Έλεγχος των φωτογραφιών σας…</string>
+    <string name="category_scanning_short">ΕΛΕΓΧΟΣ…</string>
+    <string name="category_empty_title">Δεν υπάρχει τίποτα ακόμη</string>
+    <string name="category_empty_desc">Οι φωτογραφίες που ταιριάζουν εμφανίζονται εδώ καθώς ελέγχεται η βιβλιοθήκη σας σε αυτήν τη συσκευή.</string>
 </resources>

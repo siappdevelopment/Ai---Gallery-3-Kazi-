@@ -422,4 +422,12 @@
     <string name="places_none">ยังไม่มีสถานที่ รูปภาพที่บันทึกพร้อมตำแหน่งจะแสดงที่นี่</string>
     <string name="places_failed">อ่านตำแหน่งของรูปภาพไม่สำเร็จ แตะเพื่อลองอีกครั้ง</string>
     <string name="places_no_match">ไม่มีสถานที่ที่ตรงกับการค้นหา</string>
+    <string name="category_meta">%1$d รายการ · %2$s</string>
+    <string name="category_best_subtitle">ภาพคมชัด</string>
+    <string name="category_portraits_subtitle">ภาพบุคคลที่ชัดเจน</string>
+    <string name="category_edited_subtitle">การแก้ไขและสำเนาล่าสุด</string>
+    <string name="category_scanning">กำลังตรวจสอบรูปภาพของคุณ…</string>
+    <string name="category_scanning_short">กำลังตรวจสอบ…</string>
+    <string name="category_empty_title">ยังไม่มีรายการ</string>
+    <string name="category_empty_desc">รูปภาพที่ตรงเงื่อนไขจะแสดงที่นี่เมื่อคลังภาพบนอุปกรณ์นี้ได้รับการตรวจสอบ</string>
 </resources>

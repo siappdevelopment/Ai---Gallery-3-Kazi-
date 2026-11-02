@@ -25,6 +25,15 @@ enum class AlbumKind(val key: String) {
     /** The photos of one place (photos with a GPS position in the same 0.1 degree square); the id is the place's cell. */
     PLACE("place"),
 
+    /** "Made for you": the photos that are crisp, well lit and high quality (measured on the device). */
+    BEST_PHOTOS("best_photos"),
+
+    /** "Made for you": clear photos of one to three people, found with the on-device face scan. */
+    BEST_PORTRAITS("best_portraits"),
+
+    /** "Made for you": photos with a sign of an edit (made in this or another app) in the last 90 days. */
+    RECENTLY_EDITED("recently_edited"),
+
     /** The results of a file-name search (the query travels separately). */
     SEARCH("search");
 

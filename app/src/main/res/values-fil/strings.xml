@@ -429,4 +429,12 @@
     <string name="places_none">Wala pang lugar. Dito lalabas ang mga larawang may naka-save na lokasyon.</string>
     <string name="places_failed">Hindi mabasa ang mga lokasyon ng larawan. I-tap para subukan ulit.</string>
     <string name="places_no_match">Walang lugar na tugma sa paghahanap mo</string>
+    <string name="category_meta">%1$d item · %2$s</string>
+    <string name="category_best_subtitle">Matalas at malinaw na kuha</string>
+    <string name="category_portraits_subtitle">Malinaw na portrait</string>
+    <string name="category_edited_subtitle">Mga pinakabagong edit at kopya</string>
+    <string name="category_scanning">Sinusuri ang iyong mga larawan…</string>
+    <string name="category_scanning_short">SINUSURI…</string>
+    <string name="category_empty_title">Wala pa rito</string>
+    <string name="category_empty_desc">Lalabas dito ang mga tumutugmang larawan habang sinusuri ang iyong library sa device na ito.</string>
 </resources>

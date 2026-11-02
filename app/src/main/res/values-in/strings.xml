@@ -422,4 +422,12 @@
     <string name="places_none">Belum ada tempat. Foto yang tersimpan dengan lokasi akan muncul di sini.</string>
     <string name="places_failed">Tidak dapat membaca lokasi foto. Ketuk untuk mencoba lagi.</string>
     <string name="places_no_match">Tidak ada tempat yang cocok dengan pencarian Anda</string>
+    <string name="category_meta">%1$d item · %2$s</string>
+    <string name="category_best_subtitle">Foto tajam dan jelas</string>
+    <string name="category_portraits_subtitle">Potret yang jelas</string>
+    <string name="category_edited_subtitle">Hasil edit dan salinan terbaru</string>
+    <string name="category_scanning">Memeriksa foto Anda…</string>
+    <string name="category_scanning_short">MEMERIKSA…</string>
+    <string name="category_empty_title">Belum ada apa-apa</string>
+    <string name="category_empty_desc">Foto yang cocok muncul di sini saat pustaka Anda diperiksa di perangkat ini.</string>
 </resources>

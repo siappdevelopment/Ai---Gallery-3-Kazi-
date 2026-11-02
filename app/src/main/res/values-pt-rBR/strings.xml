@@ -436,4 +436,12 @@
     <string name="places_none">Ainda não há lugares. As fotos salvas com um local aparecerão aqui.</string>
     <string name="places_failed">Não foi possível ler os locais das fotos. Toque para tentar novamente.</string>
     <string name="places_no_match">Nenhum lugar corresponde à sua pesquisa</string>
+    <string name="category_meta">%1$d itens · %2$s</string>
+    <string name="category_best_subtitle">Fotos nítidas e claras</string>
+    <string name="category_portraits_subtitle">Retratos nítidos</string>
+    <string name="category_edited_subtitle">Últimas edições e cópias</string>
+    <string name="category_scanning">Verificando suas fotos…</string>
+    <string name="category_scanning_short">VERIFICANDO…</string>
+    <string name="category_empty_title">Nada aqui ainda</string>
+    <string name="category_empty_desc">As fotos correspondentes aparecem aqui à medida que sua biblioteca é verificada neste dispositivo.</string>
 </resources>

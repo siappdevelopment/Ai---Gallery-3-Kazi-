@@ -16,6 +16,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.example.thirdgallery.R
 import com.example.thirdgallery.activity.AlbumDetailActivity
+import com.example.thirdgallery.activity.CategoryMediaActivity
 import com.example.thirdgallery.activity.HighlightsDetailActivity
 import com.example.thirdgallery.activity.PeopleAndFaceActivity
 import com.example.thirdgallery.activity.PlacesActivity
@@ -31,7 +32,10 @@ import com.example.thirdgallery.helper.PlaceText
 import com.example.thirdgallery.model.AlbumKind
 import com.example.thirdgallery.model.HighlightCard
 import com.example.thirdgallery.model.PersonUi
+import com.bumptech.glide.Glide
+import com.example.thirdgallery.helper.MediaUris
 import com.example.thirdgallery.repo.FaceScanManager
+import com.example.thirdgallery.repo.MediaQualityScanManager
 import com.example.thirdgallery.repo.PlaceScanManager
 import com.example.thirdgallery.viewmodel.ForYouViewModel
 
@@ -79,9 +83,21 @@ class ForYouFragment : Fragment() {
         listOf(b.rvHighlights, b.rvPeople, b.rvPlaces, b.rvSuggestions).forEach { it.itemAnimator = null }
 
         // Static "Made for you" / documents figures from the design.
-        b.tvPicks.text = getString(R.string.home_picks, PICKS)
-        b.tvPortraitsCount.text = resources.getQuantityString(R.plurals.intro2_photos, PORTRAITS, PORTRAITS)
-        b.tvEditedCount.text = resources.getQuantityString(R.plurals.intro2_photos, EDITED, EDITED)
+        // "Made for you": real counts and cover photos; each card opens the one reusable category screen.
+        viewModel.bestCount.observe(viewLifecycleOwner) { renderCategories() }
+        viewModel.portraitCount.observe(viewLifecycleOwner) { renderCategories() }
+        viewModel.editedCount.observe(viewLifecycleOwner) { renderCategories() }
+        viewModel.qualityStatus.observe(viewLifecycleOwner) { renderCategories() }
+        viewModel.scanStatus.observe(viewLifecycleOwner) { renderCategories() }
+        viewModel.bestCovers.observe(viewLifecycleOwner) { covers ->
+            loadCover(b.ivBestBig, covers?.getOrNull(0))
+            loadCover(b.ivBestSmall, covers?.getOrNull(1))
+        }
+        viewModel.portraitCovers.observe(viewLifecycleOwner) { loadCover(b.ivPortrait, it?.getOrNull(0)) }
+        viewModel.editedCovers.observe(viewLifecycleOwner) { loadCover(b.ivEdited, it?.getOrNull(0)) }
+        b.cardBest.setOnClickListener { openCategory(AlbumKind.BEST_PHOTOS) }
+        b.cardPortraits.setOnClickListener { openCategory(AlbumKind.BEST_PORTRAITS) }
+        b.cardEdited.setOnClickListener { openCategory(AlbumKind.RECENTLY_EDITED) }
         b.tvDocsSummary.text = getString(R.string.home_docs_summary, DOC_ITEMS, DOC_RECEIPTS)
 
         val owner = viewLifecycleOwner
@@ -109,6 +125,48 @@ class ForYouFragment : Fragment() {
         b.tvPlacesViewAll.setOnClickListener { context?.let { startActivity(PlacesActivity.intent(it)) } }
         b.tvPlacesStatus.setOnClickListener { onPlacesStatusTap() }
         viewModel.suggestions.observe(owner) { suggestionAdapter.submitList(it.orEmpty()) }
+    }
+
+    /** The counts under the three "Made for you" cards; "Checking photos…" while a still empty category is being worked out. */
+    private fun renderCategories() {
+        val b = binding ?: return
+        val quality = viewModel.qualityStatus.value
+        val checkingQuality = quality == MediaQualityScanManager.Status.SCANNING || quality == MediaQualityScanManager.Status.PENDING
+        val faces = viewModel.scanStatus.value
+        val checkingFaces = faces == FaceScanManager.Status.SCANNING || faces == FaceScanManager.Status.PENDING
+        val best = viewModel.bestCount.value ?: 0
+        val portraits = viewModel.portraitCount.value ?: 0
+        val edited = viewModel.editedCount.value ?: 0
+        b.tvPicks.text = if (best == 0 && checkingQuality) getString(R.string.category_scanning_short) else getString(R.string.home_picks, best)
+        b.tvPortraitsCount.text = if (portraits == 0 && (checkingQuality || checkingFaces)) {
+            getString(R.string.category_scanning_short)
+        } else {
+            resources.getQuantityString(R.plurals.intro2_photos, portraits, portraits)
+        }
+        b.tvEditedCount.text = if (edited == 0 && checkingQuality) {
+            getString(R.string.category_scanning_short)
+        } else {
+            resources.getQuantityString(R.plurals.intro2_photos, edited, edited)
+        }
+    }
+
+    /** A cover photo of a card; a card without one keeps its plain background. */
+    private fun loadCover(view: android.widget.ImageView, uid: Long?) {
+        if (uid == null) {
+            Glide.with(view).clear(view)
+            view.setImageDrawable(null)
+            return
+        }
+        Glide.with(view).load(MediaUris.ofUid(uid)).centerCrop().override(COVER_PX).dontAnimate().into(view)
+    }
+
+    /** A category card was tapped: open the reusable category screen (a second tap while it opens is ignored). */
+    private fun openCategory(kind: AlbumKind) {
+        val context = context ?: return
+        val now = SystemClock.elapsedRealtime()
+        if (now - lastOpenAt < OPEN_GAP_MS) return
+        lastOpenAt = now
+        startActivity(CategoryMediaActivity.intent(context, kind))
     }
 
     /** Up to six people in the row (the full list is behind View all); a line tells about the scan when there are none. */
@@ -193,6 +251,7 @@ class ForYouFragment : Fragment() {
         viewModel.refreshHighlights()
         viewModel.refreshPeople()
         viewModel.refreshPlaces()
+        viewModel.refreshCategories()
         val receiver = object : BroadcastReceiver() {
             override fun onReceive(context: Context, intent: Intent) = viewModel.refreshHighlights()
         }
@@ -234,9 +293,7 @@ class ForYouFragment : Fragment() {
         const val OPEN_GAP_MS = 600L
         const val MAX_PEOPLE = 6
         const val MAX_PLACES = 6
-        const val PICKS = 24
-        const val PORTRAITS = 30
-        const val EDITED = 6
+        const val COVER_PX = 600
         const val DOC_ITEMS = 128
         const val DOC_RECEIPTS = 14
     }
