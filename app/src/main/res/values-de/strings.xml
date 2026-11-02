@@ -584,4 +584,11 @@
     <string name="launcher_recent_clear">Alle löschen</string>
     <string name="launcher_recent_close">Schließen</string>
     <string name="launcher_recent_cleared">Zuletzt verwendete Apps gelöscht</string>
+    <string name="launcher_title">Launcher</string>
+    <string name="launcher_make_us_default">Mach uns zu deinem Standard</string>
+    <string name="launcher_default_description">Lege Galerie als Standard-App fest, um alle deine Fotos sicher zu ordnen, anzusehen, zu bearbeiten und zu schützen.</string>
+    <string name="default_set">Als Standard festlegen</string>
+    <string name="launcher_memories">Erinnerungen</string>
+    <string name="launcher_memories_empty">Noch keine Erinnerungen</string>
+    <string name="launcher_vault_open">Foto-Tresor</string>
 </resources>

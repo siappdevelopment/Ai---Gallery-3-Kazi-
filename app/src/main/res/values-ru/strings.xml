@@ -598,4 +598,11 @@
     <string name="launcher_recent_clear">Очистить всё</string>
     <string name="launcher_recent_close">Закрыть</string>
     <string name="launcher_recent_cleared">Недавние приложения очищены</string>
+    <string name="launcher_title">Лаунчер</string>
+    <string name="launcher_make_us_default">Сделайте нас приложением по умолчанию</string>
+    <string name="launcher_default_description">Сделайте «Галерею» приложением по умолчанию, чтобы упорядочивать, просматривать, редактировать и надёжно защищать все свои фото.</string>
+    <string name="default_set">Назначить по умолчанию</string>
+    <string name="launcher_memories">Воспоминания</string>
+    <string name="launcher_memories_empty">Воспоминаний пока нет</string>
+    <string name="launcher_vault_open">Сейф для фото</string>
 </resources>

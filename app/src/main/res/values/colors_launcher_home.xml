@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Launcher home UI colours (from the launcher_set skill). -->
+<resources>
+    <color name="lh_bg">#E6E0E0E0</color>
+    <color name="lh_surface_primary">#FFFFFF</color>
+    <color name="lh_surface_secondary">#F9F9FA</color>
+    <color name="lh_primary">#0033CC</color>
+    <color name="lh_primary_light">#1A0033CC</color>
+    <color name="lh_text_primary">#1B1B1B</color>
+    <color name="lh_text_secondary">#434655</color>
+    <color name="lh_home_action_icon_well">#F0F5FF</color>
+    <color name="brand_blue">#FF2F6BFF</color>
+    <color name="brand_blue_pressed">#FF2559D6</color>
+    <color name="brand_blue_light">#FFEEF3FF</color>
+    <color name="card_bg">#FFFFFFFF</color>
+    <color name="phone_card">#FFF7F8FA</color>
+    <color name="progress_track">#FFE6E8EE</color>
+    <color name="thumb_placeholder">#FF2A2B30</color>
+</resources>

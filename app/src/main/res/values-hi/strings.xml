@@ -584,4 +584,11 @@
     <string name="launcher_recent_clear">सब हटाएँ</string>
     <string name="launcher_recent_close">बंद करें</string>
     <string name="launcher_recent_cleared">हाल के ऐप्स हटा दिए गए</string>
+    <string name="launcher_title">लॉन्चर</string>
+    <string name="launcher_make_us_default">हमें अपना डिफ़ॉल्ट बनाएं</string>
+    <string name="launcher_default_description">अपनी सभी फ़ोटो को सुरक्षित रूप से व्यवस्थित करने, देखने, संपादित करने और सुरक्षित रखने के लिए गैलरी को अपना डिफ़ॉल्ट ऐप बनाएं।</string>
+    <string name="default_set">डिफ़ॉल्ट के रूप में सेट करें</string>
+    <string name="launcher_memories">यादें</string>
+    <string name="launcher_memories_empty">अभी कोई याद नहीं</string>
+    <string name="launcher_vault_open">फ़ोटो वॉल्ट</string>
 </resources>

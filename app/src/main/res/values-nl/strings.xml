@@ -584,4 +584,11 @@
     <string name="launcher_recent_clear">Alles wissen</string>
     <string name="launcher_recent_close">Sluiten</string>
     <string name="launcher_recent_cleared">Recente apps gewist</string>
+    <string name="launcher_title">Launcher</string>
+    <string name="launcher_make_us_default">Maak ons je standaard</string>
+    <string name="launcher_default_description">Stel Galerij in als je standaardapp om al je foto’s veilig te organiseren, te bekijken, te bewerken en te beschermen.</string>
+    <string name="default_set">Instellen als standaard</string>
+    <string name="launcher_memories">Herinneringen</string>
+    <string name="launcher_memories_empty">Nog geen herinneringen</string>
+    <string name="launcher_vault_open">Fotokluis</string>
 </resources>

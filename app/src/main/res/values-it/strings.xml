@@ -591,4 +591,11 @@
     <string name="launcher_recent_clear">Cancella tutto</string>
     <string name="launcher_recent_close">Chiudi</string>
     <string name="launcher_recent_cleared">App recenti cancellate</string>
+    <string name="launcher_title">Launcher</string>
+    <string name="launcher_make_us_default">Rendici la tua app predefinita</string>
+    <string name="launcher_default_description">Imposta Galleria come app predefinita per organizzare, visualizzare, modificare e proteggere in sicurezza tutte le tue foto.</string>
+    <string name="default_set">Imposta come predefinita</string>
+    <string name="launcher_memories">Ricordi</string>
+    <string name="launcher_memories_empty">Ancora nessun ricordo</string>
+    <string name="launcher_vault_open">Cassaforte foto</string>
 </resources>

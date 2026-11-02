@@ -577,4 +577,11 @@
     <string name="launcher_recent_clear">Hapus semua</string>
     <string name="launcher_recent_close">Tutup</string>
     <string name="launcher_recent_cleared">Aplikasi terbaru dihapus</string>
+    <string name="launcher_title">Peluncur</string>
+    <string name="launcher_make_us_default">Jadikan Kami Default Anda</string>
+    <string name="launcher_default_description">Setel Galeri sebagai aplikasi default untuk mengatur, melihat, mengedit, dan melindungi semua foto Anda dengan aman.</string>
+    <string name="default_set">Setel sebagai Default</string>
+    <string name="launcher_memories">Kenangan</string>
+    <string name="launcher_memories_empty">Belum ada kenangan</string>
+    <string name="launcher_vault_open">Brankas foto</string>
 </resources>

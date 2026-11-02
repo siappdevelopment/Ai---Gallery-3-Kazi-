@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="lh_bg">#E6313131</color>
+    <color name="lh_surface_primary">#101114</color>
+    <color name="lh_surface_secondary">#1A1D24</color>
+    <color name="lh_primary">#4A78C8</color>
+    <color name="lh_primary_light">#334A78C8</color>
+    <color name="lh_text_primary">#FFFFFF</color>
+    <color name="lh_text_secondary">#C2C7D0</color>
+    <color name="lh_home_action_icon_well">#1A2433</color>
+    <color name="brand_blue_light">#FF1C2742</color>
+    <color name="card_bg">#FF1B1C21</color>
+    <color name="phone_card">#FF25262C</color>
+    <color name="progress_track">#FF2B2D34</color>
+</resources>

@@ -584,4 +584,11 @@
     <string name="launcher_recent_clear">Maak alles skoon</string>
     <string name="launcher_recent_close">Maak toe</string>
     <string name="launcher_recent_cleared">Onlangse toepassings is skoongemaak</string>
+    <string name="launcher_title">Lanseerder</string>
+    <string name="launcher_make_us_default">Maak ons jou verstek</string>
+    <string name="launcher_default_description">Stel Galery as jou verstek-toep om al jou foto’s veilig te organiseer, te bekyk, te wysig en te beskerm.</string>
+    <string name="default_set">Stel as verstek</string>
+    <string name="launcher_memories">Herinneringe</string>
+    <string name="launcher_memories_empty">Nog geen herinneringe</string>
+    <string name="launcher_vault_open">Foto-kluis</string>
 </resources>

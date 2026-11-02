@@ -591,4 +591,11 @@
     <string name="launcher_recent_clear">Tout effacer</string>
     <string name="launcher_recent_close">Fermer</string>
     <string name="launcher_recent_cleared">Applis récentes effacées</string>
+    <string name="launcher_title">Lanceur</string>
+    <string name="launcher_make_us_default">Faites de nous votre application par défaut</string>
+    <string name="launcher_default_description">Définissez Galerie comme appli par défaut pour organiser, afficher, modifier et protéger toutes vos photos en toute sécurité.</string>
+    <string name="default_set">Définir par défaut</string>
+    <string name="launcher_memories">Souvenirs</string>
+    <string name="launcher_memories_empty">Aucun souvenir pour l’instant</string>
+    <string name="launcher_vault_open">Coffre-fort photo</string>
 </resources>

@@ -1,12 +1,17 @@
 package com.example.thirdgallery.launcher
 
 import android.app.Dialog
+import android.content.BroadcastReceiver
 import android.content.Context
+import android.content.Intent
+import android.content.IntentFilter
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
-import android.graphics.drawable.GradientDrawable
 import android.os.Bundle
 import android.os.SystemClock
+import android.text.SpannableStringBuilder
+import android.text.Spanned
+import android.text.style.RelativeSizeSpan
 import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
@@ -15,18 +20,34 @@ import android.view.Window
 import android.widget.GridLayout
 import android.widget.ImageView
 import android.widget.Toast
+import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
+import com.bumptech.glide.Glide
 import com.example.thirdgallery.R
+import com.example.thirdgallery.activity.HighlightsDetailActivity
+import com.example.thirdgallery.activity.VaultMediaActivity
+import com.example.thirdgallery.activity.VaultSetupActivity
 import com.example.thirdgallery.databinding.DialogLauncherFolderBinding
 import com.example.thirdgallery.databinding.FragmentLauncherHomeBinding
+import com.example.thirdgallery.helper.HighlightLabels
+import com.example.thirdgallery.helper.MediaUris
+import com.example.thirdgallery.helper.VaultSession
+import com.example.thirdgallery.helper.clearImage
+import com.example.thirdgallery.model.HighlightCard
+import com.example.thirdgallery.repo.VaultRepository
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 
 /**
- * The home page of the launcher, over the wallpaper: Google search bar with voice search, clock and date, the
- * default-home card, the Google and Tools folders, Calendar and Settings shortcuts, tiles for the gallery and the
- * widgets, and the dock (contacts, phone, messages, browser, camera) resolved from the apps the phone really has.
+ * The home page of the launcher, over the wallpaper (the launcher_set design): Google search bar with voice search, the
+ * clock with the Memories card, the gallery and Photo vault tabs on the screen edges, the "Make us your default" card
+ * while this app is not the Home app, the Google and Tools folders with the Calendar and Launcher shortcuts, the swipe-up
+ * arrow, and the dock (contacts, phone, messages, browser, camera) resolved from the apps the phone really has.
  */
 class LauncherHomeFragment : Fragment(), LauncherSettings.Listener, LauncherApps.Listener {
 
@@ -37,6 +58,7 @@ class LauncherHomeFragment : Fragment(), LauncherSettings.Listener, LauncherApps
     private var _binding: FragmentLauncherHomeBinding? = null
     private val binding get() = _binding!!
     private val host get() = activity as? LauncherHost
+    private val memoryViewModel: LauncherMemoryViewModel by viewModels()
 
     private var dock: List<DockSlot> = emptyList()
     private var calendar: ShortcutTarget? = null
@@ -44,6 +66,12 @@ class LauncherHomeFragment : Fragment(), LauncherSettings.Listener, LauncherApps
     private var toolsApps: List<LauncherApp> = emptyList()
     private var folderDialog: Dialog? = null
     private var lastShortcutAt = 0L
+    private var memory: HighlightCard? = null
+    private var clockRegistered = false
+
+    private val clockReceiver = object : BroadcastReceiver() {
+        override fun onReceive(context: Context?, intent: Intent?) = updateDateTime()
+    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         _binding = FragmentLauncherHomeBinding.inflate(inflater, container, false)
@@ -59,25 +87,35 @@ class LauncherHomeFragment : Fragment(), LauncherSettings.Listener, LauncherApps
             insets
         }
 
+        // The clock is filled at once, so the first frame is never empty.
+        updateDateTime()
+
         dock = listOf(
-            DockSlot(b.dockContacts, LauncherShortcuts::contacts),
-            DockSlot(b.dockPhone, LauncherShortcuts::dialer),
-            DockSlot(b.dockMessages, LauncherShortcuts::sms),
-            DockSlot(b.dockBrowser, LauncherShortcuts::browser),
-            DockSlot(b.dockCamera, LauncherShortcuts::camera),
+            DockSlot(b.ivAppIconContacts, LauncherShortcuts::contacts),
+            DockSlot(b.ivAppIcon1, LauncherShortcuts::dialer),
+            DockSlot(b.ivAppIcon2, LauncherShortcuts::sms),
+            DockSlot(b.ivAppIcon3, LauncherShortcuts::browser),
+            DockSlot(b.ivAppIcon4, LauncherShortcuts::camera),
         )
         dock.forEach { slot -> slot.view.setOnClickListener { slot.target?.let(::start) } }
 
-        b.llSearch.setOnClickListener { openGoogle() }
-        b.ivMic.setOnClickListener { voiceSearch() }
-        b.btnSetDefault.setOnClickListener { host?.requestDefaultLauncher() }
-        b.cellGoogle.setOnClickListener { showFolder(getString(R.string.launcher_folder_google), googleApps) }
-        b.cellTools.setOnClickListener { showFolder(getString(R.string.launcher_folder_tools), toolsApps) }
-        b.cellCalendar.setOnClickListener { calendar?.let(::start) }
-        b.cellSettings.setOnClickListener { startActivity(LauncherSettingsActivity.intent(requireContext())) }
-        b.tileGallery.setOnClickListener { host?.openGallery() }
-        b.tileWidgets.setOnClickListener { startActivity(LauncherWidgetsActivity.intent(requireContext())) }
-        b.tvSwipeHint.setOnClickListener { host?.openDrawer() }
+        b.llGoogleSearch.setOnClickListener { openGoogle() }
+        b.ivGoogleVoiceSearch.setOnClickListener { voiceSearch() }
+        b.promoDefault.btnSetDefault.setOnClickListener { host?.requestDefaultLauncher() }
+        b.rlQuickAction.setOnClickListener { host?.openGallery() }
+        b.rlVaultAction.setOnClickListener { openVault() }
+        b.llGoogleFolder.setOnClickListener { showFolder(getString(R.string.launcher_folder_google), googleApps) }
+        b.llToolsFolder.setOnClickListener { showFolder(getString(R.string.launcher_folder_tools), toolsApps) }
+        b.llTopApp1.setOnClickListener { calendar?.let(::start) }
+        b.llTopApp2.setOnClickListener { startActivity(LauncherSettingsActivity.intent(requireContext())) }
+        b.ivSwipeUp.setOnClickListener { host?.openDrawer() }
+        b.cardMemories.setOnClickListener { openMemory() }
+
+        b.promoDefault.lavSetAsDefaultTap.setFailureListener {
+            // Only the pointing finger is lost; the card stays usable.
+            _binding?.promoDefault?.lavSetAsDefaultTap?.visibility = View.GONE
+        }
+        memoryViewModel.card.observe(viewLifecycleOwner) { showMemory(it) }
 
         LauncherSettings.register(this)
         LauncherApps.register(this)
@@ -85,15 +123,19 @@ class LauncherHomeFragment : Fragment(), LauncherSettings.Listener, LauncherApps
 
     override fun onResume() {
         super.onResume()
+        startClock()
         // The default phone, messages or browser app may have changed while another app was in front.
         loadShortcuts()
         loadFolders()
         applySettings()
+        memoryViewModel.refresh()
         refreshDefaultPromo()
     }
 
     override fun onPause() {
+        stopClock()
         folderDialog?.dismiss()
+        _binding?.promoDefault?.lavSetAsDefaultTap?.pauseAnimation()
         super.onPause()
     }
 
@@ -102,6 +144,10 @@ class LauncherHomeFragment : Fragment(), LauncherSettings.Listener, LauncherApps
         LauncherApps.unregister(this)
         folderDialog?.dismiss()
         folderDialog = null
+        _binding?.let {
+            it.promoDefault.lavSetAsDefaultTap.cancelAnimation()
+            clearImage(it.ivMemoryCover)
+        }
         _binding = null
         super.onDestroyView()
     }
@@ -124,7 +170,98 @@ class LauncherHomeFragment : Fragment(), LauncherSettings.Listener, LauncherApps
 
     fun refreshDefaultPromo() {
         val b = _binding ?: return
-        b.promo.visibility = if (LauncherNav.isDefaultHome(requireContext())) View.GONE else View.VISIBLE
+        val promo = b.promoDefault
+        val show = !LauncherNav.isDefaultHome(requireContext())
+        promo.root.visibility = if (show) View.VISIBLE else View.GONE
+        // The pointing finger plays while the card is there and rests otherwise.
+        val finger = promo.lavSetAsDefaultTap
+        if (show) {
+            if (!finger.isAnimating) finger.playAnimation()
+        } else {
+            finger.cancelAnimation()
+        }
+    }
+
+    // ---- clock ----
+
+    private fun startClock() {
+        if (clockRegistered) return
+        val context = context ?: return
+        val filter = IntentFilter().apply {
+            addAction(Intent.ACTION_TIME_TICK)
+            addAction(Intent.ACTION_TIME_CHANGED)
+            addAction(Intent.ACTION_TIMEZONE_CHANGED)
+            addAction(Intent.ACTION_DATE_CHANGED)
+        }
+        ContextCompat.registerReceiver(context, clockReceiver, filter, ContextCompat.RECEIVER_NOT_EXPORTED)
+        clockRegistered = true
+        updateDateTime()
+    }
+
+    private fun stopClock() {
+        if (!clockRegistered) return
+        clockRegistered = false
+        try {
+            context?.unregisterReceiver(clockReceiver)
+        } catch (e: IllegalArgumentException) {
+            // Already gone.
+        }
+    }
+
+    /** "2:15 PM" (the AM/PM part small), the day and the date, in English like the design. */
+    private fun updateDateTime() {
+        val b = _binding ?: return
+        val now = Date()
+        val time = SimpleDateFormat("h:mm a", Locale.ENGLISH).format(now).uppercase(Locale.ENGLISH)
+        val spaced = time.lastIndexOf(' ')
+        b.tvTime.text = if (spaced > 0) {
+            SpannableStringBuilder(time).apply {
+                setSpan(RelativeSizeSpan(0.45f), spaced, time.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+            }
+        } else {
+            time
+        }
+        b.tvDay.text = SimpleDateFormat("EEEE", Locale.ENGLISH).format(now)
+        b.tvDate.text = SimpleDateFormat("dd MMM yyyy", Locale.ENGLISH).format(now)
+    }
+
+    // ---- memories ----
+
+    /** Today's memory: its cover, name and number of photos; a quiet line when there is none. */
+    private fun showMemory(card: HighlightCard?) {
+        val b = _binding ?: return
+        memory = card
+        val context = context ?: return
+        if (card == null) {
+            clearImage(b.ivMemoryCover)
+            b.ivMemoryCover.setImageDrawable(null)
+            b.tvMemoryTitle.setText(R.string.launcher_memories)
+            b.tvMemoryCount.setText(R.string.launcher_memories_empty)
+            return
+        }
+        b.tvMemoryTitle.text = HighlightLabels.title(context, card)
+        b.tvMemoryCount.text = resources.getQuantityString(R.plurals.intro2_photos, card.count, card.count)
+        val cover = card.uids.firstOrNull()
+        if (cover == null) {
+            clearImage(b.ivMemoryCover)
+            b.ivMemoryCover.setImageDrawable(null)
+        } else {
+            Glide.with(b.ivMemoryCover).load(MediaUris.ofUid(cover)).override(COVER_PX).centerCrop().dontAnimate().into(b.ivMemoryCover)
+        }
+    }
+
+    private fun openMemory() {
+        if (!canLaunchShortcut()) return
+        val card = memory
+        if (card == null) host?.openGallery() else startActivity(HighlightsDetailActivity.intent(requireContext(), card))
+    }
+
+    /** The vault opens straight away while it is unlocked (auto-lock), otherwise through the PIN screen. */
+    private fun openVault() {
+        if (!canLaunchShortcut()) return
+        val context = requireContext()
+        val unlocked = VaultSession.isOpen(context) && VaultRepository(context).isSetUp
+        startActivity(if (unlocked) VaultMediaActivity.intent(context) else VaultSetupActivity.intent(context))
     }
 
     // ---- data ----
@@ -158,57 +295,49 @@ class LauncherHomeFragment : Fragment(), LauncherSettings.Listener, LauncherApps
             }
         }
 
-        // Folders: a glass square with a 3x3 preview.
-        bindFolder(b.folderGoogle, b.gridGoogle, googleApps, size, corner)
-        bindFolder(b.folderTools, b.gridTools, toolsApps, size, corner)
-        b.cellGoogle.visibility = if (googleApps.isEmpty()) View.GONE else View.VISIBLE
-        b.cellTools.visibility = if (toolsApps.isEmpty()) View.GONE else View.VISIBLE
+        // Folders: a card with a 3x3 preview; a folder without apps is hidden.
+        bindFolder(b.cvGoogleFolder, b.gvGoogleApps, googleApps, size, corner)
+        bindFolder(b.cvToolsFolder, b.gvToolsApps, toolsApps, size, corner)
+        b.llGoogleFolder.visibility = if (googleApps.isEmpty()) View.GONE else View.VISIBLE
+        b.llToolsFolder.visibility = if (toolsApps.isEmpty()) View.GONE else View.VISIBLE
 
-        // Calendar: the system app, hidden when the phone has none.
+        // Calendar: the system app; its slot stays (empty) when the phone has none, so the row keeps its places.
         val cal = calendar
-        b.cellCalendar.visibility = if (cal == null) View.GONE else View.VISIBLE
+        b.llTopApp1.visibility = if (cal == null) View.INVISIBLE else View.VISIBLE
         if (cal != null) {
-            sizeOf(b.ivCalendar, size)
-            LauncherIcons.bind(b.ivCalendar, cal.icon, size)
-            b.tvCalendar.text = cal.label
+            sizeOf(b.ivTopAppIcon1, size)
+            LauncherIcons.bind(b.ivTopAppIcon1, cal.icon, size)
+            b.tvTopAppName1.text = cal.label
         }
 
-        // Settings: a glass square with the gear.
-        sizeOf(b.ivSettings, size)
-        b.ivSettings.background = glass(corner)
-        val inset = (size * 0.25f).toInt()
-        b.ivSettings.setPadding(inset, inset, inset, inset)
+        // Launcher settings shortcut.
+        sizeOf(b.ivTopAppIcon2, size)
 
-        listOf(b.tvGoogle, b.tvTools, b.tvCalendar, b.tvSettings).forEach {
+        listOf(b.tvGoogle, b.tvTools, b.tvTopAppName1, b.tvTopAppName2).forEach {
             it.setTextSize(TypedValue.COMPLEX_UNIT_SP, labelSp)
             it.visibility = if (labels) View.VISIBLE else View.GONE
         }
 
         // Dock: a slot without an app is hidden.
-        val dockSide = size + (8 * resources.displayMetrics.density).toInt()
         dock.forEach { slot ->
             val target = slot.target
-            slot.view.layoutParams = slot.view.layoutParams.apply { height = dockSide }
+            val slotView = slot.view.parent as? View
             if (target == null) {
-                slot.view.visibility = View.GONE
+                slotView?.visibility = View.GONE
             } else {
-                slot.view.visibility = View.VISIBLE
+                slotView?.visibility = View.VISIBLE
+                sizeOf(slot.view, size)
                 LauncherIcons.bind(slot.view, target.icon, size)
             }
         }
     }
 
-    private fun glass(corner: Float) = GradientDrawable().apply {
-        setColor(0x55FFFFFF)
-        cornerRadius = corner
-    }
-
-    private fun bindFolder(holder: View, grid: GridLayout, apps: List<LauncherApp>, size: Int, corner: Float) {
-        holder.layoutParams = holder.layoutParams.apply {
+    private fun bindFolder(card: androidx.cardview.widget.CardView, grid: GridLayout, apps: List<LauncherApp>, size: Int, corner: Float) {
+        card.layoutParams = card.layoutParams.apply {
             width = size
             height = size
         }
-        holder.background = glass(corner)
+        card.radius = corner
         grid.removeAllViews()
         val density = resources.displayMetrics.density
         val pad = maxOf((2 * density).toInt(), size * 4 / 50)
@@ -233,7 +362,7 @@ class LauncherHomeFragment : Fragment(), LauncherSettings.Listener, LauncherApps
     private fun start(target: ShortcutTarget) {
         val context = context ?: return
         try {
-            startActivity(android.content.Intent(target.intent).addFlags(android.content.Intent.FLAG_ACTIVITY_NEW_TASK))
+            startActivity(Intent(target.intent).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK))
             RecentAppsStore.record(context, target.packageName)
         } catch (e: Exception) {
             toast(R.string.launcher_cannot_open)
@@ -252,9 +381,9 @@ class LauncherHomeFragment : Fragment(), LauncherSettings.Listener, LauncherApps
         if (!canLaunchShortcut()) return
         val context = requireContext()
         val launch = context.packageManager.getLaunchIntentForPackage(LauncherShortcuts.GOOGLE_APP)
-        val intent = launch ?: android.content.Intent(android.speech.RecognizerIntent.ACTION_WEB_SEARCH)
+        val intent = launch ?: Intent(android.speech.RecognizerIntent.ACTION_WEB_SEARCH)
         try {
-            startActivity(intent.addFlags(android.content.Intent.FLAG_ACTIVITY_NEW_TASK))
+            startActivity(intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK))
         } catch (e: Exception) {
             toast(R.string.launcher_cannot_open)
         }
@@ -266,7 +395,7 @@ class LauncherHomeFragment : Fragment(), LauncherSettings.Listener, LauncherApps
         for (intent in LauncherShortcuts.voiceSearchIntents()) {
             if (intent.resolveActivity(context.packageManager) == null) continue
             try {
-                startActivity(intent.addFlags(android.content.Intent.FLAG_ACTIVITY_NEW_TASK))
+                startActivity(intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK))
                 return
             } catch (e: Exception) {
                 // Try the next one.
@@ -284,11 +413,7 @@ class LauncherHomeFragment : Fragment(), LauncherSettings.Listener, LauncherApps
         d.tvTitle.text = title
         val adapter = LauncherAppsAdapter(onClick = { app ->
             dialog.dismiss()
-            if (LauncherApps.launch(context, app)) {
-                // Back from the app lands on the home page, as for the dock.
-            } else {
-                toast(R.string.launcher_cannot_open)
-            }
+            if (!LauncherApps.launch(context, app)) toast(R.string.launcher_cannot_open)
         })
         d.rvApps.layoutManager = GridLayoutManager(context, FOLDER_COLUMNS)
         d.rvApps.adapter = adapter
@@ -313,5 +438,6 @@ class LauncherHomeFragment : Fragment(), LauncherSettings.Listener, LauncherApps
         const val FOLDER_COLUMNS = 3
         const val FOLDER_MAX_ICONS = 9
         const val SHORTCUT_DEBOUNCE_MS = 800L
+        const val COVER_PX = 400
     }
 }

@@ -584,4 +584,11 @@
     <string name="launcher_recent_clear">Εκκαθάριση όλων</string>
     <string name="launcher_recent_close">Κλείσιμο</string>
     <string name="launcher_recent_cleared">Οι πρόσφατες εφαρμογές εκκαθαρίστηκαν</string>
+    <string name="launcher_title">Launcher</string>
+    <string name="launcher_make_us_default">Ορίστε μας ως προεπιλογή</string>
+    <string name="launcher_default_description">Ορίστε τη Συλλογή ως προεπιλεγμένη εφαρμογή για να οργανώνετε, να βλέπετε, να επεξεργάζεστε και να προστατεύετε με ασφάλεια όλες τις φωτογραφίες σας.</string>
+    <string name="default_set">Ορισμός ως προεπιλογή</string>
+    <string name="launcher_memories">Αναμνήσεις</string>
+    <string name="launcher_memories_empty">Καμία ανάμνηση ακόμη</string>
+    <string name="launcher_vault_open">Θησαυροφυλάκιο φωτογραφιών</string>
 </resources>

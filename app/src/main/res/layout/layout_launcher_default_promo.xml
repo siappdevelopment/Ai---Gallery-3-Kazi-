@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/llDefault"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/lh_custom_radius_16"
+    android:backgroundTint="@color/lh_bg"
+    android:orientation="horizontal"
+    android:paddingHorizontal="@dimen/_16sdp"
+    android:paddingTop="@dimen/_16sdp"
+    android:visibility="gone">
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/_10sdp"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:layout_width="@dimen/_40sdp"
+                android:layout_height="@dimen/_40sdp"
+                android:src="@mipmap/ic_launcher_round" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_10sdp"
+                android:orientation="vertical">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/sans_trial_semi_bold"
+                    android:includeFontPadding="false"
+                    android:singleLine="true"
+                    android:text="@string/launcher_make_us_default"
+                    android:textColor="@color/lh_text_primary"
+                    android:textSize="@dimen/_13sdp" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_2sdp"
+                    android:fontFamily="@font/sans_trial_medium"
+                    android:includeFontPadding="false"
+                    android:text="@string/launcher_default_description"
+                    android:textColor="@color/lh_text_primary"
+                    android:textSize="@dimen/_10sdp" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <FrameLayout
+            android:id="@+id/btnSetDefault"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_12sdp"
+            android:layout_marginBottom="@dimen/_minus8sdp"
+            android:clickable="true"
+            android:focusable="true">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_38sdp"
+                android:background="@drawable/lh_bg_promo_button"
+                android:duplicateParentState="true"
+                android:gravity="center">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:duplicateParentState="true"
+                    android:fontFamily="@font/sans_trial_semi_bold"
+                    android:includeFontPadding="false"
+                    android:paddingHorizontal="@dimen/_4sdp"
+                    android:paddingBottom="@dimen/_2sdp"
+                    android:text="@string/default_set"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/_13sdp" />
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:layout_width="@dimen/_12sdp"
+                    android:layout_height="@dimen/_12sdp"
+                    android:duplicateParentState="true"
+                    android:src="@drawable/lh_ic_arrow"
+                    app:tint="@color/white" />
+
+            </LinearLayout>
+
+            <com.airbnb.lottie.LottieAnimationView
+                android:id="@+id/lavSetAsDefaultTap"
+                android:layout_width="@dimen/_70sdp"
+                android:layout_height="@dimen/_70sdp"
+                android:layout_gravity="start|center_vertical"
+                android:layout_marginStart="@dimen/_minus12sdp"
+                android:clickable="false"
+                android:elevation="0dp"
+                android:focusable="false"
+                android:focusableInTouchMode="false"
+                android:importantForAccessibility="no"
+                app:lottie_autoPlay="true"
+                app:lottie_loop="true"
+                app:lottie_rawRes="@raw/launcher_tap_animation" />
+
+        </FrameLayout>
+
+    </LinearLayout>
+
+    <!-- Mini phone: the Gallery app and the row that gets chosen as the default -->
+    <FrameLayout
+        android:layout_width="@dimen/_44sdp"
+        android:layout_height="@dimen/_80sdp"
+        android:background="@drawable/lh_bg_promo_phone"
+        android:importantForAccessibility="no"
+        android:padding="@dimen/_4sdp">
+
+        <ImageView
+            android:layout_width="@dimen/_16sdp"
+            android:layout_height="@dimen/_16sdp"
+            android:layout_gravity="top|center_horizontal"
+            android:layout_marginTop="@dimen/_8sdp"
+            android:contentDescription="@null"
+            android:src="@drawable/ic_splash_logo" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_14sdp"
+            android:layout_gravity="top"
+            android:layout_marginTop="@dimen/_30sdp"
+            android:background="@drawable/bg_default_phone_card" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="top"
+            android:layout_marginHorizontal="@dimen/_2sdp"
+            android:layout_marginTop="@dimen/_42sdp"
+            android:background="@drawable/bg_default_pill"
+            android:elevation="@dimen/_2sdp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:padding="@dimen/_2sdp">
+
+            <ImageView
+                android:layout_width="@dimen/_8sdp"
+                android:layout_height="@dimen/_8sdp"
+                android:contentDescription="@null"
+                android:src="@drawable/ic_splash_logo" />
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="@dimen/_2sdp"
+                android:layout_marginHorizontal="@dimen/_2sdp"
+                android:layout_weight="1"
+                android:background="@drawable/bg_default_phone_bar" />
+
+            <View
+                android:layout_width="@dimen/_6sdp"
+                android:layout_height="@dimen/_6sdp"
+                android:background="@drawable/bg_default_radio_dot" />
+        </LinearLayout>
+    </FrameLayout>
+
+</LinearLayout>

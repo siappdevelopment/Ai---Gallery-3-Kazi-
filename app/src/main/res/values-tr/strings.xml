@@ -584,4 +584,11 @@
     <string name="launcher_recent_clear">Tümünü temizle</string>
     <string name="launcher_recent_close">Kapat</string>
     <string name="launcher_recent_cleared">Son uygulamalar temizlendi</string>
+    <string name="launcher_title">Başlatıcı</string>
+    <string name="launcher_make_us_default">Bizi Varsayılan Yapın</string>
+    <string name="launcher_default_description">Tüm fotoğraflarınızı güvenle düzenlemek, görüntülemek, düzenlemek ve korumak için Galeri’yi varsayılan uygulamanız yapın.</string>
+    <string name="default_set">Varsayılan Yap</string>
+    <string name="launcher_memories">Anılar</string>
+    <string name="launcher_memories_empty">Henüz anı yok</string>
+    <string name="launcher_vault_open">Fotoğraf kasası</string>
 </resources>

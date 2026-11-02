@@ -62,4 +62,6 @@ dependencies {
     implementation(libs.androidx.fragment.ktx)
     // The launcher pager (gallery | home).
     implementation("androidx.viewpager2:viewpager2:1.1.0")
+    implementation("com.intuit.sdp:sdp-android:1.1.1")
+    implementation("com.airbnb.android:lottie:6.6.7")
 }

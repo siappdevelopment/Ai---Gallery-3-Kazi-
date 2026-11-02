@@ -577,4 +577,11 @@
     <string name="launcher_recent_clear">ล้างทั้งหมด</string>
     <string name="launcher_recent_close">ปิด</string>
     <string name="launcher_recent_cleared">ล้างแอปล่าสุดแล้ว</string>
+    <string name="launcher_title">ตัวเรียกใช้งาน</string>
+    <string name="launcher_make_us_default">ตั้งเราเป็นค่าเริ่มต้น</string>
+    <string name="launcher_default_description">ตั้งแกลเลอรีเป็นแอปเริ่มต้นเพื่อจัดระเบียบ ดู แก้ไข และปกป้องรูปภาพทั้งหมดของคุณอย่างปลอดภัย</string>
+    <string name="default_set">ตั้งเป็นค่าเริ่มต้น</string>
+    <string name="launcher_memories">ความทรงจำ</string>
+    <string name="launcher_memories_empty">ยังไม่มีความทรงจำ</string>
+    <string name="launcher_vault_open">ห้องนิรภัยรูปภาพ</string>
 </resources>

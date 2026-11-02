@@ -591,4 +591,11 @@
     <string name="launcher_recent_clear">Limpar tudo</string>
     <string name="launcher_recent_close">Fechar</string>
     <string name="launcher_recent_cleared">Apps recentes limpas</string>
+    <string name="launcher_title">Launcher</string>
+    <string name="launcher_make_us_default">Torne-nos a sua predefinição</string>
+    <string name="launcher_default_description">Defina a Galeria como a sua app predefinida para organizar, ver, editar e proteger todas as suas fotografias em segurança.</string>
+    <string name="default_set">Definir como predefinida</string>
+    <string name="launcher_memories">Memórias</string>
+    <string name="launcher_memories_empty">Ainda não há memórias</string>
+    <string name="launcher_vault_open">Cofre de fotografias</string>
 </resources>

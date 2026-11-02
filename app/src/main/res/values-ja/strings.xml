@@ -577,4 +577,11 @@
     <string name="launcher_recent_clear">すべてクリア</string>
     <string name="launcher_recent_close">閉じる</string>
     <string name="launcher_recent_cleared">最近使ったアプリをクリアしました</string>
+    <string name="launcher_title">ランチャー</string>
+    <string name="launcher_make_us_default">デフォルトに設定しましょう</string>
+    <string name="launcher_default_description">ギャラリーを既定のアプリに設定すると、すべての写真を安全に整理・表示・編集・保護できます。</string>
+    <string name="default_set">既定のアプリに設定</string>
+    <string name="launcher_memories">思い出</string>
+    <string name="launcher_memories_empty">思い出はまだありません</string>
+    <string name="launcher_vault_open">フォト金庫</string>
 </resources>
