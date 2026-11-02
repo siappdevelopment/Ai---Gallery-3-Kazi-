@@ -42,9 +42,6 @@ class MediaRepository(context: Context) {
     private val database = AppDatabase.getInstance(appContext)
     private val dao: MediaDao = database.mediaDao()
 
-    private val running = AtomicBoolean(false)
-    private val rerun = AtomicBoolean(false)
-
     fun pagedMedia(filter: MediaFilter): LiveData<PagingData<MediaEntity>> =
         Pager(
             config = PagingConfig(
@@ -382,6 +379,10 @@ class MediaRepository(context: Context) {
     }
 
     private companion object {
+        /** Shared by every repository instance: the Photos tab and For you may both ask, but only one sync runs at a time. */
+        val running = AtomicBoolean(false)
+        val rerun = AtomicBoolean(false)
+
         const val PAGE_SIZE = 120
         const val REMOVE_CHUNK = 500
         const val BATCH_SIZE = 1000

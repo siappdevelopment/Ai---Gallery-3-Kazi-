@@ -1,6 +1,10 @@
 package com.example.thirdgallery.viewmodel
 
 import android.app.Application
+import android.database.ContentObserver
+import android.os.Handler
+import android.os.Looper
+import android.provider.MediaStore
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
@@ -13,6 +17,7 @@ import com.example.thirdgallery.model.PeopleResult
 import com.example.thirdgallery.repo.FaceScanManager
 import com.example.thirdgallery.repo.ForYouRepository
 import com.example.thirdgallery.repo.HighlightsRepository
+import com.example.thirdgallery.repo.MediaRepository
 import com.example.thirdgallery.repo.PeopleRepository
 import com.example.thirdgallery.repo.PlaceRepository
 import com.example.thirdgallery.repo.PlaceScanManager
@@ -45,15 +50,61 @@ class ForYouViewModel(application: Application) : AndroidViewModel(application) 
     val placeProgress: LiveData<PlaceScanProgress> = placeRepository.observeProgress()
     val suggestions: LiveData<List<SuggestionEntity>> = repository.suggestions
 
+    private val mediaRepository = MediaRepository(application)
+    private val mainHandler = Handler(Looper.getMainLooper())
+    private val syncRunnable = Runnable { syncMedia() }
+
+    /** New or deleted media: coalesce bursts of notifications into a single sync, like the Photos tab does. */
+    private val mediaObserver = object : ContentObserver(mainHandler) {
+        override fun onChange(selfChange: Boolean) {
+            mainHandler.removeCallbacks(syncRunnable)
+            mainHandler.postDelayed(syncRunnable, OBSERVER_DEBOUNCE_MS)
+        }
+    }
+
     init {
         repository.seedIfEmpty()
+        try {
+            val resolver = application.contentResolver
+            resolver.registerContentObserver(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, true, mediaObserver)
+            resolver.registerContentObserver(MediaStore.Video.Media.EXTERNAL_CONTENT_URI, true, mediaObserver)
+        } catch (e: Exception) {
+            // Without the observer the index still refreshes whenever the screen comes to the front.
+        }
         // Looks for faces in the background (once per process; unchanged photos are never scanned again).
         FaceScanManager.start(application)
         // Reads the GPS saved inside photos in the background (once per process; unchanged photos are never read again).
         PlaceScanManager.start(application)
+        // People, Places and Highlights read the media index, which the Photos tab used to be the only one to fill.
+        syncMedia()
     }
 
-    fun refreshPlaces() = PlaceScanManager.refresh(getApplication())
+    /**
+     * Brings the media index up to date from MediaStore, independent of the Photos tab. It is a no-op when nothing
+     * changed or access is missing, and never runs twice at once (see [MediaRepository.sync]).
+     */
+    private fun syncMedia() {
+        val app = getApplication<Application>()
+        mediaRepository.sync(false) { result ->
+            // The index changed behind the media count's back (e.g. a photo was edited): look at the locations again.
+            if (result == MediaRepository.SyncResult.SYNCED) PlaceScanManager.refresh(app)
+        }
+    }
+
+    override fun onCleared() {
+        mainHandler.removeCallbacks(syncRunnable)
+        try {
+            getApplication<Application>().contentResolver.unregisterContentObserver(mediaObserver)
+        } catch (e: Exception) {
+            // Already gone.
+        }
+        super.onCleared()
+    }
+
+    fun refreshPlaces() {
+        syncMedia()
+        PlaceScanManager.refresh(getApplication())
+    }
 
     fun retryPlaces() = PlaceScanManager.scanNow(getApplication())
 
@@ -81,6 +132,7 @@ class ForYouViewModel(application: Application) : AndroidViewModel(application) 
     }
 
     private companion object {
+        const val OBSERVER_DEBOUNCE_MS = 1000L
         val worker = Executors.newSingleThreadExecutor()
     }
 }
