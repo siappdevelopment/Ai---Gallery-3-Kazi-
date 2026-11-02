@@ -11,6 +11,12 @@
         android:maxSdkVersion="32" />
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
 
+    <!-- Call summary screen: knows when a call ends, may open over other apps, may show on the lock screen -->
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+    <uses-permission android:name="android.permission.USE_FULL_SCREEN_INTENT" />
+    <uses-permission android:name="com.android.alarm.permission.SET_ALARM" />
+
     <!-- Lets the app read the GPS position saved inside the user's own photos (Places); it is not the phone's live location. -->
     <uses-permission android:name="android.permission.ACCESS_MEDIA_LOCATION" />
 
@@ -170,6 +176,21 @@
             android:name=".activity.VersionActivity"
             android:exported="false"
             android:screenOrientation="portrait" />
+        <receiver
+            android:name=".callend.PhoneCallStateReceiver"
+            android:exported="true">
+            <intent-filter android:priority="998">
+                <action android:name="android.intent.action.PHONE_STATE" />
+            </intent-filter>
+        </receiver>
+
+        <activity
+            android:name=".callend.CallEndActivity"
+            android:excludeFromRecents="true"
+            android:exported="false"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"
+            android:taskAffinity="" />
         <activity
             android:name=".activity.EditMediaActivity"
             android:exported="false"

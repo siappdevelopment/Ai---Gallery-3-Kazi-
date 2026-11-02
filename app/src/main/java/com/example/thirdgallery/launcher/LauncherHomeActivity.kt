@@ -59,6 +59,9 @@ class LauncherHomeActivity : AppCompatActivity(), LauncherHost, LauncherSettings
     private var roleStartedAt = 0L
     private var roleIsSettings = false
 
+    /** The call summary screen needs phone access to know when a call ends; asked once, the answer is kept by the system. */
+    private val phoneAccessLauncher = registerForActivityResult(ActivityResultContracts.RequestPermission()) { }
+
     private val roleLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { onRoleResult() }
 
     private val packageReceiver = object : BroadcastReceiver() {
@@ -92,6 +95,7 @@ class LauncherHomeActivity : AppCompatActivity(), LauncherHost, LauncherSettings
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        askPhoneAccessOnce(savedInstanceState)
         // A translucent surface is cleared between frames; an opaque one piles up old frames after a recreate.
         window.setFormat(PixelFormat.TRANSLUCENT)
         super.onCreate(savedInstanceState)
@@ -385,5 +389,14 @@ class LauncherHomeActivity : AppCompatActivity(), LauncherHost, LauncherSettings
         private const val SILENT_CANCEL_MS = 800L
 
         fun intent(context: Context): Intent = Intent(context, LauncherHomeActivity::class.java)
+    }
+
+    private fun askPhoneAccessOnce(savedInstanceState: Bundle?) {
+        if (savedInstanceState != null || !com.example.thirdgallery.callend.CallEndPrefs.isEnabled(this)) return
+        if (androidx.core.content.ContextCompat.checkSelfPermission(this, android.Manifest.permission.READ_PHONE_STATE) == android.content.pm.PackageManager.PERMISSION_GRANTED) return
+        val prefs = getSharedPreferences("call_end", MODE_PRIVATE)
+        if (prefs.getBoolean("asked", false)) return
+        prefs.edit().putBoolean("asked", true).apply()
+        phoneAccessLauncher.launch(android.Manifest.permission.READ_PHONE_STATE)
     }
 }

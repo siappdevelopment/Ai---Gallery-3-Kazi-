@@ -607,4 +607,31 @@
     <string name="launcher_vault_open">Photo vault</string>
     <string name="album_search_hint">Search in this album</string>
     <string name="category_photos_subtitle">Every photo on this device</string>
+    <string name="callend_private_number">Private number</string>
+    <string name="callend_incoming">Incoming call</string>
+    <string name="callend_outgoing">Outgoing call</string>
+    <string name="callend_missed">Missed call</string>
+    <string name="callend_dial">Open the dialer</string>
+    <string name="callend_notification_title">See call information</string>
+    <string name="callend_channel_name">Call summary</string>
+    <string name="callend_channel_desc">Shows the call summary, even on the lock screen</string>
+    <string name="callend_message_title">Message</string>
+    <string name="callend_msg_1">I’ll call you back soon</string>
+    <string name="callend_msg_2">Can’t talk right now</string>
+    <string name="callend_msg_3">On my way</string>
+    <string name="callend_msg_4">Call me later</string>
+    <string name="callend_reminder_title">Reminder</string>
+    <string name="callend_remind_15">Remind me in 15 minutes</string>
+    <string name="callend_remind_1h">Remind me in 1 hour</string>
+    <string name="callend_remind_tomorrow">Remind me tomorrow morning</string>
+    <string name="callend_reminder_label">Call back %1$s</string>
+    <string name="callend_more_title">More</string>
+    <string name="callend_more_add_contact">Add to contacts</string>
+    <string name="callend_more_call_log">Open call log</string>
+    <string name="callend_more_gallery">Open Gallery</string>
+    <string name="callend_all_title">All</string>
+    <string name="callend_recent">Recent</string>
+    <string name="callend_unknown_number">Unknown number</string>
+    <string name="callend_duration">Duration: %1$s</string>
+    <string name="callend_type_time" translatable="false">%1$s · %2$s</string>
 </resources>
