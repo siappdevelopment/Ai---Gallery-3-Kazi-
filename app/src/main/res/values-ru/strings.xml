@@ -659,4 +659,5 @@
     <string name="report_storage_detail">Занято %1$s из %2$s</string>
     <string name="report_done">Готово</string>
     <string name="report_title">Отчёт об очистке</string>
+    <string name="default_home_guide_text">Нажмите, чтобы выбрать основным приложением главного экрана</string>
 </resources>

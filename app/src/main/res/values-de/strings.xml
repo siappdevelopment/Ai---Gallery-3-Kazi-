@@ -645,4 +645,5 @@
     <string name="report_storage_detail">%1$s von %2$s belegt</string>
     <string name="report_done">Fertig</string>
     <string name="report_title">Bereinigungsbericht</string>
+    <string name="default_home_guide_text">Tippe, um sie als Standard-Startbildschirm-App festzulegen</string>
 </resources>

@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Default Home App guide, shown over the system Default home app settings: the app icon, its name, a hint
+     and the tap hand on a selected radio. Only the opaque white card: the dim behind it is drawn by the window
+     (a separate dim window for the overlay, the theme dim for the activity), so nothing shows through the card. -->
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <!-- The card keeps a 12dp side margin. -->
+    <LinearLayout
+        android:id="@+id/guideCard"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="12dp"
+        android:background="@drawable/bg_default_home_guide"
+        android:clipToPadding="false"
+        android:gravity="center_vertical"
+        android:minHeight="96dp"
+        android:orientation="horizontal"
+        android:padding="16dp">
+
+        <ImageView
+            android:id="@+id/guideAppIcon"
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            android:src="@drawable/ic_splash_logo"
+            android:importantForAccessibility="no"
+            android:scaleType="fitCenter" />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/guideTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:fontFamily="@font/sans_trial_semi_bold"
+                android:includeFontPadding="false"
+                android:maxLines="2"
+                android:textColor="@color/splash_text_primary"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:fontFamily="@font/sans_trial_medium"
+                android:includeFontPadding="false"
+                android:text="@string/default_home_guide_text"
+                android:textColor="@color/splash_text_secondary"
+                android:textSize="13sp" />
+        </LinearLayout>
+
+        <!-- Radio indicator + tap hand. The tap animation's ripple is centred at ~49% x / 39% y of its box
+             (56dp -> 27dp, 22dp), so the 24dp radio is placed with that point as its centre and the hand taps it.
+             The negative end margin moves the radio to the far right of the card. -->
+        <FrameLayout
+            android:layout_width="56dp"
+            android:layout_height="64dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="-12dp">
+
+            <View
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="18dp"
+                android:background="@drawable/ic_default_home_guide_radio"
+                android:importantForAccessibility="no" />
+
+            <com.airbnb.lottie.LottieAnimationView
+                android:id="@+id/guideTapAnimation"
+                android:layout_width="56dp"
+                android:layout_height="56dp"
+                android:layout_marginTop="8dp"
+                android:importantForAccessibility="no"
+                app:lottie_autoPlay="true"
+                app:lottie_loop="true"
+                app:lottie_rawRes="@raw/launcher_tap_animation" />
+        </FrameLayout>
+    </LinearLayout>
+</FrameLayout>

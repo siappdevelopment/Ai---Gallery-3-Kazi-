@@ -638,4 +638,5 @@
     <string name="report_storage_detail">已用 %1$s，共 %2$s</string>
     <string name="report_done">完成</string>
     <string name="report_title">清理报告</string>
+    <string name="default_home_guide_text">点按即可设为默认主屏幕应用</string>
 </resources>

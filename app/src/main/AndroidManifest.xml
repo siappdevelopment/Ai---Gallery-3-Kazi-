@@ -184,6 +184,14 @@
             </intent-filter>
         </receiver>
 
+        <!-- Tutorial card over the system Default home app screen; never a Recents entry of its own. -->
+        <activity
+            android:name=".launcher.DefaultHomeGuideActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden|screenLayout"
+            android:excludeFromRecents="true"
+            android:exported="false"
+            android:noHistory="true"
+            android:theme="@style/Theme.ThirdGallery.DefaultHomeGuide" />
         <activity
             android:name=".activity.DefaultAppActivity"
             android:exported="false"

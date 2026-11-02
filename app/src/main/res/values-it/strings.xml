@@ -652,4 +652,5 @@
     <string name="report_storage_detail">%1$s usati su %2$s</string>
     <string name="report_done">Fatto</string>
     <string name="report_title">Report di pulizia</string>
+    <string name="default_home_guide_text">Tocca per impostarla come app Home predefinita</string>
 </resources>

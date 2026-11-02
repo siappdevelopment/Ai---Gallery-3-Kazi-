@@ -645,4 +645,5 @@
     <string name="report_storage_detail">%1$s gebruikt van %2$s</string>
     <string name="report_done">Klaar</string>
     <string name="report_title">Opschoonrapport</string>
+    <string name="default_home_guide_text">Tik om in te stellen als je standaard startscherm-app</string>
 </resources>

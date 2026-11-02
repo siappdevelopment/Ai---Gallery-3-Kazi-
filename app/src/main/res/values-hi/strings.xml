@@ -645,4 +645,5 @@
     <string name="report_storage_detail">%2$s में से %1$s उपयोग में</string>
     <string name="report_done">हो गया</string>
     <string name="report_title">सफ़ाई रिपोर्ट</string>
+    <string name="default_home_guide_text">डिफ़ॉल्ट होम ऐप के रूप में सेट करने के लिए टैप करें</string>
 </resources>

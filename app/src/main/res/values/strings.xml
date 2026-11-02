@@ -663,4 +663,5 @@
     <string name="report_done">Done</string>
     <string name="report_title">Cleaning report</string>
     <string name="report_percent" translatable="false">%1$d%%</string>
+    <string name="default_home_guide_text">Tap to set as your default Home app</string>
 </resources>

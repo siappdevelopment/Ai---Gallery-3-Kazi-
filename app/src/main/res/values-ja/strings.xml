@@ -638,4 +638,5 @@
     <string name="report_storage_detail">%2$s のうち %1$s を使用中</string>
     <string name="report_done">完了</string>
     <string name="report_title">クリーニングレポート</string>
+    <string name="default_home_guide_text">タップして標準のホームアプリに設定</string>
 </resources>

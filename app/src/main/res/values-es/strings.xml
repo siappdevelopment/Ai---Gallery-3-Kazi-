@@ -652,4 +652,5 @@
     <string name="report_storage_detail">%1$s usados de %2$s</string>
     <string name="report_done">Hecho</string>
     <string name="report_title">Informe de limpieza</string>
+    <string name="default_home_guide_text">Toca para establecerla como tu app de inicio predeterminada</string>
 </resources>

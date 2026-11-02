@@ -638,4 +638,5 @@
     <string name="report_storage_detail">%1$s terpakai dari %2$s</string>
     <string name="report_done">Selesai</string>
     <string name="report_title">Laporan pembersihan</string>
+    <string name="default_home_guide_text">Ketuk untuk menjadikannya aplikasi layar utama default</string>
 </resources>

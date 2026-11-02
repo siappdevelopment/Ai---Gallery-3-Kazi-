@@ -645,4 +645,5 @@
     <string name="report_storage_detail">%1$s ang gamit sa %2$s</string>
     <string name="report_done">Tapos na</string>
     <string name="report_title">Ulat ng paglilinis</string>
+    <string name="default_home_guide_text">I-tap para itakda bilang iyong default na Home app</string>
 </resources>

@@ -33,6 +33,8 @@ class DefaultHomeRequest(private val activity: ComponentActivity, private val on
         inFlight = true
         try {
             launcher.launch(intent)
+            // The Home settings list gets the tutorial card over it (the role dialog explains itself).
+            if (isSettings) DefaultHomeGuideActivity.show(activity)
         } catch (e: Exception) {
             inFlight = false
             Toast.makeText(activity.applicationContext, R.string.settings_open_failed, Toast.LENGTH_SHORT).show()
@@ -48,6 +50,7 @@ class DefaultHomeRequest(private val activity: ComponentActivity, private val on
         inFlight = true
         try {
             launcher.launch(intent)
+            DefaultHomeGuideActivity.show(activity)
         } catch (e: Exception) {
             inFlight = false
         }
@@ -64,6 +67,7 @@ class DefaultHomeRequest(private val activity: ComponentActivity, private val on
                 inFlight = true
                 try {
                     launcher.launch(settings)
+                    DefaultHomeGuideActivity.show(activity)
                     return
                 } catch (e: Exception) {
                     inFlight = false

@@ -645,4 +645,5 @@
     <string name="report_storage_detail">Χρήση %1$s από %2$s</string>
     <string name="report_done">Τέλος</string>
     <string name="report_title">Αναφορά καθαρισμού</string>
+    <string name="default_home_guide_text">Πατήστε για ορισμό ως προεπιλεγμένης αρχικής εφαρμογής</string>
 </resources>

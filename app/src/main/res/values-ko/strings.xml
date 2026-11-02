@@ -638,4 +638,5 @@
     <string name="report_storage_detail">%2$s 중 %1$s 사용</string>
     <string name="report_done">완료</string>
     <string name="report_title">정리 보고서</string>
+    <string name="default_home_guide_text">탭하여 기본 홈 앱으로 설정</string>
 </resources>

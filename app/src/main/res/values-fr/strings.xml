@@ -652,4 +652,5 @@
     <string name="report_storage_detail">%1$s utilisés sur %2$s</string>
     <string name="report_done">Terminé</string>
     <string name="report_title">Rapport de nettoyage</string>
+    <string name="default_home_guide_text">Touchez pour la définir comme application d\'accueil par défaut</string>
 </resources>

@@ -638,4 +638,5 @@
     <string name="report_storage_detail">ใช้ไป %1$s จาก %2$s</string>
     <string name="report_done">เสร็จสิ้น</string>
     <string name="report_title">รายงานการล้างข้อมูล</string>
+    <string name="default_home_guide_text">แตะเพื่อตั้งเป็นแอปหน้าหลักเริ่มต้นของคุณ</string>
 </resources>

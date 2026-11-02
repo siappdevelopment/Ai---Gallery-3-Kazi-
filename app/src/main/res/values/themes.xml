@@ -7,6 +7,18 @@
 
     <style name="Theme.ThirdGallery" parent="Base.Theme.ThirdGallery" />
 
+    <!-- The tutorial card over the system "Default home app" screen: a small floating window with a dim behind it. -->
+    <style name="Theme.ThirdGallery.DefaultHomeGuide" parent="Theme.ThirdGallery">
+        <item name="android:windowIsFloating">true</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:colorBackground">@android:color/transparent</item>
+        <item name="android:backgroundDimEnabled">true</item>
+        <item name="android:backgroundDimAmount">0.5</item>
+        <item name="android:windowAnimationStyle">@null</item>
+        <item name="android:windowNoTitle">true</item>
+    </style>
+
     <style name="ShapeAppearance.ThirdGallery.IntroTileLarge" parent="">
         <item name="cornerFamily">rounded</item>
         <item name="cornerSize">15dp</item>

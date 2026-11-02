@@ -645,4 +645,5 @@
     <string name="report_storage_detail">%2$s içinde %1$s kullanıldı</string>
     <string name="report_done">Bitti</string>
     <string name="report_title">Temizlik raporu</string>
+    <string name="default_home_guide_text">Varsayılan Ana ekran uygulamanız olarak ayarlamak için dokunun</string>
 </resources>
