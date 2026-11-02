@@ -113,11 +113,12 @@ class JournalStripAdapter(
 
 /**
  * Journal: one card per day (paged by day, so 100,000+ items stay cheap). Each card shows the
- * day's newest item large, the next items as a strip, and Add to album / Share for the whole day.
+ * day's newest item large, the next items as a strip, Recap (a slideshow of the day) and Add to album / Share for the whole day.
  */
 class JournalPagingAdapter(
     private val onAddToAlbum: (JournalDayRow) -> Unit,
     private val onShare: (JournalDayRow) -> Unit,
+    private val onRecap: (JournalDayRow) -> Unit,
     private val onOpen: (Long) -> Unit,
 ) : PagingDataAdapter<JournalDayRow, JournalPagingAdapter.ViewHolder>(DIFF) {
 
@@ -149,6 +150,7 @@ class JournalPagingAdapter(
             binding.rvStrip.addItemDecoration(HorizontalSpacingDecoration((4 * density).toInt()))
             binding.btnAddToAlbum.setOnClickListener { row?.let(onAddToAlbum) }
             binding.btnShare.setOnClickListener { row?.let(onShare) }
+            binding.btnRecap.setOnClickListener { row?.let(onRecap) }
         }
 
         fun bind(item: JournalDayRow) {

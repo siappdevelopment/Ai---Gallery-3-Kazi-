@@ -87,6 +87,26 @@ class PhotoViewModel(application: Application) : AndroidViewModel(application) {
         }
     }
 
+    private val _recapRequest = MutableLiveData<Event<List<Long>>>()
+
+    /** The media of the day to play as a Recap slideshow, oldest first (empty when the day has nothing under the filter). */
+    val recapRequest: LiveData<Event<List<Long>>> = _recapRequest
+
+    /** Looks up the day under the current filter off the main thread and posts it, in playing order, for the slideshow. */
+    fun requestRecap(dayKey: Long) {
+        val filter = _filter.value ?: MediaFilter.ALL
+        shareExecutor.execute {
+            val uids = try {
+                repository.uidsOfDay(dayKey, filter).asReversed()
+            } catch (e: Exception) {
+                emptyList()
+            }
+            // A very long day plays an even selection of it, so the slideshow stays a recap and the intent stays small.
+            val picked = if (uids.size > RECAP_MAX) List(RECAP_MAX) { uids[(it.toLong() * uids.size / RECAP_MAX).toInt()] } else uids
+            _recapRequest.postValue(Event(picked))
+        }
+    }
+
     /** Number of items per day for the current filter (shown next to each day header). */
     val dayCounts: LiveData<Map<Long, Int>> = _filter.switchMap { filter ->
         repository.dayCounts(filter).map { list -> list.associate { it.dayKey to it.total } }
@@ -185,6 +205,7 @@ class PhotoViewModel(application: Application) : AndroidViewModel(application) {
 
     private companion object {
         val shareExecutor = Executors.newSingleThreadExecutor()
+        private const val RECAP_MAX = 300
         const val OBSERVER_DEBOUNCE_MS = 1000L
     }
 }

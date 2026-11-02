@@ -93,6 +93,7 @@ class PhotoFragment : Fragment() {
     private var journalAdapter: JournalPagingAdapter? = null
     private var journalTop: MosaicTopAdapter? = null
     private var lastAlbumOpenAt = 0L
+    private var lastRecapAt = 0L
     private var journalConcat: ConcatAdapter? = null
     private var journalObserver: Observer<PagingData<JournalDayRow>>? = null
     private var journalRefreshState: LoadState? = null
@@ -179,6 +180,7 @@ class PhotoFragment : Fragment() {
         val journal = JournalPagingAdapter(
             onAddToAlbum = { showAddToAlbum(it) },
             onShare = { viewModel.requestShare(it.dayKey) },
+            onRecap = { recap(it) },
             onOpen = ::openMedia,
         )
         journalAdapter = journal
@@ -277,6 +279,16 @@ class PhotoFragment : Fragment() {
                 }
             }
         }
+        viewModel.recapRequest.observe(owner) { event ->
+            event.getContentIfNotHandled()?.let { uids ->
+                val host = activity ?: return@let
+                if (uids.isEmpty()) {
+                    android.widget.Toast.makeText(host.applicationContext, R.string.photo_filter_empty_title, android.widget.Toast.LENGTH_SHORT).show()
+                } else {
+                    startActivity(com.example.thirdgallery.activity.HighlightsStartActivity.intent(host, uids))
+                }
+            }
+        }
         viewModel.syncing.observe(owner) { render() }
         viewModel.synced.observe(owner) { render() }
         viewModel.syncError.observe(owner) { render() }
@@ -351,6 +363,7 @@ class PhotoFragment : Fragment() {
     private companion object {
         const val MOSAIC_COLUMNS = 3
         const val ALBUM_OPEN_GAP_MS = 600L
+        const val RECAP_GAP_MS = 1_000L
         const val JOURNAL_COLUMNS = 1
     }
 
@@ -462,6 +475,14 @@ class PhotoFragment : Fragment() {
         if (now - lastAlbumOpenAt < ALBUM_OPEN_GAP_MS) return
         lastAlbumOpenAt = now
         startActivity(AlbumDetailActivity.intent(context, kind, id, name))
+    }
+
+    /** Recap: starts the slideshow of the row's day at once (ignores a second tap while the first is being prepared). */
+    private fun recap(row: JournalDayRow) {
+        val now = android.os.SystemClock.elapsedRealtime()
+        if (now - lastRecapAt < RECAP_GAP_MS) return
+        lastRecapAt = now
+        viewModel.requestRecap(row.dayKey)
     }
 
     /** Opens the "Add to album" sheet for every item of the row's day (under the active filter). */
