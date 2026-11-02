@@ -249,14 +249,14 @@
             </intent-filter>
         </activity>
 
-        <!-- Launcher: the main screen after the onboarding. The HOME filter lets the phone offer it as the Home app. -->
+        <!-- Launcher: the main screen after the onboarding. The HOME filter lets the phone offer it as the Home app. It shares
+             the app task (no own taskAffinity), otherwise it opens a second task and the app shows twice in Recents. -->
         <activity
             android:name=".launcher.LauncherHomeActivity"
             android:clearTaskOnLaunch="true"
             android:exported="true"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
-            android:taskAffinity=""
             android:theme="@style/Theme.ThirdGallery.Launcher"
             android:windowSoftInputMode="adjustResize">
             <intent-filter>
