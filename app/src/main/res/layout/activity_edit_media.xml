@@ -92,9 +92,12 @@
     </LinearLayout>
 
     <FrameLayout
+        android:id="@+id/stage"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
+        android:clipChildren="false"
+        android:clipToPadding="false"
         android:paddingStart="24dp"
         android:paddingTop="10dp"
         android:paddingEnd="24dp"
@@ -374,6 +377,7 @@
                 android:id="@+id/swatchesDraw"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:minHeight="40dp"
                 android:gravity="center"
                 android:orientation="horizontal" />
 
@@ -448,6 +452,7 @@
                 android:id="@+id/swatchesText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:minHeight="40dp"
                 android:layout_marginTop="12dp"
                 android:gravity="center"
                 android:orientation="horizontal" />
@@ -458,15 +463,15 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:paddingStart="6dp"
+        android:paddingStart="4dp"
         android:paddingTop="8dp"
-        android:paddingEnd="6dp"
-        android:paddingBottom="10dp"
-        android:weightSum="6">
+        android:paddingEnd="4dp"
+        android:paddingBottom="10dp">
 
         <LinearLayout
             android:id="@+id/toolAdjust"
-            android:layout_width="54dp"
+            android:layout_width="0dp"
+            android:layout_weight="1"
             android:layout_height="wrap_content"
             android:background="?attr/selectableItemBackgroundBorderless"
             android:clickable="true"
@@ -493,7 +498,8 @@
 
         <LinearLayout
             android:id="@+id/toolFilters"
-            android:layout_width="54dp"
+            android:layout_width="0dp"
+            android:layout_weight="1"
             android:layout_height="wrap_content"
             android:background="?attr/selectableItemBackgroundBorderless"
             android:clickable="true"
@@ -520,7 +526,8 @@
 
         <LinearLayout
             android:id="@+id/toolCrop"
-            android:layout_width="54dp"
+            android:layout_width="0dp"
+            android:layout_weight="1"
             android:layout_height="wrap_content"
             android:background="?attr/selectableItemBackgroundBorderless"
             android:clickable="true"
@@ -547,7 +554,8 @@
 
         <LinearLayout
             android:id="@+id/toolDraw"
-            android:layout_width="54dp"
+            android:layout_width="0dp"
+            android:layout_weight="1"
             android:layout_height="wrap_content"
             android:background="?attr/selectableItemBackgroundBorderless"
             android:clickable="true"
@@ -574,7 +582,8 @@
 
         <LinearLayout
             android:id="@+id/toolText"
-            android:layout_width="54dp"
+            android:layout_width="0dp"
+            android:layout_weight="1"
             android:layout_height="wrap_content"
             android:background="?attr/selectableItemBackgroundBorderless"
             android:clickable="true"
@@ -601,7 +610,8 @@
 
         <LinearLayout
             android:id="@+id/toolStickers"
-            android:layout_width="54dp"
+            android:layout_width="0dp"
+            android:layout_weight="1"
             android:layout_height="wrap_content"
             android:background="?attr/selectableItemBackgroundBorderless"
             android:clickable="true"

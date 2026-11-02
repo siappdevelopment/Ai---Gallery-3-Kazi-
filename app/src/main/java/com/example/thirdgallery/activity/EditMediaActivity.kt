@@ -3,14 +3,18 @@ package com.example.thirdgallery.activity
 import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
+import android.graphics.Color
 import android.graphics.ColorMatrix
 import android.graphics.ColorMatrixColorFilter
+import android.graphics.drawable.GradientDrawable
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.FrameLayout
 import android.widget.LinearLayout
 import android.widget.SeekBar
 import android.widget.TextView
@@ -29,6 +33,7 @@ import com.example.thirdgallery.databinding.ItemEditFilterBinding
 import com.example.thirdgallery.fragment.ConfirmDialogFragment
 import com.example.thirdgallery.helper.EditRenderer
 import com.example.thirdgallery.model.Adjustment
+import com.example.thirdgallery.model.CropBox
 import com.example.thirdgallery.model.CropRatio
 import com.example.thirdgallery.model.EditFilter
 import com.example.thirdgallery.model.EditState
@@ -50,7 +55,7 @@ class EditMediaActivity : AppCompatActivity() {
     private val filterItems = LinkedHashMap<EditFilter, ItemEditFilterBinding>()
     private val ratioButtons = LinkedHashMap<CropRatio, TextView>()
     private val toolViews = LinkedHashMap<EditTool, View>()
-    private var swatchViews: List<View> = emptyList()
+    private var swatchRings: List<View> = emptyList()
 
     private var turned: Bitmap? = null
     private var turnedKey: Pair<Int, Boolean>? = null
@@ -153,31 +158,58 @@ class EditMediaActivity : AppCompatActivity() {
         ratioButtons[CropRatio.SQUARE] = b.ratio11
         ratioButtons[CropRatio.R4_3] = b.ratio43
         ratioButtons[CropRatio.R16_9] = b.ratio169
-        ratioButtons.forEach { (ratio, view) -> view.setOnClickListener { viewModel.update { it.copy(ratio = ratio) } } }
-        b.btnRotate.setOnClickListener { viewModel.update { it.copy(rotation = (it.rotation + 90) % 360) } }
-        b.btnFlip.setOnClickListener { viewModel.update { it.copy(flipped = !it.flipped) } }
+        ratioButtons.forEach { (ratio, view) ->
+            view.setOnClickListener {
+                val size = pictureSize()
+                // A shape takes the biggest box of that shape; Free keeps the box as it is.
+                viewModel.update {
+                    val box = ratio.value?.let { value -> size?.let { (w, h) -> EditRenderer.boxForRatio(value, w, h) } } ?: it.crop
+                    it.copy(ratio = ratio, crop = box)
+                }
+            }
+        }
+        b.btnRotate.setOnClickListener {
+            val size = pictureSize() ?: return@setOnClickListener
+            viewModel.update { it.rotatedRight(size.first, size.second) }
+        }
+        b.btnFlip.setOnClickListener { viewModel.update { it.mirrored() } }
     }
 
     private fun buildSwatches(b: ActivityEditMediaBinding) {
         val density = resources.displayMetrics.density
-        val views = ArrayList<View>()
-        fun fill(row: LinearLayout, sizeDp: Int) {
+        val rings = ArrayList<View>()
+        fun fill(row: LinearLayout, dotDp: Int) {
+            val cell = ((dotDp + 12) * density).toInt()
             COLORS.forEachIndexed { index, color ->
-                val dot = View(this).apply {
-                    background = ContextCompat.getDrawable(this@EditMediaActivity, R.drawable.bg_edit_swatch)?.mutate()
-                    backgroundTintList = android.content.res.ColorStateList.valueOf(color)
-                    layoutParams = LinearLayout.LayoutParams((sizeDp * density).toInt(), (sizeDp * density).toInt()).apply {
-                        if (index > 0) marginStart = (12 * density).toInt()
-                    }
+                // A ring around the dot marks the chosen colour; the cell is bigger than the dot, so nothing is clipped.
+                val holder = FrameLayout(this).apply {
+                    layoutParams = LinearLayout.LayoutParams(cell, cell).apply { if (index > 0) marginStart = (4 * density).toInt() }
                     setOnClickListener { viewModel.update { it.copy(color = color) } }
                 }
-                row.addView(dot)
-                views.add(dot)
+                val ring = View(this).apply {
+                    background = GradientDrawable().apply {
+                        shape = GradientDrawable.OVAL
+                        setColor(Color.TRANSPARENT)
+                        setStroke((2 * density).toInt(), Color.WHITE)
+                    }
+                    visibility = View.INVISIBLE
+                }
+                val dot = View(this).apply {
+                    background = GradientDrawable().apply {
+                        shape = GradientDrawable.OVAL
+                        setColor(color)
+                        setStroke((1 * density).toInt(), 0x33FFFFFF)
+                    }
+                }
+                holder.addView(ring, FrameLayout.LayoutParams(cell, cell))
+                holder.addView(dot, FrameLayout.LayoutParams((dotDp * density).toInt(), (dotDp * density).toInt(), Gravity.CENTER))
+                row.addView(holder)
+                rings.add(ring)
             }
         }
         fill(b.swatchesDraw, 28)
         fill(b.swatchesText, 26)
-        swatchViews = views
+        swatchRings = rings
     }
 
     private fun wireControls(b: ActivityEditMediaBinding) {
@@ -187,6 +219,12 @@ class EditMediaActivity : AppCompatActivity() {
         b.btnReset.setOnClickListener { viewModel.reset() }
         b.btnSave.setOnClickListener { viewModel.save() }
         b.canvas.onStroke = { viewModel.addStroke(it) }
+        b.canvas.onCropChanged = { box -> viewModel.updateLive { it.copy(crop = box) } }
+        b.canvas.onCropEnd = { viewModel.commitLive() }
+        b.canvas.onTextMoved = { x, y -> viewModel.updateLive { it.copy(textX = x, textY = y) } }
+        b.canvas.onTextMoveEnd = { viewModel.commitLive() }
+        // The text can be dragged from anywhere on the stage, not only from the frame.
+        b.stage.setOnTouchListener { _, event -> b.canvas.onStageTouch(event) }
 
         b.seekAdjust.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
             override fun onProgressChanged(seekBar: SeekBar, progress: Int, fromUser: Boolean) {
@@ -249,13 +287,16 @@ class EditMediaActivity : AppCompatActivity() {
                 turnedKey = key
                 b.canvas.setBitmap(turned)
             }
-            val bitmap = turned ?: source
-            b.canvas.setAspect(EditRenderer.frameAspect(state, bitmap.width, bitmap.height))
         }
+        // While cropping the whole picture is shown with the crop box on it; otherwise only what the box keeps.
+        val tool = viewModel.tool.value
+        b.canvas.setBox(if (tool == EditTool.CROP) CropBox.FULL else state.crop)
+        b.canvas.setCrop(tool == EditTool.CROP, state.crop, state.ratio.value)
         b.canvas.setColorMatrix(EditRenderer.colorMatrix(state))
         b.canvas.setStrokes(state.strokes)
-        b.canvas.setText(state.text, state.color)
-        b.canvas.setBrush(viewModel.tool.value == EditTool.DRAW, state.color, state.brushSize / BRUSH_DIVIDER)
+        b.canvas.setText(state.text, state.color, state.textX, state.textY)
+        b.canvas.setTextDrag(tool == EditTool.TEXT && state.text.isNotBlank())
+        b.canvas.setBrush(tool == EditTool.DRAW, state.color, state.brushSize / BRUSH_DIVIDER)
 
         // Chips: a pink dot marks an adjustment that is changed.
         Adjustment.entries.forEach { adjustment ->
@@ -269,10 +310,8 @@ class EditMediaActivity : AppCompatActivity() {
             item.tvLabel.setTextColor(ContextCompat.getColor(this, if (on) R.color.white else R.color.edit_muted))
         }
         ratioButtons.forEach { (ratio, view) -> styleChip(view, state.ratio == ratio) }
-        swatchViews.forEachIndexed { index, view ->
-            val selected = COLORS[index % COLORS.size] == state.color
-            val scale = if (selected) 1.25f else 0.85f
-            view.animate().scaleX(scale).scaleY(scale).setDuration(150).start()
+        swatchRings.forEachIndexed { index, ring ->
+            ring.visibility = if (COLORS[index % COLORS.size] == state.color) View.VISIBLE else View.INVISIBLE
         }
         sliderSync = true
         b.seekBrush.progress = state.brushSize - EditState.MIN_BRUSH
@@ -313,10 +352,11 @@ class EditMediaActivity : AppCompatActivity() {
         b.panelDraw.visibility = if (tool == EditTool.DRAW) View.VISIBLE else View.GONE
         b.panelText.visibility = if (tool == EditTool.TEXT) View.VISIBLE else View.GONE
         toolViews.forEach { (t, view) -> tintTool(view, t == tool) }
-        b.canvas.setGridVisible(tool == EditTool.CROP)
-        val state = viewModel.edit.value ?: EditState()
-        b.canvas.setBrush(tool == EditTool.DRAW, state.color, state.brushSize / BRUSH_DIVIDER)
+        render(b, viewModel.edit.value ?: EditState())
     }
+
+    /** Width and height of the picture as it is shown now (turned), or null before it is read. */
+    private fun pictureSize(): Pair<Int, Int>? = (turned ?: viewModel.source.value)?.let { it.width to it.height }
 
     /** The tool bar item of the current tool is pink, the others grey (design). */
     private fun tintTool(item: View, selected: Boolean) {

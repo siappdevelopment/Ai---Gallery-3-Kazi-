@@ -18,8 +18,10 @@ import android.text.Layout
 import android.text.StaticLayout
 import android.text.TextPaint
 import com.example.thirdgallery.model.Adjustment
+import com.example.thirdgallery.model.CropBox
 import com.example.thirdgallery.model.EditFilter
 import com.example.thirdgallery.model.EditState
+import com.example.thirdgallery.model.Stroke
 import java.io.IOException
 import kotlin.math.max
 
@@ -31,6 +33,9 @@ object EditRenderer {
 
     /** Text size as a share of the picture's width (the design's 28 on a 290 wide picture). */
     const val TEXT_SHARE = 0.096f
+
+    /** The widest a line of text gets, as a share of the picture's width. */
+    private const val TEXT_WIDTH_SHARE = 0.92f
 
     // ---- colour ----
 
@@ -98,9 +103,14 @@ object EditRenderer {
         return Bitmap.createBitmap(source, 0, 0, source.width, source.height, matrix, true)
     }
 
-    /** Width / height of the frame: the chosen crop shape, or the (turned) picture's own shape. */
-    fun frameAspect(state: EditState, width: Int, height: Int): Float =
-        state.ratio.value ?: (width.toFloat() / height.coerceAtLeast(1))
+    /** The biggest box of width / height [ratio] that fits a [width] x [height] picture, in its middle. */
+    fun boxForRatio(ratio: Float, width: Int, height: Int): CropBox {
+        val imageAspect = width.toFloat() / height.coerceAtLeast(1)
+        var w = 1f
+        var h = 1f
+        if (ratio > imageAspect) h = imageAspect / ratio else w = ratio / imageAspect
+        return CropBox((1f - w) / 2f, (1f - h) / 2f, (1f + w) / 2f, (1f + h) / 2f)
+    }
 
     // ---- decoding ----
 
@@ -137,41 +147,40 @@ object EditRenderer {
     // ---- the saved picture ----
 
     /**
-     * The edited picture at full resolution (up to [maxSide]): turned, cropped to the frame, with the colour matrix applied,
-     * then the strokes and the text drawn on it. Null when the original cannot be read.
+     * The edited picture at full resolution (up to [maxSide]): turned, cropped to the crop box, with the colour matrix
+     * applied, then the strokes and the text drawn on it. Null when the original cannot be read.
      */
     fun render(context: Context, uri: Uri, state: EditState, maxSide: Int): Bitmap? {
         val source = decode(context.contentResolver, uri, maxSide) ?: return null
         val turned = transform(source, state.rotation, state.flipped)
-        val aspect = frameAspect(state, turned.width, turned.height)
-        // The frame is a centred crop of the turned picture.
-        var cropW = turned.width
-        var cropH = (cropW / aspect).toInt()
-        if (cropH > turned.height) {
-            cropH = turned.height
-            cropW = (cropH * aspect).toInt()
-        }
-        cropW = cropW.coerceAtLeast(1)
-        cropH = cropH.coerceAtLeast(1)
+        val tw = turned.width
+        val th = turned.height
+        val box = state.crop
+        val left = (box.left * tw).toInt().coerceIn(0, tw - 1)
+        val top = (box.top * th).toInt().coerceIn(0, th - 1)
+        val cropW = ((box.right * tw).toInt() - left).coerceIn(1, tw - left)
+        val cropH = ((box.bottom * th).toInt() - top).coerceIn(1, th - top)
         val out = Bitmap.createBitmap(cropW, cropH, Bitmap.Config.ARGB_8888)
         val canvas = Canvas(out)
         val paint = Paint(Paint.FILTER_BITMAP_FLAG).apply { colorFilter = ColorMatrixColorFilter(colorMatrix(state)) }
-        canvas.drawBitmap(turned, -((turned.width - cropW) / 2f), -((turned.height - cropH) / 2f), paint)
+        canvas.drawBitmap(turned, -left.toFloat(), -top.toFloat(), paint)
 
-        drawStrokes(canvas, state, cropW.toFloat(), cropH.toFloat())
-        drawText(canvas, state, cropW.toFloat(), cropH.toFloat())
+        canvas.translate(-left.toFloat(), -top.toFloat())
+        drawStrokes(canvas, state.strokes, tw.toFloat(), th.toFloat())
+        drawText(canvas, state.text, state.color, state.textX * tw, state.textY * th, tw.toFloat())
         if (turned !== source) turned.recycle()
         source.recycle()
         return out
     }
 
-    private fun drawStrokes(canvas: Canvas, state: EditState, width: Float, height: Float) {
+    /** Draws [strokes] on a picture of [width] x [height] pixels (the live preview draws them the same way). */
+    fun drawStrokes(canvas: Canvas, strokes: List<Stroke>, width: Float, height: Float) {
         val paint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
             style = Paint.Style.STROKE
             strokeCap = Paint.Cap.ROUND
             strokeJoin = Paint.Join.ROUND
         }
-        for (stroke in state.strokes) {
+        for (stroke in strokes) {
             val points = stroke.points
             if (points.isEmpty()) continue
             paint.color = stroke.color
@@ -190,21 +199,21 @@ object EditRenderer {
         }
     }
 
-    private fun drawText(canvas: Canvas, state: EditState, width: Float, height: Float) {
-        val text = state.text.trim()
-        if (text.isEmpty()) return
+    /** Draws [text] centred on ([centerX], [centerY]) on a picture [width] pixels wide. */
+    fun drawText(canvas: Canvas, text: String, color: Int, centerX: Float, centerY: Float, width: Float) {
+        val trimmed = text.trim()
+        if (trimmed.isEmpty()) return
         val paint = TextPaint(Paint.ANTI_ALIAS_FLAG).apply {
-            color = state.color
+            this.color = color
             textSize = width * TEXT_SHARE
             typeface = Typeface.DEFAULT_BOLD
             setShadowLayer(width * 0.012f, 0f, width * 0.006f, 0x40000000)
         }
-        val padding = width * 0.04f
-        val layout = StaticLayout.Builder.obtain(text, 0, text.length, paint, (width - 2 * padding).toInt().coerceAtLeast(1))
+        val layout = StaticLayout.Builder.obtain(trimmed, 0, trimmed.length, paint, (width * TEXT_WIDTH_SHARE).toInt().coerceAtLeast(1))
             .setAlignment(Layout.Alignment.ALIGN_CENTER)
             .build()
         canvas.save()
-        canvas.translate(padding, (height - layout.height) / 2f)
+        canvas.translate(centerX - layout.width / 2f, centerY - layout.height / 2f)
         layout.draw(canvas)
         canvas.restore()
     }
