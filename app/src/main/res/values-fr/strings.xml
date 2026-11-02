@@ -598,4 +598,6 @@
     <string name="launcher_memories">Souvenirs</string>
     <string name="launcher_memories_empty">Aucun souvenir pour l’instant</string>
     <string name="launcher_vault_open">Coffre-fort photo</string>
+    <string name="album_search_hint">Rechercher dans cet album</string>
+    <string name="category_photos_subtitle">Toutes les photos de cet appareil</string>
 </resources>

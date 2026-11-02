@@ -3,7 +3,12 @@ package com.example.thirdgallery.activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
+import android.view.inputmethod.EditorInfo
+import android.view.inputmethod.InputMethodManager
 import android.view.View
+import androidx.activity.OnBackPressedCallback
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.IntentSenderRequest
 import androidx.activity.result.contract.ActivityResultContracts
@@ -25,7 +30,7 @@ import com.example.thirdgallery.model.MediaFilter
 import com.example.thirdgallery.viewmodel.SelectionViewModel
 import com.example.thirdgallery.viewmodel.AlbumDetailViewModel
 
-/** The photos and videos of one album, folder or smart collection, grouped by day. */
+/** The photos and videos of one album, folder or smart collection, grouped by day; the Search button narrows them by file name. */
 class AlbumDetailActivity : AppCompatActivity() {
 
     private var binding: ActivityAlbumDetailBinding? = null
@@ -52,14 +57,12 @@ class AlbumDetailActivity : AppCompatActivity() {
             insets
         }
 
-        b.btnBack.setOnClickListener { finish() }
-        // Adding, selecting and the overflow menu have no backing feature yet.
-        val comingSoon = View.OnClickListener {
-            android.widget.Toast.makeText(applicationContext, R.string.albums_coming_soon, android.widget.Toast.LENGTH_SHORT).show()
-        }
-        b.btnAddPhotos.visibility = if (viewModel.isRegularAlbum) View.VISIBLE else View.GONE
-        b.btnAddPhotos.setOnClickListener(comingSoon)
-        b.btnMore.setOnClickListener(comingSoon)
+        b.btnBack.setOnClickListener { goBack() }
+        onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
+            // While the search is open Back closes it first.
+            override fun handleOnBackPressed() = goBack()
+        })
+        setupSearch(b)
 
         // Same grid as the Gallery tab: the saved column count, day headers across the full width.
         val columns = GalleryLayoutPrefs.getColumns(this)
@@ -95,8 +98,68 @@ class AlbumDetailActivity : AppCompatActivity() {
             val empty = states.refresh is LoadState.NotLoading && mediaAdapter.itemCount == 0
             b.emptyGroup.visibility = if (empty) View.VISIBLE else View.GONE
         }
+        // An empty list says "no results" while searching, otherwise the album is simply empty.
+        viewModel.query.observe(this) { q ->
+            val searching = q.isNotEmpty()
+            b.tvEmptyTitle.setText(if (searching) R.string.search_no_results else R.string.photo_filter_empty_title)
+            b.tvEmptyDesc.setText(if (searching) R.string.search_no_results_desc else R.string.photo_filter_empty_desc)
+        }
         viewModel.media.observe(this) { data -> mediaAdapter.submitData(lifecycle, data) }
         viewModel.count.observe(this) { headerAdapter.setCount(it ?: 0) }
+    }
+
+    /** The search field: opens from the Search button, narrows this album by file name as the user types. */
+    private fun setupSearch(b: ActivityAlbumDetailBinding) {
+        b.btnSearch.setOnClickListener { showSearch(b, true) }
+        b.btnClear.setOnClickListener { b.etSearch.setText("") }
+        b.etSearch.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) = Unit
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) = Unit
+            override fun afterTextChanged(s: Editable?) {
+                b.btnClear.visibility = if (s.isNullOrEmpty()) View.GONE else View.VISIBLE
+                viewModel.setQuery(s?.toString().orEmpty())
+            }
+        })
+        b.etSearch.setOnEditorActionListener { _, actionId, _ ->
+            if (actionId == EditorInfo.IME_ACTION_SEARCH) hideKeyboard() else return@setOnEditorActionListener false
+            true
+        }
+        // After a rotation the field comes back open with the same text.
+        if (viewModel.searchOpen) {
+            val restored = viewModel.query.value.orEmpty()
+            b.etSearch.setText(restored)
+            b.etSearch.setSelection(restored.length)
+            showSearch(b, true, false)
+        }
+    }
+
+    private fun showSearch(b: ActivityAlbumDetailBinding, open: Boolean, focus: Boolean = true) {
+        viewModel.searchOpen = open
+        b.searchBox.visibility = if (open) View.VISIBLE else View.GONE
+        b.topSpacer.visibility = if (open) View.GONE else View.VISIBLE
+        // Selecting works on the whole album, so it waits until the search is closed.
+        b.btnSelect.visibility = if (open) View.GONE else View.VISIBLE
+        b.btnSearch.visibility = if (open) View.GONE else View.VISIBLE
+        if (open) {
+            if (focus) {
+                b.etSearch.requestFocus()
+                b.etSearch.post { getSystemService(InputMethodManager::class.java)?.showSoftInput(b.etSearch, 0) }
+            }
+        } else {
+            b.etSearch.setText("")
+            hideKeyboard()
+        }
+    }
+
+    /** Back closes the search first, then leaves the album. */
+    private fun goBack() {
+        val b = binding
+        if (b != null && viewModel.searchOpen) showSearch(b, false) else finish()
+    }
+
+    private fun hideKeyboard() {
+        val b = binding ?: return
+        getSystemService(InputMethodManager::class.java)?.hideSoftInputFromWindow(b.etSearch.windowToken, 0)
     }
 
     /** Opens the tapped item in the photo viewer, inside this album; double taps are ignored. */

@@ -36,6 +36,7 @@ class CategoryMediaViewModel(
     val titleRes: Int = when (kind) {
         AlbumKind.BEST_PORTRAITS -> R.string.intro4_best_portraits
         AlbumKind.RECENTLY_EDITED -> R.string.home_recently_edited
+        AlbumKind.PHOTOS -> R.string.search_browse_photos
         else -> R.string.intro4_best_photos
     }
 
@@ -43,6 +44,7 @@ class CategoryMediaViewModel(
     val subtitleRes: Int = when (kind) {
         AlbumKind.BEST_PORTRAITS -> R.string.category_portraits_subtitle
         AlbumKind.RECENTLY_EDITED -> R.string.category_edited_subtitle
+        AlbumKind.PHOTOS -> R.string.category_photos_subtitle
         else -> R.string.category_best_subtitle
     }
 
@@ -54,7 +56,12 @@ class CategoryMediaViewModel(
 
     /** True while photos (or, for portraits, faces) are still being checked, so an empty list can say so. */
     val checking: LiveData<Boolean> = MediatorLiveData<Boolean>().also { result ->
-        val update = {
+        val update = update@{
+            // Photos is every photo on the device: nothing to wait for.
+            if (kind == AlbumKind.PHOTOS) {
+                result.value = false
+                return@update
+            }
             val quality = MediaQualityScanManager.status.value
             val faces = FaceScanManager.status.value
             val checkingQuality = quality == MediaQualityScanManager.Status.SCANNING || quality == MediaQualityScanManager.Status.PENDING
@@ -72,6 +79,7 @@ class CategoryMediaViewModel(
 
     /** Looks for new, edited or not yet checked photos soon; nothing is read twice. */
     fun refresh() {
+        if (kind == AlbumKind.PHOTOS) return
         val app = getApplication<Application>()
         MediaQualityScanManager.refresh(app)
         if (kind == AlbumKind.BEST_PORTRAITS) FaceScanManager.refresh(app)
@@ -79,6 +87,6 @@ class CategoryMediaViewModel(
 
     companion object {
         const val ARG_KIND = "kind"
-        val CATEGORIES = setOf(AlbumKind.BEST_PHOTOS, AlbumKind.BEST_PORTRAITS, AlbumKind.RECENTLY_EDITED)
+        val CATEGORIES = setOf(AlbumKind.BEST_PHOTOS, AlbumKind.BEST_PORTRAITS, AlbumKind.RECENTLY_EDITED, AlbumKind.PHOTOS)
     }
 }

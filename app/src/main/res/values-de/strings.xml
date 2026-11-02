@@ -591,4 +591,6 @@
     <string name="launcher_memories">Erinnerungen</string>
     <string name="launcher_memories_empty">Noch keine Erinnerungen</string>
     <string name="launcher_vault_open">Foto-Tresor</string>
+    <string name="album_search_hint">In diesem Album suchen</string>
+    <string name="category_photos_subtitle">Alle Fotos auf diesem Gerät</string>
 </resources>

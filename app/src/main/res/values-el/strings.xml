@@ -591,4 +591,6 @@
     <string name="launcher_memories">Αναμνήσεις</string>
     <string name="launcher_memories_empty">Καμία ανάμνηση ακόμη</string>
     <string name="launcher_vault_open">Θησαυροφυλάκιο φωτογραφιών</string>
+    <string name="album_search_hint">Αναζήτηση σε αυτό το άλμπουμ</string>
+    <string name="category_photos_subtitle">Όλες οι φωτογραφίες αυτής της συσκευής</string>
 </resources>

@@ -584,4 +584,6 @@
     <string name="launcher_memories">추억</string>
     <string name="launcher_memories_empty">아직 추억이 없습니다</string>
     <string name="launcher_vault_open">사진 보관함</string>
+    <string name="album_search_hint">이 앨범에서 검색</string>
+    <string name="category_photos_subtitle">이 기기의 모든 사진</string>
 </resources>

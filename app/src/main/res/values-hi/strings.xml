@@ -591,4 +591,6 @@
     <string name="launcher_memories">यादें</string>
     <string name="launcher_memories_empty">अभी कोई याद नहीं</string>
     <string name="launcher_vault_open">फ़ोटो वॉल्ट</string>
+    <string name="album_search_hint">इस एल्बम में खोजें</string>
+    <string name="category_photos_subtitle">इस डिवाइस की सभी फ़ोटो</string>
 </resources>

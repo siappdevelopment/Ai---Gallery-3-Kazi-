@@ -591,4 +591,6 @@
     <string name="launcher_memories">Anılar</string>
     <string name="launcher_memories_empty">Henüz anı yok</string>
     <string name="launcher_vault_open">Fotoğraf kasası</string>
+    <string name="album_search_hint">Bu albümde ara</string>
+    <string name="category_photos_subtitle">Bu cihazdaki tüm fotoğraflar</string>
 </resources>

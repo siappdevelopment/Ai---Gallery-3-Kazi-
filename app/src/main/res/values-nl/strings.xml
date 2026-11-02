@@ -591,4 +591,6 @@
     <string name="launcher_memories">Herinneringen</string>
     <string name="launcher_memories_empty">Nog geen herinneringen</string>
     <string name="launcher_vault_open">Fotokluis</string>
+    <string name="album_search_hint">Zoeken in dit album</string>
+    <string name="category_photos_subtitle">Alle foto’s op dit apparaat</string>
 </resources>

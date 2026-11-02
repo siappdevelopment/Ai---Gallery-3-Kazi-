@@ -590,4 +590,6 @@
     <string name="launcher_memories">Memories</string>
     <string name="launcher_memories_empty">No memories yet</string>
     <string name="launcher_vault_open">Photo vault</string>
+    <string name="album_search_hint">Search in this album</string>
+    <string name="category_photos_subtitle">Every photo on this device</string>
 </resources>

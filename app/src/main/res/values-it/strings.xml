@@ -598,4 +598,6 @@
     <string name="launcher_memories">Ricordi</string>
     <string name="launcher_memories_empty">Ancora nessun ricordo</string>
     <string name="launcher_vault_open">Cassaforte foto</string>
+    <string name="album_search_hint">Cerca in questo album</string>
+    <string name="category_photos_subtitle">Tutte le foto di questo dispositivo</string>
 </resources>

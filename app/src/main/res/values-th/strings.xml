@@ -584,4 +584,6 @@
     <string name="launcher_memories">ความทรงจำ</string>
     <string name="launcher_memories_empty">ยังไม่มีความทรงจำ</string>
     <string name="launcher_vault_open">ห้องนิรภัยรูปภาพ</string>
+    <string name="album_search_hint">ค้นหาในอัลบั้มนี้</string>
+    <string name="category_photos_subtitle">รูปภาพทั้งหมดในอุปกรณ์นี้</string>
 </resources>

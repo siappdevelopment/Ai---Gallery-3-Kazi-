@@ -36,20 +36,54 @@
             app:tint="@color/splash_text_primary" />
 
         <View
+            android:id="@+id/topSpacer"
             android:layout_width="0dp"
             android:layout_height="1dp"
             android:layout_weight="1" />
 
-        <ImageButton
-            android:id="@+id/btnAddPhotos"
-            android:layout_width="40dp"
+        <LinearLayout
+            android:id="@+id/searchBox"
+            android:layout_width="0dp"
             android:layout_height="40dp"
             android:layout_marginStart="8dp"
-            android:background="@drawable/bg_home_circle_button"
-            android:contentDescription="@string/albums_add_photos"
-            android:scaleType="center"
-            android:src="@drawable/ic_add_photo"
-            app:tint="@color/splash_text_primary" />
+            android:layout_weight="1"
+            android:background="@drawable/bg_search_box"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingStart="14dp"
+            android:paddingEnd="8dp"
+            android:visibility="gone">
+
+            <EditText
+                android:id="@+id/etSearch"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:autofillHints="no"
+                android:background="@null"
+                android:hint="@string/album_search_hint"
+                android:imeOptions="actionSearch"
+                android:importantForAutofill="no"
+                android:inputType="text"
+                android:maxLength="60"
+                android:maxLines="1"
+                android:textColor="@color/splash_text_primary"
+                android:textColorHint="@color/home_text_muted"
+                android:textSize="14.5sp"
+                android:textStyle="bold" />
+
+            <ImageButton
+                android:id="@+id/btnClear"
+                android:layout_width="28dp"
+                android:layout_height="28dp"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:contentDescription="@string/search_clear"
+                android:scaleType="center"
+                android:src="@drawable/ic_close"
+                android:visibility="gone"
+                app:tint="@color/home_text_muted" />
+        </LinearLayout>
+
 
         <ImageButton
             android:id="@+id/btnSelect"
@@ -63,14 +97,14 @@
             app:tint="@color/splash_text_primary" />
 
         <ImageButton
-            android:id="@+id/btnMore"
+            android:id="@+id/btnSearch"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_marginStart="8dp"
             android:background="@drawable/bg_home_circle_button"
-            android:contentDescription="@string/albums_more"
+            android:contentDescription="@string/home_search"
             android:scaleType="center"
-            android:src="@drawable/ic_more_vert"
+            android:src="@drawable/ic_search"
             app:tint="@color/splash_text_primary" />
     </LinearLayout>
 
@@ -101,6 +135,7 @@
             android:visibility="gone">
 
             <TextView
+                android:id="@+id/tvEmptyTitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
@@ -110,6 +145,7 @@
                 android:textStyle="bold" />
 
             <TextView
+                android:id="@+id/tvEmptyDesc"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"

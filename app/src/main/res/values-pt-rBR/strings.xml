@@ -598,4 +598,6 @@
     <string name="launcher_memories">Memórias</string>
     <string name="launcher_memories_empty">Ainda não há memórias</string>
     <string name="launcher_vault_open">Cofre de fotos</string>
+    <string name="album_search_hint">Pesquisar neste álbum</string>
+    <string name="category_photos_subtitle">Todas as fotos deste dispositivo</string>
 </resources>

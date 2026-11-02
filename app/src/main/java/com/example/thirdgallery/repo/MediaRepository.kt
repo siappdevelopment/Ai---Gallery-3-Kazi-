@@ -8,6 +8,7 @@ import android.os.Bundle
 import android.provider.MediaStore
 import androidx.lifecycle.LiveData
 import androidx.paging.Pager
+import androidx.sqlite.db.SimpleSQLiteQuery
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import androidx.paging.liveData
@@ -150,6 +151,7 @@ class MediaRepository(context: Context) {
         AlbumKind.VIDEOS -> CollectionQuery(0, MediaFilter.VIDEOS.types, 0, 0, "")
         AlbumKind.SCREENSHOTS -> CollectionQuery(0, MediaFilter.ALL.types, 0, 0, SCREENSHOT_LIKE)
         AlbumKind.RECENT -> CollectionQuery(0, MediaFilter.ALL.types, 0, sinceMs, "")
+        AlbumKind.PHOTOS -> CollectionQuery(0, MediaFilter.PHOTOS.types, 0, 0, "")
         else -> CollectionQuery(id, MediaFilter.ALL.types, 0, 0, "")
     }
 
@@ -211,6 +213,61 @@ class MediaRepository(context: Context) {
         ).liveData
 
     fun searchCount(query: String): LiveData<Int> = dao.observeSearchCount(likePattern(query))
+
+    /** The items of an album (a device folder, app album, smart collection, year, month, person or place) whose file name matches [query]. */
+    fun pagedCollectionFiltered(kind: AlbumKind, id: Long, sinceMs: Long, query: String): LiveData<PagingData<MediaEntity>> =
+        Pager(
+            config = PagingConfig(
+                pageSize = PAGE_SIZE,
+                prefetchDistance = PAGE_SIZE / 2,
+                initialLoadSize = PAGE_SIZE * 2,
+                enablePlaceholders = false,
+                maxSize = PAGE_SIZE * 6,
+            ),
+            pagingSourceFactory = {
+                val sql = filteredSql(kind, id, sinceMs, query)
+                dao.filteredSource(SimpleSQLiteQuery("SELECT m.* FROM ${sql.from} WHERE ${sql.where} ORDER BY ${sql.order}", sql.args))
+            },
+        ).liveData
+
+    fun collectionCountFiltered(kind: AlbumKind, id: Long, sinceMs: Long, query: String): LiveData<Int> {
+        val sql = filteredSql(kind, id, sinceMs, query)
+        return dao.observeFilteredCount(SimpleSQLiteQuery("SELECT COUNT(*) FROM ${sql.from} WHERE ${sql.where}", sql.args))
+    }
+
+    private class FilteredSql(val from: String, val where: String, val order: String, val args: Array<Any>)
+
+    /** The same items and order as [collectionSource], plus "the file name contains the words of [query]". */
+    private fun filteredSql(kind: AlbumKind, id: Long, sinceMs: Long, query: String): FilteredSql {
+        val name = "m.displayName LIKE '%' || ? || '%' ESCAPE '\\'"
+        val pattern = likePattern(query)
+        return when (kind) {
+            AlbumKind.USER -> FilteredSql(
+                "media m INNER JOIN album_items i ON i.mediaUid = m.uid", "i.albumId = ? AND $name",
+                "i.addedAt DESC, m.uid DESC", arrayOf<Any>(id, pattern),
+            )
+            AlbumKind.PERSON -> FilteredSql(
+                "media m", "m.uid IN (SELECT mediaUid FROM faces WHERE clusterId = ?) AND $name",
+                "m.dateMs DESC, m.uid DESC", arrayOf<Any>(id, pattern),
+            )
+            AlbumKind.PLACE -> FilteredSql(
+                "media m", "m.uid IN (SELECT mediaUid FROM media_locations WHERE cell = ?) AND $name",
+                "m.dateMs DESC, m.uid DESC", arrayOf<Any>(id, pattern),
+            )
+            AlbumKind.YEAR -> FilteredSql("media m", "(m.monthKey / 12 = ?) AND $name", "m.dateMs DESC, m.uid DESC", arrayOf<Any>(id.toInt(), pattern))
+            AlbumKind.MONTH -> FilteredSql("media m", "m.monthKey = ? AND $name", "m.dateMs DESC, m.uid DESC", arrayOf<Any>(id, pattern))
+            else -> {
+                val q = query(kind, id, sinceMs)
+                FilteredSql(
+                    "media m",
+                    "(? = 0 OR m.bucketId = ?) AND m.mediaType IN (${q.types.joinToString(",")}) AND m.isFavorite >= ? " +
+                        "AND m.dateMs >= ? AND (? = '' OR m.bucketName LIKE ?) AND $name",
+                    "m.dateMs DESC, m.uid DESC",
+                    arrayOf<Any>(q.bucketId, q.bucketId, q.minFavorite, q.since, q.nameLike, q.nameLike, pattern),
+                )
+            }
+        }
+    }
 
     /**
      * The query as a LIKE operand: the characters % and _ (and the escape character) stay literal, and the

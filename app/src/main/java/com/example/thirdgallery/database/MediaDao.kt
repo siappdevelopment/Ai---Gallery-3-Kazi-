@@ -6,6 +6,8 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import androidx.room.RawQuery
+import androidx.sqlite.db.SupportSQLiteQuery
 
 @Dao
 interface MediaDao {
@@ -247,6 +249,13 @@ interface MediaDao {
 
     @Query("SELECT COUNT(*) FROM media WHERE displayName LIKE '%' || :pattern || '%' ESCAPE '\\'")
     fun observeSearchCount(pattern: String): LiveData<Int>
+
+    /** An album's items narrowed by file name; the SQL is built by MediaRepository.filteredSql (every value is bound). */
+    @RawQuery(observedEntities = [MediaEntity::class, AlbumItemEntity::class, FaceEntity::class, MediaLocationEntity::class])
+    fun filteredSource(query: SupportSQLiteQuery): PagingSource<Int, MediaEntity>
+
+    @RawQuery(observedEntities = [MediaEntity::class, AlbumItemEntity::class, FaceEntity::class, MediaLocationEntity::class])
+    fun observeFilteredCount(query: SupportSQLiteQuery): LiveData<Int>
 
     // "Made for you" categories (the rules are in CategorySql), newest first
 

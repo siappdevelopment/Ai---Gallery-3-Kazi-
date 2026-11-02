@@ -130,8 +130,7 @@ class SearchActivity : AppCompatActivity() {
         supportFragmentManager.setFragmentResultListener(PersonNameSheet.RESULT_KEY, this) { _, result ->
             viewModel.renamePerson(result.getLong(PersonNameSheet.RESULT_ID), result.getString(PersonNameSheet.RESULT_NAME).orEmpty())
         }
-        b.browsePhotos.setOnClickListener(comingSoon)
-        b.browseDocuments.setOnClickListener(comingSoon)
+        b.browsePhotos.setOnClickListener { openPhotos() }
         b.browseVideos.setOnClickListener { openCollection(AlbumKind.VIDEOS, R.string.photo_chip_videos) }
         b.browseScreenshots.setOnClickListener { openCollection(AlbumKind.SCREENSHOTS, R.string.albums_smart_screenshots) }
     }
@@ -217,6 +216,14 @@ class SearchActivity : AppCompatActivity() {
         lastOpenAt = now
         val title = person.name ?: getString(R.string.people_unnamed_person)
         startActivity(AlbumDetailActivity.intent(this, AlbumKind.PERSON, person.clusterId, title))
+    }
+
+    /** Browse > Photos: every photo of the device, in the same screen as the "Made for you" categories. */
+    private fun openPhotos() {
+        val now = SystemClock.elapsedRealtime()
+        if (now - lastOpenAt < OPEN_GAP_MS) return
+        lastOpenAt = now
+        startActivity(CategoryMediaActivity.intent(this, AlbumKind.PHOTOS))
     }
 
     private fun openCollection(kind: AlbumKind, @androidx.annotation.StringRes title: Int) {

@@ -591,4 +591,6 @@
     <string name="launcher_memories">Mga Alaala</string>
     <string name="launcher_memories_empty">Wala pang alaala</string>
     <string name="launcher_vault_open">Photo vault</string>
+    <string name="album_search_hint">Maghanap sa album na ito</string>
+    <string name="category_photos_subtitle">Lahat ng larawan sa device na ito</string>
 </resources>

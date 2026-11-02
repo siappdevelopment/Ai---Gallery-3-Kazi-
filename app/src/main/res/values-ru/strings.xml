@@ -605,4 +605,6 @@
     <string name="launcher_memories">Воспоминания</string>
     <string name="launcher_memories_empty">Воспоминаний пока нет</string>
     <string name="launcher_vault_open">Сейф для фото</string>
+    <string name="album_search_hint">Поиск в этом альбоме</string>
+    <string name="category_photos_subtitle">Все фото на этом устройстве</string>
 </resources>

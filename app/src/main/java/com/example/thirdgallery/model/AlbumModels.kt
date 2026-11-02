@@ -34,6 +34,9 @@ enum class AlbumKind(val key: String) {
     /** "Made for you": photos with a sign of an edit (made in this or another app) in the last 90 days. */
     RECENTLY_EDITED("recently_edited"),
 
+    /** Every photo on the device (the "Photos" button of Search); videos are not part of it. */
+    PHOTOS("photos"),
+
     /** The results of a file-name search (the query travels separately). */
     SEARCH("search");
 
