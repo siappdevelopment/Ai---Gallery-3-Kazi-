@@ -23,6 +23,10 @@ import androidx.recyclerview.widget.ConcatAdapter
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.thirdgallery.R
 import com.example.thirdgallery.adapter.MediaPagingAdapter
+import com.example.thirdgallery.adapter.PeopleAdapter
+import com.example.thirdgallery.fragment.PersonNameSheet
+import com.example.thirdgallery.helper.HorizontalSpacingDecoration
+import com.example.thirdgallery.model.PersonUi
 import com.example.thirdgallery.adapter.SearchHeaderAdapter
 import com.example.thirdgallery.databinding.ActivitySearchBinding
 import com.example.thirdgallery.databinding.ItemSearchRecentBinding
@@ -42,6 +46,10 @@ class SearchActivity : AppCompatActivity() {
     private val handler = Handler(Looper.getMainLooper())
     private var pendingQuery: Runnable? = null
     private var lastOpenAt = 0L
+    private val peopleAdapter = PeopleAdapter(
+        onOpen = { openPerson(it) },
+        onRename = { PersonNameSheet.show(supportFragmentManager, it.clusterId, it.name) },
+    )
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -111,10 +119,17 @@ class SearchActivity : AppCompatActivity() {
             Toast.makeText(applicationContext, R.string.albums_coming_soon, Toast.LENGTH_SHORT).show()
         }
         // People is static for now (its features come later); Browse opens the smart collections that exist.
-        b.personEmma.setOnClickListener(comingSoon)
-        b.personLiam.setOnClickListener(comingSoon)
-        b.personOlivia.setOnClickListener(comingSoon)
-        b.personNoah.setOnClickListener(comingSoon)
+        b.rvPeople.adapter = peopleAdapter
+        b.rvPeople.itemAnimator = null
+        b.rvPeople.addItemDecoration(HorizontalSpacingDecoration((14 * resources.displayMetrics.density).toInt()))
+        viewModel.people.observe(this) { people ->
+            val list = people.orEmpty()
+            peopleAdapter.submitList(list)
+            b.peopleSection.visibility = if (list.isEmpty()) View.GONE else View.VISIBLE
+        }
+        supportFragmentManager.setFragmentResultListener(PersonNameSheet.RESULT_KEY, this) { _, result ->
+            viewModel.renamePerson(result.getLong(PersonNameSheet.RESULT_ID), result.getString(PersonNameSheet.RESULT_NAME).orEmpty())
+        }
         b.browsePhotos.setOnClickListener(comingSoon)
         b.browseDocuments.setOnClickListener(comingSoon)
         b.browseVideos.setOnClickListener { openCollection(AlbumKind.VIDEOS, R.string.photo_chip_videos) }
@@ -122,6 +137,7 @@ class SearchActivity : AppCompatActivity() {
     }
 
     override fun onDestroy() {
+        binding?.rvPeople?.adapter = null
         pendingQuery?.let { handler.removeCallbacks(it) }
         pendingQuery = null
         binding = null
@@ -192,6 +208,15 @@ class SearchActivity : AppCompatActivity() {
         lastOpenAt = now
         viewModel.remember(query)
         startActivity(FullScreenMediaActivity.intent(this, uid, AlbumKind.SEARCH, 0L, query = query))
+    }
+
+    /** A person of the People row: their photos, like on For you (a second tap while it opens is ignored). */
+    private fun openPerson(person: PersonUi) {
+        val now = SystemClock.elapsedRealtime()
+        if (now - lastOpenAt < OPEN_GAP_MS) return
+        lastOpenAt = now
+        val title = person.name ?: getString(R.string.people_unnamed_person)
+        startActivity(AlbumDetailActivity.intent(this, AlbumKind.PERSON, person.clusterId, title))
     }
 
     private fun openCollection(kind: AlbumKind, @androidx.annotation.StringRes title: Int) {

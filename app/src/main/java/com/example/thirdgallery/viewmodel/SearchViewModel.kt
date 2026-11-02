@@ -14,6 +14,9 @@ import androidx.paging.map as mapPaging
 import com.example.thirdgallery.database.MediaEntity
 import com.example.thirdgallery.helper.SearchHistoryPrefs
 import com.example.thirdgallery.model.MediaUiModel
+import com.example.thirdgallery.model.PersonUi
+import com.example.thirdgallery.repo.FaceScanManager
+import com.example.thirdgallery.repo.PeopleRepository
 import com.example.thirdgallery.repo.MediaRepository
 
 /** Search by file name: the typed query, its paged results and count, and the recent searches. */
@@ -23,6 +26,7 @@ class SearchViewModel(
 ) : AndroidViewModel(application) {
 
     private val repository = MediaRepository(application)
+    private val peopleRepository = PeopleRepository(application)
 
     private val _query = MutableLiveData(state.get<String>(KEY_QUERY).orEmpty())
     val query: LiveData<String> = _query
@@ -42,10 +46,18 @@ class SearchViewModel(
         if (q.isEmpty()) MutableLiveData(0) else repository.searchCount(q)
     }
 
+    /**
+     * The People row: the same named people as on For you (see PeopleRepository.load), most photos first, at most
+     * [MAX_PEOPLE]. The list follows the face scan and renaming live; no scan of its own is started here.
+     */
+    val people: LiveData<List<PersonUi>> = peopleRepository.observePeople().map { it.people.take(MAX_PEOPLE) }
+
     private val _history = MutableLiveData(SearchHistoryPrefs.get(application))
     val history: LiveData<List<String>> = _history
 
     init {
+        // The face scan runs once per process (For you starts it as well); photos already scanned are never scanned again.
+        FaceScanManager.start(application)
         // File names are indexed by the sync; make sure it has run even when the Gallery tab was never opened.
         repository.sync(false) { }
     }
@@ -57,6 +69,8 @@ class SearchViewModel(
         _query.value = trimmed
     }
 
+    fun renamePerson(clusterId: Long, name: String) = peopleRepository.rename(clusterId, name)
+
     /** Keeps a search the user submitted or opened a result of in the recent list. */
     fun remember(text: String) {
         val trimmed = text.trim().take(MAX_QUERY)
@@ -66,6 +80,7 @@ class SearchViewModel(
 
     companion object {
         const val MAX_QUERY = 60
+        const val MAX_PEOPLE = 6
         private const val KEY_QUERY = "query"
     }
 }
