@@ -98,7 +98,6 @@ class ForYouFragment : Fragment() {
         b.cardBest.setOnClickListener { openCategory(AlbumKind.BEST_PHOTOS) }
         b.cardPortraits.setOnClickListener { openCategory(AlbumKind.BEST_PORTRAITS) }
         b.cardEdited.setOnClickListener { openCategory(AlbumKind.RECENTLY_EDITED) }
-        b.tvDocsSummary.text = getString(R.string.home_docs_summary, DOC_ITEMS, DOC_RECEIPTS)
 
         val owner = viewLifecycleOwner
         viewModel.highlights.observe(owner) { cards ->
@@ -294,7 +293,5 @@ class ForYouFragment : Fragment() {
         const val MAX_PEOPLE = 6
         const val MAX_PLACES = 6
         const val COVER_PX = 600
-        const val DOC_ITEMS = 128
-        const val DOC_RECEIPTS = 14
     }
 }
