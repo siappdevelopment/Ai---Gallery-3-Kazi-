@@ -103,7 +103,7 @@
         android:paddingEnd="24dp"
         android:paddingBottom="10dp">
 
-        <com.example.thirdgallery.utils.EditCanvasView
+        <com.photovideo.gallerykz.memories.utils.EditCanvasView
             android:id="@+id/canvas"
             android:layout_width="match_parent"
             android:layout_height="match_parent"

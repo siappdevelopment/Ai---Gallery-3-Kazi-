@@ -4,13 +4,13 @@ plugins {
 }
 
 android {
-    namespace = "com.example.thirdgallery"
+    namespace = "com.photovideo.gallerykz.memories"
     compileSdk {
         version = release(37)
     }
 
     defaultConfig {
-        applicationId = "com.example.thirdgallery"
+        applicationId = "com.photovideo.gallerykz.memories"
         minSdk = 24
         targetSdk = 37
         versionCode = 1

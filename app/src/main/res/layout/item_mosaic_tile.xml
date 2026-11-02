@@ -6,7 +6,7 @@
     android:layout_height="wrap_content"
     android:layout_margin="1dp">
 
-    <com.example.thirdgallery.utils.RatioImageView
+    <com.photovideo.gallerykz.memories.utils.RatioImageView
         android:id="@+id/ivThumb"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

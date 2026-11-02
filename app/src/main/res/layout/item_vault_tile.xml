@@ -8,7 +8,7 @@
     android:clickable="true"
     android:focusable="true">
 
-    <com.example.thirdgallery.utils.SquareImageView
+    <com.photovideo.gallerykz.memories.utils.SquareImageView
         android:id="@+id/ivThumb"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

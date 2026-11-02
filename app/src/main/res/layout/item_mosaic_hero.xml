@@ -13,7 +13,7 @@
         android:layout_margin="1dp"
         android:layout_weight="2">
 
-        <com.example.thirdgallery.utils.SquareImageView
+        <com.photovideo.gallerykz.memories.utils.SquareImageView
             android:id="@+id/ivBig"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
