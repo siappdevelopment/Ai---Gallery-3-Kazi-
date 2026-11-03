@@ -90,7 +90,13 @@ class AdSlot(
     private var boxed = false
     private var pulse: android.animation.ObjectAnimator? = null
 
-    private val refresh = Runnable { if (!destroyed && resumed) request() }
+    /** True while the refresh timer runs; it goes on while the screen is paused or covered and is only reset by a finished load. */
+    private var timerPending = false
+
+    private val refresh = Runnable {
+        timerPending = false
+        if (!destroyed) request()
+    }
 
     private val configListener: () -> Unit = {
         // A config that arrives while an ad is loading still wins when it asks for something else (the request in flight is dropped).
@@ -119,6 +125,7 @@ class AdSlot(
     fun refreshNow() {
         if (destroyed || !started || loading) return
         handler.removeCallbacks(refresh)
+        timerPending = false
         request()
     }
 
@@ -130,6 +137,7 @@ class AdSlot(
         loading = false
         token++
         handler.removeCallbacks(refresh)
+        timerPending = false
         clearAds()
         request()
     }
@@ -198,7 +206,11 @@ class AdSlot(
 
     private fun scheduleRefresh() {
         handler.removeCallbacks(refresh)
-        if (spec.refreshSeconds > 0 && resumed) handler.postDelayed(refresh, spec.refreshSeconds * 1000L)
+        timerPending = false
+        if (spec.refreshSeconds > 0 && !destroyed) {
+            timerPending = true
+            handler.postDelayed(refresh, spec.refreshSeconds * 1000L)
+        }
     }
 
     /** A Google ad could not be had: the Quiz ad when the config says so, else the place goes away. */
@@ -328,13 +340,14 @@ class AdSlot(
     override fun onResume(owner: LifecycleOwner) {
         resumed = true
         banner?.resume()
-        scheduleRefresh()
+        // The timer kept running while the screen was away; it only starts here when it is not running (a slot that loaded while paused).
+        if (!timerPending && loadedOnce && !loading) scheduleRefresh()
     }
 
     override fun onPause(owner: LifecycleOwner) {
         resumed = false
         banner?.pause()
-        handler.removeCallbacks(refresh)
+        // The refresh timer is not stopped: the ad is refreshed on the configured interval also while the user is elsewhere.
     }
 
     override fun onDestroy(owner: LifecycleOwner) {
