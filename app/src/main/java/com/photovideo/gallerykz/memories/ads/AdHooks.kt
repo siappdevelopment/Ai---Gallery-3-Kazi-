@@ -22,7 +22,8 @@ object AdHooks {
      */
     fun install(activity: AppCompatActivity, screen: AdScreen, large: Boolean = false, navWithBigNative: Boolean = false, darkAd: Boolean = false) {
         try {
-            attachBottom(activity, SlotSpec.of(AdRemoteConfig.config.screen(screen), "slot_${screen.name}", large), navWithBigNative, darkAd)
+            val spec = { SlotSpec.of(AdRemoteConfig.config.screen(screen), "slot_${screen.name}", large) }
+            attachBottom(activity, spec(), navWithBigNative, darkAd, liveSpec = spec)
             attachBackAd(activity, screen)
         } catch (e: Exception) {
             android.util.Log.w("KaziAds", "ads for ${screen.name} could not be attached: $e")
@@ -34,8 +35,12 @@ object AdHooks {
         attachBottom(activity, SlotSpec.of(AdRemoteConfig.config.screen(screen), "slot_${screen.name}", large))
 
     /** [navWithBigNative]: the system navigation bar is shown while the ad is a big native ad (else it stays hidden). */
-    fun attachBottom(activity: AppCompatActivity, spec: SlotSpec, navWithBigNative: Boolean = false, darkAd: Boolean = false): AdSlot? {
-        if (!spec.show) return null
+    /** [liveSpec]: the place follows the config; a screen opened before the config arrived still gets its ad when it does. */
+    fun attachBottom(
+        activity: AppCompatActivity, spec: SlotSpec, navWithBigNative: Boolean = false, darkAd: Boolean = false,
+        liveSpec: (() -> SlotSpec)? = null,
+    ): AdSlot? {
+        if (!spec.show && (liveSpec == null || AdRemoteConfig.loaded)) return null
         val content = activity.findViewById<ViewGroup>(android.R.id.content) ?: return null
         val child = content.getChildAt(0) ?: return null
         content.removeView(child)
@@ -83,6 +88,7 @@ object AdHooks {
             onVisibility = { wrapper.post { ViewCompat.requestApplyInsets(wrapper) } },
             onBigNative = { big -> if (navWithBigNative) SystemNav.setVisible(activity, big) },
             darkAd = darkAd,
+            liveSpec = liveSpec,
         )
         slot.start()
         return slot
