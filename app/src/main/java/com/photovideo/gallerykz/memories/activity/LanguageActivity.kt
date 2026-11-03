@@ -8,7 +8,8 @@ import com.photovideo.gallerykz.memories.ads.AdHooks
 
 import android.content.Intent
 import android.os.Bundle
-import android.view.ViewGroup
+import android.os.Handler
+import android.os.Looper
 import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
@@ -27,11 +28,15 @@ class LanguageActivity : AppCompatActivity() {
 
     private var binding: ActivityLanguageBinding? = null
     private val viewModel: LanguageViewModel by viewModels()
+    private val handler = Handler(Looper.getMainLooper())
+    private var buttonShown = false
+    private val showButton = Runnable { revealButton() }
     private val adapter = LanguageAdapter { viewModel.onLanguageSelected(it.tag) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
+        buttonShown = savedInstanceState?.getBoolean(STATE_BUTTON_SHOWN) == true
 
         val b = ActivityLanguageBinding.inflate(layoutInflater)
         binding = b
@@ -47,13 +52,9 @@ class LanguageActivity : AppCompatActivity() {
         }
 
         if (viewModel.fromSettings) {
-            // Opened from Settings: a back button, and the title moves below it.
+            // Opened from Settings: a back button.
             b.btnBack.visibility = android.view.View.VISIBLE
             b.btnBack.setOnClickListener { onBackPressedDispatcher.onBackPressed() }
-            (b.tvTitle.layoutParams as? ViewGroup.MarginLayoutParams)?.let {
-                it.topMargin += (56 * resources.displayMetrics.density).toInt()
-                b.tvTitle.layoutParams = it
-            }
         }
         b.rvLanguages.layoutManager = LinearLayoutManager(this)
         b.rvLanguages.itemAnimator = null
@@ -74,21 +75,45 @@ class LanguageActivity : AppCompatActivity() {
             if (b.etSearch.hint?.toString() != t.searchHint) b.etSearch.hint = t.searchHint
         }
         viewModel.canContinue.observe(this) { enabled ->
-            b.btnContinue.isEnabled = enabled
-            b.btnContinue.alpha = if (enabled) 1f else 0.5f
+            // The button appears 500 ms after the first selection and then stays, whatever is chosen next.
+            if (enabled && !buttonShown) {
+                handler.removeCallbacks(showButton)
+                handler.postDelayed(showButton, BUTTON_DELAY_MS)
+            }
+            if (buttonShown) revealButton()
         }
         viewModel.navigateNext.observe(this) { event ->
             event.getContentIfNotHandled()?.let { tag -> openNext(tag) }
         }
     }
 
+    private fun revealButton() {
+        val button = binding?.btnContinue ?: return
+        if (isFinishing || isDestroyed) return
+        buttonShown = true
+        if (button.isVisible) return
+        button.alpha = 0f
+        button.isVisible = true
+        button.animate().alpha(1f).setDuration(200L).start()
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putBoolean(STATE_BUTTON_SHOWN, buttonShown)
+    }
+
     override fun onDestroy() {
+        handler.removeCallbacks(showButton)
+        binding?.btnContinue?.animate()?.cancel()
         binding?.rvLanguages?.adapter = null
         binding = null
         super.onDestroy()
     }
 
     companion object {
+        private const val BUTTON_DELAY_MS = 500L
+        private const val STATE_BUTTON_SHOWN = "button_shown"
+
         fun intent(context: android.content.Context, fromSettings: Boolean = false): Intent =
             Intent(context, LanguageActivity::class.java).putExtra(LanguageViewModel.ARG_FROM_SETTINGS, fromSettings)
     }
