@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- The small centred card shown while a full-screen ad is being loaded -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@drawable/bg_ad_dialog"
+    android:gravity="center_horizontal"
+    android:minWidth="240dp"
+    android:orientation="vertical"
+    android:paddingHorizontal="24dp"
+    android:paddingVertical="22dp">
+
+    <ProgressBar
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:indeterminate="true"
+        android:indeterminateTint="@color/ad_loading_accent" />
+
+    <TextView
+        android:id="@+id/adLoadingTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="14dp"
+        android:gravity="center"
+        android:text="@string/ad_loading_title"
+        android:textColor="@color/splash_text_primary"
+        android:textSize="16sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="2dp"
+        android:gravity="center"
+        android:text="@string/ad_loading_desc"
+        android:textColor="@color/splash_text_secondary"
+        android:textSize="13sp" />
+</LinearLayout>

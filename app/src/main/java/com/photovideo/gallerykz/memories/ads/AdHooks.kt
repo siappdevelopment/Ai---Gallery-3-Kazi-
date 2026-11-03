@@ -77,11 +77,29 @@ object AdHooks {
         return if (id != 0) activity.findViewById(id) else null
     }
 
+    /** The reserved area loses its side margins (its own and its design frame's) so the ad is as wide as the screen. */
+    private fun fullWidth(container: ViewGroup) {
+        container.setPadding(0, 0, 0, 0)
+        container.background = null
+        (container.parent as? FrameLayout)?.let { if (it.paddingLeft > 0 || it.paddingRight > 0) it.setPadding(0, 0, 0, 0) }
+        val lp = container.layoutParams
+        if (lp is LinearLayout.LayoutParams) {
+            // The weighted ad area of the permission screens: the ad is as tall as it is, the rest of the screen takes what is left.
+            lp.height = ViewGroup.LayoutParams.WRAP_CONTENT
+            lp.weight = 0f
+            container.layoutParams = lp
+        }
+    }
+
     /** Onboarding screens: the ad goes into the reserved area (large native). */
     fun attachOnboarding(activity: AppCompatActivity, screen: AdScreen) {
         try {
             val container = adContainer(activity) ?: return
-            attachInto(activity, container, activity, SlotSpec.of(AdRemoteConfig.config.screen(screen), "slot_${screen.name}", large = true))
+            val spec = SlotSpec.of(AdRemoteConfig.config.screen(screen), "slot_${screen.name}", large = true)
+            // A screen whose ad is off keeps its design placeholder; otherwise the ad takes the whole width and its own height.
+            if (!spec.show) return
+            fullWidth(container)
+            attachInto(activity, container, activity, spec, keepContentOnFail = false)
         } catch (e: Exception) {
             android.util.Log.w("KaziAds", "ads for ${screen.name} could not be attached: $e")
         }

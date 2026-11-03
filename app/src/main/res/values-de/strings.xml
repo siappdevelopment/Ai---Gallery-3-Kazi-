@@ -678,4 +678,6 @@
     <string name="ad_label">Anzeige</string>
     <string name="ad_quiz_install">Installieren</string>
     <string name="ad_quiz_rating" formatted="false">★ %1$.1f · %2$s Nutzer</string>
+    <string name="ad_loading_title">Anzeige wird geladen …</string>
+    <string name="ad_loading_desc">Bitte einen Moment warten</string>
 </resources>

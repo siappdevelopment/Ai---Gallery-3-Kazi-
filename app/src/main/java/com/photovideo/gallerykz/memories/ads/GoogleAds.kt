@@ -1,5 +1,6 @@
 package com.photovideo.gallerykz.memories.ads
 
+import com.photovideo.gallerykz.memories.R
 import android.app.Activity
 import android.app.Dialog
 import android.content.Context
@@ -170,19 +171,25 @@ object GoogleAds {
 /** The "loading ad" spinner shown while a full-screen ad loads (never longer than the caller's timeout). */
 object AdLoadingDialog {
 
+    private var current: Dialog? = null
+
+    /** The small centred "loading the ad" card; null when it cannot be shown (the flow then goes on without it). Only one at a time. */
     fun show(activity: Activity): Dialog? {
         if (activity.isFinishing || activity.isDestroyed) return null
+        dismiss(current)
         return try {
             val dialog = Dialog(activity)
             dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
-            val frame = FrameLayout(activity)
-            val bar = ProgressBar(activity)
-            frame.addView(bar, FrameLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT, Gravity.CENTER))
-            dialog.setContentView(frame)
+            dialog.setContentView(R.layout.dialog_ad_loading)
             dialog.setCancelable(false)
-            dialog.window?.setBackgroundDrawable(ColorDrawable(Color.parseColor("#66000000")))
-            dialog.window?.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT)
+            dialog.window?.let { window ->
+                window.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+                window.setLayout(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT)
+                window.setGravity(Gravity.CENTER)
+                window.setDimAmount(0.6f)
+            }
             dialog.show()
+            current = dialog
             dialog
         } catch (e: Exception) {
             null
@@ -190,8 +197,10 @@ object AdLoadingDialog {
     }
 
     fun dismiss(dialog: Dialog?) {
+        if (dialog == null) return
+        if (current === dialog) current = null
         try {
-            if (dialog?.isShowing == true) dialog.dismiss()
+            if (dialog.isShowing) dialog.dismiss()
         } catch (e: Exception) {
             // The window is already gone.
         }

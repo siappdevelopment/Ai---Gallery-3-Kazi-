@@ -29,4 +29,9 @@
     <color name="vault_switch_off">#FF4A4A52</color>
     <color name="vault_alert_bg">#FF3A1D27</color>
     <color name="vault_secure_bg">#FF16301F</color>
+    <color name="ad_background">#FF1E1E1E</color>
+    <color name="ad_shimmer">#FF3A3A3A</color>
+    <color name="ad_border">#FF5C6270</color>
+    <color name="ad_dialog_bg">#FF2A2A2E</color>
+    <color name="ad_loading_accent">#FFFF5C93</color>
 </resources>

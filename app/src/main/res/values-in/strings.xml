@@ -671,4 +671,6 @@
     <string name="ad_label">Iklan</string>
     <string name="ad_quiz_install">Instal</string>
     <string name="ad_quiz_rating" formatted="false">★ %1$.1f · %2$s pengguna</string>
+    <string name="ad_loading_title">Memuat iklan…</string>
+    <string name="ad_loading_desc">Mohon tunggu sebentar</string>
 </resources>

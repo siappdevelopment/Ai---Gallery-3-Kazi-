@@ -678,4 +678,6 @@
     <string name="ad_label">Reklam</string>
     <string name="ad_quiz_install">Yükle</string>
     <string name="ad_quiz_rating" formatted="false">★ %1$.1f · %2$s kullanıcı</string>
+    <string name="ad_loading_title">Reklam yükleniyor…</string>
+    <string name="ad_loading_desc">Lütfen biraz bekleyin</string>
 </resources>

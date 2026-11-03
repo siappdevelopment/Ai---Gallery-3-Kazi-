@@ -678,4 +678,6 @@
     <string name="ad_label">Adv.</string>
     <string name="ad_quiz_install">Installeer</string>
     <string name="ad_quiz_rating" formatted="false">★ %1$.1f · %2$s gebruikers</string>
+    <string name="ad_loading_title">Advertensie laai…</string>
+    <string name="ad_loading_desc">Wag asseblief \'n oomblik</string>
 </resources>

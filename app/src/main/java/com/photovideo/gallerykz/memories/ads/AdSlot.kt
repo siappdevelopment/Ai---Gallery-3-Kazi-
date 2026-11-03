@@ -84,6 +84,7 @@ class AdSlot(
     private var banner: AdView? = null
     private var loadedOnce = false
     private var placeholder: View? = null
+    private var pulse: android.animation.ObjectAnimator? = null
 
     private val refresh = Runnable { if (!destroyed && resumed) request() }
 
@@ -224,19 +225,27 @@ class AdSlot(
         onVisibility(true)
     }
 
+    /** The skeleton of the ad (the skill's shimmer sizes) that pulses until the ad arrives, fails or the slot goes away. */
     private fun showPlaceholder() {
         if (placeholder != null || container.childCount > 0 && keepContentOnFail) return
-        val v = View(activity)
-        v.setBackgroundResource(R.drawable.bg_ad_placeholder)
-        val height = (activity.resources.displayMetrics.density * if (spec.native && spec.large) 200 else 60).toInt()
+        val layout = if (spec.native && spec.large) R.layout.ad_shimmer_large else R.layout.ad_shimmer_small
+        val v = android.view.LayoutInflater.from(activity).inflate(layout, container, false)
         container.removeAllViews()
-        container.addView(v, FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, height).apply { setMargins(12, 6, 12, 6) })
+        container.addView(v, FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT))
         placeholder = v
+        pulse = android.animation.ObjectAnimator.ofFloat(v, View.ALPHA, 1f, 0.35f).apply {
+            duration = 700L
+            repeatMode = android.animation.ValueAnimator.REVERSE
+            repeatCount = android.animation.ValueAnimator.INFINITE
+            start()
+        }
         container.visibility = View.VISIBLE
         onVisibility(true)
     }
 
     private fun removePlaceholder() {
+        pulse?.cancel()
+        pulse = null
         placeholder?.let { if (it.parent === container) container.removeView(it) }
         placeholder = null
     }

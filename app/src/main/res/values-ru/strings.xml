@@ -692,4 +692,6 @@
     <string name="ad_label">Реклама</string>
     <string name="ad_quiz_install">Установить</string>
     <string name="ad_quiz_rating" formatted="false">★ %1$.1f · %2$s пользователей</string>
+    <string name="ad_loading_title">Загрузка рекламы…</string>
+    <string name="ad_loading_desc">Подождите немного</string>
 </resources>

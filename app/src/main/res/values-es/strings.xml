@@ -685,4 +685,6 @@
     <string name="ad_label">Anuncio</string>
     <string name="ad_quiz_install">Instalar</string>
     <string name="ad_quiz_rating" formatted="false">★ %1$.1f · %2$s usuarios</string>
+    <string name="ad_loading_title">Cargando anuncio…</string>
+    <string name="ad_loading_desc">Espera un momento</string>
 </resources>

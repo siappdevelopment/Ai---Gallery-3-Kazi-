@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Loading skeleton of the small native / banner ad (the skill's shimmer_small_ad) -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/bg_ad_card"
+    android:gravity="center_vertical"
+    android:padding="@dimen/_10sdp">
+
+    <View
+        android:layout_width="@dimen/_40sdp"
+        android:layout_height="@dimen/_40sdp"
+        android:background="@color/ad_shimmer" />
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/_10sdp"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_16sdp"
+            android:background="@color/ad_shimmer" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_16sdp"
+            android:layout_marginTop="@dimen/_6sdp"
+            android:background="@color/ad_shimmer" />
+    </LinearLayout>
+
+    <View
+        android:layout_width="@dimen/_80sdp"
+        android:layout_height="@dimen/_34sdp"
+        android:background="@drawable/bg_ad_skeleton_button" />
+</LinearLayout>

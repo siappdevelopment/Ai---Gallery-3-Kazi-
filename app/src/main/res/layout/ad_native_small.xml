@@ -3,12 +3,12 @@
     
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/white">
+    android:background="@drawable/bg_ad_card">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="10dp">
+        android:padding="@dimen/_10sdp">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -18,8 +18,8 @@
 
         <ImageView
             android:id="@+id/adIcon"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
+            android:layout_width="@dimen/_40sdp"
+            android:layout_height="@dimen/_40sdp"
             android:importantForAccessibility="no"
             android:scaleType="centerCrop" />
 
@@ -76,9 +76,9 @@
 
         <TextView
             android:id="@+id/adCta"
-            android:layout_width="wrap_content"
-            android:layout_height="36dp"
-            android:layout_marginStart="8dp"
+            android:layout_width="@dimen/_80sdp"
+            android:layout_height="@dimen/_34sdp"
+            android:layout_marginStart="@dimen/_10sdp"
             android:background="@drawable/bg_ad_button"
             android:gravity="center"
             android:maxLines="1"
