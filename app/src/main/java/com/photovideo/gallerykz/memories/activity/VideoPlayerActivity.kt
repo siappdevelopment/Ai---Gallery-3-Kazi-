@@ -101,7 +101,8 @@ class VideoPlayerActivity : AppCompatActivity() {
         val b = ActivityVideoPlayerBinding.inflate(layoutInflater)
         binding = b
         setContentView(b.root)
-        AdHooks.install(this, AdScreen.VIDEO_PLAYER)
+        // The player is black in both themes, so its bottom ad always uses the dark theme.
+        AdHooks.install(this, AdScreen.VIDEO_PLAYER, darkAd = true)
         ViewCompat.setOnApplyWindowInsetsListener(b.root) { v, insets ->
             val bars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(bars.left, bars.top, bars.right, bars.bottom)

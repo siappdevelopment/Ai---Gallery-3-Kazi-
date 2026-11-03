@@ -45,7 +45,11 @@ object AdHooks {
         val container = FrameLayout(activity)
         container.visibility = View.GONE
         // A dark ad sits on a dark strip too (the viewer's own background), so no light band shows around it.
-        if (darkAd) container.setBackgroundColor(androidx.core.content.ContextCompat.getColor(activity, com.photovideo.gallerykz.memories.R.color.viewer_background))
+        if (darkAd) {
+            // The strip takes the screen's own dark background (the screen's root colour), else the viewer's dark.
+            val screenColor = (child.background as? android.graphics.drawable.ColorDrawable)?.color
+            container.setBackgroundColor(screenColor ?: androidx.core.content.ContextCompat.getColor(activity, com.photovideo.gallerykz.memories.R.color.viewer_background))
+        }
         wrapper.addView(container, LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT))
         content.addView(wrapper, ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT))
 
