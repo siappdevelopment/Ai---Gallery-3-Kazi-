@@ -200,7 +200,7 @@ object FullNativeAd {
     }
 
     /** The layouts are used as they are; the status bar, a cut-out and the navigation bar are kept clear by padding the root. */
-    private fun keepClearOfBars(root: View) {
+    internal fun keepClearOfBars(root: View) {
         ViewCompat.setOnApplyWindowInsetsListener(root) { v, insets ->
             val bars = insets.getInsets(WindowInsetsCompat.Type.systemBars() or WindowInsetsCompat.Type.displayCutout())
             v.setPadding(bars.left, bars.top, bars.right, bars.bottom)

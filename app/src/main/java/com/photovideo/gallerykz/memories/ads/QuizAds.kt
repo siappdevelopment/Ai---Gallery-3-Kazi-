@@ -116,13 +116,17 @@ object QuizAds {
             return
         }
         val index = Random.nextInt(count)
+        if (kind == QuizKind.NATIVE) {
+            showNativeFull(activity, index, ::finish)
+            return
+        }
         try {
             val dialog = Dialog(activity, android.R.style.Theme_Black_NoTitleBar_Fullscreen)
             dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
             val layout = when (kind) {
                 QuizKind.INTER -> R.layout.dialog_quiz_inter
                 QuizKind.APP_OPEN -> R.layout.dialog_quiz_app_open
-                QuizKind.NATIVE -> R.layout.dialog_quiz_full
+                QuizKind.NATIVE -> R.layout.dialog_quiz_inter // never used: the native kind returns above
             }
             val view = LayoutInflater.from(activity).inflate(layout, null)
             dialog.setContentView(view)
@@ -147,7 +151,6 @@ object QuizAds {
             view.findViewById<TextView?>(R.id.quizDesc)?.text = pick(descs, index)
             val rating = RATES[index % RATES.size]
             val users = USERS[index % USERS.size]
-            view.findViewById<TextView?>(R.id.quizRating)?.text = activity.getString(R.string.ad_quiz_rating, rating, users)
             view.findViewById<TextView?>(R.id.quizRate)?.text = String.format(java.util.Locale.getDefault(), "%.1f", rating)
             view.findViewById<android.widget.RatingBar?>(R.id.quizRatingBar)?.rating = rating.toFloat()
             view.findViewById<TextView?>(R.id.quizUsers)?.text = activity.getString(R.string.ad_quiz_users, users)
@@ -183,6 +186,71 @@ object QuizAds {
             dialog.show()
         } catch (e: Exception) {
             Log.d(TAG, "quiz dialog failed: $e")
+            finish(false)
+        }
+    }
+
+    /**
+     * The full-screen Quiz native ad: exactly the page of the Google full native ad (`ad_native_full`, the same layout and sizes),
+     * with the Quiz picture in its `ad_quiz_media` slot instead of the Google media view. A tap anywhere or on the button opens the
+     * Quiz link in the in-app web view (the ad closes after it); the close button closes the ad. [finish] runs once (true when shown).
+     */
+    private fun showNativeFull(activity: Activity, index: Int, finish: (Boolean) -> Unit) {
+        val quiz = AdRemoteConfig.config.quiz
+        try {
+            val dialog = Dialog(activity, android.R.style.Theme_Black_NoTitleBar_Fullscreen)
+            dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+            dialog.setCancelable(false)
+            dialog.window?.setBackgroundDrawable(ColorDrawable(androidx.core.content.ContextCompat.getColor(activity, R.color.native_full_bg)))
+            val page = LayoutInflater.from(activity).inflate(R.layout.ad_native_full, null)
+            dialog.setContentView(page)
+            FullNativeAd.keepClearOfBars(page)
+
+            // The Quiz picture replaces the Google media view (fit inside the same area, never cropped).
+            page.findViewById<View>(R.id.ad_media).visibility = View.GONE
+            val media = page.findViewById<ImageView>(R.id.ad_quiz_media)
+            media.visibility = View.VISIBLE
+            loadImage(media, pick(quiz.nativeMedia.ifEmpty { quiz.appIcons }, index))
+
+            page.findViewById<TextView>(R.id.ad_headline).text = pick(quiz.nativeTitle, index)
+            val body = page.findViewById<TextView>(R.id.ad_body)
+            val desc = pick(quiz.nativeDesc, index)
+            if (desc.isEmpty()) body.visibility = View.GONE else body.text = desc
+            loadImage(page.findViewById(R.id.ad_app_icon), pick(quiz.appIcons, index))
+
+            // Chips like the Google ad's: the rating and the number of users (the price chip stays hidden).
+            val stars = page.findViewById<TextView>(R.id.ad_stars)
+            stars.text = String.format(java.util.Locale.getDefault(), "★ %.1f", RATES[index % RATES.size])
+            stars.visibility = View.VISIBLE
+            val users = page.findViewById<TextView>(R.id.ad_store)
+            users.text = activity.getString(R.string.ad_quiz_users, USERS[index % USERS.size])
+            users.visibility = View.VISIBLE
+
+            val cta = page.findViewById<TextView>(R.id.ad_call_to_action)
+            cta.text = quiz.buttonText.ifEmpty { activity.getString(R.string.ad_quiz_install) }
+            applyColors(activity, page.findViewById(R.id.ad_attribution), cta)
+
+            fun close() {
+                try {
+                    dialog.dismiss()
+                } catch (e: Exception) {
+                    // Already gone.
+                }
+            }
+            var opened = false
+            val openLink = {
+                if (!opened) {
+                    opened = true
+                    QuizBrowser.show(activity) { close() }
+                }
+            }
+            cta.setOnClickListener { openLink() }
+            page.findViewById<View>(R.id.ad_view).setOnClickListener { openLink() }
+            page.findViewById<View>(R.id.ad_close).setOnClickListener { close() }
+            dialog.setOnDismissListener { finish(true) }
+            dialog.show()
+        } catch (e: Exception) {
+            Log.d(TAG, "quiz native dialog failed: $e")
             finish(false)
         }
     }
