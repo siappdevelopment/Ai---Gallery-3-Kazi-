@@ -114,6 +114,16 @@
             android:paddingEnd="12dp"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
 
+        <!-- The For you ad (ForYou_Highlights_* of the Remote Config): between Highlights and People & faces -->
+        <FrameLayout
+            android:id="@+id/adForYouSlot"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:layout_marginTop="12dp"
+            android:layout_marginEnd="12dp"
+            android:visibility="gone" />
+
         <!-- People & faces -->
         <LinearLayout
             android:layout_width="match_parent"

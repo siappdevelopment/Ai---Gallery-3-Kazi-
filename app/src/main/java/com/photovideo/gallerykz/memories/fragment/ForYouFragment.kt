@@ -18,6 +18,10 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.photovideo.gallerykz.memories.R
+import com.photovideo.gallerykz.memories.ads.AdRemoteConfig
+import com.photovideo.gallerykz.memories.ads.AdScreen
+import com.photovideo.gallerykz.memories.ads.AdSlot
+import com.photovideo.gallerykz.memories.ads.SlotSpec
 import com.photovideo.gallerykz.memories.activity.AlbumDetailActivity
 import com.photovideo.gallerykz.memories.activity.BurstsActivity
 import com.photovideo.gallerykz.memories.activity.CategoryMediaActivity
@@ -68,6 +72,11 @@ class ForYouFragment : Fragment() {
     private val suggestionAdapter = SuggestionAdapter { openSuggestion(it) }
     private var dateReceiver: BroadcastReceiver? = null
 
+    // The For you ad sits between the Highlights and the People & faces blocks.
+    private var adSlot: AdSlot? = null
+    private var adStarted = false
+    private var adLeft = false
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         val b = FragmentForYouBinding.inflate(inflater, container, false)
         _binding = b
@@ -79,6 +88,8 @@ class ForYouFragment : Fragment() {
         val b = binding ?: return
 
         b.btnAllowOverlay.setOnClickListener { askOverlay() }
+
+        adSlot = AdSlot(requireActivity(), b.adForYouSlot, viewLifecycleOwner, adSpec(), liveSpec = { adSpec() })
 
         b.rvHighlights.adapter = highlightAdapter
         b.rvPeople.adapter = peopleAdapter
@@ -273,8 +284,46 @@ class ForYouFragment : Fragment() {
         startActivity(HighlightsDetailActivity.intent(context, card))
     }
 
+    override fun onPause() {
+        adLeft = true
+        super.onPause()
+    }
+
+    override fun onHiddenChanged(hidden: Boolean) {
+        super.onHiddenChanged(hidden)
+        if (hidden) adLeft = true else enterAd()
+    }
+
+    /**
+     * The For you ad is requested when this tab is really on screen (the first time it is resumed and shown). With
+     * `ForYou_Highlights_Ad_Auto_Refresh` on, the timer of the slot refreshes it; with it off, a new ad is requested only when the user
+     * comes back after another screen and `ForYou_Highlights_Ad_Auto_Second` has passed since the last request.
+     */
+    private fun enterAd() {
+        if (!isResumed || isHidden) return
+        val slot = adSlot ?: return
+        if (!adStarted) {
+            adStarted = true
+            adLeft = false
+            slot.start()
+        } else if (adLeft) {
+            adLeft = false
+            if (adSpec().refreshSeconds == 0) slot.refreshNow(AdRemoteConfig.config.screen(AdScreen.FOR_YOU).autoSeconds)
+        }
+    }
+
+    private fun adSpec(): SlotSpec {
+        val screen = AdRemoteConfig.config.screen(AdScreen.FOR_YOU)
+        return SlotSpec(
+            show = screen.show && screen.nativeId.isNotEmpty(), native = true, bannerId = "", nativeId = screen.nativeId,
+            refreshSeconds = if (screen.autoRefresh) screen.autoSeconds else 0,
+            preload = AdRemoteConfig.config.inter.nativePreload, cacheKey = "slot_foryou_inline", medium = true,
+        )
+    }
+
     override fun onResume() {
         super.onResume()
+        enterAd()
         // Back from the system settings (or any other screen): the permission is read again, never remembered.
         showOverlayCard()
     }
@@ -345,6 +394,9 @@ class ForYouFragment : Fragment() {
             it.rvPlaces.adapter = null
             it.rvSuggestions.adapter = null
         }
+        adSlot = null
+        adStarted = false
+        adLeft = false
         _binding = null
         super.onDestroyView()
     }

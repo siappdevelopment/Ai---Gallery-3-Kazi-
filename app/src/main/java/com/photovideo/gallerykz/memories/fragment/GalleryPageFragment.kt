@@ -77,7 +77,7 @@ class GalleryPageFragment : Fragment(), GalleryHost {
         b.tabForYou.setOnClickListener { switchTab(TAB_FOR_YOU) }
         b.tabGallery.setOnClickListener { switchTab(TAB_GALLERY) }
         b.tabAlbums.setOnClickListener { switchTab(TAB_ALBUMS) }
-        tabSlot = AdSlot(requireActivity(), b.adTabSlot, viewLifecycleOwner, tabSpec(selectedTab), liveSpec = { tabSpec(selectedTab) }).also { it.start() }
+        // Each tab shows its own ad inside its content (For you, Gallery and Albums); only the Main ad sits under the tab bar.
         // The Main screen's bottom ad (`Main_*`) sits under the tab bar of this page; it follows the config while the page is open.
         mainSlot = AdSlot(
             requireActivity(), b.adMainSlot, viewLifecycleOwner, mainSpec(),
@@ -194,7 +194,6 @@ class GalleryPageFragment : Fragment(), GalleryHost {
     }
 
     /** Shows the tab's fragment (created once, then hidden/shown so scroll positions survive). */
-    private var tabSlot: AdSlot? = null
     private var adHiddenByChrome = false
     private var mainSlot: AdSlot? = null
     private var navElevation = -1f
@@ -215,19 +214,6 @@ class GalleryPageFragment : Fragment(), GalleryHost {
         b.adMainSlot.setPadding(0, 0, 0, if (adShown) systemBottomInset else 0)
     }
 
-    private fun screenOf(tab: Int): AdScreen = when (tab) {
-        TAB_GALLERY -> AdScreen.GALLERY
-        TAB_ALBUMS -> AdScreen.ALBUMS
-        else -> AdScreen.FOR_YOU
-    }
-
-    private fun tabSpec(tab: Int): SlotSpec {
-        // The Gallery and Albums tabs show their ad inside their grid (PhotoFragment, AlbumFragment), not under the tabs.
-        if (tab == TAB_GALLERY || tab == TAB_ALBUMS) return SlotSpec(show = false, native = true, bannerId = "", nativeId = "")
-        val screen = screenOf(tab)
-        return SlotSpec.of(AdRemoteConfig.config.screen(screen), "slot_" + screen.name)
-    }
-
     private fun switchTab(tab: Int) {
         if (tab == selectedTab) return
         val activity = activity ?: return selectTab(tab)
@@ -238,7 +224,6 @@ class GalleryPageFragment : Fragment(), GalleryHost {
         if (!force && tab == selectedTab) return
         selectedTab = tab
         updateTabStyles(tab)
-        tabSlot?.reconfigure(tabSpec(tab))
 
         val fm = childFragmentManager
         if (fm.isStateSaved) return

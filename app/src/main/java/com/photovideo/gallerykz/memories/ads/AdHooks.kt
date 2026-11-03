@@ -62,7 +62,8 @@ object AdHooks {
                 wrapper.post { ViewCompat.requestApplyInsets(wrapper) }
             }
             if (container.visibility == View.VISIBLE) {
-                container.setPadding(0, 0, 0, bars.bottom)
+                // 10dp above the ad, so it never touches the content (the media) over it.
+                container.setPadding(0, (10 * activity.resources.displayMetrics.density).toInt(), 0, bars.bottom)
                 WindowInsetsCompat.Builder(insets)
                     .setInsets(WindowInsetsCompat.Type.systemBars(), Insets.of(bars.left, bars.top, bars.right, 0))
                     .build()
