@@ -97,12 +97,6 @@ class LauncherHomeFragment : Fragment(), LauncherSettings.Listener, LauncherApps
             insets
         }
 
-        // The Main screen's bottom ad (`Main_*`), kept in step with the config.
-        AdSlot(
-            requireActivity(), b.adBottomSlot, viewLifecycleOwner, mainSpec(),
-            liveSpec = { mainSpec() },
-        ).start()
-
         // The clock is filled at once, so the first frame is never empty.
         updateDateTime()
 
@@ -375,8 +369,6 @@ class LauncherHomeFragment : Fragment(), LauncherSettings.Listener, LauncherApps
     // ---- actions ----
 
     /** Starts a shortcut and remembers it for the Recent page. */
-    private fun mainSpec(): SlotSpec = SlotSpec.of(AdRemoteConfig.config.screen(AdScreen.MAIN), "slot_main")
-
     /** An app of the home page is tapped: the tap ad (every Nth tap) may come first. */
     private fun start(target: ShortcutTarget) {
         val activity = activity ?: return

@@ -63,7 +63,7 @@ class GalleryPageFragment : Fragment(), GalleryHost {
             // The tab bar extends under the system navigation bar, so it takes the bottom inset.
             systemBottomInset = bars.bottom
             v.setPadding(bars.left, bars.top, bars.right, if (chromeVisible) 0 else bars.bottom)
-            b.navBar.setPadding(0, 0, 0, bars.bottom)
+            applyBottomInsets()
             insets
         }
 
@@ -76,6 +76,16 @@ class GalleryPageFragment : Fragment(), GalleryHost {
         b.tabGallery.setOnClickListener { switchTab(TAB_GALLERY) }
         b.tabAlbums.setOnClickListener { switchTab(TAB_ALBUMS) }
         tabSlot = AdSlot(requireActivity(), b.adTabSlot, viewLifecycleOwner, tabSpec(selectedTab), liveSpec = { tabSpec(selectedTab) }).also { it.start() }
+        // The Main screen's bottom ad (`Main_*`) sits under the tab bar of this page; it follows the config while the page is open.
+        mainSlot = AdSlot(
+            requireActivity(), b.adMainSlot, viewLifecycleOwner, mainSpec(),
+            onVisibility = { visible ->
+                // While the tab bar is hidden (selection mode) the ad stays hidden too.
+                if (visible && !chromeVisible) binding?.adMainSlot?.visibility = View.GONE
+                applyBottomInsets()
+            },
+            liveSpec = { mainSpec() },
+        ).also { it.start() }
         b.btnLayout.setOnClickListener { showLayoutPicker() }
         b.btnSettings.setOnClickListener { startActivity(SettingActivity.intent(requireContext())) }
         b.btnSearch.setOnClickListener { startActivity(SearchActivity.intent(requireContext())) }
@@ -129,6 +139,17 @@ class GalleryPageFragment : Fragment(), GalleryHost {
         val visibility = if (visible) View.VISIBLE else View.GONE
         b.topBar.visibility = visibility
         b.navBar.visibility = visibility
+        // The ad steps aside with the tab bar and comes back as it was (no reload).
+        if (!visible) {
+            if (b.adMainSlot.visibility == View.VISIBLE) {
+                adHiddenByChrome = true
+                b.adMainSlot.visibility = View.GONE
+            }
+        } else if (adHiddenByChrome) {
+            adHiddenByChrome = false
+            b.adMainSlot.visibility = View.VISIBLE
+        }
+        applyBottomInsets()
         b.root.setPadding(b.root.paddingLeft, b.root.paddingTop, b.root.paddingRight, if (visible) 0 else systemBottomInset)
     }
 
@@ -142,6 +163,22 @@ class GalleryPageFragment : Fragment(), GalleryHost {
 
     /** Shows the tab's fragment (created once, then hidden/shown so scroll positions survive). */
     private var tabSlot: AdSlot? = null
+    private var adHiddenByChrome = false
+    private var mainSlot: AdSlot? = null
+    private var navElevation = -1f
+
+    private fun mainSpec(): SlotSpec = SlotSpec.of(AdRemoteConfig.config.screen(AdScreen.MAIN), "slot_main")
+
+    /** The system navigation bar inset goes to the last thing on the page: the ad under the tab bar while it shows, else the tab bar. */
+    private fun applyBottomInsets() {
+        val b = binding ?: return
+        val adShown = chromeVisible && b.adMainSlot.visibility == View.VISIBLE
+        if (navElevation < 0f) navElevation = b.navBar.elevation
+        b.navBar.setPadding(0, 0, 0, if (adShown) 0 else systemBottomInset)
+        // The tab bar's shadow would fall on the ad under it; the ad is shown clean, without any shadow.
+        b.navBar.elevation = if (adShown) 0f else navElevation
+        b.adMainSlot.setPadding(0, 0, 0, if (adShown) systemBottomInset else 0)
+    }
 
     private fun screenOf(tab: Int): AdScreen = when (tab) {
         TAB_GALLERY -> AdScreen.GALLERY

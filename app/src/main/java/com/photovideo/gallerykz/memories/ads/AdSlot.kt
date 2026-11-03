@@ -92,8 +92,16 @@ class AdSlot(
     private val refresh = Runnable { if (!destroyed && resumed) request() }
 
     private val configListener: () -> Unit = {
-        liveSpec?.let { provider -> if (!destroyed && !loading) reconfigure(provider()) }
+        // A config that arrives while an ad is loading still wins when it asks for something else (the request in flight is dropped).
+        liveSpec?.let { provider ->
+            if (destroyed) return@let
+            val next = provider()
+            if (!loading || !sameAd(spec, next)) reconfigure(next)
+        }
     }
+
+    private fun sameAd(a: SlotSpec, b: SlotSpec) =
+        a.show == b.show && a.native == b.native && a.large == b.large && a.bannerId == b.bannerId && a.nativeId == b.nativeId
 
     init {
         owner.lifecycle.addObserver(this)
@@ -110,6 +118,8 @@ class AdSlot(
         if (destroyed) return
         spec = newSpec
         loadedOnce = false
+        loading = false
+        token++
         handler.removeCallbacks(refresh)
         clearAds()
         request()

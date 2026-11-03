@@ -238,4 +238,13 @@
             </LinearLayout>
         </FrameLayout>
     </LinearLayout>
+
+    <!-- Main screen bottom ad (Main_* of the Remote Config), under the tab bar -->
+    <FrameLayout
+        android:id="@+id/adMainSlot"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+        android:visibility="gone" />
 </LinearLayout>
