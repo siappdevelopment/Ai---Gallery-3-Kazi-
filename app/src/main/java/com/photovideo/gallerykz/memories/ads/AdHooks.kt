@@ -83,11 +83,11 @@ object AdHooks {
     /** Puts a slot into an existing container of the layout (the reserved ad area of the onboarding screens). */
     fun attachInto(
         activity: Activity, container: ViewGroup, owner: LifecycleOwner, spec: SlotSpec,
-        keepContentOnFail: Boolean = true, navWithBigNative: Boolean = false,
+        keepContentOnFail: Boolean = true, navWithBigNative: Boolean = false, onVisibility: (Boolean) -> Unit = {},
     ): AdSlot? {
         if (!spec.show) return null
         val slot = AdSlot(
-            activity, container, owner, spec, keepContentOnFail = keepContentOnFail,
+            activity, container, owner, spec, keepContentOnFail = keepContentOnFail, onVisibility = onVisibility,
             onBigNative = { big -> if (navWithBigNative) SystemNav.setVisible(activity, big) },
         )
         slot.start()
@@ -98,6 +98,50 @@ object AdHooks {
     fun adContainer(activity: Activity): ViewGroup? {
         val id = activity.resources.getIdentifier("adContainer", "id", activity.packageName)
         return if (id != 0) activity.findViewById(id) else null
+    }
+
+    /**
+     * Takes the reserved ad area out of an onboarding screen and lets the rest use the space: the permission screens centre their
+     * title, text and button in the whole sheet; the intro screens give the collage and the text the full height.
+     */
+    private fun collapseOnboardingAd(activity: Activity, container: ViewGroup) {
+        try {
+            val parent = container.parent as? ViewGroup ?: return
+            if (parent is LinearLayout) {
+                container.visibility = View.GONE
+                val block = parent.getChildAt(0) as? LinearLayout ?: return
+                block.gravity = android.view.Gravity.CENTER
+                (block.layoutParams as? LinearLayout.LayoutParams)?.let {
+                    it.height = 0
+                    it.weight = 1f
+                    block.layoutParams = it
+                }
+                for (i in 0 until block.childCount) {
+                    val child = block.getChildAt(i)
+                    if (child is android.widget.Space) {
+                        (child.layoutParams as? LinearLayout.LayoutParams)?.let {
+                            it.weight = 0f
+                            it.height = (24 * activity.resources.displayMetrics.density).toInt()
+                            child.layoutParams = it
+                        }
+                    }
+                }
+            } else {
+                parent.visibility = View.GONE
+                fun guide(name: String, percent: Float) {
+                    val id = activity.resources.getIdentifier(name, "id", activity.packageName)
+                    val g = if (id != 0) activity.findViewById<View>(id) else null
+                    val lp = g?.layoutParams as? androidx.constraintlayout.widget.ConstraintLayout.LayoutParams ?: return
+                    lp.guidePercent = percent
+                    g.layoutParams = lp
+                }
+                // Design: collage 0-30%, text 30-60%, ad 60-100%; without the ad: collage 0-50%, text 50-100%.
+                guide("guideCollageEnd", 0.5f)
+                guide("guideTextEnd", 1f)
+            }
+        } catch (e: Exception) {
+            android.util.Log.w("KaziAds", "ad area could not be collapsed: $e")
+        }
     }
 
     /** The reserved area loses its side margins (its own and its design frame's) so the ad is as wide as the screen. */
@@ -120,9 +164,17 @@ object AdHooks {
             val container = adContainer(activity) ?: return
             val spec = SlotSpec.of(AdRemoteConfig.config.screen(screen), "slot_${screen.name}", large = true)
             // A screen whose ad is off keeps its design placeholder; otherwise the ad takes the whole width and its own height.
-            if (!spec.show) return
+            if (!spec.show) {
+                // Ads are off for this screen: no reserved area, no placeholder, the screen uses the space.
+                collapseOnboardingAd(activity, container)
+                return
+            }
             fullWidth(container)
-            attachInto(activity, container, activity, spec, keepContentOnFail = false)
+            // When no ad can be had either (failure, no fill), the area goes away in the same way.
+            attachInto(
+                activity, container, activity, spec, keepContentOnFail = false,
+                onVisibility = { visible -> if (!visible) collapseOnboardingAd(activity, container) },
+            )
         } catch (e: Exception) {
             android.util.Log.w("KaziAds", "ads for ${screen.name} could not be attached: $e")
         }
