@@ -17,7 +17,13 @@ import androidx.paging.PagingData
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.ConcatAdapter
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.photovideo.gallerykz.memories.R
+import com.photovideo.gallerykz.memories.ads.AdRemoteConfig
+import com.photovideo.gallerykz.memories.ads.AdScreen
+import com.photovideo.gallerykz.memories.ads.AdSlot
+import com.photovideo.gallerykz.memories.ads.SlotSpec
+import com.photovideo.gallerykz.memories.adapter.AdRowAdapter
 import com.photovideo.gallerykz.memories.activity.AlbumDetailActivity
 import com.photovideo.gallerykz.memories.helper.SelectionBarController
 import com.photovideo.gallerykz.memories.viewmodel.SelectionViewModel
@@ -98,6 +104,14 @@ class PhotoFragment : Fragment() {
     private var journalObserver: Observer<PagingData<JournalDayRow>>? = null
     private var journalRefreshState: LoadState? = null
     private var gridManager: GridLayoutManager? = null
+
+    // The Gallery ad sits inside the grid, in the row after the first row of media (one ad row, whatever the layout).
+    private var adSlot: AdSlot? = null
+    private var adStarted = false
+    private var adLeft = false
+    private var gridAd: AdRowAdapter? = null
+    private var mosaicAd: AdRowAdapter? = null
+    private var journalAd: AdRowAdapter? = null
 
     private var mode: Mode? = null
     private var refreshState: LoadState? = null
@@ -194,12 +208,32 @@ class PhotoFragment : Fragment() {
         monthAdapter = months
         yearAdapter = years
 
-        classicConcat = ConcatAdapter(classic, media, filterEmpty)
-        daysConcat = ConcatAdapter(timeline, media, filterEmpty)
+        // The ad lives in one container for the whole screen; the row of the active layout shows it.
+        val adContainer = android.widget.FrameLayout(requireContext())
+        @Suppress("UNCHECKED_CAST")
+        val journalInner = journal as RecyclerView.Adapter<RecyclerView.ViewHolder>
+        val gridRow = AdRowAdapter(media, adContainer) { gridAdIndex() }
+        val mosaicRow = AdRowAdapter(mosaic, adContainer) { mosaicAdIndex() }
+        val journalRow = AdRowAdapter(journalInner, adContainer) { journalAdIndex() }
+        gridAd = gridRow
+        mosaicAd = mosaicRow
+        journalAd = journalRow
+        adSlot = AdSlot(
+            requireActivity(), adContainer, viewLifecycleOwner, adSpec(),
+            onVisibility = { visible ->
+                gridRow.setEnabled(visible)
+                mosaicRow.setEnabled(visible)
+                journalRow.setEnabled(visible)
+            },
+            liveSpec = { adSpec() },
+        )
+
+        classicConcat = ConcatAdapter(classic, gridRow, filterEmpty)
+        daysConcat = ConcatAdapter(timeline, gridRow, filterEmpty)
         monthsConcat = ConcatAdapter(timeline, months)
         yearsConcat = ConcatAdapter(timeline, years)
-        mosaicConcat = ConcatAdapter(mosaicTopAdapter, mosaic, filterEmpty)
-        journalConcat = ConcatAdapter(journalTopAdapter, journal, filterEmpty)
+        mosaicConcat = ConcatAdapter(mosaicTopAdapter, mosaicRow, filterEmpty)
+        journalConcat = ConcatAdapter(journalTopAdapter, journalRow, filterEmpty)
 
         val manager = GridLayoutManager(requireContext(), columns)
         manager.spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
@@ -208,12 +242,14 @@ class PhotoFragment : Fragment() {
                 if (position < headerCount) return manager.spanCount
                 return when (mode) {
                     Mode.CLASSIC, Mode.DAYS -> {
-                        val index = position - headerCount
-                        if (index >= media.itemCount || media.isHeader(index)) manager.spanCount else 1
+                        val row = position - headerCount
+                        val index = gridRow.innerIndex(row)
+                        if (gridRow.isAd(row) || index >= media.itemCount || media.isHeader(index)) manager.spanCount else 1
                     }
                     Mode.MOSAIC -> {
-                        val index = position - headerCount
-                        if (index >= mosaic.itemCount) manager.spanCount else mosaic.spanAt(index, manager.spanCount)
+                        val row = position - headerCount
+                        val index = mosaicRow.innerIndex(row)
+                        if (mosaicRow.isAd(row) || index >= mosaic.itemCount) manager.spanCount else mosaic.spanAt(index, manager.spanCount)
                     }
                     else -> 1
                 }
@@ -315,15 +351,90 @@ class PhotoFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
+        enterAd()
         // Permission may have been granted or revoked in Settings while the app was in the background.
         syncAccess()
+    }
+
+    override fun onPause() {
+        adLeft = true
+        super.onPause()
     }
 
     override fun onHiddenChanged(hidden: Boolean) {
         super.onHiddenChanged(hidden)
         // Another tab was opened: leave selection mode.
-        if (hidden) selectionViewModel.clear()
+        if (hidden) {
+            selectionViewModel.clear()
+            adLeft = true
+        } else {
+            enterAd()
+        }
     }
+
+    /**
+     * The Gallery ad is requested when this tab is really on screen (the first time it is resumed and shown), not while it waits next to
+     * Home. With `Gallery_Ad_Auto_Refresh` on, the timer of the slot refreshes it; with it off, a new ad is requested only when the user
+     * comes back here after another screen (an activity, another tab or page).
+     */
+    private fun enterAd() {
+        if (!isResumed || isHidden) return
+        val slot = adSlot ?: return
+        if (!adStarted) {
+            adStarted = true
+            adLeft = false
+            slot.start()
+        } else if (adLeft) {
+            adLeft = false
+            // Only when the interval (Gallery_Ad_Auto_Second) has passed since the last request; back earlier, the ad stays.
+            if (adSpec().refreshSeconds == 0) slot.refreshNow(AdRemoteConfig.config.screen(AdScreen.GALLERY).autoSeconds)
+        }
+    }
+
+    private fun adSpec(): SlotSpec {
+        val screen = AdRemoteConfig.config.screen(AdScreen.GALLERY)
+        return SlotSpec(
+            show = screen.show && screen.nativeId.isNotEmpty(), native = true, bannerId = "", nativeId = screen.nativeId,
+            refreshSeconds = if (screen.autoRefresh) screen.autoSeconds else 0,
+            preload = AdRemoteConfig.config.inter.nativePreload, cacheKey = "slot_gallery_grid", medium = true,
+        )
+    }
+
+    /** Classic / Days: the ad goes after the first row of photos (before the next day header when the day is shorter). */
+    private fun gridAdIndex(): Int {
+        val media = mediaAdapter ?: return -1
+        val n = media.itemCount
+        if (n == 0) return -1
+        val columns = layoutViewModel.columns.value ?: GalleryLayoutPrefs.DEFAULT_COLUMNS
+        var i = if (media.isHeader(0)) 1 else 0
+        var count = 0
+        while (i < n && count < columns) {
+            if (media.isHeader(i)) return i
+            i++
+            count++
+        }
+        return if (count == columns) i else -1
+    }
+
+    /** Mosaic: the ad goes after the first hero block of the first day. */
+    private fun mosaicAdIndex(): Int {
+        val mosaic = mosaicAdapter ?: return -1
+        val n = mosaic.itemCount
+        var hero = -1
+        for (i in 0 until minOf(n, 4)) {
+            if (mosaic.peek(i) is MosaicUi.Hero) {
+                hero = i
+                break
+            }
+        }
+        if (hero < 0) return -1
+        var i = hero + 1
+        while (i < n && i < hero + 3 && mosaic.peek(i) is MosaicUi.Spacer) i++
+        return i
+    }
+
+    /** Journal: one card per day, the ad goes after the first card. */
+    private fun journalAdIndex(): Int = if ((journalAdapter?.itemCount ?: 0) >= 1) 1 else -1
 
     /** The Gallery page this tab lives in (inside the launcher or on its own). */
     private fun galleryHost(): GalleryHost? = (parentFragment as? GalleryHost) ?: (activity as? GalleryHost)
@@ -356,6 +467,12 @@ class PhotoFragment : Fragment() {
         gridManager = null
         mode = null
         refreshState = null
+        adSlot = null
+        adStarted = false
+        adLeft = false
+        gridAd = null
+        mosaicAd = null
+        journalAd = null
         _binding = null
         super.onDestroyView()
     }
@@ -408,6 +525,10 @@ class PhotoFragment : Fragment() {
             Mode.JOURNAL -> JOURNAL_COLUMNS
         }
         if (manager.spanCount != spanCount) manager.spanCount = spanCount
+        // The ad row follows the new number of columns.
+        gridAd?.sync()
+        mosaicAd?.sync()
+        journalAd?.sync()
 
         if (newMode != mode) {
             mode = newMode

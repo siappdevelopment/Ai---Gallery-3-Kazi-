@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Loading skeleton of the medium native ad (same sizes as ad_native_medium) -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/bg_ad_card"
+    android:orientation="vertical"
+    android:padding="@dimen/_10sdp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:baselineAligned="false">
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="@dimen/_125sdp"
+            android:layout_weight="1"
+            android:background="@color/ad_shimmer" />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_10sdp"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <View
+                android:layout_width="@dimen/_20sdp"
+                android:layout_height="@dimen/_12sdp"
+                android:background="@color/ad_shimmer" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:gravity="center_vertical">
+
+                <View
+                    android:layout_width="@dimen/_40sdp"
+                    android:layout_height="@dimen/_40sdp"
+                    android:background="@color/ad_shimmer" />
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/_16sdp"
+                    android:layout_marginStart="@dimen/_5sdp"
+                    android:layout_weight="1"
+                    android:background="@color/ad_shimmer" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_14sdp"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:background="@color/ad_shimmer" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_14sdp"
+                android:layout_marginTop="@dimen/_4sdp"
+                android:background="@color/ad_shimmer" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_40sdp"
+        android:layout_marginTop="@dimen/_10sdp"
+        android:background="@drawable/bg_ad_skeleton_button" />
+</LinearLayout>

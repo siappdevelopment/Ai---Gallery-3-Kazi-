@@ -69,12 +69,19 @@ object QuizAds {
 
     /** Fills [container] with a Quiz card (with media when [large]); false when the config has no Quiz data. */
     /** [large]: the big card (same shape as the big Google native); [native]: the native texts instead of the banner ones. */
-    fun bindCard(context: Context, container: ViewGroup, large: Boolean, native: Boolean = large): Boolean {
+    fun bindCard(context: Context, container: ViewGroup, large: Boolean, native: Boolean = large, medium: Boolean = false): Boolean {
         val quiz = AdRemoteConfig.config.quiz
         val count = quiz.syncedCount
         if (count == 0) return false
         val index = Random.nextInt(count)
-        val view = LayoutInflater.from(context).inflate(if (large) R.layout.ad_quiz_card_large else R.layout.ad_quiz_card, container, false)
+        val view = LayoutInflater.from(context).inflate(
+            when {
+                large -> R.layout.ad_quiz_card_large
+                medium -> R.layout.ad_quiz_card_medium
+                else -> R.layout.ad_quiz_card
+            },
+            container, false,
+        )
         val title = if (native) quiz.nativeTitle else quiz.bannerTitle
         val desc = if (native) quiz.nativeDesc else quiz.bannerDesc
         view.findViewById<TextView>(R.id.quizTitle).text = pick(title, index)
@@ -83,8 +90,8 @@ object QuizAds {
         button.text = quiz.buttonText.ifEmpty { context.getString(R.string.ad_quiz_install) }
         loadImage(view.findViewById(R.id.quizIcon), pick(quiz.appIcons, index))
         val media = view.findViewById<ImageView>(R.id.quizMedia)
-        if (large) {
-            // The big card always has its picture area: the media image, else the app icon.
+        if (large || medium) {
+            // The big and the medium card always have its picture area: the media image, else the app icon.
             media.visibility = View.VISIBLE
             loadImage(media, pick(quiz.nativeMedia.ifEmpty { quiz.appIcons }, index))
         } else {
@@ -303,8 +310,15 @@ object QuizAds {
 /** Fills a [NativeAdView] from a Google native ad and tints its label and button like the Quiz ads. */
 object NativeAdViews {
 
-    fun inflate(context: Context, large: Boolean, parent: ViewGroup): NativeAdView =
-        LayoutInflater.from(context).inflate(if (large) R.layout.ad_native_large else R.layout.ad_native_small, parent, false) as NativeAdView
+    fun inflate(context: Context, large: Boolean, parent: ViewGroup, medium: Boolean = false): NativeAdView =
+        LayoutInflater.from(context).inflate(
+            when {
+                large -> R.layout.ad_native_large
+                medium -> R.layout.ad_native_medium
+                else -> R.layout.ad_native_small
+            },
+            parent, false,
+        ) as NativeAdView
 
     fun populate(view: NativeAdView, ad: NativeAd) {
         val headline = view.findViewById<TextView>(R.id.adHeadline)

@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Context
 import android.os.Handler
 import android.os.Looper
+import android.os.SystemClock
 import android.util.Log
 import android.view.View
 import android.view.ViewGroup
@@ -25,14 +26,16 @@ class SlotSpec(
     /** Keep the next ad ready (the config's native / banner "preload" type). */
     val preload: Boolean = false,
     val cacheKey: String = "",
+    /** The medium native card (media on the left, texts on the right, button below), used inside the media grid. */
+    val medium: Boolean = false,
 ) {
     companion object {
-        fun of(screen: ScreenAd, key: String, large: Boolean = false): SlotSpec {
+        fun of(screen: ScreenAd, key: String, large: Boolean = false, medium: Boolean = false): SlotSpec {
             val inter = AdRemoteConfig.config.inter
             return SlotSpec(
                 show = screen.show, native = screen.native, bannerId = screen.bannerId, nativeId = screen.nativeId, large = large,
                 refreshSeconds = if (screen.autoRefresh) screen.autoSeconds else 0,
-                preload = if (screen.native) inter.nativePreload else inter.bannerPreload, cacheKey = key,
+                preload = if (screen.native) inter.nativePreload else inter.bannerPreload, cacheKey = key, medium = medium,
             )
         }
     }
@@ -80,6 +83,7 @@ class AdSlot(
     private val handler = Handler(Looper.getMainLooper())
     private var loading = false
     private var started = false
+    private var lastRequestAt = 0L
     private var destroyed = false
     private var resumed = false
     private var token = 0
@@ -122,8 +126,10 @@ class AdSlot(
     }
 
     /** Loads the next ad now (a place that does not refresh on a timer asks for it when the user comes back to it). */
-    fun refreshNow() {
+    fun refreshNow(minAgeSeconds: Int = 0) {
         if (destroyed || !started || loading) return
+        // Not before the interval has passed since the last request (a place that comes back early keeps its ad).
+        if (minAgeSeconds > 0 && lastRequestAt != 0L && SystemClock.elapsedRealtime() - lastRequestAt < minAgeSeconds * 1000L) return
         handler.removeCallbacks(refresh)
         timerPending = false
         request()
@@ -160,6 +166,7 @@ class AdSlot(
             return
         }
         loading = true
+        lastRequestAt = SystemClock.elapsedRealtime()
         val mine = ++token
         // The shimmer shows before every load, a refresh too: it takes the place of the old ad until the new one arrives.
         showPlaceholder()
@@ -233,7 +240,7 @@ class AdSlot(
 
     private fun showQuiz(): Boolean {
         clearAds()
-        val ok = QuizAds.bindCard(activity, container, large = spec.large, native = spec.native)
+        val ok = QuizAds.bindCard(activity, container, large = spec.large, native = spec.native, medium = spec.medium)
         if (ok) {
             container.getChildAt(0)?.let { gap(it) }
             container.visibility = View.VISIBLE
@@ -247,7 +254,7 @@ class AdSlot(
 
     private fun showNative(ad: NativeAd) {
         removePlaceholder()
-        val view = NativeAdViews.inflate(activity, spec.large, container)
+        val view = NativeAdViews.inflate(activity, spec.large, container, spec.medium)
         NativeAdViews.populate(view, ad)
         val old = nativeAd
         container.removeAllViews()
@@ -291,7 +298,11 @@ class AdSlot(
     /** The skeleton of the ad (the skill's shimmer sizes) that pulses until the ad arrives, fails or the slot goes away. */
     private fun showPlaceholder() {
         if (placeholder != null || container.childCount > 0 && keepContentOnFail) return
-        val layout = if (spec.large) R.layout.ad_shimmer_large else R.layout.ad_shimmer_small
+        val layout = when {
+            spec.large -> R.layout.ad_shimmer_large
+            spec.medium -> R.layout.ad_shimmer_medium
+            else -> R.layout.ad_shimmer_small
+        }
         val v = android.view.LayoutInflater.from(activity).inflate(layout, container, false)
         container.removeAllViews()
         container.addView(v, FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT))
