@@ -75,7 +75,8 @@ class EditMediaActivity : AppCompatActivity() {
         val b = ActivityEditMediaBinding.inflate(layoutInflater)
         binding = b
         setContentView(b.root)
-        AdHooks.install(this, AdScreen.EDITOR)
+        // The editor is dark in both themes, so its bottom ad always uses the dark theme.
+        AdHooks.install(this, AdScreen.EDITOR, darkAd = true)
         ViewCompat.setOnApplyWindowInsetsListener(b.root) { v, insets ->
             val bars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(bars.left, bars.top, bars.right, bars.bottom)
