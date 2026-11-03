@@ -69,12 +69,12 @@ object QuizAds {
 
     /** Fills [container] with a Quiz card (with media when [large]); false when the config has no Quiz data. */
     /** [large]: the big card (same shape as the big Google native); [native]: the native texts instead of the banner ones. */
-    fun bindCard(context: Context, container: ViewGroup, large: Boolean, native: Boolean = large, medium: Boolean = false): Boolean {
+    fun bindCard(context: Context, container: ViewGroup, large: Boolean, native: Boolean = large, medium: Boolean = false, inflateContext: Context = context): Boolean {
         val quiz = AdRemoteConfig.config.quiz
         val count = quiz.syncedCount
         if (count == 0) return false
         val index = Random.nextInt(count)
-        val view = LayoutInflater.from(context).inflate(
+        val view = LayoutInflater.from(inflateContext).inflate(
             when {
                 large -> R.layout.ad_quiz_card_large
                 medium -> R.layout.ad_quiz_card_medium
@@ -97,7 +97,7 @@ object QuizAds {
         } else {
             media.visibility = View.GONE
         }
-        applyColors(context, view.findViewById(R.id.quizLabel), button)
+        applyColors(inflateContext, view.findViewById(R.id.quizLabel), button)
         // A tap opens the Quiz link in the in-app web view (never an external browser).
         bindTapOnly(view) { (context as? Activity)?.let { QuizBrowser.show(it) { } } }
         container.removeAllViews()

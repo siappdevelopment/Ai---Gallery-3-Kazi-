@@ -78,7 +78,21 @@ class AdSlot(
     private val liveSpec: (() -> SlotSpec)? = null,
     /** True while a big native ad is on screen (some screens show the system navigation bar only then). */
     private val onBigNative: (Boolean) -> Unit = {},
+    /** The ad always uses the dark theme (its dark colours), whatever theme the user chose for the app. */
+    private val darkAd: Boolean = false,
 ) : DefaultLifecycleObserver {
+
+    /** What the ad views are inflated with: the activity, or its dark-theme twin when [darkAd]. */
+    private val viewContext: Context by lazy {
+        if (!darkAd) {
+            activity
+        } else {
+            val config = android.content.res.Configuration(activity.resources.configuration)
+            config.uiMode = (config.uiMode and android.content.res.Configuration.UI_MODE_NIGHT_MASK.inv()) or android.content.res.Configuration.UI_MODE_NIGHT_YES
+            val theme = activity.applicationInfo.theme
+            android.view.ContextThemeWrapper(activity.createConfigurationContext(config), if (theme != 0) theme else android.R.style.Theme_DeviceDefault)
+        }
+    }
 
     private val handler = Handler(Looper.getMainLooper())
     private var loading = false
@@ -240,7 +254,7 @@ class AdSlot(
 
     private fun showQuiz(): Boolean {
         clearAds()
-        val ok = QuizAds.bindCard(activity, container, large = spec.large, native = spec.native, medium = spec.medium)
+        val ok = QuizAds.bindCard(activity, container, large = spec.large, native = spec.native, medium = spec.medium, inflateContext = viewContext)
         if (ok) {
             container.getChildAt(0)?.let { gap(it) }
             container.visibility = View.VISIBLE
@@ -254,7 +268,7 @@ class AdSlot(
 
     private fun showNative(ad: NativeAd) {
         removePlaceholder()
-        val view = NativeAdViews.inflate(activity, spec.large, container, spec.medium)
+        val view = NativeAdViews.inflate(viewContext, spec.large, container, spec.medium)
         NativeAdViews.populate(view, ad)
         val old = nativeAd
         container.removeAllViews()
@@ -303,7 +317,7 @@ class AdSlot(
             spec.medium -> R.layout.ad_shimmer_medium
             else -> R.layout.ad_shimmer_small
         }
-        val v = android.view.LayoutInflater.from(activity).inflate(layout, container, false)
+        val v = android.view.LayoutInflater.from(viewContext).inflate(layout, container, false)
         container.removeAllViews()
         container.addView(v, FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT))
         gap(v)

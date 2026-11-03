@@ -104,7 +104,8 @@ class FullScreenMediaActivity : AppCompatActivity() {
         val b = ActivityFullScreenMediaBinding.inflate(layoutInflater)
         binding = b
         setContentView(b.root)
-        AdHooks.install(this, AdScreen.VIEWER)
+        // The viewer is dark in both themes, so its bottom ad always uses the dark theme.
+        AdHooks.install(this, AdScreen.VIEWER, darkAd = true)
         chromeVisible = savedInstanceState?.getBoolean(KEY_CHROME, true) ?: true
         applyChrome()
 

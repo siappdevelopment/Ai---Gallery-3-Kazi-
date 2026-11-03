@@ -20,9 +20,9 @@ object AdHooks {
      * Gives [screen] its bottom ad (below the screen's own content, moved up over the system bar) and its Back interstitial.
      * Nothing changes on a screen whose block is off, except that the Back hook stays ready for a later config.
      */
-    fun install(activity: AppCompatActivity, screen: AdScreen, large: Boolean = false, navWithBigNative: Boolean = false) {
+    fun install(activity: AppCompatActivity, screen: AdScreen, large: Boolean = false, navWithBigNative: Boolean = false, darkAd: Boolean = false) {
         try {
-            attachBottom(activity, SlotSpec.of(AdRemoteConfig.config.screen(screen), "slot_${screen.name}", large), navWithBigNative)
+            attachBottom(activity, SlotSpec.of(AdRemoteConfig.config.screen(screen), "slot_${screen.name}", large), navWithBigNative, darkAd)
             attachBackAd(activity, screen)
         } catch (e: Exception) {
             android.util.Log.w("KaziAds", "ads for ${screen.name} could not be attached: $e")
@@ -34,7 +34,7 @@ object AdHooks {
         attachBottom(activity, SlotSpec.of(AdRemoteConfig.config.screen(screen), "slot_${screen.name}", large))
 
     /** [navWithBigNative]: the system navigation bar is shown while the ad is a big native ad (else it stays hidden). */
-    fun attachBottom(activity: AppCompatActivity, spec: SlotSpec, navWithBigNative: Boolean = false): AdSlot? {
+    fun attachBottom(activity: AppCompatActivity, spec: SlotSpec, navWithBigNative: Boolean = false, darkAd: Boolean = false): AdSlot? {
         if (!spec.show) return null
         val content = activity.findViewById<ViewGroup>(android.R.id.content) ?: return null
         val child = content.getChildAt(0) ?: return null
@@ -44,6 +44,8 @@ object AdHooks {
         wrapper.addView(child, LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 0, 1f))
         val container = FrameLayout(activity)
         container.visibility = View.GONE
+        // A dark ad sits on a dark strip too (the viewer's own background), so no light band shows around it.
+        if (darkAd) container.setBackgroundColor(androidx.core.content.ContextCompat.getColor(activity, com.photovideo.gallerykz.memories.R.color.viewer_background))
         wrapper.addView(container, LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT))
         content.addView(wrapper, ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT))
 
@@ -76,6 +78,7 @@ object AdHooks {
             activity, container, activity, spec,
             onVisibility = { wrapper.post { ViewCompat.requestApplyInsets(wrapper) } },
             onBigNative = { big -> if (navWithBigNative) SystemNav.setVisible(activity, big) },
+            darkAd = darkAd,
         )
         slot.start()
         return slot
