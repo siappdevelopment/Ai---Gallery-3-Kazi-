@@ -1,33 +1,49 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Full-screen web view of the Quiz link (Google_ad_Fail_type = Browser) -->
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<!-- Web view of the Quiz link (Google_ad_Fail_type = Browser): status bar area, a toolbar with the close button, the page -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/quizBrowserRoot"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white">
+    android:background="@color/ad_background"
+    android:orientation="vertical">
 
-    <WebView
-        android:id="@+id/quizWebView"
+    <!-- Takes the height of the status bar (set in code) and the colour of the app's theme -->
+    <View
+        android:id="@+id/quizBrowserStatus"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="0dp"
+        android:background="@color/ad_background" />
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="52dp"
+        android:background="@color/ad_background">
+
+        <ImageButton
+            android:id="@+id/quizBrowserClose"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_gravity="center_vertical|end"
+            android:layout_marginEnd="12dp"
+            android:background="@drawable/bg_ad_circle"
+            android:contentDescription="@string/albums_back"
+            android:scaleType="center"
+            android:src="@drawable/ic_close"
+            app:tint="@color/splash_text_primary"
+            xmlns:app="http://schemas.android.com/apk/res-auto" />
+    </FrameLayout>
 
     <ProgressBar
         android:id="@+id/quizWebProgress"
         style="?android:attr/progressBarStyleHorizontal"
         android:layout_width="match_parent"
         android:layout_height="3dp"
-        android:layout_gravity="top"
-        android:max="100" />
+        android:max="100"
+        android:progressTint="@color/brand_pink" />
 
-    <ImageButton
-        android:id="@+id/quizBrowserClose"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:layout_gravity="top|end"
-        android:layout_margin="12dp"
-        android:background="@drawable/bg_video_control"
-        android:contentDescription="@string/albums_back"
-        android:src="@drawable/ic_close"
-        app:tint="@color/white"
-        xmlns:app="http://schemas.android.com/apk/res-auto" />
-</FrameLayout>
+    <WebView
+        android:id="@+id/quizWebView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
+</LinearLayout>

@@ -4,7 +4,7 @@ import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.Dialog
 import android.graphics.Bitmap
-import android.graphics.Color
+import android.content.res.Configuration
 import android.graphics.drawable.ColorDrawable
 import android.util.Log
 import android.view.KeyEvent
@@ -17,6 +17,10 @@ import android.webkit.WebResourceRequest
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import android.widget.ProgressBar
+import androidx.core.content.ContextCompat
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowCompat
+import androidx.core.view.WindowInsetsCompat
 import com.photovideo.gallerykz.memories.R
 import java.util.concurrent.atomic.AtomicBoolean
 
@@ -45,12 +49,33 @@ object QuizBrowser {
             }
         }
         try {
-            val dialog = Dialog(activity, android.R.style.Theme_Black_NoTitleBar_Fullscreen)
+            // A normal (not full-screen) window: the status bar stays visible and gets the colour of the app's theme.
+            val dialog = Dialog(activity, android.R.style.Theme_DeviceDefault_NoActionBar)
             dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
             val view = LayoutInflater.from(activity).inflate(R.layout.dialog_quiz_browser, null)
             dialog.setContentView(view)
             dialog.setCancelable(false)
-            dialog.window?.setBackgroundDrawable(ColorDrawable(Color.WHITE))
+            val themeColor = ContextCompat.getColor(activity, R.color.ad_background)
+            dialog.window?.let { window ->
+                window.setBackgroundDrawable(ColorDrawable(themeColor))
+                window.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT)
+                WindowCompat.setDecorFitsSystemWindows(window, false)
+                val night = activity.resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK == Configuration.UI_MODE_NIGHT_YES
+                WindowCompat.getInsetsController(window, window.decorView).apply {
+                    isAppearanceLightStatusBars = !night
+                    isAppearanceLightNavigationBars = !night
+                }
+            }
+            // The status bar area, a cut-out and the navigation bar are kept clear of the toolbar and the page.
+            val status = view.findViewById<View>(R.id.quizBrowserStatus)
+            val root = view.findViewById<View>(R.id.quizBrowserRoot)
+            ViewCompat.setOnApplyWindowInsetsListener(root) { v, insets ->
+                val bars = insets.getInsets(WindowInsetsCompat.Type.systemBars() or WindowInsetsCompat.Type.displayCutout())
+                val ime = insets.getInsets(WindowInsetsCompat.Type.ime())
+                status.layoutParams = status.layoutParams.apply { height = bars.top }
+                v.setPadding(bars.left, 0, bars.right, maxOf(bars.bottom, ime.bottom))
+                insets
+            }
             val web = view.findViewById<WebView>(R.id.quizWebView)
             val progress = view.findViewById<ProgressBar>(R.id.quizWebProgress)
             web.settings.javaScriptEnabled = true
