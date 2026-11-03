@@ -1,5 +1,13 @@
 package com.photovideo.gallerykz.memories.launcher
 
+import com.photovideo.gallerykz.memories.ads.SlotSpec
+
+import com.photovideo.gallerykz.memories.ads.BackAds
+
+import com.photovideo.gallerykz.memories.ads.AdRemoteConfig
+
+import com.photovideo.gallerykz.memories.ads.AdHooks
+
 import android.app.ActivityManager
 import android.content.Context
 import android.content.Intent
@@ -37,6 +45,15 @@ class RecentActivity : AppCompatActivity(), LauncherApps.Listener {
         val b = ActivityRecentBinding.inflate(layoutInflater)
         binding = b
         setContentView(b.root)
+        try {
+            val cfg = AdRemoteConfig.config.recent
+            AdHooks.attachBottom(
+                this,
+                SlotSpec(cfg.bottomShow, cfg.bottomNative, cfg.bannerId, cfg.nativeId, large = false, preload = cfg.preload, cacheKey = "slot_recent"),
+            )
+        } catch (e: Exception) {
+            android.util.Log.w("KaziAds", "recent ads failed to attach: $e")
+        }
         ViewCompat.setOnApplyWindowInsetsListener(b.recentRoot) { v, insets ->
             val bars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(bars.left, bars.top, bars.right, bars.bottom)
@@ -117,7 +134,12 @@ class RecentActivity : AppCompatActivity(), LauncherApps.Listener {
         render()
     }
 
+    /** The back ad of the Recent page (`recent_screen_back_ad_*`) comes first when it is due; then the page slides away. */
     private fun close() {
+        BackAds.show(this, "recent", AdRemoteConfig.config.recent.back, "") { if (!isFinishing) closeNow() }
+    }
+
+    private fun closeNow() {
         val root = binding?.recentRoot
         if (root == null) {
             finish()

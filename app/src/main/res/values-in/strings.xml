@@ -668,4 +668,7 @@
     <string name="event_open_gallery">Buka galeri Anda</string>
     <string name="event_done">Selesai</string>
     <string name="event_channel_name">Peristiwa ponsel</string>
+    <string name="ad_label">Iklan</string>
+    <string name="ad_quiz_install">Instal</string>
+    <string name="ad_quiz_rating" formatted="false">★ %1$.1f · %2$s pengguna</string>
 </resources>

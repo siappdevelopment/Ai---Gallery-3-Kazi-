@@ -1,5 +1,9 @@
 package com.photovideo.gallerykz.memories.launcher
 
+import com.photovideo.gallerykz.memories.ads.AdScreen
+
+import com.photovideo.gallerykz.memories.ads.AdHooks
+
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -25,12 +29,13 @@ class LauncherWidgetsActivity : AppCompatActivity() {
         val b = ActivityLauncherWidgetsBinding.inflate(layoutInflater)
         binding = b
         setContentView(b.root)
+        AdHooks.install(this, AdScreen.WIDGETS)
         ViewCompat.setOnApplyWindowInsetsListener(b.main) { v, insets ->
             val bars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(bars.left, bars.top, bars.right, bars.bottom)
             insets
         }
-        b.btnBack.setOnClickListener { finish() }
+        b.btnBack.setOnClickListener { onBackPressedDispatcher.onBackPressed() }
 
         val inflater = LayoutInflater.from(this)
         LauncherWidgetType.entries.forEach { type ->

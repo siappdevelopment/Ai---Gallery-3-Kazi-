@@ -1,5 +1,9 @@
 package com.photovideo.gallerykz.memories.activity
 
+import com.photovideo.gallerykz.memories.ads.AdScreen
+
+import com.photovideo.gallerykz.memories.ads.AdHooks
+
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -49,6 +53,7 @@ class CategoryMediaActivity : AppCompatActivity() {
         val b = ActivityCategoryMediaBinding.inflate(layoutInflater)
         binding = b
         setContentView(b.root)
+        AdHooks.install(this, AdScreen.CATEGORY_MEDIA)
 
         ViewCompat.setOnApplyWindowInsetsListener(b.root) { v, insets ->
             val bars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
@@ -56,7 +61,7 @@ class CategoryMediaActivity : AppCompatActivity() {
             insets
         }
 
-        b.btnBack.setOnClickListener { finish() }
+        b.btnBack.setOnClickListener { onBackPressedDispatcher.onBackPressed() }
         b.btnSearch.setOnClickListener { startActivity(SearchActivity.intent(this)) }
 
         // The same grid as the Gallery tab: the saved column count, day headers across the full width.
@@ -109,7 +114,7 @@ class CategoryMediaActivity : AppCompatActivity() {
         val now = SystemClock.elapsedRealtime()
         if (now - lastOpenAt < OPEN_GAP_MS) return
         lastOpenAt = now
-        startActivity(FullScreenMediaActivity.intent(this, uid, viewModel.kind, 0L))
+        AdHooks.onClick(this, AdScreen.CATEGORY_MEDIA) { startActivity(FullScreenMediaActivity.intent(this, uid, viewModel.kind, 0L)) }
     }
 
     override fun onDestroy() {

@@ -1,5 +1,9 @@
 package com.photovideo.gallerykz.memories.activity
 
+import com.photovideo.gallerykz.memories.ads.AdScreen
+
+import com.photovideo.gallerykz.memories.ads.AdHooks
+
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -70,6 +74,7 @@ class VaultSetupActivity : AppCompatActivity() {
         val b = ActivityVaultSetupBinding.inflate(layoutInflater)
         binding = b
         setContentView(b.root)
+        AdHooks.install(this, AdScreen.VAULT_SETUP)
 
         // The recovery answer field needs the keyboard inset too, so its buttons stay visible.
         ViewCompat.setOnApplyWindowInsetsListener(b.root) { v, insets ->

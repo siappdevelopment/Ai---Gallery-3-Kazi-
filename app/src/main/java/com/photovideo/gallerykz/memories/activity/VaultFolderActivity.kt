@@ -1,5 +1,9 @@
 package com.photovideo.gallerykz.memories.activity
 
+import com.photovideo.gallerykz.memories.ads.AdScreen
+
+import com.photovideo.gallerykz.memories.ads.AdHooks
+
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -41,6 +45,7 @@ class VaultFolderActivity : VaultScreenActivity() {
         val b = ActivityVaultFolderBinding.inflate(layoutInflater)
         binding = b
         setContentView(b.root)
+        AdHooks.install(this, AdScreen.VAULT)
         ViewCompat.setOnApplyWindowInsetsListener(b.root) { v, insets ->
             val bars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(bars.left, bars.top, bars.right, bars.bottom)
@@ -66,7 +71,7 @@ class VaultFolderActivity : VaultScreenActivity() {
         b.rvItems.adapter = tiles
         b.rvItems.itemAnimator = null
 
-        b.btnBack.setOnClickListener { finish() }
+        b.btnBack.setOnClickListener { onBackPressedDispatcher.onBackPressed() }
         b.btnSelect.setOnClickListener { if (viewModel.isSelecting) viewModel.endSelection() else viewModel.beginSelection() }
         b.btnSelectAll.setOnClickListener { viewModel.selectAll() }
         b.actUnhide.setOnClickListener { withSelection { confirmUnhide(it) } }

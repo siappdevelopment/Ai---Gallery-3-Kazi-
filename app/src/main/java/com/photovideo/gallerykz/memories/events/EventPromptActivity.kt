@@ -1,5 +1,13 @@
 package com.photovideo.gallerykz.memories.events
 
+import com.photovideo.gallerykz.memories.ads.SlotSpec
+
+import com.photovideo.gallerykz.memories.ads.EventAdCfg
+
+import com.photovideo.gallerykz.memories.ads.BackAds
+
+import com.photovideo.gallerykz.memories.ads.AdHooks
+
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
 import android.animation.ValueAnimator
@@ -42,6 +50,10 @@ abstract class EventPromptActivity : AppCompatActivity() {
     private var checkFreshOnResume = false
 
     protected abstract fun kindFrom(intent: Intent?): EventKind
+
+    /** The ad block of this screen (bottom ad, back ad, hold time) and the key its counters use. */
+    protected abstract fun adConfig(): EventAdCfg
+    protected abstract val adKey: String
     protected abstract fun bind(kind: EventKind)
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -74,6 +86,20 @@ abstract class EventPromptActivity : AppCompatActivity() {
             override fun handleOnBackPressed() = exitScreen()
         })
         startHold()
+        setupBottomAd(b)
+    }
+
+    private fun setupBottomAd(b: ActivityEventPromptBinding) {
+        try {
+            val cfg = adConfig()
+            val spec = SlotSpec(
+                show = cfg.bottomShow, native = cfg.bottomNative, bannerId = cfg.bannerId, nativeId = cfg.nativeId, large = false,
+                preload = cfg.preload, cacheKey = "slot_event_$adKey",
+            )
+            AdHooks.attachInto(this, b.adBottomSlot, this, spec, keepContentOnFail = false)
+        } catch (e: Exception) {
+            android.util.Log.w("KaziAds", "event ad failed to attach: $e")
+        }
     }
 
     override fun onNewIntent(intent: Intent) {
@@ -129,6 +155,9 @@ abstract class EventPromptActivity : AppCompatActivity() {
         return launchedAt > 0L && System.currentTimeMillis() - launchedAt > STALE_LAUNCH_MS
     }
 
+    /** The seconds before Done works come from the config (`*_button_show_sec`); 3 s when it says nothing. */
+    private fun holdMs(): Long = adConfig().buttonSec.takeIf { it > 0 }?.let { it * 1000L } ?: HOLD_MS
+
     // ---- hold bar -> Done ----
 
     private fun startHold() {
@@ -138,7 +167,7 @@ abstract class EventPromptActivity : AppCompatActivity() {
         b.btnEventDone.visibility = View.GONE
         b.pbEventHold.progress = 0
         holdAnimator = ValueAnimator.ofInt(0, b.pbEventHold.max).apply {
-            duration = HOLD_MS
+            duration = holdMs()
             interpolator = LinearInterpolator()
             addUpdateListener { binding?.pbEventHold?.progress = it.animatedValue as Int }
             addListener(object : AnimatorListenerAdapter() {
@@ -166,7 +195,8 @@ abstract class EventPromptActivity : AppCompatActivity() {
     private fun exitScreen() {
         if (!canExit || exiting) return
         exiting = true
-        finish()
+        // The back / Done ad (when due) comes first; the screen closes after it, whatever happens.
+        BackAds.show(this, adKey, adConfig().back, "") { if (!isFinishing) finish() }
     }
 
     // ---- content ----

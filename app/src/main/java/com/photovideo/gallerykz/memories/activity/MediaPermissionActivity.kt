@@ -1,5 +1,9 @@
 package com.photovideo.gallerykz.memories.activity
 
+import com.photovideo.gallerykz.memories.ads.AdScreen
+
+import com.photovideo.gallerykz.memories.ads.AdHooks
+
 import android.content.Intent
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
@@ -38,6 +42,7 @@ class MediaPermissionActivity : AppCompatActivity() {
         val b = ActivityMediaPermissionBinding.inflate(layoutInflater)
         binding = b
         setContentView(b.root)
+        AdHooks.attachOnboarding(this, AdScreen.MEDIA_PERMISSION)
 
         ViewCompat.setOnApplyWindowInsetsListener(b.root) { _, insets ->
             val bars = insets.getInsets(WindowInsetsCompat.Type.systemBars())

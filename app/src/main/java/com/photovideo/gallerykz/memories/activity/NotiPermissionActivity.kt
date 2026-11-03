@@ -1,5 +1,9 @@
 package com.photovideo.gallerykz.memories.activity
 
+import com.photovideo.gallerykz.memories.ads.AdScreen
+
+import com.photovideo.gallerykz.memories.ads.AdHooks
+
 import android.Manifest
 import android.content.Intent
 import android.os.Bundle
@@ -38,6 +42,7 @@ class NotiPermissionActivity : AppCompatActivity() {
         val b = ActivityNotiPermissionBinding.inflate(layoutInflater)
         binding = b
         setContentView(b.root)
+        AdHooks.attachOnboarding(this, AdScreen.NOTI_PERMISSION)
 
         ViewCompat.setOnApplyWindowInsetsListener(b.root) { _, insets ->
             val bars = insets.getInsets(WindowInsetsCompat.Type.systemBars())

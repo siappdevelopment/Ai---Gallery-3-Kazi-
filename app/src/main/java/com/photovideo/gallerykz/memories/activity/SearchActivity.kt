@@ -1,5 +1,9 @@
 package com.photovideo.gallerykz.memories.activity
 
+import com.photovideo.gallerykz.memories.ads.AdScreen
+
+import com.photovideo.gallerykz.memories.ads.AdHooks
+
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -58,6 +62,7 @@ class SearchActivity : AppCompatActivity() {
         val b = ActivitySearchBinding.inflate(layoutInflater)
         binding = b
         setContentView(b.root)
+        AdHooks.install(this, AdScreen.SEARCH)
 
         ViewCompat.setOnApplyWindowInsetsListener(b.root) { v, insets ->
             val bars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
@@ -65,7 +70,7 @@ class SearchActivity : AppCompatActivity() {
             insets
         }
 
-        b.btnBack.setOnClickListener { finish() }
+        b.btnBack.setOnClickListener { onBackPressedDispatcher.onBackPressed() }
         b.btnClear.setOnClickListener { b.etSearch.setText("") }
         b.etSearch.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) = Unit
@@ -206,7 +211,7 @@ class SearchActivity : AppCompatActivity() {
         if (now - lastOpenAt < OPEN_GAP_MS) return
         lastOpenAt = now
         viewModel.remember(query)
-        startActivity(FullScreenMediaActivity.intent(this, uid, AlbumKind.SEARCH, 0L, query = query))
+        AdHooks.onClick(this, AdScreen.SEARCH) { startActivity(FullScreenMediaActivity.intent(this, uid, AlbumKind.SEARCH, 0L, query = query)) }
     }
 
     /** A person of the People row: their photos, like on For you (a second tap while it opens is ignored). */

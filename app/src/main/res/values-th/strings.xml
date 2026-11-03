@@ -668,4 +668,7 @@
     <string name="event_open_gallery">เปิดแกลเลอรีของคุณ</string>
     <string name="event_done">เสร็จสิ้น</string>
     <string name="event_channel_name">เหตุการณ์ในโทรศัพท์</string>
+    <string name="ad_label">โฆษณา</string>
+    <string name="ad_quiz_install">ติดตั้ง</string>
+    <string name="ad_quiz_rating" formatted="false">★ %1$.1f · %2$s ผู้ใช้</string>
 </resources>

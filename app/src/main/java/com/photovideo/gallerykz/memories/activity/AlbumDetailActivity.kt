@@ -1,5 +1,9 @@
 package com.photovideo.gallerykz.memories.activity
 
+import com.photovideo.gallerykz.memories.ads.AdScreen
+
+import com.photovideo.gallerykz.memories.ads.AdHooks
+
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -50,6 +54,7 @@ class AlbumDetailActivity : AppCompatActivity() {
         val b = ActivityAlbumDetailBinding.inflate(layoutInflater)
         binding = b
         setContentView(b.root)
+        AdHooks.install(this, AdScreen.ALBUM_DETAIL)
 
         ViewCompat.setOnApplyWindowInsetsListener(b.root) { v, insets ->
             val bars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
@@ -167,7 +172,7 @@ class AlbumDetailActivity : AppCompatActivity() {
         val now = android.os.SystemClock.elapsedRealtime()
         if (now - lastOpenAt < OPEN_GAP_MS) return
         lastOpenAt = now
-        startActivity(FullScreenMediaActivity.intent(this, uid, viewModel.sourceKind, viewModel.sourceId))
+        AdHooks.onClick(this, AdScreen.ALBUM_DETAIL) { startActivity(FullScreenMediaActivity.intent(this, uid, viewModel.sourceKind, viewModel.sourceId)) }
     }
 
     override fun onDestroy() {

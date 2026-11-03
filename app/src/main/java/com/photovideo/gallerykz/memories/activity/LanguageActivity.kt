@@ -1,5 +1,11 @@
 package com.photovideo.gallerykz.memories.activity
 
+import com.photovideo.gallerykz.memories.ads.OnboardingAds
+
+import com.photovideo.gallerykz.memories.ads.AdScreen
+
+import com.photovideo.gallerykz.memories.ads.AdHooks
+
 import android.content.Intent
 import android.os.Bundle
 import android.view.ViewGroup
@@ -30,6 +36,7 @@ class LanguageActivity : AppCompatActivity() {
         val b = ActivityLanguageBinding.inflate(layoutInflater)
         binding = b
         setContentView(b.root)
+        AdHooks.install(this, AdScreen.LANGUAGE)
 
         ViewCompat.setOnApplyWindowInsetsListener(b.root) { v, insets ->
             val bars = insets.getInsets(
@@ -42,7 +49,7 @@ class LanguageActivity : AppCompatActivity() {
         if (viewModel.fromSettings) {
             // Opened from Settings: a back button, and the title moves below it.
             b.btnBack.visibility = android.view.View.VISIBLE
-            b.btnBack.setOnClickListener { finish() }
+            b.btnBack.setOnClickListener { onBackPressedDispatcher.onBackPressed() }
             (b.tvTitle.layoutParams as? ViewGroup.MarginLayoutParams)?.let {
                 it.topMargin += (56 * resources.displayMetrics.density).toInt()
                 b.tvTitle.layoutParams = it
@@ -91,6 +98,11 @@ class LanguageActivity : AppCompatActivity() {
     }
 
     private fun openNext(tag: String) {
+        // Onboarding: the Language interstitial (when due) comes before the next step; from Settings there is none.
+        if (viewModel.fromSettings) go(tag) else OnboardingAds.afterLanguage(this) { go(tag) }
+    }
+
+    private fun go(tag: String) {
         // Finish first so a locale-triggered recreate never rebuilds this screen.
         finish()
         LocaleHelper.apply(tag)

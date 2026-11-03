@@ -29,6 +29,15 @@
         <item name="android:windowLightStatusBar">true</item>
     </style>
 
+    <!-- A see-through screen that only hosts a full-screen ad. -->
+    <style name="Theme.ThirdGallery.AdHost" parent="Theme.ThirdGallery">
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowAnimationStyle">@null</item>
+        <item name="android:backgroundDimEnabled">false</item>
+    </style>
+
     <style name="ShapeAppearance.ThirdGallery.IntroTileLarge" parent="">
         <item name="cornerFamily">rounded</item>
         <item name="cornerSize">15dp</item>

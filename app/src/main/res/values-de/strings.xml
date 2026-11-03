@@ -675,4 +675,7 @@
     <string name="event_open_gallery">Galerie öffnen</string>
     <string name="event_done">Fertig</string>
     <string name="event_channel_name">Telefonereignisse</string>
+    <string name="ad_label">Anzeige</string>
+    <string name="ad_quiz_install">Installieren</string>
+    <string name="ad_quiz_rating" formatted="false">★ %1$.1f · %2$s Nutzer</string>
 </resources>

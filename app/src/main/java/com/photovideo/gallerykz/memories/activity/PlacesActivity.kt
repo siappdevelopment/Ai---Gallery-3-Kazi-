@@ -1,5 +1,9 @@
 package com.photovideo.gallerykz.memories.activity
 
+import com.photovideo.gallerykz.memories.ads.AdScreen
+
+import com.photovideo.gallerykz.memories.ads.AdHooks
+
 import android.Manifest
 import android.content.Context
 import android.content.Intent
@@ -46,6 +50,7 @@ class PlacesActivity : AppCompatActivity() {
         val b = ActivityPlacesBinding.inflate(layoutInflater)
         binding = b
         setContentView(b.root)
+        AdHooks.install(this, AdScreen.PLACES)
         ViewCompat.setOnApplyWindowInsetsListener(b.root) { v, insets ->
             val bars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(bars.left, bars.top, bars.right, bars.bottom)
@@ -58,7 +63,7 @@ class PlacesActivity : AppCompatActivity() {
         b.rvPlaces.adapter = grid
         b.rvPlaces.itemAnimator = null
 
-        b.btnBack.setOnClickListener { finish() }
+        b.btnBack.setOnClickListener { onBackPressedDispatcher.onBackPressed() }
         b.btnSort.setOnClickListener { PlaceSortSheet.show(supportFragmentManager, viewModel.sort.value ?: PlacesViewModel.Sort.MOST_PHOTOS) }
         b.etSearch.doAfterTextChanged { viewModel.search(it?.toString().orEmpty()) }
         b.tvStatus.setOnClickListener { onStatusTap() }

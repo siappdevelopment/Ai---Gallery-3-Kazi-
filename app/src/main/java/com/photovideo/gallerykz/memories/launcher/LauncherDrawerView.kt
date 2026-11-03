@@ -240,6 +240,14 @@ class LauncherDrawerView @JvmOverloads constructor(
 
     private fun launch(app: LauncherApp) {
         if (appLaunchInProgress) return
+        var host: android.content.Context? = context
+        while (host is android.content.ContextWrapper && host !is android.app.Activity) host = host.baseContext
+        val activity = host as? android.app.Activity
+        if (activity == null) launchNow(app) else com.photovideo.gallerykz.memories.ads.LauncherAds.onAppTap(activity) { launchNow(app) }
+    }
+
+    private fun launchNow(app: LauncherApp) {
+        if (appLaunchInProgress) return
         // Set before the start: the launcher gets onUserLeaveHint and a bare HOME intent when the app returns.
         appLaunchInProgress = true
         if (!LauncherApps.launch(context, app)) {

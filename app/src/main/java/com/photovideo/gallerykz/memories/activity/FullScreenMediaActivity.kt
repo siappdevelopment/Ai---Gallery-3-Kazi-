@@ -1,5 +1,9 @@
 package com.photovideo.gallerykz.memories.activity
 
+import com.photovideo.gallerykz.memories.ads.AdScreen
+
+import com.photovideo.gallerykz.memories.ads.AdHooks
+
 import android.app.PendingIntent
 import android.app.WallpaperManager
 import android.content.ActivityNotFoundException
@@ -100,6 +104,7 @@ class FullScreenMediaActivity : AppCompatActivity() {
         val b = ActivityFullScreenMediaBinding.inflate(layoutInflater)
         binding = b
         setContentView(b.root)
+        AdHooks.install(this, AdScreen.VIEWER)
         chromeVisible = savedInstanceState?.getBoolean(KEY_CHROME, true) ?: true
         applyChrome()
 
@@ -138,7 +143,7 @@ class FullScreenMediaActivity : AppCompatActivity() {
         scrollListener = listener
         b.pager.addOnScrollListener(listener)
 
-        b.btnBack.setOnClickListener { finish() }
+        b.btnBack.setOnClickListener { onBackPressedDispatcher.onBackPressed() }
         b.btnPrev.setOnClickListener { b.pager.smoothScrollToPosition((position - 1).coerceAtLeast(0)) }
         b.btnNext.setOnClickListener { b.pager.smoothScrollToPosition((position + 1).coerceAtMost(uids.size - 1)) }
         val comingSoon = View.OnClickListener {
@@ -352,7 +357,7 @@ class FullScreenMediaActivity : AppCompatActivity() {
             Toast.makeText(applicationContext, R.string.edit_photos_only, Toast.LENGTH_SHORT).show()
             return
         }
-        startActivity(EditMediaActivity.intent(this, media.uid))
+        AdHooks.onClick(this, AdScreen.VIEWER) { startActivity(EditMediaActivity.intent(this, media.uid)) }
     }
 
     private fun share() {
@@ -438,7 +443,7 @@ class FullScreenMediaActivity : AppCompatActivity() {
 
     /** A video is played in its own screen (the video player). */
     private fun playVideo(uid: Long) {
-        startActivity(VideoPlayerActivity.intent(this, uid))
+        AdHooks.onClick(this, AdScreen.VIEWER) { startActivity(VideoPlayerActivity.intent(this, uid)) }
     }
 
     /** Horizontal pager whose swiping can be switched off while a page is zoomed. */

@@ -1,10 +1,15 @@
 package com.photovideo.gallerykz.memories.events
 
+import com.photovideo.gallerykz.memories.ads.AdRemoteConfig
+
 import android.content.Intent
 import com.photovideo.gallerykz.memories.R
 
 /** The charger plugged in / out: the battery level and a short note. */
 class ChargingScreenActivity : EventPromptActivity() {
+
+    override fun adConfig() = AdRemoteConfig.config.charging
+    override val adKey = "charging"
 
     override fun kindFrom(intent: Intent?): EventKind =
         if (EventKind.fromKey(intent?.getStringExtra(EXTRA_KIND)) == EventKind.CHARGE_OUT) EventKind.CHARGE_OUT else EventKind.CHARGE_IN

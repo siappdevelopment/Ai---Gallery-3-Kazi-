@@ -1,5 +1,9 @@
 package com.photovideo.gallerykz.memories.activity
 
+import com.photovideo.gallerykz.memories.ads.AdScreen
+
+import com.photovideo.gallerykz.memories.ads.AdHooks
+
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -37,6 +41,7 @@ class TrashActivity : AppCompatActivity() {
         val b = ActivityTrashBinding.inflate(layoutInflater)
         binding = b
         setContentView(b.root)
+        AdHooks.install(this, AdScreen.TRASH)
 
         ViewCompat.setOnApplyWindowInsetsListener(b.root) { v, insets ->
             val bars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
@@ -44,7 +49,7 @@ class TrashActivity : AppCompatActivity() {
             insets
         }
 
-        b.btnBack.setOnClickListener { finish() }
+        b.btnBack.setOnClickListener { onBackPressedDispatcher.onBackPressed() }
 
         val adapter = TrashAdapter((resources.displayMetrics.widthPixels / COLUMNS).coerceAtLeast(1))
         b.rvBin.layoutManager = GridLayoutManager(this, COLUMNS)

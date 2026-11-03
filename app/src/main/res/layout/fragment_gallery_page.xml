@@ -81,6 +81,13 @@
         android:layout_height="0dp"
         android:layout_weight="1" />
 
+    <!-- The native ad of the open tab (Gallery / Albums / For you) -->
+    <FrameLayout
+        android:id="@+id/adTabSlot"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone" />
+
     <!-- Bottom tabs: 70dp bar with 24dp top corners; the selected tab shows a pink top indicator -->
     <LinearLayout
         android:id="@+id/navBar"

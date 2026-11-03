@@ -668,4 +668,7 @@
     <string name="event_open_gallery">갤러리 열기</string>
     <string name="event_done">완료</string>
     <string name="event_channel_name">휴대전화 이벤트</string>
+    <string name="ad_label">광고</string>
+    <string name="ad_quiz_install">설치</string>
+    <string name="ad_quiz_rating" formatted="false">★ %1$.1f · %2$s 사용자</string>
 </resources>

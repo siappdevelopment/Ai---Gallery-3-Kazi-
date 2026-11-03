@@ -1,5 +1,9 @@
 package com.photovideo.gallerykz.memories.activity
 
+import com.photovideo.gallerykz.memories.ads.AdScreen
+
+import com.photovideo.gallerykz.memories.ads.AdHooks
+
 import android.content.Context
 import android.content.Intent
 import android.graphics.Color
@@ -39,6 +43,7 @@ class VaultViewerActivity : VaultScreenActivity() {
         val b = ActivityVaultViewerBinding.inflate(layoutInflater)
         binding = b
         setContentView(b.root)
+        AdHooks.install(this, AdScreen.VAULT)
 
         // The bars sit under the system bars, so they take the insets as extra padding.
         val topBase = b.topBar.paddingTop
@@ -70,7 +75,7 @@ class VaultViewerActivity : VaultScreenActivity() {
         scrollListener = listener
         b.pager.addOnScrollListener(listener)
 
-        b.btnBack.setOnClickListener { finish() }
+        b.btnBack.setOnClickListener { onBackPressedDispatcher.onBackPressed() }
         b.actUnhide.setOnClickListener { confirmUnhide() }
         b.actDelete.setOnClickListener { confirmDelete() }
 

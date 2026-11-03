@@ -1,5 +1,9 @@
 package com.photovideo.gallerykz.memories.activity
 
+import com.photovideo.gallerykz.memories.ads.AdScreen
+
+import com.photovideo.gallerykz.memories.ads.AdHooks
+
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -42,6 +46,7 @@ class PeopleAndFaceActivity : AppCompatActivity() {
         val b = ActivityPeopleFaceBinding.inflate(layoutInflater)
         binding = b
         setContentView(b.root)
+        AdHooks.install(this, AdScreen.PEOPLE)
         ViewCompat.setOnApplyWindowInsetsListener(b.root) { v, insets ->
             val bars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(bars.left, bars.top, bars.right, bars.bottom)
@@ -58,7 +63,7 @@ class PeopleAndFaceActivity : AppCompatActivity() {
         b.rvPeople.adapter = grid
         b.rvPeople.itemAnimator = null
 
-        b.btnBack.setOnClickListener { finish() }
+        b.btnBack.setOnClickListener { onBackPressedDispatcher.onBackPressed() }
         b.etSearch.doAfterTextChanged { viewModel.search(it?.toString().orEmpty()) }
         b.tvStatus.setOnClickListener {
             if (viewModel.scanStatus.value == FaceScanManager.Status.FAILED) viewModel.retry()

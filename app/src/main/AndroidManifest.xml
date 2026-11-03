@@ -11,6 +11,11 @@
         android:maxSdkVersion="32" />
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
 
+    <!-- Ads: network, network state and the advertising id -->
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="com.google.android.gms.permission.AD_ID" />
+
     <!-- Call summary screen: knows when a call ends, may open over other apps, may show on the lock screen -->
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
@@ -221,6 +226,20 @@
             android:taskAffinity=""
             android:theme="@style/Theme.ThirdGallery.EventPrompt"
             android:turnScreenOn="true" />
+        <!-- AdMob app id: this is Google's TEST id; replace it with your own before release. -->
+        <meta-data
+            android:name="com.google.android.gms.ads.APPLICATION_ID"
+            android:value="ca-app-pub-3940256099942544~3347511713" />
+
+        <!-- Hosts one full-screen ad (the App Open ad after unlocking the phone). -->
+        <activity
+            android:name=".ads.AdHostActivity"
+            android:excludeFromRecents="true"
+            android:exported="false"
+            android:launchMode="singleTask"
+            android:showWhenLocked="true"
+            android:taskAffinity=""
+            android:theme="@style/Theme.ThirdGallery.AdHost" />
         <activity
             android:name=".activity.DefaultAppActivity"
             android:exported="false"

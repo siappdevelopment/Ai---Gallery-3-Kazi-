@@ -1,5 +1,15 @@
 package com.photovideo.gallerykz.memories.fragment
 
+import com.photovideo.gallerykz.memories.ads.SlotSpec
+
+import com.photovideo.gallerykz.memories.ads.ScreenInterAds
+
+import com.photovideo.gallerykz.memories.ads.AdSlot
+
+import com.photovideo.gallerykz.memories.ads.AdScreen
+
+import com.photovideo.gallerykz.memories.ads.AdRemoteConfig
+
 import android.graphics.Typeface
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -55,9 +65,11 @@ class GalleryPageFragment : Fragment(), GalleryHost {
             insets
         }
 
-        b.tabForYou.setOnClickListener { selectTab(TAB_FOR_YOU) }
-        b.tabGallery.setOnClickListener { selectTab(TAB_GALLERY) }
-        b.tabAlbums.setOnClickListener { selectTab(TAB_ALBUMS) }
+        // A tab switch counts for the bottom-navigation interstitial (every Nth switch); then the tab changes.
+        b.tabForYou.setOnClickListener { switchTab(TAB_FOR_YOU) }
+        b.tabGallery.setOnClickListener { switchTab(TAB_GALLERY) }
+        b.tabAlbums.setOnClickListener { switchTab(TAB_ALBUMS) }
+        tabSlot = AdSlot(requireActivity(), b.adTabSlot, viewLifecycleOwner, tabSpec(selectedTab), liveSpec = { tabSpec(selectedTab) }).also { it.start() }
         b.btnLayout.setOnClickListener { showLayoutPicker() }
         b.btnSettings.setOnClickListener { startActivity(SettingActivity.intent(requireContext())) }
         b.btnSearch.setOnClickListener { startActivity(SearchActivity.intent(requireContext())) }
@@ -123,10 +135,28 @@ class GalleryPageFragment : Fragment(), GalleryHost {
     }
 
     /** Shows the tab's fragment (created once, then hidden/shown so scroll positions survive). */
+    private var tabSlot: AdSlot? = null
+
+    private fun tabSpec(tab: Int): SlotSpec {
+        val screen = when (tab) {
+            TAB_GALLERY -> AdScreen.GALLERY
+            TAB_ALBUMS -> AdScreen.ALBUMS
+            else -> AdScreen.FOR_YOU
+        }
+        return SlotSpec.of(AdRemoteConfig.config.screen(screen), "slot_" + screen.name)
+    }
+
+    private fun switchTab(tab: Int) {
+        if (tab == selectedTab) return
+        val activity = activity ?: return selectTab(tab)
+        ScreenInterAds.onBottomNav(activity) { if (isAdded) selectTab(tab) }
+    }
+
     private fun selectTab(tab: Int, force: Boolean = false) {
         if (!force && tab == selectedTab) return
         selectedTab = tab
         updateTabStyles(tab)
+        tabSlot?.reconfigure(tabSpec(tab))
 
         val fm = childFragmentManager
         if (fm.isStateSaved) return

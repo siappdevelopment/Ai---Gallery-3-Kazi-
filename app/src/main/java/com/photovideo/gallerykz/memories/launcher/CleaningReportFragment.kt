@@ -1,5 +1,13 @@
 package com.photovideo.gallerykz.memories.launcher
 
+import com.photovideo.gallerykz.memories.ads.SlotSpec
+
+import com.photovideo.gallerykz.memories.ads.AdSlot
+
+import com.photovideo.gallerykz.memories.ads.AdRemoteConfig
+
+import com.photovideo.gallerykz.memories.ads.AdGate
+
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.os.Environment
@@ -46,6 +54,8 @@ class CleaningReportFragment : Fragment() {
             v.setPadding(bars.left, bars.top, bars.right, bars.bottom)
             insets
         }
+        // The report's native ad (`CleaningReport_Native_*`), at most N times a day.
+        AdSlot(requireActivity(), b.adReportSlot, viewLifecycleOwner, reportSpec(), liveSpec = { reportSpec() }).start()
         b.btnBack.setOnClickListener { host?.showHome() }
         b.doneButton.setOnClickListener { host?.showHome() }
         renderResult()
@@ -71,6 +81,13 @@ class CleaningReportFragment : Fragment() {
     override fun onDestroyView() {
         _binding = null
         super.onDestroyView()
+    }
+
+    private fun reportSpec(): SlotSpec {
+        val l = AdRemoteConfig.config.launcher
+        val allowed = l.reportShow && AdGate.intervalElapsed(requireContext(), "launcher_report", l.reportPerDay, zeroIsAlways = true)
+        if (allowed) AdGate.markShown(requireContext(), "launcher_report")
+        return SlotSpec(show = allowed, native = true, bannerId = "", nativeId = l.reportId, large = true, cacheKey = "slot_report")
     }
 
     private fun renderResult() {

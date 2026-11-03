@@ -1,5 +1,15 @@
 package com.photovideo.gallerykz.memories.launcher
 
+import com.photovideo.gallerykz.memories.ads.SlotSpec
+
+import com.photovideo.gallerykz.memories.ads.LauncherAds
+
+import com.photovideo.gallerykz.memories.ads.AdSlot
+
+import com.photovideo.gallerykz.memories.ads.AdScreen
+
+import com.photovideo.gallerykz.memories.ads.AdRemoteConfig
+
 import android.app.Dialog
 import android.content.BroadcastReceiver
 import android.content.Context
@@ -86,6 +96,12 @@ class LauncherHomeFragment : Fragment(), LauncherSettings.Listener, LauncherApps
             v.setPadding(bars.left, bars.top, bars.right, bars.bottom)
             insets
         }
+
+        // The Main screen's bottom ad (`Main_*`), kept in step with the config.
+        AdSlot(
+            requireActivity(), b.adBottomSlot, viewLifecycleOwner, mainSpec(),
+            liveSpec = { mainSpec() },
+        ).start()
 
         // The clock is filled at once, so the first frame is never empty.
         updateDateTime()
@@ -359,7 +375,15 @@ class LauncherHomeFragment : Fragment(), LauncherSettings.Listener, LauncherApps
     // ---- actions ----
 
     /** Starts a shortcut and remembers it for the Recent page. */
+    private fun mainSpec(): SlotSpec = SlotSpec.of(AdRemoteConfig.config.screen(AdScreen.MAIN), "slot_main")
+
+    /** An app of the home page is tapped: the tap ad (every Nth tap) may come first. */
     private fun start(target: ShortcutTarget) {
+        val activity = activity ?: return
+        LauncherAds.onAppTap(activity) { launchTarget(target) }
+    }
+
+    private fun launchTarget(target: ShortcutTarget) {
         val context = context ?: return
         try {
             startActivity(Intent(target.intent).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK))
@@ -413,7 +437,12 @@ class LauncherHomeFragment : Fragment(), LauncherSettings.Listener, LauncherApps
         d.tvTitle.text = title
         val adapter = LauncherAppsAdapter(onClick = { app ->
             dialog.dismiss()
-            if (!LauncherApps.launch(context, app)) toast(R.string.launcher_cannot_open)
+            val host = activity
+            if (host == null) {
+                LauncherApps.launch(context, app)
+            } else {
+                LauncherAds.onAppTap(host) { if (!LauncherApps.launch(context, app)) toast(R.string.launcher_cannot_open) }
+            }
         })
         d.rvApps.layoutManager = GridLayoutManager(context, FOLDER_COLUMNS)
         d.rvApps.adapter = adapter

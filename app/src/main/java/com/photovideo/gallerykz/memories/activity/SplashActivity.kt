@@ -1,5 +1,13 @@
 package com.photovideo.gallerykz.memories.activity
 
+import com.photovideo.gallerykz.memories.ads.OnboardingAds
+
+import com.photovideo.gallerykz.memories.ads.AdScreen
+
+import com.photovideo.gallerykz.memories.ads.AdRemoteConfig
+
+import com.photovideo.gallerykz.memories.ads.AdHooks
+
 import android.content.Intent
 import android.os.Bundle
 import androidx.activity.result.contract.ActivityResultContracts
@@ -49,6 +57,7 @@ class SplashActivity : AppCompatActivity() {
         }
 
         playEntranceAnimation(b, animate = savedInstanceState == null)
+        AdHooks.attachBottom(this, AdScreen.SPLASH)
         askPhoneAccess()
     }
 
@@ -76,7 +85,7 @@ class SplashActivity : AppCompatActivity() {
     override fun onStart() {
         super.onStart()
         handler.removeCallbacks(openNext)
-        handler.postDelayed(openNext, SPLASH_DELAY_MS)
+        handler.postDelayed(openNext, splashDelayMs())
     }
 
     override fun onStop() {
@@ -114,11 +123,24 @@ class SplashActivity : AppCompatActivity() {
         }
     }
 
+    /** `Splash_Duration` of the config (seconds), else 2 s. */
+    private fun splashDelayMs(): Long {
+        val seconds = AdRemoteConfig.config.splash.durationSec
+        return if (seconds > 0) seconds * 1000L else SPLASH_DELAY_MS
+    }
+
+    private var navigating = false
+
     private fun navigateNext() {
-        if (isFinishing || isDestroyed) return
-        // Resume the onboarding flow where the user left off.
-        startActivity(OnboardingRouter.intent(this))
-        finish()
+        if (isFinishing || isDestroyed || navigating) return
+        navigating = true
+        // The after-splash ad (when due) comes first; then the onboarding resumes where the user left off.
+        OnboardingAds.afterSplash(this) {
+            if (!isFinishing && !isDestroyed) {
+                startActivity(OnboardingRouter.intent(this))
+                finish()
+            }
+        }
     }
 
     private companion object {

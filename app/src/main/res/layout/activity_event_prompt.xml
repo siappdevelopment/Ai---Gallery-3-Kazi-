@@ -163,6 +163,13 @@
                 app:tint="@color/splash_text_secondary" />
         </LinearLayout>
 
+        <FrameLayout
+            android:id="@+id/adBottomSlot"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:visibility="gone" />
+
         <Space
             android:layout_width="match_parent"
             android:layout_height="0dp"

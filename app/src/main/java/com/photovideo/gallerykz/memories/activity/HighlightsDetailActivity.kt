@@ -1,5 +1,9 @@
 package com.photovideo.gallerykz.memories.activity
 
+import com.photovideo.gallerykz.memories.ads.AdScreen
+
+import com.photovideo.gallerykz.memories.ads.AdHooks
+
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -44,6 +48,7 @@ class HighlightsDetailActivity : AppCompatActivity() {
         val b = ActivityHighlightsDetailBinding.inflate(layoutInflater)
         binding = b
         setContentView(b.root)
+        AdHooks.install(this, AdScreen.HIGHLIGHT)
         ViewCompat.setOnApplyWindowInsetsListener(b.root) { v, insets ->
             val bars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(bars.left, bars.top, bars.right, bars.bottom)
@@ -64,7 +69,7 @@ class HighlightsDetailActivity : AppCompatActivity() {
         b.rvItems.adapter = list
         b.rvItems.itemAnimator = null
 
-        b.btnBack.setOnClickListener { finish() }
+        b.btnBack.setOnClickListener { onBackPressedDispatcher.onBackPressed() }
         b.btnSearch.setOnClickListener { if (canOpen()) startActivity(SearchActivity.intent(this)) }
 
         viewModel.detail.observe(this) { result ->
@@ -93,7 +98,7 @@ class HighlightsDetailActivity : AppCompatActivity() {
         // The viewer swipes through this highlight's media only, in the order shown here.
         val shown = detail?.rows.orEmpty().filterIsInstance<HighlightRow.Tile>().map { it.media.uid }
         if (uid !in shown) return
-        startActivity(FullScreenMediaActivity.intentForList(this, uid, shown))
+        AdHooks.onClick(this, AdScreen.HIGHLIGHT) { startActivity(FullScreenMediaActivity.intentForList(this, uid, shown)) }
     }
 
     /** Ignores a second tap that arrives while the first screen is still opening. */

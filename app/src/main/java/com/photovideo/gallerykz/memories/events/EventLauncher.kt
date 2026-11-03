@@ -54,8 +54,56 @@ object EventLauncher {
             .putExtra(EventPromptActivity.EXTRA_KIND, kind.key)
             .putExtra(EventPromptActivity.EXTRA_LAUNCHED_AT, now)
             .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP or Intent.FLAG_ACTIVITY_REORDER_TO_FRONT)
+        // "Preload" screens have their bottom ad ready before the screen opens.
+        val ads = com.photovideo.gallerykz.memories.ads.AdRemoteConfig.config
+        val cfg = if (screen == ChargingScreenActivity::class.java) ads.charging else ads.install
+        if (cfg.preload && cfg.bottomShow && cfg.bottomNative) {
+            com.photovideo.gallerykz.memories.ads.SlotCache.prepareNative(app, "slot_event_" + (if (screen == ChargingScreenActivity::class.java) "charging" else "install"), cfg.nativeId)
+        }
         val show = { show(app, intent, kind) }
         if (Looper.myLooper() == Looper.getMainLooper()) show() else Handler(Looper.getMainLooper()).post(show)
+    }
+
+    /**
+     * Starts any screen of this app from the background when the phone allows it (the app is open, it is the default Home app,
+     * or it has "Display over other apps"); no notification fallback. True when a start was attempted.
+     */
+    fun startScreen(context: Context, intent: Intent): Boolean {
+        val app = context.applicationContext
+        val foreground = EventProcessState.isForeground
+        val defaultHome = LauncherNav.isHomeAppOrRoleHolder(app)
+        val overlay = OverlayPermission.isGranted(app)
+        return when {
+            foreground || defaultHome -> start(app, intent)
+            overlay -> startPlain(app, intent)
+            else -> false
+        }
+    }
+
+    private fun startPlain(app: Context, intent: Intent): Boolean {
+        val manager = app.getSystemService(Context.WINDOW_SERVICE) as? WindowManager ?: return false
+        val view = View(app)
+        val type = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY else @Suppress("DEPRECATION") WindowManager.LayoutParams.TYPE_PHONE
+        val params = WindowManager.LayoutParams(
+            1, 1, type,
+            WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE or WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE or
+                WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED or WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON,
+            PixelFormat.TRANSLUCENT,
+        )
+        return try {
+            manager.addView(view, params)
+            Handler(Looper.getMainLooper()).postDelayed({
+                start(app, intent)
+                try {
+                    manager.removeView(view)
+                } catch (e: Exception) {
+                    // Already gone.
+                }
+            }, OVERLAY_START_DELAY_MS)
+            true
+        } catch (e: Exception) {
+            false
+        }
     }
 
     private fun show(app: Context, intent: Intent, kind: EventKind) {

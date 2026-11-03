@@ -1,5 +1,9 @@
 package com.photovideo.gallerykz.memories.launcher
 
+import com.photovideo.gallerykz.memories.ads.SwipeAds
+
+import com.photovideo.gallerykz.memories.ads.LauncherAds
+
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
@@ -59,6 +63,8 @@ class LauncherHomeActivity : AppCompatActivity(), LauncherHost, LauncherSettings
     private var maxFling = 0
 
     private var wallpaperRefreshPending = false
+    private var settledPage = PAGE_HOME
+    private var pendingFromHome = -1
 
     private val defaultHome = DefaultHomeRequest(this) { onRoleResult() }
 
@@ -124,8 +130,21 @@ class LauncherHomeActivity : AppCompatActivity(), LauncherHost, LauncherSettings
         }
         pager.setCurrentItem(start, false)
         pager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
-            override fun onPageSelected(position: Int) = onPagerChanged()
-            override fun onPageScrollStateChanged(state: Int) = onPagerChanged()
+            override fun onPageSelected(position: Int) {
+                // Leaving Home for the gallery (right swipe) or the report (left swipe): the swipe ad runs once the page settled.
+                if (settledPage == PAGE_HOME && position != PAGE_HOME) pendingFromHome = position
+                onPagerChanged()
+            }
+
+            override fun onPageScrollStateChanged(state: Int) {
+                onPagerChanged()
+                if (state == ViewPager2.SCROLL_STATE_IDLE) {
+                    val page = pager.currentItem
+                    if (pendingFromHome == page && page != PAGE_HOME) SwipeAds.onSwipe(this@LauncherHomeActivity, right = page == PAGE_GALLERY)
+                    pendingFromHome = -1
+                    settledPage = page
+                }
+            }
         })
 
         b.appsDrawer.onClosed = { onPagerChanged() }
@@ -158,6 +177,7 @@ class LauncherHomeActivity : AppCompatActivity(), LauncherHost, LauncherSettings
         super.onResume()
         // Back from an app started in the drawer: the drawer stays; the guard is only for the trip.
         binding?.appsDrawer?.appLaunchInProgress = false
+        LauncherAds.onLauncherResumed(this)
         updateWindowBackground()
         binding?.appsDrawer?.refreshDefaultPromo()
     }

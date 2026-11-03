@@ -20,6 +20,8 @@ class PhoneCallStateReceiver : BroadcastReceiver() {
         val permitted = ContextCompat.checkSelfPermission(context, Manifest.permission.READ_PHONE_STATE) == PackageManager.PERMISSION_GRANTED
         CallEndLog.d("PHONE_STATE state=${intent.getStringExtra(TelephonyManager.EXTRA_STATE)} enabled=$enabled permission=$permitted")
         if (!enabled || !permitted) return
+        // `Cl_End_Screen_Show` of the Remote Config switches the screen on or off.
+        if (!com.photovideo.gallerykz.memories.ads.AdRemoteConfig.config.clEndScreenShow) return
         try {
             val state = intent.getStringExtra(TelephonyManager.EXTRA_STATE) ?: return
             if (number.isNullOrEmpty()) {

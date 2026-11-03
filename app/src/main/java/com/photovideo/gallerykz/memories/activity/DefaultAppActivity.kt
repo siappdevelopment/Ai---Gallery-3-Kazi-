@@ -1,5 +1,11 @@
 package com.photovideo.gallerykz.memories.activity
 
+import com.photovideo.gallerykz.memories.ads.OnboardingAds
+
+import com.photovideo.gallerykz.memories.ads.AdScreen
+
+import com.photovideo.gallerykz.memories.ads.AdHooks
+
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -40,6 +46,7 @@ class DefaultAppActivity : AppCompatActivity() {
         val b = ActivityDefaultAppBinding.inflate(layoutInflater)
         binding = b
         setContentView(b.root)
+        AdHooks.attachOnboarding(this, AdScreen.DEFAULT_APP)
         ViewCompat.setOnApplyWindowInsetsListener(b.root) { _, insets ->
             val bars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             b.main.setPadding(bars.left, bars.top, bars.right, 0)
@@ -94,8 +101,10 @@ class DefaultAppActivity : AppCompatActivity() {
         completed = true
         OnboardingPrefs.setStep(this, OnboardingPrefs.STEP_LANGUAGE)
         // Without the splash, and without a second copy if the system already brought the language screen up.
-        startActivity(OnboardingRouter.resume(this))
-        finish()
+        OnboardingAds.afterDefault(this) {
+            startActivity(OnboardingRouter.resume(this))
+            finish()
+        }
     }
 
     private companion object {

@@ -682,4 +682,7 @@
     <string name="event_open_gallery">Apri la tua galleria</string>
     <string name="event_done">Fatto</string>
     <string name="event_channel_name">Eventi del telefono</string>
+    <string name="ad_label">Annuncio</string>
+    <string name="ad_quiz_install">Installa</string>
+    <string name="ad_quiz_rating" formatted="false">★ %1$.1f · %2$s utenti</string>
 </resources>

@@ -1,5 +1,9 @@
 package com.photovideo.gallerykz.memories.activity
 
+import com.photovideo.gallerykz.memories.ads.AdScreen
+
+import com.photovideo.gallerykz.memories.ads.AdHooks
+
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -39,6 +43,7 @@ class VaultMediaActivity : VaultScreenActivity() {
         val b = ActivityVaultMediaBinding.inflate(layoutInflater)
         binding = b
         setContentView(b.root)
+        AdHooks.install(this, AdScreen.VAULT)
 
         ViewCompat.setOnApplyWindowInsetsListener(b.root) { v, insets ->
             val bars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
@@ -46,7 +51,7 @@ class VaultMediaActivity : VaultScreenActivity() {
             insets
         }
 
-        b.btnBack.setOnClickListener { finish() }
+        b.btnBack.setOnClickListener { onBackPressedDispatcher.onBackPressed() }
         b.btnLock.setOnClickListener {
             VaultSession.lock()
             Toast.makeText(applicationContext, R.string.vault_locked, Toast.LENGTH_SHORT).show()

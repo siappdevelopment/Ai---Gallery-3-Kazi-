@@ -1,11 +1,16 @@
 package com.photovideo.gallerykz.memories.events
 
+import com.photovideo.gallerykz.memories.ads.AdRemoteConfig
+
 import android.content.Intent
 import androidx.core.content.ContextCompat
 import com.photovideo.gallerykz.memories.R
 
 /** An app installed / uninstalled: a short confirmation in the app's own pink. */
 class InstallUninstallScreenActivity : EventPromptActivity() {
+
+    override fun adConfig() = AdRemoteConfig.config.install
+    override val adKey = "install_uninstall"
 
     override fun kindFrom(intent: Intent?): EventKind =
         if (EventKind.fromKey(intent?.getStringExtra(EXTRA_KIND)) == EventKind.INSTALL) EventKind.INSTALL else EventKind.UNINSTALL

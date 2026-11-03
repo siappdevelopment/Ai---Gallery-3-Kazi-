@@ -1,5 +1,11 @@
 package com.photovideo.gallerykz.memories.activity
 
+import com.photovideo.gallerykz.memories.ads.OnboardingAds
+
+import com.photovideo.gallerykz.memories.ads.AdScreen
+
+import com.photovideo.gallerykz.memories.ads.AdHooks
+
 import android.content.Intent
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
@@ -26,6 +32,7 @@ class Intro4Activity : AppCompatActivity() {
         val b = ActivityIntro4Binding.inflate(layoutInflater)
         binding = b
         setContentView(b.root)
+        AdHooks.attachOnboarding(this, AdScreen.INTRO)
 
         ViewCompat.setOnApplyWindowInsetsListener(b.root) { v, insets ->
             val bars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
@@ -39,8 +46,10 @@ class Intro4Activity : AppCompatActivity() {
             // Last onboarding page: the onboarding is complete, on to the launcher.
             event.getContentIfNotHandled()?.let {
                 OnboardingPrefs.setStep(this, OnboardingPrefs.STEP_DONE)
-                startActivity(Intent(this, LauncherHomeActivity::class.java))
-                finish()
+                OnboardingAds.afterIntro(this) {
+                    startActivity(Intent(this, LauncherHomeActivity::class.java))
+                    finish()
+                }
             }
         }
     }

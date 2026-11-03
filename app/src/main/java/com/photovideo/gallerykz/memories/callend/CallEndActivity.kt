@@ -1,5 +1,13 @@
 package com.photovideo.gallerykz.memories.callend
 
+import com.photovideo.gallerykz.memories.ads.SlotSpec
+
+import com.photovideo.gallerykz.memories.ads.BackAds
+
+import com.photovideo.gallerykz.memories.ads.AdRemoteConfig
+
+import com.photovideo.gallerykz.memories.ads.AdHooks
+
 import android.content.Intent
 import android.os.Bundle
 import android.widget.ImageView
@@ -56,6 +64,27 @@ class CallEndActivity : AppCompatActivity() {
         }.attach()
 
         showCall(intent)
+        setupAds()
+    }
+
+    /** The bottom ad (`ClEnd_Ad_*`) and the back ad (`ClEnd_Back_Ad_*`, sequence, day, per-day and country gates). */
+    private fun setupAds() {
+        try {
+            val c = AdRemoteConfig.config.clEnd
+            AdHooks.attachBottom(
+                this,
+                SlotSpec(show = c.adShow, native = c.native, bannerId = c.bannerId, nativeId = c.nativeId, large = false, cacheKey = "slot_clend"),
+            )
+            onBackPressedDispatcher.addCallback(this, object : androidx.activity.OnBackPressedCallback(true) {
+                override fun handleOnBackPressed() {
+                    BackAds.show(this@CallEndActivity, "clend", AdRemoteConfig.config.clEnd.back, "") {
+                        if (!isFinishing) finish()
+                    }
+                }
+            })
+        } catch (e: Exception) {
+            android.util.Log.w("KaziAds", "call end ads failed to attach: $e")
+        }
     }
 
     override fun onNewIntent(intent: Intent) {
