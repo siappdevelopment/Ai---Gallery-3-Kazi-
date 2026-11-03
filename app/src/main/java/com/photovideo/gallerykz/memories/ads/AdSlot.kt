@@ -79,6 +79,7 @@ class AdSlot(
 
     private val handler = Handler(Looper.getMainLooper())
     private var loading = false
+    private var started = false
     private var destroyed = false
     private var resumed = false
     private var token = 0
@@ -110,6 +111,14 @@ class AdSlot(
 
     fun start() {
         if (destroyed) return
+        started = true
+        request()
+    }
+
+    /** Loads the next ad now (a place that does not refresh on a timer asks for it when the user comes back to it). */
+    fun refreshNow() {
+        if (destroyed || !started || loading) return
+        handler.removeCallbacks(refresh)
         request()
     }
 
@@ -126,7 +135,8 @@ class AdSlot(
     }
 
     private fun request() {
-        if (loading || destroyed) return
+        // Nothing is requested before the screen starts the slot (a config that arrives earlier only changes the spec).
+        if (loading || destroyed || !started) return
         val context = activity.applicationContext
         if (!spec.show || !AdGate.adsAllowed(context)) {
             hide()
@@ -143,7 +153,8 @@ class AdSlot(
         }
         loading = true
         val mine = ++token
-        if (!loadedOnce) showPlaceholder()
+        // The shimmer shows before every load, a refresh too: it takes the place of the old ad until the new one arrives.
+        showPlaceholder()
         if (spec.native) {
             val cached = SlotCache.takeNative(spec.cacheKey)
             if (cached != null) {
@@ -195,7 +206,8 @@ class AdSlot(
         loading = false
         removePlaceholder()
         if (AdRemoteConfig.config.googleFailedQuiz && showQuiz()) return
-        if (!loadedOnce) hide()
+        // The shimmer replaced the old ad, so a failed refresh leaves nothing to keep: the place goes away.
+        hide()
     }
 
     private fun gap(v: View) {

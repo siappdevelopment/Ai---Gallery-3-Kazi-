@@ -22,6 +22,8 @@ import androidx.core.view.ViewCompat
 import com.photovideo.gallerykz.memories.callend.CallEndPermission
 import androidx.core.view.WindowInsetsCompat
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.DefaultLifecycleObserver
+import androidx.lifecycle.LifecycleOwner
 import androidx.fragment.app.activityViewModels
 import com.photovideo.gallerykz.memories.R
 import com.photovideo.gallerykz.memories.activity.SearchActivity
@@ -85,7 +87,18 @@ class GalleryPageFragment : Fragment(), GalleryHost {
                 applyBottomInsets()
             },
             liveSpec = { mainSpec() },
-        ).also { it.start() }
+        )
+        // The page is created next to Home (a pager neighbour): the ad is requested when the page is really entered (onResume), not before.
+        val activityLifecycle = requireActivity().lifecycle
+        val pauseCounter = object : DefaultLifecycleObserver {
+            override fun onPause(owner: LifecycleOwner) {
+                activityPauses++
+            }
+        }
+        activityLifecycle.addObserver(pauseCounter)
+        viewLifecycleOwner.lifecycle.addObserver(object : DefaultLifecycleObserver {
+            override fun onDestroy(owner: LifecycleOwner) = activityLifecycle.removeObserver(pauseCounter)
+        })
         b.btnLayout.setOnClickListener { showLayoutPicker() }
         b.btnSettings.setOnClickListener { startActivity(SettingActivity.intent(requireContext())) }
         b.btnSearch.setOnClickListener { startActivity(SearchActivity.intent(requireContext())) }
@@ -101,6 +114,23 @@ class GalleryPageFragment : Fragment(), GalleryHost {
     override fun onResume() {
         super.onResume()
         askPhoneAccess()
+        enterMainAd()
+    }
+
+    /**
+     * First entry: the Main ad is requested at once, in the foreground. Coming back from Home (the activity stayed in front the whole
+     * time) a place without auto refresh (`Main_Bottom_Ad_Auto_Refresh` false) loads a new ad; leaving the app or opening another
+     * screen does not count, and with auto refresh on the timer of the slot does the work.
+     */
+    private fun enterMainAd() {
+        val slot = mainSlot ?: return
+        if (!mainStarted) {
+            mainStarted = true
+            slot.start()
+        } else if (activityPauses == pausesAtLastResume && mainSpec().refreshSeconds == 0) {
+            slot.refreshNow()
+        }
+        pausesAtLastResume = activityPauses
     }
 
     /** Asks for the call permission when the page is entered and it is not granted yet; at most once per app start. */
@@ -128,6 +158,8 @@ class GalleryPageFragment : Fragment(), GalleryHost {
     }
 
     override fun onDestroyView() {
+        mainStarted = false
+        mainSlot = null
         binding = null
         super.onDestroyView()
     }
@@ -166,6 +198,9 @@ class GalleryPageFragment : Fragment(), GalleryHost {
     private var adHiddenByChrome = false
     private var mainSlot: AdSlot? = null
     private var navElevation = -1f
+    private var mainStarted = false
+    private var activityPauses = 0
+    private var pausesAtLastResume = 0
 
     private fun mainSpec(): SlotSpec = SlotSpec.of(AdRemoteConfig.config.screen(AdScreen.MAIN), "slot_main")
 
