@@ -9,6 +9,7 @@ import com.photovideo.gallerykz.memories.ads.AppOpenAds
 import com.photovideo.gallerykz.memories.ads.AdRemoteConfig
 
 import android.app.Application
+import com.photovideo.gallerykz.memories.helper.SystemNav
 import android.content.res.Configuration
 import com.photovideo.gallerykz.memories.events.EventWatch
 import com.photovideo.gallerykz.memories.helper.LocaleHelper
@@ -31,6 +32,8 @@ class GalleryApp : Application() {
         GoogleAds.init(this)
         AdRemoteConfig.fetch(this)
         AppOpenAds.install(this)
+        // The navigation bar is hidden everywhere (a few screens bring it back for a big native ad).
+        SystemNav.install(this)
         UnlockAds.register(this)
     }
 

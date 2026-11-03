@@ -74,6 +74,8 @@ class AdSlot(
     private val keepContentOnFail: Boolean = false,
     /** When given, the slot re-reads its spec whenever a new config arrives (the config may come after the screen opened). */
     private val liveSpec: (() -> SlotSpec)? = null,
+    /** True while a big native ad is on screen (some screens show the system navigation bar only then). */
+    private val onBigNative: (Boolean) -> Unit = {},
 ) : DefaultLifecycleObserver {
 
     private val handler = Handler(Looper.getMainLooper())
@@ -186,12 +188,23 @@ class AdSlot(
         if (!loadedOnce) hide()
     }
 
+    private fun gap(v: View) {
+        // Bottom ads are full width with 2dp above and below.
+        val px = (2 * activity.resources.displayMetrics.density).toInt()
+        (v.layoutParams as? ViewGroup.MarginLayoutParams)?.let {
+            it.setMargins(0, px, 0, px)
+            v.layoutParams = it
+        }
+    }
+
     private fun showQuiz(): Boolean {
         clearAds()
         val ok = QuizAds.bindCard(activity, container, spec.large || spec.native && spec.large)
         if (ok) {
+            container.getChildAt(0)?.let { gap(it) }
             container.visibility = View.VISIBLE
             onVisibility(true)
+            onBigNative(spec.native && spec.large)
             loadedOnce = true
             scheduleRefresh()
         }
@@ -205,12 +218,14 @@ class AdSlot(
         val old = nativeAd
         container.removeAllViews()
         container.addView(view)
+        gap(view)
         nativeAd = ad
         banner?.destroy()
         banner = null
         old?.destroy()
         container.visibility = View.VISIBLE
         onVisibility(true)
+        onBigNative(spec.large)
     }
 
     private fun showBanner(view: AdView) {
@@ -218,12 +233,14 @@ class AdSlot(
         val old = banner
         container.removeAllViews()
         container.addView(view, FrameLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT, android.view.Gravity.CENTER_HORIZONTAL))
+        gap(view)
         banner = view
         nativeAd?.destroy()
         nativeAd = null
         old?.destroy()
         container.visibility = View.VISIBLE
         onVisibility(true)
+        onBigNative(false)
     }
 
     /** The skeleton of the ad (the skill's shimmer sizes) that pulses until the ad arrives, fails or the slot goes away. */
@@ -233,6 +250,7 @@ class AdSlot(
         val v = android.view.LayoutInflater.from(activity).inflate(layout, container, false)
         container.removeAllViews()
         container.addView(v, FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT))
+        gap(v)
         placeholder = v
         pulse = android.animation.ObjectAnimator.ofFloat(v, View.ALPHA, 1f, 0.35f).apply {
             duration = 700L
@@ -252,6 +270,7 @@ class AdSlot(
     }
 
     private fun clearAds() {
+        onBigNative(false)
         removePlaceholder()
         container.removeAllViews()
         nativeAd?.destroy()

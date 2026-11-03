@@ -93,10 +93,10 @@ abstract class EventPromptActivity : AppCompatActivity() {
         try {
             val cfg = adConfig()
             val spec = SlotSpec(
-                show = cfg.bottomShow, native = cfg.bottomNative, bannerId = cfg.bannerId, nativeId = cfg.nativeId, large = false,
+                show = cfg.bottomShow, native = cfg.bottomNative, bannerId = cfg.bannerId, nativeId = cfg.nativeId, large = cfg.bottomNative,
                 preload = cfg.preload, cacheKey = "slot_event_$adKey",
             )
-            AdHooks.attachInto(this, b.adBottomSlot, this, spec, keepContentOnFail = false)
+            AdHooks.attachInto(this, b.adBottomSlot, this, spec, keepContentOnFail = false, navWithBigNative = true)
         } catch (e: Exception) {
             android.util.Log.w("KaziAds", "event ad failed to attach: $e")
         }

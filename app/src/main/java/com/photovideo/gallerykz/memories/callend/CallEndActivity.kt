@@ -73,7 +73,8 @@ class CallEndActivity : AppCompatActivity() {
             val c = AdRemoteConfig.config.clEnd
             AdHooks.attachBottom(
                 this,
-                SlotSpec(show = c.adShow, native = c.native, bannerId = c.bannerId, nativeId = c.nativeId, large = false, cacheKey = "slot_clend"),
+                SlotSpec(show = c.adShow, native = c.native, bannerId = c.bannerId, nativeId = c.nativeId, large = c.native, cacheKey = "slot_clend"),
+                navWithBigNative = true,
             )
             onBackPressedDispatcher.addCallback(this, object : androidx.activity.OnBackPressedCallback(true) {
                 override fun handleOnBackPressed() {

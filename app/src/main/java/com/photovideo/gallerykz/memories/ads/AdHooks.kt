@@ -11,6 +11,7 @@ import androidx.core.graphics.Insets
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.LifecycleOwner
+import com.photovideo.gallerykz.memories.helper.SystemNav
 
 /** How a screen joins the ad system: one line after `setContentView`. */
 object AdHooks {
@@ -19,9 +20,9 @@ object AdHooks {
      * Gives [screen] its bottom ad (below the screen's own content, moved up over the system bar) and its Back interstitial.
      * Nothing changes on a screen whose block is off, except that the Back hook stays ready for a later config.
      */
-    fun install(activity: AppCompatActivity, screen: AdScreen, large: Boolean = false) {
+    fun install(activity: AppCompatActivity, screen: AdScreen, large: Boolean = false, navWithBigNative: Boolean = false) {
         try {
-            attachBottom(activity, screen, large)
+            attachBottom(activity, SlotSpec.of(AdRemoteConfig.config.screen(screen), "slot_${screen.name}", large), navWithBigNative)
             attachBackAd(activity, screen)
         } catch (e: Exception) {
             android.util.Log.w("KaziAds", "ads for ${screen.name} could not be attached: $e")
@@ -32,7 +33,8 @@ object AdHooks {
     fun attachBottom(activity: AppCompatActivity, screen: AdScreen, large: Boolean = false): AdSlot? =
         attachBottom(activity, SlotSpec.of(AdRemoteConfig.config.screen(screen), "slot_${screen.name}", large))
 
-    fun attachBottom(activity: AppCompatActivity, spec: SlotSpec): AdSlot? {
+    /** [navWithBigNative]: the system navigation bar is shown while the ad is a big native ad (else it stays hidden). */
+    fun attachBottom(activity: AppCompatActivity, spec: SlotSpec, navWithBigNative: Boolean = false): AdSlot? {
         if (!spec.show) return null
         val content = activity.findViewById<ViewGroup>(android.R.id.content) ?: return null
         val child = content.getChildAt(0) ?: return null
@@ -69,15 +71,25 @@ object AdHooks {
                 insets
             }
         }
-        val slot = AdSlot(activity, container, activity, spec, onVisibility = { wrapper.post { ViewCompat.requestApplyInsets(wrapper) } })
+        val slot = AdSlot(
+            activity, container, activity, spec,
+            onVisibility = { wrapper.post { ViewCompat.requestApplyInsets(wrapper) } },
+            onBigNative = { big -> if (navWithBigNative) SystemNav.setVisible(activity, big) },
+        )
         slot.start()
         return slot
     }
 
     /** Puts a slot into an existing container of the layout (the reserved ad area of the onboarding screens). */
-    fun attachInto(activity: Activity, container: ViewGroup, owner: LifecycleOwner, spec: SlotSpec, keepContentOnFail: Boolean = true): AdSlot? {
+    fun attachInto(
+        activity: Activity, container: ViewGroup, owner: LifecycleOwner, spec: SlotSpec,
+        keepContentOnFail: Boolean = true, navWithBigNative: Boolean = false,
+    ): AdSlot? {
         if (!spec.show) return null
-        val slot = AdSlot(activity, container, owner, spec, keepContentOnFail = keepContentOnFail)
+        val slot = AdSlot(
+            activity, container, owner, spec, keepContentOnFail = keepContentOnFail,
+            onBigNative = { big -> if (navWithBigNative) SystemNav.setVisible(activity, big) },
+        )
         slot.start()
         return slot
     }
