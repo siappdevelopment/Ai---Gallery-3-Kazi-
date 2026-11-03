@@ -1,5 +1,6 @@
 package com.photovideo.gallerykz.memories.activity
 
+import com.photovideo.gallerykz.memories.helper.OnboardingFlow
 import com.photovideo.gallerykz.memories.ads.AdScreen
 
 import com.photovideo.gallerykz.memories.ads.AdHooks
@@ -57,9 +58,8 @@ class NotiPermissionActivity : AppCompatActivity() {
 
         viewModel.navigateNext.observe(this) { event ->
             event.getContentIfNotHandled()?.let {
-                // The permissions are done: the onboarding pages follow.
-                OnboardingPrefs.setStep(this, OnboardingPrefs.STEP_INTRO1)
-                startActivity(Intent(this, Intro1Activity::class.java))
+                // The next screen of the configured flow follows.
+                OnboardingFlow.advance(this, OnboardingFlow.Screen.NOTI)
                 finish()
             }
         }

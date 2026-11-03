@@ -39,6 +39,28 @@ object AdRemoteConfig {
     var config: AdConfig = AdConfig.EMPTY
         private set
 
+    /** True once a config (saved or fetched) is in use. */
+    @Volatile
+    var loaded = false
+        private set
+
+    /** True once the first fetch of this start has ended, with or without success. */
+    @Volatile
+    var settled = false
+        private set
+
+    private val settleListeners = java.util.concurrent.CopyOnWriteArrayList<() -> Unit>()
+
+    /** Runs [callback] on the main thread when the first fetch has ended (at once when it already has). */
+    fun whenSettled(callback: () -> Unit) {
+        if (settled) {
+            main.post(callback)
+        } else {
+            settleListeners.add(callback)
+            if (settled) main.post(callback)
+        }
+    }
+
     private val listeners = java.util.concurrent.CopyOnWriteArrayList<() -> Unit>()
     private val fetching = java.util.concurrent.atomic.AtomicBoolean(false)
     private val main = Handler(Looper.getMainLooper())
@@ -94,7 +116,12 @@ object AdRemoteConfig {
                         } finally {
                             fetching.set(false)
                         }
-                        main.post { onDone?.invoke(ok) }
+                        main.post {
+                            settled = true
+                            settleListeners.forEach { it() }
+                            settleListeners.clear()
+                            onDone?.invoke(ok)
+                        }
                     }
                 }
         } catch (e: Exception) {
@@ -116,6 +143,7 @@ object AdRemoteConfig {
             val root = if (text.startsWith("[")) JSONArray(text).getJSONObject(0) else JSONObject(text)
             val chosen = resolveProfile(root, profile(context))
             config = AdConfig.parse(chosen)
+            loaded = true
             if (persist) prefs(context).edit().putString(KEY_JSON, text).apply()
             main.post {
                 AdCounters.onConfigApplied(context)

@@ -61,12 +61,11 @@ object IntroFlow {
         return true
     }
 
-    /** The onboarding is done: the intro interstitial (when due), then the launcher. */
+    /** The intro is done: the intro interstitial (when due), then the next screen of the configured flow (the launcher when it was the last). */
     fun complete(activity: Activity) {
-        OnboardingPrefs.setStep(activity, OnboardingPrefs.STEP_DONE)
         OnboardingAds.afterIntro(activity) {
             if (!activity.isFinishing && !activity.isDestroyed) {
-                activity.startActivity(Intent(activity, LauncherHomeActivity::class.java))
+                OnboardingFlow.advance(activity, OnboardingFlow.Screen.INTRO)
                 activity.finish()
             }
         }

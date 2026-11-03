@@ -1,5 +1,6 @@
 package com.photovideo.gallerykz.memories.activity
 
+import com.photovideo.gallerykz.memories.helper.OnboardingFlow
 import android.content.Intent
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
@@ -48,8 +49,7 @@ class MediaDeniteActivity : AppCompatActivity() {
 
         viewModel.navigate.observe(this) { event ->
             event.getContentIfNotHandled()?.let {
-                OnboardingPrefs.setStep(this, OnboardingPrefs.STEP_NOTI)
-                startActivity(Intent(this, NotiPermissionActivity::class.java))
+                OnboardingFlow.advance(this, OnboardingFlow.Screen.MEDIA)
                 finish()
             }
         }

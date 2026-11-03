@@ -36,6 +36,13 @@ class SplashActivity : AppCompatActivity() {
     private var delayDone = false
     private var phoneAnswered = false
 
+    // On the very first start the Remote Config (Show_Screen_Flow) may not be here yet: wait for it, but never longer than CONFIG_WAIT_MS.
+    private var configReady = false
+    private val configTimeout = Runnable {
+        configReady = true
+        navigateWhenReady()
+    }
+
     private val phoneLauncher = registerForActivityResult(ActivityResultContracts.RequestPermission()) {
         phoneAnswered = true
         navigateWhenReady()
@@ -58,6 +65,15 @@ class SplashActivity : AppCompatActivity() {
 
         playEntranceAnimation(b, animate = savedInstanceState == null)
         AdHooks.attachBottom(this, AdScreen.SPLASH)
+        if (AdRemoteConfig.loaded || AdRemoteConfig.settled) {
+            configReady = true
+        } else {
+            handler.postDelayed(configTimeout, CONFIG_WAIT_MS)
+            AdRemoteConfig.whenSettled {
+                configReady = true
+                if (!isFinishing && !isDestroyed) navigateWhenReady()
+            }
+        }
         askPhoneAccess()
     }
 
@@ -79,7 +95,7 @@ class SplashActivity : AppCompatActivity() {
     }
 
     private fun navigateWhenReady() {
-        if (delayDone && phoneAnswered) navigateNext()
+        if (delayDone && phoneAnswered && configReady) navigateNext()
     }
 
     override fun onStart() {
@@ -145,5 +161,6 @@ class SplashActivity : AppCompatActivity() {
 
     private companion object {
         const val SPLASH_DELAY_MS = 2000L
+        const val CONFIG_WAIT_MS = 5000L
     }
 }

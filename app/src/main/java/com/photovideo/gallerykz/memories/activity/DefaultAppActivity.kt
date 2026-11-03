@@ -1,5 +1,6 @@
 package com.photovideo.gallerykz.memories.activity
 
+import com.photovideo.gallerykz.memories.helper.OnboardingFlow
 import com.photovideo.gallerykz.memories.ads.OnboardingAds
 
 import com.photovideo.gallerykz.memories.ads.AdScreen
@@ -99,10 +100,9 @@ class DefaultAppActivity : AppCompatActivity() {
     private fun goToLanguage() {
         if (completed) return
         completed = true
-        OnboardingPrefs.setStep(this, OnboardingPrefs.STEP_LANGUAGE)
-        // Without the splash, and without a second copy if the system already brought the language screen up.
+        // Without the splash, and without a second copy if the system already brought the next screen up.
         OnboardingAds.afterDefault(this) {
-            startActivity(OnboardingRouter.resume(this))
+            OnboardingFlow.advance(this, OnboardingFlow.Screen.DEFAULT_APP, bringForward = true)
             finish()
         }
     }

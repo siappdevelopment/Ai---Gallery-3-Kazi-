@@ -43,8 +43,8 @@ object OnboardingPrefs {
         } else if (prefs.getBoolean(KEY_LANGUAGE_SELECTED, false)) {
             STEP_DONE
         } else {
-            // A fresh install starts with the default-app step.
-            STEP_DEFAULT
+            // A fresh install starts with the first screen of the configured flow (Show_Screen_Flow).
+            OnboardingFlow.first().step
         }
     } catch (e: Exception) {
         STEP_DEFAULT

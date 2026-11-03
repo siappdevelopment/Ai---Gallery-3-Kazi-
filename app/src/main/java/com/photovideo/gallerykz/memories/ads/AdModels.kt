@@ -206,6 +206,8 @@ class AdConfig(
     val clEndScreenShow: Boolean = true,
     /** `Privacy_Policy` of the Remote Config: the page the privacy policy link opens. */
     val privacyPolicyUrl: String = "",
+    /** `Show_Screen_Flow`: the onboarding screens after the splash, in order (empty = the default order). */
+    val screenFlow: List<String> = emptyList(),
     val showCountries: List<String> = emptyList(),
     val excludeCountries: List<String> = emptyList(),
     val inter: InterGlobal = InterGlobal(),
@@ -297,6 +299,7 @@ class AdConfig(
                 appOpenPerDay = root.int("App_Open_Show_Per_Day"),
                 clEndScreenShow = root.bool("Cl_End_Screen_Show", true),
                 privacyPolicyUrl = root.str("Privacy_Policy").trim(),
+                screenFlow = root.list("Show_Screen_Flow"),
                 showCountries = root.list("Ads_Show_countryList"),
                 excludeCountries = root.list("Ads_show_List_Exclude"),
                 inter = InterGlobal(

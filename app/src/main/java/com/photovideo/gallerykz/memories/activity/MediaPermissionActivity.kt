@@ -1,5 +1,6 @@
 package com.photovideo.gallerykz.memories.activity
 
+import com.photovideo.gallerykz.memories.helper.OnboardingFlow
 import com.photovideo.gallerykz.memories.ads.AdScreen
 
 import com.photovideo.gallerykz.memories.ads.AdHooks
@@ -57,10 +58,7 @@ class MediaPermissionActivity : AppCompatActivity() {
         viewModel.navigate.observe(this) { event ->
             event.getContentIfNotHandled()?.let { destination ->
                 when (destination) {
-                    Destination.NOTIFICATION -> {
-                        OnboardingPrefs.setStep(this, OnboardingPrefs.STEP_NOTI)
-                        startActivity(Intent(this, NotiPermissionActivity::class.java))
-                    }
+                    Destination.NOTIFICATION -> OnboardingFlow.advance(this, OnboardingFlow.Screen.MEDIA)
                     Destination.DENIED -> {
                         OnboardingPrefs.setStep(this, OnboardingPrefs.STEP_MEDIA_DENIED)
                         startActivity(Intent(this, MediaDeniteActivity::class.java))

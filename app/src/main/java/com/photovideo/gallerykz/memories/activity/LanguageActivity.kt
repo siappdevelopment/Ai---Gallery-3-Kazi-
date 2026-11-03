@@ -1,5 +1,6 @@
 package com.photovideo.gallerykz.memories.activity
 
+import com.photovideo.gallerykz.memories.helper.OnboardingFlow
 import com.photovideo.gallerykz.memories.ads.OnboardingAds
 
 import com.photovideo.gallerykz.memories.ads.AdScreen
@@ -134,10 +135,7 @@ class LanguageActivity : AppCompatActivity() {
         finish()
         LocaleHelper.apply(tag)
         // From Settings the language is all that changes; during onboarding the next step follows.
-        // The privacy policy comes next (read in the chosen language); once agreed to it is skipped.
-        if (!viewModel.fromSettings) {
-            val next = if (OnboardingPrefs.isPolicyAccepted(this)) MediaPermissionActivity::class.java else PrivacyPolicyActivity::class.java
-            startActivity(Intent(this, next))
-        }
+        // The next screen of the configured flow follows.
+        if (!viewModel.fromSettings) OnboardingFlow.advance(this, OnboardingFlow.Screen.LANGUAGE)
     }
 }

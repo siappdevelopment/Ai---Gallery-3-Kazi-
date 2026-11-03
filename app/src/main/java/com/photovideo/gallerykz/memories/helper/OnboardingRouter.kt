@@ -32,7 +32,8 @@ object OnboardingRouter {
     }
 
     /** The screen of [step] (the stored step by default). */
-    fun intent(context: Context, step: Int = OnboardingPrefs.getStep(context)): Intent = Intent(context, screenOf(step))
+    fun intent(context: Context, step: Int = OnboardingPrefs.getStep(context)): Intent =
+        Intent(context, screenOf(OnboardingFlow.resolveStep(context, step)))
 
     /**
      * Like [intent] but safe to start from anywhere, also when the screen is already open (the system can send the Home

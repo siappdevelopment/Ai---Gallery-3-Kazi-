@@ -1,5 +1,6 @@
 package com.photovideo.gallerykz.memories.activity
 
+import com.photovideo.gallerykz.memories.helper.OnboardingFlow
 import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.graphics.Color
@@ -81,8 +82,7 @@ class PrivacyPolicyActivity : AppCompatActivity() {
 
     private fun goNext() {
         navigated = true
-        OnboardingPrefs.setStep(this, OnboardingPrefs.STEP_MEDIA)
-        startActivity(Intent(this, MediaPermissionActivity::class.java))
+        OnboardingFlow.advance(this, OnboardingFlow.Screen.POLICY)
         finish()
     }
 
