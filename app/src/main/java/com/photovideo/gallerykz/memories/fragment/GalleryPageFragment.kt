@@ -41,13 +41,13 @@ interface GalleryHost {
 }
 
 /**
- * The gallery: top bar and the For you / Gallery / Albums tabs. It is the left page of the launcher and also what the
+ * The gallery: top bar and the For you / Gallery / Albums tabs (it opens on the middle one, Gallery). It is the left page of the launcher and also what the
  * stand-alone gallery screen shows.
  */
 class GalleryPageFragment : Fragment(), GalleryHost {
 
     private var binding: FragmentGalleryPageBinding? = null
-    private var selectedTab = TAB_FOR_YOU
+    private var selectedTab = DEFAULT_TAB
     private val galleryLayout: GalleryLayoutViewModel by activityViewModels()
     private var systemBottomInset = 0
     private var chromeVisible = true
@@ -103,7 +103,7 @@ class GalleryPageFragment : Fragment(), GalleryHost {
         b.btnSettings.setOnClickListener { startActivity(SettingActivity.intent(requireContext())) }
         b.btnSearch.setOnClickListener { startActivity(SearchActivity.intent(requireContext())) }
 
-        selectedTab = savedInstanceState?.getInt(KEY_TAB, TAB_FOR_YOU) ?: TAB_FOR_YOU
+        selectedTab = savedInstanceState?.getInt(KEY_TAB, DEFAULT_TAB) ?: DEFAULT_TAB
         selectTab(selectedTab, force = true)
     }
 
@@ -288,6 +288,9 @@ class GalleryPageFragment : Fragment(), GalleryHost {
         const val TAB_FOR_YOU = 0
         const val TAB_GALLERY = 1
         const val TAB_ALBUMS = 2
+
+        /** The middle tab (the Gallery, `PhotoFragment`) is the one the page opens with. */
+        const val DEFAULT_TAB = TAB_GALLERY
         val TABS = intArrayOf(TAB_FOR_YOU, TAB_GALLERY, TAB_ALBUMS)
     }
 }
