@@ -1,5 +1,6 @@
 package com.photovideo.gallerykz.memories.activity
 
+import com.photovideo.gallerykz.memories.helper.IntroFlow
 import com.photovideo.gallerykz.memories.ads.AdScreen
 
 import com.photovideo.gallerykz.memories.ads.AdHooks
@@ -24,6 +25,8 @@ class Intro2Activity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
+        // A saved step beyond the configured screen count ends the intro at once.
+        if (IntroFlow.skipIfBeyond(this, 2)) return
         // Remember the step immediately so a killed app resumes here after Splash.
         OnboardingPrefs.setStep(this, OnboardingPrefs.STEP_INTRO2)
 
@@ -31,6 +34,8 @@ class Intro2Activity : AppCompatActivity() {
         binding = b
         setContentView(b.root)
         AdHooks.attachOnboarding(this, AdScreen.INTRO)
+        // The dots and the last button follow the configured intro count.
+        IntroFlow.bind(this, b.btnNext, b.introDots, 2)
 
         ViewCompat.setOnApplyWindowInsetsListener(b.root) { v, insets ->
             val bars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
@@ -45,9 +50,7 @@ class Intro2Activity : AppCompatActivity() {
 
         viewModel.navigateNext.observe(this) { event ->
             event.getContentIfNotHandled()?.let {
-                OnboardingPrefs.setStep(this, OnboardingPrefs.STEP_INTRO3)
-                startActivity(Intent(this, Intro3Activity::class.java))
-                finish()
+                IntroFlow.advance(this, 2)
             }
         }
     }

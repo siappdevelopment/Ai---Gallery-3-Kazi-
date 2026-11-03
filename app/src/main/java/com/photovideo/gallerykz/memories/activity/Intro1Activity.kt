@@ -1,5 +1,6 @@
 package com.photovideo.gallerykz.memories.activity
 
+import com.photovideo.gallerykz.memories.helper.IntroFlow
 import com.photovideo.gallerykz.memories.ads.AdScreen
 
 import com.photovideo.gallerykz.memories.ads.AdHooks
@@ -30,6 +31,8 @@ class Intro1Activity : AppCompatActivity() {
         binding = b
         setContentView(b.root)
         AdHooks.attachOnboarding(this, AdScreen.INTRO)
+        // The dots and the last button follow the configured intro count.
+        IntroFlow.bind(this, b.btnNext, b.introDots, 1)
 
         ViewCompat.setOnApplyWindowInsetsListener(b.root) { v, insets ->
             val bars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
@@ -41,9 +44,7 @@ class Intro1Activity : AppCompatActivity() {
 
         viewModel.navigateNext.observe(this) { event ->
             event.getContentIfNotHandled()?.let {
-                OnboardingPrefs.setStep(this, OnboardingPrefs.STEP_INTRO2)
-                startActivity(Intent(this, Intro2Activity::class.java))
-                finish()
+                IntroFlow.advance(this, 1)
             }
         }
     }

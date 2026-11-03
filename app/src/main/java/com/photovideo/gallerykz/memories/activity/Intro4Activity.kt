@@ -1,5 +1,6 @@
 package com.photovideo.gallerykz.memories.activity
 
+import com.photovideo.gallerykz.memories.helper.IntroFlow
 import com.photovideo.gallerykz.memories.ads.OnboardingAds
 
 import com.photovideo.gallerykz.memories.ads.AdScreen
@@ -26,6 +27,8 @@ class Intro4Activity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
+        // A saved step beyond the configured screen count ends the intro at once.
+        if (IntroFlow.skipIfBeyond(this, 4)) return
         // Remember the step immediately so a killed app resumes here after Splash.
         OnboardingPrefs.setStep(this, OnboardingPrefs.STEP_INTRO4)
 
@@ -33,6 +36,8 @@ class Intro4Activity : AppCompatActivity() {
         binding = b
         setContentView(b.root)
         AdHooks.attachOnboarding(this, AdScreen.INTRO)
+        // The dots and the last button follow the configured intro count.
+        IntroFlow.bind(this, b.btnNext, b.introDots, 4)
 
         ViewCompat.setOnApplyWindowInsetsListener(b.root) { v, insets ->
             val bars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
@@ -45,11 +50,7 @@ class Intro4Activity : AppCompatActivity() {
         viewModel.navigateNext.observe(this) { event ->
             // Last onboarding page: the onboarding is complete, on to the launcher.
             event.getContentIfNotHandled()?.let {
-                OnboardingPrefs.setStep(this, OnboardingPrefs.STEP_DONE)
-                OnboardingAds.afterIntro(this) {
-                    startActivity(Intent(this, LauncherHomeActivity::class.java))
-                    finish()
-                }
+                IntroFlow.complete(this)
             }
         }
     }

@@ -213,6 +213,8 @@ class AdConfig(
     val afterDefaultAppOpen: Boolean = false,
     val languageInterShow: Boolean = false,
     val introInterShow: Boolean = false,
+    /** `Intro_Screen_Count`: how many intro screens to show (0 / missing = all). */
+    val introCount: Int = 0,
     val main: MainAd = MainAd(),
     val launcher: LauncherAd = LauncherAd(),
     val clEnd: ClEndAd = ClEndAd(),
@@ -312,6 +314,7 @@ class AdConfig(
                     defaultApp.str("After_default_Ad_Type").equals("appopen", true),
                 languageInterShow = language.bool("Language_Interstitial_Ad_Show"),
                 introInterShow = intro.bool("Intro_Interstitial_Ad_Show"),
+                introCount = intro.int("Intro_Screen_Count"),
                 main = MainAd(
                     bottomNavShow = main.bool("bottom_nav_inter_ads_show"),
                     bottomNavPreload = main.str("bottom_nav_inter_ads_type").equals("preload", true),
