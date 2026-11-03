@@ -57,7 +57,7 @@ import java.util.Locale
  * The home page of the launcher, over the wallpaper (the launcher_set design): Google search bar with voice search, the
  * clock with the Memories card, the gallery and Photo vault tabs on the screen edges, the "Make us your default" card
  * while this app is not the Home app, the Google and Tools folders with the Calendar and Launcher shortcuts, the swipe-up
- * arrow, and the dock (contacts, phone, messages, browser, camera) resolved from the apps the phone really has.
+ * arrow, and the dock (contacts, phone, messages, browser) resolved from the apps the phone really has.
  */
 class LauncherHomeFragment : Fragment(), LauncherSettings.Listener, LauncherApps.Listener {
 
@@ -105,7 +105,6 @@ class LauncherHomeFragment : Fragment(), LauncherSettings.Listener, LauncherApps
             DockSlot(b.ivAppIcon1, LauncherShortcuts::dialer),
             DockSlot(b.ivAppIcon2, LauncherShortcuts::sms),
             DockSlot(b.ivAppIcon3, LauncherShortcuts::browser),
-            DockSlot(b.ivAppIcon4, LauncherShortcuts::camera),
         )
         dock.forEach { slot -> slot.view.setOnClickListener { slot.target?.let(::start) } }
 
