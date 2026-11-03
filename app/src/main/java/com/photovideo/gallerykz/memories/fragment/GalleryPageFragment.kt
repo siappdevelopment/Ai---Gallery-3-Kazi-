@@ -222,8 +222,8 @@ class GalleryPageFragment : Fragment(), GalleryHost {
     }
 
     private fun tabSpec(tab: Int): SlotSpec {
-        // The Gallery tab shows its ad inside the media grid (PhotoFragment), not under the tabs.
-        if (tab == TAB_GALLERY) return SlotSpec(show = false, native = true, bannerId = "", nativeId = "")
+        // The Gallery and Albums tabs show their ad inside their grid (PhotoFragment, AlbumFragment), not under the tabs.
+        if (tab == TAB_GALLERY || tab == TAB_ALBUMS) return SlotSpec(show = false, native = true, bannerId = "", nativeId = "")
         val screen = screenOf(tab)
         return SlotSpec.of(AdRemoteConfig.config.screen(screen), "slot_" + screen.name)
     }

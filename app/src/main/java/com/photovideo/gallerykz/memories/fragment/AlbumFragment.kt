@@ -10,6 +10,12 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.ConcatAdapter
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.photovideo.gallerykz.memories.ads.AdRemoteConfig
+import com.photovideo.gallerykz.memories.ads.AdScreen
+import com.photovideo.gallerykz.memories.ads.AdSlot
+import com.photovideo.gallerykz.memories.ads.SlotSpec
+import com.photovideo.gallerykz.memories.adapter.AdRowAdapter
 import com.photovideo.gallerykz.memories.activity.AlbumDetailActivity
 import com.photovideo.gallerykz.memories.activity.TrashActivity
 import com.photovideo.gallerykz.memories.activity.VaultMediaActivity
@@ -42,6 +48,11 @@ class AlbumFragment : Fragment() {
     private var cards: AlbumCardAdapter? = null
     private var smart: SmartCollectionsAdapter? = null
     private var vaultItems = 0
+
+    // The Albums ad sits inside the grid, in the second row (after the first two album cards).
+    private var adSlot: AdSlot? = null
+    private var adStarted = false
+    private var adLeft = false
 
     private var latestUi: AlbumsUi? = null
     private var hasAccess = false
@@ -93,16 +104,26 @@ class AlbumFragment : Fragment() {
         cards = cardAdapter
         smart = smartAdapter
 
+        val adContainer = android.widget.FrameLayout(requireContext())
+        @Suppress("UNCHECKED_CAST")
+        val cardInner = cardAdapter as RecyclerView.Adapter<RecyclerView.ViewHolder>
+        val cardRow = AdRowAdapter(cardInner, adContainer) { if (cardAdapter.itemCount >= AD_AFTER_CARDS) AD_AFTER_CARDS else -1 }
+        adSlot = AdSlot(
+            requireActivity(), adContainer, viewLifecycleOwner, adSpec(),
+            onVisibility = { visible -> cardRow.setEnabled(visible) },
+            liveSpec = { adSpec() },
+        )
+
         val manager = GridLayoutManager(requireContext(), 2)
         manager.spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
             override fun getSpanSize(position: Int): Int {
                 // header (1 row) and the smart collections (last row) are full width
-                val cardEnd = 1 + cardAdapter.itemCount
-                return if (position < 1 || position >= cardEnd) 2 else 1
+                val cardEnd = 1 + cardRow.itemCount
+                return if (position < 1 || position >= cardEnd || cardRow.isAd(position - 1)) 2 else 1
             }
         }
         b.rvAlbums.layoutManager = manager
-        b.rvAlbums.adapter = ConcatAdapter(headerAdapter, cardAdapter, smartAdapter)
+        b.rvAlbums.adapter = ConcatAdapter(headerAdapter, cardRow, smartAdapter)
         b.rvAlbums.itemAnimator = null
         b.rvAlbums.setHasFixedSize(true)
 
@@ -152,8 +173,46 @@ class AlbumFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
+        enterAd()
         // Permission may have been granted or revoked in Settings while the app was in the background.
         syncAccess()
+    }
+
+    override fun onPause() {
+        adLeft = true
+        super.onPause()
+    }
+
+    override fun onHiddenChanged(hidden: Boolean) {
+        super.onHiddenChanged(hidden)
+        if (hidden) adLeft = true else enterAd()
+    }
+
+    /**
+     * The Albums ad is requested when this tab is really on screen (the first time it is resumed and shown). With `Albums_Ad_Auto_Refresh`
+     * on, the timer of the slot refreshes it; with it off, a new ad is requested only when the user comes back after another screen
+     * and `Albums_Ad_Auto_Second` has passed since the last request.
+     */
+    private fun enterAd() {
+        if (!isResumed || isHidden) return
+        val slot = adSlot ?: return
+        if (!adStarted) {
+            adStarted = true
+            adLeft = false
+            slot.start()
+        } else if (adLeft) {
+            adLeft = false
+            if (adSpec().refreshSeconds == 0) slot.refreshNow(AdRemoteConfig.config.screen(AdScreen.ALBUMS).autoSeconds)
+        }
+    }
+
+    private fun adSpec(): SlotSpec {
+        val screen = AdRemoteConfig.config.screen(AdScreen.ALBUMS)
+        return SlotSpec(
+            show = screen.show && screen.nativeId.isNotEmpty(), native = true, bannerId = "", nativeId = screen.nativeId,
+            refreshSeconds = if (screen.autoRefresh) screen.autoSeconds else 0,
+            preload = AdRemoteConfig.config.inter.nativePreload, cacheKey = "slot_albums_grid", medium = true,
+        )
     }
 
     /** The vault opens straight away while it is unlocked (auto-lock), otherwise through the PIN screen. */
@@ -173,6 +232,9 @@ class AlbumFragment : Fragment() {
         header = null
         cards = null
         smart = null
+        adSlot = null
+        adStarted = false
+        adLeft = false
         latestUi = null
         _binding = null
         super.onDestroyView()
@@ -234,5 +296,10 @@ class AlbumFragment : Fragment() {
         val fm = host.supportFragmentManager
         if (fm.isStateSaved || fm.findFragmentByTag(tag) != null) return
         sheet.show(fm, tag)
+    }
+
+    private companion object {
+        /** The ad row goes after the first row of the 2-column grid (two album cards). */
+        const val AD_AFTER_CARDS = 2
     }
 }
