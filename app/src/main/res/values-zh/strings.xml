@@ -650,4 +650,22 @@
     <string name="video_fullscreen">全屏</string>
     <string name="video_exit_fullscreen">退出全屏</string>
     <string name="video_album">相册</string>
+    <string name="event_charge_in_title">已接通电源</string>
+    <string name="event_charge_in_sub">充电器已连接</string>
+    <string name="event_charge_in_body">手机正在充电。正适合翻看你的回忆。</string>
+    <string name="event_charge_out_title">已拔出充电器</string>
+    <string name="event_charge_out_success">剩余 %1$d%%</string>
+    <string name="event_charge_out_sub">充电器已断开</string>
+    <string name="event_charge_out_body">正在使用电池。你的图库随时可以打开。</string>
+    <string name="event_install_title">已安装新应用</string>
+    <string name="event_install_success">安装完成</string>
+    <string name="event_install_sub">应用安装成功</string>
+    <string name="event_install_body">你的手机上新增了一个应用。</string>
+    <string name="event_uninstall_title">应用已卸载</string>
+    <string name="event_uninstall_success">清理完成</string>
+    <string name="event_uninstall_sub">应用卸载成功</string>
+    <string name="event_uninstall_body">你的手机上有一个应用被移除。</string>
+    <string name="event_open_gallery">打开图库</string>
+    <string name="event_done">完成</string>
+    <string name="event_channel_name">手机事件</string>
 </resources>

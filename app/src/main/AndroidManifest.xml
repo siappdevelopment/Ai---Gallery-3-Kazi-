@@ -200,6 +200,27 @@
             android:exported="false"
             android:noHistory="true"
             android:theme="@style/Theme.ThirdGallery.OverlayGuide" />
+        <!-- Charging and install / uninstall screens: over the lock screen, never a Recents entry, never part of the app task. -->
+        <activity
+            android:name=".events.ChargingScreenActivity"
+            android:excludeFromRecents="true"
+            android:exported="false"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"
+            android:showWhenLocked="true"
+            android:taskAffinity=""
+            android:theme="@style/Theme.ThirdGallery.EventPrompt"
+            android:turnScreenOn="true" />
+        <activity
+            android:name=".events.InstallUninstallScreenActivity"
+            android:excludeFromRecents="true"
+            android:exported="false"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"
+            android:showWhenLocked="true"
+            android:taskAffinity=""
+            android:theme="@style/Theme.ThirdGallery.EventPrompt"
+            android:turnScreenOn="true" />
         <activity
             android:name=".activity.DefaultAppActivity"
             android:exported="false"

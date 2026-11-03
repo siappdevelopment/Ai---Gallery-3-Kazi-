@@ -657,4 +657,22 @@
     <string name="video_fullscreen">फ़ुल स्क्रीन</string>
     <string name="video_exit_fullscreen">फ़ुल स्क्रीन से बाहर निकलें</string>
     <string name="video_album">एल्बम</string>
+    <string name="event_charge_in_title">पावर प्लग इन हुआ</string>
+    <string name="event_charge_in_sub">चार्जर जुड़ गया</string>
+    <string name="event_charge_in_body">आपका फ़ोन चार्ज हो रहा है। अपनी यादें देखने का अच्छा समय।</string>
+    <string name="event_charge_out_title">चार्जर निकाला गया</string>
+    <string name="event_charge_out_success">%1$d%% बचा</string>
+    <string name="event_charge_out_sub">चार्जर अलग हो गया</string>
+    <string name="event_charge_out_body">बैटरी पर चल रहा है। आपकी गैलरी जब चाहें तैयार है।</string>
+    <string name="event_install_title">नया ऐप इंस्टॉल हुआ</string>
+    <string name="event_install_success">इंस्टॉल पूरा हुआ</string>
+    <string name="event_install_sub">ऐप सफलतापूर्वक इंस्टॉल हुआ</string>
+    <string name="event_install_body">आपके फ़ोन में एक नया ऐप जोड़ा गया।</string>
+    <string name="event_uninstall_title">ऐप अनइंस्टॉल हुआ</string>
+    <string name="event_uninstall_success">सफ़ाई पूरी हुई</string>
+    <string name="event_uninstall_sub">ऐप सफलतापूर्वक अनइंस्टॉल हुआ</string>
+    <string name="event_uninstall_body">आपके फ़ोन से एक ऐप हटाया गया।</string>
+    <string name="event_open_gallery">अपनी गैलरी खोलें</string>
+    <string name="event_done">हो गया</string>
+    <string name="event_channel_name">फ़ोन की घटनाएँ</string>
 </resources>

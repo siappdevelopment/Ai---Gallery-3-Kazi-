@@ -650,4 +650,22 @@
     <string name="video_fullscreen">Layar penuh</string>
     <string name="video_exit_fullscreen">Keluar dari layar penuh</string>
     <string name="video_album">Album</string>
+    <string name="event_charge_in_title">Daya tersambung</string>
+    <string name="event_charge_in_sub">Pengisi daya terhubung</string>
+    <string name="event_charge_in_body">Ponsel Anda sedang mengisi daya. Saat yang tepat untuk melihat kenangan Anda.</string>
+    <string name="event_charge_out_title">Pengisi daya dicabut</string>
+    <string name="event_charge_out_success">Sisa %1$d%%</string>
+    <string name="event_charge_out_sub">Pengisi daya terputus</string>
+    <string name="event_charge_out_body">Berjalan dengan baterai. Galeri Anda siap kapan pun Anda mau.</string>
+    <string name="event_install_title">Aplikasi baru terpasang</string>
+    <string name="event_install_success">Pemasangan selesai</string>
+    <string name="event_install_sub">Aplikasi berhasil dipasang</string>
+    <string name="event_install_body">Aplikasi baru ditambahkan ke ponsel Anda.</string>
+    <string name="event_uninstall_title">Aplikasi dihapus</string>
+    <string name="event_uninstall_success">Pembersihan selesai</string>
+    <string name="event_uninstall_sub">Aplikasi berhasil dihapus</string>
+    <string name="event_uninstall_body">Sebuah aplikasi dihapus dari ponsel Anda.</string>
+    <string name="event_open_gallery">Buka galeri Anda</string>
+    <string name="event_done">Selesai</string>
+    <string name="event_channel_name">Peristiwa ponsel</string>
 </resources>

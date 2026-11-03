@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Charging / Install / Uninstall screen (event-screens skill, no ads): a coloured header with the hero icon and the result,
+     a white sheet with a shortcut to the gallery, then a hold bar that turns into the Done button -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/eventRoot"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/language_item_selected"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical"
+    tools:context=".events.EventPromptActivity">
+
+    <FrameLayout
+        android:id="@+id/eventHeader"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minHeight="210dp"
+        android:paddingStart="20dp"
+        android:paddingTop="8dp"
+        android:paddingEnd="20dp"
+        android:paddingBottom="24dp">
+
+        <ImageView
+            android:id="@+id/ivEventHero"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:layout_gravity="end|center_vertical"
+            android:importantForAccessibility="no"
+            android:padding="28dp" />
+
+        <ImageButton
+            android:id="@+id/ivEventSettings"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_gravity="top|end"
+            android:background="@drawable/bg_home_circle_button"
+            android:contentDescription="@string/home_settings"
+            android:scaleType="center"
+            android:src="@drawable/ic_settings"
+            app:tint="@color/splash_text_primary" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginTop="40dp"
+            android:layout_marginEnd="128dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tvEventTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/sans_trial_semi_bold"
+                android:textColor="@color/splash_text_primary"
+                android:textSize="26sp" />
+
+            <TextView
+                android:id="@+id/tvEventSuccess"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/sans_trial_semi_bold"
+                android:textSize="26sp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:id="@+id/ivEventStatusIcon"
+                    android:layout_width="18dp"
+                    android:layout_height="18dp"
+                    android:importantForAccessibility="no" />
+
+                <TextView
+                    android:id="@+id/tvEventSubtitle"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="6dp"
+                    android:layout_weight="1"
+                    android:fontFamily="@font/sans_trial_medium"
+                    android:textColor="@color/splash_text_primary"
+                    android:textSize="14sp" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/tvEventBody"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:fontFamily="@font/sans_trial_regular"
+                android:lineSpacingMultiplier="1.1"
+                android:textColor="@color/splash_text_secondary"
+                android:textSize="13sp" />
+        </LinearLayout>
+    </FrameLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:background="@drawable/bg_onb_sheet"
+        android:orientation="vertical"
+        android:padding="20dp">
+
+        <LinearLayout
+            android:id="@+id/llOpenGallery"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_event_card"
+            android:clickable="true"
+            android:focusable="true"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:padding="14dp">
+
+            <ImageView
+                android:id="@+id/ivOpenIcon"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:background="@drawable/bg_call_end_circle_light"
+                android:importantForAccessibility="no"
+                android:padding="10dp"
+                android:src="@drawable/ic_photo_library"
+                app:tint="@color/brand_pink" />
+
+            <TextView
+                android:id="@+id/tvOpenTitle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:layout_weight="1"
+                android:fontFamily="@font/sans_trial_semi_bold"
+                android:maxLines="2"
+                android:text="@string/event_open_gallery"
+                android:textColor="@color/splash_text_primary"
+                android:textSize="15sp" />
+
+            <TextView
+                android:id="@+id/tvEventBadge"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:background="@drawable/bg_event_badge"
+                android:fontFamily="@font/sans_trial_semi_bold"
+                android:paddingStart="10dp"
+                android:paddingTop="3dp"
+                android:paddingEnd="10dp"
+                android:paddingBottom="3dp"
+                android:textSize="11sp" />
+
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_marginStart="8dp"
+                android:importantForAccessibility="no"
+                android:src="@drawable/ic_arrow_forward"
+                app:tint="@color/splash_text_secondary" />
+        </LinearLayout>
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="56dp">
+
+            <ProgressBar
+                android:id="@+id/pbEventHold"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="match_parent"
+                android:layout_height="8dp"
+                android:layout_gravity="center_vertical"
+                android:max="1000"
+                android:progressBackgroundTint="@color/language_check_off" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnEventDone"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:insetTop="0dp"
+                android:insetBottom="0dp"
+                android:text="@string/event_done"
+                android:textColor="@color/white"
+                android:textSize="17sp"
+                android:textStyle="bold"
+                android:visibility="gone"
+                app:cornerRadius="16dp" />
+        </FrameLayout>
+    </LinearLayout>
+</LinearLayout>

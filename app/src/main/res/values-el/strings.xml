@@ -657,4 +657,22 @@
     <string name="video_fullscreen">Πλήρης οθόνη</string>
     <string name="video_exit_fullscreen">Έξοδος από πλήρη οθόνη</string>
     <string name="video_album">Άλμπουμ</string>
+    <string name="event_charge_in_title">Συνδέθηκε στο ρεύμα</string>
+    <string name="event_charge_in_sub">Ο φορτιστής συνδέθηκε</string>
+    <string name="event_charge_in_body">Το τηλέφωνό σας φορτίζει. Καλή στιγμή για να δείτε τις αναμνήσεις σας.</string>
+    <string name="event_charge_out_title">Ο φορτιστής αποσυνδέθηκε</string>
+    <string name="event_charge_out_success">Απομένει %1$d%%</string>
+    <string name="event_charge_out_sub">Ο φορτιστής αποσυνδέθηκε</string>
+    <string name="event_charge_out_body">Λειτουργεί με μπαταρία. Η συλλογή σας είναι έτοιμη όποτε θέλετε.</string>
+    <string name="event_install_title">Εγκαταστάθηκε νέα εφαρμογή</string>
+    <string name="event_install_success">Η εγκατάσταση ολοκληρώθηκε</string>
+    <string name="event_install_sub">Η εφαρμογή εγκαταστάθηκε με επιτυχία</string>
+    <string name="event_install_body">Προστέθηκε μια νέα εφαρμογή στο τηλέφωνό σας.</string>
+    <string name="event_uninstall_title">Η εφαρμογή απεγκαταστάθηκε</string>
+    <string name="event_uninstall_success">Ο καθαρισμός ολοκληρώθηκε</string>
+    <string name="event_uninstall_sub">Η εφαρμογή απεγκαταστάθηκε με επιτυχία</string>
+    <string name="event_uninstall_body">Μια εφαρμογή αφαιρέθηκε από το τηλέφωνό σας.</string>
+    <string name="event_open_gallery">Άνοιγμα της συλλογής</string>
+    <string name="event_done">Τέλος</string>
+    <string name="event_channel_name">Συμβάντα τηλεφώνου</string>
 </resources>

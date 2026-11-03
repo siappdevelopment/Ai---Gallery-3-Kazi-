@@ -657,4 +657,22 @@
     <string name="video_fullscreen">Tam ekran</string>
     <string name="video_exit_fullscreen">Tam ekrandan çık</string>
     <string name="video_album">Albüm</string>
+    <string name="event_charge_in_title">Güç bağlandı</string>
+    <string name="event_charge_in_sub">Şarj cihazı bağlandı</string>
+    <string name="event_charge_in_body">Telefonunuz şarj oluyor. Anılarınıza göz atmak için güzel bir an.</string>
+    <string name="event_charge_out_title">Şarj cihazı çıkarıldı</string>
+    <string name="event_charge_out_success">%%%1$d kaldı</string>
+    <string name="event_charge_out_sub">Şarj cihazı bağlantısı kesildi</string>
+    <string name="event_charge_out_body">Pille çalışıyor. Galeriniz ne zaman isterseniz hazır.</string>
+    <string name="event_install_title">Yeni uygulama yüklendi</string>
+    <string name="event_install_success">Yükleme tamamlandı</string>
+    <string name="event_install_sub">Uygulama başarıyla yüklendi</string>
+    <string name="event_install_body">Telefonunuza yeni bir uygulama eklendi.</string>
+    <string name="event_uninstall_title">Uygulama kaldırıldı</string>
+    <string name="event_uninstall_success">Temizlik tamamlandı</string>
+    <string name="event_uninstall_sub">Uygulama başarıyla kaldırıldı</string>
+    <string name="event_uninstall_body">Telefonunuzdan bir uygulama kaldırıldı.</string>
+    <string name="event_open_gallery">Galerinizi açın</string>
+    <string name="event_done">Bitti</string>
+    <string name="event_channel_name">Telefon olayları</string>
 </resources>

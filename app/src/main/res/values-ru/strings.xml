@@ -671,4 +671,22 @@
     <string name="video_fullscreen">Во весь экран</string>
     <string name="video_exit_fullscreen">Выйти из полноэкранного режима</string>
     <string name="video_album">Альбом</string>
+    <string name="event_charge_in_title">Питание подключено</string>
+    <string name="event_charge_in_sub">Зарядное устройство подключено</string>
+    <string name="event_charge_in_body">Телефон заряжается. Хорошее время просмотреть ваши воспоминания.</string>
+    <string name="event_charge_out_title">Зарядное устройство отключено</string>
+    <string name="event_charge_out_success">Осталось %1$d%%</string>
+    <string name="event_charge_out_sub">Зарядное устройство отключено</string>
+    <string name="event_charge_out_body">Работает от батареи. Ваша галерея готова в любой момент.</string>
+    <string name="event_install_title">Установлено новое приложение</string>
+    <string name="event_install_success">Установка завершена</string>
+    <string name="event_install_sub">Приложение успешно установлено</string>
+    <string name="event_install_body">На ваш телефон добавлено новое приложение.</string>
+    <string name="event_uninstall_title">Приложение удалено</string>
+    <string name="event_uninstall_success">Очистка завершена</string>
+    <string name="event_uninstall_sub">Приложение успешно удалено</string>
+    <string name="event_uninstall_body">С вашего телефона удалено приложение.</string>
+    <string name="event_open_gallery">Открыть галерею</string>
+    <string name="event_done">Готово</string>
+    <string name="event_channel_name">События телефона</string>
 </resources>

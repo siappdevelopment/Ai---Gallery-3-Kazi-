@@ -2,6 +2,7 @@ package com.photovideo.gallerykz.memories
 
 import android.app.Application
 import android.content.res.Configuration
+import com.photovideo.gallerykz.memories.events.EventWatch
 import com.photovideo.gallerykz.memories.helper.LocaleHelper
 import com.photovideo.gallerykz.memories.helper.ThemePrefs
 import com.photovideo.gallerykz.memories.launcher.AppRecentsKey
@@ -15,6 +16,8 @@ class GalleryApp : Application() {
         LocaleHelper.init(this)
         // Recents key opens the launcher's Recent page while this app is the Home app.
         AppRecentsKey.install(this)
+        // Charger plugged in / out, app installed / uninstalled: their screens (see events/).
+        EventWatch.register(this)
     }
 
     override fun onConfigurationChanged(newConfig: Configuration) {

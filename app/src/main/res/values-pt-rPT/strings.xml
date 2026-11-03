@@ -664,4 +664,22 @@
     <string name="video_fullscreen">Ecrã inteiro</string>
     <string name="video_exit_fullscreen">Sair do ecrã inteiro</string>
     <string name="video_album">Álbum</string>
+    <string name="event_charge_in_title">Carregador ligado</string>
+    <string name="event_charge_in_sub">Carregador ligado</string>
+    <string name="event_charge_in_body">O seu telemóvel está a carregar. Um bom momento para rever as suas memórias.</string>
+    <string name="event_charge_out_title">Carregador desligado</string>
+    <string name="event_charge_out_success">Restam %1$d%%</string>
+    <string name="event_charge_out_sub">Carregador desligado</string>
+    <string name="event_charge_out_body">A usar a bateria. A sua galeria está pronta quando quiser.</string>
+    <string name="event_install_title">Nova aplicação instalada</string>
+    <string name="event_install_success">Instalação concluída</string>
+    <string name="event_install_sub">Aplicação instalada com sucesso</string>
+    <string name="event_install_body">Foi adicionada uma nova aplicação ao seu telemóvel.</string>
+    <string name="event_uninstall_title">Aplicação desinstalada</string>
+    <string name="event_uninstall_success">Limpeza concluída</string>
+    <string name="event_uninstall_sub">Aplicação desinstalada com sucesso</string>
+    <string name="event_uninstall_body">Foi removida uma aplicação do seu telemóvel.</string>
+    <string name="event_open_gallery">Abrir a sua galeria</string>
+    <string name="event_done">Concluir</string>
+    <string name="event_channel_name">Eventos do telemóvel</string>
 </resources>

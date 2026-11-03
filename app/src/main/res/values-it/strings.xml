@@ -664,4 +664,22 @@
     <string name="video_fullscreen">Schermo intero</string>
     <string name="video_exit_fullscreen">Esci da schermo intero</string>
     <string name="video_album">Album</string>
+    <string name="event_charge_in_title">Alimentazione collegata</string>
+    <string name="event_charge_in_sub">Caricabatterie collegato</string>
+    <string name="event_charge_in_body">Il telefono è in carica. Un buon momento per sfogliare i tuoi ricordi.</string>
+    <string name="event_charge_out_title">Caricabatterie scollegato</string>
+    <string name="event_charge_out_success">Resta il %1$d%%</string>
+    <string name="event_charge_out_sub">Caricabatterie scollegato</string>
+    <string name="event_charge_out_body">Funziona a batteria. La tua galleria è pronta quando vuoi.</string>
+    <string name="event_install_title">Nuova app installata</string>
+    <string name="event_install_success">Installazione completata</string>
+    <string name="event_install_sub">App installata correttamente</string>
+    <string name="event_install_body">Una nuova app è stata aggiunta al telefono.</string>
+    <string name="event_uninstall_title">App disinstallata</string>
+    <string name="event_uninstall_success">Pulizia completata</string>
+    <string name="event_uninstall_sub">App disinstallata correttamente</string>
+    <string name="event_uninstall_body">Un’app è stata rimossa dal telefono.</string>
+    <string name="event_open_gallery">Apri la tua galleria</string>
+    <string name="event_done">Fatto</string>
+    <string name="event_channel_name">Eventi del telefono</string>
 </resources>

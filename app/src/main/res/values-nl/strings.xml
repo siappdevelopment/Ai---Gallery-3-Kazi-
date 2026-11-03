@@ -657,4 +657,22 @@
     <string name="video_fullscreen">Volledig scherm</string>
     <string name="video_exit_fullscreen">Volledig scherm sluiten</string>
     <string name="video_album">Album</string>
+    <string name="event_charge_in_title">Stroom aangesloten</string>
+    <string name="event_charge_in_sub">Oplader aangesloten</string>
+    <string name="event_charge_in_body">Je telefoon wordt opgeladen. Een mooi moment om je herinneringen te bekijken.</string>
+    <string name="event_charge_out_title">Oplader losgekoppeld</string>
+    <string name="event_charge_out_success">Nog %1$d%%</string>
+    <string name="event_charge_out_sub">Oplader losgekoppeld</string>
+    <string name="event_charge_out_body">Werkt op de batterij. Je galerij staat klaar wanneer jij wilt.</string>
+    <string name="event_install_title">Nieuwe app geïnstalleerd</string>
+    <string name="event_install_success">Installatie voltooid</string>
+    <string name="event_install_sub">App is geïnstalleerd</string>
+    <string name="event_install_body">Er is een nieuwe app aan je telefoon toegevoegd.</string>
+    <string name="event_uninstall_title">App verwijderd</string>
+    <string name="event_uninstall_success">Opruimen voltooid</string>
+    <string name="event_uninstall_sub">App is verwijderd</string>
+    <string name="event_uninstall_body">Er is een app van je telefoon verwijderd.</string>
+    <string name="event_open_gallery">Open je galerij</string>
+    <string name="event_done">Klaar</string>
+    <string name="event_channel_name">Telefoongebeurtenissen</string>
 </resources>

@@ -657,4 +657,22 @@
     <string name="video_fullscreen">Buong screen</string>
     <string name="video_exit_fullscreen">Lumabas sa buong screen</string>
     <string name="video_album">Album</string>
+    <string name="event_charge_in_title">Nakasaksak ang charger</string>
+    <string name="event_charge_in_sub">Nakakonekta ang charger</string>
+    <string name="event_charge_in_body">Nagcha-charge ang telepono mo. Magandang pagkakataon para tingnan ang mga alaala mo.</string>
+    <string name="event_charge_out_title">Natanggal ang charger</string>
+    <string name="event_charge_out_success">%1$d%% ang natitira</string>
+    <string name="event_charge_out_sub">Nadiskonekta ang charger</string>
+    <string name="event_charge_out_body">Gumagamit ng baterya. Handa na ang gallery mo anumang oras.</string>
+    <string name="event_install_title">May bagong app na na-install</string>
+    <string name="event_install_success">Tapos ang pag-install</string>
+    <string name="event_install_sub">Matagumpay na na-install ang app</string>
+    <string name="event_install_body">May bagong app na idinagdag sa telepono mo.</string>
+    <string name="event_uninstall_title">Na-uninstall ang app</string>
+    <string name="event_uninstall_success">Tapos ang paglilinis</string>
+    <string name="event_uninstall_sub">Matagumpay na na-uninstall ang app</string>
+    <string name="event_uninstall_body">May app na inalis sa telepono mo.</string>
+    <string name="event_open_gallery">Buksan ang gallery mo</string>
+    <string name="event_done">Tapos na</string>
+    <string name="event_channel_name">Mga kaganapan sa telepono</string>
 </resources>

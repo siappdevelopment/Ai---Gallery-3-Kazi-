@@ -650,4 +650,22 @@
     <string name="video_fullscreen">เต็มหน้าจอ</string>
     <string name="video_exit_fullscreen">ออกจากเต็มหน้าจอ</string>
     <string name="video_album">อัลบั้ม</string>
+    <string name="event_charge_in_title">เสียบสายชาร์จแล้ว</string>
+    <string name="event_charge_in_sub">เชื่อมต่อที่ชาร์จแล้ว</string>
+    <string name="event_charge_in_body">โทรศัพท์กำลังชาร์จ เป็นช่วงเวลาที่ดีในการดูความทรงจำของคุณ</string>
+    <string name="event_charge_out_title">ถอดที่ชาร์จแล้ว</string>
+    <string name="event_charge_out_success">เหลือ %1$d%%</string>
+    <string name="event_charge_out_sub">ตัดการเชื่อมต่อที่ชาร์จแล้ว</string>
+    <string name="event_charge_out_body">ใช้พลังงานจากแบตเตอรี่ แกลเลอรีพร้อมเมื่อคุณพร้อม</string>
+    <string name="event_install_title">ติดตั้งแอปใหม่แล้ว</string>
+    <string name="event_install_success">ติดตั้งเสร็จแล้ว</string>
+    <string name="event_install_sub">ติดตั้งแอปสำเร็จ</string>
+    <string name="event_install_body">มีแอปใหม่ถูกเพิ่มในโทรศัพท์ของคุณ</string>
+    <string name="event_uninstall_title">ถอนการติดตั้งแอปแล้ว</string>
+    <string name="event_uninstall_success">ล้างข้อมูลเสร็จแล้ว</string>
+    <string name="event_uninstall_sub">ถอนการติดตั้งแอปสำเร็จ</string>
+    <string name="event_uninstall_body">มีแอปถูกลบออกจากโทรศัพท์ของคุณ</string>
+    <string name="event_open_gallery">เปิดแกลเลอรีของคุณ</string>
+    <string name="event_done">เสร็จสิ้น</string>
+    <string name="event_channel_name">เหตุการณ์ในโทรศัพท์</string>
 </resources>

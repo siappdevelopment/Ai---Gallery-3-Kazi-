@@ -657,4 +657,22 @@
     <string name="video_fullscreen">Volskerm</string>
     <string name="video_exit_fullscreen">Verlaat volskerm</string>
     <string name="video_album">Album</string>
+    <string name="event_charge_in_title">Krag aangeskakel</string>
+    <string name="event_charge_in_sub">Laaier gekoppel</string>
+    <string name="event_charge_in_body">Jou foon laai. ’n Goeie tyd om deur jou herinneringe te blaai.</string>
+    <string name="event_charge_out_title">Laaier ontkoppel</string>
+    <string name="event_charge_out_success">%1$d%% oor</string>
+    <string name="event_charge_out_sub">Laaier ontkoppel</string>
+    <string name="event_charge_out_body">Loop op battery. Jou galery is gereed wanneer jy is.</string>
+    <string name="event_install_title">Nuwe toepassing geïnstalleer</string>
+    <string name="event_install_success">Installasie voltooi</string>
+    <string name="event_install_sub">Toepassing suksesvol geïnstalleer</string>
+    <string name="event_install_body">’n Nuwe toepassing is by jou foon gevoeg.</string>
+    <string name="event_uninstall_title">Toepassing gedeïnstalleer</string>
+    <string name="event_uninstall_success">Opruiming voltooi</string>
+    <string name="event_uninstall_sub">Toepassing suksesvol gedeïnstalleer</string>
+    <string name="event_uninstall_body">’n Toepassing is van jou foon verwyder.</string>
+    <string name="event_open_gallery">Maak jou galery oop</string>
+    <string name="event_done">Klaar</string>
+    <string name="event_channel_name">Foongebeure</string>
 </resources>

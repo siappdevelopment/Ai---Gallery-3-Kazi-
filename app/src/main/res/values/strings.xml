@@ -678,4 +678,23 @@
     <string name="video_album">Album</string>
     <string name="video_zero_time" translatable="false">0:00</string>
     <string name="video_speed_1" translatable="false">1x</string>
+    <string name="event_charge_in_title">Power plugged in</string>
+    <string name="event_charge_in_sub">Charger connected</string>
+    <string name="event_charge_in_body">Your phone is charging. A good moment to look through your memories.</string>
+    <string name="event_charge_out_title">Charger unplugged</string>
+    <string name="event_charge_out_success">%1$d%% left</string>
+    <string name="event_charge_out_sub">Charger disconnected</string>
+    <string name="event_charge_out_body">Running on battery. Your gallery is ready whenever you are.</string>
+    <string name="event_install_title">New app installed</string>
+    <string name="event_install_success">Install done</string>
+    <string name="event_install_sub">App installed successfully</string>
+    <string name="event_install_body">A new app was added to your phone.</string>
+    <string name="event_uninstall_title">App uninstalled</string>
+    <string name="event_uninstall_success">Cleanup done</string>
+    <string name="event_uninstall_sub">App uninstalled successfully</string>
+    <string name="event_uninstall_body">An app was removed from your phone.</string>
+    <string name="event_open_gallery">Open your gallery</string>
+    <string name="event_done">Done</string>
+    <string name="event_channel_name">Phone events</string>
+    <string name="event_charge_in_success" translatable="false">%1$d%%</string>
 </resources>

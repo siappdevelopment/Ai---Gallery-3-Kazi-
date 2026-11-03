@@ -657,4 +657,22 @@
     <string name="video_fullscreen">Vollbild</string>
     <string name="video_exit_fullscreen">Vollbild beenden</string>
     <string name="video_album">Album</string>
+    <string name="event_charge_in_title">Netzteil angeschlossen</string>
+    <string name="event_charge_in_sub">Ladegerät verbunden</string>
+    <string name="event_charge_in_body">Dein Handy lädt. Ein guter Moment, um in deinen Erinnerungen zu stöbern.</string>
+    <string name="event_charge_out_title">Ladegerät getrennt</string>
+    <string name="event_charge_out_success">Noch %1$d%%</string>
+    <string name="event_charge_out_sub">Ladegerät getrennt</string>
+    <string name="event_charge_out_body">Läuft im Akkubetrieb. Deine Galerie ist bereit, wann immer du es bist.</string>
+    <string name="event_install_title">Neue App installiert</string>
+    <string name="event_install_success">Installation abgeschlossen</string>
+    <string name="event_install_sub">App erfolgreich installiert</string>
+    <string name="event_install_body">Eine neue App wurde zu deinem Handy hinzugefügt.</string>
+    <string name="event_uninstall_title">App deinstalliert</string>
+    <string name="event_uninstall_success">Bereinigung abgeschlossen</string>
+    <string name="event_uninstall_sub">App erfolgreich deinstalliert</string>
+    <string name="event_uninstall_body">Eine App wurde von deinem Handy entfernt.</string>
+    <string name="event_open_gallery">Galerie öffnen</string>
+    <string name="event_done">Fertig</string>
+    <string name="event_channel_name">Telefonereignisse</string>
 </resources>

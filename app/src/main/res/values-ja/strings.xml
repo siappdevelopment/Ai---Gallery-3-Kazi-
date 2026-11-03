@@ -650,4 +650,22 @@
     <string name="video_fullscreen">全画面表示</string>
     <string name="video_exit_fullscreen">全画面表示を終了</string>
     <string name="video_album">アルバム</string>
+    <string name="event_charge_in_title">電源に接続しました</string>
+    <string name="event_charge_in_sub">充電器が接続されました</string>
+    <string name="event_charge_in_body">充電中です。思い出を見返すのにぴったりのタイミングです。</string>
+    <string name="event_charge_out_title">充電器を外しました</string>
+    <string name="event_charge_out_success">残り%1$d%%</string>
+    <string name="event_charge_out_sub">充電器が外れました</string>
+    <string name="event_charge_out_body">バッテリーで動作中です。ギャラリーはいつでも開けます。</string>
+    <string name="event_install_title">新しいアプリをインストールしました</string>
+    <string name="event_install_success">インストール完了</string>
+    <string name="event_install_sub">アプリをインストールしました</string>
+    <string name="event_install_body">新しいアプリがスマートフォンに追加されました。</string>
+    <string name="event_uninstall_title">アプリをアンインストールしました</string>
+    <string name="event_uninstall_success">クリーンアップ完了</string>
+    <string name="event_uninstall_sub">アプリをアンインストールしました</string>
+    <string name="event_uninstall_body">アプリがスマートフォンから削除されました。</string>
+    <string name="event_open_gallery">ギャラリーを開く</string>
+    <string name="event_done">完了</string>
+    <string name="event_channel_name">スマートフォンのイベント</string>
 </resources>

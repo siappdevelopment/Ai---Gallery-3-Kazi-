@@ -664,4 +664,22 @@
     <string name="video_fullscreen">Tela cheia</string>
     <string name="video_exit_fullscreen">Sair da tela cheia</string>
     <string name="video_album">Álbum</string>
+    <string name="event_charge_in_title">Carregador conectado</string>
+    <string name="event_charge_in_sub">Carregador conectado</string>
+    <string name="event_charge_in_body">Seu celular está carregando. Um bom momento para rever suas memórias.</string>
+    <string name="event_charge_out_title">Carregador desconectado</string>
+    <string name="event_charge_out_success">Restam %1$d%%</string>
+    <string name="event_charge_out_sub">Carregador desconectado</string>
+    <string name="event_charge_out_body">Usando a bateria. Sua galeria está pronta quando você quiser.</string>
+    <string name="event_install_title">Novo app instalado</string>
+    <string name="event_install_success">Instalação concluída</string>
+    <string name="event_install_sub">App instalado com sucesso</string>
+    <string name="event_install_body">Um novo app foi adicionado ao seu celular.</string>
+    <string name="event_uninstall_title">App desinstalado</string>
+    <string name="event_uninstall_success">Limpeza concluída</string>
+    <string name="event_uninstall_sub">App desinstalado com sucesso</string>
+    <string name="event_uninstall_body">Um app foi removido do seu celular.</string>
+    <string name="event_open_gallery">Abrir sua galeria</string>
+    <string name="event_done">Concluir</string>
+    <string name="event_channel_name">Eventos do celular</string>
 </resources>
