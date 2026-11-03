@@ -49,12 +49,17 @@ object GoogleAds {
 
     fun canRequest(context: Context): Boolean = started.get() && AdGate.isNetworkAvailable(context)
 
-    fun loadBanner(activity: Activity, id: String, widthDp: Int, done: (AdView?) -> Unit) {
+    /** [bigHeightDp] > 0: the large (inline adaptive) banner, full width and up to that tall; else the normal anchored adaptive banner. */
+    fun loadBanner(activity: Activity, id: String, widthDp: Int, bigHeightDp: Int = 0, done: (AdView?) -> Unit) {
         val once = AtomicBoolean(false)
         try {
             val view = AdView(activity)
             view.adUnitId = id
-            view.setAdSize(AdSize.getCurrentOrientationAnchoredAdaptiveBannerAdSize(activity, widthDp.coerceAtLeast(320)))
+            val width = widthDp.coerceAtLeast(320)
+            view.setAdSize(
+                if (bigHeightDp > 0) AdSize.getInlineAdaptiveBannerAdSize(width, bigHeightDp)
+                else AdSize.getCurrentOrientationAnchoredAdaptiveBannerAdSize(activity, width),
+            )
             view.adListener = object : AdListener() {
                 override fun onAdLoaded() {
                     if (once.compareAndSet(false, true)) done(view)

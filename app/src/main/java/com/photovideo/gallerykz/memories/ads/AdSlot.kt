@@ -27,11 +27,10 @@ class SlotSpec(
     val cacheKey: String = "",
 ) {
     companion object {
-        /** A [large] slot is a native ad whenever the block has a native id, even when its type says banner. */
         fun of(screen: ScreenAd, key: String, large: Boolean = false): SlotSpec {
             val inter = AdRemoteConfig.config.inter
             return SlotSpec(
-                show = screen.show, native = screen.native || large && screen.nativeId.isNotEmpty(), bannerId = screen.bannerId, nativeId = screen.nativeId, large = large,
+                show = screen.show, native = screen.native, bannerId = screen.bannerId, nativeId = screen.nativeId, large = large,
                 refreshSeconds = if (screen.autoRefresh) screen.autoSeconds else 0,
                 preload = if (screen.native) inter.nativePreload else inter.bannerPreload, cacheKey = key,
             )
@@ -87,6 +86,7 @@ class AdSlot(
     private var banner: AdView? = null
     private var loadedOnce = false
     private var placeholder: View? = null
+    private var boxed = false
     private var pulse: android.animation.ObjectAnimator? = null
 
     private val refresh = Runnable { if (!destroyed && resumed) request() }
@@ -155,7 +155,7 @@ class AdSlot(
             }
         } else {
             val widthDp = (container.resources.displayMetrics.widthPixels / container.resources.displayMetrics.density).toInt()
-            GoogleAds.loadBanner(activity, id, widthDp) { view ->
+            GoogleAds.loadBanner(activity, id, widthDp, if (spec.large) (bigAreaPx() / activity.resources.displayMetrics.density).toInt() else 0) { view ->
                 if (destroyed || mine != token) {
                     view?.destroy()
                     return@loadBanner
@@ -199,7 +199,7 @@ class AdSlot(
 
     private fun showQuiz(): Boolean {
         clearAds()
-        val ok = QuizAds.bindCard(activity, container, spec.large || spec.native && spec.large)
+        val ok = QuizAds.bindCard(activity, container, spec.native && spec.large)
         if (ok) {
             container.getChildAt(0)?.let { gap(it) }
             container.visibility = View.VISIBLE
@@ -228,12 +228,23 @@ class AdSlot(
         onBigNative(spec.large)
     }
 
+    /** The height of a big native ad (the skill's 250 sdp); a big banner gets a box of exactly this height. */
+    private fun bigAreaPx(): Int = activity.resources.getDimensionPixelSize(com.intuit.sdp.R.dimen._250sdp)
+
     private fun showBanner(view: AdView) {
         removePlaceholder()
         val old = banner
         container.removeAllViews()
-        container.addView(view, FrameLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT, android.view.Gravity.CENTER_HORIZONTAL))
-        gap(view)
+        if (spec.large) {
+            // Same area as the big native ad: the banner sits centred in it, never stretched.
+            container.minimumHeight = bigAreaPx()
+            container.setBackgroundResource(R.drawable.bg_ad_card)
+            boxed = true
+            container.addView(view, FrameLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT, android.view.Gravity.CENTER))
+        } else {
+            container.addView(view, FrameLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT, android.view.Gravity.CENTER_HORIZONTAL))
+            gap(view)
+        }
         banner = view
         nativeAd?.destroy()
         nativeAd = null
@@ -246,7 +257,7 @@ class AdSlot(
     /** The skeleton of the ad (the skill's shimmer sizes) that pulses until the ad arrives, fails or the slot goes away. */
     private fun showPlaceholder() {
         if (placeholder != null || container.childCount > 0 && keepContentOnFail) return
-        val layout = if (spec.native && spec.large) R.layout.ad_shimmer_large else R.layout.ad_shimmer_small
+        val layout = if (spec.large) R.layout.ad_shimmer_large else R.layout.ad_shimmer_small
         val v = android.view.LayoutInflater.from(activity).inflate(layout, container, false)
         container.removeAllViews()
         container.addView(v, FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT))
@@ -271,6 +282,11 @@ class AdSlot(
 
     private fun clearAds() {
         onBigNative(false)
+        if (boxed) {
+            boxed = false
+            container.minimumHeight = 0
+            container.background = null
+        }
         removePlaceholder()
         container.removeAllViews()
         nativeAd?.destroy()

@@ -253,10 +253,16 @@ class AdConfig(
             for (s in AdScreen.entries) {
                 val block = screen.optJSONObject(s.obj) ?: continue
                 val p = s.prefix
-                val type = block.str("${p}_Ad_Type", "native").lowercase()
+                // `banner` / `native` as configured; a missing or unknown type uses the screen default (Language: native, others: banner).
+                val type = block.str("${p}_Ad_Type").trim().lowercase()
+                val isNative = when (type) {
+                    "native" -> true
+                    "banner" -> false
+                    else -> s == AdScreen.LANGUAGE
+                }
                 screens[s] = ScreenAd(
                     show = block.bool("${p}_Ad_Show"),
-                    native = s.nativeOnly || type != "banner",
+                    native = s.nativeOnly || isNative,
                     bannerId = block.str("${p}_Banner_Id"),
                     nativeId = block.str("${p}_Native_Id"),
                     onBackInter = block.bool("on_back_inter_ads_show"),
