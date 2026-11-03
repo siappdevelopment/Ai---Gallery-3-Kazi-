@@ -72,23 +72,27 @@ object QuizAds {
     // ---- banner / native card inside a slot ----
 
     /** Fills [container] with a Quiz card (with media when [large]); false when the config has no Quiz data. */
-    fun bindCard(context: Context, container: ViewGroup, large: Boolean): Boolean {
+    /** [large]: the big card (same shape as the big Google native); [native]: the native texts instead of the banner ones. */
+    fun bindCard(context: Context, container: ViewGroup, large: Boolean, native: Boolean = large): Boolean {
         val quiz = AdRemoteConfig.config.quiz
         val count = quiz.syncedCount
         if (count == 0) return false
         val index = Random.nextInt(count)
-        val view = LayoutInflater.from(context).inflate(R.layout.ad_quiz_card, container, false)
-        val title = if (large) quiz.nativeTitle else quiz.bannerTitle
-        val desc = if (large) quiz.nativeDesc else quiz.bannerDesc
+        val view = LayoutInflater.from(context).inflate(if (large) R.layout.ad_quiz_card_large else R.layout.ad_quiz_card, container, false)
+        val title = if (native) quiz.nativeTitle else quiz.bannerTitle
+        val desc = if (native) quiz.nativeDesc else quiz.bannerDesc
         view.findViewById<TextView>(R.id.quizTitle).text = pick(title, index)
         view.findViewById<TextView>(R.id.quizDesc).text = pick(desc, index)
         val button = view.findViewById<TextView>(R.id.quizButton)
         button.text = quiz.buttonText.ifEmpty { context.getString(R.string.ad_quiz_install) }
         loadImage(view.findViewById(R.id.quizIcon), pick(quiz.appIcons, index))
         val media = view.findViewById<ImageView>(R.id.quizMedia)
-        if (large && quiz.nativeMedia.isNotEmpty()) {
+        if (large) {
+            // The big card always has its picture area: the media image, else the app icon.
             media.visibility = View.VISIBLE
-            loadImage(media, pick(quiz.nativeMedia, index))
+            loadImage(media, pick(quiz.nativeMedia.ifEmpty { quiz.appIcons }, index))
+        } else {
+            media.visibility = View.GONE
         }
         applyColors(context, view.findViewById(R.id.quizLabel), button)
         bindTapOnly(view) { openBrowser(context) }

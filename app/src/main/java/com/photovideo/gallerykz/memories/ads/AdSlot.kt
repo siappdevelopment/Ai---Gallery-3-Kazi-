@@ -199,7 +199,7 @@ class AdSlot(
 
     private fun showQuiz(): Boolean {
         clearAds()
-        val ok = QuizAds.bindCard(activity, container, spec.native && spec.large)
+        val ok = QuizAds.bindCard(activity, container, large = spec.large, native = spec.native)
         if (ok) {
             container.getChildAt(0)?.let { gap(it) }
             container.visibility = View.VISIBLE
