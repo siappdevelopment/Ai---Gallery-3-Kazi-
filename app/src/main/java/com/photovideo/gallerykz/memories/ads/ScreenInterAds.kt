@@ -124,9 +124,9 @@ object ScreenInterAds {
         }
         val cached = synchronized(cache) { cache.remove(kind) }
         if (cached != null && System.currentTimeMillis() - cached.at < EXPIRY_MS) {
-            GoogleAds.showInterstitial(activity, cached.ad) {
+            GoogleAds.showInterstitial(activity, cached.ad) { shown ->
                 if (isPreload(kind)) warm(activity.applicationContext, kind)
-                done()
+                if (shown) done() else googleFailed(activity, done)
             }
             return
         }
@@ -167,12 +167,7 @@ object ScreenInterAds {
 
     private fun googleFailed(activity: Activity, done: () -> Unit) {
         if (AdRemoteConfig.config.googleFailedQuiz && !activity.isFinishing && !activity.isDestroyed) {
-            if (AdRemoteConfig.config.googleFailBrowser) {
-                QuizAds.openBrowser(activity)
-                done()
-            } else {
-                QuizAds.showFull(activity, QuizKind.INTER) { done() }
-            }
+            QuizAds.showFallback(activity, QuizKind.INTER) { done() }
         } else {
             done()
         }

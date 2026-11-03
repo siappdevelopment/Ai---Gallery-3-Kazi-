@@ -69,6 +69,15 @@ object QuizAds {
         }
     }
 
+    /**
+     * The fallback of a failed Google full-screen ad (interstitial / app open; the caller has already checked
+     * `Google_Ad_Failed_Show_Quiz`): `Google_ad_Fail_type = Browser` opens the Quiz link in the web view and shows no Quiz layout;
+     * anything else (`Quiz`, missing, unknown) shows the Quiz ad layout of [kind]. [done] runs once, true when something showed.
+     */
+    fun showFallback(activity: Activity, kind: QuizKind, done: (Boolean) -> Unit) {
+        if (AdRemoteConfig.config.googleFailBrowser) QuizBrowser.show(activity, done) else showFull(activity, kind, done)
+    }
+
     // ---- banner / native card inside a slot ----
 
     /** Fills [container] with a Quiz card (with media when [large]); false when the config has no Quiz data. */
@@ -122,7 +131,12 @@ object QuizAds {
         try {
             val dialog = Dialog(activity, android.R.style.Theme_Black_NoTitleBar_Fullscreen)
             dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
-            val view = LayoutInflater.from(activity).inflate(R.layout.dialog_quiz_full, null)
+            val layout = when (kind) {
+                QuizKind.INTER -> R.layout.dialog_quiz_inter
+                QuizKind.APP_OPEN -> R.layout.dialog_quiz_app_open
+                QuizKind.NATIVE -> R.layout.dialog_quiz_full
+            }
+            val view = LayoutInflater.from(activity).inflate(layout, null)
             dialog.setContentView(view)
             dialog.setCancelable(false)
             dialog.window?.setBackgroundDrawable(ColorDrawable(Color.WHITE))
@@ -133,16 +147,6 @@ object QuizAds {
                 QuizKind.APP_OPEN -> quiz.appOpenMedia
                 QuizKind.NATIVE -> quiz.nativeMedia
             }
-            view.findViewById<TextView>(R.id.quizTitle).text = pick(titles, index)
-            view.findViewById<TextView>(R.id.quizDesc).text = pick(descs, index)
-            val rating = RATES[index % RATES.size]
-            view.findViewById<TextView>(R.id.quizRating).text =
-                activity.getString(R.string.ad_quiz_rating, rating, USERS[index % USERS.size])
-            val button = view.findViewById<TextView>(R.id.quizButton)
-            button.text = quiz.buttonText.ifEmpty { activity.getString(R.string.ad_quiz_install) }
-            loadImage(view.findViewById(R.id.quizIcon), pick(quiz.appIcons, index))
-            loadImage(view.findViewById(R.id.quizMedia), pick(media, index))
-            applyColors(activity, view.findViewById(R.id.quizFullLabel), button)
             fun close() {
                 try {
                     dialog.dismiss()
@@ -150,7 +154,33 @@ object QuizAds {
                     // Already gone.
                 }
             }
+            // The app open layout has only the icon, the media and the button; the others have the texts too.
+            view.findViewById<TextView?>(R.id.quizTitle)?.text = pick(titles, index)
+            view.findViewById<TextView?>(R.id.quizDesc)?.text = pick(descs, index)
+            val rating = RATES[index % RATES.size]
+            val users = USERS[index % USERS.size]
+            view.findViewById<TextView?>(R.id.quizRating)?.text = activity.getString(R.string.ad_quiz_rating, rating, users)
+            view.findViewById<TextView?>(R.id.quizRate)?.text = String.format(java.util.Locale.getDefault(), "%.1f", rating)
+            view.findViewById<android.widget.RatingBar?>(R.id.quizRatingBar)?.rating = rating.toFloat()
+            view.findViewById<TextView?>(R.id.quizUsers)?.text = activity.getString(R.string.ad_quiz_users, users)
+            view.findViewById<View?>(R.id.quizCloseButton)?.setOnClickListener { close() }
+            val button = view.findViewById<TextView>(R.id.quizButton)
+            button.text = quiz.buttonText.ifEmpty { activity.getString(R.string.ad_quiz_install) }
+            loadImage(view.findViewById(R.id.quizIcon), pick(quiz.appIcons, index))
+            loadImage(view.findViewById(R.id.quizMedia), pick(media, index))
+            // The label tint only exists on the layouts that have the AD label (the app open tab has none).
+            val label = view.findViewById<View?>(R.id.quizFullLabel)
+            applyColors(activity, label ?: View(activity), button)
             view.findViewById<View>(R.id.quizClose).setOnClickListener { close() }
+            // The status bar, a camera cut-out and the navigation bar never cover the top bar or the buttons.
+            val root = view.findViewById<View>(R.id.quizFullRoot)
+            val padTop = root.paddingTop
+            val padBottom = root.paddingBottom
+            androidx.core.view.ViewCompat.setOnApplyWindowInsetsListener(root) { v, insets ->
+                val bars = insets.getInsets(androidx.core.view.WindowInsetsCompat.Type.systemBars() or androidx.core.view.WindowInsetsCompat.Type.displayCutout())
+                v.setPadding(v.paddingLeft, padTop + bars.top, v.paddingRight, padBottom + bars.bottom)
+                insets
+            }
             button.setOnClickListener {
                 openBrowser(activity)
                 close()

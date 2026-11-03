@@ -102,10 +102,8 @@ object SequenceAds {
         fun fallback() {
             if (!failedQuiz || activity.isFinishing || activity.isDestroyed) {
                 finish(false)
-            } else if (AdRemoteConfig.config.googleFailBrowser) {
-                finish(QuizAds.openBrowser(activity))
             } else {
-                QuizAds.showFull(activity, quizKind, finish)
+                QuizAds.showFallback(activity, quizKind, finish)
             }
         }
         if (id.isEmpty() || !GoogleAds.canRequest(activity)) {

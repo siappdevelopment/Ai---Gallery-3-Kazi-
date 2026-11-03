@@ -75,7 +75,10 @@ object SwipeAds {
         val type = SequenceAds.next(activity, key, s.steps, ids) ?: return
         val cached = if (type == SeqType.G_INTER && s.preload) synchronized(inters) { inters.remove(right) } else null
         if (cached != null) {
-            GoogleAds.showInterstitial(activity, cached) { warm(activity.applicationContext, right) }
+            GoogleAds.showInterstitial(activity, cached) { shown ->
+                warm(activity.applicationContext, right)
+                if (!shown && s.failedQuiz) QuizAds.showFallback(activity, QuizKind.INTER) { }
+            }
             return
         }
         SequenceAds.run(activity, type, ids, s.failedQuiz) {
@@ -110,6 +113,7 @@ object AppOpenAds {
     private var loading = false
     private var started = 0
     private var showing = false
+    private var lastLoadFailed = false
 
     private fun skip(activity: Activity): Boolean =
         activity is EventPromptActivity || activity.javaClass.simpleName in SKIPPED
@@ -146,6 +150,7 @@ object AppOpenAds {
         loading = true
         GoogleAds.loadAppOpen(app, AdRemoteConfig.config.appOpenId) { ad ->
             loading = false
+            lastLoadFailed = ad == null
             if (ad != null) {
                 cached = ad
                 cachedAt = SystemClock.elapsedRealtime()
@@ -158,15 +163,27 @@ object AppOpenAds {
         val ad = cached
         if (ad == null || SystemClock.elapsedRealtime() - cachedAt > EXPIRY_MS) {
             cached = null
+            val failed = ad == null && lastLoadFailed
             prepare(activity)
+            if (failed) quizFallback(activity)
             return
         }
         cached = null
         showing = true
         GoogleAds.showAppOpen(activity, ad) { shown ->
             showing = false
-            if (shown) AdGate.markShown(activity, "app_open")
+            if (shown) AdGate.markShown(activity, "app_open") else quizFallback(activity)
             prepare(activity)
+        }
+    }
+
+    /** The Google App Open ad failed (load or show): the Quiz App Open ad when `Google_Ad_Failed_Show_Quiz` says so. */
+    private fun quizFallback(activity: Activity) {
+        if (showing || !AdRemoteConfig.config.googleFailedQuiz || !QuizAds.available() || activity.isFinishing || activity.isDestroyed) return
+        showing = true
+        QuizAds.showFallback(activity, QuizKind.APP_OPEN) { shown ->
+            showing = false
+            if (shown) AdGate.markShown(activity, "app_open")
         }
     }
 

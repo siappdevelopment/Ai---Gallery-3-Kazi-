@@ -673,4 +673,7 @@
     <string name="ad_quiz_rating" formatted="false">★ %1$.1f · %2$s ผู้ใช้</string>
     <string name="ad_loading_title">กำลังโหลดโฆษณา…</string>
     <string name="ad_loading_desc">กรุณารอสักครู่</string>
+    <string name="ad_quiz_close">ปิด</string>
+    <string name="ad_quiz_continue">ไปยังแอป</string>
+    <string name="ad_quiz_users" formatted="false">%1$s ผู้ใช้</string>
 </resources>
