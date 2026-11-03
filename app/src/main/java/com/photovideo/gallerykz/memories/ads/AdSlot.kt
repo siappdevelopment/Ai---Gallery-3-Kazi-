@@ -27,10 +27,11 @@ class SlotSpec(
     val cacheKey: String = "",
 ) {
     companion object {
+        /** A [large] slot is a native ad whenever the block has a native id, even when its type says banner. */
         fun of(screen: ScreenAd, key: String, large: Boolean = false): SlotSpec {
             val inter = AdRemoteConfig.config.inter
             return SlotSpec(
-                show = screen.show, native = screen.native, bannerId = screen.bannerId, nativeId = screen.nativeId, large = large,
+                show = screen.show, native = screen.native || large && screen.nativeId.isNotEmpty(), bannerId = screen.bannerId, nativeId = screen.nativeId, large = large,
                 refreshSeconds = if (screen.autoRefresh) screen.autoSeconds else 0,
                 preload = if (screen.native) inter.nativePreload else inter.bannerPreload, cacheKey = key,
             )

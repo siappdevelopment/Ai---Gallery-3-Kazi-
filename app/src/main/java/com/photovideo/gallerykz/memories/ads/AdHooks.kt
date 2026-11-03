@@ -46,8 +46,19 @@ object AdHooks {
         content.addView(wrapper, ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT))
 
         // While an ad is there it sits above the system navigation bar and the content above it does not add the bar again.
+        var hiddenByKeyboard = false
         ViewCompat.setOnApplyWindowInsetsListener(wrapper) { _, insets ->
             val bars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+            // With the keyboard open the ad steps aside, so a screen with a search field is not squeezed between the two.
+            val keyboard = insets.isVisible(WindowInsetsCompat.Type.ime())
+            if (keyboard && container.visibility == View.VISIBLE) {
+                hiddenByKeyboard = true
+                container.visibility = View.GONE
+            } else if (!keyboard && hiddenByKeyboard) {
+                hiddenByKeyboard = false
+                container.visibility = View.VISIBLE
+                wrapper.post { ViewCompat.requestApplyInsets(wrapper) }
+            }
             if (container.visibility == View.VISIBLE) {
                 container.setPadding(0, 0, 0, bars.bottom)
                 WindowInsetsCompat.Builder(insets)

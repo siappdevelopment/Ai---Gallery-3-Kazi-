@@ -41,7 +41,8 @@ class LanguageActivity : AppCompatActivity() {
         val b = ActivityLanguageBinding.inflate(layoutInflater)
         binding = b
         setContentView(b.root)
-        AdHooks.install(this, AdScreen.LANGUAGE)
+        // The large native ad sits below the whole screen (list and Continue button above it, never over them).
+        AdHooks.install(this, AdScreen.LANGUAGE, large = true)
 
         ViewCompat.setOnApplyWindowInsetsListener(b.root) { v, insets ->
             val bars = insets.getInsets(
