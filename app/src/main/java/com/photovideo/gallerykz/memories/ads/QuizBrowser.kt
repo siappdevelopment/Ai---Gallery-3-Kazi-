@@ -13,10 +13,13 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.Window
 import android.webkit.WebChromeClient
+import android.webkit.RenderProcessGoneDetail
+import android.webkit.WebResourceError
 import android.webkit.WebResourceRequest
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import android.widget.ProgressBar
+import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowCompat
@@ -34,9 +37,22 @@ object QuizBrowser {
     private const val TAG = "KaziAds"
     private val active = AtomicBoolean(false)
 
+    /** An http(s) address (a missing scheme becomes https); empty for anything else, so a bad link never reaches the web view. */
+    private fun normalize(raw: String): String {
+        val text = raw.trim()
+        if (text.isEmpty()) return ""
+        val withScheme = if (text.contains("://")) text else "https://$text"
+        val uri = try {
+            android.net.Uri.parse(withScheme)
+        } catch (e: Exception) {
+            return ""
+        }
+        return if ((uri.scheme == "http" || uri.scheme == "https") && !uri.host.isNullOrEmpty()) withScheme else ""
+    }
+
     @SuppressLint("SetJavaScriptEnabled")
     fun show(activity: Activity, done: (Boolean) -> Unit) {
-        val link = QuizAds.pickLink(activity)
+        val link = normalize(QuizAds.pickLink(activity))
         if (link.isEmpty() || activity.isFinishing || activity.isDestroyed || !active.compareAndSet(false, true)) {
             done(false)
             return
@@ -78,12 +94,33 @@ object QuizBrowser {
             }
             val web = view.findViewById<WebView>(R.id.quizWebView)
             val progress = view.findViewById<ProgressBar>(R.id.quizWebProgress)
+            fun close() {
+                try {
+                    dialog.dismiss()
+                } catch (e: Exception) {
+                    // Already gone.
+                }
+            }
             web.settings.javaScriptEnabled = true
             web.settings.domStorageEnabled = true
             web.webViewClient = object : WebViewClient() {
                 override fun shouldOverrideUrlLoading(v: WebView, request: WebResourceRequest): Boolean {
                     val scheme = request.url.scheme.orEmpty()
                     return scheme != "http" && scheme != "https"
+                }
+
+                // The page itself could not be loaded (no network, bad address): say so and close; nothing else is affected.
+                override fun onReceivedError(v: WebView, request: WebResourceRequest, error: WebResourceError) {
+                    if (request.isForMainFrame) {
+                        Toast.makeText(activity, R.string.policy_link_unavailable, Toast.LENGTH_SHORT).show()
+                        close()
+                    }
+                }
+
+                // A crashed web view process is closed instead of taking the app with it.
+                override fun onRenderProcessGone(v: WebView, detail: RenderProcessGoneDetail): Boolean {
+                    close()
+                    return true
                 }
 
                 override fun onPageStarted(v: WebView, url: String?, favicon: Bitmap?) {
@@ -97,13 +134,6 @@ object QuizBrowser {
             web.webChromeClient = object : WebChromeClient() {
                 override fun onProgressChanged(v: WebView, newProgress: Int) {
                     progress.progress = newProgress
-                }
-            }
-            fun close() {
-                try {
-                    dialog.dismiss()
-                } catch (e: Exception) {
-                    // Already gone.
                 }
             }
             view.findViewById<View>(R.id.quizBrowserClose).setOnClickListener { close() }

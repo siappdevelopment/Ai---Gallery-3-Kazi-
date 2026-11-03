@@ -74,7 +74,7 @@ object SequenceAds {
             return
         }
         when (type) {
-            SeqType.Q_BROWSER -> finish(QuizAds.openBrowser(activity))
+            SeqType.Q_BROWSER -> QuizBrowser.show(activity, finish)
             SeqType.Q_INTER -> QuizAds.showFull(activity, QuizKind.INTER, finish)
             SeqType.Q_APPOPEN -> QuizAds.showFull(activity, QuizKind.APP_OPEN, finish)
             SeqType.Q_NATIVE -> QuizAds.showFull(activity, QuizKind.NATIVE, finish)

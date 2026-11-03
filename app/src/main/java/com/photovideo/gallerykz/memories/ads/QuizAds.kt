@@ -56,19 +56,6 @@ object QuizAds {
         return links.randomOrNull().orEmpty()
     }
 
-    /** "Quiz browser": opens the link, no ad view. True when something was opened. */
-    fun openBrowser(context: Context): Boolean {
-        val link = pickLink(context)
-        if (link.isEmpty()) return false
-        return try {
-            context.startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(link)).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK))
-            true
-        } catch (e: Exception) {
-            Log.d(TAG, "quiz link could not open: $e")
-            false
-        }
-    }
-
     /**
      * The fallback of a failed Google full-screen ad (interstitial / app open; the caller has already checked
      * `Google_Ad_Failed_Show_Quiz`): `Google_ad_Fail_type = Browser` opens the Quiz link in the web view and shows no Quiz layout;
@@ -104,7 +91,8 @@ object QuizAds {
             media.visibility = View.GONE
         }
         applyColors(context, view.findViewById(R.id.quizLabel), button)
-        bindTapOnly(view) { openBrowser(context) }
+        // A tap opens the Quiz link in the in-app web view (never an external browser).
+        bindTapOnly(view) { (context as? Activity)?.let { QuizBrowser.show(it) { } } }
         container.removeAllViews()
         container.addView(view)
         return true
@@ -181,14 +169,16 @@ object QuizAds {
                 v.setPadding(v.paddingLeft, padTop + bars.top, v.paddingRight, padBottom + bars.bottom)
                 insets
             }
-            button.setOnClickListener {
-                openBrowser(activity)
-                close()
+            // A tap opens the link in the in-app web view above this ad; the ad closes after the web view does (once, however many taps).
+            var opened = false
+            val openLink = {
+                if (!opened) {
+                    opened = true
+                    QuizBrowser.show(activity) { close() }
+                }
             }
-            view.findViewById<View>(R.id.quizFullRoot).setOnClickListener {
-                openBrowser(activity)
-                close()
-            }
+            button.setOnClickListener { openLink() }
+            view.findViewById<View>(R.id.quizFullRoot).setOnClickListener { openLink() }
             dialog.setOnDismissListener { finish(true) }
             dialog.show()
         } catch (e: Exception) {
