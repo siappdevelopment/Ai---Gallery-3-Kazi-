@@ -683,4 +683,21 @@
     <string name="ad_quiz_close">Sluiten</string>
     <string name="ad_quiz_continue">Verder naar de app</string>
     <string name="ad_quiz_users" formatted="false">%1$s gebruikers</string>
+    <string name="policy_title">Je privacy</string>
+    <string name="policy_subtitle">Zo gaat Gallery met je gegevens om. Lees dit voordat je verdergaat.</string>
+    <string name="policy_h_media">Je foto\'s en video\'s</string>
+    <string name="policy_b_media">Gallery leest de foto\'s en video\'s op je telefoon om je albums, herinneringen en zoekopdrachten te tonen. Ze worden niet geüpload. Je bewerkingen, albums, favorieten en de vergrendelde kluis blijven op je apparaat.</string>
+    <string name="policy_h_ondevice">Slimme functies op je apparaat</string>
+    <string name="policy_b_ondevice">Personen, Plaatsen en Hoogtepunten worden op je telefoon gemaakt. Gezichten worden op het apparaat gegroepeerd en plaatsen komen uit de locatie die in je foto\'s is opgeslagen. Om een plaats een naam te geven, kan de locatieservice van je telefoon worden gebruikt.</string>
+    <string name="policy_h_permissions">Machtigingen</string>
+    <string name="policy_b_permissions">Foto\'s en video\'s: om je galerij te tonen. Meldingen: voor laad-, installatie- en herinneringsmeldingen. Telefoonstatus en weergave over andere apps: om de gespreksoverzicht na een gesprek te tonen. Ontgrendelen met vingerafdruk wordt door je telefoon afgehandeld. Je kunt elke machtiging weigeren of later wijzigen in Instellingen.</string>
+    <string name="policy_h_ads">Advertenties en gebruiksgegevens</string>
+    <string name="policy_b_ads">Gallery toont advertenties van Google AdMob en eigen promoties. Google kan je advertentie-ID en je geschatte regio, bepaald via je netwerk, gebruiken om advertenties te tonen en te meten. We gebruiken Firebase voor crashrapporten, gebruiksstatistieken en instellingen op afstand.</string>
+    <string name="policy_h_choices">Je keuzes</string>
+    <string name="policy_b_choices">Je kunt machtigingen uitschakelen, je advertentie-ID resetten in je Google-instellingen of de app op elk moment verwijderen. Herstel alles wat je in de kluis bewaart voordat je de app verwijdert.</string>
+    <string name="policy_agree_checkbox">Ik heb dit gelezen en ga akkoord</string>
+    <string name="policy_continue">Doorgaan</string>
+    <string name="policy_footer">Lees het volledige %1$s voor details.</string>
+    <string name="policy_privacy_label">Privacybeleid</string>
+    <string name="policy_link_unavailable">De pagina kon niet worden geopend</string>
 </resources>

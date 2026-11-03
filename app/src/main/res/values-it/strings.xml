@@ -690,4 +690,21 @@
     <string name="ad_quiz_close">Chiudi</string>
     <string name="ad_quiz_continue">Continua nell\'app</string>
     <string name="ad_quiz_users" formatted="false">%1$s utenti</string>
+    <string name="policy_title">La tua privacy</string>
+    <string name="policy_subtitle">Ecco come Gallery tratta i tuoi dati. Leggi prima di continuare.</string>
+    <string name="policy_h_media">Le tue foto e i tuoi video</string>
+    <string name="policy_b_media">Gallery legge le foto e i video sul telefono per mostrare album, ricordi e ricerca. Non vengono caricati. Le tue modifiche, gli album, i preferiti e la cassaforte bloccata restano sul dispositivo.</string>
+    <string name="policy_h_ondevice">Funzioni intelligenti sul dispositivo</string>
+    <string name="policy_b_ondevice">Persone, Luoghi e Momenti migliori vengono creati sul telefono. I volti sono raggruppati sul dispositivo e i luoghi derivano dalla posizione salvata nelle foto. Per dare un nome a un luogo, potrebbe essere contattato il servizio di localizzazione del telefono.</string>
+    <string name="policy_h_permissions">Autorizzazioni</string>
+    <string name="policy_b_permissions">Foto e video: per mostrare la tua galleria. Notifiche: per avvisi di ricarica, installazione e promemoria. Stato del telefono e visualizzazione sopra altre app: per mostrare il riepilogo della chiamata dopo una chiamata. Lo sblocco con impronta è gestito dal telefono. Puoi rifiutarle o modificarle in seguito nelle Impostazioni.</string>
+    <string name="policy_h_ads">Annunci e dati di utilizzo</string>
+    <string name="policy_b_ads">Gallery mostra annunci di Google AdMob e promozioni proprie. Google può usare il tuo ID pubblicità e la tua regione approssimativa, ricavata dalla rete, per mostrare e misurare gli annunci. Usiamo Firebase per report di arresto anomalo, statistiche di utilizzo e impostazioni remote.</string>
+    <string name="policy_h_choices">Le tue scelte</string>
+    <string name="policy_b_choices">Puoi disattivare le autorizzazioni, reimpostare l\'ID pubblicità nelle impostazioni Google o disinstallare l\'app in qualsiasi momento. Ripristina ciò che tieni nella cassaforte prima di disinstallare.</string>
+    <string name="policy_agree_checkbox">Ho letto e accetto</string>
+    <string name="policy_continue">Continua</string>
+    <string name="policy_footer">Leggi l\'intera %1$s per i dettagli.</string>
+    <string name="policy_privacy_label">Informativa sulla privacy</string>
+    <string name="policy_link_unavailable">Impossibile aprire la pagina</string>
 </resources>

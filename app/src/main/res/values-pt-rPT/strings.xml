@@ -690,4 +690,21 @@
     <string name="ad_quiz_close">Fechar</string>
     <string name="ad_quiz_continue">Continuar para a app</string>
     <string name="ad_quiz_users" formatted="false">%1$s utilizadores</string>
+    <string name="policy_title">A sua privacidade</string>
+    <string name="policy_subtitle">Veja como a Gallery trata os seus dados. Leia antes de continuar.</string>
+    <string name="policy_h_media">As suas fotos e vídeos</string>
+    <string name="policy_b_media">A Gallery lê as fotos e os vídeos do seu telemóvel para mostrar os seus álbuns, memórias e a pesquisa. Não são enviados. As suas edições, álbuns, favoritos e o cofre bloqueado ficam no seu dispositivo.</string>
+    <string name="policy_h_ondevice">Funcionalidades inteligentes no seu dispositivo</string>
+    <string name="policy_b_ondevice">Pessoas, Locais e Destaques são criados no seu telemóvel. Os rostos são agrupados no dispositivo e os locais vêm da localização guardada nas suas fotos. Para dar nome a um local, o serviço de localização do seu telemóvel pode ser contactado.</string>
+    <string name="policy_h_permissions">Autorizações</string>
+    <string name="policy_b_permissions">Fotos e vídeos: para mostrar a sua galeria. Notificações: para avisos de carregamento, instalação e lembretes. Estado do telefone e sobreposição a outras apps: para mostrar o resumo da chamada depois de uma chamada. O desbloqueio por impressão digital é tratado pelo seu telemóvel. Pode recusar qualquer uma ou alterá-las mais tarde nas Definições.</string>
+    <string name="policy_h_ads">Anúncios e dados de utilização</string>
+    <string name="policy_b_ads">A Gallery mostra anúncios do Google AdMob e promoções próprias. A Google pode usar o seu ID de publicidade e a sua região aproximada, obtida através da sua rede, para apresentar e medir anúncios. Usamos o Firebase para relatórios de falhas, estatísticas de utilização e definições remotas.</string>
+    <string name="policy_h_choices">As suas escolhas</string>
+    <string name="policy_b_choices">Pode desativar as autorizações, repor o seu ID de publicidade nas definições da Google ou desinstalar a app a qualquer momento. Restaure o que guarda no cofre antes de desinstalar.</string>
+    <string name="policy_agree_checkbox">Li isto e concordo</string>
+    <string name="policy_continue">Continuar</string>
+    <string name="policy_footer">Leia a %1$s completa para mais detalhes.</string>
+    <string name="policy_privacy_label">Política de Privacidade</string>
+    <string name="policy_link_unavailable">Não foi possível abrir a página</string>
 </resources>

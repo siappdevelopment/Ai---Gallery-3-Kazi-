@@ -690,4 +690,21 @@
     <string name="ad_quiz_close">Fermer</string>
     <string name="ad_quiz_continue">Continuer vers l\'appli</string>
     <string name="ad_quiz_users" formatted="false">%1$s utilisateurs</string>
+    <string name="policy_title">Votre confidentialité</string>
+    <string name="policy_subtitle">Voici comment Gallery traite vos données. Lisez-le avant de continuer.</string>
+    <string name="policy_h_media">Vos photos et vidéos</string>
+    <string name="policy_b_media">Gallery lit les photos et vidéos de votre téléphone pour afficher vos albums, souvenirs et la recherche. Elles ne sont pas envoyées. Vos modifications, albums, favoris et le coffre verrouillé restent sur votre appareil.</string>
+    <string name="policy_h_ondevice">Fonctions intelligentes sur votre appareil</string>
+    <string name="policy_b_ondevice">Personnes, Lieux et Temps forts sont créés sur votre téléphone. Les visages sont regroupés sur l\'appareil, et les lieux viennent de la position enregistrée dans vos photos. Pour nommer un lieu, le service de localisation de votre téléphone peut être contacté.</string>
+    <string name="policy_h_permissions">Autorisations</string>
+    <string name="policy_b_permissions">Photos et vidéos : pour afficher votre galerie. Notifications : pour les alertes de charge, d\'installation et de rappel. État du téléphone et affichage par-dessus d\'autres applis : pour afficher le résumé d\'appel après un appel. Le déverrouillage par empreinte est géré par votre téléphone. Vous pouvez refuser chacune d\'elles ou les modifier plus tard dans les Paramètres.</string>
+    <string name="policy_h_ads">Publicités et données d\'utilisation</string>
+    <string name="policy_b_ads">Gallery affiche des publicités de Google AdMob et ses propres promotions. Google peut utiliser votre identifiant publicitaire et votre région approximative, déterminée via votre réseau, pour afficher et mesurer les annonces. Nous utilisons Firebase pour les rapports de plantage, les statistiques d\'utilisation et les paramètres à distance.</string>
+    <string name="policy_h_choices">Vos choix</string>
+    <string name="policy_b_choices">Vous pouvez désactiver les autorisations, réinitialiser votre identifiant publicitaire dans les paramètres Google ou désinstaller l\'appli à tout moment. Restaurez ce que vous gardez dans le coffre avant de désinstaller.</string>
+    <string name="policy_agree_checkbox">J\'ai lu ceci et j\'accepte</string>
+    <string name="policy_continue">Continuer</string>
+    <string name="policy_footer">Lisez la %1$s complète pour plus de détails.</string>
+    <string name="policy_privacy_label">Politique de confidentialité</string>
+    <string name="policy_link_unavailable">Impossible d\'ouvrir la page</string>
 </resources>

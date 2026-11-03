@@ -683,4 +683,21 @@
     <string name="ad_quiz_close">Schließen</string>
     <string name="ad_quiz_continue">Weiter zur App</string>
     <string name="ad_quiz_users" formatted="false">%1$s Nutzer</string>
+    <string name="policy_title">Ihre Privatsphäre</string>
+    <string name="policy_subtitle">So geht Gallery mit Ihren Daten um. Bitte lesen Sie es, bevor Sie fortfahren.</string>
+    <string name="policy_h_media">Ihre Fotos und Videos</string>
+    <string name="policy_b_media">Gallery liest die Fotos und Videos auf Ihrem Telefon, um Ihre Alben, Erinnerungen und die Suche anzuzeigen. Sie werden nicht hochgeladen. Ihre Bearbeitungen, Alben, Favoriten und der gesperrte Tresor bleiben auf Ihrem Gerät.</string>
+    <string name="policy_h_ondevice">Intelligente Funktionen auf Ihrem Gerät</string>
+    <string name="policy_b_ondevice">Personen, Orte und Highlights werden auf Ihrem Telefon erstellt. Gesichter werden auf dem Gerät gruppiert, und Orte stammen aus dem in Ihren Fotos gespeicherten Standort. Um einen Ort zu benennen, wird möglicherweise der Standortdienst Ihres Telefons kontaktiert.</string>
+    <string name="policy_h_permissions">Berechtigungen</string>
+    <string name="policy_b_permissions">Fotos und Videos: um Ihre Galerie anzuzeigen. Benachrichtigungen: für Lade-, Installations- und Erinnerungshinweise. Telefonstatus und Einblenden über anderen Apps: um die Anrufzusammenfassung nach einem Anruf anzuzeigen. Die Fingerabdruck-Entsperrung übernimmt Ihr Telefon. Sie können jede davon ablehnen oder später in den Einstellungen ändern.</string>
+    <string name="policy_h_ads">Werbung und Nutzungsdaten</string>
+    <string name="policy_b_ads">Gallery zeigt Werbung von Google AdMob und eigene Aktionen. Google kann Ihre Werbe-ID und Ihre ungefähre Region, die über Ihr Netzwerk ermittelt wird, nutzen, um Werbung anzuzeigen und zu messen. Wir verwenden Firebase für Absturzberichte, Nutzungsstatistiken und Remote-Einstellungen.</string>
+    <string name="policy_h_choices">Ihre Optionen</string>
+    <string name="policy_b_choices">Sie können Berechtigungen ausschalten, Ihre Werbe-ID in den Google-Einstellungen zurücksetzen oder die App jederzeit deinstallieren. Stellen Sie alles, was Sie im Tresor aufbewahren, vor der Deinstallation wieder her.</string>
+    <string name="policy_agree_checkbox">Ich habe das gelesen und stimme zu</string>
+    <string name="policy_continue">Weiter</string>
+    <string name="policy_footer">Lesen Sie die vollständige %1$s für Details.</string>
+    <string name="policy_privacy_label">Datenschutzerklärung</string>
+    <string name="policy_link_unavailable">Die Seite konnte nicht geöffnet werden</string>
 </resources>

@@ -191,7 +191,7 @@ object AppOpenAds {
     private val SKIPPED = setOf(
         "LauncherHomeActivity", "SplashActivity", "LanguageActivity", "DefaultAppActivity", "Intro1Activity", "Intro2Activity",
         "Intro3Activity", "Intro4Activity", "MediaPermissionActivity", "MediaDeniteActivity", "NotiPermissionActivity",
-        "CallEndActivity", "AdHostActivity", "DefaultHomeGuideActivity", "OverlayPermissionGuideActivity", "VideoPlayerActivity",
+        "CallEndActivity", "PrivacyPolicyActivity", "AdHostActivity", "DefaultHomeGuideActivity", "OverlayPermissionGuideActivity", "VideoPlayerActivity",
     )
 }
 

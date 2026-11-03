@@ -22,6 +22,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.photovideo.gallerykz.memories.adapter.LanguageAdapter
 import com.photovideo.gallerykz.memories.databinding.ActivityLanguageBinding
 import com.photovideo.gallerykz.memories.helper.LocaleHelper
+import com.photovideo.gallerykz.memories.helper.OnboardingPrefs
 import com.photovideo.gallerykz.memories.viewmodel.LanguageViewModel
 
 class LanguageActivity : AppCompatActivity() {
@@ -133,6 +134,10 @@ class LanguageActivity : AppCompatActivity() {
         finish()
         LocaleHelper.apply(tag)
         // From Settings the language is all that changes; during onboarding the next step follows.
-        if (!viewModel.fromSettings) startActivity(Intent(this, MediaPermissionActivity::class.java))
+        // The privacy policy comes next (read in the chosen language); once agreed to it is skipped.
+        if (!viewModel.fromSettings) {
+            val next = if (OnboardingPrefs.isPolicyAccepted(this)) MediaPermissionActivity::class.java else PrivacyPolicyActivity::class.java
+            startActivity(Intent(this, next))
+        }
     }
 }

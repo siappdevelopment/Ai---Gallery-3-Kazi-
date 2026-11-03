@@ -683,4 +683,21 @@
     <string name="ad_quiz_close">Isara</string>
     <string name="ad_quiz_continue">Magpatuloy sa app</string>
     <string name="ad_quiz_users" formatted="false">%1$s gumagamit</string>
+    <string name="policy_title">Ang iyong privacy</string>
+    <string name="policy_subtitle">Narito kung paano pinangangasiwaan ng Gallery ang iyong data. Pakibasa ito bago magpatuloy.</string>
+    <string name="policy_h_media">Ang iyong mga larawan at video</string>
+    <string name="policy_b_media">Binabasa ng Gallery ang mga larawan at video sa iyong telepono para ipakita ang iyong mga album, alaala at paghahanap. Hindi ina-upload ang mga ito. Mananatili sa iyong device ang iyong mga edit, album, paborito at naka-lock na vault.</string>
+    <string name="policy_h_ondevice">Mga smart na feature sa iyong device</string>
+    <string name="policy_b_ondevice">Ginagawa sa iyong telepono ang Mga Tao, Mga Lugar at Mga Highlight. Pinagsasama-sama ang mga mukha sa device, at galing ang mga lugar sa lokasyong naka-save sa loob ng iyong mga larawan. Para pangalanan ang isang lugar, maaaring kontakin ang location service ng iyong telepono.</string>
+    <string name="policy_h_permissions">Mga pahintulot</string>
+    <string name="policy_b_permissions">Mga larawan at video: para ipakita ang iyong gallery. Mga notification: para sa mga alerto sa pag-charge, pag-install at paalala. Estado ng telepono at pagpapakita sa ibabaw ng ibang app: para ipakita ang buod ng tawag pagkatapos ng tawag. Ang telepono mo ang humahawak sa fingerprint unlock. Maaari mong tanggihan ang alinman o baguhin ito sa Mga Setting.</string>
+    <string name="policy_h_ads">Mga ad at data ng paggamit</string>
+    <string name="policy_b_ads">Nagpapakita ang Gallery ng mga ad mula sa Google AdMob at sarili nitong mga promosyon. Maaaring gamitin ng Google ang iyong advertising ID at tinatayang rehiyon mo, na nakukuha sa iyong network, para magpakita at sumukat ng mga ad. Gumagamit kami ng Firebase para sa mga ulat ng pag-crash, istatistika ng paggamit at malayuang setting.</string>
+    <string name="policy_h_choices">Ang iyong mga pagpipilian</string>
+    <string name="policy_b_choices">Maaari mong i-off ang mga pahintulot, i-reset ang iyong advertising ID sa mga setting ng Google, o i-uninstall ang app anumang oras. Ibalik ang anumang itinatago mo sa vault bago mag-uninstall.</string>
+    <string name="policy_agree_checkbox">Nabasa ko ito at sumasang-ayon ako</string>
+    <string name="policy_continue">Magpatuloy</string>
+    <string name="policy_footer">Basahin ang buong %1$s para sa mga detalye.</string>
+    <string name="policy_privacy_label">Patakaran sa Privacy</string>
+    <string name="policy_link_unavailable">Hindi mabuksan ang page</string>
 </resources>

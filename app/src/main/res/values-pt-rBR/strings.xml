@@ -690,4 +690,21 @@
     <string name="ad_quiz_close">Fechar</string>
     <string name="ad_quiz_continue">Continuar no app</string>
     <string name="ad_quiz_users" formatted="false">%1$s usuários</string>
+    <string name="policy_title">Sua privacidade</string>
+    <string name="policy_subtitle">Veja como o Gallery trata seus dados. Leia antes de continuar.</string>
+    <string name="policy_h_media">Suas fotos e vídeos</string>
+    <string name="policy_b_media">O Gallery lê as fotos e os vídeos do seu celular para mostrar seus álbuns, lembranças e a busca. Eles não são enviados. Suas edições, álbuns, favoritos e o cofre bloqueado ficam no seu dispositivo.</string>
+    <string name="policy_h_ondevice">Recursos inteligentes no seu dispositivo</string>
+    <string name="policy_b_ondevice">Pessoas, Lugares e Destaques são criados no seu celular. Os rostos são agrupados no dispositivo, e os lugares vêm da localização salva nas suas fotos. Para dar nome a um lugar, o serviço de localização do seu celular pode ser consultado.</string>
+    <string name="policy_h_permissions">Permissões</string>
+    <string name="policy_b_permissions">Fotos e vídeos: para mostrar sua galeria. Notificações: para avisos de carregamento, instalação e lembretes. Estado do telefone e exibição sobre outros apps: para mostrar o resumo da chamada depois de uma ligação. O desbloqueio por impressão digital é feito pelo seu celular. Você pode negar qualquer uma ou alterá-las depois em Configurações.</string>
+    <string name="policy_h_ads">Anúncios e dados de uso</string>
+    <string name="policy_b_ads">O Gallery mostra anúncios do Google AdMob e promoções próprias. O Google pode usar seu ID de publicidade e sua região aproximada, obtida pela sua rede, para exibir e medir anúncios. Usamos o Firebase para relatórios de falhas, estatísticas de uso e configurações remotas.</string>
+    <string name="policy_h_choices">Suas escolhas</string>
+    <string name="policy_b_choices">Você pode desativar as permissões, redefinir seu ID de publicidade nas configurações do Google ou desinstalar o app a qualquer momento. Restaure o que guarda no cofre antes de desinstalar.</string>
+    <string name="policy_agree_checkbox">Li isto e concordo</string>
+    <string name="policy_continue">Continuar</string>
+    <string name="policy_footer">Leia a %1$s completa para mais detalhes.</string>
+    <string name="policy_privacy_label">Política de Privacidade</string>
+    <string name="policy_link_unavailable">Não foi possível abrir a página</string>
 </resources>

@@ -683,4 +683,21 @@
     <string name="ad_quiz_close">बंद करें</string>
     <string name="ad_quiz_continue">ऐप पर जारी रखें</string>
     <string name="ad_quiz_users" formatted="false">%1$s उपयोगकर्ता</string>
+    <string name="policy_title">आपकी गोपनीयता</string>
+    <string name="policy_subtitle">यहाँ बताया गया है कि Gallery आपके डेटा को कैसे संभालता है। आगे बढ़ने से पहले कृपया इसे पढ़ें।</string>
+    <string name="policy_h_media">आपके फ़ोटो और वीडियो</string>
+    <string name="policy_b_media">Gallery आपके फ़ोन के फ़ोटो और वीडियो पढ़ता है ताकि आपके एल्बम, यादें और खोज दिखा सके। इन्हें अपलोड नहीं किया जाता। आपके संपादन, एल्बम, पसंदीदा और लॉक किया हुआ वॉल्ट आपके डिवाइस पर ही रहते हैं।</string>
+    <string name="policy_h_ondevice">आपके डिवाइस पर स्मार्ट सुविधाएँ</string>
+    <string name="policy_b_ondevice">लोग, जगहें और हाइलाइट्स आपके फ़ोन पर ही बनते हैं। चेहरे डिवाइस पर ही समूहित होते हैं, और जगहें आपके फ़ोटो में सहेजी गई लोकेशन से आती हैं। किसी जगह का नाम बताने के लिए आपके फ़ोन की लोकेशन सेवा से संपर्क किया जा सकता है।</string>
+    <string name="policy_h_permissions">अनुमतियाँ</string>
+    <string name="policy_b_permissions">फ़ोटो और वीडियो: आपकी गैलरी दिखाने के लिए। सूचनाएँ: चार्जिंग, इंस्टॉल और रिमाइंडर अलर्ट के लिए। फ़ोन की स्थिति और अन्य ऐप्स के ऊपर दिखाना: कॉल के बाद कॉल सारांश दिखाने के लिए। फ़िंगरप्रिंट अनलॉक आपका फ़ोन संभालता है। आप किसी भी अनुमति को मना कर सकते हैं या बाद में सेटिंग में बदल सकते हैं।</string>
+    <string name="policy_h_ads">विज्ञापन और उपयोग डेटा</string>
+    <string name="policy_b_ads">Gallery, Google AdMob और अपने प्रचार के विज्ञापन दिखाता है। Google विज्ञापन दिखाने और मापने के लिए आपका विज्ञापन आईडी और आपके नेटवर्क से मिला अनुमानित क्षेत्र उपयोग कर सकता है। हम क्रैश रिपोर्ट, उपयोग के आँकड़ों और रिमोट सेटिंग के लिए Firebase का उपयोग करते हैं।</string>
+    <string name="policy_h_choices">आपके विकल्प</string>
+    <string name="policy_b_choices">आप अनुमतियाँ बंद कर सकते हैं, अपने Google सेटिंग में विज्ञापन आईडी रीसेट कर सकते हैं, या किसी भी समय ऐप अनइंस्टॉल कर सकते हैं। अनइंस्टॉल करने से पहले वॉल्ट में रखी चीज़ें वापस ले लें।</string>
+    <string name="policy_agree_checkbox">मैंने इसे पढ़ लिया है और सहमत हूँ</string>
+    <string name="policy_continue">जारी रखें</string>
+    <string name="policy_footer">विवरण के लिए पूरी %1$s पढ़ें।</string>
+    <string name="policy_privacy_label">गोपनीयता नीति</string>
+    <string name="policy_link_unavailable">पेज नहीं खुल सका</string>
 </resources>

@@ -676,4 +676,21 @@
     <string name="ad_quiz_close">关闭</string>
     <string name="ad_quiz_continue">继续进入应用</string>
     <string name="ad_quiz_users" formatted="false">%1$s 用户</string>
+    <string name="policy_title">您的隐私</string>
+    <string name="policy_subtitle">以下是 Gallery 处理您数据的方式。继续之前请先阅读。</string>
+    <string name="policy_h_media">您的照片和视频</string>
+    <string name="policy_b_media">Gallery 会读取手机上的照片和视频，用于显示相册、回忆和搜索。它们不会被上传。您的编辑、相册、收藏和已锁定的保险库都保留在您的设备上。</string>
+    <string name="policy_h_ondevice">设备上的智能功能</string>
+    <string name="policy_b_ondevice">人物、地点和精彩时刻都在您的手机上生成。人脸在设备上分组，地点来自照片中保存的位置信息。为地点命名时，可能会联系手机的定位服务。</string>
+    <string name="policy_h_permissions">权限</string>
+    <string name="policy_b_permissions">照片和视频：用于显示您的图库。通知：用于充电、安装和提醒通知。手机状态和在其他应用上层显示：用于在通话结束后显示通话摘要。指纹解锁由您的手机处理。您可以拒绝任何权限，也可以稍后在设置中更改。</string>
+    <string name="policy_h_ads">广告和使用数据</string>
+    <string name="policy_b_ads">Gallery 会显示来自 Google AdMob 的广告以及自家的推广内容。Google 可能会使用您的广告 ID 和通过网络获得的大致地区来展示和衡量广告。我们使用 Firebase 来获取崩溃报告、使用统计和远程设置。</string>
+    <string name="policy_h_choices">您的选择</string>
+    <string name="policy_b_choices">您可以关闭权限、在 Google 设置中重置广告 ID，或随时卸载应用。卸载前请先恢复保险库中保存的内容。</string>
+    <string name="policy_agree_checkbox">我已阅读并同意</string>
+    <string name="policy_continue">继续</string>
+    <string name="policy_footer">详情请阅读完整的%1$s。</string>
+    <string name="policy_privacy_label">隐私政策</string>
+    <string name="policy_link_unavailable">无法打开该页面</string>
 </resources>

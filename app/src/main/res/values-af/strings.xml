@@ -683,4 +683,21 @@
     <string name="ad_quiz_close">Maak toe</string>
     <string name="ad_quiz_continue">Gaan voort na toep</string>
     <string name="ad_quiz_users" formatted="false">%1$s gebruikers</string>
+    <string name="policy_title">Jou privaatheid</string>
+    <string name="policy_subtitle">Hier is hoe Gallery jou data hanteer. Lees dit asseblief voor jy voortgaan.</string>
+    <string name="policy_h_media">Jou foto\'s en video\'s</string>
+    <string name="policy_b_media">Gallery lees die foto\'s en video\'s op jou foon om jou albums, herinneringe en soektog te wys. Hulle word nie opgelaai nie. Jou wysigings, albums, gunstelinge en die geslote kluis bly op jou toestel.</string>
+    <string name="policy_h_ondevice">Slim kenmerke op jou toestel</string>
+    <string name="policy_b_ondevice">Mense, Plekke en Hoogtepunte word op jou foon gemaak. Gesigte word op die toestel gegroepeer, en plekke kom van die ligging wat in jou foto\'s gestoor is. Om \'n plek te noem, kan jou foon se liggingdiens gekontak word.</string>
+    <string name="policy_h_permissions">Toestemmings</string>
+    <string name="policy_b_permissions">Foto\'s en video\'s: om jou galery te wys. Kennisgewings: vir laai-, installeer- en herinneringswaarskuwings. Foontoestand en vertoon oor ander toepassings: om die oproepopsomming ná \'n oproep te wys. Vingerafdrukontsluiting word deur jou foon hanteer. Jy kan enige daarvan weier of later in Instellings verander.</string>
+    <string name="policy_h_ads">Advertensies en gebruiksdata</string>
+    <string name="policy_b_ads">Gallery wys advertensies van Google AdMob en sy eie promosies. Google kan jou advertensie-ID en jou benaderde streek, wat van jou netwerk af bepaal word, gebruik om advertensies te wys en te meet. Ons gebruik Firebase vir ongelukverslae, gebruiksstatistiek en afstandinstellings.</string>
+    <string name="policy_h_choices">Jou keuses</string>
+    <string name="policy_b_choices">Jy kan toestemmings af skakel, jou advertensie-ID in jou Google-instellings terugstel, of die toepassing enige tyd deïnstalleer. Herstel alles wat jy in die kluis hou voor jy deïnstalleer.</string>
+    <string name="policy_agree_checkbox">Ek het dit gelees en stem saam</string>
+    <string name="policy_continue">Gaan voort</string>
+    <string name="policy_footer">Lees die volledige %1$s vir besonderhede.</string>
+    <string name="policy_privacy_label">Privaatheidsbeleid</string>
+    <string name="policy_link_unavailable">Die bladsy kon nie oopgemaak word nie</string>
 </resources>

@@ -676,4 +676,21 @@
     <string name="ad_quiz_close">閉じる</string>
     <string name="ad_quiz_continue">アプリに進む</string>
     <string name="ad_quiz_users" formatted="false">%1$s ユーザー</string>
+    <string name="policy_title">プライバシー</string>
+    <string name="policy_subtitle">Gallery がデータをどのように扱うかをご説明します。続ける前にお読みください。</string>
+    <string name="policy_h_media">写真と動画</string>
+    <string name="policy_b_media">Gallery は、アルバム、思い出、検索を表示するために、スマートフォン内の写真と動画を読み取ります。アップロードはされません。編集内容、アルバム、お気に入り、ロックされた保管庫は端末内に残ります。</string>
+    <string name="policy_h_ondevice">端末内のスマート機能</string>
+    <string name="policy_b_ondevice">人物、場所、ハイライトはスマートフォン上で作成されます。顔は端末内でグループ化され、場所は写真に保存された位置情報から取得されます。場所の名前を付けるために、スマートフォンの位置情報サービスに接続する場合があります。</string>
+    <string name="policy_h_permissions">権限</string>
+    <string name="policy_b_permissions">写真と動画：ギャラリーを表示するため。通知：充電、インストール、リマインダーの通知のため。電話の状態と他のアプリの上に表示：通話後に通話の概要を表示するため。指紋認証はスマートフォンが処理します。いずれも拒否でき、後で設定から変更できます。</string>
+    <string name="policy_h_ads">広告と利用データ</string>
+    <string name="policy_b_ads">Gallery は Google AdMob の広告と自社のプロモーションを表示します。Google は、広告の表示と測定のために、広告 ID とネットワークから判断されるおおよその地域を使用する場合があります。クラッシュレポート、利用統計、リモート設定には Firebase を使用します。</string>
+    <string name="policy_h_choices">選択できること</string>
+    <string name="policy_b_choices">権限をオフにしたり、Google の設定で広告 ID をリセットしたり、いつでもアプリをアンインストールしたりできます。アンインストールする前に、保管庫にあるものを復元してください。</string>
+    <string name="policy_agree_checkbox">内容を読み、同意します</string>
+    <string name="policy_continue">続ける</string>
+    <string name="policy_footer">詳細は%1$s全文をご覧ください。</string>
+    <string name="policy_privacy_label">プライバシーポリシー</string>
+    <string name="policy_link_unavailable">ページを開けませんでした</string>
 </resources>

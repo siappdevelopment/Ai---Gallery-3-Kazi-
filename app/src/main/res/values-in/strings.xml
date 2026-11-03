@@ -676,4 +676,21 @@
     <string name="ad_quiz_close">Tutup</string>
     <string name="ad_quiz_continue">Lanjut ke aplikasi</string>
     <string name="ad_quiz_users" formatted="false">%1$s pengguna</string>
+    <string name="policy_title">Privasi Anda</string>
+    <string name="policy_subtitle">Berikut cara Gallery menangani data Anda. Harap baca sebelum melanjutkan.</string>
+    <string name="policy_h_media">Foto dan video Anda</string>
+    <string name="policy_b_media">Gallery membaca foto dan video di ponsel Anda untuk menampilkan album, kenangan, dan pencarian. Semuanya tidak diunggah. Hasil edit, album, favorit, dan brankas terkunci tetap berada di perangkat Anda.</string>
+    <string name="policy_h_ondevice">Fitur pintar di perangkat Anda</string>
+    <string name="policy_b_ondevice">Orang, Tempat, dan Sorotan dibuat di ponsel Anda. Wajah dikelompokkan di perangkat, dan tempat berasal dari lokasi yang tersimpan di dalam foto Anda. Untuk menamai sebuah tempat, layanan lokasi ponsel Anda mungkin dihubungi.</string>
+    <string name="policy_h_permissions">Izin</string>
+    <string name="policy_b_permissions">Foto dan video: untuk menampilkan galeri Anda. Notifikasi: untuk peringatan pengisian daya, instalasi, dan pengingat. Status ponsel dan tampilan di atas aplikasi lain: untuk menampilkan ringkasan panggilan setelah panggilan. Buka kunci sidik jari ditangani oleh ponsel Anda. Anda dapat menolak izin mana pun atau mengubahnya nanti di Pengaturan.</string>
+    <string name="policy_h_ads">Iklan dan data penggunaan</string>
+    <string name="policy_b_ads">Gallery menampilkan iklan dari Google AdMob dan promosinya sendiri. Google dapat menggunakan ID iklan Anda dan perkiraan wilayah Anda, yang diketahui dari jaringan Anda, untuk menampilkan dan mengukur iklan. Kami menggunakan Firebase untuk laporan kerusakan, statistik penggunaan, dan pengaturan jarak jauh.</string>
+    <string name="policy_h_choices">Pilihan Anda</string>
+    <string name="policy_b_choices">Anda dapat mematikan izin, mereset ID iklan di pengaturan Google, atau menghapus instalasi aplikasi kapan saja. Pulihkan apa pun yang Anda simpan di brankas sebelum menghapus instalasi.</string>
+    <string name="policy_agree_checkbox">Saya telah membaca ini dan setuju</string>
+    <string name="policy_continue">Lanjutkan</string>
+    <string name="policy_footer">Baca %1$s lengkap untuk detailnya.</string>
+    <string name="policy_privacy_label">Kebijakan Privasi</string>
+    <string name="policy_link_unavailable">Halaman tidak dapat dibuka</string>
 </resources>

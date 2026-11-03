@@ -11,6 +11,7 @@ import com.photovideo.gallerykz.memories.activity.LanguageActivity
 import com.photovideo.gallerykz.memories.activity.MediaDeniteActivity
 import com.photovideo.gallerykz.memories.activity.MediaPermissionActivity
 import com.photovideo.gallerykz.memories.activity.NotiPermissionActivity
+import com.photovideo.gallerykz.memories.activity.PrivacyPolicyActivity
 import com.photovideo.gallerykz.memories.launcher.LauncherHomeActivity
 
 /** The one place that maps an onboarding step to its screen (the splash, the launcher's guard and the default-app step all use it). */
@@ -25,6 +26,7 @@ object OnboardingRouter {
         OnboardingPrefs.STEP_MEDIA_DENIED -> MediaDeniteActivity::class.java
         OnboardingPrefs.STEP_NOTI -> NotiPermissionActivity::class.java
         OnboardingPrefs.STEP_DEFAULT -> DefaultAppActivity::class.java
+        OnboardingPrefs.STEP_POLICY -> PrivacyPolicyActivity::class.java
         OnboardingPrefs.STEP_DONE -> LauncherHomeActivity::class.java
         else -> LanguageActivity::class.java
     }

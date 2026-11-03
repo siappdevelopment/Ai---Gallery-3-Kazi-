@@ -204,6 +204,8 @@ class AdConfig(
     val appOpenDialog: Boolean = false,
     val appOpenPerDay: Int = 0,
     val clEndScreenShow: Boolean = true,
+    /** `Privacy_Policy` of the Remote Config: the page the privacy policy link opens. */
+    val privacyPolicyUrl: String = "",
     val showCountries: List<String> = emptyList(),
     val excludeCountries: List<String> = emptyList(),
     val inter: InterGlobal = InterGlobal(),
@@ -294,6 +296,7 @@ class AdConfig(
                 appOpenDialog = root.bool("App_Open_Dialog_Show"),
                 appOpenPerDay = root.int("App_Open_Show_Per_Day"),
                 clEndScreenShow = root.bool("Cl_End_Screen_Show", true),
+                privacyPolicyUrl = root.str("Privacy_Policy").trim(),
                 showCountries = root.list("Ads_Show_countryList"),
                 excludeCountries = root.list("Ads_show_List_Exclude"),
                 inter = InterGlobal(

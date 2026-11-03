@@ -683,4 +683,21 @@
     <string name="ad_quiz_close">Kapat</string>
     <string name="ad_quiz_continue">Uygulamaya devam et</string>
     <string name="ad_quiz_users" formatted="false">%1$s kullanıcı</string>
+    <string name="policy_title">Gizliliğiniz</string>
+    <string name="policy_subtitle">Gallery verilerinizi şöyle işler. Devam etmeden önce lütfen okuyun.</string>
+    <string name="policy_h_media">Fotoğraflarınız ve videolarınız</string>
+    <string name="policy_b_media">Gallery, albümlerinizi, anılarınızı ve aramayı göstermek için telefonunuzdaki fotoğrafları ve videoları okur. Bunlar yüklenmez. Düzenlemeleriniz, albümleriniz, favorileriniz ve kilitli kasa cihazınızda kalır.</string>
+    <string name="policy_h_ondevice">Cihazınızdaki akıllı özellikler</string>
+    <string name="policy_b_ondevice">Kişiler, Yerler ve Öne Çıkanlar telefonunuzda oluşturulur. Yüzler cihazda gruplanır, yerler ise fotoğraflarınızda kayıtlı konumdan gelir. Bir yerin adını bulmak için telefonunuzun konum hizmetiyle iletişim kurulabilir.</string>
+    <string name="policy_h_permissions">İzinler</string>
+    <string name="policy_b_permissions">Fotoğraflar ve videolar: galerinizi göstermek için. Bildirimler: şarj, yükleme ve hatırlatma uyarıları için. Telefon durumu ve diğer uygulamaların üzerinde gösterme: arama sonrasında arama özetini göstermek için. Parmak izi kilit açma telefonunuz tarafından yönetilir. Herhangi birini reddedebilir veya daha sonra Ayarlar\'dan değiştirebilirsiniz.</string>
+    <string name="policy_h_ads">Reklamlar ve kullanım verileri</string>
+    <string name="policy_b_ads">Gallery, Google AdMob reklamlarını ve kendi tanıtımlarını gösterir. Google, reklamları göstermek ve ölçmek için reklam kimliğinizi ve ağınızdan belirlenen yaklaşık bölgenizi kullanabilir. Çökme raporları, kullanım istatistikleri ve uzaktan ayarlar için Firebase kullanırız.</string>
+    <string name="policy_h_choices">Seçimleriniz</string>
+    <string name="policy_b_choices">İzinleri kapatabilir, Google ayarlarınızda reklam kimliğinizi sıfırlayabilir veya uygulamayı istediğiniz zaman kaldırabilirsiniz. Kaldırmadan önce kasada tuttuğunuz her şeyi geri yükleyin.</string>
+    <string name="policy_agree_checkbox">Bunu okudum ve kabul ediyorum</string>
+    <string name="policy_continue">Devam</string>
+    <string name="policy_footer">Ayrıntılar için tam %1$s metnini okuyun.</string>
+    <string name="policy_privacy_label">Gizlilik Politikası</string>
+    <string name="policy_link_unavailable">Sayfa açılamadı</string>
 </resources>

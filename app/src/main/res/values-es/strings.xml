@@ -690,4 +690,21 @@
     <string name="ad_quiz_close">Cerrar</string>
     <string name="ad_quiz_continue">Continuar a la app</string>
     <string name="ad_quiz_users" formatted="false">%1$s usuarios</string>
+    <string name="policy_title">Tu privacidad</string>
+    <string name="policy_subtitle">Así es como Gallery trata tus datos. Léelo antes de continuar.</string>
+    <string name="policy_h_media">Tus fotos y vídeos</string>
+    <string name="policy_b_media">Gallery lee las fotos y los vídeos de tu teléfono para mostrar tus álbumes, recuerdos y la búsqueda. No se suben. Tus ediciones, álbumes, favoritos y la caja fuerte bloqueada permanecen en tu dispositivo.</string>
+    <string name="policy_h_ondevice">Funciones inteligentes en tu dispositivo</string>
+    <string name="policy_b_ondevice">Personas, Lugares y Destacados se crean en tu teléfono. Las caras se agrupan en el dispositivo y los lugares proceden de la ubicación guardada en tus fotos. Para nombrar un lugar, puede consultarse el servicio de ubicación de tu teléfono.</string>
+    <string name="policy_h_permissions">Permisos</string>
+    <string name="policy_b_permissions">Fotos y vídeos: para mostrar tu galería. Notificaciones: para avisos de carga, instalación y recordatorios. Estado del teléfono y superposición sobre otras apps: para mostrar el resumen de la llamada después de llamar. El desbloqueo con huella lo gestiona tu teléfono. Puedes rechazar cualquiera o cambiarlos más tarde en Ajustes.</string>
+    <string name="policy_h_ads">Anuncios y datos de uso</string>
+    <string name="policy_b_ads">Gallery muestra anuncios de Google AdMob y promociones propias. Google puede usar tu ID de publicidad y tu región aproximada, obtenida de tu red, para mostrar y medir anuncios. Usamos Firebase para informes de errores, estadísticas de uso y ajustes remotos.</string>
+    <string name="policy_h_choices">Tus opciones</string>
+    <string name="policy_b_choices">Puedes desactivar los permisos, restablecer tu ID de publicidad en los ajustes de Google o desinstalar la app en cualquier momento. Restaura lo que guardes en la caja fuerte antes de desinstalar.</string>
+    <string name="policy_agree_checkbox">He leído esto y estoy de acuerdo</string>
+    <string name="policy_continue">Continuar</string>
+    <string name="policy_footer">Lee la %1$s completa para más detalles.</string>
+    <string name="policy_privacy_label">Política de privacidad</string>
+    <string name="policy_link_unavailable">No se pudo abrir la página</string>
 </resources>

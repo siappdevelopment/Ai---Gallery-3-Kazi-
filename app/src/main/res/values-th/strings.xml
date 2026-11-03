@@ -676,4 +676,21 @@
     <string name="ad_quiz_close">ปิด</string>
     <string name="ad_quiz_continue">ไปยังแอป</string>
     <string name="ad_quiz_users" formatted="false">%1$s ผู้ใช้</string>
+    <string name="policy_title">ความเป็นส่วนตัวของคุณ</string>
+    <string name="policy_subtitle">นี่คือวิธีที่ Gallery จัดการข้อมูลของคุณ โปรดอ่านก่อนดำเนินการต่อ</string>
+    <string name="policy_h_media">รูปภาพและวิดีโอของคุณ</string>
+    <string name="policy_b_media">Gallery อ่านรูปภาพและวิดีโอในโทรศัพท์ของคุณเพื่อแสดงอัลบั้ม ความทรงจำ และการค้นหา ข้อมูลเหล่านี้จะไม่ถูกอัปโหลด การแก้ไข อัลบั้ม รายการโปรด และห้องนิรภัยที่ล็อกไว้จะอยู่ในอุปกรณ์ของคุณ</string>
+    <string name="policy_h_ondevice">ฟีเจอร์อัจฉริยะบนอุปกรณ์ของคุณ</string>
+    <string name="policy_b_ondevice">ผู้คน สถานที่ และไฮไลต์ถูกสร้างขึ้นบนโทรศัพท์ของคุณ ใบหน้าจะถูกจัดกลุ่มบนอุปกรณ์ และสถานที่มาจากตำแหน่งที่บันทึกไว้ในรูปภาพของคุณ การตั้งชื่อสถานที่อาจต้องติดต่อบริการตำแหน่งของโทรศัพท์ของคุณ</string>
+    <string name="policy_h_permissions">สิทธิ์</string>
+    <string name="policy_b_permissions">รูปภาพและวิดีโอ: เพื่อแสดงแกลเลอรีของคุณ การแจ้งเตือน: สำหรับการเตือนการชาร์จ การติดตั้ง และการแจ้งเตือนความจำ สถานะโทรศัพท์และการแสดงทับแอปอื่น: เพื่อแสดงสรุปการโทรหลังจากวางสาย การปลดล็อกด้วยลายนิ้วมือจัดการโดยโทรศัพท์ของคุณ คุณสามารถปฏิเสธสิทธิ์ใดก็ได้หรือเปลี่ยนภายหลังในการตั้งค่า</string>
+    <string name="policy_h_ads">โฆษณาและข้อมูลการใช้งาน</string>
+    <string name="policy_b_ads">Gallery แสดงโฆษณาจาก Google AdMob และโปรโมชันของตัวเอง Google อาจใช้รหัสโฆษณาและภูมิภาคโดยประมาณของคุณ ซึ่งได้จากเครือข่ายของคุณ เพื่อแสดงและวัดผลโฆษณา เราใช้ Firebase สำหรับรายงานข้อขัดข้อง สถิติการใช้งาน และการตั้งค่าระยะไกล</string>
+    <string name="policy_h_choices">ตัวเลือกของคุณ</string>
+    <string name="policy_b_choices">คุณสามารถปิดสิทธิ์ รีเซ็ตรหัสโฆษณาในการตั้งค่า Google หรือถอนการติดตั้งแอปได้ทุกเมื่อ กู้คืนทุกอย่างที่คุณเก็บไว้ในห้องนิรภัยก่อนถอนการติดตั้ง</string>
+    <string name="policy_agree_checkbox">ฉันอ่านแล้วและยอมรับ</string>
+    <string name="policy_continue">ดำเนินการต่อ</string>
+    <string name="policy_footer">อ่าน%1$sฉบับเต็มเพื่อดูรายละเอียด</string>
+    <string name="policy_privacy_label">นโยบายความเป็นส่วนตัว</string>
+    <string name="policy_link_unavailable">ไม่สามารถเปิดหน้าได้</string>
 </resources>

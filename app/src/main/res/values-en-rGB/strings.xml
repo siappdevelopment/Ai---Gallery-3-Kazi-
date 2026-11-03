@@ -682,4 +682,21 @@
     <string name="ad_quiz_close">Close</string>
     <string name="ad_quiz_continue">Continue to app</string>
     <string name="ad_quiz_users" formatted="false">%1$s users</string>
+    <string name="policy_title">Your privacy</string>
+    <string name="policy_subtitle">Here is how Gallery handles your data. Please read it before you continue.</string>
+    <string name="policy_h_media">Your photos and videos</string>
+    <string name="policy_b_media">Gallery reads the photos and videos on your phone to show your albums, memories and search. They are not uploaded. Your edits, albums, favourites and the locked vault stay on your device.</string>
+    <string name="policy_h_ondevice">Smart features on your device</string>
+    <string name="policy_b_ondevice">People, Places and Highlights are made on your phone. Faces are grouped on the device, and places come from the location saved inside your photos. To name a place, your phone\'s location service may be contacted.</string>
+    <string name="policy_h_permissions">Permissions</string>
+    <string name="policy_b_permissions">Photos and videos: to show your gallery. Notifications: for charging, install and reminder alerts. Phone state and display over other apps: to show the call summary after a call. Fingerprint unlock is handled by your phone. You can say no to any of them or change them later in Settings.</string>
+    <string name="policy_h_ads">Ads and usage data</string>
+    <string name="policy_b_ads">Gallery shows ads from Google AdMob and its own promotions. Google may use your advertising ID and your approximate region, found from your network, to show and measure ads. We use Firebase for crash reports, usage statistics and remote settings.</string>
+    <string name="policy_h_choices">Your choices</string>
+    <string name="policy_b_choices">You can turn permissions off, reset your advertising ID in your Google settings, or uninstall the app at any time. Restore anything you keep in the vault before you uninstall.</string>
+    <string name="policy_agree_checkbox">I have read this and I agree</string>
+    <string name="policy_continue">Continue</string>
+    <string name="policy_footer">Read the full %1$s for details.</string>
+    <string name="policy_privacy_label">Privacy Policy</string>
+    <string name="policy_link_unavailable">The page could not be opened</string>
 </resources>
