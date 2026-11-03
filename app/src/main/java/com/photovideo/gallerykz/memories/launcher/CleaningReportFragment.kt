@@ -7,6 +7,9 @@ import com.photovideo.gallerykz.memories.ads.AdSlot
 import com.photovideo.gallerykz.memories.ads.AdRemoteConfig
 
 import com.photovideo.gallerykz.memories.ads.AdGate
+import com.photovideo.gallerykz.memories.ads.AdHooks
+import com.photovideo.gallerykz.memories.ads.AdScreen
+import com.photovideo.gallerykz.memories.ads.SwipeAds
 
 import android.content.SharedPreferences
 import android.os.Bundle
@@ -56,8 +59,11 @@ class CleaningReportFragment : Fragment() {
         }
         // The report's native ad (`CleaningReport_Native_*`), at most N times a day.
         AdSlot(requireActivity(), b.adReportSlot, viewLifecycleOwner, reportSpec(), liveSpec = { reportSpec() }).start()
-        b.btnBack.setOnClickListener { host?.showHome() }
-        b.doneButton.setOnClickListener { host?.showHome() }
+        // Done, the back arrow and the system Back are the way back of the left swipe: they run the left-swipe ad (Left_Swipe_* of the
+        // Remote Config: its counter, sequence and rules) before going home.
+        AdHooks.fragmentBack(requireActivity(), viewLifecycleOwner, { activity, next -> SwipeAds.onReturn(activity, right = false, next) }) { host?.showHome() }
+        b.btnBack.setOnClickListener { leave() }
+        b.doneButton.setOnClickListener { leave() }
         renderResult()
     }
 
@@ -81,6 +87,19 @@ class CleaningReportFragment : Fragment() {
     override fun onDestroyView() {
         _binding = null
         super.onDestroyView()
+    }
+
+    // One leave at a time: a second tap while the ad is on its way does nothing.
+    private var leaving = false
+
+    private fun leave() {
+        val activity = activity ?: return
+        if (leaving) return
+        leaving = true
+        SwipeAds.onReturn(activity, right = false) {
+            leaving = false
+            if (isAdded && _binding != null) host?.showHome()
+        }
     }
 
     private fun reportSpec(): SlotSpec {

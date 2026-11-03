@@ -4,17 +4,21 @@ import org.json.JSONArray
 import org.json.JSONObject
 
 /** Every screen that has an ad block in the Remote Config (object name under "Screen" and the prefix of its keys). */
-enum class AdScreen(val obj: String, val prefix: String, val nativeOnly: Boolean = false) {
+/**
+ * [backByDefault]: the screen's block has no `on_back_inter_ads_show` key in the Remote Config (the Main / gallery pages and the
+ * cleaning report), so its Back / Done interstitial follows the master `inter_ads_on_back` flag alone.
+ */
+enum class AdScreen(val obj: String, val prefix: String, val nativeOnly: Boolean = false, val backByDefault: Boolean = false) {
     SPLASH("SplashScreen", "Splash"),
     DEFAULT_APP("DefaultAppScreen", "DefaultApp"),
     LANGUAGE("LanguageScreen", "Language"),
     INTRO("IntroScreen", "Intro"),
     MEDIA_PERMISSION("MediaPermissionScreen", "MediaPermission"),
     NOTI_PERMISSION("NotiPermissionScreen", "NotiPermission"),
-    MAIN("MainScreen", "Main"),
-    GALLERY("GalleryScreen", "Gallery", nativeOnly = true),
-    ALBUMS("AlbumsScreen", "Albums", nativeOnly = true),
-    FOR_YOU("ForYouScreen", "ForYou_Highlights", nativeOnly = true),
+    MAIN("MainScreen", "Main", backByDefault = true),
+    GALLERY("GalleryScreen", "Gallery", nativeOnly = true, backByDefault = true),
+    ALBUMS("AlbumsScreen", "Albums", nativeOnly = true, backByDefault = true),
+    FOR_YOU("ForYouScreen", "ForYou_Highlights", nativeOnly = true, backByDefault = true),
     ALBUM_DETAIL("AlbumDetailScreen", "AlbumDetail"),
     CATEGORY_MEDIA("CategoryMediaScreen", "CategoryMedia"),
     VIEWER("ViewerScreen", "Viewer"),
@@ -269,7 +273,7 @@ class AdConfig(
                     native = s.nativeOnly || isNative,
                     bannerId = block.str("${p}_Banner_Id"),
                     nativeId = block.str("${p}_Native_Id"),
-                    onBackInter = block.bool("on_back_inter_ads_show"),
+                    onBackInter = if (block.has("on_back_inter_ads_show")) block.bool("on_back_inter_ads_show") else s.backByDefault,
                     onClickInter = block.bool("on_click_inter_ads_show"),
                     autoRefresh = block.bool("${p}_Ad_Auto_Refresh"),
                     autoSeconds = block.int("${p}_Ad_Auto_Second"),

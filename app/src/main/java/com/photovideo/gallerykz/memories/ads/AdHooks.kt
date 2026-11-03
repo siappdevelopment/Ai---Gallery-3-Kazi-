@@ -202,6 +202,50 @@ object AdHooks {
         activity.onBackPressedDispatcher.addCallback(activity, callback)
     }
 
+    /**
+     * Back of a pager page / fragment: while [owner] is resumed (the visible page) the system Back first runs [ad] (given the activity and
+     * the continuation, which it must call exactly once), then [proceed]; without [proceed] the Back goes on to the
+     * next handler as if this one was not there. Only one Back runs at a time.
+     */
+    fun fragmentBack(
+        activity: androidx.fragment.app.FragmentActivity,
+        owner: LifecycleOwner,
+        ad: (Activity, () -> Unit) -> Unit,
+        proceed: (() -> Unit)? = null,
+    ): OnBackPressedCallback {
+        var busy = false
+        val callback = object : OnBackPressedCallback(false) {
+            override fun handleOnBackPressed() {
+                if (busy) return
+                fun pass() {
+                    if (proceed != null) {
+                        proceed()
+                    } else {
+                        isEnabled = false
+                        activity.onBackPressedDispatcher.onBackPressed()
+                        isEnabled = true
+                    }
+                }
+                busy = true
+                ad(activity) {
+                    busy = false
+                    if (!activity.isFinishing && !activity.isDestroyed) pass()
+                }
+            }
+        }
+        owner.lifecycle.addObserver(object : androidx.lifecycle.DefaultLifecycleObserver {
+            override fun onResume(owner: LifecycleOwner) {
+                callback.isEnabled = true
+            }
+
+            override fun onPause(owner: LifecycleOwner) {
+                callback.isEnabled = false
+            }
+        })
+        activity.onBackPressedDispatcher.addCallback(owner, callback)
+        return callback
+    }
+
     /** A click that opens something: the click interstitial may come first, then [open] runs. */
     fun onClick(activity: Activity, screen: AdScreen, open: () -> Unit) = ScreenInterAds.onClick(activity, screen, open)
 }

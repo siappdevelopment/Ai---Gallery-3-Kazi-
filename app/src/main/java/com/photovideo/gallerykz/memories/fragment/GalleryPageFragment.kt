@@ -3,11 +3,13 @@ package com.photovideo.gallerykz.memories.fragment
 import com.photovideo.gallerykz.memories.ads.SlotSpec
 
 import com.photovideo.gallerykz.memories.ads.ScreenInterAds
+import com.photovideo.gallerykz.memories.ads.SwipeAds
 
 import com.photovideo.gallerykz.memories.ads.AdSlot
 
 import com.photovideo.gallerykz.memories.ads.AdScreen
 
+import com.photovideo.gallerykz.memories.ads.AdHooks
 import com.photovideo.gallerykz.memories.ads.AdRemoteConfig
 
 import android.graphics.Typeface
@@ -64,6 +66,10 @@ class GalleryPageFragment : Fragment(), GalleryHost {
             b.navBar.setPadding(0, 0, 0, bars.bottom)
             insets
         }
+
+        // System Back: back to Home is the way back of the right swipe, so it runs the right-swipe ad (Right_Swipe_* of the Remote Config:
+        // its counter, sequence and rules) first; then the Back goes on.
+        AdHooks.fragmentBack(requireActivity(), viewLifecycleOwner, { activity, next -> SwipeAds.onReturn(activity, right = true, next) })
 
         // A tab switch counts for the bottom-navigation interstitial (every Nth switch); then the tab changes.
         b.tabForYou.setOnClickListener { switchTab(TAB_FOR_YOU) }
@@ -137,12 +143,14 @@ class GalleryPageFragment : Fragment(), GalleryHost {
     /** Shows the tab's fragment (created once, then hidden/shown so scroll positions survive). */
     private var tabSlot: AdSlot? = null
 
+    private fun screenOf(tab: Int): AdScreen = when (tab) {
+        TAB_GALLERY -> AdScreen.GALLERY
+        TAB_ALBUMS -> AdScreen.ALBUMS
+        else -> AdScreen.FOR_YOU
+    }
+
     private fun tabSpec(tab: Int): SlotSpec {
-        val screen = when (tab) {
-            TAB_GALLERY -> AdScreen.GALLERY
-            TAB_ALBUMS -> AdScreen.ALBUMS
-            else -> AdScreen.FOR_YOU
-        }
+        val screen = screenOf(tab)
         return SlotSpec.of(AdRemoteConfig.config.screen(screen), "slot_" + screen.name)
     }
 

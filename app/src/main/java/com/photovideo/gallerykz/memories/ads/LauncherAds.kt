@@ -63,26 +63,48 @@ object SwipeAds {
 
     private fun cfg(right: Boolean) = if (right) AdRemoteConfig.config.main.right else AdRemoteConfig.config.main.left
 
-    fun onSwipe(activity: Activity, right: Boolean) {
+    fun onSwipe(activity: Activity, right: Boolean) = perform(activity, right) { }
+
+    /**
+     * Coming back to Home from the gallery page (right = true, the way the right swipe went) or from the cleaning report
+     * (right = false): the same swipe ad with the same counter, sequence and rules; [next] (the navigation) runs exactly once
+     * after the ad, or at once when no ad is due.
+     */
+    fun onReturn(activity: Activity, right: Boolean, next: () -> Unit) = perform(activity, right, next)
+
+    private fun perform(activity: Activity, right: Boolean, next: () -> Unit) {
+        val once = java.util.concurrent.atomic.AtomicBoolean(false)
+        val done = { if (once.compareAndSet(false, true)) next() }
         val c = AdRemoteConfig.config
         val s = cfg(right)
-        if (!s.show || s.steps.isEmpty() || !AdGate.adsAllowed(activity) || activity.isFinishing || activity.isDestroyed) return
+        if (!s.show || s.steps.isEmpty() || !AdGate.adsAllowed(activity) || activity.isFinishing || activity.isDestroyed) {
+            done()
+            return
+        }
         val count = if (right) ++AdCounters.rightSwipe else ++AdCounters.leftSwipe
-        // 0 = every swipe; otherwise every Nth.
-        if (s.every > 0 && count % s.every != 0) return
+        // 0 = every time; otherwise every Nth.
+        if (s.every > 0 && count % s.every != 0) {
+            done()
+            return
+        }
         val ids = AdIds(s.interId, s.nativeId, c.appOpenId)
         val key = if (right) "right_swipe" else "left_swipe"
-        val type = SequenceAds.next(activity, key, s.steps, ids) ?: return
+        val type = SequenceAds.next(activity, key, s.steps, ids)
+        if (type == null) {
+            done()
+            return
+        }
         val cached = if (type == SeqType.G_INTER && s.preload) synchronized(inters) { inters.remove(right) } else null
         if (cached != null) {
             GoogleAds.showInterstitial(activity, cached) { shown ->
                 warm(activity.applicationContext, right)
-                if (!shown && s.failedQuiz) QuizAds.showFallback(activity, QuizKind.INTER) { }
+                if (!shown && s.failedQuiz) QuizAds.showFallback(activity, QuizKind.INTER) { done() } else done()
             }
             return
         }
         SequenceAds.run(activity, type, ids, s.failedQuiz) {
             if (type == SeqType.G_INTER && s.preload) warm(activity.applicationContext, right)
+            done()
         }
     }
 
