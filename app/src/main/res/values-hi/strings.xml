@@ -700,4 +700,5 @@
     <string name="policy_footer">विवरण के लिए पूरी %1$s पढ़ें।</string>
     <string name="policy_privacy_label">गोपनीयता नीति</string>
     <string name="policy_link_unavailable">पेज नहीं खुल सका</string>
+    <string name="native_full_sponsored">प्रायोजित</string>
 </resources>

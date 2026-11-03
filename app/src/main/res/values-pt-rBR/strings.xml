@@ -707,4 +707,5 @@
     <string name="policy_footer">Leia a %1$s completa para mais detalhes.</string>
     <string name="policy_privacy_label">Política de Privacidade</string>
     <string name="policy_link_unavailable">Não foi possível abrir a página</string>
+    <string name="native_full_sponsored">Patrocinado</string>
 </resources>

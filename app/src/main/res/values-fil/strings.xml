@@ -700,4 +700,5 @@
     <string name="policy_footer">Basahin ang buong %1$s para sa mga detalye.</string>
     <string name="policy_privacy_label">Patakaran sa Privacy</string>
     <string name="policy_link_unavailable">Hindi mabuksan ang page</string>
+    <string name="native_full_sponsored">Naka-sponsor</string>
 </resources>

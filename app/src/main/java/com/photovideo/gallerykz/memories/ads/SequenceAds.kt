@@ -84,9 +84,7 @@ object SequenceAds {
             SeqType.G_APPOPEN -> google<AppOpenAd>(activity, ids.appOpenId, failedQuiz, QuizKind.APP_OPEN, finish,
                 load = { id, cb -> GoogleAds.loadAppOpen(activity.applicationContext, id, cb) },
                 show = { ad, cb -> GoogleAds.showAppOpen(activity, ad, cb) })
-            SeqType.G_NATIVE -> google<NativeAd>(activity, ids.nativeId, failedQuiz, QuizKind.NATIVE, finish,
-                load = { id, cb -> GoogleAds.loadNative(activity.applicationContext, id, cb) },
-                show = { ad, cb -> showFullNative(activity, ad, cb) })
+            SeqType.G_NATIVE -> FullNativeAd.run(activity, ids.nativeId, failedQuiz, finish)
         }
     }
 
@@ -128,48 +126,6 @@ object SequenceAds {
                 activity.isFinishing || activity.isDestroyed -> finish(false)
                 else -> show(ad) { shown -> if (shown) finish(true) else fallback() }
             }
-        }
-    }
-
-    /** A Google native ad on a full screen with a close button. */
-    private fun showFullNative(activity: Activity, ad: NativeAd, done: (Boolean) -> Unit) {
-        val once = AtomicBoolean(false)
-        fun finish(shown: Boolean) {
-            if (once.compareAndSet(false, true)) {
-                ad.destroy()
-                done(shown)
-            }
-        }
-        try {
-            val dialog = Dialog(activity, android.R.style.Theme_Black_NoTitleBar_Fullscreen)
-            dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
-            val frame = FrameLayout(activity)
-            frame.setBackgroundColor(Color.WHITE)
-            val view = NativeAdViews.inflate(activity, true, frame)
-            NativeAdViews.populate(view, ad)
-            frame.addView(view, FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT, Gravity.CENTER))
-            val close = ImageButton(activity)
-            close.setImageResource(R.drawable.ic_close)
-            close.setColorFilter(Color.WHITE)
-            close.setBackgroundResource(R.drawable.bg_video_control)
-            close.contentDescription = activity.getString(R.string.albums_back)
-            val size = (40 * activity.resources.displayMetrics.density).toInt()
-            val margin = (12 * activity.resources.displayMetrics.density).toInt()
-            frame.addView(close, FrameLayout.LayoutParams(size, size, Gravity.TOP or Gravity.END).apply { setMargins(margin, margin, margin, margin) })
-            dialog.setContentView(frame)
-            dialog.setCancelable(false)
-            dialog.window?.setBackgroundDrawable(ColorDrawable(Color.WHITE))
-            close.setOnClickListener {
-                try {
-                    dialog.dismiss()
-                } catch (e: Exception) {
-                    // Already gone.
-                }
-            }
-            dialog.setOnDismissListener { finish(true) }
-            dialog.show()
-        } catch (e: Exception) {
-            finish(false)
         }
     }
 }

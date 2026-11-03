@@ -714,4 +714,5 @@
     <string name="policy_footer">Подробнее читайте в полной версии: %1$s.</string>
     <string name="policy_privacy_label">Политика конфиденциальности</string>
     <string name="policy_link_unavailable">Не удалось открыть страницу</string>
+    <string name="native_full_sponsored">Спонсор</string>
 </resources>

@@ -722,4 +722,6 @@
     <string name="policy_footer">Read the full %1$s for details.</string>
     <string name="policy_privacy_label">Privacy Policy</string>
     <string name="policy_link_unavailable">The page could not be opened</string>
+    <string name="launcher_quiz_ad_label" translatable="false">Ad</string>
+    <string name="native_full_sponsored">Sponsored</string>
 </resources>

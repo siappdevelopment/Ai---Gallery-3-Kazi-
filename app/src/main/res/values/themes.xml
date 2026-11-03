@@ -315,4 +315,18 @@
         <item name="cornerFamily">rounded</item>
         <item name="cornerSize">7dp</item>
     </style>
+    <!-- Rating / store / price chip of the full-screen native ad; shown by the binder only when the ad has that asset -->
+    <style name="NativeFullChip">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:background">@drawable/bg_native_full_chip</item>
+        <item name="android:fontFamily">@font/sans_trial_regular</item>
+        <item name="android:includeFontPadding">false</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:paddingHorizontal">@dimen/_10sdp</item>
+        <item name="android:paddingVertical">@dimen/_5sdp</item>
+        <item name="android:textColor">@color/native_full_headline</item>
+        <item name="android:textSize">@dimen/_10sdp</item>
+        <item name="android:visibility">gone</item>
+    </style>
 </resources>

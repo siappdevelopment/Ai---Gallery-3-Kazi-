@@ -46,4 +46,14 @@
     <color name="ad_border">#FFB8BFCC</color>
     <color name="ad_dialog_bg">#FFFFFFFF</color>
     <color name="ad_loading_accent">#FFFF3D7F</color>
+    <color name="ad_shimmer_block">#FFE3E5EA</color>
+    <color name="native_full_bg">#FFF0F0F8</color>
+    <color name="native_full_card">#FFFFFFFF</color>
+    <color name="native_full_close_bg">#FFFFFFFF</color>
+    <color name="native_full_close_ink">#FF15161A</color>
+    <color name="native_full_sponsored">#FF6E717A</color>
+    <color name="native_full_headline">#FF15161A</color>
+    <color name="native_full_body">#FF6E717A</color>
+    <color name="native_full_chip_stroke">#FFD9DAE3</color>
+    <color name="native_full_ad_chip">#FFF5B400</color>
 </resources>

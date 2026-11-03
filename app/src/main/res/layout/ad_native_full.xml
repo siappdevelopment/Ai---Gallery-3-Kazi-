@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Full-screen ad page shown in a dialog (the full-screen Google native and the Quiz interstitial / app open / full native): media on top
+     with the close / Ad / Sponsored bar over it, and a rounded info card (icon, headline, body, rating / store / price chips, call to
+     action) at the bottom. The chips stay hidden until the binder finds that asset. Colours follow light / dark. -->
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/native_full_bg">
+
+    <com.google.android.gms.ads.nativead.NativeAdView
+        android:id="@+id/ad_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:id="@+id/ad_content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1">
+
+                <com.google.android.gms.ads.nativead.MediaView
+                    android:id="@+id/ad_media"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/ad_quiz_media"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:contentDescription="@null"
+                    android:scaleType="fitCenter"
+                    android:visibility="gone" />
+
+                <LinearLayout
+                    android:id="@+id/adTopBar"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="top"
+                    android:layout_marginTop="12dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:paddingHorizontal="16dp">
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/ad_close"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:background="@drawable/bg_native_full_close"
+                        android:clickable="true"
+                        android:contentDescription="@android:string/cancel"
+                        android:focusable="true"
+                        android:padding="11dp"
+                        android:scaleType="fitCenter"
+                        app:srcCompat="@drawable/ic_close"
+                        app:tint="@color/native_full_close_ink" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/ad_attribution"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="12dp"
+                        android:background="@drawable/bg_native_full_ad_chip"
+                        android:fontFamily="@font/sans_trial_medium"
+                        android:includeFontPadding="false"
+                        android:paddingHorizontal="@dimen/_8sdp"
+                        android:paddingVertical="@dimen/_3sdp"
+                        android:text="@string/launcher_quiz_ad_label"
+                        android:textColor="@android:color/white"
+                        android:textSize="@dimen/_10sdp" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:ellipsize="end"
+                        android:fontFamily="@font/sans_trial_regular"
+                        android:gravity="end"
+                        android:includeFontPadding="false"
+                        android:maxLines="1"
+                        android:text="@string/native_full_sponsored"
+                        android:textColor="@color/native_full_sponsored"
+                        android:textSize="@dimen/_11sdp" />
+                </LinearLayout>
+            </FrameLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/_10sdp"
+                android:background="@drawable/bg_native_full_card"
+                android:orientation="vertical"
+                android:padding="@dimen/_12sdp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:baselineAligned="false"
+                    android:gravity="center_vertical">
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/ad_app_icon"
+                        android:layout_width="@dimen/_40sdp"
+                        android:layout_height="@dimen/_40sdp"
+                        android:contentDescription="@null"
+                        android:scaleType="centerCrop" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/ad_headline"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_10sdp"
+                        android:layout_weight="1"
+                        android:ellipsize="end"
+                        android:fontFamily="@font/sans_trial_medium"
+                        android:includeFontPadding="false"
+                        android:maxLines="2"
+                        android:textColor="@color/native_full_headline"
+                        android:textSize="@dimen/_13sdp" />
+                </LinearLayout>
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/ad_body"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_8sdp"
+                    android:ellipsize="end"
+                    android:fontFamily="@font/sans_trial_regular"
+                    android:includeFontPadding="false"
+                    android:maxLines="3"
+                    android:textColor="@color/native_full_body"
+                    android:textSize="@dimen/_11sdp" />
+
+                <!-- Rating / store / price: each chip is shown by the binder only when the ad has that asset. -->
+                <LinearLayout
+                    android:id="@+id/ad_chips"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_8sdp"
+                    android:orientation="horizontal">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/ad_stars"
+                        style="@style/NativeFullChip"
+                        android:layout_marginEnd="@dimen/_6sdp" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/ad_store"
+                        style="@style/NativeFullChip"
+                        android:layout_marginEnd="@dimen/_6sdp" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/ad_price"
+                        style="@style/NativeFullChip" />
+                </LinearLayout>
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/ad_call_to_action"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_42sdp"
+                    android:layout_marginTop="@dimen/_12sdp"
+                    android:background="@drawable/bg_ad_cta_pill"
+                    android:ellipsize="end"
+                    android:fontFamily="@font/sans_trial_medium"
+                    android:gravity="center"
+                    android:includeFontPadding="false"
+                    android:maxLines="1"
+                    android:paddingHorizontal="@dimen/_6sdp"
+                    android:textAllCaps="false"
+                    android:textColor="@android:color/white"
+                    android:textSize="@dimen/_13sdp" />
+            </LinearLayout>
+        </LinearLayout>
+    </com.google.android.gms.ads.nativead.NativeAdView>
+</FrameLayout>

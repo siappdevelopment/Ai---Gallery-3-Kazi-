@@ -693,4 +693,5 @@
     <string name="policy_footer">详情请阅读完整的%1$s。</string>
     <string name="policy_privacy_label">隐私政策</string>
     <string name="policy_link_unavailable">无法打开该页面</string>
+    <string name="native_full_sponsored">赞助</string>
 </resources>

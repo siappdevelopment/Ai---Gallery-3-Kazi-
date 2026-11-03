@@ -693,4 +693,5 @@
     <string name="policy_footer">อ่าน%1$sฉบับเต็มเพื่อดูรายละเอียด</string>
     <string name="policy_privacy_label">นโยบายความเป็นส่วนตัว</string>
     <string name="policy_link_unavailable">ไม่สามารถเปิดหน้าได้</string>
+    <string name="native_full_sponsored">ได้รับการสนับสนุน</string>
 </resources>

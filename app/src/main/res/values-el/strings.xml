@@ -700,4 +700,5 @@
     <string name="policy_footer">Διαβάστε ολόκληρη την %1$s για λεπτομέρειες.</string>
     <string name="policy_privacy_label">Πολιτική απορρήτου</string>
     <string name="policy_link_unavailable">Δεν ήταν δυνατό το άνοιγμα της σελίδας</string>
+    <string name="native_full_sponsored">Χορηγούμενο</string>
 </resources>

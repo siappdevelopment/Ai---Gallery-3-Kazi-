@@ -693,4 +693,5 @@
     <string name="policy_footer">Baca %1$s lengkap untuk detailnya.</string>
     <string name="policy_privacy_label">Kebijakan Privasi</string>
     <string name="policy_link_unavailable">Halaman tidak dapat dibuka</string>
+    <string name="native_full_sponsored">Bersponsor</string>
 </resources>

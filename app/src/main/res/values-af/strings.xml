@@ -700,4 +700,5 @@
     <string name="policy_footer">Lees die volledige %1$s vir besonderhede.</string>
     <string name="policy_privacy_label">Privaatheidsbeleid</string>
     <string name="policy_link_unavailable">Die bladsy kon nie oopgemaak word nie</string>
+    <string name="native_full_sponsored">Geborg</string>
 </resources>

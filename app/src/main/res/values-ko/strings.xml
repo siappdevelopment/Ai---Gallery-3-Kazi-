@@ -693,4 +693,5 @@
     <string name="policy_footer">자세한 내용은 전체 %1$s을(를) 확인하세요.</string>
     <string name="policy_privacy_label">개인정보처리방침</string>
     <string name="policy_link_unavailable">페이지를 열 수 없습니다</string>
+    <string name="native_full_sponsored">스폰서</string>
 </resources>
