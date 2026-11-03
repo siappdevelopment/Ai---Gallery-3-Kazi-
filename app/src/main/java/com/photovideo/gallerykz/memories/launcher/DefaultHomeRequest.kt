@@ -42,17 +42,20 @@ class DefaultHomeRequest(private val activity: ComponentActivity, private val on
     }
 
     /** Opens the system's Home app screen straight away (the onboarding does this once, before it explains the choice). */
-    fun requestSettings() {
-        if (inFlight) return
-        val intent = LauncherNav.homeSettingsIntent(activity) ?: return
+    /** True when the system screen was really started (the caller's screen is about to be left). */
+    fun requestSettings(): Boolean {
+        if (inFlight) return false
+        val intent = LauncherNav.homeSettingsIntent(activity) ?: return false
         isSettings = true
         startedAt = SystemClock.elapsedRealtime()
         inFlight = true
         try {
             launcher.launch(intent)
             DefaultHomeGuideActivity.show(activity)
+            return true
         } catch (e: Exception) {
             inFlight = false
+            return false
         }
     }
 

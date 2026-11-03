@@ -30,6 +30,14 @@ class DefaultAppActivity : AppCompatActivity() {
     private var binding: ActivityDefaultAppBinding? = null
     private var completed = false
 
+    // The bottom ad slot, started once (the first time this screen is really in front).
+    private var adSlot: com.photovideo.gallerykz.memories.ads.AdSlot? = null
+    private var adStarted = false
+
+    // The system Home screen opened at the start: the ad waits until it was shown and the user is back.
+    private var awaitingSystem = false
+    private var leftForSystem = false
+
     // True once the user tapped Set as Default and the system choice is open (kept over recreation).
     private var userAsked = false
 
@@ -47,7 +55,8 @@ class DefaultAppActivity : AppCompatActivity() {
         val b = ActivityDefaultAppBinding.inflate(layoutInflater)
         binding = b
         setContentView(b.root)
-        AdHooks.attachOnboarding(this, AdScreen.DEFAULT_APP)
+        // The ad is requested only once this screen is really in front (see onResume), never while the system screen is on top.
+        adSlot = AdHooks.attachOnboarding(this, AdScreen.DEFAULT_APP, autoStart = false)
         ViewCompat.setOnApplyWindowInsetsListener(b.root) { _, insets ->
             val bars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             b.main.setPadding(bars.left, bars.top, bars.right, 0)
@@ -63,12 +72,21 @@ class DefaultAppActivity : AppCompatActivity() {
         // dismissed without a choice, the user lands here and can try again with Set as Default. Never twice.
         if (!OnboardingPrefs.isDefaultSystemShown(this)) {
             OnboardingPrefs.setDefaultSystemShown(this)
-            defaultHome.requestSettings()
+            awaitingSystem = defaultHome.requestSettings()
         }
+    }
+
+    override fun onPause() {
+        super.onPause()
+        // The system Home settings screen is now in front.
+        if (awaitingSystem) leftForSystem = true
     }
 
     override fun onResume() {
         super.onResume()
+        // The bottom ad starts when this screen is in front: not before the system screen has been shown and closed.
+        if (awaitingSystem && leftForSystem) awaitingSystem = false
+        if (!awaitingSystem) startAd()
         // The user may have chosen this app in the system settings and come back.
         finishIfDefault()
     }
@@ -76,6 +94,12 @@ class DefaultAppActivity : AppCompatActivity() {
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
         outState.putBoolean(KEY_USER_ASKED, userAsked)
+    }
+
+    private fun startAd() {
+        if (adStarted || isFinishing || isDestroyed) return
+        adStarted = true
+        adSlot?.start()
     }
 
     /**

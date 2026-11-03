@@ -84,13 +84,15 @@ object AdHooks {
     fun attachInto(
         activity: Activity, container: ViewGroup, owner: LifecycleOwner, spec: SlotSpec,
         keepContentOnFail: Boolean = true, navWithBigNative: Boolean = false, onVisibility: (Boolean) -> Unit = {},
+        autoStart: Boolean = true,
     ): AdSlot? {
         if (!spec.show) return null
         val slot = AdSlot(
             activity, container, owner, spec, keepContentOnFail = keepContentOnFail, onVisibility = onVisibility,
             onBigNative = { big -> if (navWithBigNative) SystemNav.setVisible(activity, big) },
         )
-        slot.start()
+        // autoStart = false: the screen starts the slot itself (when it is really in front); nothing is requested before.
+        if (autoStart) slot.start()
         return slot
     }
 
@@ -159,24 +161,26 @@ object AdHooks {
     }
 
     /** Onboarding screens: the ad goes into the reserved area (large native). */
-    fun attachOnboarding(activity: AppCompatActivity, screen: AdScreen) {
+    fun attachOnboarding(activity: AppCompatActivity, screen: AdScreen, autoStart: Boolean = true): AdSlot? {
         try {
-            val container = adContainer(activity) ?: return
+            val container = adContainer(activity) ?: return null
             val spec = SlotSpec.of(AdRemoteConfig.config.screen(screen), "slot_${screen.name}", large = true)
             // A screen whose ad is off keeps its design placeholder; otherwise the ad takes the whole width and its own height.
             if (!spec.show) {
                 // Ads are off for this screen: no reserved area, no placeholder, the screen uses the space.
                 collapseOnboardingAd(activity, container)
-                return
+                return null
             }
             fullWidth(container)
             // When no ad can be had either (failure, no fill), the area goes away in the same way.
-            attachInto(
+            return attachInto(
                 activity, container, activity, spec, keepContentOnFail = false,
                 onVisibility = { visible -> if (!visible) collapseOnboardingAd(activity, container) },
+                autoStart = autoStart,
             )
         } catch (e: Exception) {
             android.util.Log.w("KaziAds", "ads for ${screen.name} could not be attached: $e")
+            return null
         }
     }
 
