@@ -140,10 +140,22 @@ object BackAds {
         val once = AtomicBoolean(false)
         val done = { if (once.compareAndSet(false, true)) next() }
         val config = AdRemoteConfig.config
-        val allowed = cfg.show && cfg.steps.isNotEmpty() && AdGate.isNetworkAvailable(activity) && AdGate.adsAllowed(activity) &&
+        // The Recent page matches its state / country lists with the IP lookup when `App_Proxy_Check_Ip` is on.
+        val ipLists = key == "recent"
+        val basic = cfg.show && cfg.steps.isNotEmpty() && AdGate.isNetworkAvailable(activity) && AdGate.adsAllowed(activity) &&
             cfg.afterDays > 0 && AdGate.daysSinceInstall(activity) >= cfg.afterDays &&
-            AdGate.intervalElapsed(activity, "${key}_back", cfg.perDay, zeroIsAlways = false) &&
+            AdGate.intervalElapsed(activity, "${key}_back", cfg.perDay, zeroIsAlways = false)
+        val allowed = basic && if (ipLists) {
+            AdGate.locationAllowed(activity, key, cfg.showCountries, cfg.excludeCountries, useIp = config.proxy.checkIp)
+        } else {
             AdGate.countryAllowed(activity, cfg.showCountries, cfg.excludeCountries, preferIp = cfg.useIpCountry)
+        }
+        if (ipLists) {
+            android.util.Log.d(
+                "KaziAds",
+                "[$key] back ad decision: " + (if (allowed) "SHOW" else "HIDE") + " (show=${cfg.show} steps=${cfg.steps.size} afterDays=${cfg.afterDays} perDay=${cfg.perDay} basicGates=$basic)",
+            )
+        }
         if (!allowed || activity.isFinishing || activity.isDestroyed) {
             done()
             return

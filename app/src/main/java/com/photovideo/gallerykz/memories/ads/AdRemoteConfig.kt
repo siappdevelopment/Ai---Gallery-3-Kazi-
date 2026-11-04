@@ -230,6 +230,42 @@ object AdGate {
         return show.isEmpty() || show.any { it.equals(country, true) }
     }
 
+    /**
+     * The state / country lists of one screen's back ad (`show` = only there, `exclude` = never there; empty = everyone). Each entry is an
+     * English name and is compared (case-insensitively) with the IP country, state and city when [useIp] is on and the IP lookup
+     * (`App_Proxy_Check_Ip`) has an answer, else with the phone's country. The exclude list always wins over the show list.
+     * Every step is logged under "KaziAds" so a decision can be followed.
+     */
+    fun locationAllowed(context: Context, tag: String, show: List<String>, exclude: List<String>, useIp: Boolean): Boolean {
+        val proxy = AdRemoteConfig.config.proxy
+        val phone = countryName(context, false)
+        val ipCountry = IpLocation.country(context)
+        val ipState = IpLocation.state(context)
+        val ipCity = IpLocation.city(context)
+        Log.d("KaziAds", "[$tag] location gate: show=$show exclude=$exclude useIp=$useIp App_Proxy_Check_Ip=${proxy.checkIp} checkerUrl=${if (proxy.checkerUrl.isBlank()) "(empty)" else proxy.checkerUrl}")
+        Log.d("KaziAds", "[$tag] detected: ip country='$ipCountry' state='$ipState' city='$ipCity' phone country='$phone'")
+        if (show.isEmpty() && exclude.isEmpty()) {
+            Log.d("KaziAds", "[$tag] both lists empty -> allowed (everyone)")
+            return true
+        }
+        val ipKnown = useIp && (ipCountry.isNotEmpty() || ipState.isNotEmpty() || ipCity.isNotEmpty())
+        if (useIp && !ipKnown) Log.d("KaziAds", "[$tag] IP location not known yet (lookup off, failed or still running) -> using the phone country only")
+        val places = if (ipKnown) listOf(ipCountry, ipState, ipCity) else listOf(phone)
+        val here = places.map { it.trim() }.filter { it.isNotEmpty() }
+        val excluded = exclude.firstOrNull { rule -> here.any { it.equals(rule.trim(), true) } }
+        if (excluded != null) {
+            Log.d("KaziAds", "[$tag] '$excluded' is in the exclude list -> NOT allowed (exclude wins)")
+            return false
+        }
+        if (show.isEmpty()) {
+            Log.d("KaziAds", "[$tag] show list empty and not excluded -> allowed")
+            return true
+        }
+        val shown = show.firstOrNull { rule -> here.any { it.equals(rule.trim(), true) } }
+        Log.d("KaziAds", "[$tag] show list " + if (shown != null) "has '$shown' -> allowed" else "does not have $here -> NOT allowed")
+        return shown != null
+    }
+
     /** The global country lists of the config apply to every ad. */
     fun adsAllowed(context: Context): Boolean {
         val c = AdRemoteConfig.config

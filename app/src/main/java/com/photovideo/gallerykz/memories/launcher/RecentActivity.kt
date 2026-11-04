@@ -42,6 +42,8 @@ class RecentActivity : AppCompatActivity(), LauncherApps.Listener {
             return
         }
         enableEdgeToEdge()
+        // The IP location (state / country) for the back ad lists is looked up when the page opens (only when App_Proxy_Check_Ip is on).
+        com.photovideo.gallerykz.memories.ads.IpLocation.refresh(this)
         val b = ActivityRecentBinding.inflate(layoutInflater)
         binding = b
         setContentView(b.root)
