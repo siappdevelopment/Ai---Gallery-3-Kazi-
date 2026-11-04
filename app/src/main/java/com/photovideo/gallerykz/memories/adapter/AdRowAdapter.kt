@@ -18,6 +18,10 @@ class AdRowAdapter(
 
     private var enabled = false
 
+    /** True while the ad view lives somewhere else (a pinned slot): the row keeps its height ([dockedHeightPx]) and holds no view. */
+    private var docked = false
+    var dockedHeightPx = 0
+
     /** Position of the ad row in this adapter (= the index of the inner item it sits before); -1 = none. */
     private var adPos = -1
 
@@ -101,6 +105,16 @@ class AdRowAdapter(
         }
     }
 
+    /** The ad moved to the pinned slot (true) or back into its row (false); the row is rebound. */
+    fun setDocked(value: Boolean) {
+        if (docked == value) return
+        docked = value
+        if (adPos >= 0) notifyItemChanged(adPos)
+    }
+
+    /** Position of the ad row in this adapter; -1 = none. */
+    fun adPosition(): Int = adPos
+
     /** True when [position] (of this adapter) is the ad row. */
     fun isAd(position: Int): Boolean = position == adPos
 
@@ -131,6 +145,13 @@ class AdRowAdapter(
 
     private fun attach(holder: AdHolder) {
         val host = holder.itemView as ViewGroup
+        if (docked) {
+            // The ad is in the pinned slot: the row stays as tall as it was, so the grid does not jump.
+            if (container.parent === host) host.removeView(container)
+            host.minimumHeight = dockedHeightPx
+            return
+        }
+        host.minimumHeight = 0
         if (container.parent === host) return
         (container.parent as? ViewGroup)?.removeView(container)
         host.addView(container, FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT))

@@ -14,6 +14,7 @@ import android.view.MotionEvent
 import android.view.VelocityTracker
 import android.view.View
 import android.view.ViewConfiguration
+import android.view.ViewGroup
 import android.view.animation.AccelerateInterpolator
 import android.view.animation.DecelerateInterpolator
 import android.view.inputmethod.EditorInfo
@@ -23,7 +24,14 @@ import android.widget.PopupMenu
 import android.widget.Toast
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.lifecycle.LifecycleOwner
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.photovideo.gallerykz.memories.adapter.AdRowAdapter
+import com.photovideo.gallerykz.memories.ads.AdGate
+import com.photovideo.gallerykz.memories.ads.AdRemoteConfig
+import com.photovideo.gallerykz.memories.ads.AdSlot
+import com.photovideo.gallerykz.memories.ads.SlotSpec
 import com.photovideo.gallerykz.memories.R
 import com.photovideo.gallerykz.memories.databinding.ViewLauncherDrawerBinding
 import java.util.Locale
@@ -49,6 +57,18 @@ class LauncherDrawerView @JvmOverloads constructor(
     private var query = ""
     private var menu: PopupMenu? = null
 
+    // The one medium ad of the list (LauncherApp_Native_List_*). Its view is one container that moves between its row (the third row of
+    // the list) and a pinned slot over the bottom of the list; it is never inflated or requested again by moving.
+    private val adContainer = FrameLayout(context)
+    private var adRow: AdRowAdapter? = null
+    private var adSlot: AdSlot? = null
+    private var adStarted = false
+    private var adVisible = false
+    private var adDocked = false
+    private var adHiding = false
+    private var lastAdHeight = 0
+    private var insetBottom = 0
+
     // Dragging the open panel down to close it.
     private var tracker: VelocityTracker? = null
     private var downX = 0f
@@ -71,8 +91,21 @@ class LauncherDrawerView @JvmOverloads constructor(
         visibility = GONE
         setBackgroundResource(R.color.language_background)
 
-        binding.rvApps.layoutManager = GridLayoutManager(context, COLUMNS)
-        binding.rvApps.adapter = adapter
+        @Suppress("UNCHECKED_CAST")
+        val row = AdRowAdapter(adapter as RecyclerView.Adapter<RecyclerView.ViewHolder>, adContainer) { if (adapter.itemCount >= AD_FIRST_INDEX) AD_FIRST_INDEX else -1 }
+        adRow = row
+        val manager = GridLayoutManager(context, COLUMNS)
+        manager.spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
+            override fun getSpanSize(position: Int): Int = if (row.isAd(position)) COLUMNS else 1
+        }
+        binding.rvApps.layoutManager = manager
+        binding.rvApps.adapter = row
+        // Decided from the state (is the ad's row still on screen?), not from the scroll direction.
+        binding.rvApps.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                updateAdPlacement()
+            }
+        })
         binding.rvApps.itemAnimator = null
         adapter.applySettings(context)
 
@@ -100,7 +133,8 @@ class LauncherDrawerView @JvmOverloads constructor(
         ViewCompat.setOnApplyWindowInsetsListener(this) { _, insets ->
             val bars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             val ime = insets.getInsets(WindowInsetsCompat.Type.ime())
-            binding.rvApps.setPadding(binding.rvApps.paddingLeft, 0, binding.rvApps.paddingRight, maxOf(bars.bottom, ime.bottom))
+            insetBottom = maxOf(bars.bottom, ime.bottom)
+            updateBottomSpace()
             setPadding(bars.left, bars.top, bars.right, 0)
             insets
         }
@@ -138,6 +172,7 @@ class LauncherDrawerView @JvmOverloads constructor(
         isOpen = true
         isDragging = true
         render()
+        prepareAd()
         translationY = hiddenY()
         visibility = VISIBLE
         ViewCompat.requestApplyInsets(this)
@@ -213,6 +248,8 @@ class LauncherDrawerView @JvmOverloads constructor(
         translationY = 0f
         binding.etSearch.setText("")
         binding.rvApps.scrollToPosition(0)
+        // The ad goes back to its row for the next opening.
+        resetAdDock()
         onClosed?.invoke()
     }
 
@@ -232,10 +269,155 @@ class LauncherDrawerView @JvmOverloads constructor(
     private fun render() {
         val list = filtered()
         adapter.submitList(list)
+        adRow?.sync()
+        post { updateAdPlacement() }
         // Not loaded yet is a blank grid, not "No apps found".
         binding.tvNoApps.visibility = if (list.isEmpty() && LauncherApps.apps.isNotEmpty() && isOpen) VISIBLE else GONE
         binding.rvApps.visibility = if (list.isEmpty()) INVISIBLE else VISIBLE
         refreshDefaultPromo()
+    }
+
+    // ---- the ad of the list ----
+
+    private fun adSpec(): SlotSpec {
+        val cfg = AdRemoteConfig.config.launcher
+        return SlotSpec(
+            show = cfg.listShow && cfg.listId.isNotEmpty(), native = true, bannerId = "", nativeId = cfg.listId,
+            cacheKey = "slot_launcher_list", medium = true,
+        )
+    }
+
+    private fun hostActivity(): android.app.Activity? {
+        var host: android.content.Context? = context
+        while (host is android.content.ContextWrapper && host !is android.app.Activity) host = host.baseContext
+        return host as? android.app.Activity
+    }
+
+    private fun dp(value: Int): Int = (value * resources.displayMetrics.density).toInt()
+
+    private fun estimatedAdHeight(): Int = if (lastAdHeight > 0) lastAdHeight else dp(AD_FALLBACK_DP)
+
+    /**
+     * The drawer was opened: the ad is requested when `LauncherApp_Native_List_Ad_Show` is on and the per-day gap has passed
+     * (`LauncherApp_Native_List_Ad_Show_Per_Day`: N times a day = one every 24 h / N, 0 = no limit). Within the gap the ad that is
+     * already there stays and nothing new is requested.
+     */
+    private fun prepareAd() {
+        val spec = adSpec()
+        if (!spec.show) return
+        val activity = hostActivity() ?: return
+        val owner = activity as? LifecycleOwner ?: return
+        val row = adRow ?: return
+        if (adSlot == null) {
+            adSlot = AdSlot(
+                activity, adContainer, owner, spec,
+                onVisibility = { visible ->
+                    adVisible = visible
+                    row.setEnabled(visible)
+                    post { updateAdPlacement() }
+                },
+                liveSpec = ::adSpec,
+            )
+        }
+        val due = AdGate.intervalElapsed(context, AD_KEY, AdRemoteConfig.config.launcher.listPerDay, zeroIsAlways = true)
+        if (!due) return
+        AdGate.markShown(context, AD_KEY)
+        if (!adStarted) {
+            adStarted = true
+            adSlot?.start()
+        } else {
+            adSlot?.refreshNow()
+        }
+    }
+
+    /** True when the user has scrolled past the ad's row: it is above the visible part of the list. */
+    private fun adLeftViewport(): Boolean {
+        val row = adRow ?: return false
+        val lm = binding.rvApps.layoutManager as? GridLayoutManager ?: return false
+        val pos = row.adPosition()
+        if (pos < 0) return false
+        val first = lm.findFirstVisibleItemPosition()
+        if (first == RecyclerView.NO_POSITION) return false
+        if (first > pos) return true
+        val view = lm.findViewByPosition(pos)
+        return view != null && view.bottom <= 0
+    }
+
+    /** Puts the ad in its row, or in the pinned slot (scrolled past its row, or fewer apps than two rows). */
+    private fun updateAdPlacement() {
+        if (adRow == null) return
+        if (!adDocked && adContainer.height > 0) lastAdHeight = adContainer.height
+        val inList = adapter.itemCount >= AD_FIRST_INDEX
+        val wantPinned = adVisible && isOpen && (!inList || adLeftViewport())
+        if (wantPinned) showPinned() else hidePinned(animated = adVisible && isOpen)
+    }
+
+    private fun showPinned() {
+        val row = adRow ?: return
+        val pinned = binding.adPinned
+        if (adDocked) {
+            if (adHiding) {
+                // The user scrolled back down while it was sliding away: it stays.
+                adHiding = false
+                pinned.animate().cancel()
+                pinned.translationY = 0f
+                pinned.alpha = 1f
+            }
+            return
+        }
+        pinned.animate().cancel()
+        adDocked = true
+        row.dockedHeightPx = estimatedAdHeight() + dp(12)
+        (adContainer.parent as? ViewGroup)?.removeView(adContainer)
+        pinned.removeAllViews()
+        pinned.addView(adContainer, FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT))
+        pinned.visibility = VISIBLE
+        pinned.alpha = 0f
+        pinned.translationY = estimatedAdHeight().toFloat()
+        pinned.animate().translationY(0f).alpha(1f).setDuration(SLIDE_IN_MS).start()
+        row.setDocked(true)
+        updateBottomSpace()
+    }
+
+    private fun hidePinned(animated: Boolean) {
+        if (!adDocked) return
+        val pinned = binding.adPinned
+        if (!animated) {
+            pinned.animate().cancel()
+            finishUnpin()
+            return
+        }
+        if (adHiding) return
+        adHiding = true
+        pinned.animate().cancel()
+        pinned.animate().translationY(estimatedAdHeight().toFloat()).alpha(0f).setDuration(SLIDE_OUT_MS).withEndAction {
+            if (adHiding) finishUnpin()
+        }.start()
+    }
+
+    /** The pinned slot is empty again and the ad goes back into its row (only after the slide-out ended, so it is never in two places). */
+    private fun finishUnpin() {
+        val pinned = binding.adPinned
+        adHiding = false
+        adDocked = false
+        pinned.visibility = GONE
+        pinned.translationY = 0f
+        pinned.alpha = 1f
+        pinned.removeAllViews()
+        adRow?.setDocked(false)
+        updateBottomSpace()
+    }
+
+    private fun resetAdDock() {
+        binding.adPinned.animate().cancel()
+        if (adDocked) finishUnpin()
+    }
+
+    /** The list ends above the navigation bar, and above the pinned ad while it is there. */
+    private fun updateBottomSpace() {
+        val rv = binding.rvApps
+        rv.setPadding(rv.paddingLeft, 0, rv.paddingRight, insetBottom + if (adDocked) estimatedAdHeight() + dp(4) else 0)
+        binding.adPinned.setPadding(binding.adPinned.paddingLeft, 0, binding.adPinned.paddingRight, insetBottom)
     }
 
     private fun launch(app: LauncherApp) {
@@ -366,6 +548,13 @@ class LauncherDrawerView @JvmOverloads constructor(
 
     companion object {
         private const val COLUMNS = 4
+
+        /** The ad sits in the third row: two full rows of apps come first. */
+        private const val AD_FIRST_INDEX = COLUMNS * 2
+        private const val AD_KEY = "launcher_list_ad"
+        private const val AD_FALLBACK_DP = 210
+        private const val SLIDE_IN_MS = 280L
+        private const val SLIDE_OUT_MS = 200L
         private const val OPEN_THRESHOLD = 0.65f
         private const val CLOSE_THRESHOLD = 0.12f
         private const val PROJECTION_SECONDS = 0.12f

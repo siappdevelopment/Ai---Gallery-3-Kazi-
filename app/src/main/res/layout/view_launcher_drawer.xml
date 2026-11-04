@@ -125,6 +125,17 @@
                 android:textColor="@color/home_text_muted"
                 android:textSize="15sp"
                 android:visibility="gone" />
+
+            <!-- The list ad is pinned here (over the bottom of the list) once the user has scrolled past its row -->
+            <FrameLayout
+                android:id="@+id/adPinned"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:background="@color/language_background"
+                android:paddingStart="8dp"
+                android:paddingEnd="8dp"
+                android:visibility="gone" />
         </FrameLayout>
     </LinearLayout>
 </merge>

@@ -342,7 +342,7 @@ class AdConfig(
                 launcher = LauncherAd(
                     listShow = launcherBlock.bool("LauncherApp_Native_List_Ad_Show"),
                     listPerDay = launcherBlock.int("LauncherApp_Native_List_Ad_Show_Per_Day"),
-                    listId = launcherBlock.str("LauncherApp_Native_List_Id"),
+                    listId = launcherBlock.str("LauncherApp_Native_List_Ad_Id").ifEmpty { launcherBlock.str("LauncherApp_Native_List_Id") },
                     reportShow = launcherBlock.bool("CleaningReport_Native_Ad_Show"),
                     reportPerDay = launcherBlock.int("CleaningReport_Native_Ad_Show_Per_Day"),
                     reportId = launcherBlock.str("CleaningReport_Native_Id"),
