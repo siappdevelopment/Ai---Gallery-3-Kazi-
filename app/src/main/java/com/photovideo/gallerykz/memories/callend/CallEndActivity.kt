@@ -73,7 +73,7 @@ class CallEndActivity : AppCompatActivity() {
             val c = AdRemoteConfig.config.clEnd
             AdHooks.attachBottom(
                 this,
-                SlotSpec(show = c.adShow, native = c.native, bannerId = c.bannerId, nativeId = c.nativeId, large = c.native, cacheKey = "slot_clend"),
+                SlotSpec(show = c.adShow, native = c.native, bannerId = c.bannerId, nativeId = c.nativeId, large = true, cacheKey = "slot_clend"),
                 navWithBigNative = true,
                 // No Quiz ad on the call end screen: not at the bottom, not in the back ad, not as a fallback.
                 noQuiz = true,

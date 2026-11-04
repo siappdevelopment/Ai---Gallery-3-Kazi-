@@ -9,6 +9,7 @@ import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
+import androidx.core.view.doOnLayout
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
 import com.google.android.gms.ads.AdView
@@ -206,16 +207,31 @@ class AdSlot(
                 }
             }
         } else {
-            val widthDp = (container.resources.displayMetrics.widthPixels / container.resources.displayMetrics.density).toInt()
-            GoogleAds.loadBanner(activity, id, widthDp, if (spec.large || spec.medium) (boxPx() / activity.resources.displayMetrics.density).toInt() else 0) { view ->
-                if (destroyed || mine != token) {
-                    view?.destroy()
-                    return@loadBanner
+            val density = container.resources.displayMetrics.density
+            // The banner is as wide as the place it is shown in (the screen may keep margins or padding around it), so its button is never cut off.
+            fun load(availablePx: Int) {
+                if (destroyed || mine != token) return
+                val widthDp = (availablePx / density).toInt()
+                GoogleAds.loadBanner(activity, id, widthDp, if (spec.large || spec.medium) (boxPx() / density).toInt() else 0) { view ->
+                    if (destroyed || mine != token) {
+                        view?.destroy()
+                        return@loadBanner
+                    }
+                    loading = false
+                    if (view == null) failed() else {
+                        showBanner(view)
+                        afterLoad()
+                    }
                 }
-                loading = false
-                if (view == null) failed() else {
-                    showBanner(view)
-                    afterLoad()
+            }
+            val ownWidth = container.width - container.paddingLeft - container.paddingRight
+            if (ownWidth > 0) {
+                load(ownWidth)
+            } else {
+                // Not measured yet (the place was hidden): wait for its first layout, which the placeholder above has asked for.
+                container.doOnLayout {
+                    val laidOut = it.width - it.paddingLeft - it.paddingRight
+                    load(if (laidOut > 0) laidOut else it.resources.displayMetrics.widthPixels)
                 }
             }
         }
@@ -301,7 +317,6 @@ class AdSlot(
         if (spec.large || spec.medium) {
             // Same area as the big / medium native ad: the banner sits centred in it, never stretched.
             container.minimumHeight = boxPx()
-            container.setBackgroundResource(R.drawable.bg_ad_card)
             boxed = true
             container.addView(view, FrameLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT, android.view.Gravity.CENTER))
         } else {

@@ -95,7 +95,7 @@ abstract class EventPromptActivity : AppCompatActivity() {
         try {
             val cfg = adConfig()
             val spec = SlotSpec(
-                show = cfg.bottomShow, native = cfg.bottomNative, bannerId = cfg.bannerId, nativeId = cfg.nativeId, large = cfg.bottomNative,
+                show = cfg.bottomShow, native = cfg.bottomNative, bannerId = cfg.bannerId, nativeId = cfg.nativeId, large = true,
                 preload = cfg.preload, cacheKey = "slot_event_$adKey",
             )
             // No Quiz ad on the charging / install screens: not at the bottom, not in the back ad, not as a fallback.
