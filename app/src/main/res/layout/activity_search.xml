@@ -189,7 +189,7 @@
                         android:layout_height="21dp"
                         android:importantForAccessibility="no"
                         android:src="@drawable/ic_photo"
-                        app:tint="#D92E66" />
+                        app:tint="@color/perm_icon_tint" />
 
                     <TextView
                         android:layout_width="0dp"
@@ -224,7 +224,7 @@
                         android:layout_height="21dp"
                         android:importantForAccessibility="no"
                         android:src="@drawable/ic_smart_display"
-                        app:tint="#D92E66" />
+                        app:tint="@color/perm_icon_tint" />
 
                     <TextView
                         android:layout_width="0dp"
@@ -265,7 +265,7 @@
                         android:layout_height="21dp"
                         android:importantForAccessibility="no"
                         android:src="@drawable/ic_album_screenshot"
-                        app:tint="#D92E66" />
+                        app:tint="@color/perm_icon_tint" />
 
                     <TextView
                         android:layout_width="0dp"
@@ -320,7 +320,7 @@
                     android:layout_gravity="center"
                     android:importantForAccessibility="no"
                     android:src="@drawable/ic_search"
-                    app:tint="#D92E66" />
+                    app:tint="@color/perm_icon_tint" />
             </FrameLayout>
 
             <TextView
