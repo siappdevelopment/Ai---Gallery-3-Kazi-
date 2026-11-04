@@ -146,7 +146,14 @@ class AddToAlbumBottomSheet : BottomSheetDialogFragment() {
 
     private fun renderAlbums(adapter: PickAlbumAdapter, albums: List<PickAlbum>) {
         val b = binding ?: return
-        adapter.submitList(albums.toList()) { capListHeight(b, albums.size) }
+        // The list arrives in two steps (device folders, then app albums). When rows are added above the first visible one the
+        // list would stay scrolled down and hide the app albums, so a list that was at the top goes back to the top.
+        val manager = b.rvAlbums.layoutManager as? LinearLayoutManager
+        val atTop = manager == null || manager.findFirstVisibleItemPosition() <= 0
+        adapter.submitList(albums.toList()) {
+            capListHeight(b, albums.size)
+            if (atTop) b.rvAlbums.scrollToPosition(0)
+        }
     }
 
     /** Shows about six rows at first; longer lists scroll inside the sheet instead of growing it. */
@@ -168,6 +175,8 @@ class AddToAlbumBottomSheet : BottomSheetDialogFragment() {
     private fun handleTransfer(outcome: TransferOutcome) {
         val context = context?.applicationContext ?: return
         when {
+            outcome.done == 0 && outcome.unsupported ->
+                Toast.makeText(context, getString(R.string.transfer_folder_unsupported, outcome.albumName), Toast.LENGTH_LONG).show()
             outcome.done == 0 ->
                 Toast.makeText(context, R.string.viewer_transfer_failed, Toast.LENGTH_SHORT).show()
             outcome.failed > 0 -> {

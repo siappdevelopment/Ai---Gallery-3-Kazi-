@@ -89,7 +89,8 @@ class AddToAlbumViewModel(
     private val _loaded = MutableLiveData(false)
     val loaded: LiveData<Boolean> = _loaded
 
-    private class PendingMove(val items: List<Long>, val path: String, val albumName: String)
+    /** [items] are the ones the folder accepts; [total] counts every selected item (skipped ones are reported as failed). */
+    private class PendingMove(val items: List<Long>, val path: String, val albumName: String, val total: Int)
 
     @Volatile
     private var pendingMove: PendingMove? = null
@@ -144,12 +145,19 @@ class AddToAlbumViewModel(
                 _transfer.postValue(Event(TransferOutcome(album.name, 0, items.size, isMove, false)))
                 return@execute
             }
+            // MediaStore refuses pictures in the video folder and anything in the audio folders: say so instead of failing.
+            val fit = items.filter { files.accepts(path, it) }
+            if (fit.isEmpty()) {
+                busy = false
+                _transfer.postValue(Event(TransferOutcome(album.name, 0, items.size, isMove, false, unsupported = true)))
+                return@execute
+            }
             if (isMove) {
                 // The system has to confirm before files can be relocated.
-                pendingMove = PendingMove(items, path, album.name)
-                _consent.postValue(Event(files.writeRequest(items)))
+                pendingMove = PendingMove(fit, path, album.name, items.size)
+                _consent.postValue(Event(files.writeRequest(fit)))
             } else {
-                finishTransfer(album.name, files.copy(items, path), items.size)
+                finishTransfer(album.name, files.copy(fit, path), items.size)
             }
         }
     }
@@ -166,7 +174,7 @@ class AddToAlbumViewModel(
             val result = files.move(pending.items, pending.path)
             // Items that left for the folder are no longer members of the app album they were moved from.
             if (moveFrom > 0 && result.done.isNotEmpty()) albumRepository.removeItems(moveFrom, result.done)
-            finishTransfer(pending.albumName, result, pending.items.size)
+            finishTransfer(pending.albumName, result, pending.total)
         }
     }
 
@@ -221,4 +229,6 @@ class TransferOutcome(
     val move: Boolean,
     /** The moved items also left the app album they came from. */
     val leftAlbum: Boolean,
+    /** The folder cannot hold this kind of file at all (for example pictures in the video folder). */
+    val unsupported: Boolean = false,
 )
