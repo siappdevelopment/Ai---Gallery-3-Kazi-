@@ -369,18 +369,22 @@ class MediaRepository(context: Context) {
         }
 
         val token = System.nanoTime()
+        var read = 0
         // One transaction: the UI sees a single change at the end instead of thousands of them.
         database.runInTransaction(Runnable {
-            readAll(resolver, MediaTypes.IMAGE, token)
-            readAll(resolver, MediaTypes.VIDEO, token)
+            read += readAll(resolver, MediaTypes.IMAGE, token)
+            read += readAll(resolver, MediaTypes.VIDEO, token)
             dao.deleteStale(token)
         })
-        MediaSyncPrefs.setFingerprint(appContext, fingerprint)
+        // Nothing was read: right after the permission is granted MediaStore may still answer with an empty list.
+        // Remembering that as "up to date" would make every later sync skip itself and leave the Gallery empty.
+        MediaSyncPrefs.setFingerprint(appContext, if (read > 0) fingerprint else null)
         return SyncResult.SYNCED
     }
 
     /** Streams one MediaStore table into the database in batches (never holds the whole library). */
-    private fun readAll(resolver: ContentResolver, mediaType: Int, token: Long) {
+    private fun readAll(resolver: ContentResolver, mediaType: Int, token: Long): Int {
+        var total = 0
         val isVideo = mediaType == MediaTypes.VIDEO
         val uri = if (isVideo) MediaStore.Video.Media.EXTERNAL_CONTENT_URI else MediaStore.Images.Media.EXTERNAL_CONTENT_URI
         val projection = buildList {
@@ -410,6 +414,7 @@ class MediaRepository(context: Context) {
             val batch = ArrayList<MediaEntity>(BATCH_SIZE)
 
             while (cursor.moveToNext()) {
+                total++
                 val id = cursor.getLong(idCol)
                 val taken = cursor.getLong(takenCol)
                 val dateMs = if (taken > 0) taken else cursor.getLong(addedCol) * 1000L
@@ -444,6 +449,7 @@ class MediaRepository(context: Context) {
             }
             if (batch.isNotEmpty()) dao.upsertAll(batch)
         }
+        return total
     }
 
     /**

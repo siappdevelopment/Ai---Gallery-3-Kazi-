@@ -20,10 +20,17 @@ class MoreOptionsBottomSheet : BottomSheetDialogFragment() {
         val b = BottomSheetMoreBinding.inflate(inflater, container, false)
 
         // Keep the last row clear of the gesture / navigation bar.
+        // The padding only ever grows to the largest inset seen. Insets are dispatched several times while the sheet opens
+        // (and again when another window such as a recorder overlay changes them); following every value changed the
+        // sheet's height each time and the bottom-sheet behavior re-settled it, so the sheet kept moving up and down.
         val basePadding = b.sheetRoot.paddingBottom
+        var appliedInset = 0
         ViewCompat.setOnApplyWindowInsetsListener(b.sheetRoot) { v, insets ->
             val bottom = insets.getInsets(WindowInsetsCompat.Type.systemBars()).bottom
-            v.setPadding(v.paddingLeft, v.paddingTop, v.paddingRight, basePadding + bottom)
+            if (bottom > appliedInset) {
+                appliedInset = bottom
+                v.setPadding(v.paddingLeft, v.paddingTop, v.paddingRight, basePadding + bottom)
+            }
             insets
         }
 
@@ -42,10 +49,26 @@ class MoreOptionsBottomSheet : BottomSheetDialogFragment() {
         dialog?.findViewById<View>(com.google.android.material.R.id.design_bottom_sheet)
             ?.setBackgroundResource(android.R.color.transparent)
         (dialog as? BottomSheetDialog)?.behavior?.apply {
+            isFitToContents = true
             skipCollapsed = true
             state = BottomSheetBehavior.STATE_EXPANDED
+            // Never rest half way: a collapsed / half-open state would show the sheet lower than its content.
+            if (!callbackAdded) {
+                callbackAdded = true
+                addBottomSheetCallback(object : BottomSheetBehavior.BottomSheetCallback() {
+                    override fun onStateChanged(bottomSheet: View, newState: Int) {
+                        if (newState == BottomSheetBehavior.STATE_COLLAPSED || newState == BottomSheetBehavior.STATE_HALF_EXPANDED) {
+                            state = BottomSheetBehavior.STATE_EXPANDED
+                        }
+                    }
+
+                    override fun onSlide(bottomSheet: View, slideOffset: Float) = Unit
+                })
+            }
         }
     }
+
+    private var callbackAdded = false
 
     private fun choose(action: String) {
         parentFragmentManager.setFragmentResult(RESULT_KEY, bundleOf(RESULT_ACTION to action))

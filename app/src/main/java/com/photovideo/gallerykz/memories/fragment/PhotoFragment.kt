@@ -118,6 +118,8 @@ class PhotoFragment : Fragment() {
     private var mosaicRefreshState: LoadState? = null
     private var hasAccess = false
     private var requesting = false
+    private var emptyRetries = 0
+    private var emptyRetryPending = false
 
     private val permissionLauncher = registerForActivityResult(
         ActivityResultContracts.RequestMultiplePermissions()
@@ -442,6 +444,8 @@ class PhotoFragment : Fragment() {
     override fun onDestroyView() {
         // The bars must come back even when the view goes away while selecting.
         galleryHost()?.setChromeVisible(true)
+        binding?.root?.removeCallbacks(emptyRetry)
+        emptyRetryPending = false
         selectionBars = null
         binding?.rvMedia?.adapter = null
         stopMosaicData()
@@ -482,6 +486,8 @@ class PhotoFragment : Fragment() {
         const val ALBUM_OPEN_GAP_MS = 600L
         const val RECAP_GAP_MS = 1_000L
         const val JOURNAL_COLUMNS = 1
+        const val MAX_EMPTY_RETRIES = 3
+        const val EMPTY_RETRY_DELAY_MS = 1_500L
     }
 
     private fun tilePx(columns: Int): Int =
@@ -694,9 +700,31 @@ class PhotoFragment : Fragment() {
         }
     }
 
+    /**
+     * Right after the permission is granted MediaStore can still answer with nothing, so the first sync finds no photos and
+     * "No photos yet" would stay. While that is shown (unfiltered, access granted) the index is read again a few times.
+     */
+    private fun scheduleEmptyRetry(b: FragmentPhotoBinding, state: UiState) {
+        if (state != UiState.EMPTY) {
+            if (state == UiState.CONTENT || state == UiState.PERMISSION) emptyRetries = 0
+            return
+        }
+        if (emptyRetryPending || emptyRetries >= MAX_EMPTY_RETRIES) return
+        emptyRetryPending = true
+        b.root.postDelayed(emptyRetry, EMPTY_RETRY_DELAY_MS)
+    }
+
+    private val emptyRetry = Runnable {
+        emptyRetryPending = false
+        if (_binding == null || !hasAccess || currentState() != UiState.EMPTY) return@Runnable
+        emptyRetries++
+        viewModel.refresh(force = true)
+    }
+
     private fun render() {
         val b = binding ?: return
         val state = currentState()
+        scheduleEmptyRetry(b, state)
         // Classic and Mosaic have the filter bar; Timeline has its own header.
         val inClassic = mode == Mode.CLASSIC || mode == Mode.MOSAIC || mode == Mode.JOURNAL
 
