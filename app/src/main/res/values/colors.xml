@@ -3,6 +3,8 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
 
+    <!-- The heart badge on favorite photos in the grids -->
+    <color name="favorite_red">#FFFF2D3F</color>
     <color name="brand_pink">#FFFF4D7E</color>
     <color name="brand_pink_dark">#FFE62E68</color>
     <color name="splash_background">#FFFFFFFF</color>

@@ -47,7 +47,7 @@
             android:importantForAccessibility="no"
             android:src="@drawable/ic_favorite"
             android:visibility="gone"
-            app:tint="@color/white" />
+            app:tint="@color/favorite_red" />
 
         <!-- "Best shot": the newest item of the day -->
         <TextView

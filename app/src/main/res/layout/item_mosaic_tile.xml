@@ -40,7 +40,7 @@
         android:importantForAccessibility="no"
         android:src="@drawable/ic_favorite"
         android:visibility="gone"
-        app:tint="@color/white" />
+        app:tint="@color/favorite_red" />
 
     <ImageView
         android:id="@+id/ivCheck"
