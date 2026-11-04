@@ -136,13 +136,15 @@ object SequenceAds {
  */
 object BackAds {
 
-    fun show(activity: Activity, key: String, cfg: BackAdCfg, appOpenId: String, next: () -> Unit) {
+    /** [noQuiz]: only the Google steps of the sequence run, and a failed Google ad is not replaced by a Quiz ad or the Quiz browser. */
+    fun show(activity: Activity, key: String, cfg: BackAdCfg, appOpenId: String, noQuiz: Boolean = false, next: () -> Unit) {
         val once = AtomicBoolean(false)
         val done = { if (once.compareAndSet(false, true)) next() }
         val config = AdRemoteConfig.config
-        // The Recent page matches its state / country lists with the IP lookup when `App_Proxy_Check_Ip` is on.
-        val ipLists = key == "recent"
-        val basic = cfg.show && cfg.steps.isNotEmpty() && AdGate.isNetworkAvailable(activity) && AdGate.adsAllowed(activity) &&
+        val steps = if (noQuiz) cfg.steps.filter { it.type == SeqType.G_INTER || it.type == SeqType.G_APPOPEN || it.type == SeqType.G_NATIVE } else cfg.steps
+        // The Recent page and the Charging screen match their state / country lists with the IP lookup when `App_Proxy_Check_Ip` is on.
+        val ipLists = key == "recent" || key == "charging"
+        val basic = cfg.show && steps.isNotEmpty() && AdGate.isNetworkAvailable(activity) && AdGate.adsAllowed(activity) &&
             cfg.afterDays > 0 && AdGate.daysSinceInstall(activity) >= cfg.afterDays &&
             AdGate.intervalElapsed(activity, "${key}_back", cfg.perDay, zeroIsAlways = false)
         val allowed = basic && if (ipLists) {
@@ -161,12 +163,12 @@ object BackAds {
             return
         }
         val ids = AdIds(cfg.interId, cfg.fullNativeId, appOpenId.ifEmpty { config.appOpenId })
-        val type = SequenceAds.next(activity, "${key}_back", cfg.steps, ids)
+        val type = SequenceAds.next(activity, "${key}_back", steps, ids)
         if (type == null) {
             done()
             return
         }
-        SequenceAds.run(activity, type, ids, config.googleFailedQuiz) { shown ->
+        SequenceAds.run(activity, type, ids, config.googleFailedQuiz && !noQuiz) { shown ->
             // The gap and the sequence move on only when an ad was really shown.
             if (shown) AdGate.markShown(activity, "${key}_back")
             done()

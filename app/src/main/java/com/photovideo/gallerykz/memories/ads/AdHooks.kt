@@ -38,7 +38,7 @@ object AdHooks {
     /** [liveSpec]: the place follows the config; a screen opened before the config arrived still gets its ad when it does. */
     fun attachBottom(
         activity: AppCompatActivity, spec: SlotSpec, navWithBigNative: Boolean = false, darkAd: Boolean = false,
-        liveSpec: (() -> SlotSpec)? = null,
+        liveSpec: (() -> SlotSpec)? = null, noQuiz: Boolean = false,
     ): AdSlot? {
         if (!spec.show && (liveSpec == null || AdRemoteConfig.loaded)) return null
         val content = activity.findViewById<ViewGroup>(android.R.id.content) ?: return null
@@ -89,6 +89,7 @@ object AdHooks {
             onBigNative = { big -> if (navWithBigNative) SystemNav.setVisible(activity, big) },
             darkAd = darkAd,
             liveSpec = liveSpec,
+            noQuiz = noQuiz,
         )
         slot.start()
         return slot
@@ -98,12 +99,13 @@ object AdHooks {
     fun attachInto(
         activity: Activity, container: ViewGroup, owner: LifecycleOwner, spec: SlotSpec,
         keepContentOnFail: Boolean = true, navWithBigNative: Boolean = false, onVisibility: (Boolean) -> Unit = {},
-        autoStart: Boolean = true,
+        autoStart: Boolean = true, noQuiz: Boolean = false,
     ): AdSlot? {
         if (!spec.show) return null
         val slot = AdSlot(
             activity, container, owner, spec, keepContentOnFail = keepContentOnFail, onVisibility = onVisibility,
             onBigNative = { big -> if (navWithBigNative) SystemNav.setVisible(activity, big) },
+            noQuiz = noQuiz,
         )
         // autoStart = false: the screen starts the slot itself (when it is really in front); nothing is requested before.
         if (autoStart) slot.start()

@@ -49,7 +49,8 @@ class RecentActivity : AppCompatActivity(), LauncherApps.Listener {
         setContentView(b.root)
         // The Recent ad (the recent screen's block of the Remote Config) sits at the bottom of the page, shown also when there are no recent apps.
         try {
-            AdHooks.attachBottom(this, recentAdSpec(), liveSpec = ::recentAdSpec)
+            // No Quiz ad on this page: not at the bottom, not in the back ad, not as a fallback.
+            AdHooks.attachBottom(this, recentAdSpec(), liveSpec = ::recentAdSpec, noQuiz = true)
         } catch (e: Exception) {
             android.util.Log.w("KaziAds", "recent ads failed to attach: $e")
         }
@@ -81,11 +82,15 @@ class RecentActivity : AppCompatActivity(), LauncherApps.Listener {
         }
     }
 
-    /** The Recent ad: the medium native card of the gallery grid (media left, texts right, button below), always native. */
+    /**
+     * The Recent ad follows `recent_screen_bottom_ad_type`: "banner" gives the banner (`recent_screen_banner_id`) in a box as big as the medium
+     * native card, anything else the medium native card of the gallery grid (`recent_screen_native_id`).
+     */
     private fun recentAdSpec(): SlotSpec {
         val cfg = AdRemoteConfig.config.recent
+        val id = if (cfg.bottomNative) cfg.nativeId else cfg.bannerId
         return SlotSpec(
-            show = cfg.bottomShow && cfg.nativeId.isNotEmpty(), native = true, bannerId = "", nativeId = cfg.nativeId,
+            show = cfg.bottomShow && id.isNotEmpty(), native = cfg.bottomNative, bannerId = cfg.bannerId, nativeId = cfg.nativeId,
             preload = cfg.preload, cacheKey = "slot_recent", medium = true,
         )
     }
@@ -144,7 +149,7 @@ class RecentActivity : AppCompatActivity(), LauncherApps.Listener {
 
     /** The back ad of the Recent page (`recent_screen_back_ad_*`) comes first when it is due; then the page slides away. */
     private fun close() {
-        BackAds.show(this, "recent", AdRemoteConfig.config.recent.back, "") { if (!isFinishing) closeNow() }
+        BackAds.show(this, "recent", AdRemoteConfig.config.recent.back, "", noQuiz = true) { if (!isFinishing) closeNow() }
     }
 
     private fun closeNow() {

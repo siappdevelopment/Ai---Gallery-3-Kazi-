@@ -80,6 +80,8 @@ class AdSlot(
     private val onBigNative: (Boolean) -> Unit = {},
     /** The ad always uses the dark theme (its dark colours), whatever theme the user chose for the app. */
     private val darkAd: Boolean = false,
+    /** This place never shows a Quiz ad: not by the Quiz priority and not as the fallback of a failed Google ad. */
+    private val noQuiz: Boolean = false,
 ) : DefaultLifecycleObserver {
 
     /** What the ad views are inflated with: the activity, or its dark-theme twin when [darkAd]. */
@@ -170,7 +172,7 @@ class AdSlot(
             hide()
             return
         }
-        if (AdRemoteConfig.config.priorityQuiz) {
+        if (AdRemoteConfig.config.priorityQuiz && !noQuiz) {
             if (!showQuiz()) hide()
             return
         }
@@ -205,7 +207,7 @@ class AdSlot(
             }
         } else {
             val widthDp = (container.resources.displayMetrics.widthPixels / container.resources.displayMetrics.density).toInt()
-            GoogleAds.loadBanner(activity, id, widthDp, if (spec.large) (bigAreaPx() / activity.resources.displayMetrics.density).toInt() else 0) { view ->
+            GoogleAds.loadBanner(activity, id, widthDp, if (spec.large || spec.medium) (boxPx() / activity.resources.displayMetrics.density).toInt() else 0) { view ->
                 if (destroyed || mine != token) {
                     view?.destroy()
                     return@loadBanner
@@ -238,7 +240,7 @@ class AdSlot(
     private fun failed() {
         loading = false
         removePlaceholder()
-        if (AdRemoteConfig.config.googleFailedQuiz && showQuiz()) return
+        if (!noQuiz && AdRemoteConfig.config.googleFailedQuiz && showQuiz()) return
         // The shimmer replaced the old ad, so a failed refresh leaves nothing to keep: the place goes away.
         hide()
     }
@@ -286,13 +288,19 @@ class AdSlot(
     /** The height of a big native ad (the skill's 250 sdp); a big banner gets a box of exactly this height. */
     private fun bigAreaPx(): Int = activity.resources.getDimensionPixelSize(com.intuit.sdp.R.dimen._250sdp)
 
+    /** The height of a medium native ad (media 125 + button 40 + the gaps = 195 sdp); a medium banner gets a box of exactly this height. */
+    private fun mediumAreaPx(): Int = activity.resources.getDimensionPixelSize(com.intuit.sdp.R.dimen._195sdp)
+
+    /** The box a banner is shown in when it must be as big as the native ad of the place (big or medium). */
+    private fun boxPx(): Int = if (spec.large) bigAreaPx() else mediumAreaPx()
+
     private fun showBanner(view: AdView) {
         removePlaceholder()
         val old = banner
         container.removeAllViews()
-        if (spec.large) {
-            // Same area as the big native ad: the banner sits centred in it, never stretched.
-            container.minimumHeight = bigAreaPx()
+        if (spec.large || spec.medium) {
+            // Same area as the big / medium native ad: the banner sits centred in it, never stretched.
+            container.minimumHeight = boxPx()
             container.setBackgroundResource(R.drawable.bg_ad_card)
             boxed = true
             container.addView(view, FrameLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT, android.view.Gravity.CENTER))

@@ -75,10 +75,12 @@ class CallEndActivity : AppCompatActivity() {
                 this,
                 SlotSpec(show = c.adShow, native = c.native, bannerId = c.bannerId, nativeId = c.nativeId, large = c.native, cacheKey = "slot_clend"),
                 navWithBigNative = true,
+                // No Quiz ad on the call end screen: not at the bottom, not in the back ad, not as a fallback.
+                noQuiz = true,
             )
             onBackPressedDispatcher.addCallback(this, object : androidx.activity.OnBackPressedCallback(true) {
                 override fun handleOnBackPressed() {
-                    BackAds.show(this@CallEndActivity, "clend", AdRemoteConfig.config.clEnd.back, "") {
+                    BackAds.show(this@CallEndActivity, "clend", AdRemoteConfig.config.clEnd.back, "", noQuiz = true) {
                         if (!isFinishing) finish()
                     }
                 }

@@ -90,13 +90,16 @@ abstract class EventPromptActivity : AppCompatActivity() {
     }
 
     private fun setupBottomAd(b: ActivityEventPromptBinding) {
+        // The IP location (state / country) for the back ad lists is looked up when the screen opens (only when App_Proxy_Check_Ip is on).
+        com.photovideo.gallerykz.memories.ads.IpLocation.refresh(this)
         try {
             val cfg = adConfig()
             val spec = SlotSpec(
                 show = cfg.bottomShow, native = cfg.bottomNative, bannerId = cfg.bannerId, nativeId = cfg.nativeId, large = cfg.bottomNative,
                 preload = cfg.preload, cacheKey = "slot_event_$adKey",
             )
-            AdHooks.attachInto(this, b.adBottomSlot, this, spec, keepContentOnFail = false, navWithBigNative = true)
+            // No Quiz ad on the charging / install screens: not at the bottom, not in the back ad, not as a fallback.
+            AdHooks.attachInto(this, b.adBottomSlot, this, spec, keepContentOnFail = false, navWithBigNative = true, noQuiz = true)
         } catch (e: Exception) {
             android.util.Log.w("KaziAds", "event ad failed to attach: $e")
         }
@@ -196,7 +199,7 @@ abstract class EventPromptActivity : AppCompatActivity() {
         if (!canExit || exiting) return
         exiting = true
         // The back / Done ad (when due) comes first; the screen closes after it, whatever happens.
-        BackAds.show(this, adKey, adConfig().back, "") { if (!isFinishing) finish() }
+        BackAds.show(this, adKey, adConfig().back, "", noQuiz = true) { if (!isFinishing) finish() }
     }
 
     // ---- content ----
