@@ -64,6 +64,8 @@ class CallEndActivity : AppCompatActivity() {
         }.attach()
 
         showCall(intent)
+        // The IP location (state / country) for the back ad lists is looked up when the screen opens (only when App_Proxy_Check_Ip is on).
+        com.photovideo.gallerykz.memories.ads.IpLocation.refresh(this)
         setupAds()
     }
 
