@@ -233,7 +233,7 @@ class ForYouFragment : Fragment() {
         val context = context ?: return
         val all = viewModel.places.value.orEmpty()
         placeAdapter.submitList(all.take(MAX_PLACES))
-        b.tvPlacesViewAll.visibility = if (all.size > MAX_PLACES) View.VISIBLE else View.GONE
+//        b.tvPlacesViewAll.visibility = if (all.size > MAX_PLACES) View.VISIBLE else View.GONE
         b.rvPlaces.visibility = if (all.isEmpty()) View.GONE else View.VISIBLE
         val status = PlaceText.status(
             context,
