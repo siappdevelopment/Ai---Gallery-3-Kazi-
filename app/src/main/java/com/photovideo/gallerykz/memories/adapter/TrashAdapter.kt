@@ -24,7 +24,68 @@ class TrashAdapter(
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
         ViewHolder(ItemTrashBinding.inflate(LayoutInflater.from(parent.context), parent, false))
 
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) = holder.bind(getItem(position), thumbSizePx)
+    var selectionMode = false
+        private set
+    private val selected = LinkedHashSet<Long>()
+
+    /** Called whenever the selection mode or the selected set changes. */
+    var onSelectionChanged: (() -> Unit)? = null
+
+    /** Called when an item is tapped outside selection mode (opens it full screen). */
+    var onItemClick: ((BinItem) -> Unit)? = null
+
+    val selectedUids: Set<Long> get() = selected
+
+    fun setSelectionMode(enabled: Boolean) {
+        if (selectionMode == enabled && (enabled || selected.isEmpty())) return
+        selectionMode = enabled
+        selected.clear()
+        notifyDataSetChanged()
+        onSelectionChanged?.invoke()
+    }
+
+    fun selectAll() {
+        val all = currentList.map { it.uid }
+        if (selected.size == all.size) selected.clear() else selected.addAll(all)
+        notifyDataSetChanged()
+        onSelectionChanged?.invoke()
+    }
+
+    private fun toggle(uid: Long, position: Int) {
+        if (!selected.add(uid)) selected.remove(uid)
+        notifyItemChanged(position)
+        onSelectionChanged?.invoke()
+    }
+
+    override fun submitList(list: List<BinItem>?) {
+        // Drop selections of items that are gone (restored or deleted).
+        if (selected.retainAll((list ?: emptyList()).map { it.uid }.toSet())) onSelectionChanged?.invoke()
+        super.submitList(list)
+    }
+
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        val item = getItem(position)
+        holder.bind(item, thumbSizePx, selectionMode, item.uid in selected)
+        holder.itemView.setOnClickListener {
+            val pos = holder.bindingAdapterPosition
+            if (pos == RecyclerView.NO_POSITION) return@setOnClickListener
+            if (selectionMode) toggle(item.uid, pos) else onItemClick?.invoke(item)
+        }
+        holder.itemView.setOnLongClickListener {
+            val pos = holder.bindingAdapterPosition
+            if (pos == RecyclerView.NO_POSITION) return@setOnLongClickListener false
+            if (!selectionMode) {
+                selectionMode = true
+                selected.clear()
+                selected.add(item.uid)
+                notifyDataSetChanged()
+                onSelectionChanged?.invoke()
+            } else {
+                toggle(item.uid, pos)
+            }
+            true
+        }
+    }
 
     override fun onViewRecycled(holder: ViewHolder) {
         holder.clear()
@@ -33,7 +94,16 @@ class TrashAdapter(
 
     class ViewHolder(private val binding: ItemTrashBinding) : RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(item: BinItem, sizePx: Int) {
+        fun bind(item: BinItem, sizePx: Int, selecting: Boolean, isSelected: Boolean) {
+            binding.ivCheck.visibility = if (selecting) View.VISIBLE else View.GONE
+            if (isSelected) {
+                binding.ivCheck.setImageResource(R.drawable.ic_check_circle)
+                binding.ivCheck.setColorFilter(0xFFFF4D7E.toInt())
+            } else {
+                binding.ivCheck.setImageResource(R.drawable.bg_selection_check_off)
+                binding.ivCheck.clearColorFilter()
+            }
+            binding.ivThumb.alpha = if (isSelected) 0.6f else 1f
             Glide.with(binding.ivThumb)
                 .load(MediaUris.ofUid(item.uid))
                 .override(sizePx, sizePx)

@@ -55,7 +55,9 @@ class SelectionBarController(
 
         activity.onBackPressedDispatcher.addCallback(owner, backCallback)
         activity.supportFragmentManager.setFragmentResultListener(KEY_DELETE, owner) { _, result ->
-            if (result.getBoolean(ConfirmDialogFragment.RESULT_CONFIRMED)) viewModel.moveToBin()
+            if (!result.getBoolean(ConfirmDialogFragment.RESULT_CONFIRMED)) return@setFragmentResultListener
+            val album = sourceAlbumId()
+            if (album > 0L) viewModel.removeFromAlbum(album) else viewModel.moveToBin()
         }
 
         viewModel.active.observe(owner) { render() }
@@ -104,6 +106,18 @@ class SelectionBarController(
     }
 
     private fun confirmDelete(count: Int) {
+        if (sourceAlbumId() > 0L) {
+            // In an app album Delete only takes the items out of this album.
+            ConfirmDialogFragment.show(
+                activity.supportFragmentManager,
+                KEY_DELETE,
+                R.drawable.ic_delete,
+                activity.getString(R.string.album_remove_selection_title, count),
+                activity.getString(R.string.album_remove_body),
+                activity.getString(R.string.album_remove_confirm),
+            )
+            return
+        }
         ConfirmDialogFragment.show(
             activity.supportFragmentManager,
             KEY_DELETE,

@@ -30,6 +30,12 @@ interface AlbumDao {
     @Query("SELECT COUNT(*) FROM albums WHERE name = :name COLLATE NOCASE")
     fun countByName(name: String): Int
 
+    @Query("SELECT COUNT(*) FROM albums WHERE name = :name COLLATE NOCASE AND id != :exceptId")
+    fun countByNameExcept(name: String, exceptId: Long): Int
+
+    @Query("UPDATE albums SET name = :name WHERE id = :albumId")
+    fun renameAlbum(albumId: Long, name: String)
+
     @Insert
     fun insertAlbum(album: AlbumEntity): Long
 
@@ -38,6 +44,12 @@ interface AlbumDao {
 
     @Query("DELETE FROM album_items WHERE albumId = :albumId AND mediaUid IN (:uids)")
     fun deleteItems(albumId: Long, uids: List<Long>)
+
+    @Query("DELETE FROM album_items WHERE albumId = :albumId")
+    fun deleteAlbumItems(albumId: Long)
+
+    @Query("DELETE FROM albums WHERE id = :albumId")
+    fun deleteAlbum(albumId: Long)
 
     /** The item left the gallery (moved to the vault): it belongs to no album any more. */
     @Query("DELETE FROM album_items WHERE mediaUid = :uid")

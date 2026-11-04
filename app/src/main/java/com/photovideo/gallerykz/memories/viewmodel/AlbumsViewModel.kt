@@ -1,6 +1,10 @@
 package com.photovideo.gallerykz.memories.viewmodel
 
 import android.app.Application
+import android.app.PendingIntent
+import com.photovideo.gallerykz.memories.model.MediaFilter
+import com.photovideo.gallerykz.memories.repo.TrashRepository
+import com.photovideo.gallerykz.memories.utils.Event
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
@@ -82,6 +86,60 @@ class AlbumsViewModel(application: Application) : AndroidViewModel(application) 
         mediaRepository.sync(false) { _synced.postValue(true) }
     }
 
+    /** The album card the user asked to delete; kept here so it survives until the confirmation. */
+    @Volatile
+    var pendingDelete: AlbumCard? = null
+
+    private val _trashRequest = MutableLiveData<Event<PendingIntent>>()
+
+    /** System confirmation to move a device folder's items to the Bin. */
+    val trashRequest: LiveData<Event<PendingIntent>> = _trashRequest
+
+    private val _deleteResult = MutableLiveData<Event<Boolean>>()
+
+    /** True when the album / folder was deleted, false when it could not be. */
+    val deleteResult: LiveData<Event<Boolean>> = _deleteResult
+
+    /** The user confirmed: an app album is removed (its items stay), a device folder goes to the Bin. */
+    fun confirmDelete() {
+        val card = pendingDelete ?: return
+        if (card.kind == AlbumKind.USER) {
+            pendingDelete = null
+            albumRepository.deleteAlbum(card.id) { _deleteResult.postValue(Event(true)) }
+            return
+        }
+        worker.execute {
+            val request = try {
+                val uids = mediaRepository.viewerUids(AlbumKind.DEVICE, card.id, 0L, MediaFilter.ALL)
+                if (uids.isEmpty()) null else TrashRepository(getApplication()).trashRequest(uids, true)
+            } catch (e: Exception) {
+                null
+            }
+            if (request == null) {
+                pendingDelete = null
+                _deleteResult.postValue(Event(false))
+            } else {
+                _trashRequest.postValue(Event(request))
+            }
+        }
+    }
+
+    /** The system dialog for a folder was answered; the folder's items are gone from the gallery on accept. */
+    fun onTrashResult(accepted: Boolean) {
+        pendingDelete = null
+        if (!accepted) return
+        mediaRepository.sync(true) { _deleteResult.postValue(Event(true)) }
+    }
+
+    private val _renameResult = MutableLiveData<Event<AlbumRepository.Failure?>>()
+
+    /** null inside the event = renamed; otherwise why it failed. */
+    val renameResult: LiveData<Event<AlbumRepository.Failure?>> = _renameResult
+
+    fun renameAlbum(card: AlbumCard, newName: String) {
+        albumRepository.renameAlbum(card.id, newName) { _renameResult.postValue(Event(it.failure)) }
+    }
+
     fun setSort(sort: AlbumSort) {
         if (_sort.value != sort) _sort.value = sort
     }
@@ -130,6 +188,7 @@ class AlbumsViewModel(application: Application) : AndroidViewModel(application) 
     companion object {
         const val RECENT_COUNT = 4
         private const val DAY_MS = 86_400_000L
+        private val worker = java.util.concurrent.Executors.newSingleThreadExecutor()
 
         /** Start of the "Recently added" window: the last 30 days. */
         fun recentSince(): Long = System.currentTimeMillis() - 30 * DAY_MS

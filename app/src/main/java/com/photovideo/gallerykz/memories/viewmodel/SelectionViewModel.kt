@@ -15,6 +15,7 @@ import com.photovideo.gallerykz.memories.R
 import com.photovideo.gallerykz.memories.helper.MediaUris
 import com.photovideo.gallerykz.memories.model.AlbumKind
 import com.photovideo.gallerykz.memories.model.MediaFilter
+import com.photovideo.gallerykz.memories.repo.AlbumRepository
 import com.photovideo.gallerykz.memories.repo.MediaRepository
 import com.photovideo.gallerykz.memories.utils.Event
 import java.util.concurrent.Executors
@@ -128,6 +129,22 @@ class SelectionViewModel(
             return
         }
         request(Pending.TRASH)
+    }
+
+    /** Delete inside an app album: the selected items leave that album only; the files and other albums are untouched. */
+    fun removeFromAlbum(albumId: Long) {
+        val uids = snapshot()
+        if (uids.isEmpty() || albumId <= 0L) return
+        worker.execute {
+            val message = try {
+                AlbumRepository(getApplication()).removeItems(albumId, uids)
+                SelectionEvent.Message(R.string.selection_removed_album, uids.size)
+            } catch (e: Exception) {
+                SelectionEvent.Message(R.string.bin_failed)
+            }
+            _events.postValue(Event(message))
+            mainHandler.post { clear() }
+        }
     }
 
     private fun request(action: Pending) {

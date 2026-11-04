@@ -30,6 +30,7 @@ class RenameBottomSheet : BottomSheetDialogFragment() {
         _binding = b
         val args = requireArguments()
         val extension = args.getString(ARG_EXTENSION).orEmpty()
+        args.getInt(ARG_HINT, 0).takeIf { it != 0 }?.let { b.etName.setHint(it) }
 
         val basePadding = b.sheetRoot.paddingBottom
         ViewCompat.setOnApplyWindowInsetsListener(b.sheetRoot) { v, insets ->
@@ -77,10 +78,12 @@ class RenameBottomSheet : BottomSheetDialogFragment() {
         val name = b.etName.text?.toString().orEmpty().trim()
         when {
             name.isEmpty() -> showError(R.string.viewer_rename_empty)
-            name.any { it in FORBIDDEN } || name.startsWith(".") -> showError(R.string.viewer_rename_invalid)
+            requireArguments().getBoolean(ARG_FILE, true) &&
+                (name.any { it in FORBIDDEN } || name.startsWith(".")) -> showError(R.string.viewer_rename_invalid)
             else -> {
                 hideKeyboard()
-                parentFragmentManager.setFragmentResult(RESULT_KEY, bundleOf(RESULT_NAME to name + extension))
+                val key = requireArguments().getString(ARG_KEY) ?: RESULT_KEY
+                parentFragmentManager.setFragmentResult(key, bundleOf(RESULT_NAME to name + extension))
                 dismissAllowingStateLoss()
             }
         }
@@ -102,8 +105,21 @@ class RenameBottomSheet : BottomSheetDialogFragment() {
         const val RESULT_NAME = "name"
         private const val ARG_NAME = "name"
         private const val ARG_EXTENSION = "extension"
+        private const val ARG_KEY = "result_key"
+        private const val ARG_HINT = "hint"
+        private const val ARG_FILE = "is_file"
         private const val TAG = "rename_sheet"
         private const val FORBIDDEN = "/\\:*?\"<>|"
+
+        /** Renames something that is not a file (an app album): the whole [name] is edited, any characters but blank are fine. */
+        fun showPlain(fm: FragmentManager, resultKey: String, name: String, hint: Int) {
+            if (fm.isStateSaved || fm.findFragmentByTag(TAG) != null) return
+            RenameBottomSheet().apply {
+                arguments = bundleOf(
+                    ARG_NAME to name, ARG_EXTENSION to "", ARG_KEY to resultKey, ARG_HINT to hint, ARG_FILE to false,
+                )
+            }.show(fm, TAG)
+        }
 
         /** [fileName] is the full current name, e.g. IMG_0001.jpg; only the part before the extension is edited. */
         fun show(fm: FragmentManager, fileName: String) {

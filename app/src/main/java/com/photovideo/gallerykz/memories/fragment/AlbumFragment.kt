@@ -4,6 +4,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.activity.result.IntentSenderRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
@@ -29,6 +31,7 @@ import com.photovideo.gallerykz.memories.helper.MediaPermissionHelper
 import com.photovideo.gallerykz.memories.helper.VaultSession
 import com.photovideo.gallerykz.memories.model.AlbumCard
 import com.photovideo.gallerykz.memories.model.AlbumKind
+import com.photovideo.gallerykz.memories.repo.AlbumRepository
 import com.photovideo.gallerykz.memories.repo.VaultRepository
 import com.photovideo.gallerykz.memories.viewmodel.AlbumsUi
 import com.photovideo.gallerykz.memories.viewmodel.AlbumsViewModel
@@ -48,6 +51,7 @@ class AlbumFragment : Fragment() {
     private var cards: AlbumCardAdapter? = null
     private var smart: SmartCollectionsAdapter? = null
     private var vaultItems = 0
+    private var renaming: AlbumCard? = null
 
     // The Albums ad sits inside the grid, in the second row (after the first two album cards).
     private var adSlot: AdSlot? = null
@@ -69,6 +73,10 @@ class AlbumFragment : Fragment() {
         syncAccess()
     }
 
+    private val trashLauncher = registerForActivityResult(ActivityResultContracts.StartIntentSenderForResult()) {
+        viewModel.onTrashResult(it.resultCode == android.app.Activity.RESULT_OK)
+    }
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         val b = FragmentAlbumsBinding.inflate(inflater, container, false)
         _binding = b
@@ -85,7 +93,7 @@ class AlbumFragment : Fragment() {
             onSearch = { viewModel.setQuery(it) },
             onToggleAll = { viewModel.toggleShowAll() },
         )
-        val cardAdapter = AlbumCardAdapter { openAlbum(it) }
+        val cardAdapter = AlbumCardAdapter(onOpen = { openAlbum(it) }, onDelete = { askDelete(it) }, onRename = { askRename(it) })
         val smartAdapter = SmartCollectionsAdapter(
             onOpen = { kind, title -> open(kind, 0L, title) },
             onOpenBin = {
@@ -130,6 +138,38 @@ class AlbumFragment : Fragment() {
         b.btnAllow.setOnClickListener { requestAccess() }
 
         val owner = viewLifecycleOwner
+        childFragmentManager.setFragmentResultListener(KEY_DELETE, owner) { _, result ->
+            if (result.getBoolean(ConfirmDialogFragment.RESULT_CONFIRMED)) viewModel.confirmDelete()
+            else viewModel.pendingDelete = null
+        }
+        childFragmentManager.setFragmentResultListener(KEY_RENAME, owner) { _, result ->
+            val card = renaming ?: return@setFragmentResultListener
+            viewModel.renameAlbum(card, result.getString(RenameBottomSheet.RESULT_NAME).orEmpty())
+        }
+        viewModel.renameResult.observe(owner) { event ->
+            event.getContentIfNotHandled()?.let { failure ->
+                val ctx = context?.applicationContext ?: return@let
+                val message = when (failure) {
+                    null -> R.string.album_renamed
+                    AlbumRepository.Failure.NAME_EXISTS -> R.string.album_name_exists
+                    AlbumRepository.Failure.EMPTY_NAME -> R.string.viewer_rename_empty
+                    AlbumRepository.Failure.FAILED -> R.string.bin_failed
+                }
+                if (failure == null) renaming = null
+                Toast.makeText(ctx, message, Toast.LENGTH_SHORT).show()
+            }
+        }
+        viewModel.trashRequest.observe(owner) { event ->
+            event.getContentIfNotHandled()?.let {
+                trashLauncher.launch(IntentSenderRequest.Builder(it.intentSender).build())
+            }
+        }
+        viewModel.deleteResult.observe(owner) { event ->
+            event.getContentIfNotHandled()?.let { ok ->
+                val ctx = context?.applicationContext ?: return@let
+                Toast.makeText(ctx, if (ok) R.string.album_deleted else R.string.bin_failed, Toast.LENGTH_SHORT).show()
+            }
+        }
         viewModel.ui.observe(owner) { ui ->
             latestUi = ui
             cardAdapter.submitList(ui.cards)
@@ -286,6 +326,31 @@ class AlbumFragment : Fragment() {
 
     private fun openAlbum(card: AlbumCard) = open(card.kind, card.id, card.name)
 
+    private fun askRename(card: AlbumCard) {
+        renaming = card
+        RenameBottomSheet.showPlain(childFragmentManager, KEY_RENAME, card.name, R.string.album_rename_hint)
+    }
+
+    /** Asks first: an app album only loses the album itself, a device folder's items go to the Bin. */
+    private fun askDelete(card: AlbumCard) {
+        val ctx = context ?: return
+        val user = card.kind == AlbumKind.USER
+        if (!user && android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.R) {
+            Toast.makeText(ctx.applicationContext, R.string.viewer_unsupported, Toast.LENGTH_SHORT).show()
+            return
+        }
+        viewModel.pendingDelete = card
+        ConfirmDialogFragment.show(
+            childFragmentManager,
+            KEY_DELETE,
+            R.drawable.ic_delete_forever,
+            getString(if (user) R.string.album_delete_user_title else R.string.album_delete_folder_title),
+            if (user) getString(R.string.album_delete_user_body, card.name)
+            else getString(R.string.album_delete_folder_body, card.name, card.total),
+            getString(R.string.album_delete),
+        )
+    }
+
     private fun open(kind: AlbumKind, id: Long, title: String) {
         val context = context ?: return
         startActivity(AlbumDetailActivity.intent(context, kind, id, title))
@@ -299,6 +364,9 @@ class AlbumFragment : Fragment() {
     }
 
     private companion object {
+        const val KEY_DELETE = "delete_album"
+        const val KEY_RENAME = "rename_album"
+
         /** The ad row goes after the first row of the 2-column grid (two album cards). */
         const val AD_AFTER_CARDS = 2
     }

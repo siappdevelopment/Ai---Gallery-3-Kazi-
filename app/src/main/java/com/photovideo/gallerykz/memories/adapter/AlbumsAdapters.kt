@@ -116,6 +116,8 @@ class AlbumsHeaderAdapter(
 /** Album cards: one big thumbnail, three small ones, the name and the item count. */
 class AlbumCardAdapter(
     private val onOpen: (AlbumCard) -> Unit,
+    private val onDelete: (AlbumCard) -> Unit,
+    private val onRename: (AlbumCard) -> Unit,
 ) : ListAdapter<AlbumCard, AlbumCardAdapter.ViewHolder>(DIFF) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
@@ -135,6 +137,14 @@ class AlbumCardAdapter(
                 val position = bindingAdapterPosition
                 if (position != RecyclerView.NO_POSITION) onOpen(getItem(position))
             }
+            binding.btnRename.setOnClickListener {
+                val position = bindingAdapterPosition
+                if (position != RecyclerView.NO_POSITION) onRename(getItem(position))
+            }
+            binding.btnDelete.setOnClickListener {
+                val position = bindingAdapterPosition
+                if (position != RecyclerView.NO_POSITION) onDelete(getItem(position))
+            }
         }
 
         fun bind(card: AlbumCard) {
@@ -145,6 +155,8 @@ class AlbumCardAdapter(
             loadCover(binding.ivThumb1, card.covers.getOrNull(1), small, (36 * density).toInt())
             loadCover(binding.ivThumb2, card.covers.getOrNull(2), small, (36 * density).toInt())
             loadCover(binding.ivThumb3, card.covers.getOrNull(3), small, (36 * density).toInt())
+            // Only app albums can be renamed; a device folder is a real folder on the storage.
+            binding.btnRename.visibility = if (card.kind == AlbumKind.USER) View.VISIBLE else View.GONE
             binding.tvName.text = card.name
             binding.tvMeta.text = binding.root.resources.getString(R.string.photo_items, card.total)
         }

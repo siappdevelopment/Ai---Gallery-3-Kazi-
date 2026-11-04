@@ -107,6 +107,10 @@
             android:exported="false"
             android:screenOrientation="portrait" />
         <activity
+            android:name=".activity.BinPreviewActivity"
+            android:exported="false"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".activity.SearchActivity"
             android:exported="false"
             android:screenOrientation="portrait"

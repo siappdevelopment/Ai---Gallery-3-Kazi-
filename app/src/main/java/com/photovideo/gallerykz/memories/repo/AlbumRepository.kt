@@ -69,6 +69,43 @@ class AlbumRepository(context: Context) {
         }
     }
 
+    /** Gives an app album a new name; the name must be non-empty and not used by another album. */
+    fun renameAlbum(albumId: Long, rawName: String, onDone: (Result) -> Unit) {
+        val name = rawName.trim().take(MAX_NAME)
+        if (name.isEmpty()) {
+            onDone(Result(name, Failure.EMPTY_NAME))
+            return
+        }
+        executor.execute {
+            val result = try {
+                if (dao.countByNameExcept(name, albumId) > 0) {
+                    Result(name, Failure.NAME_EXISTS)
+                } else {
+                    dao.renameAlbum(albumId, name)
+                    Result(name)
+                }
+            } catch (e: Exception) {
+                Result(name, Failure.FAILED)
+            }
+            onDone(result)
+        }
+    }
+
+    /** Deletes an app album only; its photos and videos stay on the device. */
+    fun deleteAlbum(albumId: Long, onDone: () -> Unit = {}) {
+        executor.execute {
+            try {
+                database.runInTransaction(Runnable {
+                    dao.deleteAlbumItems(albumId)
+                    dao.deleteAlbum(albumId)
+                })
+            } catch (e: Exception) {
+                // The album list re-reads from Room, so a failed delete simply leaves it in place.
+            }
+            onDone()
+        }
+    }
+
     /** Takes [uids] out of an app album in one transaction. Blocking: call it off the main thread. */
     fun removeItems(albumId: Long, uids: List<Long>) {
         if (uids.isEmpty()) return
