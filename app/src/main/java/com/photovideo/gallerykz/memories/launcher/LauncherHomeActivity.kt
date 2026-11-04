@@ -193,6 +193,13 @@ class LauncherHomeActivity : AppCompatActivity(), LauncherHost, LauncherSettings
             binding.vpLauncher.setCurrentItem(PAGE_GALLERY, false)
             return
         }
+        if (intent.action == null) {
+            // Started by the app itself (the splash after an icon tap, the Recent page): a fresh start on the home page.
+            dismissTransientUi()
+            binding.appsDrawer.close(animated = false)
+            showHomePage(smooth = false)
+            return
+        }
         val isHomeIntent = intent.action == Intent.ACTION_MAIN && intent.hasCategory(Intent.CATEGORY_HOME)
         if (!isHomeIntent) return
         // The Home KEY adds RESET_TASK_IF_NEEDED; the bare HOME intent the system sends when Back ends an app that was

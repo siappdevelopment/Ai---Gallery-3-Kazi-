@@ -22,6 +22,7 @@ import com.photovideo.gallerykz.memories.R
 import com.photovideo.gallerykz.memories.databinding.ActivitySplashBinding
 import com.photovideo.gallerykz.memories.helper.OnboardingRouter
 import com.photovideo.gallerykz.memories.launcher.LauncherHomeActivity
+import com.photovideo.gallerykz.memories.launcher.LauncherNav
 
 class SplashActivity : AppCompatActivity() {
 
@@ -51,6 +52,7 @@ class SplashActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         setTheme(R.style.Theme_ThirdGallery)
         super.onCreate(savedInstanceState)
+        if (restartInFreshTask()) return
         enableEdgeToEdge()
 
         val b = ActivitySplashBinding.inflate(layoutInflater)
@@ -75,6 +77,20 @@ class SplashActivity : AppCompatActivity() {
             }
         }
         askPhoneAccess()
+    }
+
+    /**
+     * The splash is singleTask, so a tap on the icon always shows it, also when the app already has a task. When that task is an old one
+     * (not the splash at its root, for instance the launcher home left over from the time this app was the Home app) it can be a Home type
+     * task, which the system does not list in Recents. Then (this app is no longer the Home app) the old task is removed and the splash is
+     * started again in a new, normal task. Returns true when this instance is going away.
+     */
+    private fun restartInFreshTask(): Boolean {
+        if (isTaskRoot || intent.getBooleanExtra(EXTRA_FRESH, false) || LauncherNav.isHomeAppOrRoleHolder(this)) return false
+        val again = Intent(this, SplashActivity::class.java).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK).putExtra(EXTRA_FRESH, true)
+        finishAndRemoveTask()
+        startActivity(again)
+        return true
     }
 
     /**
@@ -153,13 +169,35 @@ class SplashActivity : AppCompatActivity() {
         // The after-splash ad (when due) comes first; then the onboarding resumes where the user left off.
         OnboardingAds.afterSplash(this) {
             if (!isFinishing && !isDestroyed) {
+                removeOldAppTasks()
                 startActivity(OnboardingRouter.intent(this))
                 finish()
             }
         }
     }
 
+    /**
+     * When this app is no longer the Home app, an old task of it (the launcher home from the time it was the Home app) can still be
+     * alive. That task is a Home type task, which Recents does not list, and the singleTask launcher home would be brought back from it
+     * instead of being created in this splash's normal task. So the other tasks of the app are removed before the next screen starts.
+     */
+    private fun removeOldAppTasks() {
+        if (LauncherNav.isHomeAppOrRoleHolder(this)) return
+        // The launcher home of an old Home type task is not in the list below: it is ended through its own activity.
+        com.photovideo.gallerykz.memories.launcher.AppRecentsKey.finishOtherHomes(this)
+        try {
+            val manager = getSystemService(android.app.ActivityManager::class.java) ?: return
+            @Suppress("DEPRECATION")
+            manager.appTasks.forEach { task ->
+                if (task.taskInfo?.id != taskId) task.finishAndRemoveTask()
+            }
+        } catch (e: Exception) {
+            // The old task simply stays.
+        }
+    }
+
     private companion object {
+        const val EXTRA_FRESH = "splash_fresh_task"
         const val SPLASH_DELAY_MS = 2000L
         const val CONFIG_WAIT_MS = 5000L
     }

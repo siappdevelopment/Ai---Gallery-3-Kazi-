@@ -28,6 +28,9 @@ object AppRecentsKey {
     private var lastSignalAt = 0L
     private var lastHomeAt = 0L
 
+    /** The launcher homes that are alive in this process (one per task). */
+    private val homes = ArrayList<WeakReference<Activity>>()
+
     fun install(application: Application) {
         application.registerActivityLifecycleCallbacks(object : Application.ActivityLifecycleCallbacks {
             override fun onActivityStarted(activity: Activity) {
@@ -45,11 +48,31 @@ object AppRecentsKey {
                 if (started == 0) unregister(application)
             }
 
-            override fun onActivityCreated(activity: Activity, savedInstanceState: Bundle?) = Unit
+            override fun onActivityCreated(activity: Activity, savedInstanceState: Bundle?) {
+                if (activity is LauncherHomeActivity) synchronized(homes) { homes.add(WeakReference(activity)) }
+            }
+
             override fun onActivityPaused(activity: Activity) = Unit
             override fun onActivitySaveInstanceState(activity: Activity, outState: Bundle) = Unit
-            override fun onActivityDestroyed(activity: Activity) = Unit
+            override fun onActivityDestroyed(activity: Activity) {
+                synchronized(homes) { homes.retainAll { it.get() != null && it.get() !== activity } }
+            }
         })
+    }
+
+    /**
+     * Ends every launcher home (with its whole task) that is not in [keep]'s task. The Home type task made while this app was the Home app
+     * is not in the app task list the system hands out, and its home would be brought back instead of a new one being created in the
+     * normal task (which Recents lists); only the activity itself can end that task.
+     */
+    fun finishOtherHomes(keep: Activity) {
+        val others = synchronized(homes) { homes.mapNotNull { it.get() } }
+        others.forEach { home ->
+            if (home.taskId != keep.taskId && !home.isFinishing) {
+                android.util.Log.d("AppRecentsKey", "ending the old launcher home task ${home.taskId}")
+                home.finishAndRemoveTask()
+            }
+        }
     }
 
     /** True when the Recent page may replace the system overview: this app must be the Home app. */
