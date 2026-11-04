@@ -142,8 +142,8 @@ object BackAds {
         val done = { if (once.compareAndSet(false, true)) next() }
         val config = AdRemoteConfig.config
         val steps = if (noQuiz) cfg.steps.filter { it.type == SeqType.G_INTER || it.type == SeqType.G_APPOPEN || it.type == SeqType.G_NATIVE } else cfg.steps
-        // The Recent page and the Charging screen match their state / country lists with the IP lookup when `App_Proxy_Check_Ip` is on.
-        val ipLists = key == "recent" || key == "charging"
+        // The Recent page, the Charging screen and the Install / Uninstall screen match their state / country lists with the IP lookup when `App_Proxy_Check_Ip` is on.
+        val ipLists = key == "recent" || key == "charging" || key == "install_uninstall"
         val basic = cfg.show && steps.isNotEmpty() && AdGate.isNetworkAvailable(activity) && AdGate.adsAllowed(activity) &&
             cfg.afterDays > 0 && AdGate.daysSinceInstall(activity) >= cfg.afterDays &&
             AdGate.intervalElapsed(activity, "${key}_back", cfg.perDay, zeroIsAlways = false)
