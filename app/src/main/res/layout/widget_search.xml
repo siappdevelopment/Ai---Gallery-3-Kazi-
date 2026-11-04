@@ -1,14 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!-- Outer frame = the tap area and the gap between neighbouring widgets; inner tile = the pink rounded square -->
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/widgetRoot"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/bg_widget"
-    android:padding="14dp">
+    android:padding="6dp">
 
-    <ImageView
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:contentDescription="@string/launcher_widget_search_title"
-        android:src="@drawable/ic_widget_search" />
+        android:background="@drawable/bg_widget">
+
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_gravity="center"
+            android:contentDescription="@string/launcher_widget_search_title"
+            android:scaleType="fitCenter"
+            android:src="@drawable/ic_widget_search" />
+    </FrameLayout>
 </FrameLayout>
