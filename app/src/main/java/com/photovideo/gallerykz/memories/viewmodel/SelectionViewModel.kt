@@ -64,6 +64,12 @@ class SelectionViewModel(
     @Volatile
     private var pendingUids: List<Long> = emptyList()
 
+    /** Chunks still to confirm (only touched on the worker thread) and how many items are already done. */
+    private val queue = ArrayDeque<List<Long>>()
+
+    @Volatile
+    private var processed = 0
+
     val isActive: Boolean get() = _active.value == true
 
     /** Selecting inside the Favorite filter / collection: the Favorite action becomes Unfavorite. */
@@ -134,54 +140,96 @@ class SelectionViewModel(
         val uids = snapshot()
         if (uids.isEmpty()) return
         worker.execute {
-            val resolver = getApplication<Application>().contentResolver
-            val uris = uids.map { MediaUris.ofUid(it) }
+            // One system request cannot carry thousands of items (it failed with 2,000+ photos):
+            // the selection is sent in chunks, one system confirmation per chunk.
+            queue.clear()
+            queue.addAll(uids.chunked(CHUNK))
+            processed = 0
+            pending = action
+            launchNext(action)
+        }
+    }
+
+    /** Builds the system request for the first chunk of the queue (worker thread); a chunk that is refused is split in two. */
+    private fun launchNext(action: Pending) {
+        val resolver = getApplication<Application>().contentResolver
+        while (true) {
+            val chunk = queue.firstOrNull() ?: return finishRequests(action)
+            val uris = chunk.map { MediaUris.ofUid(it) }
             val intent = try {
                 when (action) {
                     Pending.FAVORITE -> MediaStore.createFavoriteRequest(resolver, uris, true)
                     Pending.UNFAVORITE -> MediaStore.createFavoriteRequest(resolver, uris, false)
                     Pending.TRASH -> MediaStore.createTrashRequest(resolver, uris, true)
                 }
-            } catch (e: SecurityException) {
-                null
-            } catch (e: IllegalArgumentException) {
+            } catch (e: Exception) {
                 null
             }
-            if (intent == null) {
+            if (intent != null) {
+                pendingUids = chunk
+                _events.postValue(Event(SelectionEvent.Launch(intent)))
+                return
+            }
+            if (chunk.size > MIN_CHUNK) {
+                val half = chunk.size / 2
+                queue.removeFirst()
+                queue.addFirst(chunk.subList(half, chunk.size))
+                queue.addFirst(chunk.subList(0, half))
+                continue
+            }
+            // Even a small chunk is refused: stop here and report what was done so far.
+            queue.clear()
+            pending = null
+            pendingUids = emptyList()
+            if (processed > 0) finishRequests(action) else {
                 _events.postValue(Event(SelectionEvent.Message(R.string.bin_failed)))
-                return@execute
             }
-            pending = action
-            pendingUids = uids
-            _events.postValue(Event(SelectionEvent.Launch(intent)))
+            return
         }
+    }
+
+    private fun finishRequests(action: Pending) {
+        val done = processed
+        queue.clear()
+        pending = null
+        pendingUids = emptyList()
+        processed = 0
+        if (done > 0) {
+            val message = when (action) {
+                Pending.FAVORITE -> R.string.selection_added_favorites
+                Pending.UNFAVORITE -> R.string.selection_removed_favorites
+                Pending.TRASH -> R.string.selection_moved_bin
+            }
+            _events.postValue(Event(SelectionEvent.Message(message, done)))
+        }
+        mainHandler.post { clear() }
     }
 
     /** The system confirmation was answered; on "yes" the index is updated at once (grids and counts follow). */
     fun onRequestResult(accepted: Boolean) {
         val action = pending
         val uids = pendingUids
-        pending = null
-        pendingUids = emptyList()
-        if (!accepted) return
         if (action == null) {
+            pendingUids = emptyList()
             // The screen was recreated while the system dialog was open: re-read the media index.
-            repository.sync(true) { }
+            if (accepted) repository.sync(true) { }
             return
         }
         worker.execute {
+            if (!accepted) {
+                // Cancelled: what earlier chunks already did stays done; the rest is dropped.
+                finishRequests(action)
+                return@execute
+            }
             when (action) {
                 Pending.FAVORITE -> repository.setFavoritesLocal(uids, true)
                 Pending.UNFAVORITE -> repository.setFavoritesLocal(uids, false)
                 Pending.TRASH -> repository.removeLocalAll(uids)
             }
-            val message = when (action) {
-                Pending.FAVORITE -> R.string.selection_added_favorites
-                Pending.UNFAVORITE -> R.string.selection_removed_favorites
-                Pending.TRASH -> R.string.selection_moved_bin
-            }
-            _events.postValue(Event(SelectionEvent.Message(message, uids.size)))
-            mainHandler.post { clear() }
+            processed += uids.size
+            queue.removeFirstOrNull()
+            pendingUids = emptyList()
+            launchNext(action)
         }
     }
 
@@ -206,6 +254,8 @@ class SelectionViewModel(
         const val KEY_ACTIVE = "selection_active"
         const val KEY_IDS = "selection_ids"
         const val MAX_SAVED = 5000
+        const val CHUNK = 500
+        const val MIN_CHUNK = 50
         val worker = Executors.newSingleThreadExecutor()
     }
 }

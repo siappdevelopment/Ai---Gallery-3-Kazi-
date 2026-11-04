@@ -573,6 +573,7 @@ class PhotoFragment : Fragment() {
     private fun stopJournalData() {
         val observer = journalObserver ?: return
         journalObserver = null
+        journalRefreshState = null
         viewModel.journalMedia.removeObserver(observer)
     }
 
@@ -618,6 +619,8 @@ class PhotoFragment : Fragment() {
     private fun stopMosaicData() {
         val observer = mosaicObserver ?: return
         mosaicObserver = null
+        // A stale "Loading" would keep the spinner on when this layout is opened again.
+        mosaicRefreshState = null
         viewModel.mosaicMedia.removeObserver(observer)
     }
 

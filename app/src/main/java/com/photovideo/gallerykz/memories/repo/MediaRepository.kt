@@ -29,7 +29,6 @@ import com.photovideo.gallerykz.memories.model.AlbumKind
 import com.photovideo.gallerykz.memories.model.MediaFilter
 import java.util.TimeZone
 import java.util.concurrent.Executors
-import java.util.concurrent.atomic.AtomicBoolean
 
 /**
  * Indexes the device photos and videos into Room (MediaStore -> database, in the background)
@@ -310,21 +309,54 @@ class MediaRepository(context: Context) {
      * one follow-up run. [onDone] is called from the background thread.
      */
     fun sync(force: Boolean, onDone: (SyncResult) -> Unit) {
-        if (!running.compareAndSet(false, true)) {
-            rerun.set(true)
-            return
+        synchronized(lock) {
+            // Every caller keeps its own callback, even when a sync of another screen is already running:
+            // dropping it left the Gallery on its progress spinner forever.
+            waiting.add(onDone)
+            if (running) {
+                rerun = true
+                if (force) rerunForce = true
+                return
+            }
+            running = true
+        }
+        runSync(force)
+    }
+
+    private fun runSync(force: Boolean) {
+        val batch: List<(SyncResult) -> Unit>
+        synchronized(lock) {
+            batch = ArrayList(waiting)
+            waiting.clear()
         }
         ioExecutor.execute {
             var result = SyncResult.ERROR
             try {
                 result = syncBlocking(force)
-            } catch (e: Exception) {
+            } catch (e: Throwable) {
+                // Throwable (not only Exception): an Error must still end the sync, or the spinner never stops.
                 result = SyncResult.ERROR
-            } finally {
-                running.set(false)
             }
-            onDone(result)
-            if (rerun.getAndSet(false)) sync(false, onDone)
+            for (callback in batch) {
+                try {
+                    callback(result)
+                } catch (e: Throwable) {
+                    // One failing listener must not block the others.
+                }
+            }
+            var again = false
+            var againForce = false
+            synchronized(lock) {
+                if (rerun) {
+                    again = true
+                    againForce = rerunForce
+                    rerun = false
+                    rerunForce = false
+                } else {
+                    running = false
+                }
+            }
+            if (again) runSync(againForce)
         }
     }
 
@@ -452,8 +484,11 @@ class MediaRepository(context: Context) {
 
     private companion object {
         /** Shared by every repository instance: the Photos tab and For you may both ask, but only one sync runs at a time. */
-        val running = AtomicBoolean(false)
-        val rerun = AtomicBoolean(false)
+        val lock = Any()
+        var running = false
+        var rerun = false
+        var rerunForce = false
+        val waiting = ArrayList<(SyncResult) -> Unit>()
 
         const val PAGE_SIZE = 120
         const val REMOVE_CHUNK = 500

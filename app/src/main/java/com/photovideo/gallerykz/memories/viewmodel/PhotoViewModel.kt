@@ -170,7 +170,8 @@ class PhotoViewModel(application: Application) : AndroidViewModel(application) {
         }
         _syncing.value = true
         repository.sync(force) { result ->
-            _syncError.postValue(result == MediaRepository.SyncResult.ERROR)
+            // NO_ACCESS counts as an error too: otherwise "not synced" would keep the progress spinner forever.
+            _syncError.postValue(result == MediaRepository.SyncResult.ERROR || result == MediaRepository.SyncResult.NO_ACCESS)
             if (result != MediaRepository.SyncResult.NO_ACCESS) _synced.postValue(true)
             _syncing.postValue(false)
         }
