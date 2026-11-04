@@ -78,7 +78,7 @@ object LauncherShortcuts {
         val info = concrete(pm, intent)
         info?.let {
             val pkg = it.activityInfo.packageName
-            ShortcutTarget(it.loadIcon(pm), it.loadLabel(pm).toString(), Intent(intent).setPackage(pkg), pkg)
+            ShortcutTarget(it.loadIcon(pm), LauncherApps.englishLabel(context, it), Intent(intent).setPackage(pkg), pkg)
         }
     } catch (e: Exception) {
         null
@@ -101,7 +101,7 @@ object LauncherShortcuts {
         info?.let {
             val component = android.content.ComponentName(it.activityInfo.packageName, it.activityInfo.name)
             val intent = Intent(Intent.ACTION_MAIN).addCategory(category).setComponent(component)
-            ShortcutTarget(it.loadIcon(pm), it.loadLabel(pm).toString(), intent, it.activityInfo.packageName)
+            ShortcutTarget(it.loadIcon(pm), LauncherApps.englishLabel(context, it), intent, it.activityInfo.packageName)
         }
     } catch (e: Exception) {
         null
@@ -111,7 +111,7 @@ object LauncherShortcuts {
         val pm = context.packageManager
         val intent = pm.getLaunchIntentForPackage(pkg) ?: fallback?.let { Intent(it).setPackage(pkg) } ?: return null
         val info = pm.getApplicationInfo(pkg, 0)
-        return ShortcutTarget(pm.getApplicationIcon(pkg), pm.getApplicationLabel(info).toString(), intent, pkg)
+        return ShortcutTarget(pm.getApplicationIcon(pkg), LauncherApps.englishAppLabel(context, info), intent, pkg)
     }
 
     private fun resolveCategory(context: Context, category: String): ResolveInfo? =

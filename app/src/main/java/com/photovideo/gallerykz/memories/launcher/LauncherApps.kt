@@ -96,7 +96,7 @@ object LauncherApps {
             // One entry per app, never the same one twice.
             if (!seen.add(activity.packageName)) continue
             val label = try {
-                info.loadLabel(pm).toString()
+                englishLabel(context, info)
             } catch (e: Exception) {
                 activity.packageName
             }
@@ -116,6 +116,43 @@ object LauncherApps {
             result.add(LauncherApp(label, activity.packageName, activity.name, installed, system, icon))
         }
         return sort(context, result)
+    }
+
+    /**
+     * The app's name in English whatever language is selected in this app: names of installed apps are never
+     * translated by the launcher. Falls back to the phone's own label when the app has no readable English one.
+     */
+    fun englishLabel(context: Context, info: android.content.pm.ResolveInfo): String {
+        val activity = info.activityInfo
+        val res = if (activity.labelRes != 0) activity.labelRes else activity.applicationInfo?.labelRes ?: 0
+        if (res != 0) {
+            try {
+                val config = android.content.res.Configuration(context.resources.configuration)
+                config.setLocale(java.util.Locale.ENGLISH)
+                val text = context.createPackageContext(activity.packageName, 0)
+                    .createConfigurationContext(config).resources.getString(res)
+                if (text.isNotBlank()) return text
+            } catch (e: Exception) {
+                // Use the phone's label below.
+            }
+        }
+        return info.loadLabel(context.packageManager).toString()
+    }
+
+    /** Same as [englishLabel], for an app that has no activity at hand (its application label). */
+    fun englishAppLabel(context: Context, info: ApplicationInfo): String {
+        if (info.labelRes != 0) {
+            try {
+                val config = android.content.res.Configuration(context.resources.configuration)
+                config.setLocale(java.util.Locale.ENGLISH)
+                val text = context.createPackageContext(info.packageName, 0)
+                    .createConfigurationContext(config).resources.getString(info.labelRes)
+                if (text.isNotBlank()) return text
+            } catch (e: Exception) {
+                // Use the phone's label below.
+            }
+        }
+        return context.packageManager.getApplicationLabel(info).toString()
     }
 
     fun sort(context: Context, list: List<LauncherApp>): List<LauncherApp> {
