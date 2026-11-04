@@ -4,9 +4,9 @@ import com.photovideo.gallerykz.memories.ads.SlotSpec
 
 import com.photovideo.gallerykz.memories.ads.BackAds
 
-import com.photovideo.gallerykz.memories.ads.AdRemoteConfig
-
 import com.photovideo.gallerykz.memories.ads.AdHooks
+
+import com.photovideo.gallerykz.memories.ads.AdRemoteConfig
 
 import android.app.ActivityManager
 import android.content.Context
@@ -45,12 +45,9 @@ class RecentActivity : AppCompatActivity(), LauncherApps.Listener {
         val b = ActivityRecentBinding.inflate(layoutInflater)
         binding = b
         setContentView(b.root)
+        // The Recent ad (the recent screen's block of the Remote Config) sits at the bottom of the page, shown also when there are no recent apps.
         try {
-            val cfg = AdRemoteConfig.config.recent
-            AdHooks.attachBottom(
-                this,
-                SlotSpec(cfg.bottomShow, cfg.bottomNative, cfg.bannerId, cfg.nativeId, large = false, preload = cfg.preload, cacheKey = "slot_recent"),
-            )
+            AdHooks.attachBottom(this, recentAdSpec(), liveSpec = ::recentAdSpec)
         } catch (e: Exception) {
             android.util.Log.w("KaziAds", "recent ads failed to attach: $e")
         }
@@ -80,6 +77,15 @@ class RecentActivity : AppCompatActivity(), LauncherApps.Listener {
             b.recentRoot.translationX = -b.recentRoot.width.toFloat()
             b.recentRoot.animate().translationX(0f).setDuration(SLIDE_MS).start()
         }
+    }
+
+    /** The Recent ad: the medium native card of the gallery grid (media left, texts right, button below), always native. */
+    private fun recentAdSpec(): SlotSpec {
+        val cfg = AdRemoteConfig.config.recent
+        return SlotSpec(
+            show = cfg.bottomShow && cfg.nativeId.isNotEmpty(), native = true, bannerId = "", nativeId = cfg.nativeId,
+            preload = cfg.preload, cacheKey = "slot_recent", medium = true,
+        )
     }
 
     override fun onNewIntent(intent: Intent) {
@@ -148,7 +154,20 @@ class RecentActivity : AppCompatActivity(), LauncherApps.Listener {
         root.animate().translationX(-root.width.toFloat()).setDuration(SLIDE_MS).withEndAction {
             finish()
             overridePendingTransition(0, 0)
+            showHome()
         }.start()
+    }
+
+    /**
+     * The Recents key opened the system overview and this page over it; once this page is gone the overview would show again.
+     * Going to the launcher's Home page puts the overview away, as closing the Recent page of a launcher should.
+     */
+    private fun showHome() {
+        try {
+            startActivity(LauncherHomeActivity.intent(this).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_REORDER_TO_FRONT or Intent.FLAG_ACTIVITY_NO_ANIMATION))
+        } catch (e: Exception) {
+            // The overview simply stays as the system shows it.
+        }
     }
 
     companion object {
