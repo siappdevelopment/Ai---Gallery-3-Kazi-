@@ -27,4 +27,13 @@
         android:textColor="@color/white"
         android:textSize="10sp"
         android:textStyle="bold" />
+
+    <ImageView
+        android:id="@+id/ivCheck"
+        android:layout_width="22dp"
+        android:layout_height="22dp"
+        android:layout_gravity="top|end"
+        android:layout_margin="6dp"
+        android:importantForAccessibility="no"
+        android:visibility="gone" />
 </FrameLayout>

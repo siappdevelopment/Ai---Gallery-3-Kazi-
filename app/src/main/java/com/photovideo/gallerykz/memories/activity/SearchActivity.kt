@@ -47,6 +47,9 @@ import com.photovideo.gallerykz.memories.viewmodel.SearchViewModel
 class SearchActivity : AdAwareActivity() {
 
     private var binding: ActivitySearchBinding? = null
+
+    /** Set when the query changes; the next finished load of results scrolls the list back to the top. */
+    private var scrollToTop = false
     private val viewModel: SearchViewModel by viewModels()
 
     private val handler = Handler(Looper.getMainLooper())
@@ -105,10 +108,18 @@ class SearchActivity : AdAwareActivity() {
             val empty = states.refresh is LoadState.NotLoading && results.itemCount == 0
             b.noResultsGroup.visibility = if (query.isNotEmpty() && empty) View.VISIBLE else View.GONE
             b.rvResults.visibility = if (query.isNotEmpty() && !empty) View.VISIBLE else View.GONE
+            // New results for a changed query start at the top, not where the previous list was scrolled to.
+            if (scrollToTop && states.refresh is LoadState.NotLoading) {
+                scrollToTop = false
+                b.rvResults.scrollToPosition(0)
+            }
         }
         viewModel.results.observe(this) { data -> results.submitData(lifecycle, data) }
         viewModel.count.observe(this) { header.setCount(it ?: 0) }
-        viewModel.query.observe(this) { renderQuery(it.orEmpty()) }
+        viewModel.query.observe(this) {
+            scrollToTop = true
+            renderQuery(it.orEmpty())
+        }
         viewModel.history.observe(this) { renderHistory(it.orEmpty()) }
 
         // Start with the query that was typed before a rotation; otherwise show the keyboard.

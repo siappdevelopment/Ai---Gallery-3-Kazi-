@@ -106,7 +106,10 @@ class LauncherHomeActivity : AdAwareActivity(), LauncherHost, LauncherSettings.L
         super.onCreate(savedInstanceState)
         // The Home key or a widget can reach the launcher before the onboarding (permissions, default app) is finished:
         // the screen of the step the user is on opens instead (not the splash: it would show a second time).
-        if (com.photovideo.gallerykz.memories.helper.OnboardingPrefs.getStep(this) != com.photovideo.gallerykz.memories.helper.OnboardingPrefs.STEP_DONE) {
+        // Only on a fresh start: a recreate (theme or language change, rotation) must keep the user on this screen.
+        if (savedInstanceState == null &&
+            com.photovideo.gallerykz.memories.helper.OnboardingPrefs.getStep(this) != com.photovideo.gallerykz.memories.helper.OnboardingPrefs.STEP_DONE
+        ) {
             startActivity(com.photovideo.gallerykz.memories.helper.OnboardingRouter.resume(this))
             finish()
             return

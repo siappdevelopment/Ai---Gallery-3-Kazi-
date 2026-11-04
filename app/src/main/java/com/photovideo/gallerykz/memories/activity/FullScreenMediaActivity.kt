@@ -178,7 +178,8 @@ class FullScreenMediaActivity : AdAwareActivity() {
         }
         viewModel.rename.observe(this) { event -> event.getContentIfNotHandled()?.let { onRenameResult(it) } }
         supportFragmentManager.setFragmentResultListener(KEY_DELETE, this) { _, result ->
-            if (result.getBoolean(ConfirmDialogFragment.RESULT_CONFIRMED)) moveToBin()
+            if (!result.getBoolean(ConfirmDialogFragment.RESULT_CONFIRMED)) return@setFragmentResultListener
+            if (viewModel.sourceAlbumId > 0L) removeFromAlbum() else moveToBin()
         }
 
         supportFragmentManager.setFragmentResultListener(KEY_VAULT, this) { _, result ->
@@ -416,6 +417,18 @@ class FullScreenMediaActivity : AdAwareActivity() {
     /** Delete photo dialog (design 85); the system trash is Android 11+. */
     private fun delete() {
         val media = current() ?: return
+        if (viewModel.sourceAlbumId > 0L) {
+            // Opened from an app album: Delete only takes the item out of this album.
+            ConfirmDialogFragment.show(
+                supportFragmentManager,
+                KEY_DELETE,
+                R.drawable.ic_delete,
+                getString(R.string.album_remove_photo_title),
+                getString(R.string.album_remove_body),
+                getString(R.string.album_remove_confirm),
+            )
+            return
+        }
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.R) {
             Toast.makeText(applicationContext, R.string.viewer_unsupported, Toast.LENGTH_SHORT).show()
             return
@@ -429,6 +442,12 @@ class FullScreenMediaActivity : AdAwareActivity() {
             getString(R.string.delete_body),
             getString(R.string.delete_move_to_bin),
         )
+    }
+
+    private fun removeFromAlbum() {
+        val media = current() ?: return
+        viewModel.removeFromAlbum(media.uid)
+        Toast.makeText(applicationContext, getString(R.string.selection_removed_album, 1), Toast.LENGTH_SHORT).show()
     }
 
     /** The user confirmed: ask the system to move the item to the Bin, then drop it from the gallery. */

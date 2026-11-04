@@ -57,13 +57,15 @@ class TrashViewModel(application: Application) : AndroidViewModel(application) {
         }
     }
 
-    fun restoreAll() = ask(Action.RESTORE)
+    /** Restores [selected] items, or every item when null. */
+    fun restoreAll(selected: Set<Long>? = null) = ask(Action.RESTORE, selected)
 
-    fun emptyBin() = ask(Action.DELETE)
+    /** Deletes [selected] items for good, or every item when null. */
+    fun emptyBin(selected: Set<Long>? = null) = ask(Action.DELETE, selected)
 
-    private fun ask(action: Action) {
+    private fun ask(action: Action, selected: Set<Long>?) {
         worker.execute {
-            val uids = current.map { it.uid }
+            val uids = current.map { it.uid }.filter { selected == null || it in selected }
             if (uids.isEmpty()) return@execute
             val intent = try {
                 if (action == Action.RESTORE) trash.trashRequest(uids, false) else trash.deleteRequest(uids)

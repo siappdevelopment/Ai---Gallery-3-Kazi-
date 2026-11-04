@@ -11,6 +11,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.IntentSenderRequest
 import androidx.activity.result.contract.ActivityResultContracts
@@ -59,15 +60,56 @@ class TrashActivity : AdAwareActivity() {
         b.rvBin.itemAnimator = null
         b.rvBin.setHasFixedSize(true)
 
-        b.btnRestoreAll.setOnClickListener { viewModel.restoreAll() }
-        b.btnEmptyBin.setOnClickListener { confirmEmpty() }
+        val backCallback = object : OnBackPressedCallback(false) {
+            override fun handleOnBackPressed() = adapter.setSelectionMode(false)
+        }
+        onBackPressedDispatcher.addCallback(this, backCallback)
+
+        val updateSelectionUi = {
+            val selecting = adapter.selectionMode
+            val count = adapter.selectedUids.size
+            b.btnSelect.text = getString(if (selecting) R.string.bin_cancel else R.string.bin_select)
+            b.btnSelectAll.visibility = if (selecting) View.VISIBLE else View.GONE
+            b.btnRestoreAll.text = getString(
+                if (selecting) R.string.bin_restore_selected else R.string.bin_restore_all, count,
+            )
+            b.btnEmptyBin.text = getString(
+                if (selecting) R.string.bin_delete_selected else R.string.bin_empty_action, count,
+            )
+            val enabled = !selecting || count > 0
+            b.btnRestoreAll.alpha = if (enabled) 1f else 0.4f
+            b.btnEmptyBin.alpha = if (enabled) 1f else 0.4f
+            backCallback.isEnabled = selecting
+        }
+        adapter.onSelectionChanged = { updateSelectionUi() }
+        adapter.onItemClick = { item ->
+            startActivity(BinPreviewActivity.intent(this, item.uid, item.mediaType))
+        }
+        b.btnSelect.setOnClickListener { adapter.setSelectionMode(!adapter.selectionMode) }
+        b.btnSelectAll.setOnClickListener { adapter.selectAll() }
+
+        b.btnRestoreAll.setOnClickListener {
+            if (!adapter.selectionMode) {
+                viewModel.restoreAll()
+            } else if (adapter.selectedUids.isNotEmpty()) {
+                viewModel.restoreAll(adapter.selectedUids.toSet())
+            }
+        }
+        b.btnEmptyBin.setOnClickListener {
+            if (!adapter.selectionMode) confirmEmpty(viewModel.items.value.orEmpty().size)
+            else if (adapter.selectedUids.isNotEmpty()) confirmEmpty(adapter.selectedUids.size)
+        }
         supportFragmentManager.setFragmentResultListener(KEY_EMPTY, this) { _, result ->
-            if (result.getBoolean(ConfirmDialogFragment.RESULT_CONFIRMED)) viewModel.emptyBin()
+            if (result.getBoolean(ConfirmDialogFragment.RESULT_CONFIRMED)) {
+                viewModel.emptyBin(if (adapter.selectionMode) adapter.selectedUids.toSet() else null)
+            }
         }
 
         viewModel.items.observe(this) { items ->
             adapter.submitList(items)
             val empty = items.isEmpty()
+            if (empty) adapter.setSelectionMode(false)
+            b.btnSelect.visibility = if (empty) View.GONE else View.VISIBLE
             b.contentGroup.visibility = if (empty) View.GONE else View.VISIBLE
             b.emptyGroup.visibility = if (empty && viewModel.loaded.value == true) View.VISIBLE else View.GONE
             b.tvSummary.text = getString(R.string.bin_summary, items.size)
@@ -83,6 +125,7 @@ class TrashActivity : AdAwareActivity() {
         }
         viewModel.done.observe(this) { event ->
             event.getContentIfNotHandled()?.let {
+                adapter.setSelectionMode(false)
                 val message = if (it.action == TrashViewModel.Action.RESTORE) {
                     getString(R.string.bin_restored, it.count)
                 } else {
@@ -104,8 +147,7 @@ class TrashActivity : AdAwareActivity() {
         viewModel.refresh()
     }
 
-    private fun confirmEmpty() {
-        val count = viewModel.items.value.orEmpty().size
+    private fun confirmEmpty(count: Int) {
         if (count == 0) return
         ConfirmDialogFragment.show(
             supportFragmentManager,

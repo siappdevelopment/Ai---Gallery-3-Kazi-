@@ -14,14 +14,44 @@
     android:paddingEnd="6dp"
     android:paddingBottom="10dp">
 
-    <com.google.android.material.imageview.ShapeableImageView
-        android:id="@+id/ivCover"
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="116dp"
-        android:background="@color/language_background"
-        android:importantForAccessibility="no"
-        android:scaleType="centerCrop"
-        app:shapeAppearance="@style/ShapeAppearance.ThirdGallery.IntroTileSmall" />
+        android:layout_height="116dp">
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/ivCover"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/language_background"
+            android:importantForAccessibility="no"
+            android:scaleType="centerCrop"
+            app:shapeAppearance="@style/ShapeAppearance.ThirdGallery.IntroTileSmall" />
+
+        <ImageButton
+            android:id="@+id/btnRename"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_gravity="top|start"
+            android:layout_margin="6dp"
+            android:background="@drawable/bg_media_badge"
+            android:contentDescription="@string/viewer_rename"
+            android:scaleType="center"
+            android:src="@drawable/ic_edit"
+            android:visibility="gone"
+            app:tint="@color/white" />
+
+        <ImageButton
+            android:id="@+id/btnDelete"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_gravity="top|end"
+            android:layout_margin="6dp"
+            android:background="@drawable/bg_media_badge"
+            android:contentDescription="@string/album_delete"
+            android:scaleType="center"
+            android:src="@drawable/ic_delete"
+            app:tint="@color/white" />
+    </FrameLayout>
 
     <LinearLayout
         android:layout_width="match_parent"

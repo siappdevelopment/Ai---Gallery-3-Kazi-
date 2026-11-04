@@ -20,6 +20,7 @@ import com.photovideo.gallerykz.memories.helper.MediaDetailsReader
 import com.photovideo.gallerykz.memories.utils.Event
 import com.photovideo.gallerykz.memories.model.AlbumKind
 import com.photovideo.gallerykz.memories.model.MediaFilter
+import com.photovideo.gallerykz.memories.repo.AlbumRepository
 import com.photovideo.gallerykz.memories.repo.MediaRepository
 import com.photovideo.gallerykz.memories.repo.VaultRepository
 import java.util.concurrent.Executors
@@ -168,6 +169,17 @@ class FullScreenMediaViewModel(
     fun forget(uid: Long) {
         list = list.filter { it != uid }
         _uids.postValue(list)
+    }
+
+    /** Delete inside an app album: only the album entry goes; the file and the other albums keep the item. */
+    fun removeFromAlbum(uid: Long) {
+        val album = sourceAlbumId
+        if (album <= 0L) return
+        worker.execute {
+            AlbumRepository(getApplication()).removeItems(album, listOf(uid))
+            list = list.filter { it != uid }
+            _uids.postValue(list)
+        }
     }
 
     fun setFavorite(uid: Long, favorite: Boolean) {
