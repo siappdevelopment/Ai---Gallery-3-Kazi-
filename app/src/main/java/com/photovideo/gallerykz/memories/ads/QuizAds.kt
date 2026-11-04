@@ -128,7 +128,7 @@ object QuizAds {
             return
         }
         try {
-            val dialog = Dialog(activity, android.R.style.Theme_Black_NoTitleBar_Fullscreen)
+            val dialog = Dialog(activity, android.R.style.Theme_Black_NoTitleBar)
             dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
             val layout = when (kind) {
                 QuizKind.INTER -> R.layout.dialog_quiz_inter
@@ -137,8 +137,9 @@ object QuizAds {
             }
             val view = LayoutInflater.from(activity).inflate(layout, null)
             dialog.setContentView(view)
+            FullNativeAd.keepClearOfBars(view)
             dialog.setCancelable(false)
-            dialog.window?.setBackgroundDrawable(ColorDrawable(Color.WHITE))
+            FullNativeAd.coverScreen(dialog, Color.WHITE)
             val titles = if (kind == QuizKind.NATIVE) quiz.nativeTitle else quiz.interTitle
             val descs = if (kind == QuizKind.NATIVE) quiz.nativeDesc else quiz.interDesc
             val media = when (kind) {
@@ -205,10 +206,10 @@ object QuizAds {
     private fun showNativeFull(activity: Activity, index: Int, finish: (Boolean) -> Unit) {
         val quiz = AdRemoteConfig.config.quiz
         try {
-            val dialog = Dialog(activity, android.R.style.Theme_Black_NoTitleBar_Fullscreen)
+            val dialog = Dialog(activity, android.R.style.Theme_Black_NoTitleBar)
             dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
             dialog.setCancelable(false)
-            dialog.window?.setBackgroundDrawable(ColorDrawable(androidx.core.content.ContextCompat.getColor(activity, R.color.native_full_bg)))
+            FullNativeAd.coverScreen(dialog, androidx.core.content.ContextCompat.getColor(activity, R.color.native_full_bg))
             val page = LayoutInflater.from(activity).inflate(R.layout.ad_native_full, null)
             dialog.setContentView(page)
             FullNativeAd.keepClearOfBars(page)

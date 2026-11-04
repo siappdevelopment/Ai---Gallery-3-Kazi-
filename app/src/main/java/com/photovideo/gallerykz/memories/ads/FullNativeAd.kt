@@ -49,10 +49,10 @@ object FullNativeAd {
             return
         }
         val dialog = try {
-            Dialog(activity, android.R.style.Theme_Black_NoTitleBar_Fullscreen).apply {
+            Dialog(activity, android.R.style.Theme_Black_NoTitleBar).apply {
                 requestWindowFeature(Window.FEATURE_NO_TITLE)
                 setCancelable(false)
-                window?.setBackgroundDrawable(ColorDrawable(ContextCompat.getColor(activity, R.color.native_full_bg)))
+                coverScreen(this, ContextCompat.getColor(activity, R.color.native_full_bg))
             }
         } catch (e: Exception) {
             Log.d(TAG, "full native dialog failed: $e")
@@ -199,7 +199,35 @@ object FullNativeAd {
         adView.setNativeAd(ad)
     }
 
-    /** The layouts are used as they are; the status bar, a cut-out and the navigation bar are kept clear by padding the root. */
+    /**
+     * A full-screen ad window: the status bar stays visible (painted in the ad's colour, with readable icons), and the
+     * window also fills the cut-out strip and the navigation bar, so no part of the app screen shows around the ad.
+     */
+    internal fun coverScreen(dialog: Dialog, color: Int) {
+        val w = dialog.window ?: return
+        w.setBackgroundDrawable(ColorDrawable(color))
+        w.setLayout(android.view.ViewGroup.LayoutParams.MATCH_PARENT, android.view.ViewGroup.LayoutParams.MATCH_PARENT)
+        w.addFlags(android.view.WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
+        @Suppress("DEPRECATION")
+        w.statusBarColor = color
+        @Suppress("DEPRECATION")
+        w.navigationBarColor = color
+        if (android.os.Build.VERSION.SDK_INT >= 28) {
+            w.attributes = w.attributes.apply {
+                layoutInDisplayCutoutMode = if (android.os.Build.VERSION.SDK_INT >= 30) {
+                    android.view.WindowManager.LayoutParams.LAYOUT_IN_DISPLAY_CUTOUT_MODE_ALWAYS
+                } else {
+                    android.view.WindowManager.LayoutParams.LAYOUT_IN_DISPLAY_CUTOUT_MODE_SHORT_EDGES
+                }
+            }
+        }
+        val light = androidx.core.graphics.ColorUtils.calculateLuminance(color) > 0.5
+        val controller = androidx.core.view.WindowCompat.getInsetsController(w, w.decorView)
+        controller.isAppearanceLightStatusBars = light
+        controller.isAppearanceLightNavigationBars = light
+    }
+
+    /** The layouts are used as they are;the status bar, a cut-out and the navigation bar are kept clear by padding the root. */
     internal fun keepClearOfBars(root: View) {
         ViewCompat.setOnApplyWindowInsetsListener(root) { v, insets ->
             val bars = insets.getInsets(WindowInsetsCompat.Type.systemBars() or WindowInsetsCompat.Type.displayCutout())
