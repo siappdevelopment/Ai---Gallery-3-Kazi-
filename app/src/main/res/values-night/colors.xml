@@ -5,6 +5,7 @@
     <color name="splash_text_primary">#FFF4F4F6</color>
     <color name="splash_text_secondary">#FFA8A8B2</color>
     <color name="language_background">#FF0C0C0E</color>
+    <color name="home_card_placeholder">#FF1C1C20</color>
     <color name="language_card">#FF1C1C20</color>
     <color name="language_item_selected">#FF3A1D27</color>
     <color name="language_check_off">#FF34343A</color>

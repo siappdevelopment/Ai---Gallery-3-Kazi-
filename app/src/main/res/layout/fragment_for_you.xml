@@ -22,9 +22,9 @@
             android:id="@+id/cardOverlayPermission"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
+            android:layout_marginStart="12dp"
             android:layout_marginTop="4dp"
-            android:layout_marginEnd="16dp"
+            android:layout_marginEnd="12dp"
             android:layout_marginBottom="12dp"
             android:background="@drawable/bg_overlay_permission_card"
             android:gravity="center_vertical"
@@ -322,7 +322,7 @@
                 android:layout_weight="1"
                 android:clickable="true"
                 android:focusable="true"
-                app:cardBackgroundColor="@color/language_background"
+                app:cardBackgroundColor="@color/home_card_placeholder"
                 app:cardCornerRadius="15dp"
                 app:cardElevation="0dp"
                 app:strokeWidth="0dp">
@@ -420,7 +420,7 @@
                     android:layout_marginBottom="4dp"
                     android:clickable="true"
                     android:focusable="true"
-                    app:cardBackgroundColor="@color/language_background"
+                    app:cardBackgroundColor="@color/home_card_placeholder"
                     app:cardCornerRadius="15dp"
                     app:cardElevation="0dp"
                     app:strokeWidth="0dp">
@@ -478,7 +478,7 @@
                     android:layout_marginTop="4dp"
                     android:clickable="true"
                     android:focusable="true"
-                    app:cardBackgroundColor="@color/language_background"
+                    app:cardBackgroundColor="@color/home_card_placeholder"
                     app:cardCornerRadius="15dp"
                     app:cardElevation="0dp"
                     app:strokeWidth="0dp">

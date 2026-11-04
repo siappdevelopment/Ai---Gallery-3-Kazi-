@@ -10,6 +10,7 @@
     <color name="splash_text_primary">#FF1B1B1F</color>
     <color name="splash_text_secondary">#FF6B6B73</color>
     <color name="language_background">#FFF4F4F6</color>
+    <color name="home_card_placeholder">#FFE8E8EC</color>
     <color name="language_card">#FFFFFFFF</color>
     <color name="language_item_selected">#FFFFEAF0</color>
     <color name="language_check_off">#FFE3E3E8</color>
