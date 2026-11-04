@@ -19,6 +19,7 @@ import com.photovideo.gallerykz.memories.database.JournalDayRow
 import com.photovideo.gallerykz.memories.database.MediaEntity
 import com.photovideo.gallerykz.memories.database.MosaicRow
 import com.photovideo.gallerykz.memories.helper.MediaPermissionHelper
+import com.photovideo.gallerykz.memories.model.GallerySort
 import com.photovideo.gallerykz.memories.model.MediaFilter
 import com.photovideo.gallerykz.memories.model.MediaUiModel
 import com.photovideo.gallerykz.memories.model.withDayHeaders
@@ -35,10 +36,23 @@ class PhotoViewModel(application: Application) : AndroidViewModel(application) {
     private val _filter = MutableLiveData(MediaFilter.ALL)
     val filter: LiveData<MediaFilter> = _filter
 
-    /** Pages straight from Room, grouped by day; rebuilt when the filter changes. */
-    val media: LiveData<PagingData<MediaUiModel>> = _filter.switchMap { filter ->
-        repository.pagedMedia(filter)
-            .map { data -> data.withDayHeaders() }
+    private val _sort = MutableLiveData(GallerySort.DATE_NEWEST)
+
+    /** The order of the Classic grid (date, name or size); the day-based layouts always stay by date. */
+    val sort: LiveData<GallerySort> = _sort
+
+    private val filterAndSort = androidx.lifecycle.MediatorLiveData<Pair<MediaFilter, GallerySort>>().also { result ->
+        val update = { result.value = (_filter.value ?: MediaFilter.ALL) to (_sort.value ?: GallerySort.DATE_NEWEST) }
+        result.addSource(_filter) { update() }
+        result.addSource(_sort) { update() }
+    }
+
+    /** Pages straight from Room; rebuilt when the filter or the sort changes. Date orders are grouped by day. */
+    val media: LiveData<PagingData<MediaUiModel>> = filterAndSort.switchMap { (filter, sort) ->
+        repository.pagedMedia(filter, sort)
+            .map { data ->
+                if (sort.groupsByDay) data.withDayHeaders() else data.mapPaging<MediaEntity, MediaUiModel> { MediaUiModel.Item(it) }
+            }
             .cachedIn(viewModelScope)
     }
 
@@ -156,6 +170,10 @@ class PhotoViewModel(application: Application) : AndroidViewModel(application) {
         } catch (e: Exception) {
             // Without the observer the list still refreshes whenever the tab is shown.
         }
+    }
+
+    fun setSort(sort: GallerySort) {
+        if (_sort.value != sort) _sort.value = sort
     }
 
     fun setFilter(filter: MediaFilter) {

@@ -150,6 +150,13 @@
     <string name="albums_smart_title">Smart collections</string>
     <string name="albums_smart_screenshots">Screenshots</string>
     <string name="albums_smart_recent">Recently added</string>
+    <string name="gallery_sort_title">Sort photos</string>
+    <string name="gallery_sort_date_newest">Date: newest first</string>
+    <string name="gallery_sort_date_oldest">Date: oldest first</string>
+    <string name="gallery_sort_name_az">Name: A to Z</string>
+    <string name="gallery_sort_name_za">Name: Z to A</string>
+    <string name="gallery_sort_size_largest">Size: largest first</string>
+    <string name="gallery_sort_size_smallest">Size: smallest first</string>
     <string name="albums_sort_title">Sort albums</string>
     <string name="albums_sort_newest">Newest first</string>
     <string name="albums_sort_oldest">Oldest first</string>

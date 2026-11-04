@@ -46,6 +46,7 @@ import com.photovideo.gallerykz.memories.helper.GalleryLayoutPrefs
 import com.photovideo.gallerykz.memories.helper.MediaFormat
 import com.photovideo.gallerykz.memories.helper.MediaPermissionHelper
 import com.photovideo.gallerykz.memories.model.GalleryLayout
+import com.photovideo.gallerykz.memories.model.GallerySort
 import com.photovideo.gallerykz.memories.model.MediaFilter
 import com.photovideo.gallerykz.memories.database.JournalDayRow
 import com.photovideo.gallerykz.memories.helper.ShareHelper
@@ -76,6 +77,7 @@ class PhotoFragment : Fragment() {
     private val selectionViewModel: SelectionViewModel by activityViewModels()
     private var selectionBars: SelectionBarController? = null
     private var lastFilter: MediaFilter? = null
+    private var lastSort: GallerySort? = null
     private var lastLayout: GalleryLayout? = null
 
     private val selectionLauncher = registerForActivityResult(ActivityResultContracts.StartIntentSenderForResult()) { result ->
@@ -166,7 +168,11 @@ class PhotoFragment : Fragment() {
             onFilterSelected = { viewModel.setFilter(it) },
             onAllAlbums = { galleryHost()?.openAlbumsTab() },
             onOpenAlbum = ::openAlbum,
+            onSortClick = { GallerySortBottomSheet.show(childFragmentManager, viewModel.sort.value ?: GallerySort.DATE_NEWEST) },
         )
+        childFragmentManager.setFragmentResultListener(GallerySortBottomSheet.RESULT_KEY, viewLifecycleOwner) { _, result ->
+            GallerySort.entries.getOrNull(result.getInt(GallerySortBottomSheet.RESULT_SORT, -1))?.let { viewModel.setSort(it) }
+        }
         val timeline = TimelineHeaderAdapter(
             onZoomSelected = { layoutViewModel.setZoom(it) },
             onZoomIn = { layoutViewModel.zoomIn() },
@@ -279,6 +285,12 @@ class PhotoFragment : Fragment() {
 
         val owner = viewLifecycleOwner
         viewModel.media.observe(owner) { data -> media.submitData(owner.lifecycle, data) }
+        viewModel.sort.observe(owner) { sort ->
+            classic.setSortLabel(getString(GallerySortBottomSheet.labelOf(sort)))
+            // A new order starts at the top of the grid.
+            if (lastSort != null && lastSort != sort) b.rvMedia.scrollToPosition(0)
+            lastSort = sort
+        }
         viewModel.dayCounts.observe(owner) {
             media.updateCounts(it)
             mosaic.updateCounts(it)
