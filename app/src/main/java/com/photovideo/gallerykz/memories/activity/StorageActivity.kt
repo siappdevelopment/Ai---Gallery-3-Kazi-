@@ -1,5 +1,7 @@
 package com.photovideo.gallerykz.memories.activity
 
+import com.photovideo.gallerykz.memories.ads.AdAwareActivity
+
 import com.photovideo.gallerykz.memories.ads.AdScreen
 
 import com.photovideo.gallerykz.memories.ads.AdHooks
@@ -24,7 +26,7 @@ import com.photovideo.gallerykz.memories.viewmodel.StorageViewModel
  * Storage (design): how much of the phone is used and available, a bar split into Photos, Videos and Other apps, and the
  * size of each. Photos and videos are the real file sizes of the library; "Other apps" is the rest of the used space.
  */
-class StorageActivity : AppCompatActivity() {
+class StorageActivity : AdAwareActivity() {
 
     private var binding: ActivityStorageBinding? = null
     private val viewModel: StorageViewModel by viewModels()

@@ -1,5 +1,7 @@
 package com.photovideo.gallerykz.memories.launcher
 
+import com.photovideo.gallerykz.memories.ads.AdAwareActivity
+
 import com.photovideo.gallerykz.memories.ads.AdScreen
 
 import com.photovideo.gallerykz.memories.ads.AdHooks
@@ -18,7 +20,7 @@ import com.photovideo.gallerykz.memories.databinding.ActivityLauncherWidgetsBind
 import com.photovideo.gallerykz.memories.databinding.ItemLauncherWidgetBinding
 
 /** The widget picker: one card per widget with an Add button that pins it to the home screen. */
-class LauncherWidgetsActivity : AppCompatActivity() {
+class LauncherWidgetsActivity : AdAwareActivity() {
 
     private var binding: ActivityLauncherWidgetsBinding? = null
 

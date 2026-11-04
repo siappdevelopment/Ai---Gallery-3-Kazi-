@@ -1,5 +1,7 @@
 package com.photovideo.gallerykz.memories.activity
 
+import com.photovideo.gallerykz.memories.ads.AdAwareActivity
+
 import com.photovideo.gallerykz.memories.ads.AdScreen
 
 import com.photovideo.gallerykz.memories.ads.AdHooks
@@ -49,7 +51,7 @@ import com.photovideo.gallerykz.memories.viewmodel.FullScreenMediaViewModel
  *
  * It reuses the photo viewer's view model for the media's details, favorite and removal, so those behave as in the viewer.
  */
-class VideoPlayerActivity : AppCompatActivity() {
+class VideoPlayerActivity : AdAwareActivity() {
 
     private var binding: ActivityVideoPlayerBinding? = null
     private val viewModel: FullScreenMediaViewModel by viewModels()

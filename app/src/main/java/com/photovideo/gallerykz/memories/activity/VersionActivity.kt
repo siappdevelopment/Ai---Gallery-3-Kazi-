@@ -1,5 +1,7 @@
 package com.photovideo.gallerykz.memories.activity
 
+import com.photovideo.gallerykz.memories.ads.AdAwareActivity
+
 import com.photovideo.gallerykz.memories.ads.AdScreen
 
 import com.photovideo.gallerykz.memories.ads.AdHooks
@@ -20,7 +22,7 @@ import com.photovideo.gallerykz.memories.databinding.ActivityVersionBinding
  * About app (design 56): the app icon, its name, "Version 1.0.0 (100)" read from the installed package, and a line about
  * what the app does. Opened from the App version row of Settings.
  */
-class VersionActivity : AppCompatActivity() {
+class VersionActivity : AdAwareActivity() {
 
     private var binding: ActivityVersionBinding? = null
 

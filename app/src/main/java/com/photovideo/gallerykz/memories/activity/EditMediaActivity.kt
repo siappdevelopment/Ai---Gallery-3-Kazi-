@@ -1,5 +1,7 @@
 package com.photovideo.gallerykz.memories.activity
 
+import com.photovideo.gallerykz.memories.ads.AdAwareActivity
+
 import com.photovideo.gallerykz.memories.ads.AdScreen
 
 import com.photovideo.gallerykz.memories.ads.AdHooks
@@ -50,7 +52,7 @@ import com.photovideo.gallerykz.memories.viewmodel.EditResult
  * and the tool bar (Adjust, Filters, Crop, Draw, Text, Stickers). Every change shows live on the photo; Save writes the
  * edited picture as a new photo and the original stays as it is.
  */
-class EditMediaActivity : AppCompatActivity() {
+class EditMediaActivity : AdAwareActivity() {
 
     private var binding: ActivityEditMediaBinding? = null
     private val viewModel: EditMediaViewModel by viewModels()

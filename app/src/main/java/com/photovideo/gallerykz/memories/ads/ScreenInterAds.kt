@@ -19,12 +19,11 @@ object AdCounters {
     @Volatile var appTap = 0
 
     fun onConfigApplied(context: Context) {
-        click = 0
-        back = 0
-        bottomNav = 0
+        // The click / Back / bottom-nav counters keep counting through a new config (they live for the process); only their ads are renewed.
         rightSwipe = 0
         leftSwipe = 0
         appTap = 0
+        ScreenInterAds.clearCaches()
         ScreenInterAds.preparePreload(context)
         SwipeAds.preparePreload(context)
         AppOpenAds.prepare(context)
@@ -52,6 +51,22 @@ object ScreenInterAds {
     private val cache = HashMap<Kind, Cached>()
     private val loadingKinds = HashSet<Kind>()
 
+    /** Bumped when a new config empties the caches, so a load still in flight for the old config is dropped. */
+    @Volatile private var generation = 0
+
+    /** While one click / Back decision is open (its ad is loading or showing), a second one is dropped (index 0 = click, 1 = Back). */
+    private val busyAt = LongArray(2)
+    private const val BUSY_STALE_MS = 30_000L
+    private const val FLOW = "KaziAdFlow"
+
+    fun clearCaches() {
+        synchronized(cache) {
+            generation++
+            cache.clear()
+            loadingKinds.clear()
+        }
+    }
+
     /** True when [screen] takes part in this kind (master flag and the screen's own flag). */
     fun counts(screen: AdScreen, back: Boolean): Boolean {
         val c = AdRemoteConfig.config
@@ -64,18 +79,41 @@ object ScreenInterAds {
     fun onBack(activity: Activity, screen: AdScreen, next: () -> Unit) = handle(activity, screen, true, next)
 
     private fun handle(activity: Activity, screen: AdScreen, back: Boolean, next: () -> Unit) {
-        if (!counts(screen, back) || !AdGate.adsAllowed(activity)) {
+        val label = if (back) "back" else "click"
+        val inter = AdRemoteConfig.config.inter
+        if (!counts(screen, back)) {
+            val globalOn = if (back) inter.backShow else inter.clickShow
+            val screenOn = AdRemoteConfig.config.screen(screen).let { if (back) it.onBackInter else it.onClickInter }
+            if (globalOn && !screenOn) Log.d(FLOW, "$label inter: '${screen.obj}' not counted (screen flag off)")
             next()
             return
         }
-        val every = if (back) AdRemoteConfig.config.inter.backEvery else AdRemoteConfig.config.inter.clickEvery
+        if (!AdGate.adsAllowed(activity)) {
+            Log.d(FLOW, "$label inter: skipped, this place is blocked by the ads country lists")
+            next()
+            return
+        }
+        val every = if (back) inter.backEvery else inter.clickEvery
+        val index = if (back) 1 else 0
+        val now = android.os.SystemClock.elapsedRealtime()
+        if (busyAt[index] != 0L && now - busyAt[index] < BUSY_STALE_MS) {
+            // The ad decision of the first tap / Back is still open: this one is dropped (not counted, not requested twice).
+            Log.d(FLOW, "$label inter: dropped, the previous one is still open")
+            return
+        }
         val count = if (back) ++AdCounters.back else ++AdCounters.click
+        Log.d(FLOW, "$label inter: '${screen.obj}' counted $count / $every")
         if (count < every) {
             next()
             return
         }
+        // The counter restarts when the threshold is reached, whether or not an ad can then be shown.
         if (back) AdCounters.back = 0 else AdCounters.click = 0
-        present(activity, if (back) Kind.BACK else Kind.CLICK, next)
+        busyAt[index] = now
+        present(activity, if (back) Kind.BACK else Kind.CLICK) {
+            busyAt[index] = 0L
+            next()
+        }
     }
 
     /** Bottom navigation (the gallery page's tabs): its own counter and unit. */
@@ -135,7 +173,13 @@ object ScreenInterAds {
 
     private fun loadAndShow(activity: Activity, kind: Kind, done: () -> Unit) {
         val id = unitId(kind)
-        if (id.isEmpty() || !GoogleAds.canRequest(activity)) {
+        if (id.isEmpty()) {
+            Log.d(FLOW, "ad not requested: the unit id is empty in the Remote Config")
+            googleFailed(activity, done)
+            return
+        }
+        if (!GoogleAds.canRequest(activity)) {
+            Log.d(FLOW, "ad not requested: the ads SDK is not started or there is no network")
             googleFailed(activity, done)
             return
         }
@@ -187,11 +231,15 @@ object ScreenInterAds {
             Kind.BOTTOM -> c.main.bottomNavShow
         }
         if (!enabled || !GoogleAds.canRequest(context)) return
+        val gen: Int
         synchronized(cache) {
             if (cache.containsKey(kind) || !loadingKinds.add(kind)) return
+            gen = generation
         }
         GoogleAds.loadInterstitial(context, unitId(kind)) { ad ->
             synchronized(cache) {
+                // A load that finished after a new config emptied the caches belongs to the old config: dropped.
+                if (gen != generation) return@loadInterstitial
                 loadingKinds.remove(kind)
                 if (ad != null) cache[kind] = Cached(ad, System.currentTimeMillis())
             }

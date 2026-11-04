@@ -21,6 +21,8 @@ object AdHooks {
      * Nothing changes on a screen whose block is off, except that the Back hook stays ready for a later config.
      */
     fun install(activity: AppCompatActivity, screen: AdScreen, large: Boolean = false, navWithBigNative: Boolean = false, darkAd: Boolean = false) {
+        // The screen counts its clicks (opening another screen) for the click interstitial through the base class.
+        (activity as? AdAwareActivity)?.adScreen = screen
         try {
             val spec = { SlotSpec.of(AdRemoteConfig.config.screen(screen), "slot_${screen.name}", large) }
             attachBottom(activity, spec(), navWithBigNative, darkAd, liveSpec = spec)

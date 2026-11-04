@@ -1,5 +1,7 @@
 package com.photovideo.gallerykz.memories.activity
 
+import com.photovideo.gallerykz.memories.ads.AdAwareActivity
+
 import com.photovideo.gallerykz.memories.ads.AdScreen
 
 import com.photovideo.gallerykz.memories.ads.AdHooks
@@ -47,7 +49,7 @@ import java.util.Locale
  * its setting and does what it says: the choices (language, theme, grid columns) are saved and applied at once, the
  * rest opens the screen or the system page where the thing really lives.
  */
-class SettingActivity : AppCompatActivity() {
+class SettingActivity : AdAwareActivity() {
 
     private class Row(
         @DrawableRes val icon: Int,

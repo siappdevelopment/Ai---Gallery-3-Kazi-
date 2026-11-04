@@ -1,5 +1,7 @@
 package com.photovideo.gallerykz.memories.activity
 
+import com.photovideo.gallerykz.memories.ads.AdAwareActivity
+
 import com.photovideo.gallerykz.memories.ads.AdScreen
 
 import com.photovideo.gallerykz.memories.ads.AdHooks
@@ -32,7 +34,7 @@ import com.photovideo.gallerykz.memories.viewmodel.PeopleAndFaceViewModel
  * People & faces (Screen 10 design): every person found in the photos with their name and photo count, a search
  * over the names, and the "Unnamed groups" that wait for a name. A tap opens the photos of that face group.
  */
-class PeopleAndFaceActivity : AppCompatActivity() {
+class PeopleAndFaceActivity : AdAwareActivity() {
 
     private var binding: ActivityPeopleFaceBinding? = null
     private val viewModel: PeopleAndFaceViewModel by viewModels()

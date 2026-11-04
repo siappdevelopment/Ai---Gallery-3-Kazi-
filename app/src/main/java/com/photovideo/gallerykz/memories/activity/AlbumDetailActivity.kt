@@ -1,5 +1,7 @@
 package com.photovideo.gallerykz.memories.activity
 
+import com.photovideo.gallerykz.memories.ads.AdAwareActivity
+
 import com.photovideo.gallerykz.memories.ads.AdScreen
 
 import com.photovideo.gallerykz.memories.ads.AdHooks
@@ -35,7 +37,7 @@ import com.photovideo.gallerykz.memories.viewmodel.SelectionViewModel
 import com.photovideo.gallerykz.memories.viewmodel.AlbumDetailViewModel
 
 /** The photos and videos of one album, folder or smart collection, grouped by day; the Search button narrows them by file name. */
-class AlbumDetailActivity : AppCompatActivity() {
+class AlbumDetailActivity : AdAwareActivity() {
 
     private var binding: ActivityAlbumDetailBinding? = null
     private val viewModel: AlbumDetailViewModel by viewModels()
@@ -172,7 +174,7 @@ class AlbumDetailActivity : AppCompatActivity() {
         val now = android.os.SystemClock.elapsedRealtime()
         if (now - lastOpenAt < OPEN_GAP_MS) return
         lastOpenAt = now
-        AdHooks.onClick(this, AdScreen.ALBUM_DETAIL) { startActivity(FullScreenMediaActivity.intent(this, uid, viewModel.sourceKind, viewModel.sourceId)) }
+        startActivity(FullScreenMediaActivity.intent(this, uid, viewModel.sourceKind, viewModel.sourceId))
     }
 
     override fun onDestroy() {

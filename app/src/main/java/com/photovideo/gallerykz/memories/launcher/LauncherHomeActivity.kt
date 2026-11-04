@@ -1,5 +1,7 @@
 package com.photovideo.gallerykz.memories.launcher
 
+import com.photovideo.gallerykz.memories.ads.AdAwareActivity
+
 import com.photovideo.gallerykz.memories.ads.SwipeAds
 
 import com.photovideo.gallerykz.memories.ads.LauncherAds
@@ -49,7 +51,7 @@ interface LauncherHost {
  * A pager holds the gallery (left page) and the home page (start page). A swipe up on the home page pulls the app drawer
  * up under the finger; a swipe right slides the gallery in. HOME + DEFAULT intent filter, singleTask, own task.
  */
-class LauncherHomeActivity : AppCompatActivity(), LauncherHost, LauncherSettings.Listener {
+class LauncherHomeActivity : AdAwareActivity(), LauncherHost, LauncherSettings.Listener {
 
     private var binding: ActivityLauncherHomeBinding? = null
     private val b get() = binding!!
@@ -181,6 +183,10 @@ class LauncherHomeActivity : AppCompatActivity(), LauncherHost, LauncherSettings
         updateWindowBackground()
         binding?.appsDrawer?.refreshDefaultPromo()
     }
+
+    /** Only what is opened from the gallery page counts for the click interstitial (the Main screen block); the home page and the drawer never do. */
+    override fun adScreenForClicks(): com.photovideo.gallerykz.memories.ads.AdScreen? =
+        if (binding?.vpLauncher?.currentItem == PAGE_GALLERY && binding?.appsDrawer?.isOpen != true) com.photovideo.gallerykz.memories.ads.AdScreen.MAIN else null
 
     override fun onNewIntent(intent: Intent) {
         super.onNewIntent(intent)

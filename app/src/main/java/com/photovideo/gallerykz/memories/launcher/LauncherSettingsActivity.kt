@@ -1,5 +1,7 @@
 package com.photovideo.gallerykz.memories.launcher
 
+import com.photovideo.gallerykz.memories.ads.AdAwareActivity
+
 import com.photovideo.gallerykz.memories.ads.AdScreen
 
 import com.photovideo.gallerykz.memories.ads.AdHooks
@@ -26,7 +28,7 @@ import com.photovideo.gallerykz.memories.databinding.ActivityLauncherSettingsBin
  * Launcher settings: choose this app as the Home app, and set the app icon size, the app name size, whether names
  * show and the sort order. Every control saves at once, so the home screen and the open drawer change live.
  */
-class LauncherSettingsActivity : AppCompatActivity(), LauncherApps.Listener {
+class LauncherSettingsActivity : AdAwareActivity(), LauncherApps.Listener {
 
     private var binding: ActivityLauncherSettingsBinding? = null
     private var ignoreChanges = false

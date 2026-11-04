@@ -1,5 +1,7 @@
 package com.photovideo.gallerykz.memories.activity
 
+import com.photovideo.gallerykz.memories.ads.AdAwareActivity
+
 import com.photovideo.gallerykz.memories.ads.AdScreen
 
 import com.photovideo.gallerykz.memories.ads.AdHooks
@@ -33,7 +35,7 @@ import com.photovideo.gallerykz.memories.viewmodel.PlacesViewModel
  * Places (Screen 10 design): every place found in the locations saved inside the photos, with a search over the
  * names and a sort button. A tap opens the photos of that place. Nothing here asks for the phone's live location.
  */
-class PlacesActivity : AppCompatActivity() {
+class PlacesActivity : AdAwareActivity() {
 
     private var binding: ActivityPlacesBinding? = null
     private val viewModel: PlacesViewModel by viewModels()

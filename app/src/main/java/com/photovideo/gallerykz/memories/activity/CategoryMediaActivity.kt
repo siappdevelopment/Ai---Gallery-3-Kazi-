@@ -1,5 +1,7 @@
 package com.photovideo.gallerykz.memories.activity
 
+import com.photovideo.gallerykz.memories.ads.AdAwareActivity
+
 import com.photovideo.gallerykz.memories.ads.AdScreen
 
 import com.photovideo.gallerykz.memories.ads.AdHooks
@@ -35,7 +37,7 @@ import com.photovideo.gallerykz.memories.viewmodel.SelectionViewModel
  * category name with "N items · what it holds", then its photos grouped by day. One screen and one adapter serve
  * Best photos, Best portraits and Recently edited; the category travels as an [AlbumKind].
  */
-class CategoryMediaActivity : AppCompatActivity() {
+class CategoryMediaActivity : AdAwareActivity() {
 
     private var binding: ActivityCategoryMediaBinding? = null
     private val viewModel: CategoryMediaViewModel by viewModels()
@@ -114,7 +116,7 @@ class CategoryMediaActivity : AppCompatActivity() {
         val now = SystemClock.elapsedRealtime()
         if (now - lastOpenAt < OPEN_GAP_MS) return
         lastOpenAt = now
-        AdHooks.onClick(this, AdScreen.CATEGORY_MEDIA) { startActivity(FullScreenMediaActivity.intent(this, uid, viewModel.kind, 0L)) }
+        startActivity(FullScreenMediaActivity.intent(this, uid, viewModel.kind, 0L))
     }
 
     override fun onDestroy() {

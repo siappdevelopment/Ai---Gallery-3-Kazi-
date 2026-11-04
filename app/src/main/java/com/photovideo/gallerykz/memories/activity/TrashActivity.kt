@@ -1,5 +1,7 @@
 package com.photovideo.gallerykz.memories.activity
 
+import com.photovideo.gallerykz.memories.ads.AdAwareActivity
+
 import com.photovideo.gallerykz.memories.ads.AdScreen
 
 import com.photovideo.gallerykz.memories.ads.AdHooks
@@ -24,7 +26,7 @@ import com.photovideo.gallerykz.memories.fragment.ConfirmDialogFragment
 import com.photovideo.gallerykz.memories.viewmodel.TrashViewModel
 
 /** The Bin (design 55): trashed photos and videos, Restore all and Empty Bin. */
-class TrashActivity : AppCompatActivity() {
+class TrashActivity : AdAwareActivity() {
 
     private var binding: ActivityTrashBinding? = null
     private val viewModel: TrashViewModel by viewModels()

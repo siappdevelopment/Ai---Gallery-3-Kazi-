@@ -1,5 +1,7 @@
 package com.photovideo.gallerykz.memories.activity
 
+import com.photovideo.gallerykz.memories.ads.AdAwareActivity
+
 import com.photovideo.gallerykz.memories.ads.AdScreen
 
 import com.photovideo.gallerykz.memories.ads.AdHooks
@@ -55,7 +57,7 @@ import java.util.Date
  * from, with a top bar (date, position), previous / next buttons and Share / Edit / Favorite /
  * Delete / More at the bottom.
  */
-class FullScreenMediaActivity : AppCompatActivity() {
+class FullScreenMediaActivity : AdAwareActivity() {
 
     private var binding: ActivityFullScreenMediaBinding? = null
     private val viewModel: FullScreenMediaViewModel by viewModels()
@@ -358,7 +360,7 @@ class FullScreenMediaActivity : AppCompatActivity() {
             Toast.makeText(applicationContext, R.string.edit_photos_only, Toast.LENGTH_SHORT).show()
             return
         }
-        AdHooks.onClick(this, AdScreen.VIEWER) { startActivity(EditMediaActivity.intent(this, media.uid)) }
+        startActivity(EditMediaActivity.intent(this, media.uid))
     }
 
     private fun share() {
@@ -444,7 +446,7 @@ class FullScreenMediaActivity : AppCompatActivity() {
 
     /** A video is played in its own screen (the video player). */
     private fun playVideo(uid: Long) {
-        AdHooks.onClick(this, AdScreen.VIEWER) { startActivity(VideoPlayerActivity.intent(this, uid)) }
+        startActivity(VideoPlayerActivity.intent(this, uid))
     }
 
     /** Horizontal pager whose swiping can be switched off while a page is zoomed. */

@@ -1,5 +1,7 @@
 package com.photovideo.gallerykz.memories.activity
 
+import com.photovideo.gallerykz.memories.ads.AdAwareActivity
+
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.photovideo.gallerykz.memories.helper.VaultSession
@@ -9,7 +11,7 @@ import com.photovideo.gallerykz.memories.helper.VaultSession
  * auto-lock rules apply, and it hands over to the PIN screen (closing the other vault screens) when the vault is
  * locked. [onVaultOpen] runs every time the screen comes to the front with the vault open.
  */
-abstract class VaultScreenActivity : AppCompatActivity() {
+abstract class VaultScreenActivity : AdAwareActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

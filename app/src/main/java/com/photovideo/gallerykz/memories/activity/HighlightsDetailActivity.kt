@@ -1,5 +1,7 @@
 package com.photovideo.gallerykz.memories.activity
 
+import com.photovideo.gallerykz.memories.ads.AdAwareActivity
+
 import com.photovideo.gallerykz.memories.ads.AdScreen
 
 import com.photovideo.gallerykz.memories.ads.AdHooks
@@ -27,7 +29,7 @@ import com.photovideo.gallerykz.memories.viewmodel.HighlightsDetailViewModel
  * grouped by day. Play starts the slideshow in [HighlightsStartActivity]; a tile opens the viewer inside this
  * highlight only.
  */
-class HighlightsDetailActivity : AppCompatActivity() {
+class HighlightsDetailActivity : AdAwareActivity() {
 
     private var binding: ActivityHighlightsDetailBinding? = null
     private val viewModel: HighlightsDetailViewModel by viewModels()
@@ -98,7 +100,7 @@ class HighlightsDetailActivity : AppCompatActivity() {
         // The viewer swipes through this highlight's media only, in the order shown here.
         val shown = detail?.rows.orEmpty().filterIsInstance<HighlightRow.Tile>().map { it.media.uid }
         if (uid !in shown) return
-        AdHooks.onClick(this, AdScreen.HIGHLIGHT) { startActivity(FullScreenMediaActivity.intentForList(this, uid, shown)) }
+        startActivity(FullScreenMediaActivity.intentForList(this, uid, shown))
     }
 
     /** Ignores a second tap that arrives while the first screen is still opening. */

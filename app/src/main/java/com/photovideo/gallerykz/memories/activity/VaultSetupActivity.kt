@@ -1,5 +1,7 @@
 package com.photovideo.gallerykz.memories.activity
 
+import com.photovideo.gallerykz.memories.ads.AdAwareActivity
+
 import com.photovideo.gallerykz.memories.ads.AdScreen
 
 import com.photovideo.gallerykz.memories.ads.AdHooks
@@ -37,7 +39,7 @@ import com.photovideo.gallerykz.memories.viewmodel.VaultSettingsViewModel
  * Forgot PIN. The vault settings reuse it to change the PIN and edit the recovery question. Once the vault
  * is open it hands over to [VaultMediaActivity].
  */
-class VaultSetupActivity : AppCompatActivity() {
+class VaultSetupActivity : AdAwareActivity() {
 
     private var binding: ActivityVaultSetupBinding? = null
     private val viewModel: VaultSetupViewModel by viewModels()
@@ -102,7 +104,8 @@ class VaultSetupActivity : AppCompatActivity() {
         }
         viewModel.openVault.observe(this) { event ->
             event.getContentIfNotHandled()?.let {
-                startActivity(VaultMediaActivity.intent(this))
+                // Open the vault and close this screen: no click ad (an ad cannot show over a closing screen).
+                startReplacing(VaultMediaActivity.intent(this))
                 finish()
             }
         }

@@ -1,5 +1,7 @@
 package com.photovideo.gallerykz.memories.activity
 
+import com.photovideo.gallerykz.memories.ads.AdAwareActivity
+
 import com.photovideo.gallerykz.memories.ads.AdScreen
 
 import com.photovideo.gallerykz.memories.ads.AdHooks
@@ -42,7 +44,7 @@ import com.photovideo.gallerykz.memories.viewmodel.SearchViewModel
  * empty query the recent searches, People and Browse are shown. A tapped result opens in the viewer,
  * swipeable through all the results of that search.
  */
-class SearchActivity : AppCompatActivity() {
+class SearchActivity : AdAwareActivity() {
 
     private var binding: ActivitySearchBinding? = null
     private val viewModel: SearchViewModel by viewModels()
@@ -211,7 +213,7 @@ class SearchActivity : AppCompatActivity() {
         if (now - lastOpenAt < OPEN_GAP_MS) return
         lastOpenAt = now
         viewModel.remember(query)
-        AdHooks.onClick(this, AdScreen.SEARCH) { startActivity(FullScreenMediaActivity.intent(this, uid, AlbumKind.SEARCH, 0L, query = query)) }
+        startActivity(FullScreenMediaActivity.intent(this, uid, AlbumKind.SEARCH, 0L, query = query))
     }
 
     /** A person of the People row: their photos, like on For you (a second tap while it opens is ignored). */
