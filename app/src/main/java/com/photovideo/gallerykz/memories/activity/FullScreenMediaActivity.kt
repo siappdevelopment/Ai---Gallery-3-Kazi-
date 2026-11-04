@@ -254,6 +254,8 @@ class FullScreenMediaActivity : AdAwareActivity() {
     private fun render(media: MediaEntity?) {
         val b = binding ?: return
         if (media == null || media.uid != uids.getOrNull(position)) return
+        // Videos cannot be edited: the Edit action is not shown for them (the other actions share the width).
+        b.actionEdit.visibility = if (media.mediaType == MediaTypes.VIDEO) View.GONE else View.VISIBLE
         b.tvDate.text = MediaFormat.dayTitle(this, media.dayKey)
         val time = android.text.format.DateFormat.getTimeFormat(this).format(Date(media.dateMs))
         b.tvMeta.text = getString(R.string.viewer_meta, time, getString(R.string.viewer_position, position + 1, uids.size))
