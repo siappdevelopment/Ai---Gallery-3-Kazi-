@@ -54,7 +54,6 @@ class NotiPermissionActivity : AppCompatActivity() {
         if (savedInstanceState == null) OnboardingEnter.play(b.pill, b.sheet)
 
         b.btnTurnOn.setOnClickListener { requestNotifications() }
-        b.btnNotNow.setOnClickListener { viewModel.onFinished() }
 
         viewModel.navigateNext.observe(this) { event ->
             event.getContentIfNotHandled()?.let {
