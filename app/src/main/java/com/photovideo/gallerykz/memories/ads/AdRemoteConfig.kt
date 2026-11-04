@@ -300,9 +300,10 @@ object IpLocation {
     fun city(context: Context): String = prefs(context).getString("city", "") ?: ""
 
     /** Looks the location up once per call (in the background) when the config asks for it. */
-    fun refresh(context: Context) {
+    /** [force]: look up even when `App_Proxy_Check_Ip` is off (a screen with its own switch, like `ClEnd_Back_Ad_Country_IP`); the checker URL is still needed. */
+    fun refresh(context: Context, force: Boolean = false) {
         val proxy = AdRemoteConfig.config.proxy
-        if (!proxy.checkIp || proxy.checkerUrl.isBlank()) return
+        if ((!force && !proxy.checkIp) || proxy.checkerUrl.isBlank()) return
         val app = context.applicationContext
         executor.execute {
             var connection: HttpURLConnection? = null

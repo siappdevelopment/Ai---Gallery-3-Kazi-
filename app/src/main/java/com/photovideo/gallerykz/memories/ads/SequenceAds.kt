@@ -148,7 +148,7 @@ object BackAds {
             cfg.afterDays > 0 && AdGate.daysSinceInstall(activity) >= cfg.afterDays &&
             AdGate.intervalElapsed(activity, "${key}_back", cfg.perDay, zeroIsAlways = false)
         val allowed = basic && if (ipLists) {
-            AdGate.locationAllowed(activity, key, cfg.showCountries, cfg.excludeCountries, useIp = config.proxy.checkIp)
+            AdGate.locationAllowed(activity, key, cfg.showCountries, cfg.excludeCountries, useIp = if (key == "clend") cfg.useIpCountry else config.proxy.checkIp)
         } else {
             AdGate.countryAllowed(activity, cfg.showCountries, cfg.excludeCountries, preferIp = cfg.useIpCountry)
         }
