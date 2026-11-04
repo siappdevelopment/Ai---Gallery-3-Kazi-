@@ -241,6 +241,10 @@ interface MediaDao {
     @Query("UPDATE media SET isFavorite = :favorite WHERE uid IN (:uids)")
     fun setFavorites(uids: List<Long>, favorite: Boolean)
 
+    /** How many of [uids] are favorites (keep the list below SQLite's variable limit). */
+    @Query("SELECT COUNT(*) FROM media WHERE uid IN (:uids) AND isFavorite = 1")
+    fun countFavorites(uids: List<Long>): Int
+
     @Query("SELECT * FROM media WHERE displayName LIKE '%' || :pattern || '%' ESCAPE '\\' ORDER BY dateMs DESC, uid DESC")
     fun searchSource(pattern: String): PagingSource<Int, MediaEntity>
 

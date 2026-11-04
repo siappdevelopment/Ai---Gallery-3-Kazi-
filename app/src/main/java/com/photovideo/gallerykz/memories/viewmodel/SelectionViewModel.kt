@@ -73,7 +73,39 @@ class SelectionViewModel(
     val isActive: Boolean get() = _active.value == true
 
     /** Selecting inside the Favorite filter / collection: the Favorite action becomes Unfavorite. */
-    val isUnfavoriteMode: Boolean get() = sourceFilter == MediaFilter.FAVORITES || sourceKind == AlbumKind.FAVORITES
+    val isUnfavoriteMode: Boolean
+        get() = sourceFilter == MediaFilter.FAVORITES || sourceKind == AlbumKind.FAVORITES || _allFavorite.value == true
+
+    /** True while every selected item is already a favorite: the Favorite action then un-favorites them. */
+    private val _allFavorite = MutableLiveData(false)
+    val allFavorite: LiveData<Boolean> = _allFavorite
+
+    @Volatile
+    private var favoriteCheck = 0
+
+    init {
+        // A selection restored after process death needs its state too.
+        refreshFavoriteState(_selected.value.orEmpty())
+    }
+
+    /** Looks the selection up in the index off the main thread (a long selection must not block taps). */
+    private fun refreshFavoriteState(set: Set<Long>) {
+        val check = ++favoriteCheck
+        if (set.isEmpty()) {
+            _allFavorite.value = false
+            return
+        }
+        val ids = set.toList()
+        worker.execute {
+            val all = try {
+                repository.allFavorites(ids)
+            } catch (e: Exception) {
+                false
+            }
+            // Only the newest answer counts; the selection may have changed while this one was running.
+            if (check == favoriteCheck) _allFavorite.postValue(all)
+        }
+    }
 
     fun isSelected(uid: Long): Boolean = _selected.value?.contains(uid) == true
 
@@ -241,6 +273,7 @@ class SelectionViewModel(
     private fun publish(set: Set<Long>) {
         _selected.value = set
         persist(set)
+        refreshFavoriteState(set)
     }
 
     /** Small selections survive process death; very large ones are not saved (saved state has a size limit). */

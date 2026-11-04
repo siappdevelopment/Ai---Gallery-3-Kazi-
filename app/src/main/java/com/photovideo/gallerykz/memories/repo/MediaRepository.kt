@@ -280,6 +280,14 @@ class MediaRepository(context: Context) {
 
     fun removeLocal(uid: Long) = dao.deleteByUid(uid)
 
+    /** True when every one of [uids] is already a favorite (an empty list is not). */
+    fun allFavorites(uids: Collection<Long>): Boolean {
+        if (uids.isEmpty()) return false
+        var favorites = 0
+        for (chunk in uids.chunked(REMOVE_CHUNK)) favorites += dao.countFavorites(chunk)
+        return favorites >= uids.size
+    }
+
     /** Marks many items as favorite (or not) in one transaction; grids and counts follow through LiveData. */
     fun setFavoritesLocal(uids: List<Long>, favorite: Boolean) {
         if (uids.isEmpty()) return

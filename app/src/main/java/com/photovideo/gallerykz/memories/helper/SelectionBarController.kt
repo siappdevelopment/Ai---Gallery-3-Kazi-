@@ -60,6 +60,7 @@ class SelectionBarController(
 
         viewModel.active.observe(owner) { render() }
         viewModel.selected.observe(owner) { render() }
+        viewModel.allFavorite.observe(owner) { render() }
         viewModel.events.observe(owner) { event ->
             when (val content = event.getContentIfNotHandled()) {
                 is SelectionEvent.Launch -> launch(content.intent)
