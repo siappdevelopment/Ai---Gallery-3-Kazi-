@@ -35,6 +35,9 @@ class GalleryApp : Application() {
         // The navigation bar is hidden everywhere (a few screens bring it back for a big native ad).
         SystemNav.install(this)
         UnlockAds.register(this)
+        // Installed apps are listed in the background from the start (during splash / onboarding), so the Home
+        // folders are already filled when the launcher first opens instead of appearing a second later.
+        com.photovideo.gallerykz.memories.launcher.LauncherApps.reload(this)
     }
 
     override fun onConfigurationChanged(newConfig: Configuration) {
