@@ -28,7 +28,7 @@
                 android:layout_height="26dp"
                 android:layout_gravity="center"
                 android:importantForAccessibility="no"
-                app:tint="#D7263D" />
+                app:tint="@color/vault_error" />
         </FrameLayout>
 
         <TextView
