@@ -282,8 +282,11 @@ class LauncherHomeFragment : Fragment(), LauncherSettings.Listener, LauncherApps
     }
 
     private fun loadFolders() {
-        googleApps = LauncherShortcuts.GOOGLE_PACKAGES.mapNotNull { LauncherApps.find(it) }
-        toolsApps = LauncherShortcuts.TOOLS_GROUPS.mapNotNull { group -> group.firstNotNullOfOrNull { LauncherApps.find(it) } }
+        // findNow: the folders must not wait for the list of every installed app (right after the onboarding it is still
+        // loading, which made the folders appear a second late).
+        val context = context ?: return
+        googleApps = LauncherShortcuts.GOOGLE_PACKAGES.mapNotNull { LauncherApps.findNow(context, it) }
+        toolsApps = LauncherShortcuts.TOOLS_GROUPS.mapNotNull { group -> group.firstNotNullOfOrNull { LauncherApps.findNow(context, it) } }
     }
 
     // ---- sizes and look ----

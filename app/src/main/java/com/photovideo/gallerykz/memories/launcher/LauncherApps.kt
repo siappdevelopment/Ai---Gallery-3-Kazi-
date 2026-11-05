@@ -70,6 +70,8 @@ object LauncherApps {
                 // A newer reload was started in the meantime: its result is the one to show.
                 if (mine != generation || result == null) return@post
                 loaded = result
+                // The full list now knows every app (icons and labels may have changed with an update).
+                quickCache.clear()
                 listeners.forEach { it.onAppsChanged(result) }
             }
         }
@@ -83,6 +85,52 @@ object LauncherApps {
 
     /** The first loaded app of a package, or null. */
     fun find(packageName: String): LauncherApp? = loaded.firstOrNull { it.packageName == packageName }
+
+    private val quickCache = java.util.concurrent.ConcurrentHashMap<String, LauncherApp>()
+
+    /**
+     * Like [find], but it never waits for the full list: while that is still loading (right after the app starts) the one
+     * package is looked up on its own. The home screen folders use it, so they are there in the first frame instead of
+     * appearing when the whole list of installed apps has been read. The result is the same app the full list holds later.
+     */
+    fun findNow(context: Context, packageName: String): LauncherApp? {
+        find(packageName)?.let { return it }
+        quickCache[packageName]?.let { return it }
+        val app = lookup(context.applicationContext, packageName) ?: return null
+        quickCache[packageName] = app
+        return app
+    }
+
+    private fun lookup(context: Context, packageName: String): LauncherApp? = try {
+        // This app's own icon is the gallery, which is on the home screen already (same rule as the full list).
+        if (packageName == context.packageName) {
+            null
+        } else {
+            val pm = context.packageManager
+            val launch = Intent(Intent.ACTION_MAIN).addCategory(Intent.CATEGORY_LAUNCHER).setPackage(packageName)
+            val info = pm.queryIntentActivities(launch, 0).firstOrNull()
+            val activity = info?.activityInfo
+            if (info == null || activity == null) {
+                null
+            } else {
+                val label = englishLabel(context, info)
+                if (label.isBlank()) {
+                    null
+                } else {
+                    val installed = try {
+                        pm.getPackageInfo(packageName, 0).firstInstallTime
+                    } catch (e: Exception) {
+                        0L
+                    }
+                    val flags = activity.applicationInfo?.flags ?: 0
+                    val system = flags and (ApplicationInfo.FLAG_SYSTEM or ApplicationInfo.FLAG_UPDATED_SYSTEM_APP) != 0
+                    LauncherApp(label, packageName, activity.name, installed, system, info.loadIcon(pm))
+                }
+            }
+        }
+    } catch (e: Exception) {
+        null
+    }
 
     private fun query(context: Context): List<LauncherApp> {
         val pm = context.packageManager
