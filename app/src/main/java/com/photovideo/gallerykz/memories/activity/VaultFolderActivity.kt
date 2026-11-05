@@ -21,6 +21,7 @@ import com.photovideo.gallerykz.memories.adapter.VaultTileAdapter
 import com.photovideo.gallerykz.memories.databinding.ActivityVaultFolderBinding
 import com.photovideo.gallerykz.memories.fragment.ConfirmDialogFragment
 import com.photovideo.gallerykz.memories.fragment.VaultMoveSheet
+import com.photovideo.gallerykz.memories.helper.BlockingProgressDialog
 import com.photovideo.gallerykz.memories.model.VaultFolderKey
 import com.photovideo.gallerykz.memories.viewmodel.VaultFolderViewModel
 
@@ -33,6 +34,9 @@ class VaultFolderActivity : VaultScreenActivity() {
     private var binding: ActivityVaultFolderBinding? = null
     private val viewModel: VaultFolderViewModel by viewModels()
     private var adapter: VaultTileAdapter? = null
+
+    /** Shown for the whole Unhide, and nobody can dismiss it: nothing else can be done on the screen meanwhile. */
+    private val unhideDialog by lazy { BlockingProgressDialog(this) }
 
     private val backCallback = object : OnBackPressedCallback(false) {
         override fun handleOnBackPressed() = viewModel.endSelection()
@@ -89,6 +93,9 @@ class VaultFolderActivity : VaultScreenActivity() {
             viewModel.folders.value?.firstOrNull { it.id == id }?.let { viewModel.moveTo(it) }
         }
 
+        viewModel.unhideProgress.observe(this) { progress ->
+            if (progress == null) unhideDialog.dismiss() else unhideDialog.update(progress.done, progress.total, R.string.vault_unhide_progress)
+        }
         viewModel.title.observe(this) { b.tvTitle.text = it }
         viewModel.items.observe(this) { items ->
             tiles.submitList(items)

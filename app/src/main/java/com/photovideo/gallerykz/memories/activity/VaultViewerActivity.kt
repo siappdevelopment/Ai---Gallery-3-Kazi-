@@ -21,6 +21,7 @@ import com.photovideo.gallerykz.memories.R
 import com.photovideo.gallerykz.memories.adapter.VaultPageAdapter
 import com.photovideo.gallerykz.memories.databinding.ActivityVaultViewerBinding
 import com.photovideo.gallerykz.memories.fragment.ConfirmDialogFragment
+import com.photovideo.gallerykz.memories.helper.BlockingProgressDialog
 import com.photovideo.gallerykz.memories.viewmodel.VaultViewerViewModel
 
 /** A vault item full screen: swipe through the folder it was opened from, Unhide or Delete the one on screen. */
@@ -32,6 +33,9 @@ class VaultViewerActivity : VaultScreenActivity() {
     private var scrollListener: RecyclerView.OnScrollListener? = null
     private var ids: List<Long> = emptyList()
     private var position = 0
+
+    /** Shown while the item is restored, and nobody can dismiss it. */
+    private val unhideDialog by lazy { BlockingProgressDialog(this) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -98,6 +102,9 @@ class VaultViewerActivity : VaultScreenActivity() {
                 b.pager.scrollToPosition(target)
                 show(target)
             }
+        }
+        viewModel.unhideProgress.observe(this) { progress ->
+            if (progress == null) unhideDialog.dismiss() else unhideDialog.update(progress.done, progress.total, R.string.vault_unhide_progress)
         }
         viewModel.message.observe(this) { event ->
             event.getContentIfNotHandled()?.let { Toast.makeText(applicationContext, it, Toast.LENGTH_SHORT).show() }

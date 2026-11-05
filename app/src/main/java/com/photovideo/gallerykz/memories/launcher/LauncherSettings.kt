@@ -81,6 +81,26 @@ object LauncherSettings {
     /** The icon size in pixels. */
     fun iconPx(context: Context): Int = (getIconSize(context) * context.resources.displayMetrics.density).toInt()
 
+    /** Icons per row on the home screen (top row, dock), in the settings preview and in the app drawer. */
+    const val ROW_COLUMNS = 4
+
+    /** The room that always stays free between two icons of a row, and the smallest icon a narrow row may shrink to. */
+    private const val MIN_GAP_DP = 14
+    private const val FLOOR_DP = 36
+
+    /**
+     * The chosen icon size, but never so big that [columns] icons no longer fit in [rowWidthPx] with [MIN_GAP_DP] between them.
+     * The chosen size is in dp, so on a narrow phone the biggest sizes would otherwise touch or overlap; this keeps the
+     * spacing right on every screen width. An unknown width ([rowWidthPx] <= 0) leaves the chosen size as it is.
+     */
+    fun fittedIconPx(context: Context, rowWidthPx: Int, columns: Int = ROW_COLUMNS, iconDp: Int = getIconSize(context)): Int {
+        val density = context.resources.displayMetrics.density
+        val wanted = (iconDp * density).toInt()
+        if (rowWidthPx <= 0 || columns <= 0) return wanted
+        val room = rowWidthPx / columns - (MIN_GAP_DP * density).toInt()
+        return minOf(wanted, maxOf(room, (FLOOR_DP * density).toInt()))
+    }
+
     private fun save(context: Context, write: SharedPreferences.Editor.() -> Unit) {
         try {
             prefs(context).edit().apply(write).apply()

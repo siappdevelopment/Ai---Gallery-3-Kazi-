@@ -306,11 +306,15 @@ class VaultRepository(context: Context) {
     /**
      * Puts the items back into the gallery (MediaStore) and removes them from the vault. Each item is written
      * first and removed from the vault only when that worked, so nothing is lost; returns how many failed.
+     * [onProgress] gets the number of items handled so far (restored or failed), after each one.
      */
-    fun restore(ids: List<Long>): Int {
+    fun restore(ids: List<Long>, onProgress: (Int) -> Unit = {}): Int {
         var failed = 0
+        var handled = 0
         for (row in ids.chunked(CHUNK).flatMap { vaultDao.byIds(it) }) {
             if (restoreOne(row)) removeRow(row) else failed++
+            handled++
+            onProgress(handled)
         }
         return failed
     }
@@ -336,10 +340,7 @@ class VaultRepository(context: Context) {
                 (resolver.openOutputStream(dest) ?: throw IOException("no output")).use { out -> input.copyTo(out) }
             }
             val published = resolver.update(dest, ContentValues().apply { put(MediaStore.MediaColumns.IS_PENDING, 0) }, null, null) > 0
-            // Publishing makes the system read the file again, and for a picture without a date inside it (a screenshot, a chat
-            // image, many old photos) it then takes "now" as the date taken: the photo would jump to Today / Recent. The original
-            // date is written back once more, after that scan.
-            if (published && item.dateMs > 0) keepOriginalDate(dest, item.dateMs)
+            if (published && item.isFavorite) restoreFavorite(dest)
             published
         } catch (e: IOException) {
             dropTarget(target)
@@ -356,18 +357,19 @@ class VaultRepository(context: Context) {
         }
     }
 
-    /** Sets the date taken (and the modified date) of a restored item back to the date it had before it was hidden. */
-    private fun keepOriginalDate(uri: Uri, dateMs: Long) {
+    /**
+     * The restored file is a new MediaStore item, so it starts without the favorite flag the original had when it was hidden
+     * (the vault row keeps it in [VaultItemEntity.isFavorite]). The app owns the new item, so it may set the flag itself.
+     * Best effort: a phone that refuses it still gets the photo back, only not as a favorite.
+     */
+    private fun restoreFavorite(uri: Uri) {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.R) return
         try {
-            val values = ContentValues().apply {
-                put(MediaStore.MediaColumns.DATE_TAKEN, dateMs)
-                put(MediaStore.MediaColumns.DATE_MODIFIED, dateMs / 1000L)
-            }
-            resolver.update(uri, values, null, null)
+            resolver.update(uri, ContentValues().apply { put(MediaStore.MediaColumns.IS_FAVORITE, 1) }, null, null)
         } catch (e: SecurityException) {
-            // The item is restored anyway; only its date may then show as the restore time.
+            // Left as a normal photo.
         } catch (e: IllegalArgumentException) {
-            // Same: the date is a nicety, never a reason to fail the restore.
+            // Left as a normal photo.
         }
     }
 

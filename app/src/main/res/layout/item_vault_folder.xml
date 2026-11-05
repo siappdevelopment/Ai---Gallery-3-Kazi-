@@ -38,7 +38,7 @@
                 android:layout_height="17dp"
                 android:layout_gravity="center"
                 android:importantForAccessibility="no"
-                app:tint="@color/black" />
+                app:tint="@color/splash_text_primary" />
         </FrameLayout>
     </FrameLayout>
 
