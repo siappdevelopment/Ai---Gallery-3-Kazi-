@@ -24,9 +24,10 @@ class DefaultHomeRequest(private val activity: ComponentActivity, private val on
 
     private val launcher =activity.registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { handleResult() }
 
-    fun request() {
+    /** [settingsFirst] (Force_Set_As_Default): the Home settings list instead of the role dialog. */
+    fun request(settingsFirst: Boolean = false) {
         if (inFlight) return
-        val intent = LauncherNav.defaultHomeIntent(activity)
+        val intent = (if (settingsFirst) LauncherNav.homeSettingsIntent(activity) else null) ?: LauncherNav.defaultHomeIntent(activity)
         if (intent == null) {
             Toast.makeText(activity.applicationContext, R.string.settings_open_failed, Toast.LENGTH_SHORT).show()
             return

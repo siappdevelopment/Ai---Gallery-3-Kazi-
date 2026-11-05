@@ -21,6 +21,7 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.photovideo.gallerykz.memories.R
 import com.photovideo.gallerykz.memories.databinding.ActivitySplashBinding
+import com.photovideo.gallerykz.memories.helper.OnboardingPrefs
 import com.photovideo.gallerykz.memories.helper.OnboardingRouter
 import com.photovideo.gallerykz.memories.launcher.LauncherHomeActivity
 import com.photovideo.gallerykz.memories.launcher.LauncherNav
@@ -167,6 +168,20 @@ class SplashActivity : AppCompatActivity() {
 
     private var navigating = false
 
+    /**
+     * The onboarding screen to resume. Force_Set_As_Default: when the onboarding is already done and this app is no longer the
+     * Home app, the Default screen asks again on every fresh launch (it leaves the stored step alone and ends at the launcher).
+     */
+    private fun nextScreen(): Intent {
+        val target = OnboardingRouter.intent(this)
+        if (OnboardingPrefs.getStep(this) == OnboardingPrefs.STEP_DONE && AdRemoteConfig.config.forceSetAsDefault &&
+            !LauncherNav.isHomeAppOrRoleHolder(this)
+        ) {
+            return Intent(this, DefaultAppActivity::class.java).putExtra(DefaultAppActivity.EXTRA_FORCED_REASK, true)
+        }
+        return target
+    }
+
     private fun navigateNext() {
         if (isFinishing || isDestroyed || navigating) return
         navigating = true
@@ -174,7 +189,7 @@ class SplashActivity : AppCompatActivity() {
         OnboardingAds.afterSplash(this) {
             if (!isFinishing && !isDestroyed) {
                 removeOldAppTasks()
-                startActivity(OnboardingRouter.intent(this))
+                startActivity(nextScreen())
                 finish()
             }
         }

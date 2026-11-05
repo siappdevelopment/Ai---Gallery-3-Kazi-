@@ -225,6 +225,11 @@ class AdConfig(
     /** `Phone_Overlay_Popup_Show` / `Phone_Overlay_Popup_Count` (per day, 0 = no limit): the "display over other apps" popup on the right swipe. */
     val overlayPopupShow: Boolean = false,
     val overlayPopupPerDay: Int = 0,
+    /**
+     * `Force_Set_As_Default` (missing = false): true = "Set as Default" opens the Home app settings first and the onboarding goes on only
+     * once this app really is the Home app; and after the onboarding every fresh launch shows the Default screen again while it is not.
+     */
+    val forceSetAsDefault: Boolean = false,
     val languageInterShow: Boolean = false,
     val introInterShow: Boolean = false,
     /** `Intro_Screen_Count`: how many intro screens to show (0 / missing = all). */
@@ -338,6 +343,7 @@ class AdConfig(
                 defaultPopupPerDay = root.int("Default_App_Popup_Count"),
                 overlayPopupShow = root.bool("Phone_Overlay_Popup_Show"),
                 overlayPopupPerDay = root.int("Phone_Overlay_Popup_Count"),
+                forceSetAsDefault = root.bool("Force_Set_As_Default"),
                 languageInterShow = language.bool("Language_Interstitial_Ad_Show"),
                 introInterShow = intro.bool("Intro_Interstitial_Ad_Show"),
                 introCount = intro.int("Intro_Screen_Count"),

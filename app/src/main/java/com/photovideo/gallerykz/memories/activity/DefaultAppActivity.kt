@@ -18,6 +18,9 @@ import com.photovideo.gallerykz.memories.helper.OnboardingPrefs
 import com.photovideo.gallerykz.memories.helper.OnboardingRouter
 import com.photovideo.gallerykz.memories.launcher.DefaultHomeRequest
 import com.photovideo.gallerykz.memories.launcher.LauncherNav
+import com.photovideo.gallerykz.memories.ads.AdRemoteConfig
+import android.content.Intent
+import com.photovideo.gallerykz.memories.launcher.LauncherHomeActivity
 
 /**
  * Onboarding "Default app" (design 07), the first step of the onboarding. The first time, Android's Home app screen opens
@@ -41,15 +44,19 @@ class DefaultAppActivity : AppCompatActivity() {
     // True once the user tapped Set as Default and the system choice is open (kept over recreation).
     private var userAsked = false
 
+    // Force_Set_As_Default on a fresh launch after the onboarding was done: the step is left alone and Home follows (see SplashActivity).
+    private var forcedReask = false
+
     // A property, so the launcher is registered again after the process was recreated.
     private val defaultHome = DefaultHomeRequest(this) { onRequestOver() }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         userAsked = savedInstanceState?.getBoolean(KEY_USER_ASKED) ?: false
+        forcedReask = intent.getBooleanExtra(EXTRA_FORCED_REASK, false)
         enableEdgeToEdge()
-        // Remember the step immediately so a killed app resumes here after Splash.
-        OnboardingPrefs.setStep(this, OnboardingPrefs.STEP_DEFAULT)
+        // Remember the step immediately so a killed app resumes here after Splash (not when the finished onboarding asks again).
+        if (!forcedReask) OnboardingPrefs.setStep(this, OnboardingPrefs.STEP_DEFAULT)
         if (finishIfDefault()) return
 
         val b = ActivityDefaultAppBinding.inflate(layoutInflater)
@@ -65,12 +72,12 @@ class DefaultAppActivity : AppCompatActivity() {
         }
         b.btnSetDefault.setOnClickListener {
             userAsked = true
-            defaultHome.request()
+            defaultHome.request(settingsFirst = AdRemoteConfig.config.forceSetAsDefault)
         }
         if (savedInstanceState == null) OnboardingEnter.play(b.pill, b.sheet)
         // The first time, Android's own Home app screen opens before this explanation (see the reference video); if it is
         // dismissed without a choice, the user lands here and can try again with Set as Default. Never twice.
-        if (!OnboardingPrefs.isDefaultSystemShown(this)) {
+        if (!forcedReask && !OnboardingPrefs.isDefaultSystemShown(this)) {
             OnboardingPrefs.setDefaultSystemShown(this)
             awaitingSystem = defaultHome.requestSettings()
         }
@@ -109,7 +116,8 @@ class DefaultAppActivity : AppCompatActivity() {
      */
     private fun onRequestOver() {
         if (finishIfDefault()) return
-        if (userAsked) goToLanguage()
+        // Force_Set_As_Default: only a confirmed Home app moves on, otherwise the user stays here for another try.
+        if (userAsked && !AdRemoteConfig.config.forceSetAsDefault) goToLanguage()
     }
 
     /** True (and the step is left) when this app already is the Home app. */
@@ -126,13 +134,19 @@ class DefaultAppActivity : AppCompatActivity() {
         completed = true
         // Without the splash, and without a second copy if the system already brought the next screen up.
         OnboardingAds.afterDefault(this) {
-            OnboardingFlow.advance(this, OnboardingFlow.Screen.DEFAULT_APP, bringForward = true)
+            if (forcedReask) {
+                startActivity(Intent(this, LauncherHomeActivity::class.java))
+            } else {
+                OnboardingFlow.advance(this, OnboardingFlow.Screen.DEFAULT_APP, bringForward = true)
+            }
             finish()
         }
     }
 
-    private companion object {
-        const val KEY_USER_ASKED = "user_asked"
+    companion object {
+        /** Set by the splash when Force_Set_As_Default is on, the onboarding is done and this app is not the Home app. */
+        const val EXTRA_FORCED_REASK = "forced_reask"
+        private const val KEY_USER_ASKED = "user_asked"
     }
 
     override fun onDestroy() {
