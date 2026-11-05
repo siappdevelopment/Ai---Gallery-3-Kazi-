@@ -3,6 +3,7 @@ package com.photovideo.gallerykz.memories.activity
 import com.photovideo.gallerykz.memories.ads.OnboardingAds
 
 import com.photovideo.gallerykz.memories.ads.AdScreen
+import com.photovideo.gallerykz.memories.ads.SlotSpec
 
 import com.photovideo.gallerykz.memories.ads.AdRemoteConfig
 
@@ -66,7 +67,10 @@ class SplashActivity : AppCompatActivity() {
         }
 
         playEntranceAnimation(b, animate = savedInstanceState == null)
-        AdHooks.attachBottom(this, AdScreen.SPLASH)
+        // The ad follows the Remote Config, also when it arrives after the splash opened (first start, cleared data): a spec read now
+        // may still be the default "off", so the place re-reads the config when it is loaded.
+        val splashSpec = { SlotSpec.of(AdRemoteConfig.config.screen(AdScreen.SPLASH), "slot_${AdScreen.SPLASH.name}") }
+        AdHooks.attachBottom(this, splashSpec(), liveSpec = splashSpec)
         if (AdRemoteConfig.loaded || AdRemoteConfig.settled) {
             configReady = true
         } else {
