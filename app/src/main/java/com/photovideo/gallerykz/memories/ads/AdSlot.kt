@@ -107,6 +107,9 @@ class AdSlot(
     private var nativeAd: NativeAd? = null
     private var banner: AdView? = null
     private var loadedOnce = false
+
+    /** True while the card on screen is a Quiz ad (it has no handle like the Google ads do). */
+    private var quizShown = false
     private var placeholder: View? = null
     private var boxed = false
     private var pulse: android.animation.ObjectAnimator? = null
@@ -185,8 +188,9 @@ class AdSlot(
         loading = true
         lastRequestAt = SystemClock.elapsedRealtime()
         val mine = ++token
-        // The shimmer shows before every load, a refresh too: it takes the place of the old ad until the new one arrives.
-        showPlaceholder()
+        // The shimmer shows before the first load. A refresh keeps the ad that is on screen until the new one arrives, so a refresh that
+        // fails (no fill, too many requests) can never leave the place empty.
+        if (!hasAdOnScreen()) showPlaceholder()
         if (spec.native) {
             val cached = SlotCache.takeNative(spec.cacheKey)
             if (cached != null) {
@@ -252,13 +256,22 @@ class AdSlot(
         }
     }
 
+    /** True when an ad (Google or Quiz) is on screen and no placeholder covers it. */
+    private fun hasAdOnScreen(): Boolean = placeholder == null && (nativeAd != null || banner != null || quizShown)
+
     /** A Google ad could not be had: the Quiz ad when the config says so, else the place goes away. */
     private fun failed() {
         loading = false
+        // A refresh that fails leaves the ad that is already showing where it is and tries again on the next interval.
+        if (loadedOnce && hasAdOnScreen()) {
+            scheduleRefresh()
+            return
+        }
         removePlaceholder()
         if (!noQuiz && AdRemoteConfig.config.googleFailedQuiz && showQuiz()) return
-        // The shimmer replaced the old ad, so a failed refresh leaves nothing to keep: the place goes away.
         hide()
+        // A place that refreshes on a timer asks again later (a no-fill is usually short); without this it stayed gone for good.
+        if (spec.refreshSeconds > 0 && !destroyed) scheduleRefresh()
     }
 
     private fun gap(v: View) {
@@ -274,6 +287,7 @@ class AdSlot(
         clearAds()
         val ok = QuizAds.bindCard(activity, container, large = spec.large, native = spec.native, medium = spec.medium, inflateContext = viewContext)
         if (ok) {
+            quizShown = true
             container.getChildAt(0)?.let { gap(it) }
             container.visibility = View.VISIBLE
             onVisibility(true)
@@ -363,6 +377,7 @@ class AdSlot(
     }
 
     private fun clearAds() {
+        quizShown = false
         onBigNative(false)
         if (boxed) {
             boxed = false

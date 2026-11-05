@@ -7,6 +7,8 @@ import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.os.SystemClock
 import androidx.core.content.ContextCompat
 import java.lang.ref.WeakReference
@@ -19,7 +21,18 @@ import java.lang.ref.WeakReference
  */
 object AppRecentsKey {
 
+    private const val TAG = "AppRecentsKey"
     private const val SAME_SIGNAL_MS = 300L
+
+    /** The longest wait for the system overview to come up and cover the screen in front. */
+    private const val OVERVIEW_WAIT_MS = 900L
+
+    /** Pause between "the screen in front stopped" (the overview is up) and opening the page over it. */
+    private const val AFTER_COVER_MS = 250L
+
+    private val handler = Handler(Looper.getMainLooper())
+    private var pendingOpen: Runnable? = null
+    private var coverSeen = false
 
     private var started = 0
     private var receiver: BroadcastReceiver? = null
@@ -46,6 +59,7 @@ object AppRecentsKey {
             override fun onActivityStopped(activity: Activity) {
                 started = (started - 1).coerceAtLeast(0)
                 if (started == 0) unregister(application)
+                overviewCovered(activity)
             }
 
             override fun onActivityCreated(activity: Activity, savedInstanceState: Bundle?) {
@@ -107,6 +121,7 @@ object AppRecentsKey {
     }
 
     private fun onSignal(context: Context, reason: String) {
+        android.util.Log.d(TAG, "system key signal: '$reason'")
         val now = SystemClock.elapsedRealtime()
         // The same key reported twice in a row counts once.
         if (reason == lastReason && now - lastSignalAt < SAME_SIGNAL_MS) return
@@ -122,10 +137,46 @@ object AppRecentsKey {
         }
     }
 
+    /**
+     * The Recents key starts the phone's own overview, which needs a moment (Xiaomi / Redmi, Samsung...) to cover the screen. A page
+     * opened before that is covered by the overview and never seen. So the page waits until the screen in front stops (the overview is
+     * up) and then opens over it; when the screen never stops (some overviews are only a transient layer) it opens after a short limit.
+     */
     private fun openRecent(context: Context) {
-        if (!canOpenRecent(context)) return
+        val home = canOpenRecent(context)
+        android.util.Log.d(TAG, "recents key: this app is the Home app = $home, screen in front = ${top?.get()?.javaClass?.simpleName}")
+        if (!home) return
         val activity = top?.get()
         if (activity is RecentActivity) return
+        val app = context.applicationContext
+        cancelPending()
+        coverSeen = false
+        val launch = Runnable {
+            pendingOpen = null
+            startRecent(app)
+        }
+        pendingOpen = launch
+        handler.postDelayed(launch, OVERVIEW_WAIT_MS)
+    }
+
+    /** The screen that was in front stopped: the overview is on top, so the page follows right after it. */
+    private fun overviewCovered(activity: Activity) {
+        val launch = pendingOpen ?: return
+        if (coverSeen || activity !== top?.get()) return
+        coverSeen = true
+        handler.removeCallbacks(launch)
+        handler.postDelayed(launch, AFTER_COVER_MS)
+    }
+
+    private fun cancelPending() {
+        pendingOpen?.let { handler.removeCallbacks(it) }
+        pendingOpen = null
+    }
+
+    private fun startRecent(context: Context) {
+        if (!canOpenRecent(context)) return
+        if (top?.get() is RecentActivity) return
+        android.util.Log.d(TAG, "opening the Recent page (covered by the overview first = $coverSeen)")
         try {
             context.startActivity(
                 Intent(context, RecentActivity::class.java)

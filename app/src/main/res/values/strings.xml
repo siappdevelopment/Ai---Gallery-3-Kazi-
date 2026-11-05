@@ -194,6 +194,10 @@
     <string name="album_delete_folder_title">Delete folder?</string>
     <string name="album_delete_folder_body">All %2$d items in “%1$s” will be moved to the Bin.</string>
     <string name="album_deleted">Album deleted</string>
+    <string name="miui_recent_title">Allow the Recent screen</string>
+    <string name="miui_recent_message">On Xiaomi, Redmi and POCO phones the Recent screen can only open when this app is allowed to “Open new windows while running in the background” (on older versions: “Display pop-up windows while running in the background”). Open the settings and switch it on.</string>
+    <string name="miui_recent_open">Open settings</string>
+    <string name="miui_recent_later">Not now</string>
     <string name="album_add_photos">Add photos</string>
     <string name="album_pick_desc">Choose the photos and videos to add to “%1$s”.</string>
     <string name="album_pick_add">Add %1$d to album</string>

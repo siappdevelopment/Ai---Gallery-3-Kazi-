@@ -185,6 +185,8 @@ class LauncherHomeActivity : AdAwareActivity(), LauncherHost, LauncherSettings.L
         LauncherAds.onLauncherResumed(this)
         updateWindowBackground()
         binding?.appsDrawer?.refreshDefaultPromo()
+        // Xiaomi family phones only open the Recent page when this switch is on; the user is asked for it now and then.
+        if (binding != null) MiuiBackgroundStart.askIfNeeded(this)
     }
 
     /** Only what is opened from the gallery page counts for the click interstitial (the Main screen block); the home page and the drawer never do. */

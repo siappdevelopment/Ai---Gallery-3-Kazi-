@@ -279,12 +279,32 @@ class LauncherHomeFragment : Fragment(), LauncherSettings.Listener, LauncherApps
         val context = requireContext()
         // On some phones one app is both the Contacts app and the default Phone dialer (for example Xiaomi's), so two slots would
         // show the same icon. An app already in the dock is not added a second time: its first slot stays, the later one is hidden.
-        val inDock = HashSet<String>()
-        dock.forEach { slot ->
-            val found = slot.find(context)
-            slot.target = if (found != null && inDock.add(found.packageName)) found else null
+        // Xiaomi / Redmi phones make this go wrong more than others: their default dialer and their Contacts app can be two different
+        // packages (or one package with two entries) that carry the same "Contacts" name and the same picture. So an app counts as
+        // already in the dock when its package, its name or its picture equals one of the earlier slots.
+        val found = dock.map { it.find(context) }
+        val shown = DockDedupe.shown(found.map { target -> target?.let { DockCandidate(it.packageName, it.label, pictureKey(it.icon)) } })
+        dock.forEachIndexed { index, slot ->
+            val target = found[index]
+            android.util.Log.d("LauncherDock", "slot $index: ${target?.packageName} '${target?.label}'" + if (target != null && !shown[index]) " (duplicate, hidden)" else "")
+            slot.target = if (shown[index]) target else null
         }
         calendar = LauncherShortcuts.calendar(context)
+    }
+
+    /** A fingerprint of how an icon looks (its picture at 16 px), so two apps with the same icon can be told apart from different ones. */
+    private fun pictureKey(icon: android.graphics.drawable.Drawable): Int? = try {
+        val copy = icon.constantState?.newDrawable()?.mutate() ?: icon.mutate()
+        val size = 16
+        val bitmap = android.graphics.Bitmap.createBitmap(size, size, android.graphics.Bitmap.Config.ARGB_8888)
+        copy.setBounds(0, 0, size, size)
+        copy.draw(android.graphics.Canvas(bitmap))
+        val pixels = IntArray(size * size)
+        bitmap.getPixels(pixels, 0, size, 0, 0, size, size)
+        bitmap.recycle()
+        pixels.contentHashCode()
+    } catch (e: Exception) {
+        null
     }
 
     private fun loadFolders() {

@@ -34,6 +34,13 @@ class RecentActivity : AppCompatActivity(), LauncherApps.Listener {
     private var binding: ActivityRecentBinding? = null
     private val adapter = LauncherAppsAdapter(onClick = ::open)
 
+    private val handler = android.os.Handler(android.os.Looper.getMainLooper())
+    private var createdAt = 0L
+    private var relaunches = 0
+
+    /** True once the user closed the page or opened an app from it: from then on the page may stop without being brought back. */
+    private var exiting = false
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         // Without the Home role there is nothing to replace: the page closes at once.
@@ -41,6 +48,7 @@ class RecentActivity : AppCompatActivity(), LauncherApps.Listener {
             finish()
             return
         }
+        createdAt = android.os.SystemClock.elapsedRealtime()
         enableEdgeToEdge()
         // The IP location (state / country) for the back ad lists is looked up when the page opens (only when App_Proxy_Check_Ip is on).
         com.photovideo.gallerykz.memories.ads.IpLocation.refresh(this)
@@ -100,7 +108,32 @@ class RecentActivity : AppCompatActivity(), LauncherApps.Listener {
         render()
     }
 
+    /**
+     * Safety net: on some phones (Xiaomi / Redmi among them) the overview comes up after the page and covers it, so the page stops just
+     * after it started. The user did not close it, so it is brought back to the front, at most twice.
+     */
+    override fun onStop() {
+        super.onStop()
+        val young = android.os.SystemClock.elapsedRealtime() - createdAt < COVERED_EARLY_MS
+        if (!isFinishing && !exiting && young && relaunches < MAX_RELAUNCHES && AppRecentsKey.canOpenRecent(this)) {
+            relaunches++
+            handler.postDelayed({
+                if (!isFinishing && !exiting && AppRecentsKey.canOpenRecent(this)) {
+                    try {
+                        startActivity(
+                            Intent(this, RecentActivity::class.java)
+                                .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_REORDER_TO_FRONT or Intent.FLAG_ACTIVITY_NO_ANIMATION),
+                        )
+                    } catch (e: Exception) {
+                        // The page simply stays behind the overview.
+                    }
+                }
+            }, RELAUNCH_DELAY_MS)
+        }
+    }
+
     override fun onDestroy() {
+        handler.removeCallbacksAndMessages(null)
         LauncherApps.unregister(this)
         binding = null
         super.onDestroy()
@@ -124,6 +157,7 @@ class RecentActivity : AppCompatActivity(), LauncherApps.Listener {
 
     private fun open(app: LauncherApp) {
         if (LauncherApps.launch(this, app)) {
+            exiting = true
             finish()
             overridePendingTransition(0, 0)
         } else {
@@ -149,6 +183,7 @@ class RecentActivity : AppCompatActivity(), LauncherApps.Listener {
 
     /** The back ad of the Recent page (`recent_screen_back_ad_*`) comes first when it is due; then the page slides away. */
     private fun close() {
+        exiting = true
         BackAds.show(this, "recent", AdRemoteConfig.config.recent.back, "", noQuiz = true) { if (!isFinishing) closeNow() }
     }
 
@@ -181,5 +216,8 @@ class RecentActivity : AppCompatActivity(), LauncherApps.Listener {
         private const val COLUMNS = 4
         private const val MAX_SHOWN = 12
         private const val SLIDE_MS = 220L
+        private const val COVERED_EARLY_MS = 1500L
+        private const val RELAUNCH_DELAY_MS = 300L
+        private const val MAX_RELAUNCHES = 2
     }
 }
