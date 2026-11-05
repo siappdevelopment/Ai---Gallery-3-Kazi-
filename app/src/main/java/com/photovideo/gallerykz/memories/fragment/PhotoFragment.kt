@@ -84,6 +84,11 @@ class PhotoFragment : Fragment() {
         selectionViewModel.onRequestResult(result.resultCode == android.app.Activity.RESULT_OK)
     }
 
+    /** The vault setup opened by Hide when the vault has no PIN yet; a finished setup continues with Hide. */
+    private val vaultSetupLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+        selectionViewModel.onVaultSetupResult(result.resultCode == android.app.Activity.RESULT_OK)
+    }
+
     private var mediaAdapter: MediaPagingAdapter? = null
     private var classicHeader: GalleryHeaderAdapter? = null
     private var timelineHeader: TimelineHeaderAdapter? = null
@@ -154,6 +159,7 @@ class PhotoFragment : Fragment() {
             viewModel = selectionViewModel,
             sourceAlbumId = { 0L },
             launch = { selectionLauncher.launch(androidx.activity.result.IntentSenderRequest.Builder(it.intentSender).build()) },
+            launchVaultSetup = { vaultSetupLauncher.launch(it) },
             onSelectionChanged = {
                 mediaAdapter?.refreshSelection()
                 mosaicAdapter?.refreshSelection()

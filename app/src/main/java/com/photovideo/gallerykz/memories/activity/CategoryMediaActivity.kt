@@ -48,6 +48,11 @@ class CategoryMediaActivity : AdAwareActivity() {
         selectionViewModel.onRequestResult(result.resultCode == RESULT_OK)
     }
 
+    /** The vault setup opened by Hide when the vault has no PIN yet; a finished setup continues with Hide. */
+    private val vaultSetupLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+        selectionViewModel.onVaultSetupResult(result.resultCode == RESULT_OK)
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -78,6 +83,7 @@ class CategoryMediaActivity : AdAwareActivity() {
             viewModel = selectionViewModel,
             sourceAlbumId = { 0L },
             launch = { selectionLauncher.launch(IntentSenderRequest.Builder(it.intentSender).build()) },
+            launchVaultSetup = { vaultSetupLauncher.launch(it) },
             onSelectionChanged = { gridAdapter?.refreshSelection() },
         )
         b.btnSelect.setOnClickListener { selectionViewModel.begin() }

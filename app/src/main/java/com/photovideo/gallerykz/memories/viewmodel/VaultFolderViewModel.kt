@@ -27,6 +27,9 @@ class VaultFolderViewModel(
     /** What a finished action tells the screen: a message, and how many items it concerned. */
     class Done(val messageRes: Int, val count: Int, val name: String? = null)
 
+    /** How far Unhide is: [done] of [total] items handled. */
+    class Progress(val done: Int, val total: Int)
+
     val key: String = state.get<String>(ARG_KEY) ?: VaultFolderKey.ALL
 
     private val repo = VaultRepository(application)
@@ -76,6 +79,11 @@ class VaultFolderViewModel(
     private val _done = MutableLiveData<Event<Done>>()
     val done: LiveData<Event<Done>> = _done
 
+    private val _unhideProgress = MutableLiveData<Progress?>(null)
+
+    /** Not null while Unhide runs; the screen shows a dialog nobody can dismiss for exactly that time. */
+    val unhideProgress: LiveData<Progress?> = _unhideProgress
+
     val isSelecting: Boolean get() = _selecting.value == true
 
     fun isSelected(id: Long) = selection.contains(id)
@@ -112,13 +120,29 @@ class VaultFolderViewModel(
 
     fun snapshot(): List<Long> = selection.toList()
 
-    /** "Unhide": the selected items go back to the gallery. */
+    /**
+     * "Unhide": the selected items go back to the gallery. The progress is published for the whole run and cleared in `finally`,
+     * so the dialog always goes away, also when something unexpected goes wrong (that counts the items not reached as failed).
+     * A second start while it runs is ignored.
+     */
     fun unhide() {
         val ids = snapshot()
-        if (ids.isEmpty()) return
+        if (ids.isEmpty() || _unhideProgress.value != null) return
+        _unhideProgress.value = Progress(0, ids.size)
         worker.execute {
-            val failed = repo.restore(ids)
-            media.sync(true) { }
+            var handled = 0
+            var failed = ids.size
+            try {
+                failed = repo.restore(ids) { n ->
+                    handled = n
+                    _unhideProgress.postValue(Progress(n, ids.size))
+                }
+                media.sync(true) { }
+            } catch (e: Exception) {
+                failed = (ids.size - handled).coerceAtLeast(1)
+            } finally {
+                _unhideProgress.postValue(null)
+            }
             postDone(ids.size - failed, failed, R.string.vault_unhidden)
         }
     }

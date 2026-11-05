@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.photovideo.gallerykz.memories.databinding.ItemLauncherAppBinding
@@ -37,7 +38,15 @@ class LauncherAppsAdapter(
     override fun onBindViewHolder(holder: Holder, position: Int) {
         val app = getItem(position)
         val b = holder.binding
-        val side = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, iconDp.toFloat(), b.root.resources.displayMetrics).toInt()
+        // The chosen size shrinks on a narrow grid so neighbouring icons never touch (see LauncherSettings.fittedIconPx).
+        val grid = b.root.parent as? RecyclerView
+        val columns = (grid?.layoutManager as? GridLayoutManager)?.spanCount ?: LauncherSettings.ROW_COLUMNS
+        val rowWidth = if (grid != null && grid.width > 0) {
+            grid.width - grid.paddingLeft - grid.paddingRight
+        } else {
+            b.root.resources.displayMetrics.widthPixels
+        }
+        val side = LauncherSettings.fittedIconPx(b.root.context, rowWidth, columns, iconDp)
         b.ivIcon.layoutParams = b.ivIcon.layoutParams.apply {
             width = side
             height = side

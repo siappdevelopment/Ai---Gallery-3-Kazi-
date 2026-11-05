@@ -43,10 +43,26 @@ class VaultViewerViewModel(
     private val _message = MutableLiveData<Event<Int>>()
     val message: LiveData<Event<Int>> = _message
 
+    /** 0 of 1 while the item is being restored, null otherwise; the screen shows a dialog nobody can dismiss for that time. */
+    class Progress(val done: Int, val total: Int)
+
+    private val _unhideProgress = MutableLiveData<Progress?>(null)
+    val unhideProgress: LiveData<Progress?> = _unhideProgress
+
+    /** Restores the item. The progress is cleared in `finally`, so the dialog goes away whatever happens; a second start is ignored. */
     fun unhide(id: Long) {
+        if (_unhideProgress.value != null) return
+        _unhideProgress.value = Progress(0, 1)
         worker.execute {
-            val failed = repo.restore(listOf(id))
-            media.sync(true) { }
+            var failed = 1
+            try {
+                failed = repo.restore(listOf(id)) { n -> _unhideProgress.postValue(Progress(n, 1)) }
+                media.sync(true) { }
+            } catch (e: Exception) {
+                failed = 1
+            } finally {
+                _unhideProgress.postValue(null)
+            }
             _message.postValue(Event(if (failed > 0) R.string.vault_action_failed else R.string.vault_unhidden))
         }
     }
