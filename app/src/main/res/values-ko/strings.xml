@@ -236,7 +236,7 @@
     <string name="search_no_results_desc">다른 파일 이름으로 검색해 보세요.</string>
 
     <string name="vault_intro_desc">비공개 사진과 동영상을 PIN으로 보호하세요. 갤러리, 앨범, 검색에서 숨겨집니다.</string>
-    <string name="vault_intro_point_1">4자리 PIN 또는 지문으로 잠금</string>
+    <string name="vault_intro_point_1">4자리 PIN으로 잠금</string>
     <string name="vault_intro_point_2">갤러리, 추천, 검색에서 숨김</string>
     <string name="vault_intro_point_3">이 기기에만 저장되며 업로드되지 않습니다</string>
     <string name="vault_intro_cta">보관함 설정</string>
@@ -253,7 +253,6 @@
     <string name="vault_pin_wrong_attempts">PIN이 올바르지 않습니다. %1$d회 실패했습니다.</string>
     <string name="vault_pin_forgot">PIN을 잊으셨나요?</string>
     <string name="vault_key_delete">삭제</string>
-    <string name="vault_key_fingerprint">지문 사용</string>
     <string name="vault_recovery_title">복구 질문 추가</string>
     <string name="vault_recovery_desc">PIN을 잊어버리면 이 질문에 답하여 새 PIN을 설정할 수 있습니다.</string>
     <string name="vault_recovery_q1">첫 반려동물의 이름은 무엇인가요?</string>
@@ -265,15 +264,6 @@
     <string name="vault_recovery_skip">나중에 하기</string>
     <string name="vault_recovery_save">저장 후 계속</string>
     <string name="vault_recovery_enter_answer">답변을 입력하세요</string>
-    <string name="vault_fp_title">지문으로 잠금 해제</string>
-    <string name="vault_fp_desc">이 휴대전화에 저장된 지문으로 보관함을 더 빠르게 여세요. PIN은 언제든 사용할 수 있습니다.</string>
-    <string name="vault_fp_use">지문 사용</string>
-    <string name="vault_fp_later">나중에</string>
-    <string name="vault_fp_none_enrolled">먼저 휴대전화 설정에서 지문을 추가하세요.</string>
-    <string name="vault_fp_unavailable">이 휴대전화에서는 지문을 사용할 수 없습니다.</string>
-    <string name="vault_scan_title">보관함 잠금 해제</string>
-    <string name="vault_scan_desc">지문 센서를 터치하세요</string>
-    <string name="vault_scan_use_pin">PIN 사용</string>
     <string name="vault_ready">보관함이 준비되었습니다</string>
     <string name="vault_locked">보관함이 잠겼습니다</string>
     <string name="vault_lock">잠금</string>
@@ -321,8 +311,6 @@
     <string name="vault_action_failed">일부 항목을 완료하지 못했습니다. 다시 시도하세요.</string>
     <string name="vault_settings_security">보안</string>
     <string name="vault_change_pin">PIN 변경</string>
-    <string name="vault_fingerprint_unlock">지문 잠금 해제</string>
-    <string name="vault_fingerprint_unlock_desc">이 휴대전화에 저장된 지문을 사용합니다</string>
     <string name="vault_auto_lock">자동 잠금</string>
     <string name="vault_recovery_question">복구 질문</string>
     <string name="vault_settings_alerts">알림</string>
@@ -334,7 +322,7 @@
     <string name="vault_recovery_set">설정됨</string>
     <string name="vault_recovery_not_set">설정 안 됨</string>
     <string name="vault_reset_title">보관함을 초기화할까요?</string>
-    <string name="vault_reset_body">모든 항목이 갤러리로 돌아가고 PIN, 지문, 복구 질문이 삭제됩니다.</string>
+    <string name="vault_reset_body">모든 항목이 갤러리로 돌아가고 PIN과 복구 질문이 삭제됩니다.</string>
     <string name="vault_reset_action">보관함 초기화</string>
     <string name="vault_forgot_wrong">답변이 일치하지 않습니다. 다시 시도하세요.</string>
     <string name="vault_forgot_desc_question">복구 질문에 답하여 새 PIN을 설정하세요.</string>
@@ -683,7 +671,7 @@
     <string name="policy_h_ondevice">기기의 스마트 기능</string>
     <string name="policy_b_ondevice">인물, 장소, 하이라이트는 휴대전화에서 만들어집니다. 얼굴은 기기에서 그룹화되고, 장소는 사진에 저장된 위치에서 가져옵니다. 장소 이름을 붙이기 위해 휴대전화의 위치 서비스에 연결할 수 있습니다.</string>
     <string name="policy_h_permissions">권한</string>
-    <string name="policy_b_permissions">사진 및 동영상: 갤러리를 보여 주기 위해. 알림: 충전, 설치, 알림 안내를 위해. 전화 상태 및 다른 앱 위에 표시: 통화 후 통화 요약을 보여 주기 위해. 지문 잠금 해제는 휴대전화에서 처리합니다. 어떤 권한이든 거부하거나 나중에 설정에서 변경할 수 있습니다.</string>
+    <string name="policy_b_permissions">사진 및 동영상: 갤러리를 보여 주기 위해. 알림: 충전, 설치, 알림 안내를 위해. 전화 상태 및 다른 앱 위에 표시: 통화 후 통화 요약을 보여 주기 위해. 어떤 권한이든 거부하거나 나중에 설정에서 변경할 수 있습니다.</string>
     <string name="policy_h_ads">광고 및 사용 데이터</string>
     <string name="policy_b_ads">Gallery는 Google AdMob 광고와 자체 프로모션을 표시합니다. Google은 광고를 표시하고 측정하기 위해 광고 ID와 네트워크로 파악한 대략적인 지역을 사용할 수 있습니다. 비정상 종료 보고서, 사용 통계, 원격 설정에는 Firebase를 사용합니다.</string>
     <string name="policy_h_choices">사용자의 선택</string>

@@ -236,7 +236,7 @@
     <string name="search_no_results_desc">ลองใช้ชื่อไฟล์อื่น</string>
 
     <string name="vault_intro_desc">เก็บรูปภาพและวิดีโอส่วนตัวไว้หลัง PIN ซึ่งจะถูกซ่อนจากแกลเลอรี อัลบั้ม และการค้นหา</string>
-    <string name="vault_intro_point_1">ล็อกด้วย PIN 4 หลักหรือลายนิ้วมือ</string>
+    <string name="vault_intro_point_1">ล็อกด้วย PIN 4 หลัก</string>
     <string name="vault_intro_point_2">ซ่อนจากแกลเลอรี สำหรับคุณ และการค้นหา</string>
     <string name="vault_intro_point_3">อยู่ในอุปกรณ์เครื่องนี้ ไม่มีการอัปโหลดใดๆ</string>
     <string name="vault_intro_cta">ตั้งค่าห้องนิรภัย</string>
@@ -253,7 +253,6 @@
     <string name="vault_pin_wrong_attempts">PIN ไม่ถูกต้อง ล้มเหลว %1$d ครั้ง</string>
     <string name="vault_pin_forgot">ลืม PIN ใช่ไหม</string>
     <string name="vault_key_delete">ลบ</string>
-    <string name="vault_key_fingerprint">ใช้ลายนิ้วมือ</string>
     <string name="vault_recovery_title">เพิ่มคำถามกู้คืน</string>
     <string name="vault_recovery_desc">หากลืม PIN การตอบคำถามนี้จะช่วยให้คุณตั้ง PIN ใหม่ได้</string>
     <string name="vault_recovery_q1">สัตว์เลี้ยงตัวแรกของคุณชื่ออะไร</string>
@@ -265,15 +264,6 @@
     <string name="vault_recovery_skip">ข้ามไปก่อน</string>
     <string name="vault_recovery_save">บันทึกและดำเนินการต่อ</string>
     <string name="vault_recovery_enter_answer">ป้อนคำตอบ</string>
-    <string name="vault_fp_title">ปลดล็อกด้วยลายนิ้วมือ</string>
-    <string name="vault_fp_desc">เปิดห้องนิรภัยได้เร็วขึ้นด้วยลายนิ้วมือที่บันทึกไว้ในโทรศัพท์เครื่องนี้ และยังใช้ PIN ได้ทุกเมื่อ</string>
-    <string name="vault_fp_use">ใช้ลายนิ้วมือ</string>
-    <string name="vault_fp_later">ไว้ทีหลัง</string>
-    <string name="vault_fp_none_enrolled">โปรดเพิ่มลายนิ้วมือในการตั้งค่าโทรศัพท์ก่อน</string>
-    <string name="vault_fp_unavailable">โทรศัพท์เครื่องนี้ไม่รองรับลายนิ้วมือ</string>
-    <string name="vault_scan_title">ปลดล็อกห้องนิรภัย</string>
-    <string name="vault_scan_desc">แตะเซนเซอร์ลายนิ้วมือ</string>
-    <string name="vault_scan_use_pin">ใช้ PIN แทน</string>
     <string name="vault_ready">ห้องนิรภัยพร้อมใช้งานแล้ว</string>
     <string name="vault_locked">ล็อกห้องนิรภัยแล้ว</string>
     <string name="vault_lock">ล็อก</string>
@@ -321,8 +311,6 @@
     <string name="vault_action_failed">ดำเนินการไม่สำเร็จสำหรับบางรายการ โปรดลองอีกครั้ง</string>
     <string name="vault_settings_security">ความปลอดภัย</string>
     <string name="vault_change_pin">เปลี่ยน PIN</string>
-    <string name="vault_fingerprint_unlock">ปลดล็อกด้วยลายนิ้วมือ</string>
-    <string name="vault_fingerprint_unlock_desc">ใช้ลายนิ้วมือที่บันทึกไว้ในโทรศัพท์เครื่องนี้</string>
     <string name="vault_auto_lock">ล็อกอัตโนมัติ</string>
     <string name="vault_recovery_question">คำถามกู้คืน</string>
     <string name="vault_settings_alerts">การแจ้งเตือน</string>
@@ -334,7 +322,7 @@
     <string name="vault_recovery_set">ตั้งค่าแล้ว</string>
     <string name="vault_recovery_not_set">ยังไม่ได้ตั้งค่า</string>
     <string name="vault_reset_title">รีเซ็ตห้องนิรภัยไหม</string>
-    <string name="vault_reset_body">รายการทั้งหมดจะกลับไปที่แกลเลอรี และ PIN ลายนิ้วมือ และคำถามกู้คืนของคุณจะถูกลบ</string>
+    <string name="vault_reset_body">รายการทั้งหมดจะกลับไปที่แกลเลอรี และ PIN กับคำถามกู้คืนของคุณจะถูกลบ</string>
     <string name="vault_reset_action">รีเซ็ตห้องนิรภัย</string>
     <string name="vault_forgot_wrong">คำตอบไม่ตรงกัน ลองอีกครั้ง</string>
     <string name="vault_forgot_desc_question">ตอบคำถามกู้คืนเพื่อตั้ง PIN ใหม่</string>
@@ -683,7 +671,7 @@
     <string name="policy_h_ondevice">ฟีเจอร์อัจฉริยะบนอุปกรณ์ของคุณ</string>
     <string name="policy_b_ondevice">ผู้คน สถานที่ และไฮไลต์ถูกสร้างขึ้นบนโทรศัพท์ของคุณ ใบหน้าจะถูกจัดกลุ่มบนอุปกรณ์ และสถานที่มาจากตำแหน่งที่บันทึกไว้ในรูปภาพของคุณ การตั้งชื่อสถานที่อาจต้องติดต่อบริการตำแหน่งของโทรศัพท์ของคุณ</string>
     <string name="policy_h_permissions">สิทธิ์</string>
-    <string name="policy_b_permissions">รูปภาพและวิดีโอ: เพื่อแสดงแกลเลอรีของคุณ การแจ้งเตือน: สำหรับการเตือนการชาร์จ การติดตั้ง และการแจ้งเตือนความจำ สถานะโทรศัพท์และการแสดงทับแอปอื่น: เพื่อแสดงสรุปการโทรหลังจากวางสาย การปลดล็อกด้วยลายนิ้วมือจัดการโดยโทรศัพท์ของคุณ คุณสามารถปฏิเสธสิทธิ์ใดก็ได้หรือเปลี่ยนภายหลังในการตั้งค่า</string>
+    <string name="policy_b_permissions">รูปภาพและวิดีโอ: เพื่อแสดงแกลเลอรีของคุณ การแจ้งเตือน: สำหรับการเตือนการชาร์จ การติดตั้ง และการแจ้งเตือนความจำ สถานะโทรศัพท์และการแสดงทับแอปอื่น: เพื่อแสดงสรุปการโทรหลังจากวางสาย คุณสามารถปฏิเสธสิทธิ์ใดก็ได้หรือเปลี่ยนภายหลังในการตั้งค่า</string>
     <string name="policy_h_ads">โฆษณาและข้อมูลการใช้งาน</string>
     <string name="policy_b_ads">Gallery แสดงโฆษณาจาก Google AdMob และโปรโมชันของตัวเอง Google อาจใช้รหัสโฆษณาและภูมิภาคโดยประมาณของคุณ ซึ่งได้จากเครือข่ายของคุณ เพื่อแสดงและวัดผลโฆษณา เราใช้ Firebase สำหรับรายงานข้อขัดข้อง สถิติการใช้งาน และการตั้งค่าระยะไกล</string>
     <string name="policy_h_choices">ตัวเลือกของคุณ</string>

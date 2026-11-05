@@ -239,7 +239,7 @@
     <string name="search_no_results_desc">Subukan ang ibang pangalan ng file.</string>
 
     <string name="vault_intro_desc">Itago ang mga pribadong larawan at video sa likod ng PIN. Nakatago ang mga ito sa Gallery, mga album, at paghahanap.</string>
-    <string name="vault_intro_point_1">Naka-lock gamit ang 4-digit na PIN o fingerprint</string>
+    <string name="vault_intro_point_1">Naka-lock gamit ang 4-digit na PIN</string>
     <string name="vault_intro_point_2">Nakatago sa Gallery, Para sa iyo, at paghahanap</string>
     <string name="vault_intro_point_3">Nananatili sa device na ito. Walang ina-upload</string>
     <string name="vault_intro_cta">I-set up ang vault</string>
@@ -256,7 +256,6 @@
     <string name="vault_pin_wrong_attempts">Maling PIN. %1$d nabigong pagtatangka.</string>
     <string name="vault_pin_forgot">Nakalimutan ang PIN?</string>
     <string name="vault_key_delete">Burahin</string>
-    <string name="vault_key_fingerprint">Gumamit ng fingerprint</string>
     <string name="vault_recovery_title">Magdagdag ng tanong sa pag-recover</string>
     <string name="vault_recovery_desc">Kung makalimutan mo ang iyong PIN, makakapagtakda ka ng bago sa pamamagitan ng pagsagot dito.</string>
     <string name="vault_recovery_q1">Ano ang pangalan ng una mong alagang hayop?</string>
@@ -268,15 +267,6 @@
     <string name="vault_recovery_skip">Laktawan muna</string>
     <string name="vault_recovery_save">I-save at magpatuloy</string>
     <string name="vault_recovery_enter_answer">Maglagay ng sagot</string>
-    <string name="vault_fp_title">I-unlock gamit ang fingerprint</string>
-    <string name="vault_fp_desc">Mas mabilis na buksan ang vault gamit ang fingerprint na naka-save sa teleponong ito. Gumagana pa rin ang PIN mo anumang oras.</string>
-    <string name="vault_fp_use">Gumamit ng fingerprint</string>
-    <string name="vault_fp_later">Huwag muna</string>
-    <string name="vault_fp_none_enrolled">Magdagdag muna ng fingerprint sa settings ng telepono mo.</string>
-    <string name="vault_fp_unavailable">Hindi available ang fingerprint sa teleponong ito.</string>
-    <string name="vault_scan_title">I-unlock ang vault</string>
-    <string name="vault_scan_desc">Hawakan ang fingerprint sensor</string>
-    <string name="vault_scan_use_pin">PIN na lang ang gamitin</string>
     <string name="vault_ready">Handa na ang vault</string>
     <string name="vault_locked">Na-lock ang vault</string>
     <string name="vault_lock">I-lock</string>
@@ -325,8 +315,6 @@
     <string name="vault_action_failed">Hindi natapos para sa ilang item. Subukan ulit.</string>
     <string name="vault_settings_security">Seguridad</string>
     <string name="vault_change_pin">Palitan ang PIN</string>
-    <string name="vault_fingerprint_unlock">Fingerprint unlock</string>
-    <string name="vault_fingerprint_unlock_desc">Gamitin ang fingerprint na naka-save sa teleponong ito</string>
     <string name="vault_auto_lock">Auto-lock</string>
     <string name="vault_recovery_question">Tanong sa pag-recover</string>
     <string name="vault_settings_alerts">Mga alerto</string>
@@ -338,7 +326,7 @@
     <string name="vault_recovery_set">Naka-set</string>
     <string name="vault_recovery_not_set">Hindi naka-set</string>
     <string name="vault_reset_title">I-reset ang vault?</string>
-    <string name="vault_reset_body">Babalik sa Gallery ang lahat ng item, at aalisin ang iyong PIN, fingerprint, at tanong sa pag-recover.</string>
+    <string name="vault_reset_body">Babalik sa Gallery ang lahat ng item, at aalisin ang iyong PIN at tanong sa pag-recover.</string>
     <string name="vault_reset_action">I-reset ang vault</string>
     <string name="vault_forgot_wrong">Hindi tugma ang sagot na iyon. Subukan ulit.</string>
     <string name="vault_forgot_desc_question">Sagutin ang iyong tanong sa pag-recover para magtakda ng bagong PIN.</string>
@@ -690,7 +678,7 @@
     <string name="policy_h_ondevice">Mga smart na feature sa iyong device</string>
     <string name="policy_b_ondevice">Ginagawa sa iyong telepono ang Mga Tao, Mga Lugar at Mga Highlight. Pinagsasama-sama ang mga mukha sa device, at galing ang mga lugar sa lokasyong naka-save sa loob ng iyong mga larawan. Para pangalanan ang isang lugar, maaaring kontakin ang location service ng iyong telepono.</string>
     <string name="policy_h_permissions">Mga pahintulot</string>
-    <string name="policy_b_permissions">Mga larawan at video: para ipakita ang iyong gallery. Mga notification: para sa mga alerto sa pag-charge, pag-install at paalala. Estado ng telepono at pagpapakita sa ibabaw ng ibang app: para ipakita ang buod ng tawag pagkatapos ng tawag. Ang telepono mo ang humahawak sa fingerprint unlock. Maaari mong tanggihan ang alinman o baguhin ito sa Mga Setting.</string>
+    <string name="policy_b_permissions">Mga larawan at video: para ipakita ang iyong gallery. Mga notification: para sa mga alerto sa pag-charge, pag-install at paalala. Estado ng telepono at pagpapakita sa ibabaw ng ibang app: para ipakita ang buod ng tawag pagkatapos ng tawag. Maaari mong tanggihan ang alinman o baguhin ito sa Mga Setting.</string>
     <string name="policy_h_ads">Mga ad at data ng paggamit</string>
     <string name="policy_b_ads">Nagpapakita ang Gallery ng mga ad mula sa Google AdMob at sarili nitong mga promosyon. Maaaring gamitin ng Google ang iyong advertising ID at tinatayang rehiyon mo, na nakukuha sa iyong network, para magpakita at sumukat ng mga ad. Gumagamit kami ng Firebase para sa mga ulat ng pag-crash, istatistika ng paggamit at malayuang setting.</string>
     <string name="policy_h_choices">Ang iyong mga pagpipilian</string>

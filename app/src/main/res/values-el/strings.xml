@@ -239,7 +239,7 @@
     <string name="search_no_results_desc">Δοκιμάστε διαφορετικό όνομα αρχείου.</string>
 
     <string name="vault_intro_desc">Κρατήστε ιδιωτικές φωτογραφίες και βίντεο πίσω από PIN. Είναι κρυμμένες από τη Συλλογή, τα άλμπουμ και την αναζήτηση.</string>
-    <string name="vault_intro_point_1">Κλειδωμένο με PIN 4 ψηφίων ή δακτυλικό αποτύπωμα</string>
+    <string name="vault_intro_point_1">Κλειδωμένο με PIN 4 ψηφίων</string>
     <string name="vault_intro_point_2">Κρυμμένα από τη Συλλογή, το Για εσάς και την αναζήτηση</string>
     <string name="vault_intro_point_3">Μένει σε αυτή τη συσκευή. Τίποτα δεν ανεβαίνει</string>
     <string name="vault_intro_cta">Ρύθμιση θησαυροφυλακίου</string>
@@ -256,7 +256,6 @@
     <string name="vault_pin_wrong_attempts">Λάθος PIN. %1$d αποτυχημένες προσπάθειες.</string>
     <string name="vault_pin_forgot">Ξεχάσατε το PIN;</string>
     <string name="vault_key_delete">Διαγραφή</string>
-    <string name="vault_key_fingerprint">Χρήση δακτυλικού αποτυπώματος</string>
     <string name="vault_recovery_title">Προσθήκη ερώτησης ανάκτησης</string>
     <string name="vault_recovery_desc">Αν ξεχάσετε το PIN, η απάντηση σε αυτή την ερώτηση σάς επιτρέπει να ορίσετε νέο.</string>
     <string name="vault_recovery_q1">Ποιο ήταν το όνομα του πρώτου σας κατοικίδιου;</string>
@@ -268,15 +267,6 @@
     <string name="vault_recovery_skip">Παράλειψη προς το παρόν</string>
     <string name="vault_recovery_save">Αποθήκευση και συνέχεια</string>
     <string name="vault_recovery_enter_answer">Εισαγάγετε μια απάντηση</string>
-    <string name="vault_fp_title">Ξεκλείδωμα με δακτυλικό αποτύπωμα</string>
-    <string name="vault_fp_desc">Ανοίξτε πιο γρήγορα το θησαυροφυλάκιο με το δακτυλικό αποτύπωμα που είναι αποθηκευμένο σε αυτό το τηλέφωνο. Το PIN σας λειτουργεί πάντα.</string>
-    <string name="vault_fp_use">Χρήση δακτυλικού αποτυπώματος</string>
-    <string name="vault_fp_later">Όχι τώρα</string>
-    <string name="vault_fp_none_enrolled">Προσθέστε πρώτα δακτυλικό αποτύπωμα στις ρυθμίσεις του τηλεφώνου σας.</string>
-    <string name="vault_fp_unavailable">Το δακτυλικό αποτύπωμα δεν είναι διαθέσιμο σε αυτό το τηλέφωνο.</string>
-    <string name="vault_scan_title">Ξεκλείδωμα θησαυροφυλακίου</string>
-    <string name="vault_scan_desc">Αγγίξτε τον αισθητήρα δακτυλικών αποτυπωμάτων</string>
-    <string name="vault_scan_use_pin">Χρήση PIN</string>
     <string name="vault_ready">Το θησαυροφυλάκιο είναι έτοιμο</string>
     <string name="vault_locked">Το θησαυροφυλάκιο κλειδώθηκε</string>
     <string name="vault_lock">Κλείδωμα</string>
@@ -325,8 +315,6 @@
     <string name="vault_action_failed">Δεν ολοκληρώθηκε για ορισμένα στοιχεία. Δοκιμάστε ξανά.</string>
     <string name="vault_settings_security">Ασφάλεια</string>
     <string name="vault_change_pin">Αλλαγή PIN</string>
-    <string name="vault_fingerprint_unlock">Ξεκλείδωμα με δακτυλικό αποτύπωμα</string>
-    <string name="vault_fingerprint_unlock_desc">Χρήση του δακτυλικού αποτυπώματος που είναι αποθηκευμένο σε αυτό το τηλέφωνο</string>
     <string name="vault_auto_lock">Αυτόματο κλείδωμα</string>
     <string name="vault_recovery_question">Ερώτηση ανάκτησης</string>
     <string name="vault_settings_alerts">Ειδοποιήσεις</string>
@@ -338,7 +326,7 @@
     <string name="vault_recovery_set">Ορίστηκε</string>
     <string name="vault_recovery_not_set">Δεν ορίστηκε</string>
     <string name="vault_reset_title">Επαναφορά θησαυροφυλακίου;</string>
-    <string name="vault_reset_body">Όλα τα στοιχεία επιστρέφουν στη Συλλογή και αφαιρούνται το PIN, το δακτυλικό αποτύπωμα και η ερώτηση ανάκτησης.</string>
+    <string name="vault_reset_body">Όλα τα στοιχεία επιστρέφουν στη Συλλογή και αφαιρούνται το PIN και η ερώτηση ανάκτησης.</string>
     <string name="vault_reset_action">Επαναφορά θησαυροφυλακίου</string>
     <string name="vault_forgot_wrong">Η απάντηση δεν ταιριάζει. Δοκιμάστε ξανά.</string>
     <string name="vault_forgot_desc_question">Απαντήστε στην ερώτηση ανάκτησης για να ορίσετε νέο PIN.</string>
@@ -690,7 +678,7 @@
     <string name="policy_h_ondevice">Έξυπνες λειτουργίες στη συσκευή σας</string>
     <string name="policy_b_ondevice">Τα Άτομα, οι Τοποθεσίες και τα Στιγμιότυπα δημιουργούνται στο τηλέφωνό σας. Τα πρόσωπα ομαδοποιούνται στη συσκευή και οι τοποθεσίες προέρχονται από τη θέση που είναι αποθηκευμένη στις φωτογραφίες σας. Για να ονομαστεί μια τοποθεσία, μπορεί να χρησιμοποιηθεί η υπηρεσία τοποθεσίας του τηλεφώνου σας.</string>
     <string name="policy_h_permissions">Άδειες</string>
-    <string name="policy_b_permissions">Φωτογραφίες και βίντεο: για την εμφάνιση της συλλογής σας. Ειδοποιήσεις: για φόρτιση, εγκατάσταση και υπενθυμίσεις. Κατάσταση τηλεφώνου και εμφάνιση πάνω από άλλες εφαρμογές: για την εμφάνιση της σύνοψης κλήσης μετά από μια κλήση. Το ξεκλείδωμα με δακτυλικό αποτύπωμα γίνεται από το τηλέφωνό σας. Μπορείτε να αρνηθείτε οποιαδήποτε ή να την αλλάξετε αργότερα στις Ρυθμίσεις.</string>
+    <string name="policy_b_permissions">Φωτογραφίες και βίντεο: για την εμφάνιση της συλλογής σας. Ειδοποιήσεις: για φόρτιση, εγκατάσταση και υπενθυμίσεις. Κατάσταση τηλεφώνου και εμφάνιση πάνω από άλλες εφαρμογές: για την εμφάνιση της σύνοψης κλήσης μετά από μια κλήση. Μπορείτε να αρνηθείτε οποιαδήποτε ή να την αλλάξετε αργότερα στις Ρυθμίσεις.</string>
     <string name="policy_h_ads">Διαφημίσεις και δεδομένα χρήσης</string>
     <string name="policy_b_ads">Το Gallery εμφανίζει διαφημίσεις από το Google AdMob και δικές του προωθήσεις. Η Google μπορεί να χρησιμοποιεί το διαφημιστικό σας αναγνωριστικό και την κατά προσέγγιση περιοχή σας, που προκύπτει από το δίκτυό σας, για να εμφανίζει και να μετρά διαφημίσεις. Χρησιμοποιούμε το Firebase για αναφορές σφαλμάτων, στατιστικά χρήσης και απομακρυσμένες ρυθμίσεις.</string>
     <string name="policy_h_choices">Οι επιλογές σας</string>

@@ -239,7 +239,7 @@
     <string name="search_no_results_desc">Probeer een andere bestandsnaam.</string>
 
     <string name="vault_intro_desc">Bewaar privéfoto’s en -video’s achter een pincode. Ze zijn verborgen in Galerij, albums en zoeken.</string>
-    <string name="vault_intro_point_1">Vergrendeld met een pincode van 4 cijfers of vingerafdruk</string>
+    <string name="vault_intro_point_1">Vergrendeld met een pincode van 4 cijfers</string>
     <string name="vault_intro_point_2">Verborgen in Galerij, Voor jou en zoeken</string>
     <string name="vault_intro_point_3">Blijft op dit apparaat. Er wordt niets geüpload</string>
     <string name="vault_intro_cta">Kluis instellen</string>
@@ -256,7 +256,6 @@
     <string name="vault_pin_wrong_attempts">Onjuiste pincode. %1$d mislukte pogingen.</string>
     <string name="vault_pin_forgot">Pincode vergeten?</string>
     <string name="vault_key_delete">Wissen</string>
-    <string name="vault_key_fingerprint">Vingerafdruk gebruiken</string>
     <string name="vault_recovery_title">Herstelvraag toevoegen</string>
     <string name="vault_recovery_desc">Als je je pincode vergeet, kun je door deze vraag te beantwoorden een nieuwe instellen.</string>
     <string name="vault_recovery_q1">Hoe heette je eerste huisdier?</string>
@@ -268,15 +267,6 @@
     <string name="vault_recovery_skip">Nu overslaan</string>
     <string name="vault_recovery_save">Opslaan en doorgaan</string>
     <string name="vault_recovery_enter_answer">Voer een antwoord in</string>
-    <string name="vault_fp_title">Ontgrendelen met vingerafdruk</string>
-    <string name="vault_fp_desc">Open je kluis sneller met de vingerafdruk die op deze telefoon is opgeslagen. Je pincode werkt altijd.</string>
-    <string name="vault_fp_use">Vingerafdruk gebruiken</string>
-    <string name="vault_fp_later">Niet nu</string>
-    <string name="vault_fp_none_enrolled">Voeg eerst een vingerafdruk toe in de instellingen van je telefoon.</string>
-    <string name="vault_fp_unavailable">Vingerafdruk is niet beschikbaar op deze telefoon.</string>
-    <string name="vault_scan_title">Kluis ontgrendelen</string>
-    <string name="vault_scan_desc">Raak de vingerafdruksensor aan</string>
-    <string name="vault_scan_use_pin">Pincode gebruiken</string>
     <string name="vault_ready">Kluis is klaar</string>
     <string name="vault_locked">Kluis vergrendeld</string>
     <string name="vault_lock">Vergrendelen</string>
@@ -325,8 +315,6 @@
     <string name="vault_action_failed">Voltooien is niet gelukt voor sommige items. Probeer het opnieuw.</string>
     <string name="vault_settings_security">Beveiliging</string>
     <string name="vault_change_pin">Pincode wijzigen</string>
-    <string name="vault_fingerprint_unlock">Ontgrendelen met vingerafdruk</string>
-    <string name="vault_fingerprint_unlock_desc">Gebruik de vingerafdruk die op deze telefoon is opgeslagen</string>
     <string name="vault_auto_lock">Automatisch vergrendelen</string>
     <string name="vault_recovery_question">Herstelvraag</string>
     <string name="vault_settings_alerts">Meldingen</string>
@@ -338,7 +326,7 @@
     <string name="vault_recovery_set">Ingesteld</string>
     <string name="vault_recovery_not_set">Niet ingesteld</string>
     <string name="vault_reset_title">Kluis resetten?</string>
-    <string name="vault_reset_body">Alle items gaan terug naar Galerij en je pincode, vingerafdruk en herstelvraag worden verwijderd.</string>
+    <string name="vault_reset_body">Alle items gaan terug naar Galerij en je pincode en herstelvraag worden verwijderd.</string>
     <string name="vault_reset_action">Kluis resetten</string>
     <string name="vault_forgot_wrong">Dat antwoord komt niet overeen. Probeer het opnieuw.</string>
     <string name="vault_forgot_desc_question">Beantwoord je herstelvraag om een nieuwe pincode in te stellen.</string>
@@ -690,7 +678,7 @@
     <string name="policy_h_ondevice">Slimme functies op je apparaat</string>
     <string name="policy_b_ondevice">Personen, Plaatsen en Hoogtepunten worden op je telefoon gemaakt. Gezichten worden op het apparaat gegroepeerd en plaatsen komen uit de locatie die in je foto\'s is opgeslagen. Om een plaats een naam te geven, kan de locatieservice van je telefoon worden gebruikt.</string>
     <string name="policy_h_permissions">Machtigingen</string>
-    <string name="policy_b_permissions">Foto\'s en video\'s: om je galerij te tonen. Meldingen: voor laad-, installatie- en herinneringsmeldingen. Telefoonstatus en weergave over andere apps: om de gespreksoverzicht na een gesprek te tonen. Ontgrendelen met vingerafdruk wordt door je telefoon afgehandeld. Je kunt elke machtiging weigeren of later wijzigen in Instellingen.</string>
+    <string name="policy_b_permissions">Foto\'s en video\'s: om je galerij te tonen. Meldingen: voor laad-, installatie- en herinneringsmeldingen. Telefoonstatus en weergave over andere apps: om de gespreksoverzicht na een gesprek te tonen. Je kunt elke machtiging weigeren of later wijzigen in Instellingen.</string>
     <string name="policy_h_ads">Advertenties en gebruiksgegevens</string>
     <string name="policy_b_ads">Gallery toont advertenties van Google AdMob en eigen promoties. Google kan je advertentie-ID en je geschatte regio, bepaald via je netwerk, gebruiken om advertenties te tonen en te meten. We gebruiken Firebase voor crashrapporten, gebruiksstatistieken en instellingen op afstand.</string>
     <string name="policy_h_choices">Je keuzes</string>

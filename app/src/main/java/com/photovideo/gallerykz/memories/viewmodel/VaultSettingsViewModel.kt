@@ -30,7 +30,7 @@ class VaultSettingsViewModel(application: Application) : AndroidViewModel(applic
         worker.execute { repo.clearAlerts() }
     }
 
-    /** Puts every item back into the gallery and removes the PIN, fingerprint, recovery question and settings. */
+    /** Puts every item back into the gallery and removes the PIN, recovery question and settings. */
     fun resetVault() {
         worker.execute {
             val done = try {

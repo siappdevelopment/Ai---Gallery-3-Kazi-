@@ -12,8 +12,6 @@ import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
-import androidx.biometric.BiometricManager
-import androidx.biometric.BiometricPrompt
 import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
@@ -29,7 +27,7 @@ import com.photovideo.gallerykz.memories.repo.VaultRepository
 import com.photovideo.gallerykz.memories.viewmodel.VaultSettingsViewModel
 
 /**
- * Vault settings (designs 78 and 79): change PIN, fingerprint unlock, auto-lock, recovery question, break-in
+ * Vault settings (designs 78 and 79): change PIN, auto-lock, recovery question, break-in
  * alerts and Reset vault. Each row works on the real vault setting.
  */
 class VaultSettingsActivity : VaultScreenActivity() {
@@ -37,9 +35,7 @@ class VaultSettingsActivity : VaultScreenActivity() {
     private var binding: ActivityVaultSettingsBinding? = null
     private val viewModel: VaultSettingsViewModel by viewModels()
     private lateinit var repo: VaultRepository
-    private lateinit var biometricPrompt: BiometricPrompt
 
-    private var fingerprintRow: ItemVaultSettingToggleBinding? = null
     private var autoLockRow: ItemVaultSettingLinkBinding? = null
     private var recoveryRow: ItemVaultSettingLinkBinding? = null
     private var alertsCountRow: ItemVaultSettingLinkBinding? = null
@@ -55,21 +51,6 @@ class VaultSettingsActivity : VaultScreenActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         repo = VaultRepository(this)
-
-        biometricPrompt = BiometricPrompt(
-            this,
-            ContextCompat.getMainExecutor(this),
-            object : BiometricPrompt.AuthenticationCallback() {
-                override fun onAuthenticationSucceeded(result: BiometricPrompt.AuthenticationResult) {
-                    repo.setFingerprintEnabled(true)
-                    renderValues()
-                }
-
-                override fun onAuthenticationError(errorCode: Int, errString: CharSequence) {
-                    renderValues()
-                }
-            },
-        )
 
         val b = ActivityVaultSettingsBinding.inflate(layoutInflater)
         binding = b
@@ -143,10 +124,6 @@ class VaultSettingsActivity : VaultScreenActivity() {
 
         val security = group(R.string.vault_settings_security)
         link(security, R.string.vault_change_pin) { openSetup(VaultSetupActivity.changePinIntent(this)) }
-        fingerprintRow = toggle(security, R.string.vault_fingerprint_unlock, R.string.vault_fingerprint_unlock_desc).also { row ->
-            row.root.setOnClickListener { row.switchView.performClick() }
-            row.switchView.setOnClickListener { onFingerprintToggled(row.switchView.isChecked) }
-        }
         autoLockRow = link(security, R.string.vault_auto_lock) { VaultAutoLockSheet.show(supportFragmentManager, repo.autoLock) }
         recoveryRow = link(security, R.string.vault_recovery_question) { openSetup(VaultSetupActivity.recoveryIntent(this)) }
 
@@ -165,7 +142,6 @@ class VaultSettingsActivity : VaultScreenActivity() {
     }
 
     private fun renderValues() {
-        fingerprintRow?.switchView?.isChecked = repo.isFingerprintEnabled
         autoLockRow?.tvValue?.setText(VaultAutoLockSheet.OPTIONS[repo.autoLock])
         recoveryRow?.tvValue?.setText(if (repo.hasRecovery) R.string.vault_recovery_set else R.string.vault_recovery_not_set)
         val attempts = viewModel.alerts.value.orEmpty().size
@@ -175,32 +151,6 @@ class VaultSettingsActivity : VaultScreenActivity() {
     private fun openSetup(intent: Intent) {
         VaultSession.hold(true)
         setupLauncher.launch(intent)
-    }
-
-    /** Turning fingerprint on asks for the fingerprint once; turning it off is immediate. */
-    private fun onFingerprintToggled(on: Boolean) {
-        if (!on) {
-            repo.setFingerprintEnabled(false)
-            return
-        }
-        val problem = when (BiometricManager.from(this).canAuthenticate(BiometricManager.Authenticators.BIOMETRIC_STRONG)) {
-            BiometricManager.BIOMETRIC_SUCCESS -> null
-            BiometricManager.BIOMETRIC_ERROR_NONE_ENROLLED -> R.string.vault_fp_none_enrolled
-            else -> R.string.vault_fp_unavailable
-        }
-        if (problem != null) {
-            Toast.makeText(applicationContext, problem, Toast.LENGTH_SHORT).show()
-            renderValues()
-            return
-        }
-        val info = BiometricPrompt.PromptInfo.Builder()
-            .setTitle(getString(R.string.vault_scan_title))
-            .setSubtitle(getString(R.string.vault_scan_desc))
-            .setNegativeButtonText(getString(R.string.photo_cancel))
-            .setAllowedAuthenticators(BiometricManager.Authenticators.BIOMETRIC_STRONG)
-            .setConfirmationRequired(false)
-            .build()
-        biometricPrompt.authenticate(info)
     }
 
     private fun confirmReset() {
@@ -216,7 +166,6 @@ class VaultSettingsActivity : VaultScreenActivity() {
 
     override fun onDestroy() {
         binding = null
-        fingerprintRow = null
         autoLockRow = null
         recoveryRow = null
         alertsCountRow = null

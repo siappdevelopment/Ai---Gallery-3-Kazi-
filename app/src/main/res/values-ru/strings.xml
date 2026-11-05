@@ -245,7 +245,7 @@
     <string name="search_no_results_desc">Попробуйте другое имя файла.</string>
 
     <string name="vault_intro_desc">Храните личные фото и видео под защитой PIN-кода. Они скрыты из Галереи, альбомов и поиска.</string>
-    <string name="vault_intro_point_1">Защита 4-значным PIN-кодом или отпечатком пальца</string>
+    <string name="vault_intro_point_1">Защита 4-значным PIN-кодом</string>
     <string name="vault_intro_point_2">Скрыто из Галереи, раздела «Для вас» и поиска</string>
     <string name="vault_intro_point_3">Остаётся на этом устройстве. Ничего не загружается</string>
     <string name="vault_intro_cta">Настроить сейф</string>
@@ -262,7 +262,6 @@
     <string name="vault_pin_wrong_attempts">Неверный PIN-код. Неудачных попыток: %1$d.</string>
     <string name="vault_pin_forgot">Забыли PIN-код?</string>
     <string name="vault_key_delete">Удалить</string>
-    <string name="vault_key_fingerprint">Использовать отпечаток пальца</string>
     <string name="vault_recovery_title">Добавьте контрольный вопрос</string>
     <string name="vault_recovery_desc">Если вы забудете PIN-код, ответ на этот вопрос поможет задать новый.</string>
     <string name="vault_recovery_q1">Как звали вашего первого питомца?</string>
@@ -274,15 +273,6 @@
     <string name="vault_recovery_skip">Пропустить</string>
     <string name="vault_recovery_save">Сохранить и продолжить</string>
     <string name="vault_recovery_enter_answer">Введите ответ</string>
-    <string name="vault_fp_title">Разблокировка отпечатком пальца</string>
-    <string name="vault_fp_desc">Открывайте сейф быстрее с помощью отпечатка, сохранённого на этом телефоне. PIN-код по-прежнему работает всегда.</string>
-    <string name="vault_fp_use">Использовать отпечаток пальца</string>
-    <string name="vault_fp_later">Не сейчас</string>
-    <string name="vault_fp_none_enrolled">Сначала добавьте отпечаток пальца в настройках телефона.</string>
-    <string name="vault_fp_unavailable">Отпечаток пальца недоступен на этом телефоне.</string>
-    <string name="vault_scan_title">Разблокировать сейф</string>
-    <string name="vault_scan_desc">Коснитесь сканера отпечатков пальцев</string>
-    <string name="vault_scan_use_pin">Ввести PIN-код</string>
     <string name="vault_ready">Сейф готов</string>
     <string name="vault_locked">Сейф заблокирован</string>
     <string name="vault_lock">Заблокировать</string>
@@ -333,8 +323,6 @@
     <string name="vault_action_failed">Не удалось завершить для некоторых элементов. Попробуйте снова.</string>
     <string name="vault_settings_security">Безопасность</string>
     <string name="vault_change_pin">Изменить PIN-код</string>
-    <string name="vault_fingerprint_unlock">Разблокировка отпечатком</string>
-    <string name="vault_fingerprint_unlock_desc">Использовать отпечаток, сохранённый на этом телефоне</string>
     <string name="vault_auto_lock">Автоблокировка</string>
     <string name="vault_recovery_question">Контрольный вопрос</string>
     <string name="vault_settings_alerts">Оповещения</string>
@@ -346,7 +334,7 @@
     <string name="vault_recovery_set">Задан</string>
     <string name="vault_recovery_not_set">Не задан</string>
     <string name="vault_reset_title">Сбросить сейф?</string>
-    <string name="vault_reset_body">Все элементы вернутся в Галерею, а PIN-код, отпечаток и контрольный вопрос будут удалены.</string>
+    <string name="vault_reset_body">Все элементы вернутся в Галерею, а PIN-код и контрольный вопрос будут удалены.</string>
     <string name="vault_reset_action">Сбросить сейф</string>
     <string name="vault_forgot_wrong">Ответ не совпадает. Попробуйте снова.</string>
     <string name="vault_forgot_desc_question">Ответьте на контрольный вопрос, чтобы задать новый PIN-код.</string>
@@ -704,7 +692,7 @@
     <string name="policy_h_ondevice">Умные функции на вашем устройстве</string>
     <string name="policy_b_ondevice">Люди, Места и Лучшие моменты создаются на вашем телефоне. Лица группируются на устройстве, а места берутся из геоданных, сохранённых в ваших фото. Чтобы назвать место, может использоваться служба геолокации вашего телефона.</string>
     <string name="policy_h_permissions">Разрешения</string>
-    <string name="policy_b_permissions">Фото и видео: чтобы показывать вашу галерею. Уведомления: для оповещений о зарядке, установке и напоминаний. Состояние телефона и отображение поверх других приложений: чтобы показывать сводку звонка после звонка. Разблокировка по отпечатку пальца выполняется вашим телефоном. Вы можете отказаться от любого разрешения или изменить его позже в настройках.</string>
+    <string name="policy_b_permissions">Фото и видео: чтобы показывать вашу галерею. Уведомления: для оповещений о зарядке, установке и напоминаний. Состояние телефона и отображение поверх других приложений: чтобы показывать сводку звонка после звонка. Вы можете отказаться от любого разрешения или изменить его позже в настройках.</string>
     <string name="policy_h_ads">Реклама и данные об использовании</string>
     <string name="policy_b_ads">Gallery показывает рекламу Google AdMob и собственные промоакции. Google может использовать ваш рекламный идентификатор и приблизительный регион, определённый по вашей сети, чтобы показывать и оценивать рекламу. Мы используем Firebase для отчётов о сбоях, статистики использования и удалённых настроек.</string>
     <string name="policy_h_choices">Ваш выбор</string>

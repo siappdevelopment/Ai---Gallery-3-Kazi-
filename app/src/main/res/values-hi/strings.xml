@@ -239,7 +239,7 @@
     <string name="search_no_results_desc">कोई दूसरा फ़ाइल नाम आज़माएँ।</string>
 
     <string name="vault_intro_desc">निजी फ़ोटो और वीडियो को PIN के पीछे सुरक्षित रखें। ये गैलरी, एल्बम और खोज से छिपे रहते हैं।</string>
-    <string name="vault_intro_point_1">4-अंकों के PIN या फ़िंगरप्रिंट से लॉक</string>
+    <string name="vault_intro_point_1">4-अंकों के PIN से लॉक</string>
     <string name="vault_intro_point_2">गैलरी, आपके लिए और खोज से छिपा हुआ</string>
     <string name="vault_intro_point_3">इसी डिवाइस पर रहता है। कुछ भी अपलोड नहीं होता</string>
     <string name="vault_intro_cta">वॉल्ट सेट करें</string>
@@ -256,7 +256,6 @@
     <string name="vault_pin_wrong_attempts">गलत PIN। %1$d बार असफल कोशिश।</string>
     <string name="vault_pin_forgot">PIN भूल गए?</string>
     <string name="vault_key_delete">मिटाएँ</string>
-    <string name="vault_key_fingerprint">फ़िंगरप्रिंट इस्तेमाल करें</string>
     <string name="vault_recovery_title">रिकवरी प्रश्न जोड़ें</string>
     <string name="vault_recovery_desc">अगर आप अपना PIN भूल जाते हैं, तो इसका उत्तर देकर नया PIN सेट कर सकते हैं।</string>
     <string name="vault_recovery_q1">आपके पहले पालतू जानवर का नाम क्या था?</string>
@@ -268,15 +267,6 @@
     <string name="vault_recovery_skip">अभी छोड़ें</string>
     <string name="vault_recovery_save">सहेजें और आगे बढ़ें</string>
     <string name="vault_recovery_enter_answer">उत्तर दर्ज करें</string>
-    <string name="vault_fp_title">फ़िंगरप्रिंट से अनलॉक करें</string>
-    <string name="vault_fp_desc">इस फ़ोन में सहेजे फ़िंगरप्रिंट से अपना वॉल्ट तेज़ी से खोलें। आपका PIN हमेशा काम करता रहेगा।</string>
-    <string name="vault_fp_use">फ़िंगरप्रिंट इस्तेमाल करें</string>
-    <string name="vault_fp_later">अभी नहीं</string>
-    <string name="vault_fp_none_enrolled">पहले अपने फ़ोन की सेटिंग में फ़िंगरप्रिंट जोड़ें।</string>
-    <string name="vault_fp_unavailable">इस फ़ोन पर फ़िंगरप्रिंट उपलब्ध नहीं है।</string>
-    <string name="vault_scan_title">वॉल्ट अनलॉक करें</string>
-    <string name="vault_scan_desc">फ़िंगरप्रिंट सेंसर को छुएँ</string>
-    <string name="vault_scan_use_pin">इसके बजाय PIN इस्तेमाल करें</string>
     <string name="vault_ready">वॉल्ट तैयार है</string>
     <string name="vault_locked">वॉल्ट लॉक हो गया</string>
     <string name="vault_lock">लॉक करें</string>
@@ -325,8 +315,6 @@
     <string name="vault_action_failed">कुछ आइटम के लिए पूरा नहीं हो सका। फिर से कोशिश करें।</string>
     <string name="vault_settings_security">सुरक्षा</string>
     <string name="vault_change_pin">PIN बदलें</string>
-    <string name="vault_fingerprint_unlock">फ़िंगरप्रिंट अनलॉक</string>
-    <string name="vault_fingerprint_unlock_desc">इस फ़ोन में सहेजे फ़िंगरप्रिंट का उपयोग करें</string>
     <string name="vault_auto_lock">ऑटो-लॉक</string>
     <string name="vault_recovery_question">रिकवरी प्रश्न</string>
     <string name="vault_settings_alerts">अलर्ट</string>
@@ -338,7 +326,7 @@
     <string name="vault_recovery_set">सेट है</string>
     <string name="vault_recovery_not_set">सेट नहीं है</string>
     <string name="vault_reset_title">वॉल्ट रीसेट करें?</string>
-    <string name="vault_reset_body">सभी आइटम गैलरी में लौट आएँगे, और आपका PIN, फ़िंगरप्रिंट और रिकवरी प्रश्न हटा दिए जाएँगे।</string>
+    <string name="vault_reset_body">सभी आइटम गैलरी में लौट आएँगे, और आपका PIN और रिकवरी प्रश्न हटा दिए जाएँगे।</string>
     <string name="vault_reset_action">वॉल्ट रीसेट करें</string>
     <string name="vault_forgot_wrong">वह उत्तर मेल नहीं खाता। फिर से कोशिश करें।</string>
     <string name="vault_forgot_desc_question">नया PIN सेट करने के लिए अपने रिकवरी प्रश्न का उत्तर दें।</string>
@@ -690,7 +678,7 @@
     <string name="policy_h_ondevice">आपके डिवाइस पर स्मार्ट सुविधाएँ</string>
     <string name="policy_b_ondevice">लोग, जगहें और हाइलाइट्स आपके फ़ोन पर ही बनते हैं। चेहरे डिवाइस पर ही समूहित होते हैं, और जगहें आपके फ़ोटो में सहेजी गई लोकेशन से आती हैं। किसी जगह का नाम बताने के लिए आपके फ़ोन की लोकेशन सेवा से संपर्क किया जा सकता है।</string>
     <string name="policy_h_permissions">अनुमतियाँ</string>
-    <string name="policy_b_permissions">फ़ोटो और वीडियो: आपकी गैलरी दिखाने के लिए। सूचनाएँ: चार्जिंग, इंस्टॉल और रिमाइंडर अलर्ट के लिए। फ़ोन की स्थिति और अन्य ऐप्स के ऊपर दिखाना: कॉल के बाद कॉल सारांश दिखाने के लिए। फ़िंगरप्रिंट अनलॉक आपका फ़ोन संभालता है। आप किसी भी अनुमति को मना कर सकते हैं या बाद में सेटिंग में बदल सकते हैं।</string>
+    <string name="policy_b_permissions">फ़ोटो और वीडियो: आपकी गैलरी दिखाने के लिए। सूचनाएँ: चार्जिंग, इंस्टॉल और रिमाइंडर अलर्ट के लिए। फ़ोन की स्थिति और अन्य ऐप्स के ऊपर दिखाना: कॉल के बाद कॉल सारांश दिखाने के लिए। आप किसी भी अनुमति को मना कर सकते हैं या बाद में सेटिंग में बदल सकते हैं।</string>
     <string name="policy_h_ads">विज्ञापन और उपयोग डेटा</string>
     <string name="policy_b_ads">Gallery, Google AdMob और अपने प्रचार के विज्ञापन दिखाता है। Google विज्ञापन दिखाने और मापने के लिए आपका विज्ञापन आईडी और आपके नेटवर्क से मिला अनुमानित क्षेत्र उपयोग कर सकता है। हम क्रैश रिपोर्ट, उपयोग के आँकड़ों और रिमोट सेटिंग के लिए Firebase का उपयोग करते हैं।</string>
     <string name="policy_h_choices">आपके विकल्प</string>

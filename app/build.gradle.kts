@@ -57,7 +57,6 @@ dependencies {
     // Face detection for People & faces: the model is bundled, so it runs on the device without Play services.
     implementation(libs.mlkit.face.detection)
     implementation(libs.androidx.exifinterface)
-    implementation(libs.androidx.biometric)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.espresso.core)
     androidTestImplementation(libs.androidx.junit)

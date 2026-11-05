@@ -210,12 +210,11 @@
 
         <LinearLayout style="@style/Widget.ThirdGallery.VaultKeyRow">
 
-            <ImageView
-                android:id="@+id/keyFingerprint"
+            <!-- Empty slot that keeps the 0 key in the middle of the bottom row -->
+            <View
                 style="@style/Widget.ThirdGallery.VaultIconKey"
-                android:contentDescription="@string/vault_key_fingerprint"
-                android:src="@drawable/ic_vault_fingerprint"
-                app:tint="@color/brand_pink" />
+                android:importantForAccessibility="no"
+                android:visibility="invisible" />
 
             <TextView
                 android:id="@+id/key0"

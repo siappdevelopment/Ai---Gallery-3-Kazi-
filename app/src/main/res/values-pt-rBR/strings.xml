@@ -242,7 +242,7 @@
     <string name="search_no_results_desc">Tente outro nome de arquivo.</string>
 
     <string name="vault_intro_desc">Mantenha fotos e vídeos privados protegidos por um PIN. Eles ficam ocultos na Galeria, nos álbuns e na pesquisa.</string>
-    <string name="vault_intro_point_1">Bloqueado com PIN de 4 dígitos ou impressão digital</string>
+    <string name="vault_intro_point_1">Bloqueado com PIN de 4 dígitos</string>
     <string name="vault_intro_point_2">Oculto na Galeria, Para você e na pesquisa</string>
     <string name="vault_intro_point_3">Fica neste dispositivo. Nada é enviado</string>
     <string name="vault_intro_cta">Configurar cofre</string>
@@ -259,7 +259,6 @@
     <string name="vault_pin_wrong_attempts">PIN incorreto. %1$d tentativas malsucedidas.</string>
     <string name="vault_pin_forgot">Esqueceu o PIN?</string>
     <string name="vault_key_delete">Apagar</string>
-    <string name="vault_key_fingerprint">Usar impressão digital</string>
     <string name="vault_recovery_title">Adicionar uma pergunta de recuperação</string>
     <string name="vault_recovery_desc">Se você esquecer o PIN, responder a esta pergunta permite definir um novo.</string>
     <string name="vault_recovery_q1">Qual era o nome do seu primeiro bichinho de estimação?</string>
@@ -271,15 +270,6 @@
     <string name="vault_recovery_skip">Pular por enquanto</string>
     <string name="vault_recovery_save">Salvar e continuar</string>
     <string name="vault_recovery_enter_answer">Digite uma resposta</string>
-    <string name="vault_fp_title">Desbloquear com impressão digital</string>
-    <string name="vault_fp_desc">Abra seu cofre mais rápido com a impressão digital salva neste telefone. Seu PIN continua funcionando a qualquer momento.</string>
-    <string name="vault_fp_use">Usar impressão digital</string>
-    <string name="vault_fp_later">Agora não</string>
-    <string name="vault_fp_none_enrolled">Primeiro adicione uma impressão digital nas configurações do telefone.</string>
-    <string name="vault_fp_unavailable">A impressão digital não está disponível neste telefone.</string>
-    <string name="vault_scan_title">Desbloquear cofre</string>
-    <string name="vault_scan_desc">Toque no sensor de impressão digital</string>
-    <string name="vault_scan_use_pin">Usar PIN</string>
     <string name="vault_ready">O cofre está pronto</string>
     <string name="vault_locked">Cofre bloqueado</string>
     <string name="vault_lock">Bloquear</string>
@@ -329,8 +319,6 @@
     <string name="vault_action_failed">Não foi possível concluir para alguns itens. Tente novamente.</string>
     <string name="vault_settings_security">Segurança</string>
     <string name="vault_change_pin">Alterar PIN</string>
-    <string name="vault_fingerprint_unlock">Desbloqueio por impressão digital</string>
-    <string name="vault_fingerprint_unlock_desc">Usar a impressão digital salva neste telefone</string>
     <string name="vault_auto_lock">Bloqueio automático</string>
     <string name="vault_recovery_question">Pergunta de recuperação</string>
     <string name="vault_settings_alerts">Alertas</string>
@@ -342,7 +330,7 @@
     <string name="vault_recovery_set">Definida</string>
     <string name="vault_recovery_not_set">Não definida</string>
     <string name="vault_reset_title">Redefinir o cofre?</string>
-    <string name="vault_reset_body">Todos os itens voltam para a Galeria, e seu PIN, sua impressão digital e sua pergunta de recuperação são removidos.</string>
+    <string name="vault_reset_body">Todos os itens voltam para a Galeria, e seu PIN e sua pergunta de recuperação são removidos.</string>
     <string name="vault_reset_action">Redefinir cofre</string>
     <string name="vault_forgot_wrong">Essa resposta não corresponde. Tente novamente.</string>
     <string name="vault_forgot_desc_question">Responda à sua pergunta de recuperação para definir um novo PIN.</string>
@@ -697,7 +685,7 @@
     <string name="policy_h_ondevice">Recursos inteligentes no seu dispositivo</string>
     <string name="policy_b_ondevice">Pessoas, Lugares e Destaques são criados no seu celular. Os rostos são agrupados no dispositivo, e os lugares vêm da localização salva nas suas fotos. Para dar nome a um lugar, o serviço de localização do seu celular pode ser consultado.</string>
     <string name="policy_h_permissions">Permissões</string>
-    <string name="policy_b_permissions">Fotos e vídeos: para mostrar sua galeria. Notificações: para avisos de carregamento, instalação e lembretes. Estado do telefone e exibição sobre outros apps: para mostrar o resumo da chamada depois de uma ligação. O desbloqueio por impressão digital é feito pelo seu celular. Você pode negar qualquer uma ou alterá-las depois em Configurações.</string>
+    <string name="policy_b_permissions">Fotos e vídeos: para mostrar sua galeria. Notificações: para avisos de carregamento, instalação e lembretes. Estado do telefone e exibição sobre outros apps: para mostrar o resumo da chamada depois de uma ligação. Você pode negar qualquer uma ou alterá-las depois em Configurações.</string>
     <string name="policy_h_ads">Anúncios e dados de uso</string>
     <string name="policy_b_ads">O Gallery mostra anúncios do Google AdMob e promoções próprias. O Google pode usar seu ID de publicidade e sua região aproximada, obtida pela sua rede, para exibir e medir anúncios. Usamos o Firebase para relatórios de falhas, estatísticas de uso e configurações remotas.</string>
     <string name="policy_h_choices">Suas escolhas</string>

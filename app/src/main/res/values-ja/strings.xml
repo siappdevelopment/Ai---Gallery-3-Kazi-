@@ -236,7 +236,7 @@
     <string name="search_no_results_desc">別のファイル名をお試しください。</string>
 
     <string name="vault_intro_desc">非公開の写真や動画をPINで守ります。ギャラリー、アルバム、検索には表示されません。</string>
-    <string name="vault_intro_point_1">4桁のPINまたは指紋でロック</string>
+    <string name="vault_intro_point_1">4桁のPINでロック</string>
     <string name="vault_intro_point_2">ギャラリー、おすすめ、検索から非表示</string>
     <string name="vault_intro_point_3">このデバイス内に保存され、アップロードされません</string>
     <string name="vault_intro_cta">金庫を設定</string>
@@ -253,7 +253,6 @@
     <string name="vault_pin_wrong_attempts">PINが違います。%1$d回失敗しました。</string>
     <string name="vault_pin_forgot">PINをお忘れですか？</string>
     <string name="vault_key_delete">削除</string>
-    <string name="vault_key_fingerprint">指紋を使用</string>
     <string name="vault_recovery_title">復元用の質問を追加</string>
     <string name="vault_recovery_desc">PINを忘れた場合、この質問に答えると新しいPINを設定できます。</string>
     <string name="vault_recovery_q1">最初のペットの名前は？</string>
@@ -265,15 +264,6 @@
     <string name="vault_recovery_skip">今はスキップ</string>
     <string name="vault_recovery_save">保存して続行</string>
     <string name="vault_recovery_enter_answer">答えを入力してください</string>
-    <string name="vault_fp_title">指紋でロック解除</string>
-    <string name="vault_fp_desc">このスマートフォンに登録した指紋で、金庫をすばやく開けます。PINはいつでも使えます。</string>
-    <string name="vault_fp_use">指紋を使用</string>
-    <string name="vault_fp_later">今はしない</string>
-    <string name="vault_fp_none_enrolled">先にスマートフォンの設定で指紋を追加してください。</string>
-    <string name="vault_fp_unavailable">このスマートフォンでは指紋を利用できません。</string>
-    <string name="vault_scan_title">金庫のロック解除</string>
-    <string name="vault_scan_desc">指紋センサーに触れてください</string>
-    <string name="vault_scan_use_pin">PINを使用</string>
     <string name="vault_ready">金庫の準備ができました</string>
     <string name="vault_locked">金庫をロックしました</string>
     <string name="vault_lock">ロック</string>
@@ -321,8 +311,6 @@
     <string name="vault_action_failed">一部のアイテムを完了できませんでした。もう一度お試しください。</string>
     <string name="vault_settings_security">セキュリティ</string>
     <string name="vault_change_pin">PINを変更</string>
-    <string name="vault_fingerprint_unlock">指紋ロック解除</string>
-    <string name="vault_fingerprint_unlock_desc">このスマートフォンに登録した指紋を使用します</string>
     <string name="vault_auto_lock">自動ロック</string>
     <string name="vault_recovery_question">復元用の質問</string>
     <string name="vault_settings_alerts">アラート</string>
@@ -334,7 +322,7 @@
     <string name="vault_recovery_set">設定済み</string>
     <string name="vault_recovery_not_set">未設定</string>
     <string name="vault_reset_title">金庫をリセットしますか？</string>
-    <string name="vault_reset_body">すべてのアイテムがギャラリーに戻り、PIN、指紋、復元用の質問が削除されます。</string>
+    <string name="vault_reset_body">すべてのアイテムがギャラリーに戻り、PINと復元用の質問が削除されます。</string>
     <string name="vault_reset_action">金庫をリセット</string>
     <string name="vault_forgot_wrong">答えが一致しません。もう一度お試しください。</string>
     <string name="vault_forgot_desc_question">復元用の質問に答えて、新しいPINを設定します。</string>
@@ -683,7 +671,7 @@
     <string name="policy_h_ondevice">端末内のスマート機能</string>
     <string name="policy_b_ondevice">人物、場所、ハイライトはスマートフォン上で作成されます。顔は端末内でグループ化され、場所は写真に保存された位置情報から取得されます。場所の名前を付けるために、スマートフォンの位置情報サービスに接続する場合があります。</string>
     <string name="policy_h_permissions">権限</string>
-    <string name="policy_b_permissions">写真と動画：ギャラリーを表示するため。通知：充電、インストール、リマインダーの通知のため。電話の状態と他のアプリの上に表示：通話後に通話の概要を表示するため。指紋認証はスマートフォンが処理します。いずれも拒否でき、後で設定から変更できます。</string>
+    <string name="policy_b_permissions">写真と動画：ギャラリーを表示するため。通知：充電、インストール、リマインダーの通知のため。電話の状態と他のアプリの上に表示：通話後に通話の概要を表示するため。いずれも拒否でき、後で設定から変更できます。</string>
     <string name="policy_h_ads">広告と利用データ</string>
     <string name="policy_b_ads">Gallery は Google AdMob の広告と自社のプロモーションを表示します。Google は、広告の表示と測定のために、広告 ID とネットワークから判断されるおおよその地域を使用する場合があります。クラッシュレポート、利用統計、リモート設定には Firebase を使用します。</string>
     <string name="policy_h_choices">選択できること</string>

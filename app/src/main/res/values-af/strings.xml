@@ -239,7 +239,7 @@
     <string name="search_no_results_desc">Probeer ’n ander lêernaam.</string>
 
     <string name="vault_intro_desc">Hou private foto’s en video’s agter ’n PIN. Hulle is weggesteek van Galery, albums en soektogte.</string>
-    <string name="vault_intro_point_1">Gesluit met ’n 4-syfer-PIN of vingerafdruk</string>
+    <string name="vault_intro_point_1">Gesluit met ’n 4-syfer-PIN</string>
     <string name="vault_intro_point_2">Weggesteek van Galery, Vir jou en soektogte</string>
     <string name="vault_intro_point_3">Bly op hierdie toestel. Niks word opgelaai nie</string>
     <string name="vault_intro_cta">Stel kluis op</string>
@@ -256,7 +256,6 @@
     <string name="vault_pin_wrong_attempts">Verkeerde PIN. %1$d mislukte pogings.</string>
     <string name="vault_pin_forgot">PIN vergeet?</string>
     <string name="vault_key_delete">Vee uit</string>
-    <string name="vault_key_fingerprint">Gebruik vingerafdruk</string>
     <string name="vault_recovery_title">Voeg ’n herstelvraag by</string>
     <string name="vault_recovery_desc">As jy jou PIN vergeet, laat die antwoord hierop jou toe om ’n nuwe een te stel.</string>
     <string name="vault_recovery_q1">Wat was die naam van jou eerste troeteldier?</string>
@@ -268,15 +267,6 @@
     <string name="vault_recovery_skip">Slaan nou oor</string>
     <string name="vault_recovery_save">Stoor en gaan voort</string>
     <string name="vault_recovery_enter_answer">Voer ’n antwoord in</string>
-    <string name="vault_fp_title">Ontsluit met vingerafdruk</string>
-    <string name="vault_fp_desc">Maak jou kluis vinniger oop met die vingerafdruk wat op hierdie foon gestoor is. Jou PIN werk steeds enige tyd.</string>
-    <string name="vault_fp_use">Gebruik vingerafdruk</string>
-    <string name="vault_fp_later">Nie nou nie</string>
-    <string name="vault_fp_none_enrolled">Voeg eers ’n vingerafdruk in jou foon se instellings by.</string>
-    <string name="vault_fp_unavailable">Vingerafdruk is nie op hierdie foon beskikbaar nie.</string>
-    <string name="vault_scan_title">Ontsluit kluis</string>
-    <string name="vault_scan_desc">Raak aan die vingerafdruksensor</string>
-    <string name="vault_scan_use_pin">Gebruik eerder PIN</string>
     <string name="vault_ready">Kluis is gereed</string>
     <string name="vault_locked">Kluis gesluit</string>
     <string name="vault_lock">Sluit</string>
@@ -325,8 +315,6 @@
     <string name="vault_action_failed">Kon nie vir sommige items klaarmaak nie. Probeer asseblief weer.</string>
     <string name="vault_settings_security">Sekuriteit</string>
     <string name="vault_change_pin">Verander PIN</string>
-    <string name="vault_fingerprint_unlock">Vingerafdrukontsluiting</string>
-    <string name="vault_fingerprint_unlock_desc">Gebruik die vingerafdruk wat op hierdie foon gestoor is</string>
     <string name="vault_auto_lock">Outoslot</string>
     <string name="vault_recovery_question">Herstelvraag</string>
     <string name="vault_settings_alerts">Waarskuwings</string>
@@ -338,7 +326,7 @@
     <string name="vault_recovery_set">Gestel</string>
     <string name="vault_recovery_not_set">Nie gestel nie</string>
     <string name="vault_reset_title">Stel kluis terug?</string>
-    <string name="vault_reset_body">Alle items keer terug na Galery, en jou PIN, vingerafdruk en herstelvraag word verwyder.</string>
+    <string name="vault_reset_body">Alle items keer terug na Galery, en jou PIN en herstelvraag word verwyder.</string>
     <string name="vault_reset_action">Stel kluis terug</string>
     <string name="vault_forgot_wrong">Daardie antwoord stem nie ooreen nie. Probeer weer.</string>
     <string name="vault_forgot_desc_question">Beantwoord jou herstelvraag om ’n nuwe PIN te stel.</string>
@@ -690,7 +678,7 @@
     <string name="policy_h_ondevice">Slim kenmerke op jou toestel</string>
     <string name="policy_b_ondevice">Mense, Plekke en Hoogtepunte word op jou foon gemaak. Gesigte word op die toestel gegroepeer, en plekke kom van die ligging wat in jou foto\'s gestoor is. Om \'n plek te noem, kan jou foon se liggingdiens gekontak word.</string>
     <string name="policy_h_permissions">Toestemmings</string>
-    <string name="policy_b_permissions">Foto\'s en video\'s: om jou galery te wys. Kennisgewings: vir laai-, installeer- en herinneringswaarskuwings. Foontoestand en vertoon oor ander toepassings: om die oproepopsomming ná \'n oproep te wys. Vingerafdrukontsluiting word deur jou foon hanteer. Jy kan enige daarvan weier of later in Instellings verander.</string>
+    <string name="policy_b_permissions">Foto\'s en video\'s: om jou galery te wys. Kennisgewings: vir laai-, installeer- en herinneringswaarskuwings. Foontoestand en vertoon oor ander toepassings: om die oproepopsomming ná \'n oproep te wys. Jy kan enige daarvan weier of later in Instellings verander.</string>
     <string name="policy_h_ads">Advertensies en gebruiksdata</string>
     <string name="policy_b_ads">Gallery wys advertensies van Google AdMob en sy eie promosies. Google kan jou advertensie-ID en jou benaderde streek, wat van jou netwerk af bepaal word, gebruik om advertensies te wys en te meet. Ons gebruik Firebase vir ongelukverslae, gebruiksstatistiek en afstandinstellings.</string>
     <string name="policy_h_choices">Jou keuses</string>

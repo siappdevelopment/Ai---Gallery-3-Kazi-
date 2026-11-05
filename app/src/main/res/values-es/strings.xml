@@ -242,7 +242,7 @@
     <string name="search_no_results_desc">Prueba con otro nombre de archivo.</string>
 
     <string name="vault_intro_desc">Guarda fotos y vídeos privados tras un PIN. Quedan ocultos en la Galería, los álbumes y la búsqueda.</string>
-    <string name="vault_intro_point_1">Protegido con un PIN de 4 dígitos o huella digital</string>
+    <string name="vault_intro_point_1">Protegido con un PIN de 4 dígitos</string>
     <string name="vault_intro_point_2">Oculto en la Galería, Para ti y la búsqueda</string>
     <string name="vault_intro_point_3">Se queda en este dispositivo. No se sube nada</string>
     <string name="vault_intro_cta">Configurar caja fuerte</string>
@@ -259,7 +259,6 @@
     <string name="vault_pin_wrong_attempts">PIN incorrecto. %1$d intentos fallidos.</string>
     <string name="vault_pin_forgot">¿Olvidaste el PIN?</string>
     <string name="vault_key_delete">Borrar</string>
-    <string name="vault_key_fingerprint">Usar huella digital</string>
     <string name="vault_recovery_title">Añade una pregunta de recuperación</string>
     <string name="vault_recovery_desc">Si olvidas tu PIN, responder a esta pregunta te permitirá establecer uno nuevo.</string>
     <string name="vault_recovery_q1">¿Cómo se llamaba tu primera mascota?</string>
@@ -271,15 +270,6 @@
     <string name="vault_recovery_skip">Omitir por ahora</string>
     <string name="vault_recovery_save">Guardar y continuar</string>
     <string name="vault_recovery_enter_answer">Introduce una respuesta</string>
-    <string name="vault_fp_title">Desbloquear con huella digital</string>
-    <string name="vault_fp_desc">Abre tu caja fuerte más rápido con la huella guardada en este teléfono. Tu PIN sigue funcionando siempre.</string>
-    <string name="vault_fp_use">Usar huella digital</string>
-    <string name="vault_fp_later">Ahora no</string>
-    <string name="vault_fp_none_enrolled">Primero añade una huella digital en los ajustes del teléfono.</string>
-    <string name="vault_fp_unavailable">La huella digital no está disponible en este teléfono.</string>
-    <string name="vault_scan_title">Desbloquear caja fuerte</string>
-    <string name="vault_scan_desc">Toca el sensor de huellas digitales</string>
-    <string name="vault_scan_use_pin">Usar PIN en su lugar</string>
     <string name="vault_ready">La caja fuerte está lista</string>
     <string name="vault_locked">Caja fuerte bloqueada</string>
     <string name="vault_lock">Bloquear</string>
@@ -329,8 +319,6 @@
     <string name="vault_action_failed">No se pudo completar para algunos elementos. Inténtalo de nuevo.</string>
     <string name="vault_settings_security">Seguridad</string>
     <string name="vault_change_pin">Cambiar PIN</string>
-    <string name="vault_fingerprint_unlock">Desbloqueo con huella digital</string>
-    <string name="vault_fingerprint_unlock_desc">Usar la huella digital guardada en este teléfono</string>
     <string name="vault_auto_lock">Bloqueo automático</string>
     <string name="vault_recovery_question">Pregunta de recuperación</string>
     <string name="vault_settings_alerts">Alertas</string>
@@ -342,7 +330,7 @@
     <string name="vault_recovery_set">Definida</string>
     <string name="vault_recovery_not_set">Sin definir</string>
     <string name="vault_reset_title">¿Restablecer la caja fuerte?</string>
-    <string name="vault_reset_body">Todos los elementos vuelven a la Galería y se eliminan tu PIN, tu huella digital y tu pregunta de recuperación.</string>
+    <string name="vault_reset_body">Todos los elementos vuelven a la Galería y se eliminan tu PIN y tu pregunta de recuperación.</string>
     <string name="vault_reset_action">Restablecer caja fuerte</string>
     <string name="vault_forgot_wrong">Esa respuesta no coincide. Inténtalo de nuevo.</string>
     <string name="vault_forgot_desc_question">Responde tu pregunta de recuperación para establecer un PIN nuevo.</string>
@@ -697,7 +685,7 @@
     <string name="policy_h_ondevice">Funciones inteligentes en tu dispositivo</string>
     <string name="policy_b_ondevice">Personas, Lugares y Destacados se crean en tu teléfono. Las caras se agrupan en el dispositivo y los lugares proceden de la ubicación guardada en tus fotos. Para nombrar un lugar, puede consultarse el servicio de ubicación de tu teléfono.</string>
     <string name="policy_h_permissions">Permisos</string>
-    <string name="policy_b_permissions">Fotos y vídeos: para mostrar tu galería. Notificaciones: para avisos de carga, instalación y recordatorios. Estado del teléfono y superposición sobre otras apps: para mostrar el resumen de la llamada después de llamar. El desbloqueo con huella lo gestiona tu teléfono. Puedes rechazar cualquiera o cambiarlos más tarde en Ajustes.</string>
+    <string name="policy_b_permissions">Fotos y vídeos: para mostrar tu galería. Notificaciones: para avisos de carga, instalación y recordatorios. Estado del teléfono y superposición sobre otras apps: para mostrar el resumen de la llamada después de llamar. Puedes rechazar cualquiera o cambiarlos más tarde en Ajustes.</string>
     <string name="policy_h_ads">Anuncios y datos de uso</string>
     <string name="policy_b_ads">Gallery muestra anuncios de Google AdMob y promociones propias. Google puede usar tu ID de publicidad y tu región aproximada, obtenida de tu red, para mostrar y medir anuncios. Usamos Firebase para informes de errores, estadísticas de uso y ajustes remotos.</string>
     <string name="policy_h_choices">Tus opciones</string>

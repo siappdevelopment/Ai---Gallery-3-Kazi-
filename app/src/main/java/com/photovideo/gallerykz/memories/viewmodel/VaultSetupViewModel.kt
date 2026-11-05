@@ -3,8 +3,6 @@ package com.photovideo.gallerykz.memories.viewmodel
 import android.app.Application
 import android.os.Handler
 import android.os.Looper
-import androidx.annotation.StringRes
-import androidx.biometric.BiometricManager
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -20,8 +18,8 @@ import com.photovideo.gallerykz.memories.utils.Event
 import java.util.concurrent.Executors
 
 /**
- * The vault's PIN screens: the setup flow (intro -> create PIN -> confirm PIN -> recovery question -> fingerprint),
- * the unlock screen (PIN or fingerprint) with "Forgot PIN?", and the two short flows the settings start (change
+ * The vault's PIN screens: the setup flow (intro -> create PIN -> confirm PIN -> recovery question),
+ * the unlock screen (PIN) with "Forgot PIN?", and the two short flows the settings start (change
  * the PIN, edit the recovery question). A vault that already has a PIN opens straight on the unlock screen.
  * The screen being shown and the recovery choice survive process death; the digits typed never do.
  */
@@ -66,9 +64,6 @@ class VaultSetupViewModel(
     private val _message = MutableLiveData<Event<Int>>()
     val message: LiveData<Event<Int>> = _message
 
-    private val _showFingerprintPrompt = MutableLiveData<Event<Unit>>()
-    val showFingerprintPrompt: LiveData<Event<Unit>> = _showFingerprintPrompt
-
     private val _openVault = MutableLiveData<Event<Unit>>()
     val openVault: LiveData<Event<Unit>> = _openVault
 
@@ -85,10 +80,6 @@ class VaultSetupViewModel(
 
     /** The answer typed on the Forgot PIN screen did not match. */
     val forgotError: LiveData<Event<Unit>> = _forgotError
-
-    /** True while the fingerprint prompt is for turning fingerprint unlock on (setup), not for unlocking. */
-    var enrollingFingerprint = false
-        private set
 
     /** The recovery screen is editing an existing question (from the settings), not part of the setup. */
     val isRecoveryEdit: Boolean get() = flow == FLOW_RECOVERY
@@ -136,7 +127,6 @@ class VaultSetupViewModel(
             mode = mode,
             filled = entered.length,
             error = error,
-            fingerprintKey = mode == VaultPinMode.UNLOCK && repo.isFingerprintEnabled,
         )
     }
 
@@ -256,13 +246,6 @@ class VaultSetupViewModel(
         }
     }
 
-    /** The PIN pad's fingerprint key. */
-    fun onFingerprintKey() {
-        if (!repo.isFingerprintEnabled) return
-        enrollingFingerprint = false
-        _showFingerprintPrompt.value = Event(Unit)
-    }
-
     /** "Forgot PIN?": the recovery question (or the reset when there is none). */
     fun showForgot() {
         reset(VaultPinMode.UNLOCK)
@@ -303,46 +286,14 @@ class VaultSetupViewModel(
             _message.value = Event(R.string.vault_recovery_saved)
             _setupDone.value = Event(Unit)
         } else {
-            setStep(VaultStep.FINGERPRINT)
+            // The recovery question is the last step of the setup.
+            completeSetup()
         }
     }
 
     fun skipRecovery() {
-        if (isRecoveryEdit) _finish.value = Event(Unit) else setStep(VaultStep.FINGERPRINT)
+        if (isRecoveryEdit) _finish.value = Event(Unit) else completeSetup()
     }
-
-    /** The fingerprint step's "Use fingerprint": asks for the fingerprint once before turning it on. */
-    fun useFingerprint() {
-        val message = fingerprintProblem()
-        if (message != null) {
-            _message.value = Event(message)
-            return
-        }
-        enrollingFingerprint = true
-        _showFingerprintPrompt.value = Event(Unit)
-    }
-
-    /** The fingerprint prompt was passed. */
-    fun onFingerprintSuccess() {
-        if (enrollingFingerprint) {
-            enrollingFingerprint = false
-            repo.setFingerprintEnabled(true)
-            completeSetup()
-        } else {
-            unlocked()
-        }
-    }
-
-    /** The fingerprint step's "Not now". */
-    fun skipFingerprint() = completeSetup()
-
-    @StringRes
-    private fun fingerprintProblem(): Int? =
-        when (BiometricManager.from(getApplication()).canAuthenticate(BiometricManager.Authenticators.BIOMETRIC_STRONG)) {
-            BiometricManager.BIOMETRIC_SUCCESS -> null
-            BiometricManager.BIOMETRIC_ERROR_NONE_ENROLLED -> R.string.vault_fp_none_enrolled
-            else -> R.string.vault_fp_unavailable
-        }
 
     private fun completeSetup() {
         _message.value = Event(R.string.vault_ready)

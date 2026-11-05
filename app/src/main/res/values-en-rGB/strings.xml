@@ -239,7 +239,7 @@
     <string name="search_no_results_desc">Try a different file name.</string>
 
     <string name="vault_intro_desc">Keep private photos and videos behind a PIN. They’re hidden from Gallery, albums and search.</string>
-    <string name="vault_intro_point_1">Locked with a 4-digit PIN or fingerprint</string>
+    <string name="vault_intro_point_1">Locked with a 4-digit PIN</string>
     <string name="vault_intro_point_2">Hidden from Gallery, For you and search</string>
     <string name="vault_intro_point_3">Stays on this device. Nothing is uploaded</string>
     <string name="vault_intro_cta">Set up vault</string>
@@ -256,7 +256,6 @@
     <string name="vault_pin_wrong_attempts">Wrong PIN. %1$d failed attempts.</string>
     <string name="vault_pin_forgot">Forgot PIN?</string>
     <string name="vault_key_delete">Delete</string>
-    <string name="vault_key_fingerprint">Use fingerprint</string>
     <string name="vault_recovery_title">Add a recovery question</string>
     <string name="vault_recovery_desc">If you forget your PIN, answering this lets you set a new one.</string>
     <string name="vault_recovery_q1">What was the name of your first pet?</string>
@@ -268,15 +267,6 @@
     <string name="vault_recovery_skip">Skip for now</string>
     <string name="vault_recovery_save">Save and continue</string>
     <string name="vault_recovery_enter_answer">Enter an answer</string>
-    <string name="vault_fp_title">Unlock with fingerprint</string>
-    <string name="vault_fp_desc">Open your vault faster with the fingerprint saved on this phone. Your PIN still works anytime.</string>
-    <string name="vault_fp_use">Use fingerprint</string>
-    <string name="vault_fp_later">Not now</string>
-    <string name="vault_fp_none_enrolled">Add a fingerprint in your phone’s settings first.</string>
-    <string name="vault_fp_unavailable">Fingerprint isn’t available on this phone.</string>
-    <string name="vault_scan_title">Unlock vault</string>
-    <string name="vault_scan_desc">Touch the fingerprint sensor</string>
-    <string name="vault_scan_use_pin">Use PIN instead</string>
     <string name="vault_ready">Vault is ready</string>
     <string name="vault_locked">Vault locked</string>
     <string name="vault_lock">Lock</string>
@@ -325,8 +315,6 @@
     <string name="vault_action_failed">Couldn’t finish for some items. Please try again.</string>
     <string name="vault_settings_security">Security</string>
     <string name="vault_change_pin">Change PIN</string>
-    <string name="vault_fingerprint_unlock">Fingerprint unlock</string>
-    <string name="vault_fingerprint_unlock_desc">Use the fingerprint saved on this phone</string>
     <string name="vault_auto_lock">Auto-lock</string>
     <string name="vault_recovery_question">Recovery question</string>
     <string name="vault_settings_alerts">Alerts</string>
@@ -338,7 +326,7 @@
     <string name="vault_recovery_set">Set</string>
     <string name="vault_recovery_not_set">Not set</string>
     <string name="vault_reset_title">Reset vault?</string>
-    <string name="vault_reset_body">All items return to Gallery, and your PIN, fingerprint and recovery question are removed.</string>
+    <string name="vault_reset_body">All items return to Gallery, and your PIN and recovery question are removed.</string>
     <string name="vault_reset_action">Reset vault</string>
     <string name="vault_forgot_wrong">That answer doesn’t match. Try again.</string>
     <string name="vault_forgot_desc_question">Answer your recovery question to set a new PIN.</string>
@@ -689,7 +677,7 @@
     <string name="policy_h_ondevice">Smart features on your device</string>
     <string name="policy_b_ondevice">People, Places and Highlights are made on your phone. Faces are grouped on the device, and places come from the location saved inside your photos. To name a place, your phone\'s location service may be contacted.</string>
     <string name="policy_h_permissions">Permissions</string>
-    <string name="policy_b_permissions">Photos and videos: to show your gallery. Notifications: for charging, install and reminder alerts. Phone state and display over other apps: to show the call summary after a call. Fingerprint unlock is handled by your phone. You can say no to any of them or change them later in Settings.</string>
+    <string name="policy_b_permissions">Photos and videos: to show your gallery. Notifications: for charging, install and reminder alerts. Phone state and display over other apps: to show the call summary after a call. You can say no to any of them or change them later in Settings.</string>
     <string name="policy_h_ads">Ads and usage data</string>
     <string name="policy_b_ads">Gallery shows ads from Google AdMob and its own promotions. Google may use your advertising ID and your approximate region, found from your network, to show and measure ads. We use Firebase for crash reports, usage statistics and remote settings.</string>
     <string name="policy_h_choices">Your choices</string>

@@ -7,7 +7,7 @@ import java.security.SecureRandom
 
 /**
  * What the Photo vault remembers: a salted hash of the 4-digit PIN, the recovery question (its index and
- * a hash of the answer), the fingerprint, auto-lock and break-in alert settings. The vault items themselves
+ * a hash of the answer), the auto-lock and break-in alert settings. The vault items themselves
  * are in the database and the private vault folder (see VaultItemEntity). Kept in its own file so it never
  * mixes with the onboarding preferences.
  */
@@ -25,7 +25,6 @@ object VaultPrefs {
     private const val KEY_QUESTION = "recovery_question"
     private const val KEY_ANSWER_HASH = "recovery_answer_hash"
     private const val KEY_ANSWER_SALT = "recovery_answer_salt"
-    private const val KEY_FINGERPRINT = "fingerprint"
     private const val KEY_AUTO_LOCK = "auto_lock"
     private const val KEY_ALERTS = "alerts"
     private const val KEY_FOLDERS_SEEDED = "folders_seeded"
@@ -71,12 +70,6 @@ object VaultPrefs {
         return MessageDigest.isEqual(hash(salt, answer.trim().lowercase()).toByteArray(), stored.toByteArray())
     }
 
-    fun isFingerprintEnabled(context: Context): Boolean = prefs(context)?.getBoolean(KEY_FINGERPRINT, false) == true
-
-    fun setFingerprintEnabled(context: Context, enabled: Boolean) {
-        prefs(context)?.edit()?.putBoolean(KEY_FINGERPRINT, enabled)?.commit()
-    }
-
     fun autoLock(context: Context): Int =
         (prefs(context)?.getInt(KEY_AUTO_LOCK, AUTO_LOCK_IMMEDIATELY) ?: AUTO_LOCK_IMMEDIATELY)
             .coerceIn(AUTO_LOCK_IMMEDIATELY, AUTO_LOCK_SCREEN_OFF)
@@ -98,7 +91,7 @@ object VaultPrefs {
         prefs(context)?.edit()?.putBoolean(KEY_FOLDERS_SEEDED, seeded)?.commit()
     }
 
-    /** Forgets the PIN, recovery question, fingerprint and every setting (Reset vault). */
+    /** Forgets the PIN, recovery question and every setting (Reset vault). */
     fun clearAll(context: Context) {
         prefs(context)?.edit()?.clear()?.commit()
     }

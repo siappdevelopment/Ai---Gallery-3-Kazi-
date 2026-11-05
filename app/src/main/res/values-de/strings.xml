@@ -239,7 +239,7 @@
     <string name="search_no_results_desc">Versuche es mit einem anderen Dateinamen.</string>
 
     <string name="vault_intro_desc">Bewahre private Fotos und Videos hinter einer PIN auf. Sie sind in Galerie, Alben und Suche ausgeblendet.</string>
-    <string name="vault_intro_point_1">Gesperrt mit 4-stelliger PIN oder Fingerabdruck</string>
+    <string name="vault_intro_point_1">Gesperrt mit 4-stelliger PIN</string>
     <string name="vault_intro_point_2">Ausgeblendet in Galerie, Für dich und Suche</string>
     <string name="vault_intro_point_3">Bleibt auf diesem Gerät. Es wird nichts hochgeladen</string>
     <string name="vault_intro_cta">Tresor einrichten</string>
@@ -256,7 +256,6 @@
     <string name="vault_pin_wrong_attempts">Falsche PIN. %1$d fehlgeschlagene Versuche.</string>
     <string name="vault_pin_forgot">PIN vergessen?</string>
     <string name="vault_key_delete">Löschen</string>
-    <string name="vault_key_fingerprint">Fingerabdruck verwenden</string>
     <string name="vault_recovery_title">Wiederherstellungsfrage hinzufügen</string>
     <string name="vault_recovery_desc">Wenn du deine PIN vergisst, kannst du mit der Antwort auf diese Frage eine neue festlegen.</string>
     <string name="vault_recovery_q1">Wie hieß dein erstes Haustier?</string>
@@ -268,15 +267,6 @@
     <string name="vault_recovery_skip">Vorerst überspringen</string>
     <string name="vault_recovery_save">Speichern und weiter</string>
     <string name="vault_recovery_enter_answer">Gib eine Antwort ein</string>
-    <string name="vault_fp_title">Mit Fingerabdruck entsperren</string>
-    <string name="vault_fp_desc">Öffne deinen Tresor schneller mit dem auf diesem Telefon gespeicherten Fingerabdruck. Deine PIN funktioniert weiterhin jederzeit.</string>
-    <string name="vault_fp_use">Fingerabdruck verwenden</string>
-    <string name="vault_fp_later">Nicht jetzt</string>
-    <string name="vault_fp_none_enrolled">Füge zuerst in den Einstellungen deines Telefons einen Fingerabdruck hinzu.</string>
-    <string name="vault_fp_unavailable">Fingerabdruck ist auf diesem Telefon nicht verfügbar.</string>
-    <string name="vault_scan_title">Tresor entsperren</string>
-    <string name="vault_scan_desc">Berühre den Fingerabdrucksensor</string>
-    <string name="vault_scan_use_pin">Stattdessen PIN verwenden</string>
     <string name="vault_ready">Tresor ist bereit</string>
     <string name="vault_locked">Tresor gesperrt</string>
     <string name="vault_lock">Sperren</string>
@@ -325,8 +315,6 @@
     <string name="vault_action_failed">Bei einigen Objekten ist ein Fehler aufgetreten. Versuche es erneut.</string>
     <string name="vault_settings_security">Sicherheit</string>
     <string name="vault_change_pin">PIN ändern</string>
-    <string name="vault_fingerprint_unlock">Entsperren per Fingerabdruck</string>
-    <string name="vault_fingerprint_unlock_desc">Den auf diesem Telefon gespeicherten Fingerabdruck verwenden</string>
     <string name="vault_auto_lock">Automatisch sperren</string>
     <string name="vault_recovery_question">Wiederherstellungsfrage</string>
     <string name="vault_settings_alerts">Warnungen</string>
@@ -338,7 +326,7 @@
     <string name="vault_recovery_set">Festgelegt</string>
     <string name="vault_recovery_not_set">Nicht festgelegt</string>
     <string name="vault_reset_title">Tresor zurücksetzen?</string>
-    <string name="vault_reset_body">Alle Objekte kommen zurück in die Galerie, und deine PIN, dein Fingerabdruck und deine Wiederherstellungsfrage werden entfernt.</string>
+    <string name="vault_reset_body">Alle Objekte kommen zurück in die Galerie, und deine PIN und deine Wiederherstellungsfrage werden entfernt.</string>
     <string name="vault_reset_action">Tresor zurücksetzen</string>
     <string name="vault_forgot_wrong">Diese Antwort stimmt nicht überein. Versuche es erneut.</string>
     <string name="vault_forgot_desc_question">Beantworte deine Wiederherstellungsfrage, um eine neue PIN festzulegen.</string>
@@ -690,7 +678,7 @@
     <string name="policy_h_ondevice">Intelligente Funktionen auf Ihrem Gerät</string>
     <string name="policy_b_ondevice">Personen, Orte und Highlights werden auf Ihrem Telefon erstellt. Gesichter werden auf dem Gerät gruppiert, und Orte stammen aus dem in Ihren Fotos gespeicherten Standort. Um einen Ort zu benennen, wird möglicherweise der Standortdienst Ihres Telefons kontaktiert.</string>
     <string name="policy_h_permissions">Berechtigungen</string>
-    <string name="policy_b_permissions">Fotos und Videos: um Ihre Galerie anzuzeigen. Benachrichtigungen: für Lade-, Installations- und Erinnerungshinweise. Telefonstatus und Einblenden über anderen Apps: um die Anrufzusammenfassung nach einem Anruf anzuzeigen. Die Fingerabdruck-Entsperrung übernimmt Ihr Telefon. Sie können jede davon ablehnen oder später in den Einstellungen ändern.</string>
+    <string name="policy_b_permissions">Fotos und Videos: um Ihre Galerie anzuzeigen. Benachrichtigungen: für Lade-, Installations- und Erinnerungshinweise. Telefonstatus und Einblenden über anderen Apps: um die Anrufzusammenfassung nach einem Anruf anzuzeigen. Sie können jede davon ablehnen oder später in den Einstellungen ändern.</string>
     <string name="policy_h_ads">Werbung und Nutzungsdaten</string>
     <string name="policy_b_ads">Gallery zeigt Werbung von Google AdMob und eigene Aktionen. Google kann Ihre Werbe-ID und Ihre ungefähre Region, die über Ihr Netzwerk ermittelt wird, nutzen, um Werbung anzuzeigen und zu messen. Wir verwenden Firebase für Absturzberichte, Nutzungsstatistiken und Remote-Einstellungen.</string>
     <string name="policy_h_choices">Ihre Optionen</string>

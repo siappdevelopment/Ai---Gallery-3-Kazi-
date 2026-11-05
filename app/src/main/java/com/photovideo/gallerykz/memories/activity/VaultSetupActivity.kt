@@ -15,9 +15,6 @@ import androidx.activity.addCallback
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.biometric.BiometricManager
-import androidx.biometric.BiometricPrompt
-import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
@@ -34,9 +31,8 @@ import com.photovideo.gallerykz.memories.viewmodel.VaultSetupViewModel
 import com.photovideo.gallerykz.memories.viewmodel.VaultSettingsViewModel
 
 /**
- * Photo vault setup and unlock (designs 60-68, 81): intro, create / confirm PIN, recovery question and
- * fingerprint on first use, the PIN pad (with fingerprint) every time the vault is opened after that, and
- * Forgot PIN. The vault settings reuse it to change the PIN and edit the recovery question. Once the vault
+ * Photo vault setup and unlock (designs 60-68, 81): intro, create / confirm PIN and recovery question on
+ * first use, the PIN pad every time the vault is opened after that, and Forgot PIN. The vault settings reuse it to change the PIN and edit the recovery question. Once the vault
  * is open it hands over to [VaultMediaActivity].
  */
 class VaultSetupActivity : AdAwareActivity() {
@@ -45,35 +41,11 @@ class VaultSetupActivity : AdAwareActivity() {
     private val viewModel: VaultSetupViewModel by viewModels()
     private val settings: VaultSettingsViewModel by viewModels()
 
-    private lateinit var biometricPrompt: BiometricPrompt
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
 
-        // Built here, not on first use, so the prompt survives the activity being recreated while it is open.
-        biometricPrompt = BiometricPrompt(
-            this,
-            ContextCompat.getMainExecutor(this),
-            object : BiometricPrompt.AuthenticationCallback() {
-                override fun onAuthenticationSucceeded(result: BiometricPrompt.AuthenticationResult) {
-                    viewModel.onFingerprintSuccess()
-                }
-
-                override fun onAuthenticationError(errorCode: Int, errString: CharSequence) {
-                    // Dismissing the prompt ("Use PIN instead", back, tap outside) just leaves the screen as it was.
-                    if (errorCode == BiometricPrompt.ERROR_USER_CANCELED ||
-                        errorCode == BiometricPrompt.ERROR_NEGATIVE_BUTTON ||
-                        errorCode == BiometricPrompt.ERROR_CANCELED
-                    ) {
-                        return
-                    }
-                    Toast.makeText(applicationContext, errString, Toast.LENGTH_SHORT).show()
-                }
-            },
-        )
-
-        val b = ActivityVaultSetupBinding.inflate(layoutInflater)
+        val b =ActivityVaultSetupBinding.inflate(layoutInflater)
         binding = b
         setContentView(b.root)
         AdHooks.install(this, AdScreen.VAULT_SETUP)
@@ -89,7 +61,6 @@ class VaultSetupActivity : AdAwareActivity() {
         setUpIntro(b)
         setUpPin(b)
         setUpRecovery(b)
-        setUpFingerprint(b)
         setUpForgot(b)
 
         viewModel.step.observe(this) { showStep(b, it) }
@@ -98,9 +69,6 @@ class VaultSetupActivity : AdAwareActivity() {
             event.getContentIfNotHandled()?.let {
                 Toast.makeText(applicationContext, it, Toast.LENGTH_SHORT).show()
             }
-        }
-        viewModel.showFingerprintPrompt.observe(this) { event ->
-            event.getContentIfNotHandled()?.let { showFingerprintPrompt() }
         }
         viewModel.openVault.observe(this) { event ->
             event.getContentIfNotHandled()?.let {
@@ -145,7 +113,6 @@ class VaultSetupActivity : AdAwareActivity() {
             pin.key5, pin.key6, pin.key7, pin.key8, pin.key9,
         ).forEachIndexed { digit, key -> key.setOnClickListener { viewModel.onDigit(digit) } }
         pin.keyDelete.setOnClickListener { viewModel.onDelete() }
-        pin.keyFingerprint.setOnClickListener { viewModel.onFingerprintKey() }
         pin.btnForgot.setOnClickListener { viewModel.showForgot() }
     }
 
@@ -185,11 +152,6 @@ class VaultSetupActivity : AdAwareActivity() {
         b.panelRecovery.question3 to QUESTIONS[2],
     )
 
-    private fun setUpFingerprint(b: ActivityVaultSetupBinding) {
-        b.panelFingerprint.btnUse.setOnClickListener { viewModel.useFingerprint() }
-        b.panelFingerprint.btnLater.setOnClickListener { viewModel.skipFingerprint() }
-    }
-
     private fun setUpForgot(b: ActivityVaultSetupBinding) {
         val forgot = b.panelForgot
         forgot.btnBack.setOnClickListener { viewModel.onBack() }
@@ -214,10 +176,8 @@ class VaultSetupActivity : AdAwareActivity() {
         b.panelIntro.root.visibility = if (step == VaultStep.INTRO) View.VISIBLE else View.GONE
         b.panelPin.root.visibility = if (step == VaultStep.PIN) View.VISIBLE else View.GONE
         b.panelRecovery.root.visibility = if (step == VaultStep.RECOVERY) View.VISIBLE else View.GONE
-        b.panelFingerprint.root.visibility = if (step == VaultStep.FINGERPRINT) View.VISIBLE else View.GONE
         b.panelForgot.root.visibility = if (step == VaultStep.FORGOT) View.VISIBLE else View.GONE
         b.panelRecovery.tvStep.text = getString(R.string.vault_step, 2, STEPS)
-        b.panelFingerprint.tvStep.text = getString(R.string.vault_step, 3, STEPS)
         if (step == VaultStep.FORGOT) renderForgot(b)
         if (step != VaultStep.RECOVERY && step != VaultStep.FORGOT) {
             WindowCompat.getInsetsController(window, b.root).hide(WindowInsetsCompat.Type.ime())
@@ -277,20 +237,7 @@ class VaultSetupActivity : AdAwareActivity() {
                 }
         }
 
-        pin.keyFingerprint.visibility = if (ui.fingerprintKey) View.VISIBLE else View.INVISIBLE
-        pin.keyFingerprint.isEnabled = ui.fingerprintKey
         pin.btnForgot.visibility = if (ui.mode == VaultPinMode.UNLOCK) View.VISIBLE else View.INVISIBLE
-    }
-
-    private fun showFingerprintPrompt() {
-        val info = BiometricPrompt.PromptInfo.Builder()
-            .setTitle(getString(R.string.vault_scan_title))
-            .setSubtitle(getString(R.string.vault_scan_desc))
-            .setNegativeButtonText(getString(R.string.vault_scan_use_pin))
-            .setAllowedAuthenticators(BiometricManager.Authenticators.BIOMETRIC_STRONG)
-            .setConfirmationRequired(false)
-            .build()
-        biometricPrompt.authenticate(info)
     }
 
     override fun onDestroy() {
@@ -299,7 +246,7 @@ class VaultSetupActivity : AdAwareActivity() {
     }
 
     companion object {
-        private const val STEPS = 3
+        private const val STEPS = 2
         private const val MIN_ANSWER = 2
         private const val FAILED_ATTEMPTS_SHOWN = 3
         private const val DOT_FILLED_SCALE = 1.15f

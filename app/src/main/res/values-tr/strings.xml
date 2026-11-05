@@ -239,7 +239,7 @@
     <string name="search_no_results_desc">Başka bir dosya adı deneyin.</string>
 
     <string name="vault_intro_desc">Özel fotoğraf ve videolarınızı bir PIN ile koruyun. Galeri, albümler ve aramada gizlenir.</string>
-    <string name="vault_intro_point_1">4 haneli PIN veya parmak iziyle kilitli</string>
+    <string name="vault_intro_point_1">4 haneli PIN ile kilitli</string>
     <string name="vault_intro_point_2">Galeri, Sana özel ve aramadan gizlenir</string>
     <string name="vault_intro_point_3">Bu cihazda kalır. Hiçbir şey yüklenmez</string>
     <string name="vault_intro_cta">Kasayı kur</string>
@@ -256,7 +256,6 @@
     <string name="vault_pin_wrong_attempts">Yanlış PIN. %1$d başarısız deneme.</string>
     <string name="vault_pin_forgot">PIN’i mi unuttunuz?</string>
     <string name="vault_key_delete">Sil</string>
-    <string name="vault_key_fingerprint">Parmak izi kullan</string>
     <string name="vault_recovery_title">Kurtarma sorusu ekleyin</string>
     <string name="vault_recovery_desc">PIN’inizi unutursanız bu soruyu yanıtlayarak yenisini belirleyebilirsiniz.</string>
     <string name="vault_recovery_q1">İlk evcil hayvanınızın adı neydi?</string>
@@ -268,15 +267,6 @@
     <string name="vault_recovery_skip">Şimdilik atla</string>
     <string name="vault_recovery_save">Kaydet ve devam et</string>
     <string name="vault_recovery_enter_answer">Bir yanıt girin</string>
-    <string name="vault_fp_title">Parmak iziyle kilidi aç</string>
-    <string name="vault_fp_desc">Bu telefonda kayıtlı parmak iziyle kasanızı daha hızlı açın. PIN’iniz her zaman çalışmaya devam eder.</string>
-    <string name="vault_fp_use">Parmak izi kullan</string>
-    <string name="vault_fp_later">Şimdi değil</string>
-    <string name="vault_fp_none_enrolled">Önce telefonunuzun ayarlarından bir parmak izi ekleyin.</string>
-    <string name="vault_fp_unavailable">Parmak izi bu telefonda kullanılamıyor.</string>
-    <string name="vault_scan_title">Kasanın kilidini aç</string>
-    <string name="vault_scan_desc">Parmak izi sensörüne dokunun</string>
-    <string name="vault_scan_use_pin">Bunun yerine PIN kullan</string>
     <string name="vault_ready">Kasa hazır</string>
     <string name="vault_locked">Kasa kilitlendi</string>
     <string name="vault_lock">Kilitle</string>
@@ -325,8 +315,6 @@
     <string name="vault_action_failed">Bazı öğeler için işlem tamamlanamadı. Lütfen tekrar deneyin.</string>
     <string name="vault_settings_security">Güvenlik</string>
     <string name="vault_change_pin">PIN’i değiştir</string>
-    <string name="vault_fingerprint_unlock">Parmak iziyle kilit açma</string>
-    <string name="vault_fingerprint_unlock_desc">Bu telefonda kayıtlı parmak izini kullan</string>
     <string name="vault_auto_lock">Otomatik kilit</string>
     <string name="vault_recovery_question">Kurtarma sorusu</string>
     <string name="vault_settings_alerts">Uyarılar</string>
@@ -338,7 +326,7 @@
     <string name="vault_recovery_set">Ayarlandı</string>
     <string name="vault_recovery_not_set">Ayarlanmadı</string>
     <string name="vault_reset_title">Kasa sıfırlansın mı?</string>
-    <string name="vault_reset_body">Tüm öğeler Galeri’ye döner; PIN’iniz, parmak iziniz ve kurtarma sorunuz kaldırılır.</string>
+    <string name="vault_reset_body">Tüm öğeler Galeri’ye döner; PIN’iniz ve kurtarma sorunuz kaldırılır.</string>
     <string name="vault_reset_action">Kasayı sıfırla</string>
     <string name="vault_forgot_wrong">Bu yanıt eşleşmiyor. Tekrar deneyin.</string>
     <string name="vault_forgot_desc_question">Yeni bir PIN belirlemek için kurtarma sorunuzu yanıtlayın.</string>
@@ -690,7 +678,7 @@
     <string name="policy_h_ondevice">Cihazınızdaki akıllı özellikler</string>
     <string name="policy_b_ondevice">Kişiler, Yerler ve Öne Çıkanlar telefonunuzda oluşturulur. Yüzler cihazda gruplanır, yerler ise fotoğraflarınızda kayıtlı konumdan gelir. Bir yerin adını bulmak için telefonunuzun konum hizmetiyle iletişim kurulabilir.</string>
     <string name="policy_h_permissions">İzinler</string>
-    <string name="policy_b_permissions">Fotoğraflar ve videolar: galerinizi göstermek için. Bildirimler: şarj, yükleme ve hatırlatma uyarıları için. Telefon durumu ve diğer uygulamaların üzerinde gösterme: arama sonrasında arama özetini göstermek için. Parmak izi kilit açma telefonunuz tarafından yönetilir. Herhangi birini reddedebilir veya daha sonra Ayarlar\'dan değiştirebilirsiniz.</string>
+    <string name="policy_b_permissions">Fotoğraflar ve videolar: galerinizi göstermek için. Bildirimler: şarj, yükleme ve hatırlatma uyarıları için. Telefon durumu ve diğer uygulamaların üzerinde gösterme: arama sonrasında arama özetini göstermek için. Herhangi birini reddedebilir veya daha sonra Ayarlar\'dan değiştirebilirsiniz.</string>
     <string name="policy_h_ads">Reklamlar ve kullanım verileri</string>
     <string name="policy_b_ads">Gallery, Google AdMob reklamlarını ve kendi tanıtımlarını gösterir. Google, reklamları göstermek ve ölçmek için reklam kimliğinizi ve ağınızdan belirlenen yaklaşık bölgenizi kullanabilir. Çökme raporları, kullanım istatistikleri ve uzaktan ayarlar için Firebase kullanırız.</string>
     <string name="policy_h_choices">Seçimleriniz</string>

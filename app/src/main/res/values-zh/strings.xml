@@ -236,7 +236,7 @@
     <string name="search_no_results_desc">请尝试其他文件名。</string>
 
     <string name="vault_intro_desc">用 PIN 码保护私密照片和视频，它们会从图库、相册和搜索中隐藏。</string>
-    <string name="vault_intro_point_1">使用 4 位 PIN 码或指纹锁定</string>
+    <string name="vault_intro_point_1">使用 4 位 PIN 码锁定</string>
     <string name="vault_intro_point_2">在图库、为你推荐和搜索中隐藏</string>
     <string name="vault_intro_point_3">仅保存在此设备上，不会上传任何内容</string>
     <string name="vault_intro_cta">设置保险箱</string>
@@ -253,7 +253,6 @@
     <string name="vault_pin_wrong_attempts">PIN 码错误，已失败 %1$d 次。</string>
     <string name="vault_pin_forgot">忘记 PIN 码？</string>
     <string name="vault_key_delete">删除</string>
-    <string name="vault_key_fingerprint">使用指纹</string>
     <string name="vault_recovery_title">添加找回问题</string>
     <string name="vault_recovery_desc">如果你忘记了 PIN 码，回答此问题即可设置新的 PIN 码。</string>
     <string name="vault_recovery_q1">你的第一只宠物叫什么名字？</string>
@@ -265,15 +264,6 @@
     <string name="vault_recovery_skip">暂时跳过</string>
     <string name="vault_recovery_save">保存并继续</string>
     <string name="vault_recovery_enter_answer">请输入答案</string>
-    <string name="vault_fp_title">使用指纹解锁</string>
-    <string name="vault_fp_desc">使用已保存在此手机上的指纹，更快打开保险箱。PIN 码始终可用。</string>
-    <string name="vault_fp_use">使用指纹</string>
-    <string name="vault_fp_later">以后再说</string>
-    <string name="vault_fp_none_enrolled">请先在手机设置中添加指纹。</string>
-    <string name="vault_fp_unavailable">此手机不支持指纹。</string>
-    <string name="vault_scan_title">解锁保险箱</string>
-    <string name="vault_scan_desc">请触摸指纹传感器</string>
-    <string name="vault_scan_use_pin">改用 PIN 码</string>
     <string name="vault_ready">保险箱已就绪</string>
     <string name="vault_locked">保险箱已锁定</string>
     <string name="vault_lock">锁定</string>
@@ -321,8 +311,6 @@
     <string name="vault_action_failed">部分项目未能完成，请重试。</string>
     <string name="vault_settings_security">安全</string>
     <string name="vault_change_pin">更改 PIN 码</string>
-    <string name="vault_fingerprint_unlock">指纹解锁</string>
-    <string name="vault_fingerprint_unlock_desc">使用已保存在此手机上的指纹</string>
     <string name="vault_auto_lock">自动锁定</string>
     <string name="vault_recovery_question">找回问题</string>
     <string name="vault_settings_alerts">提醒</string>
@@ -334,7 +322,7 @@
     <string name="vault_recovery_set">已设置</string>
     <string name="vault_recovery_not_set">未设置</string>
     <string name="vault_reset_title">重置保险箱？</string>
-    <string name="vault_reset_body">所有项目将回到图库，你的 PIN 码、指纹和找回问题将被移除。</string>
+    <string name="vault_reset_body">所有项目将回到图库，你的 PIN 码和找回问题将被移除。</string>
     <string name="vault_reset_action">重置保险箱</string>
     <string name="vault_forgot_wrong">答案不匹配，请重试。</string>
     <string name="vault_forgot_desc_question">回答找回问题以设置新的 PIN 码。</string>
@@ -683,7 +671,7 @@
     <string name="policy_h_ondevice">设备上的智能功能</string>
     <string name="policy_b_ondevice">人物、地点和精彩时刻都在您的手机上生成。人脸在设备上分组，地点来自照片中保存的位置信息。为地点命名时，可能会联系手机的定位服务。</string>
     <string name="policy_h_permissions">权限</string>
-    <string name="policy_b_permissions">照片和视频：用于显示您的图库。通知：用于充电、安装和提醒通知。手机状态和在其他应用上层显示：用于在通话结束后显示通话摘要。指纹解锁由您的手机处理。您可以拒绝任何权限，也可以稍后在设置中更改。</string>
+    <string name="policy_b_permissions">照片和视频：用于显示您的图库。通知：用于充电、安装和提醒通知。手机状态和在其他应用上层显示：用于在通话结束后显示通话摘要。您可以拒绝任何权限，也可以稍后在设置中更改。</string>
     <string name="policy_h_ads">广告和使用数据</string>
     <string name="policy_b_ads">Gallery 会显示来自 Google AdMob 的广告以及自家的推广内容。Google 可能会使用您的广告 ID 和通过网络获得的大致地区来展示和衡量广告。我们使用 Firebase 来获取崩溃报告、使用统计和远程设置。</string>
     <string name="policy_h_choices">您的选择</string>

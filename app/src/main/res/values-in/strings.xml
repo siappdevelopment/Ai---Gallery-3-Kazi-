@@ -236,7 +236,7 @@
     <string name="search_no_results_desc">Coba nama file yang lain.</string>
 
     <string name="vault_intro_desc">Simpan foto dan video pribadi di balik PIN. Semuanya disembunyikan dari Galeri, album, dan pencarian.</string>
-    <string name="vault_intro_point_1">Dikunci dengan PIN 4 digit atau sidik jari</string>
+    <string name="vault_intro_point_1">Dikunci dengan PIN 4 digit</string>
     <string name="vault_intro_point_2">Disembunyikan dari Galeri, Untuk Anda, dan pencarian</string>
     <string name="vault_intro_point_3">Tetap di perangkat ini. Tidak ada yang diunggah</string>
     <string name="vault_intro_cta">Siapkan brankas</string>
@@ -253,7 +253,6 @@
     <string name="vault_pin_wrong_attempts">PIN salah. %1$d percobaan gagal.</string>
     <string name="vault_pin_forgot">Lupa PIN?</string>
     <string name="vault_key_delete">Hapus</string>
-    <string name="vault_key_fingerprint">Gunakan sidik jari</string>
     <string name="vault_recovery_title">Tambahkan pertanyaan pemulihan</string>
     <string name="vault_recovery_desc">Jika Anda lupa PIN, menjawab pertanyaan ini memungkinkan Anda menetapkan PIN baru.</string>
     <string name="vault_recovery_q1">Siapa nama hewan peliharaan pertama Anda?</string>
@@ -265,15 +264,6 @@
     <string name="vault_recovery_skip">Lewati dulu</string>
     <string name="vault_recovery_save">Simpan dan lanjutkan</string>
     <string name="vault_recovery_enter_answer">Masukkan jawaban</string>
-    <string name="vault_fp_title">Buka kunci dengan sidik jari</string>
-    <string name="vault_fp_desc">Buka brankas lebih cepat dengan sidik jari yang tersimpan di ponsel ini. PIN Anda tetap bisa dipakai kapan saja.</string>
-    <string name="vault_fp_use">Gunakan sidik jari</string>
-    <string name="vault_fp_later">Nanti saja</string>
-    <string name="vault_fp_none_enrolled">Tambahkan sidik jari di pengaturan ponsel Anda terlebih dahulu.</string>
-    <string name="vault_fp_unavailable">Sidik jari tidak tersedia di ponsel ini.</string>
-    <string name="vault_scan_title">Buka kunci brankas</string>
-    <string name="vault_scan_desc">Sentuh sensor sidik jari</string>
-    <string name="vault_scan_use_pin">Gunakan PIN</string>
     <string name="vault_ready">Brankas siap digunakan</string>
     <string name="vault_locked">Brankas terkunci</string>
     <string name="vault_lock">Kunci</string>
@@ -321,8 +311,6 @@
     <string name="vault_action_failed">Tidak dapat menyelesaikan untuk beberapa item. Coba lagi.</string>
     <string name="vault_settings_security">Keamanan</string>
     <string name="vault_change_pin">Ubah PIN</string>
-    <string name="vault_fingerprint_unlock">Buka kunci dengan sidik jari</string>
-    <string name="vault_fingerprint_unlock_desc">Gunakan sidik jari yang tersimpan di ponsel ini</string>
     <string name="vault_auto_lock">Kunci otomatis</string>
     <string name="vault_recovery_question">Pertanyaan pemulihan</string>
     <string name="vault_settings_alerts">Peringatan</string>
@@ -334,7 +322,7 @@
     <string name="vault_recovery_set">Sudah diatur</string>
     <string name="vault_recovery_not_set">Belum diatur</string>
     <string name="vault_reset_title">Reset brankas?</string>
-    <string name="vault_reset_body">Semua item kembali ke Galeri, dan PIN, sidik jari, serta pertanyaan pemulihan Anda dihapus.</string>
+    <string name="vault_reset_body">Semua item kembali ke Galeri, dan PIN serta pertanyaan pemulihan Anda dihapus.</string>
     <string name="vault_reset_action">Reset brankas</string>
     <string name="vault_forgot_wrong">Jawaban itu tidak cocok. Coba lagi.</string>
     <string name="vault_forgot_desc_question">Jawab pertanyaan pemulihan Anda untuk mengatur PIN baru.</string>
@@ -683,7 +671,7 @@
     <string name="policy_h_ondevice">Fitur pintar di perangkat Anda</string>
     <string name="policy_b_ondevice">Orang, Tempat, dan Sorotan dibuat di ponsel Anda. Wajah dikelompokkan di perangkat, dan tempat berasal dari lokasi yang tersimpan di dalam foto Anda. Untuk menamai sebuah tempat, layanan lokasi ponsel Anda mungkin dihubungi.</string>
     <string name="policy_h_permissions">Izin</string>
-    <string name="policy_b_permissions">Foto dan video: untuk menampilkan galeri Anda. Notifikasi: untuk peringatan pengisian daya, instalasi, dan pengingat. Status ponsel dan tampilan di atas aplikasi lain: untuk menampilkan ringkasan panggilan setelah panggilan. Buka kunci sidik jari ditangani oleh ponsel Anda. Anda dapat menolak izin mana pun atau mengubahnya nanti di Pengaturan.</string>
+    <string name="policy_b_permissions">Foto dan video: untuk menampilkan galeri Anda. Notifikasi: untuk peringatan pengisian daya, instalasi, dan pengingat. Status ponsel dan tampilan di atas aplikasi lain: untuk menampilkan ringkasan panggilan setelah panggilan. Anda dapat menolak izin mana pun atau mengubahnya nanti di Pengaturan.</string>
     <string name="policy_h_ads">Iklan dan data penggunaan</string>
     <string name="policy_b_ads">Gallery menampilkan iklan dari Google AdMob dan promosinya sendiri. Google dapat menggunakan ID iklan Anda dan perkiraan wilayah Anda, yang diketahui dari jaringan Anda, untuk menampilkan dan mengukur iklan. Kami menggunakan Firebase untuk laporan kerusakan, statistik penggunaan, dan pengaturan jarak jauh.</string>
     <string name="policy_h_choices">Pilihan Anda</string>

@@ -21,10 +21,6 @@
         layout="@layout/layout_vault_recovery" />
 
     <include
-        android:id="@+id/panelFingerprint"
-        layout="@layout/layout_vault_fingerprint" />
-
-    <include
         android:id="@+id/panelForgot"
         layout="@layout/layout_vault_forgot" />
 </FrameLayout>

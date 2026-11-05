@@ -6,7 +6,7 @@ import androidx.annotation.StringRes
 import com.photovideo.gallerykz.memories.database.VaultItemEntity
 
 /** The setup / unlock screens of the vault; each one is a panel of VaultSetupActivity. */
-enum class VaultStep { INTRO, PIN, RECOVERY, FINGERPRINT, FORGOT }
+enum class VaultStep { INTRO, PIN, RECOVERY, FORGOT }
 
 /** What the PIN pad is asking for: a new vault, unlocking, changing the PIN, or a new PIN after "Forgot PIN". */
 enum class VaultPinMode { CREATE, CONFIRM, UNLOCK, CHANGE_OLD, CHANGE_NEW, CHANGE_CONFIRM, RESET_CREATE, RESET_CONFIRM }
@@ -23,7 +23,6 @@ data class VaultPinUi(
     val mode: VaultPinMode,
     val filled: Int,
     val error: VaultPinError?,
-    val fingerprintKey: Boolean,
 )
 
 /** Which part of the vault a folder screen shows: the three built-in views or a folder the user made. */

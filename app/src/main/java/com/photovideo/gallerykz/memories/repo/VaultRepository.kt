@@ -50,8 +50,6 @@ class VaultRepository(context: Context) {
 
     val isSetUp: Boolean get() = VaultPrefs.hasPin(app)
 
-    val isFingerprintEnabled: Boolean get() = VaultPrefs.isFingerprintEnabled(app)
-
     val hasRecovery: Boolean get() = VaultPrefs.hasRecovery(app)
 
     /** Index of the recovery question, -1 when there is none. */
@@ -72,8 +70,6 @@ class VaultRepository(context: Context) {
     fun verifyAnswer(answer: String): Boolean = VaultPrefs.verifyAnswer(app, answer)
 
     fun saveRecovery(question: Int, answer: String) = VaultPrefs.saveRecovery(app, question, answer)
-
-    fun setFingerprintEnabled(enabled: Boolean) = VaultPrefs.setFingerprintEnabled(app, enabled)
 
     // ---- live data for the screens
 
@@ -370,7 +366,7 @@ class VaultRepository(context: Context) {
     }
 
     /**
-     * Reset vault: every item goes back to the gallery, then the PIN, fingerprint, recovery question,
+     * Reset vault: every item goes back to the gallery, then the PIN, recovery question,
      * settings, folders and alerts are removed. False (and the vault is kept as it was) when an item
      * could not be restored.
      */
