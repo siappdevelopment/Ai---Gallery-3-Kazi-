@@ -46,7 +46,10 @@ class SelectionBarController(
 
     init {
         bars.btnClose.setOnClickListener { viewModel.clear() }
-        bars.btnSelectAll.setOnClickListener { viewModel.selectAll() }
+        // Once everything is selected the same button unselects everything again.
+        bars.btnSelectAll.setOnClickListener {
+            if (viewModel.allSelected.value == true) viewModel.deselectAll() else viewModel.selectAll()
+        }
         bars.actShare.setOnClickListener { withSelection { share(it) } }
         bars.actFavorite.setOnClickListener { withSelection { viewModel.favorite() } }
         bars.actAddToAlbum.setOnClickListener { withSelection { showSheet(false) } }
@@ -82,6 +85,9 @@ class SelectionBarController(
         bars.tvFavoriteAction.setText(if (unfavorite) R.string.selection_unfavorite else R.string.viewer_favorite)
         onActiveChanged(active)
         bars.tvSelected.text = activity.getString(R.string.selection_selected, viewModel.count())
+        bars.btnSelectAll.setText(
+            if (viewModel.allSelected.value == true) R.string.suggest_deselect_all else R.string.selection_select_all,
+        )
         onSelectionChanged()
     }
 

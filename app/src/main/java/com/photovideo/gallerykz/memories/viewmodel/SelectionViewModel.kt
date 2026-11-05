@@ -138,6 +138,7 @@ class SelectionViewModel(
 
     fun clear() {
         setActive(false)
+        selectableTotal = 0
         publish(emptySet())
     }
 
@@ -148,9 +149,26 @@ class SelectionViewModel(
             } catch (e: SecurityException) {
                 emptySet()
             }
-            mainHandler.post { publish(all) }
+            mainHandler.post {
+                selectableTotal = all.size
+                publish(all)
+            }
         }
     }
+
+    /** "Deselect all": unselects everything at once and stays in selection mode, so another selection can be started. */
+    fun deselectAll() {
+        publish(emptySet())
+    }
+
+    /** How many items "Select all" selected; 0 until it was used. The button turns into "Deselect all" once all are selected. */
+    @Volatile
+    private var selectableTotal = 0
+
+    private val _allSelected = MutableLiveData(false)
+
+    /** True while every item of the grid is selected. */
+    val allSelected: LiveData<Boolean> = _allSelected
 
     fun favorite() {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.R) {
@@ -271,6 +289,8 @@ class SelectionViewModel(
     }
 
     private fun publish(set: Set<Long>) {
+        // Set first: the selection observers read it as soon as the selection changes.
+        _allSelected.value = selectableTotal > 0 && set.size >= selectableTotal
         _selected.value = set
         persist(set)
         refreshFavoriteState(set)
