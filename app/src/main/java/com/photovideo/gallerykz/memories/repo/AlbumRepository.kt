@@ -69,6 +69,20 @@ class AlbumRepository(context: Context) {
         }
     }
 
+    /** Puts [uids] into the app album [albumId] (items it already has are left alone). [onDone] gets false when it failed. */
+    fun addItems(albumId: Long, uids: List<Long>, onDone: (Boolean) -> Unit) {
+        executor.execute {
+            val ok = try {
+                val now = System.currentTimeMillis()
+                dao.insertItems(uids.map { AlbumItemEntity(albumId, it, now) })
+                true
+            } catch (e: Exception) {
+                false
+            }
+            onDone(ok)
+        }
+    }
+
     /** Gives an app album a new name; the name must be non-empty and not used by another album. */
     fun renameAlbum(albumId: Long, rawName: String, onDone: (Result) -> Unit) {
         val name = rawName.trim().take(MAX_NAME)

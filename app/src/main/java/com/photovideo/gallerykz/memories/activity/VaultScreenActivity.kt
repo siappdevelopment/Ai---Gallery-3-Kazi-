@@ -3,6 +3,7 @@ package com.photovideo.gallerykz.memories.activity
 import com.photovideo.gallerykz.memories.ads.AdAwareActivity
 
 import android.os.Bundle
+import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
 import com.photovideo.gallerykz.memories.helper.VaultSession
 
@@ -15,6 +16,8 @@ abstract class VaultScreenActivity : AdAwareActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        // The vault holds private photos and videos: no screenshots, no screen recording, and a blank thumbnail in Recents.
+        window.setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE)
         VaultSession.register(this)
     }
 

@@ -87,6 +87,12 @@ class AlbumDetailActivity : AdAwareActivity() {
             onSelectionChanged = { gridAdapter?.refreshSelection() },
         )
         b.btnSelect.setOnClickListener { selectionViewModel.begin() }
+        // An app album can always be filled again, also after all its photos were removed; folders and collections cannot.
+        val canAdd = viewModel.sourceKind == AlbumKind.USER
+        b.btnAddPhotos.visibility = if (canAdd) View.VISIBLE else View.GONE
+        val addPhotos = { startActivity(AlbumPickActivity.intent(this, viewModel.sourceId, viewModel.title)) }
+        b.btnAddPhotos.setOnClickListener { addPhotos() }
+        b.btnEmptyAdd.setOnClickListener { addPhotos() }
         val mediaAdapter = MediaPagingAdapter((resources.displayMetrics.widthPixels / columns).coerceAtLeast(1), { openMedia(it) }, bars.selection)
         gridAdapter = mediaAdapter
         adapter = mediaAdapter
@@ -110,6 +116,8 @@ class AlbumDetailActivity : AdAwareActivity() {
             val searching = q.isNotEmpty()
             b.tvEmptyTitle.setText(if (searching) R.string.search_no_results else R.string.photo_filter_empty_title)
             b.tvEmptyDesc.setText(if (searching) R.string.search_no_results_desc else R.string.photo_filter_empty_desc)
+            // The empty album offers "Add photos" right where it says there is nothing.
+            b.btnEmptyAdd.visibility = if (!searching && viewModel.sourceKind == AlbumKind.USER) View.VISIBLE else View.GONE
         }
         viewModel.media.observe(this) { data -> mediaAdapter.submitData(lifecycle, data) }
         viewModel.count.observe(this) { headerAdapter.setCount(it ?: 0) }
@@ -147,6 +155,7 @@ class AlbumDetailActivity : AdAwareActivity() {
         // Selecting works on the whole album, so it waits until the search is closed.
         b.btnSelect.visibility = if (open) View.GONE else View.VISIBLE
         b.btnSearch.visibility = if (open) View.GONE else View.VISIBLE
+        if (viewModel.sourceKind == AlbumKind.USER) b.btnAddPhotos.visibility = if (open) View.GONE else View.VISIBLE
         if (open) {
             if (focus) {
                 b.etSearch.requestFocus()
