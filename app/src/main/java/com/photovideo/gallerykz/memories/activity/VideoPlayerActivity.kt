@@ -73,7 +73,14 @@ class VideoPlayerActivity : AdAwareActivity() {
     /** What to do once the system confirmation (favorite / delete) was accepted. */
     private var pendingAction: (() -> Unit)? = null
 
+    /**
+     * A system confirmation (favorite / bin) is open over the player. Its dialog only covers the screen, so the video
+     * keeps playing underneath: pausing here and seeking back on return made it stutter and jump back.
+     */
+    private var requestOpen = false
+
     private val requestLauncher = registerForActivityResult(ActivityResultContracts.StartIntentSenderForResult()) { result ->
+        requestOpen = false
         val action = pendingAction
         pendingAction = null
         if (result.resultCode == RESULT_OK) {
@@ -400,7 +407,14 @@ class VideoPlayerActivity : AdAwareActivity() {
 
     private fun launchRequest(request: PendingIntent, onAccepted: () -> Unit) {
         pendingAction = onAccepted
-        requestLauncher.launch(IntentSenderRequest.Builder(request.intentSender).build())
+        requestOpen = true
+        try {
+            requestLauncher.launch(IntentSenderRequest.Builder(request.intentSender).build())
+        } catch (e: Exception) {
+            requestOpen = false
+            pendingAction = null
+            Toast.makeText(applicationContext, R.string.bin_failed, Toast.LENGTH_SHORT).show()
+        }
     }
 
     // ---- lifecycle ----
@@ -415,14 +429,26 @@ class VideoPlayerActivity : AdAwareActivity() {
             } catch (e: IllegalStateException) {
                 resumeAtMs
             }
-            pause()
+            // Only a dialog is on top (favorite / bin confirmation): the video keeps playing. onStop pauses it if the
+            // screen really goes away.
+            if (!requestOpen) pause()
         }
         super.onPause()
     }
 
+    override fun onStop() {
+        // The screen is really gone (home, another app): now the video pauses, and onResume continues it.
+        if (playing) {
+            wasPlayingBeforePause = true
+            pause()
+        }
+        super.onStop()
+    }
+
     override fun onResume() {
         super.onResume()
-        if (prepared && wasPlayingBeforePause && !failed) {
+        // Nothing to restore while the video never stopped (after a dialog); seeking then would jump it back.
+        if (prepared && wasPlayingBeforePause && !failed && !playing) {
             binding?.videoView?.seekTo(resumeAtMs)
             play()
         }
