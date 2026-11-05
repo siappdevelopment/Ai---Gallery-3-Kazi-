@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.ViewTreeObserver
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
@@ -148,10 +149,41 @@ class AddToAlbumBottomSheet : BottomSheetDialogFragment() {
         b.formGroup.visibility = if (show) View.VISIBLE else View.GONE
         b.tvAlbumError.visibility = View.GONE
         if (show) {
-            b.etAlbumName.requestFocus()
+            // The name form is what the user came for: the field gets the focus and the keyboard opens at once.
+            showKeyboardWhenReady()
         } else {
             hideKeyboard()
         }
+    }
+
+    /**
+     * Focuses the album name field and opens the keyboard. Focus alone does not open it, and the sheet's window may not exist or have
+     * the focus yet (the sheet opens straight into the form), so when the window is not ready this waits for it to gain the focus
+     * instead of guessing with a delay. The keyboard is opened through the window's insets controller, on the next frame, so it
+     * never races the sheet's own layout; everything is skipped when the view is already gone.
+     */
+    private fun showKeyboardWhenReady() {
+        val field = binding?.etAlbumName ?: return
+        field.requestFocus()
+        if (field.isAttachedToWindow && field.hasWindowFocus()) {
+            field.post { openKeyboard() }
+            return
+        }
+        field.viewTreeObserver.addOnWindowFocusChangeListener(object : ViewTreeObserver.OnWindowFocusChangeListener {
+            override fun onWindowFocusChanged(hasFocus: Boolean) {
+                if (!hasFocus) return
+                // One shot: take the listener off the current observer, then open the keyboard.
+                if (field.viewTreeObserver.isAlive) field.viewTreeObserver.removeOnWindowFocusChangeListener(this)
+                field.post { openKeyboard() }
+            }
+        })
+    }
+
+    private fun openKeyboard() {
+        val field = _binding?.etAlbumName ?: return
+        if (!field.isAttachedToWindow || !field.hasFocus()) return
+        val window = dialog?.window ?: return
+        androidx.core.view.WindowCompat.getInsetsController(window, field).show(WindowInsetsCompat.Type.ime())
     }
 
     private fun create() {
