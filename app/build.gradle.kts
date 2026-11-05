@@ -21,6 +21,31 @@ android {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
+    bundle {
+        language {
+            enableSplit = false
+        }
+    }
+
+
+    flavorDimensions += "env"
+    productFlavors {
+        create("prod") {
+            // Production reads the production ad config JSON (Remote Config parameter AppVersion_1_0).
+            buildConfigField("String", "REMOTE_CONFIG_PARAM", "\"AppVersion_1_0\"")
+            dimension = "env"
+        }
+        create("qa") {
+            dimension = "env"
+            versionNameSuffix = "-qa"
+            // QA (Debug and Release) reads its own ad config JSON. Same Firebase app as prod (same application id), so the
+            // separation is the parameter name in the one Remote Config of the project.
+            // Remote Config parameter AppVersion_Q_1.
+            buildConfigField("String", "REMOTE_CONFIG_PARAM", "\"AppVersion_Q_1\"")
+            versionCode = 0 + (defaultConfig.versionCode ?: 0)
+        }
+    }
+
     buildTypes {
         release {
             optimization {
@@ -31,6 +56,8 @@ android {
     }
     buildFeatures {
         viewBinding = true
+        // BuildConfig.REMOTE_CONFIG_PARAM (set per flavor above) names the Remote Config parameter to fetch.
+        buildConfig = true
     }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11

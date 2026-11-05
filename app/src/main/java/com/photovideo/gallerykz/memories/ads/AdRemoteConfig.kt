@@ -9,6 +9,7 @@ import android.telephony.TelephonyManager
 import android.util.Log
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import com.google.firebase.remoteconfig.FirebaseRemoteConfigSettings
+import com.photovideo.gallerykz.memories.BuildConfig
 import org.json.JSONArray
 import org.json.JSONObject
 import java.net.HttpURLConnection
@@ -17,20 +18,19 @@ import java.util.Locale
 import java.util.concurrent.Executors
 
 /**
- * The ad configuration: one Remote Config parameter ([PARAM_PREFIX] + the version code) holds a JSON with the profiles
+ * The ad configuration: one Remote Config parameter (named by the build flavor, see [paramName]) holds a JSON with the profiles
  * `normal_user` and `paid_user`; the profile (normal by default, paid when [setProfile] says so) replaces the root. The last
  * good JSON is kept on the phone, so a cold start (a broadcast, the lock screen) has the config before the fetch is done.
  */
 object AdRemoteConfig {
 
-    /** Remote Config parameter = this + the app's version code (e.g. "Gallery_1"). */
-    const val PARAM_PREFIX = "AppVersion_"
     const val PROFILE_NORMAL = "normal_user"
     const val PROFILE_PAID = "paid_user"
 
     private const val TAG = "KaziAds"
     private const val FILE = "ad_config"
     private const val KEY_JSON = "json"
+    private const val KEY_JSON_PARAM = "json_param"
     private const val KEY_PROFILE = "profile"
     private const val KEY_FETCHED_AT = "fetched_at"
     private const val REFRESH_MS = 12L * 60 * 60 * 1000
@@ -85,7 +85,11 @@ object AdRemoteConfig {
 
     /** Loads the last saved JSON (no network). Safe to call from any thread, any number of times. */
     fun restore(context: Context) {
-        val saved = prefs(context).getString(KEY_JSON, null) ?: return
+        val p = prefs(context)
+        val saved = p.getString(KEY_JSON, null) ?: return
+        // The saved JSON belongs to the parameter it was fetched from: a QA build never starts from the production config
+        // (or the other way round) that an earlier build of the same app left on the phone.
+        if (p.getString(KEY_JSON_PARAM, null) != paramName(context)) return
         apply(context, saved, persist = false)
     }
 
@@ -144,7 +148,7 @@ object AdRemoteConfig {
             val chosen = resolveProfile(root, profile(context))
             config = AdConfig.parse(chosen)
             loaded = true
-            if (persist) prefs(context).edit().putString(KEY_JSON, text).apply()
+            if (persist) prefs(context).edit().putString(KEY_JSON, text).putString(KEY_JSON_PARAM, paramName(context)).apply()
             main.post {
                 AdCounters.onConfigApplied(context)
                 listeners.forEach { it() }
@@ -171,14 +175,12 @@ object AdRemoteConfig {
         return root
     }
 
-    /** `AppVersion_` + the version name with dots as underscores: 1.0 reads `AppVersion_1_0`. */
-    fun paramName(context: Context): String = PARAM_PREFIX + versionName(context).replace(".", "_")
-
-    private fun versionName(context: Context): String = try {
-        context.packageManager.getPackageInfo(context.packageName, 0).versionName ?: "1.0"
-    } catch (e: Exception) {
-        "1.0"
-    }
+    /**
+     * The Remote Config parameter of this build, set per flavor in build.gradle.kts: prod reads `AppVersion_1_0`, qa reads
+     * `AppVersion_Q_1` (both in the one Remote Config of the project).
+     */
+    @Suppress("UNUSED_PARAMETER")
+    fun paramName(context: Context): String = BuildConfig.REMOTE_CONFIG_PARAM
 
     private fun versionCode(context: Context): Long = try {
         val info = context.packageManager.getPackageInfo(context.packageName, 0)
