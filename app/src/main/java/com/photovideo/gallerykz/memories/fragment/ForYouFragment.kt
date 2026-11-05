@@ -29,6 +29,7 @@ import com.photovideo.gallerykz.memories.activity.SuggestionPickActivity
 import com.photovideo.gallerykz.memories.model.SuggestionCard
 import com.photovideo.gallerykz.memories.model.SuggestionKind
 import com.photovideo.gallerykz.memories.activity.HighlightsDetailActivity
+import com.photovideo.gallerykz.memories.activity.MemoryControlActivity
 import com.photovideo.gallerykz.memories.activity.PeopleAndFaceActivity
 import com.photovideo.gallerykz.memories.activity.PlacesActivity
 import com.photovideo.gallerykz.memories.adapter.HighlightAdapter
@@ -100,6 +101,7 @@ class ForYouFragment : Fragment() {
         b.rvHighlights.addItemDecoration(HorizontalSpacingDecoration((10 * density).toInt()))
         b.rvPeople.addItemDecoration(HorizontalSpacingDecoration((14 * density).toInt()))
         b.rvPlaces.addItemDecoration(HorizontalSpacingDecoration((8 * density).toInt()))
+        b.btnMemoryC.setOnClickListener { openMemoryControls() }
         // Row items never animate in/out, which keeps the first load flicker-free.
         listOf(b.rvHighlights, b.rvPeople, b.rvPlaces, b.rvSuggestions).forEach { it.itemAnimator = null }
 
@@ -274,6 +276,18 @@ class ForYouFragment : Fragment() {
     }
 
     private fun renamePerson(person: PersonUi) = PersonNameSheet.show(parentFragmentManager, person.clusterId, person.name)
+
+    /**
+     * Memory controls opens from here. The start goes through the host activity, which counts it for the click
+     * interstitial (Main block) like every other screen opened from For you; a second tap while it opens is ignored.
+     */
+    private fun openMemoryControls() {
+        val context = context ?: return
+        val now = SystemClock.elapsedRealtime()
+        if (now - lastOpenAt < OPEN_GAP_MS) return
+        lastOpenAt = now
+        startActivity(MemoryControlActivity.intent(context))
+    }
 
     /** A highlight card was tapped: open its detail (a second tap while it opens is ignored). */
     private fun openHighlight(card: HighlightCard) {

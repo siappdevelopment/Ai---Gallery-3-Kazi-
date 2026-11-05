@@ -19,6 +19,8 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.lifecycleScope
 import com.photovideo.gallerykz.memories.R
 import com.photovideo.gallerykz.memories.ads.AdAwareActivity
+import com.photovideo.gallerykz.memories.ads.AdHooks
+import com.photovideo.gallerykz.memories.ads.AdScreen
 import com.photovideo.gallerykz.memories.database.AppDatabase
 import com.photovideo.gallerykz.memories.databinding.ActivityMemoryControlBinding
 import com.photovideo.gallerykz.memories.databinding.ItemVaultSettingGroupBinding
@@ -71,6 +73,8 @@ class MemoryControlActivity : AdAwareActivity() {
 
         val b = ActivityMemoryControlBinding.inflate(layoutInflater)
         setContentView(b.root)
+        // Bottom ad, Back interstitial and click counting for the screens opened from here (the Settings ad block).
+        AdHooks.install(this, AdScreen.SETTINGS)
         ViewCompat.setOnApplyWindowInsetsListener(b.root) { v, insets ->
             val bars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(bars.left, bars.top, bars.right, bars.bottom)
