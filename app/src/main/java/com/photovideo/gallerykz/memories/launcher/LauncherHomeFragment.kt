@@ -97,6 +97,16 @@ class LauncherHomeFragment : Fragment(), LauncherSettings.Listener, LauncherApps
             insets
         }
 
+        // Rotation or split-screen changes the width of the rows: the icon size is fitted to it again.
+        var fittedWidth = 0
+        b.homeRoot.addOnLayoutChangeListener { _, left, _, right, _, _, _, _, _ ->
+            val width = right - left
+            if (width != fittedWidth) {
+                fittedWidth = width
+                if (_binding != null && isAdded) applySettings()
+            }
+        }
+
         // The clock is filled at once, so the first frame is never empty.
         updateDateTime()
 
@@ -295,7 +305,11 @@ class LauncherHomeFragment : Fragment(), LauncherSettings.Listener, LauncherApps
     private fun applySettings() {
         val b = _binding ?: return
         val context = requireContext()
-        val size = LauncherSettings.iconPx(context)
+        // The rows hold four icons (top row, dock): the icon shrinks on a narrow screen so the gap between them stays.
+        val sideMargin = resources.getDimensionPixelSize(com.intuit.sdp.R.dimen._6sdp)
+        val rootWidth = if (b.homeRoot.width > 0) b.homeRoot.width else resources.displayMetrics.widthPixels
+        val rowWidth = rootWidth - b.homeRoot.paddingLeft - b.homeRoot.paddingRight - 2 * sideMargin
+        val size = LauncherSettings.fittedIconPx(context, rowWidth, LauncherSettings.ROW_COLUMNS)
         val labelSp = LauncherSettings.getLabelSize(context).toFloat()
         val labels = LauncherSettings.isLabelVisible(context)
         val corner = size * LauncherIcons.CORNER_RATIO

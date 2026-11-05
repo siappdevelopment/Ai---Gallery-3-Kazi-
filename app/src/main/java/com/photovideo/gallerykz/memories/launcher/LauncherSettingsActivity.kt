@@ -78,6 +78,15 @@ class LauncherSettingsActivity : AdAwareActivity(), LauncherApps.Listener {
             LauncherApps.resort(this)
         }
 
+        // The width of the preview row is only known after the first layout (and changes on rotation): draw it again then.
+        var previewWidth = 0
+        (b.preview1.parent as? View)?.addOnLayoutChangeListener { _, left, _, right, _, _, _, _, _ ->
+            if (right - left != previewWidth) {
+                previewWidth = right - left
+                renderPreview()
+            }
+        }
+
         bindValues()
         LauncherApps.register(this)
         if (LauncherApps.apps.isEmpty()) LauncherApps.reload(this)
@@ -130,7 +139,10 @@ class LauncherSettingsActivity : AdAwareActivity(), LauncherApps.Listener {
         val labels = LauncherSettings.isLabelVisible(this)
         b.tvIconSize.text = iconDp.toString()
         b.tvLabelSize.text = labelSp.toString()
-        val side = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, iconDp.toFloat(), resources.displayMetrics).toInt()
+        // The preview holds four icons in a row, like the home screen: the same fitting keeps their gaps.
+        val row = b.preview1.parent as? View
+        val rowWidth = if (row != null) row.width - row.paddingLeft - row.paddingRight else 0
+        val side = LauncherSettings.fittedIconPx(this, rowWidth, LauncherSettings.ROW_COLUMNS, iconDp)
         val apps = LauncherApps.apps
         val slots = listOf(
             Triple(b.preview1, b.ivPreview1, b.tvPreview1),
