@@ -393,7 +393,8 @@
                     android:layout_marginTop="@dimen/_4sdp"
                     android:fontFamily="@font/sans_trial_medium"
                     android:singleLine="true"
-                    android:text="@string/launcher_title"
+
+                    android:text="setting"
                     android:textColor="@android:color/white"
                     android:textSize="@dimen/_10sdp" />
 

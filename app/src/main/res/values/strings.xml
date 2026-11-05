@@ -625,6 +625,7 @@
     <string name="launcher_recent_cleared">Recent apps cleared</string>
     <string name="launcher_folder_google" translatable="false">Google</string>
     <string name="launcher_title">Launcher</string>
+    <string name="launcher_home_icon_label" translatable="false">Launcher</string>
     <string name="launcher_make_us_default">Make Us Your Default</string>
     <string name="launcher_default_description">Set Gallery as your default app to organize, view, edit, and protect all your photos securely.</string>
     <string name="default_set">Set as Default</string>

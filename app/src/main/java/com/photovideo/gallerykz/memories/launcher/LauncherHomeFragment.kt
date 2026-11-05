@@ -350,6 +350,7 @@ class LauncherHomeFragment : Fragment(), LauncherSettings.Listener, LauncherApps
 
         // Launcher settings shortcut.
         sizeOf(b.ivTopAppIcon2, size)
+        b.tvTopAppName2.text = "Launcher" // always English, never translated
 
         listOf(b.tvGoogle, b.tvTools, b.tvTopAppName1, b.tvTopAppName2).forEach {
             it.setTextSize(TypedValue.COMPLEX_UNIT_SP, labelSp)
