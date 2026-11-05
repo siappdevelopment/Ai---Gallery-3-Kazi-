@@ -147,6 +147,7 @@ class SettingActivity : AdAwareActivity() {
                 listOf(
                     Row(R.drawable.ic_face, R.string.home_people_title, null) { open { PeopleAndFaceActivity.intent(this) } },
                     Row(R.drawable.ic_location_on, R.string.home_places_title, null) { open { PlacesActivity.intent(this) } },
+                    Row(R.drawable.ic_auto_awesome, R.string.memory_title, null) { open { MemoryControlActivity.intent(this) } },
                     Row(R.drawable.ic_notifications, R.string.settings_notifications, onOff(state.notificationsOn)) { openNotificationSettings() },
                 ),
             ),

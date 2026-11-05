@@ -6,6 +6,7 @@ import androidx.lifecycle.MediatorLiveData
 import com.photovideo.gallerykz.memories.database.AppDatabase
 import com.photovideo.gallerykz.memories.database.FacePersonEntity
 import com.photovideo.gallerykz.memories.database.ScanProgress
+import com.photovideo.gallerykz.memories.helper.MemoryPrefs
 import com.photovideo.gallerykz.memories.model.MediaFilter
 import com.photovideo.gallerykz.memories.model.PeopleResult
 import com.photovideo.gallerykz.memories.model.PersonUi
@@ -44,6 +45,8 @@ class PeopleRepository(context: Context) {
         result.addSource(dao.observeClusterCount(), rebuild)
         result.addSource(dao.observeNameCount(), rebuild)
         result.addSource(database.mediaDao().observeCount(MediaFilter.ALL.types, 0), rebuild)
+        // Face grouping turned on or off in Memory controls: the list appears or goes away.
+        result.addSource(MemoryPrefs.changes, rebuild)
     }
 
     fun observeProgress(): LiveData<ScanProgress> = dao.observeProgress()
@@ -53,6 +56,8 @@ class PeopleRepository(context: Context) {
      * without one is an unnamed group, however many photos it has. Both lists have the biggest group first.
      */
     fun load(): PeopleResult {
+        // Face grouping off: nobody is listed. The faces found so far stay stored, so turning it on brings them back.
+        if (!MemoryPrefs.isFaceGrouping(app)) return PeopleResult(emptyList(), emptyList())
         // A blank name counts as no name, so a group can never sit in the named list without a name to show.
         val names = dao.names().filter { it.name.isNotBlank() }.associate { it.clusterId to it.name.trim() }
         val people = ArrayList<PersonUi>()

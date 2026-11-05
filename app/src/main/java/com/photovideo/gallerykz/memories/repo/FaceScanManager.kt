@@ -23,6 +23,7 @@ import com.photovideo.gallerykz.memories.helper.FaceDescriptor
 import com.photovideo.gallerykz.memories.helper.FaceDetectorWarmup
 import com.photovideo.gallerykz.memories.helper.MediaPermissionHelper
 import com.photovideo.gallerykz.memories.helper.MediaUris
+import com.photovideo.gallerykz.memories.helper.MemoryPrefs
 import com.photovideo.gallerykz.memories.model.MediaFilter
 import com.google.android.gms.tasks.Tasks
 import com.google.mlkit.common.MlKitException
@@ -126,6 +127,11 @@ object FaceScanManager {
     }
 
     private suspend fun round(app: Context, dao: FaceDao) {
+        // Face grouping off in Memory controls: nothing is scanned (and nothing is deleted).
+        if (!MemoryPrefs.isFaceGrouping(app)) {
+            _status.postValue(Status.DONE)
+            return
+        }
         if (!MediaPermissionHelper.hasAccess(app)) {
             Log.w(TAG, "no access to the photos; nothing scanned")
             _status.postValue(Status.NO_ACCESS)

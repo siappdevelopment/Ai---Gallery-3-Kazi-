@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.lifecycle.LiveData
 import com.photovideo.gallerykz.memories.database.AppDatabase
 import com.photovideo.gallerykz.memories.database.HighlightCandidate
+import com.photovideo.gallerykz.memories.helper.MemoryPrefs
 import com.photovideo.gallerykz.memories.model.HighlightCard
 import com.photovideo.gallerykz.memories.model.HighlightKind
 import com.photovideo.gallerykz.memories.model.MediaFilter
@@ -28,7 +29,8 @@ import java.util.TimeZone
  */
 class HighlightsRepository(context: Context) {
 
-    private val dao = AppDatabase.getInstance(context).mediaDao()
+    private val app = context.applicationContext
+    private val dao = AppDatabase.getInstance(app).mediaDao()
 
     /** Changes whenever the media index changes, to know when to rebuild the cards. */
     fun observeMediaCount(): LiveData<Int> = dao.observeCount(MediaFilter.ALL.types, 0)
@@ -78,7 +80,9 @@ class HighlightsRepository(context: Context) {
             Triple(startOfYear(now, -back).timeInMillis, startOfYear(now, -back + 1).timeInMillis, back)
         }.filter { it.first != shownYearStart }, YEAR_DECAY, used)?.let(cards::add)
 
-        // Best of date: the most relevant day with more than 5 items added
+        // Best of date: the most relevant day with more than 5 items added.
+        // It is the "Date-based memories" switch of Memory controls: off, and this card is not built.
+        if (!MemoryPrefs.isDateMemories(app)) return cards
         val todayKey = dayKey(today.timeInMillis)
         dao.busyDays(todayKey - DAYS_BACK, todayKey)
             .maxByOrNull { relevance(it.favorites, it.plain, (todayKey - it.day).toInt(), DATE_DECAY) }

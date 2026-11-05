@@ -21,6 +21,7 @@ import com.photovideo.gallerykz.memories.database.PlaceCells
 import com.photovideo.gallerykz.memories.database.PlaceNameEntity
 import com.photovideo.gallerykz.memories.helper.MediaPermissionHelper
 import com.photovideo.gallerykz.memories.helper.MediaUris
+import com.photovideo.gallerykz.memories.helper.MemoryPrefs
 import com.photovideo.gallerykz.memories.helper.PlaceNameResolver
 import com.photovideo.gallerykz.memories.model.MediaFilter
 import kotlinx.coroutines.CancellationException
@@ -102,6 +103,11 @@ object PlaceScanManager {
     }
 
     private suspend fun scanSafely(app: Context, dao: LocationDao) {
+        // Location memories off in Memory controls: no photo is read (what was read stays stored).
+        if (!MemoryPrefs.isLocationMemories(app)) {
+            _status.postValue(Status.DONE)
+            return
+        }
         if (!(MediaPermissionHelper.hasAccess(app) && canReadLocations(app))) {
             // Nothing can be read right now; the screens ask for the permission instead.
             _status.postValue(Status.DONE)

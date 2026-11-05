@@ -6,6 +6,7 @@ import androidx.lifecycle.MediatorLiveData
 import com.photovideo.gallerykz.memories.database.AppDatabase
 import com.photovideo.gallerykz.memories.database.PlaceScanProgress
 import com.photovideo.gallerykz.memories.database.PlaceSummary
+import com.photovideo.gallerykz.memories.helper.MemoryPrefs
 import com.photovideo.gallerykz.memories.model.MediaFilter
 import java.util.concurrent.Executors
 import java.util.concurrent.atomic.AtomicBoolean
@@ -13,7 +14,8 @@ import java.util.concurrent.atomic.AtomicBoolean
 /** The places found by [PlaceScanManager]: photos grouped by where they were taken. Everything stays on the device. */
 class PlaceRepository(context: Context) {
 
-    private val database = AppDatabase.getInstance(context.applicationContext)
+    private val app = context.applicationContext
+    private val database = AppDatabase.getInstance(app)
     private val dao = database.locationDao()
 
     /**
@@ -28,7 +30,8 @@ class PlaceRepository(context: Context) {
             worker.execute {
                 while (dirty.compareAndSet(true, false)) {
                     try {
-                        result.postValue(dao.places())
+                        // Location memories off: no place is listed (what was read stays stored).
+                        result.postValue(if (MemoryPrefs.isLocationMemories(app)) dao.places() else emptyList())
                     } catch (e: Exception) {
                         // Keeps the list that is shown; the next change tries again.
                     }
@@ -39,6 +42,7 @@ class PlaceRepository(context: Context) {
         result.addSource(dao.observeLocatedCount(), rebuild)
         result.addSource(dao.observeNameCount(), rebuild)
         result.addSource(database.mediaDao().observeCount(MediaFilter.ALL.types, 0), rebuild)
+        result.addSource(MemoryPrefs.changes, rebuild)
     }
 
     fun observeProgress(): LiveData<PlaceScanProgress> = dao.observeProgress()

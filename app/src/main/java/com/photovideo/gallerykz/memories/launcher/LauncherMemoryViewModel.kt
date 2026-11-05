@@ -4,6 +4,7 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.photovideo.gallerykz.memories.helper.MemoryPrefs
 import com.photovideo.gallerykz.memories.model.HighlightCard
 import com.photovideo.gallerykz.memories.repo.HighlightsRepository
 import java.util.concurrent.Executors
@@ -21,7 +22,11 @@ class LauncherMemoryViewModel(application: Application) : AndroidViewModel(appli
 
     /** Rebuilds the card for the current moment (the home page calls it every time it comes back). */
     fun refresh() {
-        worker.execute { _card.postValue(repository.load().firstOrNull()) }
+        val app = getApplication<Application>()
+        worker.execute {
+            // "Show daily memories" off in Memory controls: the card has nothing to show.
+            _card.postValue(if (MemoryPrefs.isDailyMemories(app)) repository.load().firstOrNull() else null)
+        }
     }
 
     private companion object {

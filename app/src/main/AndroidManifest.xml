@@ -10,6 +10,8 @@
         android:name="android.permission.READ_EXTERNAL_STORAGE"
         android:maxSdkVersion="32" />
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+    <!-- Memory reminders: sets the alarm again after the phone restarts. -->
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
 
     <!-- Ads: network, network state and the advertising id -->
     <uses-permission android:name="android.permission.INTERNET" />
@@ -185,6 +187,20 @@
             android:name=".activity.VersionActivity"
             android:exported="false"
             android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.MemoryControlActivity"
+            android:exported="false"
+            android:screenOrientation="portrait" />
+
+        <!-- The hourly memory reminder (Memory controls); the alarm is set again after a reboot. -->
+        <receiver
+            android:name=".notification.MemoryNotificationReceiver"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <action android:name="com.photovideo.gallerykz.memories.action.MEMORY_REMINDER" />
+            </intent-filter>
+        </receiver>
         <receiver
             android:name=".callend.PhoneCallStateReceiver"
             android:exported="true">

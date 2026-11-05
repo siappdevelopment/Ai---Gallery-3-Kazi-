@@ -122,6 +122,23 @@ interface FaceDao {
         pruneNames()
     }
 
+    /** Memory controls > Delete all face data: every face, every scanned-photo mark and every name. Photos are untouched. */
+    @Transaction
+    fun deleteAllFaceData() {
+        deleteAllFaces()
+        deleteAllScans()
+        deleteAllNames()
+    }
+
+    @Query("DELETE FROM faces")
+    fun deleteAllFaces()
+
+    @Query("DELETE FROM face_scans")
+    fun deleteAllScans()
+
+    @Query("DELETE FROM face_people")
+    fun deleteAllNames()
+
     @Query("DELETE FROM faces WHERE mediaUid NOT IN (SELECT uid FROM media)")
     fun pruneFaces()
 

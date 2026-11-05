@@ -9,6 +9,7 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
 import com.photovideo.gallerykz.memories.database.ScanProgress
+import com.photovideo.gallerykz.memories.helper.MemoryPrefs
 import com.photovideo.gallerykz.memories.database.PlaceScanProgress
 import com.photovideo.gallerykz.memories.database.PlaceSummary
 import com.photovideo.gallerykz.memories.model.SuggestionCard
@@ -53,6 +54,8 @@ class ForYouViewModel(application: Application) : AndroidViewModel(application) 
      */
     val highlights: LiveData<List<HighlightCard>> = MediatorLiveData<List<HighlightCard>>().also { result ->
         result.addSource(highlightsRepository.observeMediaCount()) { build(result) }
+        // Memory controls: "Show daily memories" or "Date-based memories" changed.
+        result.addSource(MemoryPrefs.changes) { build(result) }
     }
 
     /** The people found in the photos (see [PeopleRepository.load] for what counts as a person). */
@@ -184,7 +187,8 @@ class ForYouViewModel(application: Application) : AndroidViewModel(application) 
     private fun build(target: MediatorLiveData<List<HighlightCard>>) {
         worker.execute {
             val cards = try {
-                highlightsRepository.load()
+                // "Show daily memories" off: no Highlights are built at all.
+                if (MemoryPrefs.isDailyMemories(getApplication())) highlightsRepository.load() else emptyList()
             } catch (e: Exception) {
                 emptyList()
             }
