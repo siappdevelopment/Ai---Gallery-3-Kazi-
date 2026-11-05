@@ -246,12 +246,14 @@
                         android:layout_marginTop="8dp"
                         android:orientation="horizontal">
 
+                <!-- Same size and spacing as Photos above: half of the row, 8dp gap to the empty half -->
                 <LinearLayout
                     android:id="@+id/browseScreenshots"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="56dp"
                     android:layout_marginStart="0dp"
                     android:layout_marginEnd="4dp"
+                    android:layout_weight="1"
                     android:background="@drawable/bg_search_tile"
                     android:clickable="true"
                     android:focusable="true"
@@ -279,6 +281,15 @@
                         android:textSize="14sp"
                         android:textStyle="bold" />
                 </LinearLayout>
+
+                <!-- Keeps Screenshots the width of one column, under Photos -->
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="56dp"
+                    android:layout_marginStart="4dp"
+                    android:layout_weight="1"
+                    android:importantForAccessibility="no"
+                    android:visibility="invisible" />
 
                     </LinearLayout>
                 </LinearLayout>
