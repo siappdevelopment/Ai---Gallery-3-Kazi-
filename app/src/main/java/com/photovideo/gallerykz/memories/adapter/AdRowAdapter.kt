@@ -18,6 +18,9 @@ class AdRowAdapter(
 
     private var enabled = false
 
+    /** While true the list shows no rows at all, whatever [inner] holds (see [setHidden]). */
+    private var hidden = false
+
     /** True while the ad view lives somewhere else (a pinned slot): the row keeps its height ([dockedHeightPx]) and holds no view. */
     private var docked = false
     var dockedHeightPx = 0
@@ -27,12 +30,14 @@ class AdRowAdapter(
 
     private val observer = object : RecyclerView.AdapterDataObserver() {
         override fun onChanged() {
+            if (hidden) return
             val want = if (enabled) indexOfAd() else -1
             adPos = if (want in 0..inner.itemCount) want else -1
             notifyDataSetChanged()
         }
 
         override fun onItemRangeChanged(positionStart: Int, itemCount: Int, payload: Any?) {
+            if (hidden) return
             when {
                 adPos < 0 || positionStart + itemCount <= adPos -> notifyItemRangeChanged(positionStart, itemCount, payload)
                 positionStart >= adPos -> notifyItemRangeChanged(positionStart + 1, itemCount, payload)
@@ -45,6 +50,7 @@ class AdRowAdapter(
         }
 
         override fun onItemRangeInserted(positionStart: Int, itemCount: Int) {
+            if (hidden) return
             if (adPos in 0..positionStart) {
                 // Inserted behind the row.
                 notifyItemRangeInserted(positionStart + 1, itemCount)
@@ -56,6 +62,7 @@ class AdRowAdapter(
         }
 
         override fun onItemRangeRemoved(positionStart: Int, itemCount: Int) {
+            if (hidden) return
             when {
                 adPos < 0 -> notifyItemRangeRemoved(positionStart, itemCount)
                 positionStart + itemCount <= adPos -> {
@@ -73,6 +80,7 @@ class AdRowAdapter(
         }
 
         override fun onItemRangeMoved(fromPosition: Int, toPosition: Int, itemCount: Int) {
+            if (hidden) return
             adPos = -1
             notifyDataSetChanged()
             sync()
@@ -90,8 +98,29 @@ class AdRowAdapter(
         sync()
     }
 
+    /**
+     * Hides every row of this adapter at once (true), or shows them again (false). It takes effect in the same frame, unlike
+     * changing the paged data underneath, which arrives a frame or more later. The gallery uses it while a filter tab is switching,
+     * so the items of the old filter are gone the moment the tab changes and the new ones appear together when they are loaded.
+     */
+    fun setHidden(value: Boolean) {
+        if (hidden == value) return
+        if (value) {
+            val before = itemCount
+            hidden = true
+            adPos = -1
+            if (before > 0) notifyItemRangeRemoved(0, before)
+        } else {
+            hidden = false
+            adPos = -1
+            notifyDataSetChanged()
+            sync()
+        }
+    }
+
     /** The place of the row may have changed (the number of columns, a layout switch): moves it. */
     fun sync() {
+        if (hidden) return
         val want = if (enabled) indexOfAd() else -1
         if (want == adPos) return
         val old = adPos
@@ -121,7 +150,7 @@ class AdRowAdapter(
     /** The index in the inner adapter of the item at [position] of this adapter. */
     fun innerIndex(position: Int): Int = if (adPos in 0 until position) position - 1 else position
 
-    override fun getItemCount(): Int = inner.itemCount + if (adPos >= 0) 1 else 0
+    override fun getItemCount(): Int = if (hidden) 0 else inner.itemCount + if (adPos >= 0) 1 else 0
 
     override fun getItemViewType(position: Int): Int =
         if (position == adPos) TYPE_AD else inner.getItemViewType(innerIndex(position))
