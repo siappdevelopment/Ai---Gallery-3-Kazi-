@@ -98,6 +98,7 @@
         <activity
             android:name=".activity.HomeActivity"
             android:exported="false"
+            android:taskAffinity="com.photovideo.gallerykz.memories.gallery"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize" />
         <activity

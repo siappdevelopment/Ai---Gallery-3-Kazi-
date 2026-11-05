@@ -49,7 +49,7 @@ class CallEndOptionsFragment : Fragment() {
             else -> R.string.callend_more_title to listOf(
                 Option(R.string.callend_more_add_contact) { addContact() },
                 Option(R.string.callend_more_call_log) { open(Intent(Intent.ACTION_VIEW).setType(CallLog.Calls.CONTENT_TYPE)) },
-                Option(R.string.callend_more_gallery) { open(LauncherNav.galleryIntent(requireContext())) },
+                Option(R.string.callend_more_gallery) { open(LauncherNav.standaloneGalleryIntent(requireContext()).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)) },
             )
         }
         b.tvTitle.setText(title)
