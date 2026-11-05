@@ -49,8 +49,10 @@ class MediaRepository(context: Context) {
                 pageSize = PAGE_SIZE,
                 prefetchDistance = PAGE_SIZE / 2,
                 initialLoadSize = PAGE_SIZE * 2,
-                // No placeholders + a page cap keeps memory flat however big the library is.
-                enablePlaceholders = false,
+                // The page cap keeps memory flat however big the library is. Placeholders keep every position absolute: without them,
+                // once pages are dropped, a refresh (the library is read again when anything on the phone changes) restarted from a
+                // position counted inside the loaded part, and the grid jumped back to the top while scrolling.
+                enablePlaceholders = true,
                 maxSize = PAGE_SIZE * 6,
             ),
             pagingSourceFactory = {

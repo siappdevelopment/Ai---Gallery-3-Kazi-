@@ -77,7 +77,7 @@ abstract class EventPromptActivity : AppCompatActivity() {
         }
         b.ivEventSettings.setOnClickListener(settings)
         b.llOpenGallery.setOnClickListener {
-            startActivity(LauncherHomeActivity.intent(this))
+            startActivity(com.photovideo.gallerykz.memories.launcher.LauncherNav.galleryIntent(this))
             finishAndRemoveTask()
         }
         b.btnEventDone.setOnClickListener { exitScreen() }

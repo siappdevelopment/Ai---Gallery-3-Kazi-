@@ -96,13 +96,31 @@ class MemoryControlActivity : AdAwareActivity() {
             val g = ItemVaultSettingGroupBinding.inflate(inflater, container, false)
             g.tvGroupTitle.setText(title)
             container.addView(g.root)
+            // The rows reach the edges of the card and the card clips their touch feedback, so a tap anywhere on the card works.
+            g.rows.setPadding(0, 0, 0, 0)
+            g.rows.clipToOutline = true
             return g.rows
         }
 
         fun link(rows: LinearLayout, @StringRes label: Int, @StringRes value: Int? = null, danger: Boolean = false, onClick: () -> Unit) {
             val row = ItemVaultSettingLinkBinding.inflate(inflater, rows, false)
             row.tvLabel.setText(label)
-            if (value != null) row.tvValue.setText(value) else row.tvValue.visibility = android.view.View.GONE
+            if (value != null) {
+                row.tvValue.setText(value)
+                // A long description must not squeeze the name into a narrow column of one letter per line: the name keeps its
+                // own width and the description takes the rest, right aligned.
+                row.tvLabel.layoutParams = (row.tvLabel.layoutParams as LinearLayout.LayoutParams).apply {
+                    width = LinearLayout.LayoutParams.WRAP_CONTENT
+                    weight = 0f
+                }
+                row.tvValue.layoutParams = (row.tvValue.layoutParams as LinearLayout.LayoutParams).apply {
+                    width = 0
+                    weight = 1f
+                }
+                row.tvValue.gravity = android.view.Gravity.END or android.view.Gravity.CENTER_VERTICAL
+            } else {
+                row.tvValue.visibility = android.view.View.GONE
+            }
             if (danger) row.tvLabel.setTextColor(ContextCompat.getColor(this, R.color.vault_error))
             row.root.setOnClickListener { onClick() }
             rows.addView(row.root)
@@ -114,6 +132,14 @@ class MemoryControlActivity : AdAwareActivity() {
 
         val manage = group(R.string.memory_section_manage)
         link(manage, R.string.memory_manage_people) { open(PeopleAndFaceActivity.intent(this)) }
+        // A thin line between the two rows, inset like the row text.
+        manage.addView(
+            android.view.View(this).apply { setBackgroundColor(ContextCompat.getColor(context, R.color.home_doc_line)) },
+            LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, maxOf(1, (resources.displayMetrics.density).toInt())).apply {
+                marginStart = (10 * resources.displayMetrics.density).toInt()
+                marginEnd = (10 * resources.displayMetrics.density).toInt()
+            },
+        )
         link(manage, R.string.memory_manage_places) { open(PlacesActivity.intent(this)) }
 
         val data = group(R.string.memory_section_data)
@@ -131,6 +157,10 @@ class MemoryControlActivity : AdAwareActivity() {
             on = applied
             row.switchView.isChecked = applied
         }
+        row.root.isClickable = true
+        row.root.isFocusable = true
+        val ripple = android.util.TypedValue()
+        if (theme.resolveAttribute(android.R.attr.selectableItemBackground, ripple, true)) row.root.setBackgroundResource(ripple.resourceId)
         row.root.setOnClickListener { row.switchView.performClick() }
         row.switchView.setOnClickListener {
             // The switch already flipped by itself: take it back until the change says what really happened.

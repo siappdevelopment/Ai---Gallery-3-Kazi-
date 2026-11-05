@@ -101,6 +101,8 @@ class ForYouFragment : Fragment() {
         b.rvHighlights.addItemDecoration(HorizontalSpacingDecoration((10 * density).toInt()))
         b.rvPeople.addItemDecoration(HorizontalSpacingDecoration((14 * density).toInt()))
         b.rvPlaces.addItemDecoration(HorizontalSpacingDecoration((8 * density).toInt()))
+        // The whole card opens Memory controls, not only its text.
+        b.cardMemory.setOnClickListener { openMemoryControls() }
         b.btnMemoryC.setOnClickListener { openMemoryControls() }
         // Row items never animate in/out, which keeps the first load flicker-free.
         listOf(b.rvHighlights, b.rvPeople, b.rvPlaces, b.rvSuggestions).forEach { it.itemAnimator = null }

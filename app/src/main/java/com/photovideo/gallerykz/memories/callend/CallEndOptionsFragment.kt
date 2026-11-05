@@ -16,7 +16,7 @@ import androidx.annotation.StringRes
 import androidx.fragment.app.Fragment
 import com.photovideo.gallerykz.memories.R
 import com.photovideo.gallerykz.memories.databinding.FragmentCallEndOptionsBinding
-import com.photovideo.gallerykz.memories.launcher.LauncherHomeActivity
+import com.photovideo.gallerykz.memories.launcher.LauncherNav
 import java.util.Calendar
 
 /**
@@ -49,7 +49,7 @@ class CallEndOptionsFragment : Fragment() {
             else -> R.string.callend_more_title to listOf(
                 Option(R.string.callend_more_add_contact) { addContact() },
                 Option(R.string.callend_more_call_log) { open(Intent(Intent.ACTION_VIEW).setType(CallLog.Calls.CONTENT_TYPE)) },
-                Option(R.string.callend_more_gallery) { open(LauncherHomeActivity.intent(requireContext())) },
+                Option(R.string.callend_more_gallery) { open(LauncherNav.galleryIntent(requireContext())) },
             )
         }
         b.tvTitle.setText(title)
