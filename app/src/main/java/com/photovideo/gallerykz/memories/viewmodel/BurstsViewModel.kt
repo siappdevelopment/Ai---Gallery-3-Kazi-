@@ -7,6 +7,7 @@ import android.provider.MediaStore
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Observer
 import com.photovideo.gallerykz.memories.R
 import com.photovideo.gallerykz.memories.helper.CleaningReportStore
 import com.photovideo.gallerykz.memories.helper.MediaUris
@@ -23,6 +24,8 @@ data class BurstCardUi(
     val selectedUid: Long,
     val dateMs: Long,
     val done: Boolean,
+    /** The selected shot is a favorite (the heart is red). */
+    val favorite: Boolean = false,
 )
 
 /**
@@ -34,7 +37,7 @@ class BurstsViewModel(application: Application) : AndroidViewModel(application) 
 
     private enum class Action { KEEP, FAVORITE }
 
-    private class Pending(val action: Action, val key: Long, val uids: List<Long>, val bytes: Long)
+    private class Pending(val action: Action, val key: Long, val uids: List<Long>, val bytes: Long, val value: Boolean = true)
 
     private val repository = MediaRepository(application)
     private val suggestions = SuggestionsRepository(application)
@@ -44,6 +47,12 @@ class BurstsViewModel(application: Application) : AndroidViewModel(application) 
 
     @Volatile
     private var pending: Pending? = null
+
+    /** Every shot of every burst that is a favorite now; follows the index, so a change made anywhere updates the hearts. */
+    @Volatile
+    private var favorites: Set<Long> = emptySet()
+
+    private val favoriteWatcher = Observer<Int> { worker.execute { refreshFavorites() } }
 
     private val _cards = MutableLiveData<List<BurstCardUi>>()
     val cards: LiveData<List<BurstCardUi>> = _cards
@@ -62,8 +71,29 @@ class BurstsViewModel(application: Application) : AndroidViewModel(application) 
                 emptyList()
             }
             current = bursts.map { BurstCardUi(it.uids.first(), it.uids, it.bestUid, it.bestUid, it.dateMs, false) }
-            _cards.postValue(current)
+            refreshFavorites()
             _loaded.postValue(true)
+        }
+        repository.favoriteCount().observeForever(favoriteWatcher)
+    }
+
+    override fun onCleared() {
+        repository.favoriteCount().removeObserver(favoriteWatcher)
+        super.onCleared()
+    }
+
+    /** Reads which shots are favorites and redraws the hearts of the cards. */
+    private fun refreshFavorites() {
+        val uids = current.flatMap { it.uids }
+        val found = try {
+            HashSet<Long>().also { set -> uids.chunked(500).forEach { chunk -> repository.byUids(chunk).forEach { if (it.isFavorite) set.add(it.uid) } } }
+        } catch (e: Exception) {
+            return
+        }
+        synchronized(this) {
+            favorites = found
+            current = current.map { it.copy(favorite = it.selectedUid in found) }
+            _cards.postValue(current)
         }
     }
 
@@ -89,10 +119,11 @@ class BurstsViewModel(application: Application) : AndroidViewModel(application) 
     fun favorite(key: Long) {
         val card = current.firstOrNull { it.key == key } ?: return
         if (card.done) return
-        request(Action.FAVORITE, key, listOf(card.selectedUid))
+        // The heart toggles: a favorite shot is removed from Favorites, any other is added.
+        request(Action.FAVORITE, key, listOf(card.selectedUid), !card.favorite)
     }
 
-    private fun request(action: Action, key: Long, uids: List<Long>) {
+    private fun request(action: Action, key: Long, uids: List<Long>, value: Boolean = true) {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.R) {
             _events.value = Event(PickEvent.Message(R.string.viewer_unsupported))
             return
@@ -101,7 +132,7 @@ class BurstsViewModel(application: Application) : AndroidViewModel(application) 
             val resolver = getApplication<Application>().contentResolver
             val uris = uids.map { MediaUris.ofUid(it) }
             val intent: PendingIntent? = try {
-                if (action == Action.KEEP) MediaStore.createTrashRequest(resolver, uris, true) else MediaStore.createFavoriteRequest(resolver, uris, true)
+                if (action == Action.KEEP) MediaStore.createTrashRequest(resolver, uris, true) else MediaStore.createFavoriteRequest(resolver, uris, value)
             } catch (e: SecurityException) {
                 null
             } catch (e: IllegalArgumentException) {
@@ -113,7 +144,7 @@ class BurstsViewModel(application: Application) : AndroidViewModel(application) 
             }
             // The size of what is about to leave, for the Cleaning report.
             val bytes = if (action == Action.KEEP) CleaningReportStore.sizeOf(resolver, uris) else 0L
-            pending = Pending(action, key, uids, bytes)
+            pending = Pending(action, key, uids, bytes, value)
             _events.postValue(Event(PickEvent.Launch(intent)))
         }
     }
@@ -135,15 +166,18 @@ class BurstsViewModel(application: Application) : AndroidViewModel(application) 
                 update(done.key) { it.copy(done = true) }
                 _events.postValue(Event(PickEvent.Message(R.string.burst_kept_toast)))
             } else {
-                repository.setFavoritesLocal(done.uids, true)
-                _events.postValue(Event(PickEvent.Message(R.string.selection_added_favorites, done.uids.size)))
+                repository.setFavoritesLocal(done.uids, done.value)
+                synchronized(this) { favorites = if (done.value) favorites + done.uids else favorites - done.uids.toSet() }
+                update(done.key) { it }
+                val message = if (done.value) R.string.selection_added_favorites else R.string.selection_removed_favorites
+                _events.postValue(Event(PickEvent.Message(message, done.uids.size)))
             }
         }
     }
 
     private fun update(key: Long, change: (BurstCardUi) -> BurstCardUi) {
         synchronized(this) {
-            current = current.map { if (it.key == key) change(it) else it }
+            current = current.map { if (it.key == key) change(it).let { c -> c.copy(favorite = c.selectedUid in favorites) } else it }
             _cards.postValue(current)
         }
     }
