@@ -19,7 +19,17 @@ class GalleryHeaderAdapter(
     private val onFilterSelected: (MediaFilter) -> Unit,
     private val onAllAlbums: () -> Unit,
     private val onOpenAlbum: (AlbumRow) -> Unit,
+    private val onSortClick: () -> Unit,
 ) : RecyclerView.Adapter<GalleryHeaderAdapter.ViewHolder>() {
+
+    private var sortLabel = ""
+
+    /** The text of the sort button ("Newest first", "Name A–Z", ...). */
+    fun setSortLabel(label: String) {
+        if (label == sortLabel) return
+        sortLabel = label
+        if (visible) notifyItemChanged(0)
+    }
 
     private var visible = false
     private var total = 0
@@ -64,6 +74,7 @@ class GalleryHeaderAdapter(
             binding.rvAlbums.itemAnimator = null
             binding.rvAlbums.addItemDecoration(HorizontalSpacingDecoration((10 * density).toInt()))
             binding.tvAllAlbums.setOnClickListener { onAllAlbums() }
+            binding.tvSort.setOnClickListener { onSortClick() }
             binding.filterBar.tabAll.setOnClickListener { onFilterSelected(MediaFilter.ALL) }
             binding.filterBar.tabPhotos.setOnClickListener { onFilterSelected(MediaFilter.PHOTOS) }
             binding.filterBar.tabVideos.setOnClickListener { onFilterSelected(MediaFilter.VIDEOS) }
@@ -83,6 +94,7 @@ class GalleryHeaderAdapter(
                 binding.filterBar.root.layoutParams = it
             }
 
+            binding.tvSort.text = sortLabel
             binding.filterBar.tabAll.isSelected = filter == MediaFilter.ALL
             binding.filterBar.tabPhotos.isSelected = filter == MediaFilter.PHOTOS
             binding.filterBar.tabVideos.isSelected = filter == MediaFilter.VIDEOS

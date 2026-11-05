@@ -150,6 +150,13 @@
     <string name="albums_smart_title">Smart collections</string>
     <string name="albums_smart_screenshots">Screenshots</string>
     <string name="albums_smart_recent">Recently added</string>
+    <string name="gallery_sort_title">Sort photos</string>
+    <string name="gallery_sort_date_newest">Date: newest first</string>
+    <string name="gallery_sort_date_oldest">Date: oldest first</string>
+    <string name="gallery_sort_name_az">Name: A to Z</string>
+    <string name="gallery_sort_name_za">Name: Z to A</string>
+    <string name="gallery_sort_size_largest">Size: largest first</string>
+    <string name="gallery_sort_size_smallest">Size: smallest first</string>
     <string name="albums_sort_title">Sort albums</string>
     <string name="albums_sort_newest">Newest first</string>
     <string name="albums_sort_oldest">Oldest first</string>
@@ -187,6 +194,10 @@
     <string name="album_delete_folder_title">Delete folder?</string>
     <string name="album_delete_folder_body">All %2$d items in “%1$s” will be moved to the Bin.</string>
     <string name="album_deleted">Album deleted</string>
+    <string name="album_add_photos">Add photos</string>
+    <string name="album_pick_desc">Choose the photos and videos to add to “%1$s”.</string>
+    <string name="album_pick_add">Add %1$d to album</string>
+    <string name="album_pick_added">%1$d added to album</string>
     <string name="album_rename_hint">Album name</string>
     <string name="album_renamed">Album renamed</string>
     <string name="album_name_exists">An album with this name already exists</string>
@@ -218,6 +229,7 @@
     <string name="selection_move">Move</string>
     <string name="selection_added_favorites">%1$d added to Favorites</string>
     <string name="selection_moved_bin">%1$d items moved to Bin</string>
+    <string name="transfer_folder_unsupported">“%1$s” can’t hold this type of file. Choose another folder, such as Pictures or DCIM.</string>
     <string name="album_remove_photo_title">Remove from this album?</string>
     <string name="album_remove_selection_title">Remove %1$d items from this album?</string>
     <string name="album_remove_body">They stay on your device and in your other albums.</string>

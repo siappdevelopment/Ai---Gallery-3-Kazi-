@@ -85,6 +85,19 @@
         </LinearLayout>
 
 
+        <!-- Add photos: only for an app album (a device folder is filled by the files in it) -->
+        <ImageButton
+            android:id="@+id/btnAddPhotos"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginStart="8dp"
+            android:background="@drawable/bg_home_circle_button"
+            android:contentDescription="@string/album_add_photos"
+            android:scaleType="center"
+            android:src="@drawable/ic_library_add"
+            android:visibility="gone"
+            app:tint="@color/splash_text_primary" />
+
         <ImageButton
             android:id="@+id/btnSelect"
             android:layout_width="40dp"
@@ -153,6 +166,24 @@
                 android:text="@string/photo_filter_empty_desc"
                 android:textColor="@color/splash_text_secondary"
                 android:textSize="13.5sp" />
+
+            <TextView
+                android:id="@+id/btnEmptyAdd"
+                android:layout_width="wrap_content"
+                android:layout_height="48dp"
+                android:layout_marginTop="22dp"
+                android:background="@drawable/bg_vault_primary_button"
+                android:clickable="true"
+                android:focusable="true"
+                android:gravity="center"
+                android:minWidth="180dp"
+                android:paddingStart="24dp"
+                android:paddingEnd="24dp"
+                android:text="@string/album_add_photos"
+                android:textColor="@color/white"
+                android:textSize="15sp"
+                android:textStyle="bold"
+                android:visibility="gone" />
         </LinearLayout>
     </FrameLayout>
 

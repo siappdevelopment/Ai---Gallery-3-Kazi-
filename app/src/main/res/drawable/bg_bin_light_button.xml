@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!-- Same card color as the other surfaces of the app: white in light mode, dark grey in dark mode (it was fixed white). -->
 <shape xmlns:android="http://schemas.android.com/apk/res/android" android:shape="rectangle">
-    <solid android:color="#FFFFFFFF" />
+    <solid android:color="@color/language_card" />
     <corners android:radius="16dp" />
 </shape>

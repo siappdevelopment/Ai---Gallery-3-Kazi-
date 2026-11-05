@@ -26,6 +26,7 @@ import com.photovideo.gallerykz.memories.database.MosaicRow
 import com.photovideo.gallerykz.memories.helper.MediaPermissionHelper
 import com.photovideo.gallerykz.memories.helper.MediaSyncPrefs
 import com.photovideo.gallerykz.memories.model.AlbumKind
+import com.photovideo.gallerykz.memories.model.GallerySort
 import com.photovideo.gallerykz.memories.model.MediaFilter
 import java.util.TimeZone
 import java.util.concurrent.Executors
@@ -42,7 +43,7 @@ class MediaRepository(context: Context) {
     private val database = AppDatabase.getInstance(appContext)
     private val dao: MediaDao = database.mediaDao()
 
-    fun pagedMedia(filter: MediaFilter): LiveData<PagingData<MediaEntity>> =
+    fun pagedMedia(filter: MediaFilter, sort: GallerySort = GallerySort.DATE_NEWEST): LiveData<PagingData<MediaEntity>> =
         Pager(
             config = PagingConfig(
                 pageSize = PAGE_SIZE,
@@ -52,7 +53,20 @@ class MediaRepository(context: Context) {
                 enablePlaceholders = false,
                 maxSize = PAGE_SIZE * 6,
             ),
-            pagingSourceFactory = { dao.pagingSource(filter.types, filter.minFavorite) },
+            pagingSourceFactory = {
+                if (sort == GallerySort.DATE_NEWEST) {
+                    dao.pagingSource(filter.types, filter.minFavorite)
+                } else {
+                    // The order comes from a fixed enum; the filter values are bound.
+                    val marks = filter.types.joinToString(",") { "?" }
+                    dao.filteredSource(
+                        SimpleSQLiteQuery(
+                            "SELECT * FROM media WHERE mediaType IN ($marks) AND isFavorite >= ? ORDER BY ${sort.orderBy}",
+                            (filter.types + filter.minFavorite).toTypedArray(),
+                        ),
+                    )
+                }
+            },
         ).liveData
 
     /** Same paging as [pagedMedia], with each row's position inside its day (Mosaic tile sizes). */
@@ -403,6 +417,7 @@ class MediaRepository(context: Context) {
             add(MediaStore.MediaColumns.BUCKET_ID)
             add(MediaStore.MediaColumns.BUCKET_DISPLAY_NAME)
             add(MediaStore.MediaColumns.DISPLAY_NAME)
+            add(MediaStore.MediaColumns.SIZE)
             if (isVideo) add(MediaStore.Video.Media.DURATION)
             if (Build.VERSION.SDK_INT >= 30) add(MediaStore.MediaColumns.IS_FAVORITE)
         }.toTypedArray()
@@ -417,6 +432,7 @@ class MediaRepository(context: Context) {
             val bucketIdCol = cursor.getColumnIndexOrThrow(MediaStore.MediaColumns.BUCKET_ID)
             val bucketNameCol = cursor.getColumnIndexOrThrow(MediaStore.MediaColumns.BUCKET_DISPLAY_NAME)
             val nameCol = cursor.getColumnIndexOrThrow(MediaStore.MediaColumns.DISPLAY_NAME)
+            val sizeCol = cursor.getColumnIndexOrThrow(MediaStore.MediaColumns.SIZE)
             val zone = TimeZone.getDefault()
             val calendar = java.util.Calendar.getInstance(zone)
             val batch = ArrayList<MediaEntity>(BATCH_SIZE)
@@ -448,6 +464,7 @@ class MediaRepository(context: Context) {
                         addedMs = addedMs,
                         addedDay = addedDay,
                         modifiedMs = cursor.getLong(modifiedCol) * 1000L,
+                        sizeBytes = cursor.getLong(sizeCol),
                     )
                 )
                 if (batch.size >= BATCH_SIZE) {
@@ -512,7 +529,8 @@ class MediaRepository(context: Context) {
         const val ALBUM_LIMIT = 12
 
         /** Bump when the indexed columns change so existing installs re-read MediaStore once. */
-        const val FINGERPRINT_VERSION = 7
+        // 8: the file size is stored too, so a library indexed before it is read again once.
+        const val FINGERPRINT_VERSION = 8
         const val DAY_MS = 86_400_000L
 
         @Suppress("DEPRECATION")

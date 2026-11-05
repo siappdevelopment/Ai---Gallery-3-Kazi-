@@ -47,6 +47,16 @@ class MediaTransferRepository(context: Context) {
         }
     }
 
+    /**
+     * Whether the folder at [path] (relative to the storage root, for example "Movies/") can hold the item [uid]. MediaStore refuses
+     * a picture in the video folder and any picture or video in the audio folders, so such a move would only fail.
+     */
+    fun accepts(path: String, uid: Long): Boolean {
+        val root = path.trimStart('/').substringBefore('/').lowercase()
+        if (root in AUDIO_ONLY_ROOTS) return false
+        return MediaTypes.typeOf(uid) == MediaTypes.VIDEO || root != "movies"
+    }
+
     /** System confirmation to change [uids] (needed once before [move]). */
     fun writeRequest(uids: List<Long>): PendingIntent =
         MediaStore.createWriteRequest(resolver, uids.map { MediaUris.ofUid(it) })
@@ -134,5 +144,10 @@ class MediaTransferRepository(context: Context) {
         } catch (e: SecurityException) {
             // Nothing more to do; the pending item is cleaned up by the system.
         }
+    }
+
+    private companion object {
+        /** Top-level folders that only take audio files. */
+        val AUDIO_ONLY_ROOTS = setOf("music", "alarms", "notifications", "podcasts", "ringtones", "audiobooks", "recordings")
     }
 }

@@ -44,6 +44,8 @@ class VaultSetupActivity : AdAwareActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
+        // The PIN screen of the vault must not be captured either (the PIN dots, and the vault in Recents).
+        window.setFlags(android.view.WindowManager.LayoutParams.FLAG_SECURE, android.view.WindowManager.LayoutParams.FLAG_SECURE)
 
         val b =ActivityVaultSetupBinding.inflate(layoutInflater)
         binding = b

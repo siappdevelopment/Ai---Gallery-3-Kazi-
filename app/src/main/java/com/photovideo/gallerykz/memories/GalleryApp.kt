@@ -9,6 +9,7 @@ import com.photovideo.gallerykz.memories.ads.AppOpenAds
 import com.photovideo.gallerykz.memories.ads.AdRemoteConfig
 
 import android.app.Application
+import com.photovideo.gallerykz.memories.helper.AdInsetsGuard
 import com.photovideo.gallerykz.memories.helper.SystemNav
 import android.content.res.Configuration
 import com.photovideo.gallerykz.memories.events.EventWatch
@@ -34,12 +35,15 @@ class GalleryApp : Application() {
         AppOpenAds.install(this)
         // The navigation bar is hidden everywhere (a few screens bring it back for a big native ad).
         SystemNav.install(this)
+        // A full-screen Google ad hides the status bar: the screen behind it must not slide up.
+        AdInsetsGuard.install(this)
         UnlockAds.register(this)
+      com.photovideo.gallerykz.memories.launcher.LauncherApps.reload(this)
         // Memory controls: the hourly reminder alarm follows its switch (a process start restarts the hour).
         com.photovideo.gallerykz.memories.notification.MemoryNotificationScheduler.sync(this)
         // Installed apps are listed in the background from the start (during splash / onboarding), so the Home
         // folders are already filled when the launcher first opens instead of appearing a second later.
-        com.photovideo.gallerykz.memories.launcher.LauncherApps.reload(this)
+
     }
 
     override fun onConfigurationChanged(newConfig: Configuration) {

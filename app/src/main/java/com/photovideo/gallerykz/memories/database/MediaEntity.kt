@@ -49,6 +49,8 @@ data class MediaEntity(
     @ColumnInfo(defaultValue = "0") val addedDay: Long = 0,
     /** When the file was last changed (MediaStore DATE_MODIFIED) in epoch milliseconds; an edited photo is scanned for faces again. */
     @ColumnInfo(defaultValue = "0") val modifiedMs: Long = 0,
+    /** File size in bytes (MediaStore SIZE); the Gallery's "sort by size" uses it. */
+    @ColumnInfo(defaultValue = "0") val sizeBytes: Long = 0,
 )
 
 object MediaTypes {
