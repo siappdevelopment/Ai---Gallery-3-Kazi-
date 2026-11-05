@@ -436,12 +436,16 @@ class MediaRepository(context: Context) {
             val zone = TimeZone.getDefault()
             val calendar = java.util.Calendar.getInstance(zone)
             val batch = ArrayList<MediaEntity>(BATCH_SIZE)
+            val restoredDates = RestoredDates.all(appContext)
 
             while (cursor.moveToNext()) {
                 total++
                 val id = cursor.getLong(idCol)
                 val taken = cursor.getLong(takenCol)
-                val dateMs = if (taken > 0) taken else cursor.getLong(addedCol) * 1000L
+                // A photo that came back from the vault keeps the date it had before it was hidden, whatever date the new item got
+                // (on some phones the scan gives it the time of the copy, on others nothing).
+                val dateMs = restoredDates[MediaTypes.uid(id, mediaType)]
+                    ?: if (taken > 0) taken else cursor.getLong(addedCol) * 1000L
                 val dayKey = Math.floorDiv(dateMs + zone.getOffset(dateMs), DAY_MS)
                 val addedMs = cursor.getLong(addedCol) * 1000L
                 val addedDay = Math.floorDiv(addedMs + zone.getOffset(addedMs), DAY_MS)

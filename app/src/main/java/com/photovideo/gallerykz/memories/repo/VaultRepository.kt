@@ -1,5 +1,6 @@
 package com.photovideo.gallerykz.memories.repo
 
+import android.content.ContentUris
 import android.content.ContentValues
 import android.content.Context
 import android.net.Uri
@@ -340,6 +341,7 @@ class VaultRepository(context: Context) {
                 (resolver.openOutputStream(dest) ?: throw IOException("no output")).use { out -> input.copyTo(out) }
             }
             val published = resolver.update(dest, ContentValues().apply { put(MediaStore.MediaColumns.IS_PENDING, 0) }, null, null) > 0
+            if (published) keepOriginalDate(dest, item.dateMs, item.mediaType)
             if (published && item.isFavorite) restoreFavorite(dest)
             published
         } catch (e: IOException) {
@@ -354,6 +356,23 @@ class VaultRepository(context: Context) {
         } catch (e: IllegalStateException) {
             dropTarget(target)
             false
+        }
+    }
+
+    /**
+     * The restored file is a new MediaStore item and the scan that publishes it leaves its taken date empty (or sets it to now), so
+     * it would land in today's group. The original date is written back when the phone allows it, and always remembered in
+     * [RestoredDates], which the gallery uses when MediaStore has no taken date.
+     */
+    private fun keepOriginalDate(uri: Uri, dateMs: Long, mediaType: Int) {
+        if (dateMs <= 0) return
+        RestoredDates.put(app, MediaTypes.uid(ContentUris.parseId(uri), mediaType), dateMs)
+        try {
+            resolver.update(uri, ContentValues().apply { put(MediaStore.MediaColumns.DATE_TAKEN, dateMs) }, null, null)
+        } catch (e: SecurityException) {
+            // The remembered date is enough.
+        } catch (e: IllegalArgumentException) {
+            // The remembered date is enough.
         }
     }
 
