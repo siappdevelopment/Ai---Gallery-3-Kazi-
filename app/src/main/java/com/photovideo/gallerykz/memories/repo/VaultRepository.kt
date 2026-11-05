@@ -335,7 +335,9 @@ class VaultRepository(context: Context) {
             file.inputStream().use { input ->
                 (resolver.openOutputStream(dest) ?: throw IOException("no output")).use { out -> input.copyTo(out) }
             }
-            resolver.update(dest, ContentValues().apply { put(MediaStore.MediaColumns.IS_PENDING, 0) }, null, null) > 0
+            val published = resolver.update(dest, ContentValues().apply { put(MediaStore.MediaColumns.IS_PENDING, 0) }, null, null) > 0
+            if (published && item.isFavorite) restoreFavorite(dest)
+            published
         } catch (e: IOException) {
             dropTarget(target)
             false
@@ -348,6 +350,22 @@ class VaultRepository(context: Context) {
         } catch (e: IllegalStateException) {
             dropTarget(target)
             false
+        }
+    }
+
+    /**
+     * The restored file is a new MediaStore item, so it starts without the favorite flag the original had when it was hidden
+     * (the vault row keeps it in [VaultItemEntity.isFavorite]). The app owns the new item, so it may set the flag itself.
+     * Best effort: a phone that refuses it still gets the photo back, only not as a favorite.
+     */
+    private fun restoreFavorite(uri: Uri) {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.R) return
+        try {
+            resolver.update(uri, ContentValues().apply { put(MediaStore.MediaColumns.IS_FAVORITE, 1) }, null, null)
+        } catch (e: SecurityException) {
+            // Left as a normal photo.
+        } catch (e: IllegalArgumentException) {
+            // Left as a normal photo.
         }
     }
 
