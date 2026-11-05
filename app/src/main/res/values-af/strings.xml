@@ -689,4 +689,5 @@
     <string name="policy_privacy_label">Privaatheidsbeleid</string>
     <string name="policy_link_unavailable">Die bladsy kon nie oopgemaak word nie</string>
     <string name="native_full_sponsored">Geborg</string>
+    <string name="share_limit_notice">Deel die eerste %1$d van %2$d items, die meeste wat gelyktydig gedeel kan word</string>
 </resources>

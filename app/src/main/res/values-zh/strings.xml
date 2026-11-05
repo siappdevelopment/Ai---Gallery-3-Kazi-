@@ -682,4 +682,5 @@
     <string name="policy_privacy_label">隐私政策</string>
     <string name="policy_link_unavailable">无法打开该页面</string>
     <string name="native_full_sponsored">赞助</string>
+    <string name="share_limit_notice">正在分享 %2$d 项中的前 %1$d 项（单次可分享的上限）</string>
 </resources>

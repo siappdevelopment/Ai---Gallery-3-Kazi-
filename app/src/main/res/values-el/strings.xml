@@ -689,4 +689,5 @@
     <string name="policy_privacy_label">Πολιτική απορρήτου</string>
     <string name="policy_link_unavailable">Δεν ήταν δυνατό το άνοιγμα της σελίδας</string>
     <string name="native_full_sponsored">Χορηγούμενο</string>
+    <string name="share_limit_notice">Κοινοποίηση των πρώτων %1$d από %2$d στοιχεία, το μέγιστο που μπορεί να κοινοποιηθεί ταυτόχρονα</string>
 </resources>

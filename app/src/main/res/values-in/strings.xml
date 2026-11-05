@@ -682,4 +682,5 @@
     <string name="policy_privacy_label">Kebijakan Privasi</string>
     <string name="policy_link_unavailable">Halaman tidak dapat dibuka</string>
     <string name="native_full_sponsored">Bersponsor</string>
+    <string name="share_limit_notice">Membagikan %1$d item pertama dari %2$d, jumlah maksimum yang bisa dibagikan sekaligus</string>
 </resources>

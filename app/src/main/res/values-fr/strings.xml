@@ -696,4 +696,5 @@
     <string name="policy_privacy_label">Politique de confidentialité</string>
     <string name="policy_link_unavailable">Impossible d\'ouvrir la page</string>
     <string name="native_full_sponsored">Sponsorisé</string>
+    <string name="share_limit_notice">Partage des %1$d premiers éléments sur %2$d, le maximum partageable à la fois</string>
 </resources>

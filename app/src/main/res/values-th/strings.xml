@@ -682,4 +682,5 @@
     <string name="policy_privacy_label">นโยบายความเป็นส่วนตัว</string>
     <string name="policy_link_unavailable">ไม่สามารถเปิดหน้าได้</string>
     <string name="native_full_sponsored">ได้รับการสนับสนุน</string>
+    <string name="share_limit_notice">กำลังแชร์ %1$d รายการแรกจากทั้งหมด %2$d รายการ ซึ่งเป็นจำนวนสูงสุดที่แชร์ได้ในครั้งเดียว</string>
 </resources>

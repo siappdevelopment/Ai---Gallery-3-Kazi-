@@ -703,4 +703,5 @@
     <string name="policy_privacy_label">Политика конфиденциальности</string>
     <string name="policy_link_unavailable">Не удалось открыть страницу</string>
     <string name="native_full_sponsored">Спонсор</string>
+    <string name="share_limit_notice">Отправляются первые %1$d из %2$d элементов — максимум за один раз</string>
 </resources>

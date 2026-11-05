@@ -689,4 +689,5 @@
     <string name="policy_privacy_label">Datenschutzerklärung</string>
     <string name="policy_link_unavailable">Die Seite konnte nicht geöffnet werden</string>
     <string name="native_full_sponsored">Gesponsert</string>
+    <string name="share_limit_notice">Die ersten %1$d von %2$d Elementen werden geteilt, mehr ist auf einmal nicht möglich</string>
 </resources>

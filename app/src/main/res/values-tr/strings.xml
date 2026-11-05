@@ -689,4 +689,5 @@
     <string name="policy_privacy_label">Gizlilik Politikası</string>
     <string name="policy_link_unavailable">Sayfa açılamadı</string>
     <string name="native_full_sponsored">Sponsorlu</string>
+    <string name="share_limit_notice">%2$d öğenin ilk %1$d tanesi paylaşılıyor; bir seferde paylaşılabilecek en fazla sayı</string>
 </resources>

@@ -682,4 +682,5 @@
     <string name="policy_privacy_label">개인정보처리방침</string>
     <string name="policy_link_unavailable">페이지를 열 수 없습니다</string>
     <string name="native_full_sponsored">스폰서</string>
+    <string name="share_limit_notice">%2$d개 중 처음 %1$d개 항목을 공유합니다 (한 번에 공유할 수 있는 최대 개수)</string>
 </resources>

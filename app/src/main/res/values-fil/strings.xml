@@ -689,4 +689,5 @@
     <string name="policy_privacy_label">Patakaran sa Privacy</string>
     <string name="policy_link_unavailable">Hindi mabuksan ang page</string>
     <string name="native_full_sponsored">Naka-sponsor</string>
+    <string name="share_limit_notice">Ibabahagi ang unang %1$d sa %2$d item, ang pinakamarami na maibabahagi nang sabay-sabay</string>
 </resources>
