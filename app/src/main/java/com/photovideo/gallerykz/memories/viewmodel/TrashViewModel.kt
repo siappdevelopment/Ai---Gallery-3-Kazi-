@@ -40,6 +40,17 @@ class TrashViewModel(application: Application) : AndroidViewModel(application) {
     @Volatile
     private var processed = 0
 
+    /** How far a Restore / Delete job is: [done] of [total] items handled. */
+    class Progress(val action: Action, val done: Int, val total: Int)
+
+    @Volatile
+    private var total = 0
+
+    private val _progress = MutableLiveData<Progress?>(null)
+
+    /** Not null while a job runs in chunks; the screen shows a blocking progress dialog for it. */
+    val progress: LiveData<Progress?> = _progress
+
     private val _items = MutableLiveData<List<BinItem>>(emptyList())
     val items: LiveData<List<BinItem>> = _items
 
@@ -78,11 +89,13 @@ class TrashViewModel(application: Application) : AndroidViewModel(application) {
     private fun ask(action: Action, selected: Set<Long>?) {
         worker.execute {
             val uids = current.map { it.uid }.filter { selected == null || it in selected }
-            if (uids.isEmpty()) return@execute
+            if (uids.isEmpty() || pendingAction != null) return@execute
             queue.clear()
             queue.addAll(uids.chunked(CHUNK))
             processed = 0
+            total = uids.size
             pendingAction = action
+            _progress.postValue(Progress(action, 0, total))
             launchNext(action)
         }
     }
@@ -113,7 +126,10 @@ class TrashViewModel(application: Application) : AndroidViewModel(application) {
             queue.clear()
             pendingAction = null
             pendingChunk = emptyList()
-            if (done > 0) finish(action) else _failed.postValue(Event(Unit))
+            if (done > 0) finish(action) else {
+                _progress.postValue(null)
+                _failed.postValue(Event(Unit))
+            }
             return
         }
     }
@@ -125,6 +141,7 @@ class TrashViewModel(application: Application) : AndroidViewModel(application) {
         pendingAction = null
         pendingChunk = emptyList()
         processed = 0
+        _progress.postValue(null)
         if (done <= 0) return
         if (action == Action.RESTORE) media.sync(true) { }
         refresh()
@@ -149,6 +166,7 @@ class TrashViewModel(application: Application) : AndroidViewModel(application) {
                 return@execute
             }
             processed += pendingChunk.size
+            _progress.postValue(Progress(action, processed, total))
             queue.removeFirstOrNull()
             pendingChunk = emptyList()
             launchNext(action)
@@ -156,7 +174,8 @@ class TrashViewModel(application: Application) : AndroidViewModel(application) {
     }
 
     private companion object {
-        const val CHUNK = 500
+        /** The same chunk as Hide: 200 items per system confirmation. */
+        const val CHUNK = 200
         const val MIN_CHUNK = 50
         val worker = Executors.newSingleThreadExecutor()
     }

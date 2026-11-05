@@ -24,6 +24,7 @@ import com.photovideo.gallerykz.memories.R
 import com.photovideo.gallerykz.memories.adapter.TrashAdapter
 import com.photovideo.gallerykz.memories.databinding.ActivityTrashBinding
 import com.photovideo.gallerykz.memories.fragment.ConfirmDialogFragment
+import com.photovideo.gallerykz.memories.helper.BlockingProgressDialog
 import com.photovideo.gallerykz.memories.viewmodel.TrashViewModel
 
 /** The Bin (design 55): trashed photos and videos, Restore all and Empty Bin. */
@@ -31,6 +32,7 @@ class TrashActivity : AdAwareActivity() {
 
     private var binding: ActivityTrashBinding? = null
     private val viewModel: TrashViewModel by viewModels()
+    private val progressDialog by lazy { BlockingProgressDialog(this) }
 
     private val requestLauncher =
         registerForActivityResult(ActivityResultContracts.StartIntentSenderForResult()) { result ->
@@ -117,6 +119,14 @@ class TrashActivity : AdAwareActivity() {
         viewModel.loaded.observe(this) { loaded ->
             val empty = viewModel.items.value.orEmpty().isEmpty()
             b.emptyGroup.visibility = if (loaded == true && empty) View.VISIBLE else View.GONE
+        }
+        viewModel.progress.observe(this) { progress ->
+            if (progress == null) {
+                progressDialog.dismiss()
+            } else {
+                val format = if (progress.action == TrashViewModel.Action.RESTORE) R.string.bin_restore_progress else R.string.selection_delete_progress
+                progressDialog.update(progress.done, progress.total, format)
+            }
         }
         viewModel.request.observe(this) { event ->
             event.getContentIfNotHandled()?.let {

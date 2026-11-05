@@ -752,6 +752,8 @@
     <string name="selection_removed_album">%1$d items uit album verwyder</string>
     <string name="selection_hide_title">Versteek %1$d items?</string>
     <string name="selection_hide_progress">Versteek %1$d van %2$d…</string>
+    <string name="selection_delete_progress">Vee %1$d van %2$d uit…</string>
+    <string name="bin_restore_progress">Herstel %1$d van %2$d…</string>
     <string name="selection_hidden">%1$d items versteek</string>
     <string name="selection_hidden_partial">%1$d items versteek, %2$d kon nie versteek word nie</string>
     <string name="vault_unhide_progress">Besig om %1$d van %2$d weer te wys…</string>

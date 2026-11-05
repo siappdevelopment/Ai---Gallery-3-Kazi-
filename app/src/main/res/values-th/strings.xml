@@ -745,6 +745,8 @@
     <string name="selection_removed_album">นำ %1$d รายการออกจากอัลบั้มแล้ว</string>
     <string name="selection_hide_title">ซ่อน %1$d รายการไหม</string>
     <string name="selection_hide_progress">กำลังซ่อน %1$d จาก %2$d รายการ…</string>
+    <string name="selection_delete_progress">กำลังลบ %1$d จาก %2$d…</string>
+    <string name="bin_restore_progress">กำลังกู้คืน %1$d จาก %2$d…</string>
     <string name="selection_hidden">ซ่อน %1$d รายการแล้ว</string>
     <string name="selection_hidden_partial">ซ่อน %1$d รายการแล้ว ซ่อนไม่ได้ %2$d รายการ</string>
     <string name="vault_unhide_progress">กำลังเลิกซ่อน %1$d จาก %2$d รายการ…</string>

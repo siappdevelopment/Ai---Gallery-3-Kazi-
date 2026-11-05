@@ -766,6 +766,8 @@
     <string name="selection_removed_album">Убрано из альбома: %1$d</string>
     <string name="selection_hide_title">Скрыть элементы: %1$d?</string>
     <string name="selection_hide_progress">Скрытие: %1$d из %2$d…</string>
+    <string name="selection_delete_progress">Удаление %1$d из %2$d…</string>
+    <string name="bin_restore_progress">Восстановление %1$d из %2$d…</string>
     <string name="selection_hidden">Скрыто элементов: %1$d</string>
     <string name="selection_hidden_partial">Скрыто элементов: %1$d, не удалось скрыть: %2$d</string>
     <string name="vault_unhide_progress">Показ снова: %1$d из %2$d…</string>
