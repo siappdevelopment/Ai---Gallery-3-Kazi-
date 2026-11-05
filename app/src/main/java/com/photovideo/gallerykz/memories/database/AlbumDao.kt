@@ -27,6 +27,10 @@ interface AlbumDao {
     )
     fun observeAlbumCards(): LiveData<List<AlbumCardRow>>
 
+    /** How many of [uids] are in at least one app album (counted once each). */
+    @Query("SELECT COUNT(DISTINCT mediaUid) FROM album_items WHERE mediaUid IN (:uids)")
+    fun countMembers(uids: List<Long>): Int
+
     @Query("SELECT COUNT(*) FROM albums WHERE name = :name COLLATE NOCASE")
     fun countByName(name: String): Int
 

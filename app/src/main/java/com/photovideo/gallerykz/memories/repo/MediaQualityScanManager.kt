@@ -78,6 +78,21 @@ object MediaQualityScanManager {
         changes.tryEmit(Unit)
     }
 
+    /**
+     * Measures one photo right now (blocking: call it off the main thread). The scan works newest photo first, and a photo that was
+     * just edited keeps its old date, so it would wait behind every newer photo before it showed in Recently edited; the editor
+     * measures its own result with this instead. A photo that is not in the index yet or cannot be measured is left to the scan.
+     */
+    fun measureOne(context: Context, uid: Long) {
+        val app = context.applicationContext
+        val db = AppDatabase.getInstance(app)
+        val media = db.mediaDao().byUid(uid) ?: return
+        if (media.mediaType != com.photovideo.gallerykz.memories.database.MediaTypes.IMAGE || media.modifiedMs <= 0) return
+        val dao = db.qualityDao()
+        val row = measure(app, dao, media)
+        if (row.failures == 0) dao.upsert(listOf(row))
+    }
+
     /** Scans now, e.g. after a failure. */
     fun scanNow(context: Context) {
         val app = context.applicationContext

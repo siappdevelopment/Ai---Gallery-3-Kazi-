@@ -178,9 +178,36 @@ class EditMediaViewModel(
             } catch (e: SecurityException) {
                 EditResult.Failed(R.string.edit_save_failed)
             }
-            if (outcome is EditResult.Saved) repository.sync(true) { }
+            if (outcome is EditResult.Saved) publishSaved()
             _saving.postValue(false)
             _result.postValue(Event(outcome))
+        }
+    }
+
+    /** The uid of the photo that was just written, read by [publishSaved]. */
+    @Volatile
+    private var savedUid = 0L
+
+    /**
+     * Makes the new photo show up everywhere before the editor closes: the media index is read again (and waited for), then the photo
+     * is measured on the spot so it is already in Recently edited when that screen opens. Worker thread.
+     */
+    private fun publishSaved() {
+        val latch = java.util.concurrent.CountDownLatch(1)
+        repository.sync(true) { latch.countDown() }
+        // Never keep the user waiting for long: after a few seconds the editor closes and the sync finishes in the background.
+        try {
+            latch.await(SYNC_WAIT_SECONDS, java.util.concurrent.TimeUnit.SECONDS)
+        } catch (e: InterruptedException) {
+            Thread.currentThread().interrupt()
+        }
+        val uid = savedUid
+        if (uid > 0) {
+            try {
+                com.photovideo.gallerykz.memories.repo.MediaQualityScanManager.measureOne(getApplication(), uid)
+            } catch (e: Exception) {
+                // The normal scan picks the photo up a little later.
+            }
         }
     }
 
@@ -203,6 +230,7 @@ class EditMediaViewModel(
             stream.use { if (!bitmap.compress(Bitmap.CompressFormat.JPEG, JPEG_QUALITY, it)) throw IOException("compress") }
             resolver.update(target, ContentValues().apply { put(MediaStore.MediaColumns.IS_PENDING, 0) }, null, null)
             bitmap.recycle()
+            savedUid = MediaTypes.uid(android.content.ContentUris.parseId(target), MediaTypes.IMAGE)
             EditResult.Saved
         } catch (e: IOException) {
             // No broken half-written file is left behind.
@@ -218,6 +246,7 @@ class EditMediaViewModel(
         private const val PREVIEW_SIDE = 1280
         private const val SAVE_SIDE = 2400
         private const val JPEG_QUALITY = 92
+        private const val SYNC_WAIT_SECONDS = 6L
         private val worker = Executors.newSingleThreadExecutor()
     }
 }

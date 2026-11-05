@@ -58,7 +58,9 @@ class SelectionBarController(
 
         activity.onBackPressedDispatcher.addCallback(owner, backCallback)
         activity.supportFragmentManager.setFragmentResultListener(KEY_DELETE, owner) { _, result ->
-            if (result.getBoolean(ConfirmDialogFragment.RESULT_CONFIRMED)) viewModel.moveToBin()
+            if (!result.getBoolean(ConfirmDialogFragment.RESULT_CONFIRMED)) return@setFragmentResultListener
+            val album = sourceAlbumId()
+            if (album > 0L) viewModel.removeFromAlbum(album) else viewModel.moveToBin()
         }
 
         viewModel.active.observe(owner) { render() }
@@ -111,14 +113,34 @@ class SelectionBarController(
     }
 
     private fun confirmDelete(count: Int) {
-        ConfirmDialogFragment.show(
-            activity.supportFragmentManager,
-            KEY_DELETE,
-            R.drawable.ic_delete,
-            activity.getString(R.string.selection_delete_title, count),
-            activity.getString(R.string.delete_body),
-            activity.getString(R.string.delete_move_to_bin),
-        )
+        if (sourceAlbumId() > 0L) {
+            // In an app album Delete only takes the items out of this album; the files and the other albums keep them.
+            ConfirmDialogFragment.show(
+                activity.supportFragmentManager,
+                KEY_DELETE,
+                R.drawable.ic_delete,
+                activity.getString(R.string.album_remove_selection_title, count),
+                activity.getString(R.string.album_remove_body),
+                activity.getString(R.string.album_remove_confirm),
+            )
+            return
+        }
+        // Anywhere else Delete deletes the real files. Items that are also in one of the user's albums leave those albums as well:
+        // the dialog says so before anything happens.
+        val uids = viewModel.snapshot()
+        com.photovideo.gallerykz.memories.repo.AlbumRepository(activity.applicationContext).countMembers(uids) { inAlbums ->
+            activity.runOnUiThread {
+                if (activity.isFinishing || activity.isDestroyed) return@runOnUiThread
+                ConfirmDialogFragment.show(
+                    activity.supportFragmentManager,
+                    KEY_DELETE,
+                    R.drawable.ic_delete,
+                    activity.getString(R.string.selection_delete_title, count),
+                    if (inAlbums > 0) activity.getString(R.string.delete_body_in_albums, inAlbums) else activity.getString(R.string.delete_body),
+                    activity.getString(R.string.delete_move_to_bin),
+                )
+            }
+        }
     }
 
     private companion object {

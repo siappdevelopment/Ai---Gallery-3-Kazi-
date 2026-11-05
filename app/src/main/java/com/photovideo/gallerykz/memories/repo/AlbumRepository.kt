@@ -69,6 +69,21 @@ class AlbumRepository(context: Context) {
         }
     }
 
+    /**
+     * How many of [uids] are in one of the user's albums. Deleting such a file (from the Gallery or a phone folder) deletes the real
+     * file, so it leaves those albums too; the delete dialog says so first. [onDone] is called from a background thread.
+     */
+    fun countMembers(uids: List<Long>, onDone: (Int) -> Unit) {
+        executor.execute {
+            val count = try {
+                uids.chunked(REMOVE_CHUNK).sumOf { dao.countMembers(it) }
+            } catch (e: Exception) {
+                0
+            }
+            onDone(count)
+        }
+    }
+
     /** Puts [uids] into the app album [albumId] (items it already has are left alone). [onDone] gets false when it failed. */
     fun addItems(albumId: Long, uids: List<Long>, onDone: (Boolean) -> Unit) {
         executor.execute {

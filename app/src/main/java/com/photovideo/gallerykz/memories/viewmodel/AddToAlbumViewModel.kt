@@ -127,7 +127,9 @@ class AddToAlbumViewModel(
     fun addTo(album: PickAlbum) {
         if (!canStart()) return
         val existing = album.user
-        val physical = album.bucketId != 0L && (isMove || isCopy) && (if (isMove) files.canMove else files.canCopy)
+        // A real device folder gets real files: Move relocates them, and Add / Copy make an independent copy there. Only a link would
+        // leave one file in two places, and deleting it in one place would then delete it in the other too.
+        val physical = album.bucketId != 0L && (if (isMove) files.canMove else files.canCopy)
         when {
             existing != null -> albumRepository.addToAlbum(existing, uids, ::finish, moveFrom)
             physical -> transferToFolder(album)

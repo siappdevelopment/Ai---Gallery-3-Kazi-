@@ -186,6 +186,22 @@ class SelectionViewModel(
         request(Pending.TRASH)
     }
 
+    /** Delete inside an app album: the selected items leave that album only; the files and every other album keep them. */
+    fun removeFromAlbum(albumId: Long) {
+        val uids = snapshot()
+        if (uids.isEmpty() || albumId <= 0L) return
+        worker.execute {
+            val message = try {
+                com.photovideo.gallerykz.memories.repo.AlbumRepository(getApplication()).removeItems(albumId, uids)
+                SelectionEvent.Message(R.string.selection_removed_album, uids.size)
+            } catch (e: Exception) {
+                SelectionEvent.Message(R.string.bin_failed)
+            }
+            _events.postValue(Event(message))
+            mainHandler.post { clear() }
+        }
+    }
+
     private fun request(action: Pending) {
         val uids = snapshot()
         if (uids.isEmpty()) return

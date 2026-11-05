@@ -230,6 +230,8 @@
     <string name="selection_added_favorites">%1$d added to Favorites</string>
     <string name="selection_moved_bin">%1$d items moved to Bin</string>
     <string name="transfer_folder_unsupported">“%1$s” can’t hold this type of file. Choose another folder, such as Pictures or DCIM.</string>
+    <string name="delete_body_in_albums">It stays in Bin for 30 days, then it’s deleted permanently. %1$d of these are also in your albums and will be removed from them.</string>
+    <string name="delete_body_in_album_one">It stays in Bin for 30 days, then it’s deleted permanently. It is also in one of your albums and will be removed from it.</string>
     <string name="album_remove_photo_title">Remove from this album?</string>
     <string name="album_remove_selection_title">Remove %1$d items from this album?</string>
     <string name="album_remove_body">They stay on your device and in your other albums.</string>

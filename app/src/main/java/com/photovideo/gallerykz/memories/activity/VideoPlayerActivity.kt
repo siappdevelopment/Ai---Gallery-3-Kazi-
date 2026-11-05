@@ -189,7 +189,8 @@ class VideoPlayerActivity : AdAwareActivity() {
         b.actionDelete.setOnClickListener { confirmDelete() }
 
         supportFragmentManager.setFragmentResultListener(KEY_DELETE, this) { _, result ->
-            if (result.getBoolean(ConfirmDialogFragment.RESULT_CONFIRMED)) moveToBin()
+            if (!result.getBoolean(ConfirmDialogFragment.RESULT_CONFIRMED)) return@setFragmentResultListener
+            if (viewModel.sourceAlbumId > 0L) removeFromAlbum() else moveToBin()
         }
         viewModel.details.observe(this) { event ->
             event.getContentIfNotHandled()?.let { DetailsDialogFragment.show(supportFragmentManager, it) }
@@ -379,6 +380,19 @@ class VideoPlayerActivity : AdAwareActivity() {
 
     private fun confirmDelete() {
         if (media == null) return
+        if (viewModel.sourceAlbumId > 0L) {
+            // Opened from an app album: only this album loses the video; the file and the other albums keep it.
+            pause()
+            ConfirmDialogFragment.show(
+                supportFragmentManager,
+                KEY_DELETE,
+                R.drawable.ic_delete,
+                getString(R.string.album_remove_photo_title),
+                getString(R.string.album_remove_body),
+                getString(R.string.album_remove_confirm),
+            )
+            return
+        }
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.R) {
             Toast.makeText(applicationContext, R.string.viewer_unsupported, Toast.LENGTH_SHORT).show()
             return
@@ -392,6 +406,13 @@ class VideoPlayerActivity : AdAwareActivity() {
             getString(R.string.delete_body),
             getString(R.string.delete_move_to_bin),
         )
+    }
+
+    private fun removeFromAlbum() {
+        val item = media ?: return
+        viewModel.removeFromAlbum(item.uid)
+        Toast.makeText(applicationContext, getString(R.string.selection_removed_album, 1), Toast.LENGTH_SHORT).show()
+        finish()
     }
 
     /** The user confirmed: ask the system to move the video to the Bin, then drop it from the gallery and leave. */
@@ -494,10 +515,17 @@ class VideoPlayerActivity : AdAwareActivity() {
         private val SPEED_LABELS = listOf("1x", "1.5x", "2x", "0.5x")
 
         /** Opens the player for the video [uid] (the media id the whole app uses; see MediaUris). */
-        fun intent(context: Context, uid: Long): Intent =
+        fun intent(context: Context, uid: Long, albumId: Long = 0L): Intent =
             Intent(context, VideoPlayerActivity::class.java)
                 .putExtra(FullScreenMediaViewModel.ARG_UID, uid)
                 // A one-item list: the view model must not read the whole gallery for this screen.
                 .putExtra(FullScreenMediaViewModel.ARG_UIDS, longArrayOf(uid))
+                .apply {
+                    // Opened from an app album: Delete there only takes the video out of that album (see confirmDelete).
+                    if (albumId > 0L) {
+                        putExtra(FullScreenMediaViewModel.ARG_KIND, com.photovideo.gallerykz.memories.model.AlbumKind.USER.key)
+                        putExtra(FullScreenMediaViewModel.ARG_ID, albumId)
+                    }
+                }
     }
 }

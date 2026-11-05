@@ -120,6 +120,8 @@ class EditMediaActivity : AdAwareActivity() {
             when (val result = event.getContentIfNotHandled()) {
                 is EditResult.Saved -> {
                     Toast.makeText(applicationContext, R.string.edit_saved, Toast.LENGTH_SHORT).show()
+                    // The new photo is in the index and measured by now: show it where edited photos are listed.
+                    startActivity(CategoryMediaActivity.intent(this, com.photovideo.gallerykz.memories.model.AlbumKind.RECENTLY_EDITED))
                     finish()
                 }
                 is EditResult.Failed -> Toast.makeText(applicationContext, result.message, Toast.LENGTH_SHORT).show()

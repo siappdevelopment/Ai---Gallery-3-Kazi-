@@ -24,18 +24,13 @@ class GalleryApp : Application() {
         super.onCreate()
         ThemePrefs.applySaved(this)
         LocaleHelper.init(this)
-        // Recents key opens the launcher's Recent page while this app is the Home app.
         AppRecentsKey.install(this)
-        // Charger plugged in / out, app installed / uninstalled: their screens (see events/).
-        EventWatch.register(this)
-        // Ads: the saved config first (no network), then the SDK, then a fresh fetch.
-        AdRemoteConfig.restore(this)
+         EventWatch.register(this)
+         AdRemoteConfig.restore(this)
         GoogleAds.init(this)
         AdRemoteConfig.fetch(this)
         AppOpenAds.install(this)
-        // The navigation bar is hidden everywhere (a few screens bring it back for a big native ad).
         SystemNav.install(this)
-        // A full-screen Google ad hides the status bar: the screen behind it must not slide up.
         AdInsetsGuard.install(this)
         UnlockAds.register(this)
         com.photovideo.gallerykz.memories.launcher.LauncherApps.reload(this)

@@ -277,7 +277,13 @@ class LauncherHomeFragment : Fragment(), LauncherSettings.Listener, LauncherApps
 
     private fun loadShortcuts() {
         val context = requireContext()
-        dock.forEach { it.target = it.find(context) }
+        // On some phones one app is both the Contacts app and the default Phone dialer (for example Xiaomi's), so two slots would
+        // show the same icon. An app already in the dock is not added a second time: its first slot stays, the later one is hidden.
+        val inDock = HashSet<String>()
+        dock.forEach { slot ->
+            val found = slot.find(context)
+            slot.target = if (found != null && inDock.add(found.packageName)) found else null
+        }
         calendar = LauncherShortcuts.calendar(context)
     }
 

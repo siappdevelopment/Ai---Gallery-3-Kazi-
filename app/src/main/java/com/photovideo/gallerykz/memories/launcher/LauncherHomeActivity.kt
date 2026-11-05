@@ -307,6 +307,21 @@ class LauncherHomeActivity : AdAwareActivity(), LauncherHost, LauncherSettings.L
             window.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
             window.addFlags(WindowManager.LayoutParams.FLAG_SHOW_WALLPAPER)
         }
+        updateSystemBarIcons(settledGallery)
+    }
+
+    /**
+     * The status bar icons (clock, battery, signal) follow what is behind them: light icons over the wallpaper of the home page, and
+     * on the gallery page dark icons in the light theme (they were white on a light header and could not be seen) or light icons in
+     * the dark theme.
+     */
+    private fun updateSystemBarIcons(onGalleryPage: Boolean) {
+        val night = resources.configuration.uiMode and android.content.res.Configuration.UI_MODE_NIGHT_MASK ==
+            android.content.res.Configuration.UI_MODE_NIGHT_YES
+        val darkIcons = onGalleryPage && !night
+        val controller = androidx.core.view.WindowCompat.getInsetsController(window, window.decorView)
+        controller.isAppearanceLightStatusBars = darkIcons
+        controller.isAppearanceLightNavigationBars = darkIcons
     }
 
     // ---- swipe up for the drawer ----
