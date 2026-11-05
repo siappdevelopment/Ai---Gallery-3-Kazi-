@@ -121,9 +121,25 @@ class AddToAlbumBottomSheet : BottomSheetDialogFragment() {
         }
     }
 
+    override fun onPause() {
+        // Home, Recents or another app: the name field must not keep the keyboard open over whatever comes next.
+        closeKeyboard()
+        super.onPause()
+    }
+
     override fun onDestroyView() {
+        closeKeyboard()
         _binding = null
         super.onDestroyView()
+    }
+
+    /** Takes the focus off the name field and hides the keyboard; safe to call any time (also without a view). */
+    private fun closeKeyboard() {
+        val b = _binding ?: return
+        b.etAlbumName.clearFocus()
+        val token = b.etAlbumName.windowToken ?: return
+        context?.getSystemService(InputMethodManager::class.java)?.hideSoftInputFromWindow(token, 0)
+        dialog?.window?.let { androidx.core.view.WindowCompat.getInsetsController(it, b.etAlbumName).hide(WindowInsetsCompat.Type.ime()) }
     }
 
     private fun showForm(show: Boolean) {

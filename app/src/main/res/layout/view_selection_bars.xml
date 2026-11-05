@@ -87,14 +87,20 @@
                 app:tint="@color/splash_text_primary" />
 
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="3dp"
                 android:ellipsize="end"
+                android:gravity="center"
+                android:paddingStart="2dp"
+                android:paddingEnd="2dp"
+                app:autoSizeMaxTextSize="11sp"
+                app:autoSizeMinTextSize="8sp"
+                app:autoSizeStepGranularity="0.5sp"
+                app:autoSizeTextType="uniform"
                 android:maxLines="1"
                 android:text="@string/viewer_share"
                 android:textColor="@color/splash_text_primary"
-                android:textSize="11sp"
                 android:textStyle="bold" />
         </LinearLayout>
 
@@ -119,14 +125,20 @@
 
             <TextView
                 android:id="@+id/tvFavoriteAction"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="3dp"
                 android:ellipsize="end"
+                android:gravity="center"
+                android:paddingStart="2dp"
+                android:paddingEnd="2dp"
+                app:autoSizeMaxTextSize="11sp"
+                app:autoSizeMinTextSize="8sp"
+                app:autoSizeStepGranularity="0.5sp"
+                app:autoSizeTextType="uniform"
                 android:maxLines="1"
                 android:text="@string/viewer_favorite"
                 android:textColor="@color/splash_text_primary"
-                android:textSize="11sp"
                 android:textStyle="bold" />
         </LinearLayout>
 
@@ -149,14 +161,20 @@
                 app:tint="@color/splash_text_primary" />
 
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="3dp"
                 android:ellipsize="end"
+                android:gravity="center"
+                android:paddingStart="2dp"
+                android:paddingEnd="2dp"
+                app:autoSizeMaxTextSize="11sp"
+                app:autoSizeMinTextSize="8sp"
+                app:autoSizeStepGranularity="0.5sp"
+                app:autoSizeTextType="uniform"
                 android:maxLines="1"
                 android:text="@string/selection_add_to_album"
                 android:textColor="@color/splash_text_primary"
-                android:textSize="11sp"
                 android:textStyle="bold" />
         </LinearLayout>
 
@@ -179,14 +197,20 @@
                 app:tint="@color/splash_text_primary" />
 
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="3dp"
                 android:ellipsize="end"
+                android:gravity="center"
+                android:paddingStart="2dp"
+                android:paddingEnd="2dp"
+                app:autoSizeMaxTextSize="11sp"
+                app:autoSizeMinTextSize="8sp"
+                app:autoSizeStepGranularity="0.5sp"
+                app:autoSizeTextType="uniform"
                 android:maxLines="1"
                 android:text="@string/selection_move"
                 android:textColor="@color/splash_text_primary"
-                android:textSize="11sp"
                 android:textStyle="bold" />
         </LinearLayout>
 
@@ -209,14 +233,20 @@
                 app:tint="@color/vault_error" />
 
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="3dp"
                 android:ellipsize="end"
+                android:gravity="center"
+                android:paddingStart="2dp"
+                android:paddingEnd="2dp"
+                app:autoSizeMaxTextSize="11sp"
+                app:autoSizeMinTextSize="8sp"
+                app:autoSizeStepGranularity="0.5sp"
+                app:autoSizeTextType="uniform"
                 android:maxLines="1"
                 android:text="@string/viewer_delete"
                 android:textColor="@color/vault_error"
-                android:textSize="11sp"
                 android:textStyle="bold" />
         </LinearLayout>
     </LinearLayout>

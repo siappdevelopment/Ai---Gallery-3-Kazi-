@@ -68,6 +68,15 @@ class RenameBottomSheet : BottomSheetDialogFragment() {
         }
     }
 
+    override fun onPause() {
+        // Home or another app: do not leave the keyboard open over the next screen.
+        _binding?.etName?.let { field ->
+            field.clearFocus()
+            field.windowToken?.let { requireContext().getSystemService(InputMethodManager::class.java)?.hideSoftInputFromWindow(it, 0) }
+        }
+        super.onPause()
+    }
+
     override fun onDestroyView() {
         _binding = null
         super.onDestroyView()
