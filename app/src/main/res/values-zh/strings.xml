@@ -743,4 +743,8 @@
     <string name="album_remove_body">它们仍保留在你的设备和其他相册中。</string>
     <string name="album_remove_confirm">移除</string>
     <string name="selection_removed_album">已从相册中移除 %1$d 项</string>
+    <string name="selection_hide_title">隐藏 %1$d 项？</string>
+    <string name="selection_hide_progress">正在隐藏 %1$d/%2$d 项…</string>
+    <string name="selection_hidden">已隐藏 %1$d 项</string>
+    <string name="selection_hidden_partial">已隐藏 %1$d 项，%2$d 项无法隐藏</string>
 </resources>

@@ -750,4 +750,8 @@
     <string name="album_remove_body">वे आपके डिवाइस और आपके दूसरे एल्बम में बने रहेंगे।</string>
     <string name="album_remove_confirm">हटाएँ</string>
     <string name="selection_removed_album">एल्बम से %1$d आइटम हटाए गए</string>
+    <string name="selection_hide_title">%1$d आइटम छिपाएँ?</string>
+    <string name="selection_hide_progress">%2$d में से %1$d छिपाए जा रहे हैं…</string>
+    <string name="selection_hidden">%1$d आइटम छिपाए गए</string>
+    <string name="selection_hidden_partial">%1$d आइटम छिपाए गए, %2$d नहीं छिपाए जा सके</string>
 </resources>

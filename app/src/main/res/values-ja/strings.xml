@@ -743,4 +743,8 @@
     <string name="album_remove_body">デバイスと他のアルバムには残ります。</string>
     <string name="album_remove_confirm">外す</string>
     <string name="selection_removed_album">アルバムから%1$d件を外しました</string>
+    <string name="selection_hide_title">%1$d件を非表示にしますか？</string>
+    <string name="selection_hide_progress">%2$d件中%1$d件を非表示にしています…</string>
+    <string name="selection_hidden">%1$d件を非表示にしました</string>
+    <string name="selection_hidden_partial">%1$d件を非表示にしました（%2$d件は非表示にできませんでした）</string>
 </resources>

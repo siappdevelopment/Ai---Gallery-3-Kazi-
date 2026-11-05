@@ -16,6 +16,7 @@ import com.photovideo.gallerykz.memories.helper.MediaUris
 import com.photovideo.gallerykz.memories.model.AlbumKind
 import com.photovideo.gallerykz.memories.model.MediaFilter
 import com.photovideo.gallerykz.memories.repo.MediaRepository
+import com.photovideo.gallerykz.memories.repo.VaultRepository
 import com.photovideo.gallerykz.memories.utils.Event
 import java.util.concurrent.Executors
 
@@ -23,6 +24,12 @@ import java.util.concurrent.Executors
 sealed class SelectionEvent {
     class Launch(val intent: PendingIntent) : SelectionEvent()
     class Message(@StringRes val res: Int, val count: Int = 0) : SelectionEvent()
+
+    /** Hide finished: [hidden] items are in the vault, [failed] could not be moved. */
+    class HideResult(val hidden: Int, val failed: Int) : SelectionEvent()
+
+    /** The vault was just set up for Hide: ask the user to confirm now. */
+    object ConfirmHide : SelectionEvent()
 }
 
 /**
@@ -257,6 +264,10 @@ class SelectionViewModel(
 
     /** The system confirmation was answered; on "yes" the index is updated at once (grids and counts follow). */
     fun onRequestResult(accepted: Boolean) {
+        if (hidePending) {
+            onHideResult(accepted)
+            return
+        }
         val action = pending
         val uids = pendingUids
         if (action == null) {
@@ -281,6 +292,128 @@ class SelectionViewModel(
             pendingUids = emptyList()
             launchNext(action)
         }
+    }
+
+    // ---- Hide: move the selection into the Photo vault
+
+    /** How many items Hide has handled so far (copied, or given up) out of all of them. */
+    class HideProgress(val done: Int, val total: Int)
+
+    private val vault by lazy { VaultRepository(getApplication()) }
+
+    private val _hideProgress = MutableLiveData<HideProgress?>(null)
+
+    /** Not null while Hide is running; the screen shows a progress dialog for it. */
+    val hideProgress: LiveData<HideProgress?> = _hideProgress
+
+    /** The vault had no PIN yet: its setup was opened, and a successful setup continues with Hide. */
+    var awaitingVaultSetup = false
+
+    @Volatile
+    private var hidePending = false
+
+    /** Chunks still to do (worker thread only), the copies waiting for the system's answer, and the running counts. */
+    private val hideQueue = ArrayDeque<List<Long>>()
+
+    @Volatile
+    private var hideStaged: List<VaultRepository.Staged> = emptyList()
+
+    private var hideTotal = 0
+    private var hideHandled = 0
+    private var hideMoved = 0
+    private var hideFailed = 0
+
+    fun onVaultSetupResult(ok: Boolean) {
+        val waiting = awaitingVaultSetup
+        awaitingVaultSetup = false
+        if (waiting && ok) _events.value = Event(SelectionEvent.ConfirmHide)
+    }
+
+    /**
+     * Hide: every selected item is copied into the vault and its original is then deleted by the system. That is done in chunks of
+     * [HIDE_CHUNK], one after the other: copy a chunk, ask the system to delete its originals (one confirmation), keep what it
+     * deleted, then the next chunk, until every item has been handled. Each item is in exactly one chunk, a copy whose original
+     * is still there is undone, and an item that could not be copied is counted as failed, so nothing is skipped or doubled.
+     */
+    fun hide() {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.R) {
+            _events.value = Event(SelectionEvent.Message(R.string.viewer_unsupported))
+            return
+        }
+        if (hidePending) return
+        val uids = snapshot()
+        if (uids.isEmpty()) return
+        hidePending = true
+        hideTotal = uids.size
+        hideHandled = 0
+        hideMoved = 0
+        hideFailed = 0
+        hideQueue.clear()
+        hideQueue.addAll(uids.chunked(HIDE_CHUNK))
+        _hideProgress.value = HideProgress(0, uids.size)
+        worker.execute { hideNext() }
+    }
+
+    /** Copies the next chunk and asks the system to delete its originals (worker thread); a chunk that cannot go on is counted as failed. */
+    private fun hideNext() {
+        val resolver = getApplication<Application>().contentResolver
+        while (true) {
+            val chunk = hideQueue.firstOrNull() ?: return finishHide()
+            val base = hideHandled
+            val copied = vault.stageAll(chunk) { n -> _hideProgress.postValue(HideProgress(base + n, hideTotal)) }
+            if (copied.isNotEmpty()) {
+                val request = try {
+                    MediaStore.createDeleteRequest(resolver, copied.map { MediaUris.ofUid(it.sourceUid) })
+                } catch (e: RuntimeException) {
+                    vault.rollbackAll(copied)
+                    null
+                }
+                if (request != null) {
+                    hideStaged = copied
+                    _events.postValue(Event(SelectionEvent.Launch(request)))
+                    return
+                }
+            }
+            // Nothing of this chunk could be copied or asked for: all of it is failed, and the next chunk goes on.
+            hideFailed += chunk.size
+            hideHandled += chunk.size
+            hideQueue.removeFirst()
+            _hideProgress.postValue(HideProgress(hideHandled, hideTotal))
+        }
+    }
+
+    /** The system answered for the chunk that was copied: keep what it deleted, undo the rest, and go on with the next chunk. */
+    private fun onHideResult(accepted: Boolean) {
+        val copied = hideStaged
+        hideStaged = emptyList()
+        worker.execute {
+            if (!accepted) {
+                // The user refused: the copies go away, the originals are untouched, and no more questions are asked.
+                // What earlier chunks already moved stays in the vault.
+                vault.rollbackAll(copied)
+                finishHide()
+                return@execute
+            }
+            val chunk = hideQueue.firstOrNull() ?: return@execute finishHide()
+            val moved = vault.commitAll(copied)
+            hideMoved += moved
+            hideFailed += chunk.size - moved
+            hideHandled += chunk.size
+            hideQueue.removeFirst()
+            _hideProgress.postValue(HideProgress(hideHandled, hideTotal))
+            hideNext()
+        }
+    }
+
+    private fun finishHide() {
+        val moved = hideMoved
+        val failed = hideFailed
+        hideQueue.clear()
+        hideStaged = emptyList()
+        hidePending = false
+        _hideProgress.postValue(null)
+        if (moved > 0 || failed > 0) _events.postValue(Event(SelectionEvent.HideResult(moved, failed)))
+        mainHandler.post { clear() }
     }
 
     private fun setActive(on: Boolean) {
@@ -309,6 +442,9 @@ class SelectionViewModel(
         const val MAX_SAVED = 5000
         const val CHUNK = 500
         const val MIN_CHUNK = 50
+
+        /** Hide handles this many items at a time (the system's limit for one confirmation). */
+        const val HIDE_CHUNK = 200
         val worker = Executors.newSingleThreadExecutor()
     }
 }

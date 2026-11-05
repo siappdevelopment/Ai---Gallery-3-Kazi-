@@ -179,7 +179,7 @@
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/actMove"
+            android:id="@+id/actHide"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
@@ -193,7 +193,7 @@
                 android:layout_width="22dp"
                 android:layout_height="22dp"
                 android:importantForAccessibility="no"
-                android:src="@drawable/ic_drive_file_move"
+                android:src="@drawable/ic_visibility_off"
                 app:tint="@color/splash_text_primary" />
 
             <TextView
@@ -209,7 +209,7 @@
                 app:autoSizeStepGranularity="0.5sp"
                 app:autoSizeTextType="uniform"
                 android:maxLines="1"
-                android:text="@string/selection_move"
+                android:text="@string/vault_move_confirm"
                 android:textColor="@color/splash_text_primary"
                 android:textStyle="bold" />
         </LinearLayout>

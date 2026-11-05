@@ -750,4 +750,8 @@
     <string name="album_remove_body">Cihazınızda ve diğer albümlerinizde kalırlar.</string>
     <string name="album_remove_confirm">Çıkar</string>
     <string name="selection_removed_album">%1$d öğe albümden çıkarıldı</string>
+    <string name="selection_hide_title">%1$d öğe gizlensin mi?</string>
+    <string name="selection_hide_progress">%2$d öğeden %1$d tanesi gizleniyor…</string>
+    <string name="selection_hidden">%1$d öğe gizlendi</string>
+    <string name="selection_hidden_partial">%1$d öğe gizlendi, %2$d öğe gizlenemedi</string>
 </resources>

@@ -743,4 +743,8 @@
     <string name="album_remove_body">기기와 다른 앨범에는 그대로 남습니다.</string>
     <string name="album_remove_confirm">제거</string>
     <string name="selection_removed_album">앨범에서 항목 %1$d개를 제거했습니다</string>
+    <string name="selection_hide_title">항목 %1$d개를 숨길까요?</string>
+    <string name="selection_hide_progress">%2$d개 중 %1$d개 숨기는 중…</string>
+    <string name="selection_hidden">항목 %1$d개를 숨겼습니다</string>
+    <string name="selection_hidden_partial">항목 %1$d개를 숨겼습니다. %2$d개는 숨길 수 없었습니다</string>
 </resources>

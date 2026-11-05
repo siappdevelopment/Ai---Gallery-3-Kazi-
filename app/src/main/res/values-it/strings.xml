@@ -757,4 +757,8 @@
     <string name="album_remove_body">Restano sul dispositivo e negli altri album.</string>
     <string name="album_remove_confirm">Rimuovi</string>
     <string name="selection_removed_album">%1$d elementi rimossi dall’album</string>
+    <string name="selection_hide_title">Nascondere %1$d elementi?</string>
+    <string name="selection_hide_progress">Nascondo %1$d di %2$d…</string>
+    <string name="selection_hidden">%1$d elementi nascosti</string>
+    <string name="selection_hidden_partial">%1$d elementi nascosti, %2$d non è stato possibile nasconderli</string>
 </resources>

@@ -750,4 +750,8 @@
     <string name="album_remove_body">Mananatili ang mga ito sa iyong device at sa iyong iba pang album.</string>
     <string name="album_remove_confirm">Alisin</string>
     <string name="selection_removed_album">%1$d item ang inalis sa album</string>
+    <string name="selection_hide_title">Itago ang %1$d item?</string>
+    <string name="selection_hide_progress">Itinatago ang %1$d sa %2$d…</string>
+    <string name="selection_hidden">%1$d item ang naitago</string>
+    <string name="selection_hidden_partial">%1$d item ang naitago, %2$d ang hindi naitago</string>
 </resources>

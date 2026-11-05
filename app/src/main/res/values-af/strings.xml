@@ -750,4 +750,8 @@
     <string name="album_remove_body">Hulle bly op jou toestel en in jou ander albums.</string>
     <string name="album_remove_confirm">Verwyder</string>
     <string name="selection_removed_album">%1$d items uit album verwyder</string>
+    <string name="selection_hide_title">Versteek %1$d items?</string>
+    <string name="selection_hide_progress">Versteek %1$d van %2$d…</string>
+    <string name="selection_hidden">%1$d items versteek</string>
+    <string name="selection_hidden_partial">%1$d items versteek, %2$d kon nie versteek word nie</string>
 </resources>

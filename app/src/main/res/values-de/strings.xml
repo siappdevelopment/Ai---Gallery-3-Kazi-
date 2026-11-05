@@ -750,4 +750,8 @@
     <string name="album_remove_body">Sie bleiben auf deinem Gerät und in deinen anderen Alben.</string>
     <string name="album_remove_confirm">Entfernen</string>
     <string name="selection_removed_album">%1$d Elemente aus dem Album entfernt</string>
+    <string name="selection_hide_title">%1$d Elemente ausblenden?</string>
+    <string name="selection_hide_progress">%1$d von %2$d werden ausgeblendet…</string>
+    <string name="selection_hidden">%1$d Elemente ausgeblendet</string>
+    <string name="selection_hidden_partial">%1$d Elemente ausgeblendet, %2$d konnten nicht ausgeblendet werden</string>
 </resources>

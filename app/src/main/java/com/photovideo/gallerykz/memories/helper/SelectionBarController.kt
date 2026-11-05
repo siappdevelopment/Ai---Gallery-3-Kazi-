@@ -1,31 +1,41 @@
 package com.photovideo.gallerykz.memories.helper
 
 import android.app.PendingIntent
+import android.content.Intent
+import android.os.Build
+import android.view.LayoutInflater
 import android.view.View
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
 import com.photovideo.gallerykz.memories.R
+import com.photovideo.gallerykz.memories.activity.VaultSetupActivity
 import com.photovideo.gallerykz.memories.adapter.MediaSelection
+import com.photovideo.gallerykz.memories.databinding.DialogHideProgressBinding
 import com.photovideo.gallerykz.memories.databinding.ViewSelectionBarsBinding
 import com.photovideo.gallerykz.memories.fragment.AddToAlbumBottomSheet
 import com.photovideo.gallerykz.memories.fragment.ConfirmDialogFragment
+import com.photovideo.gallerykz.memories.repo.VaultRepository
 import com.photovideo.gallerykz.memories.viewmodel.SelectionEvent
 import com.photovideo.gallerykz.memories.viewmodel.SelectionViewModel
 
 /**
  * The selection bars of the design (top "N selected" bar and the bottom Share / Favorite / Add to
- * album / Move / Delete bar) wired to a [SelectionViewModel]. Used by the Gallery tab and by albums.
+ * album / Hide / Delete bar) wired to a [SelectionViewModel]. Used by the Gallery tab and by albums.
  */
 class SelectionBarController(
     private val bars: ViewSelectionBarsBinding,
     private val activity: AppCompatActivity,
     private val owner: LifecycleOwner,
     private val viewModel: SelectionViewModel,
-    /** Id of the app album the grid shows (items are removed from it on Move), 0 when it is not one. */
+    /** Id of the app album the grid shows, 0 when it is not one. */
     private val sourceAlbumId: () -> Long,
     private val launch: (PendingIntent) -> Unit,
+    /** Opens the vault setup (PIN) when Hide is used before the vault exists; the host passes its result to the view model. */
+    private val launchVaultSetup: (Intent) -> Unit,
     /** Called after every selection change so the grid can redraw its check marks. */
     private val onSelectionChanged: () -> Unit,
     /** Selection mode started or ended (the Gallery hides its normal bars while it is on). */
@@ -53,17 +63,29 @@ class SelectionBarController(
         bars.actShare.setOnClickListener { withSelection { share(it) } }
         bars.actFavorite.setOnClickListener { withSelection { viewModel.favorite() } }
         bars.actAddToAlbum.setOnClickListener { withSelection { showSheet(false) } }
-        bars.actMove.setOnClickListener { withSelection { showSheet(true) } }
+        bars.actHide.setOnClickListener { withSelection { startHide(it.size) } }
         bars.actDelete.setOnClickListener { withSelection { confirmDelete(it.size) } }
 
         activity.onBackPressedDispatcher.addCallback(owner, backCallback)
         activity.supportFragmentManager.setFragmentResultListener(KEY_DELETE, owner) { _, result ->
             if (result.getBoolean(ConfirmDialogFragment.RESULT_CONFIRMED)) viewModel.moveToBin()
         }
+        activity.supportFragmentManager.setFragmentResultListener(KEY_HIDE, owner) { _, result ->
+            if (result.getBoolean(ConfirmDialogFragment.RESULT_CONFIRMED)) viewModel.hide()
+        }
+
+        owner.lifecycle.addObserver(object : DefaultLifecycleObserver {
+            override fun onDestroy(owner: LifecycleOwner) {
+                hideDialog?.dismiss()
+                hideDialog = null
+                hideDialogViews = null
+            }
+        })
 
         viewModel.active.observe(owner) { render() }
         viewModel.selected.observe(owner) { render() }
         viewModel.allFavorite.observe(owner) { render() }
+        viewModel.hideProgress.observe(owner) { showHideProgress(it) }
         viewModel.events.observe(owner) { event ->
             when (val content = event.getContentIfNotHandled()) {
                 is SelectionEvent.Launch -> launch(content.intent)
@@ -71,6 +93,8 @@ class SelectionBarController(
                     val text = if (content.count > 0) activity.getString(content.res, content.count) else activity.getString(content.res)
                     Toast.makeText(activity.applicationContext, text, Toast.LENGTH_SHORT).show()
                 }
+                is SelectionEvent.HideResult -> Toast.makeText(activity.applicationContext, hideResultText(content), Toast.LENGTH_LONG).show()
+                SelectionEvent.ConfirmHide -> confirmHide(viewModel.count())
                 null -> Unit
             }
         }
@@ -110,6 +134,66 @@ class SelectionBarController(
             .show(fm, AddToAlbumBottomSheet.TAG)
     }
 
+    /** Hide: the vault needs a PIN first (set up once, then it continues here); then the user confirms and the move runs in chunks. */
+    private fun startHide(count: Int) {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.R) {
+            Toast.makeText(activity.applicationContext, R.string.viewer_unsupported, Toast.LENGTH_SHORT).show()
+            return
+        }
+        if (viewModel.hideProgress.value != null) return
+        if (VaultRepository(activity).isSetUp) {
+            confirmHide(count)
+        } else {
+            viewModel.awaitingVaultSetup = true
+            launchVaultSetup(VaultSetupActivity.intent(activity, returnToCaller = true))
+        }
+    }
+
+    private fun confirmHide(count: Int) {
+        if (count <= 0) return
+        ConfirmDialogFragment.show(
+            activity.supportFragmentManager,
+            KEY_HIDE,
+            R.drawable.ic_visibility_off,
+            activity.getString(R.string.selection_hide_title, count),
+            activity.getString(R.string.vault_move_body),
+            activity.getString(R.string.vault_move_confirm),
+            danger = false,
+        )
+    }
+
+    private var hideDialog: AlertDialog? = null
+    private var hideDialogViews: DialogHideProgressBinding? = null
+
+    /** A progress dialog while Hide copies the items; it goes away when [progress] is null. */
+    private fun showHideProgress(progress: SelectionViewModel.HideProgress?) {
+        if (progress == null) {
+            hideDialog?.dismiss()
+            hideDialog = null
+            hideDialogViews = null
+            return
+        }
+        if (hideDialog == null) {
+            val views = DialogHideProgressBinding.inflate(LayoutInflater.from(activity))
+            hideDialogViews = views
+            hideDialog = AlertDialog.Builder(activity).setView(views.root).setCancelable(false).create().also { dialog ->
+                dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
+                if (!activity.isFinishing) dialog.show()
+            }
+        }
+        hideDialogViews?.let {
+            it.tvHideProgress.text = activity.getString(R.string.selection_hide_progress, progress.done, progress.total)
+            it.barHideProgress.max = progress.total.coerceAtLeast(1)
+            it.barHideProgress.progress = progress.done
+        }
+    }
+
+    private fun hideResultText(result: SelectionEvent.HideResult): String = when {
+        result.hidden == 0 -> activity.getString(R.string.vault_move_failed)
+        result.failed == 0 -> activity.getString(R.string.selection_hidden, result.hidden)
+        else -> activity.getString(R.string.selection_hidden_partial, result.hidden, result.failed)
+    }
+
     private fun confirmDelete(count: Int) {
         ConfirmDialogFragment.show(
             activity.supportFragmentManager,
@@ -123,5 +207,6 @@ class SelectionBarController(
 
     private companion object {
         const val KEY_DELETE = "delete_selection"
+        const val KEY_HIDE = "hide_selection"
     }
 }
