@@ -22,10 +22,10 @@ class MediaDeniteActivity : AppCompatActivity() {
 
     private val permissionLauncher = registerForActivityResult(
         ActivityResultContracts.RequestMultiplePermissions()
-    ) {
+    ) { result ->
         requesting = false
-        // Denied again: stay on this screen.
-        viewModel.onAccessResult(MediaPermissionHelper.hasAccess(this), canOpenDenied = false)
+        // Denied again: stay on this screen. A limited choice (one permission granted) is access too.
+        viewModel.onAccessResult(MediaPermissionHelper.hasAccess(this) || result.values.any { it }, canOpenDenied = false)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

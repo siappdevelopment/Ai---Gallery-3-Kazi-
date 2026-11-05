@@ -38,7 +38,7 @@ class GalleryApp : Application() {
         // A full-screen Google ad hides the status bar: the screen behind it must not slide up.
         AdInsetsGuard.install(this)
         UnlockAds.register(this)
-      com.photovideo.gallerykz.memories.launcher.LauncherApps.reload(this)
+        com.photovideo.gallerykz.memories.launcher.LauncherApps.reload(this)
         // Memory controls: the hourly reminder alarm follows its switch (a process start restarts the hour).
         com.photovideo.gallerykz.memories.notification.MemoryNotificationScheduler.sync(this)
         // Installed apps are listed in the background from the start (during splash / onboarding), so the Home

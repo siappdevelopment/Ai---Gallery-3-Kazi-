@@ -29,9 +29,12 @@ class MediaPermissionActivity : AppCompatActivity() {
     // Registered as a property so the result is still delivered after process recreation.
     private val permissionLauncher = registerForActivityResult(
         ActivityResultContracts.RequestMultiplePermissions()
-    ) {
+    ) { result ->
         requesting = false
-        viewModel.onAccessResult(MediaPermissionHelper.hasAccess(this), canOpenDenied = true)
+        // "Allow limited access" (selected photos) answers true for just one permission, and some phones update the permission state
+        // a moment after the photo picker closes: the answer of the dialog itself counts too, so a limited choice never lands on
+        // the "can't see your photos" screen.
+        viewModel.onAccessResult(MediaPermissionHelper.hasAccess(this) || result.values.any { it }, canOpenDenied = true)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

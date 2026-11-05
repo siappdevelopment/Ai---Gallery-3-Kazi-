@@ -191,7 +191,10 @@
                         android:id="@+id/switchLabels"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:minHeight="48dp" />
+                        android:minHeight="48dp"
+                        android:thumb="@drawable/bg_vault_switch_thumb"
+                        app:showText="false"
+                        app:track="@drawable/bg_vault_switch_track" />
                 </LinearLayout>
 
                 <LinearLayout

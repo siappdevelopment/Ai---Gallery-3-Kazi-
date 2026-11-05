@@ -335,7 +335,12 @@ class VaultRepository(context: Context) {
             file.inputStream().use { input ->
                 (resolver.openOutputStream(dest) ?: throw IOException("no output")).use { out -> input.copyTo(out) }
             }
-            resolver.update(dest, ContentValues().apply { put(MediaStore.MediaColumns.IS_PENDING, 0) }, null, null) > 0
+            val published = resolver.update(dest, ContentValues().apply { put(MediaStore.MediaColumns.IS_PENDING, 0) }, null, null) > 0
+            // Publishing makes the system read the file again, and for a picture without a date inside it (a screenshot, a chat
+            // image, many old photos) it then takes "now" as the date taken: the photo would jump to Today / Recent. The original
+            // date is written back once more, after that scan.
+            if (published && item.dateMs > 0) keepOriginalDate(dest, item.dateMs)
+            published
         } catch (e: IOException) {
             dropTarget(target)
             false
@@ -348,6 +353,21 @@ class VaultRepository(context: Context) {
         } catch (e: IllegalStateException) {
             dropTarget(target)
             false
+        }
+    }
+
+    /** Sets the date taken (and the modified date) of a restored item back to the date it had before it was hidden. */
+    private fun keepOriginalDate(uri: Uri, dateMs: Long) {
+        try {
+            val values = ContentValues().apply {
+                put(MediaStore.MediaColumns.DATE_TAKEN, dateMs)
+                put(MediaStore.MediaColumns.DATE_MODIFIED, dateMs / 1000L)
+            }
+            resolver.update(uri, values, null, null)
+        } catch (e: SecurityException) {
+            // The item is restored anyway; only its date may then show as the restore time.
+        } catch (e: IllegalArgumentException) {
+            // Same: the date is a nicety, never a reason to fail the restore.
         }
     }
 
