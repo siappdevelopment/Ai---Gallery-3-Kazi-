@@ -747,4 +747,5 @@
     <string name="selection_hide_progress">正在隐藏 %1$d/%2$d 项…</string>
     <string name="selection_hidden">已隐藏 %1$d 项</string>
     <string name="selection_hidden_partial">已隐藏 %1$d 项，%2$d 项无法隐藏</string>
+    <string name="vault_unhide_progress">正在取消隐藏 %1$d/%2$d 项…</string>
 </resources>

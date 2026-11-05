@@ -754,4 +754,5 @@
     <string name="selection_hide_progress">%2$d öğeden %1$d tanesi gizleniyor…</string>
     <string name="selection_hidden">%1$d öğe gizlendi</string>
     <string name="selection_hidden_partial">%1$d öğe gizlendi, %2$d öğe gizlenemedi</string>
+    <string name="vault_unhide_progress">%2$d öğeden %1$d tanesi gösteriliyor…</string>
 </resources>

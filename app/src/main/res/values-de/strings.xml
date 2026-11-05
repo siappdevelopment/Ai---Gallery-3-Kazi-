@@ -754,4 +754,5 @@
     <string name="selection_hide_progress">%1$d von %2$d werden ausgeblendet…</string>
     <string name="selection_hidden">%1$d Elemente ausgeblendet</string>
     <string name="selection_hidden_partial">%1$d Elemente ausgeblendet, %2$d konnten nicht ausgeblendet werden</string>
+    <string name="vault_unhide_progress">%1$d von %2$d werden eingeblendet…</string>
 </resources>

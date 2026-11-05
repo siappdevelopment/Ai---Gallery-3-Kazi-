@@ -761,4 +761,5 @@
     <string name="selection_hide_progress">Ocultando %1$d de %2$d…</string>
     <string name="selection_hidden">%1$d itens ocultados</string>
     <string name="selection_hidden_partial">%1$d itens ocultados, %2$d não puderam ser ocultados</string>
+    <string name="vault_unhide_progress">Reexibindo %1$d de %2$d…</string>
 </resources>

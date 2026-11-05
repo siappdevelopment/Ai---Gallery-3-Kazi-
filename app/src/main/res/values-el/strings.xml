@@ -754,4 +754,5 @@
     <string name="selection_hide_progress">Απόκρυψη %1$d από %2$d…</string>
     <string name="selection_hidden">Αποκρύφθηκαν %1$d στοιχεία</string>
     <string name="selection_hidden_partial">Αποκρύφθηκαν %1$d στοιχεία, %2$d δεν ήταν δυνατό να αποκρυφθούν</string>
+    <string name="vault_unhide_progress">Επαναφορά εμφάνισης %1$d από %2$d…</string>
 </resources>

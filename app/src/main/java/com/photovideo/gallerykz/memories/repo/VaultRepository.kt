@@ -306,11 +306,15 @@ class VaultRepository(context: Context) {
     /**
      * Puts the items back into the gallery (MediaStore) and removes them from the vault. Each item is written
      * first and removed from the vault only when that worked, so nothing is lost; returns how many failed.
+     * [onProgress] gets the number of items handled so far (restored or failed), after each one.
      */
-    fun restore(ids: List<Long>): Int {
+    fun restore(ids: List<Long>, onProgress: (Int) -> Unit = {}): Int {
         var failed = 0
+        var handled = 0
         for (row in ids.chunked(CHUNK).flatMap { vaultDao.byIds(it) }) {
             if (restoreOne(row)) removeRow(row) else failed++
+            handled++
+            onProgress(handled)
         }
         return failed
     }

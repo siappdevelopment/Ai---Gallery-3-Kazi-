@@ -747,4 +747,5 @@
     <string name="selection_hide_progress">กำลังซ่อน %1$d จาก %2$d รายการ…</string>
     <string name="selection_hidden">ซ่อน %1$d รายการแล้ว</string>
     <string name="selection_hidden_partial">ซ่อน %1$d รายการแล้ว ซ่อนไม่ได้ %2$d รายการ</string>
+    <string name="vault_unhide_progress">กำลังเลิกซ่อน %1$d จาก %2$d รายการ…</string>
 </resources>
