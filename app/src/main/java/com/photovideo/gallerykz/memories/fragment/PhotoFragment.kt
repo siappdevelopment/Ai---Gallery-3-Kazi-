@@ -174,7 +174,7 @@ class PhotoFragment : Fragment() {
                 mediaAdapter?.refreshSelection()
                 mosaicAdapter?.refreshSelection()
             },
-            onActiveChanged = { galleryHost()?.setChromeVisible(!it) },
+            onActiveChanged = { active -> keepScrollPosition { galleryHost()?.setChromeVisible(!active) } },
         )
         selectionBars = bars
 
@@ -739,6 +739,37 @@ class PhotoFragment : Fragment() {
             filter == MediaFilter.ALL -> UiState.EMPTY
             else -> UiState.FILTER_EMPTY
         }
+    }
+
+    /**
+     * Runs [change] (which resizes the list, e.g. the top and tab bars hiding while selecting) and then puts the first visible item
+     * back where it was on the screen. Without it the taller list re-anchors itself and the photos jump to other places, most of
+     * all when the selection starts at the bottom of the gallery.
+     */
+    private fun keepScrollPosition(change: () -> Unit) {
+        val rv = binding?.rvMedia
+        val manager = gridManager
+        val position = manager?.findFirstVisibleItemPosition() ?: RecyclerView.NO_POSITION
+        val anchor = if (position != RecyclerView.NO_POSITION) manager?.findViewByPosition(position) else null
+        if (rv == null || anchor == null) {
+            change()
+            return
+        }
+        val before = IntArray(2)
+        anchor.getLocationOnScreen(before)
+        rv.addOnLayoutChangeListener(object : View.OnLayoutChangeListener {
+            override fun onLayoutChange(v: View, l: Int, t: Int, r: Int, bt: Int, ol: Int, ot: Int, or: Int, ob: Int) {
+                rv.removeOnLayoutChangeListener(this)
+                rv.post {
+                    val view = gridManager?.findViewByPosition(position) ?: return@post
+                    val after = IntArray(2)
+                    view.getLocationOnScreen(after)
+                    val shift = after[1] - before[1]
+                    if (shift != 0) rv.scrollBy(0, shift)
+                }
+            }
+        })
+        change()
     }
 
     /** A filter tab was tapped: clear the old list first, then ask for the new filter, so the two never show together. */
