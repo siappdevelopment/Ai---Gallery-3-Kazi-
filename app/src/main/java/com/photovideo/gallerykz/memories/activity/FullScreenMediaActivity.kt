@@ -208,6 +208,13 @@ class FullScreenMediaActivity : AdAwareActivity() {
         }
     }
 
+    override fun onResume() {
+        super.onResume()
+        // The video player is a separate screen with its own view model: a favorite set there is only in the database. The
+        // item on screen was read once, so it is read again whenever this screen comes back to the front.
+        uids.getOrNull(position)?.let { viewModel.select(it) }
+    }
+
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
         outState.putBoolean(KEY_CHROME, chromeVisible)
