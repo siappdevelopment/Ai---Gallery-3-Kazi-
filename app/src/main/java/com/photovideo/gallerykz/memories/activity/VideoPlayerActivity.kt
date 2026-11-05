@@ -212,11 +212,39 @@ class VideoPlayerActivity : AdAwareActivity() {
 
     // ---- playback ----
 
+    private var videoW = 0
+    private var videoH = 0
+
+    /**
+     * Sizes the video to the largest size that fits its area with the video's own proportions. The area changes when the phone turns to
+     * landscape; without this the video surface kept its old size and the picture looked small inside an oversized player.
+     */
+    private fun fitVideo(b: ActivityVideoPlayerBinding) {
+        val areaW = b.videoArea.width
+        val areaH = b.videoArea.height
+        if (videoW <= 0 || videoH <= 0 || areaW <= 0 || areaH <= 0) return
+        val scale = minOf(areaW.toFloat() / videoW, areaH.toFloat() / videoH)
+        val w = (videoW * scale).toInt().coerceAtLeast(1)
+        val h = (videoH * scale).toInt().coerceAtLeast(1)
+        val lp = b.videoView.layoutParams as android.widget.FrameLayout.LayoutParams
+        if (lp.width == w && lp.height == h) return
+        lp.width = w
+        lp.height = h
+        lp.gravity = android.view.Gravity.CENTER
+        b.videoView.layoutParams = lp
+    }
+
     private fun startVideo(b: ActivityVideoPlayerBinding) {
         b.progress.visibility = View.VISIBLE
+        b.videoArea.addOnLayoutChangeListener { _, l, t, r, bt, ol, ot, or, ob ->
+            if (r - l != or - ol || bt - t != ob - ot) b.videoArea.post { binding?.let { fitVideo(it) } }
+        }
         b.videoView.setOnPreparedListener { mp ->
             player = mp
             prepared = true
+            videoW = mp.videoWidth
+            videoH = mp.videoHeight
+            fitVideo(b)
             b.progress.visibility = View.GONE
             b.seek.max = mp.duration.coerceAtLeast(1)
             b.tvTotal.text = MediaFormat.duration(mp.duration.toLong())
