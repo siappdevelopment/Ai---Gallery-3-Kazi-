@@ -219,6 +219,12 @@ class AdConfig(
     val splash: SplashAd = SplashAd(),
     val afterDefaultShow: Boolean = false,
     val afterDefaultAppOpen: Boolean = false,
+    /** `Default_App_Popup_Show` / `Default_App_Popup_Count` (per day, 0 = no limit): the "make this the Home app" popup on the right swipe. */
+    val defaultPopupShow: Boolean = false,
+    val defaultPopupPerDay: Int = 0,
+    /** `Phone_Overlay_Popup_Show` / `Phone_Overlay_Popup_Count` (per day, 0 = no limit): the "display over other apps" popup on the right swipe. */
+    val overlayPopupShow: Boolean = false,
+    val overlayPopupPerDay: Int = 0,
     val languageInterShow: Boolean = false,
     val introInterShow: Boolean = false,
     /** `Intro_Screen_Count`: how many intro screens to show (0 / missing = all). */
@@ -328,6 +334,10 @@ class AdConfig(
                 afterDefaultShow = defaultApp.bool("After_Default_Ad_Show") || defaultApp.bool("After_default_Ad_Show"),
                 afterDefaultAppOpen = defaultApp.str("After_Default_Ad_Type").equals("appopen", true) ||
                     defaultApp.str("After_default_Ad_Type").equals("appopen", true),
+                defaultPopupShow = root.bool("Default_App_Popup_Show"),
+                defaultPopupPerDay = root.int("Default_App_Popup_Count"),
+                overlayPopupShow = root.bool("Phone_Overlay_Popup_Show"),
+                overlayPopupPerDay = root.int("Phone_Overlay_Popup_Count"),
                 languageInterShow = language.bool("Language_Interstitial_Ad_Show"),
                 introInterShow = intro.bool("Intro_Interstitial_Ad_Show"),
                 introCount = intro.int("Intro_Screen_Count"),

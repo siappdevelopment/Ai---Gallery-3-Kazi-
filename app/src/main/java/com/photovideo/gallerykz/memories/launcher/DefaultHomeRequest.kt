@@ -19,7 +19,10 @@ class DefaultHomeRequest(private val activity: ComponentActivity, private val on
     private var isSettings = false
     private var inFlight = false
 
-    private val launcher = activity.registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { handleResult() }
+    /** True while a role dialog or the Home settings opened by this request is on screen. */
+    val isInFlight: Boolean get() = inFlight
+
+    private val launcher =activity.registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { handleResult() }
 
     fun request() {
         if (inFlight) return
