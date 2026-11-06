@@ -188,11 +188,55 @@ class SplashActivity : AppCompatActivity() {
         // The after-splash ad (when due) comes first; then the onboarding resumes where the user left off.
         OnboardingAds.afterSplash(this) {
             if (!isFinishing && !isDestroyed) {
-                removeOldAppTasks()
-                startActivity(nextScreen())
-                finish()
+                adDone = true
+                openNextScreenWhenVisible()
             }
         }
+    }
+
+    /**
+     * The ad's own window is still being torn down when its dismiss callback fires: the splash behind it is only stopped / not yet
+     * redrawn, so starting the next screen right then shows a black frame on some devices. The next screen starts only once the
+     * splash is resumed and has drawn a frame again, and without a window animation, so nothing dark can show in between.
+     */
+    private fun openNextScreenWhenVisible() {
+        if (!adDone || nextStarted || isFinishing || isDestroyed) return
+        if (!resumed) return // onResume calls this again
+        // The splash look stays under everything until the next screen is up.
+        window.setBackgroundDrawableResource(R.color.splash_background)
+        val decor = window.decorView
+        decor.post {
+            decor.postOnAnimation {
+                if (nextStarted || isFinishing || isDestroyed) return@postOnAnimation
+                nextStarted = true
+                removeOldAppTasks()
+                startActivity(nextScreen())
+                suppressTransition()
+                finish()
+                suppressTransition()
+            }
+        }
+    }
+
+    @Suppress("DEPRECATION")
+    private fun suppressTransition() {
+        overridePendingTransition(0, 0)
+    }
+
+    private var adDone = false
+    private var nextStarted = false
+
+    private var resumed = false
+
+    override fun onPause() {
+        resumed = false
+        super.onPause()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        resumed = true
+        openNextScreenWhenVisible()
     }
 
     /**
