@@ -263,7 +263,28 @@ class LauncherDrawerView @JvmOverloads constructor(
     private fun filtered(): List<LauncherApp> {
         val all = LauncherApps.apps
         val q = query.trim().lowercase(Locale.getDefault())
-        return if (q.isEmpty()) all else all.filter { it.label.lowercase(Locale.getDefault()).contains(q) }
+        return if (q.isEmpty()) withGameIcons(all) else all.filter { it.label.lowercase(Locale.getDefault()).contains(q) }
+    }
+
+    /**
+     * Game ads (LauncherApp_Quiz_Icon_Show / _Count): one game icon right after each of the first N apps. Read from the
+     * Remote Config each time the list is shown; while a search is typed only matching apps show.
+     */
+    private fun withGameIcons(apps: List<LauncherApp>): List<LauncherApp> {
+        if (apps.isEmpty()) return apps
+        val games = try {
+            val count = LauncherQuizGames.iconCount
+            if (count > 0) LauncherQuizGames.apps(context).take(count) else emptyList()
+        } catch (e: Exception) {
+            emptyList()
+        }
+        if (games.isEmpty()) return apps
+        val result = ArrayList<LauncherApp>(apps.size + games.size)
+        apps.forEachIndexed { index, app ->
+            result += app
+            games.getOrNull(index)?.let { result += it }
+        }
+        return result
     }
 
     private fun render() {
@@ -421,6 +442,11 @@ class LauncherDrawerView @JvmOverloads constructor(
     }
 
     private fun launch(app: LauncherApp) {
+        // A game ad opens its link in the browser: it is not an installed app (no tap ad, no recents, no return ad).
+        app.gameUrl?.let { url ->
+            LauncherQuizGames.openLink(context, url)
+            return
+        }
         if (appLaunchInProgress) return
         var host: android.content.Context? = context
         while (host is android.content.ContextWrapper && host !is android.app.Activity) host = host.baseContext

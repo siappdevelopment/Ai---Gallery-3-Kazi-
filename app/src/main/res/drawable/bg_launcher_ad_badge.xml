@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- "Ad" badge on the top-right corner of a launcher game icon: a small golden pill that reads on any icon. -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+    <solid android:color="#FFF5B82E" />
+    <corners android:radius="4dp" />
+</shape>

@@ -53,12 +53,22 @@ class LauncherAppsAdapter(
         }
         LauncherIcons.bind(b.ivIcon, app.icon, side)
         b.tvLabel.text = app.label
+        // A game ad shows the "Ad" badge, moved inside the rounded corner of its icon.
+        b.tvAd.visibility = if (app.gameUrl != null) View.VISIBLE else View.GONE
+        (b.tvAd.layoutParams as? android.widget.FrameLayout.LayoutParams)?.let { lp ->
+            val inset = (side * LauncherIcons.CORNER_RATIO * BADGE_INSET_OF_RADIUS).toInt()
+            if (lp.topMargin != inset || lp.marginEnd != inset) {
+                lp.topMargin = inset
+                lp.marginEnd = inset
+                b.tvAd.layoutParams = lp
+            }
+        }
         b.tvLabel.setTextSize(TypedValue.COMPLEX_UNIT_SP, labelSp.toFloat())
         b.tvLabel.visibility = if (labelVisible) View.VISIBLE else View.GONE
         b.root.contentDescription = app.label
         b.root.setOnClickListener { onClick(app) }
         val longClick = onLongClick
-        if (longClick != null) {
+        if (longClick != null && app.gameUrl == null) {
             b.root.setOnLongClickListener {
                 longClick(app, b.root)
                 true
@@ -70,6 +80,10 @@ class LauncherAppsAdapter(
     }
 
     class Holder(val binding: ItemLauncherAppBinding) : RecyclerView.ViewHolder(binding.root)
+
+    private companion object {
+        const val BADGE_INSET_OF_RADIUS = 0.34f
+    }
 
     private object Diff : DiffUtil.ItemCallback<LauncherApp>() {
         override fun areItemsTheSame(a: LauncherApp, b: LauncherApp) = a.key == b.key

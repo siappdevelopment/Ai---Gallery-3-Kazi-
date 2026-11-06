@@ -19,6 +19,8 @@ class LauncherApp(
     val installTime: Long,
     val isSystem: Boolean,
     val icon: Drawable,
+    /** Set only for a built-in game ad: the link a tap opens. Such a row is not an installed app. */
+    val gameUrl: String? = null,
 ) {
     val component: ComponentName get() = ComponentName(packageName, activityName)
     val key: String get() = "$packageName/$activityName"
