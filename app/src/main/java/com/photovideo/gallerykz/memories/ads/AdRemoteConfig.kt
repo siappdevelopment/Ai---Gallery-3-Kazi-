@@ -19,7 +19,7 @@ import java.util.concurrent.Executors
 
 /**
  * The ad configuration: one Remote Config parameter (named by the build flavor, see [paramName]) holds a JSON with the profiles
- * `normal_user` and `paid_user`; the profile (normal by default, paid when [setProfile] says so) replaces the root. The last
+ * `normal_user` and `paid_user`; the profile (paid when the install referrer holds a paid marker, see [profile]) replaces the root. The last
  * good JSON is kept on the phone, so a cold start (a broadcast, the lock screen) has the config before the fetch is done.
  */
 object AdRemoteConfig {
@@ -31,7 +31,7 @@ object AdRemoteConfig {
     private const val FILE = "ad_config"
     private const val KEY_JSON = "json"
     private const val KEY_JSON_PARAM = "json_param"
-    private const val KEY_PROFILE = "profile"
+    private const val KEY_REFERRER = "install_referrer"
     private const val KEY_FETCHED_AT = "fetched_at"
     private const val REFRESH_MS = 12L * 60 * 60 * 1000
 
@@ -75,12 +75,96 @@ object AdRemoteConfig {
 
     private fun prefs(context: Context) = context.applicationContext.getSharedPreferences(FILE, Context.MODE_PRIVATE)
 
-    fun profile(context: Context): String = prefs(context).getString(KEY_PROFILE, PROFILE_NORMAL) ?: PROFILE_NORMAL
+    /** The profile this user should get: `paid_user` when the install referrer holds a paid marker, else `normal_user`. */
+    fun profile(context: Context): String = referrerProfile(context)
 
-    /** Switches between the normal and the paid profile (for example from the install referrer) and re-reads the saved JSON. */
-    fun setProfile(context: Context, profile: String) {
-        prefs(context).edit().putString(KEY_PROFILE, if (profile == PROFILE_PAID) PROFILE_PAID else PROFILE_NORMAL).apply()
-        restore(context)
+    /**
+     * Paid install = the Play install referrer contains one of these (lower-case) markers. Missing / empty referrer = normal user.
+     * To support a new campaign naming, add a lower-case substring here.
+     */
+    private val PAID_MARKERS = listOf(
+        "utm_source=apps.facebook.com",
+        "utm_source=apps.instagram.com",
+        "utm_source=marketing",
+        "utm_medium=paid",
+        "utm_medium=cpc",
+        "gclid=",
+    )
+
+    private fun referrerProfile(context: Context): String {
+        val referrer = (prefs(context).getString(KEY_REFERRER, "") ?: "").lowercase(Locale.ROOT)
+        return if (referrer.isNotEmpty() && PAID_MARKERS.any { referrer.contains(it) }) PROFILE_PAID else PROFILE_NORMAL
+    }
+
+    /** Call once from Application.onCreate, after [restore]: reads the install referrer (once) and watches the network. */
+    fun start(context: Context) {
+        val app = context.applicationContext
+        fetchReferrerIfNeeded(app)
+        watchNetwork(app)
+    }
+
+    /**
+     * Reads the Play install referrer once per install and saves it. OK: saved, then the saved config is applied again so the
+     * right profile is used at once. FEATURE_NOT_SUPPORTED: saved as empty (never asked again, the user is normal). Anything else:
+     * nothing saved, the next start tries again. Sideloaded / debug installs have no referrer.
+     */
+    private fun fetchReferrerIfNeeded(app: Context) {
+        if (prefs(app).contains(KEY_REFERRER)) return
+        try {
+            val client = com.android.installreferrer.api.InstallReferrerClient.newBuilder(app).build()
+            client.startConnection(object : com.android.installreferrer.api.InstallReferrerStateListener {
+                override fun onInstallReferrerSetupFinished(code: Int) {
+                    try {
+                        when (code) {
+                            com.android.installreferrer.api.InstallReferrerClient.InstallReferrerResponse.OK -> {
+                                val ref = client.installReferrer.installReferrer.orEmpty()
+                                // gclid=CjwKCAiAxaCvBhBaEiwAvsLmWPrs37AYx_Ol2GN6T1nt1NHn2TJl7xf65ryNQtoWL-24BefvfIYBGRoCx-gQAvD_BwE
+                                prefs(app).edit().putString(KEY_REFERRER, ref).apply()
+                                Log.d(TAG, "install referrer read, profile=" + referrerProfile(app))
+                                restore(app)
+                            }
+                            com.android.installreferrer.api.InstallReferrerClient.InstallReferrerResponse.FEATURE_NOT_SUPPORTED ->
+                                prefs(app).edit().putString(KEY_REFERRER, "").apply()
+                            else -> Log.d(TAG, "install referrer not available: $code")
+                        }
+                    } catch (e: Exception) {
+                        Log.d(TAG, "install referrer read failed: $e")
+                    } finally {
+                        try { client.endConnection() } catch (_: Exception) { }
+                    }
+                }
+
+                override fun onInstallReferrerServiceDisconnected() {}
+            })
+        } catch (e: Exception) {
+            Log.d(TAG, "install referrer connect failed: $e")
+        }
+    }
+
+    private var networkWatched = false
+    private var networkLost = false
+
+    /** When the network comes back after it was lost, the config is fetched again. */
+    private fun watchNetwork(app: Context) {
+        if (networkWatched) return
+        networkWatched = true
+        try {
+            val cm = app.getSystemService(Context.CONNECTIVITY_SERVICE) as? ConnectivityManager ?: return
+            cm.registerDefaultNetworkCallback(object : ConnectivityManager.NetworkCallback() {
+                override fun onLost(network: android.net.Network) {
+                    networkLost = true
+                }
+
+                override fun onAvailable(network: android.net.Network) {
+                    if (!networkLost) return
+                    networkLost = false
+                    Log.d(TAG, "network is back, fetching the config again")
+                    main.post { fetch(app) }
+                }
+            })
+        } catch (e: Exception) {
+            Log.d(TAG, "network watch failed: $e")
+        }
     }
 
     /** Loads the last saved JSON (no network). Safe to call from any thread, any number of times. */
@@ -142,10 +226,12 @@ object AdRemoteConfig {
     }
 
     private fun apply(context: Context, raw: String, persist: Boolean): Boolean {
+        appContext = context.applicationContext
         return try {
             val text = raw.trim()
             val root = if (text.startsWith("[")) JSONArray(text).getJSONObject(0) else JSONObject(text)
-            val chosen = resolveProfile(root, profile(context))
+            val wanted = profile(context)
+            val chosen = resolveProfile(root, wanted)
             config = AdConfig.parse(chosen)
             loaded = true
             if (persist) prefs(context).edit().putString(KEY_JSON, text).putString(KEY_JSON_PARAM, paramName(context)).apply()
@@ -163,17 +249,41 @@ object AdRemoteConfig {
     /** The profile object replaces the root (its value may be an object or a JSON text); a root without profiles is used as it is. */
     private fun resolveProfile(root: JSONObject, profile: String): JSONObject {
         val order = if (profile == PROFILE_PAID) listOf(PROFILE_PAID, PROFILE_NORMAL) else listOf(PROFILE_NORMAL, PROFILE_PAID)
-        for (name in order) {
-            val value = root.opt(name)
-            if (value is JSONObject) return value
-            if (value is String && value.isNotBlank()) return try {
-                JSONObject(value)
-            } catch (e: Exception) {
-                continue
-            }
+        for ((index, name) in order.withIndex()) {
+            val obj = profileObject(root, name, 0) ?: continue
+            Log.d(TAG, "wanted profile=$profile, using=$name, fallback=${index > 0}")
+            setProfileProperty(name)
+            return obj
         }
+        Log.d(TAG, "wanted profile=$profile, using=root, fallback=true")
+        setProfileProperty("root")
         return root
     }
+
+    /** A profile value may be an inline object, a JSON text, or the name of another root key (followed up to depth 2). */
+    private fun profileObject(root: JSONObject, name: String, depth: Int): JSONObject? {
+        val value = root.opt(name)
+        if (value is JSONObject) return value
+        if (value is String && value.isNotBlank()) {
+            try {
+                return JSONObject(value)
+            } catch (e: Exception) {
+                if (depth < 2 && root.has(value)) return profileObject(root, value, depth + 1)
+            }
+        }
+        return null
+    }
+
+    /** Analytics user property `ad_profile`: the block that was used (normal_user / paid_user / root). */
+    private fun setProfileProperty(used: String) {
+        try {
+            com.google.firebase.analytics.FirebaseAnalytics.getInstance(appContext ?: return).setUserProperty("ad_profile", used)
+        } catch (e: Exception) {
+            Log.d(TAG, "ad_profile property failed: $e")
+        }
+    }
+
+    private var appContext: Context? = null
 
     /**
      * The Remote Config parameter of this build, set per flavor in build.gradle.kts: prod reads `AppVersion_1_0`, qa reads

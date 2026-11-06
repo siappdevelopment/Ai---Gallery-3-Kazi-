@@ -98,4 +98,5 @@ dependencies {
     implementation("com.google.firebase:firebase-crashlytics")
     implementation("com.google.firebase:firebase-config")
     implementation("com.google.android.gms:play-services-ads:23.6.0")
+    implementation("com.android.installreferrer:installreferrer:2.2")
 }

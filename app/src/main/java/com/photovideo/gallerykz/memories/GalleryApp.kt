@@ -27,6 +27,8 @@ class GalleryApp : Application() {
         AppRecentsKey.install(this)
          EventWatch.register(this)
          AdRemoteConfig.restore(this)
+        // Paid / normal user: reads the Play install referrer once and watches the network for a new fetch.
+        AdRemoteConfig.start(this)
         GoogleAds.init(this)
         AdRemoteConfig.fetch(this)
         AppOpenAds.install(this)
