@@ -59,4 +59,5 @@
     <color name="native_full_body">#FF6E717A</color>
     <color name="native_full_chip_stroke">#FFD9DAE3</color>
     <color name="native_full_ad_chip">#FFF5B400</color>
+    <color name="burst_action_bg">#FFF0F0F0</color>
 </resources>
