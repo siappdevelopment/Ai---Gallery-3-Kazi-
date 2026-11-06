@@ -525,7 +525,8 @@ class SelectionViewModel(
         const val KEY_ACTIVE = "selection_active"
         const val KEY_IDS = "selection_ids"
         const val MAX_SAVED = 5000
-        const val CHUNK = 500
+        /** Favorite / Unfavorite items per system request (one confirmation each): bigger = fewer repeated dialogs; a refused chunk is split in two. */
+        const val CHUNK = 1000
         const val MIN_CHUNK = 50
 
         /** Hide handles this many items at a time (the system's limit for one confirmation). */
