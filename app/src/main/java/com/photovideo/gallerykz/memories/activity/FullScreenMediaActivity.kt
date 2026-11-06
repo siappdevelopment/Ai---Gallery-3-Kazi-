@@ -48,6 +48,7 @@ import com.photovideo.gallerykz.memories.helper.MediaFormat
 import com.photovideo.gallerykz.memories.helper.MediaUris
 import com.photovideo.gallerykz.memories.helper.ShareHelper
 import com.photovideo.gallerykz.memories.model.AlbumKind
+import com.photovideo.gallerykz.memories.model.GallerySort
 import com.photovideo.gallerykz.memories.model.MediaFilter
 import com.photovideo.gallerykz.memories.viewmodel.FullScreenMediaViewModel
 import java.util.Date
@@ -510,6 +511,7 @@ class FullScreenMediaActivity : AdAwareActivity() {
             id: Long,
             filter: MediaFilter = MediaFilter.ALL,
             query: String = "",
+            sort: GallerySort = GallerySort.DATE_NEWEST,
         ): Intent =
             Intent(context, FullScreenMediaActivity::class.java)
                 .putExtra(FullScreenMediaViewModel.ARG_UID, uid)
@@ -517,5 +519,6 @@ class FullScreenMediaActivity : AdAwareActivity() {
                 .putExtra(FullScreenMediaViewModel.ARG_ID, id)
                 .putExtra(FullScreenMediaViewModel.ARG_FILTER, filter.ordinal)
                 .putExtra(FullScreenMediaViewModel.ARG_QUERY, query)
+                .putExtra(FullScreenMediaViewModel.ARG_SORT, sort.ordinal)
     }
 }

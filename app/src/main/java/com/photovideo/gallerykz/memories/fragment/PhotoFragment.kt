@@ -629,7 +629,7 @@ class PhotoFragment : Fragment() {
         if (now - lastAlbumOpenAt < ALBUM_OPEN_GAP_MS) return
         lastAlbumOpenAt = now
         val filter = viewModel.filter.value ?: MediaFilter.ALL
-        startActivity(FullScreenMediaActivity.intent(context, uid, AlbumKind.DEVICE, 0L, filter))
+        startActivity(FullScreenMediaActivity.intent(context, uid, AlbumKind.DEVICE, 0L, filter, sort = viewModel.sort.value ?: GallerySort.DATE_NEWEST))
     }
 
     private fun openAlbum(album: AlbumRow) = open(AlbumKind.DEVICE, album.bucketId, album.bucketName)

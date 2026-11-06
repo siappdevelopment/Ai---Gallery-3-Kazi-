@@ -189,7 +189,9 @@ class MediaRepository(context: Context) {
      * The ordered ids behind the photo viewer, in the same order as the grid the item was tapped in.
      * [AlbumKind.DEVICE] with id 0 is the whole gallery under [filter]. Blocking: call it off the main thread.
      */
-    fun viewerUids(kind: AlbumKind, id: Long, sinceMs: Long, filter: MediaFilter, searchQuery: String = ""): List<Long> = when (kind) {
+    fun viewerUids(
+        kind: AlbumKind, id: Long, sinceMs: Long, filter: MediaFilter, searchQuery: String = "", sort: GallerySort = GallerySort.DATE_NEWEST,
+    ): List<Long> = when (kind) {
         AlbumKind.SEARCH -> dao.searchUids(likePattern(searchQuery))
         AlbumKind.USER -> dao.userAlbumUids(id)
         AlbumKind.PERSON -> dao.personUids(id)
@@ -199,7 +201,18 @@ class MediaRepository(context: Context) {
         AlbumKind.RECENTLY_EDITED -> dao.editedUids(CategoryRepository.editedSince())
         AlbumKind.YEAR -> dao.yearUids(id.toInt())
         AlbumKind.MONTH -> dao.monthUids(id)
-        AlbumKind.DEVICE -> dao.collectionUids(id, filter.types, filter.minFavorite, 0, "")
+        // The whole gallery follows the sort of the grid it was tapped in (the order comes from a fixed enum; the filter values are bound).
+        AlbumKind.DEVICE -> if (id == 0L && sort != GallerySort.DATE_NEWEST) {
+            val marks = filter.types.joinToString(",") { "?" }
+            dao.sortedUids(
+                SimpleSQLiteQuery(
+                    "SELECT uid FROM media WHERE mediaType IN ($marks) AND isFavorite >= ? ORDER BY ${sort.orderBy}",
+                    (filter.types + filter.minFavorite).toTypedArray(),
+                ),
+            )
+        } else {
+            dao.collectionUids(id, filter.types, filter.minFavorite, 0, "")
+        }
         else -> {
             val q = query(kind, id, sinceMs)
             dao.collectionUids(q.bucketId, q.types, q.minFavorite, q.since, q.nameLike)
