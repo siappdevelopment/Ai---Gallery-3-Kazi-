@@ -7,7 +7,6 @@ import android.content.pm.ApplicationInfo
 import android.graphics.drawable.Drawable
 import android.os.Handler
 import android.os.Looper
-import java.text.Collator
 import java.util.concurrent.CopyOnWriteArrayList
 import java.util.concurrent.Executors
 
@@ -22,6 +21,9 @@ class LauncherApp(
 ) {
     val component: ComponentName get() = ComponentName(packageName, activityName)
     val key: String get() = "$packageName/$activityName"
+
+    /** What the list is ordered by (the shown [label] is never changed): see [LauncherAppSort.keyOf]. */
+    val sortKey: String = LauncherAppSort.keyOf(label, packageName)
 }
 
 /**
@@ -79,7 +81,10 @@ object LauncherApps {
 
     /** Re-sorts the loaded list for the current sort setting (no new query needed). */
     fun resort(context: Context) {
-        loaded = sort(context, loaded)
+        val sorted = sort(context, loaded)
+        // Same order as before (the setting did not really change the list): nothing to redraw.
+        if (sorted.map { it.key } == loaded.map { it.key }) return
+        loaded = sorted
         listeners.forEach { it.onAppsChanged(loaded) }
     }
 
@@ -204,13 +209,11 @@ object LauncherApps {
     }
 
     fun sort(context: Context, list: List<LauncherApp>): List<LauncherApp> {
-        val collator = Collator.getInstance()
+        val name = LauncherAppSort.comparator<LauncherApp>({ it.sortKey }, { it.packageName })
         return when (LauncherSettings.getSort(context)) {
-            LauncherSettings.SORT_NAME_DESC -> list.sortedWith { a, b -> collator.compare(b.label, a.label) }
-            LauncherSettings.SORT_INSTALLED -> list.sortedWith(
-                compareByDescending<LauncherApp> { it.installTime }.thenBy { it.label.lowercase() },
-            )
-            else -> list.sortedWith { a, b -> collator.compare(a.label, b.label) }
+            LauncherSettings.SORT_NAME_DESC -> list.sortedWith(name.reversed())
+            LauncherSettings.SORT_INSTALLED -> list.sortedWith(compareByDescending<LauncherApp> { it.installTime }.then(name))
+            else -> list.sortedWith(name)
         }
     }
 
