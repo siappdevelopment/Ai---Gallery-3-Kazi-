@@ -105,6 +105,17 @@ class MemoryControlActivity : AdAwareActivity() {
             if (value != null) row.tvValue.setText(value) else row.tvValue.visibility = android.view.View.GONE
             if (danger) row.tvLabel.setTextColor(ContextCompat.getColor(this, R.color.vault_error))
             row.root.setOnClickListener { onClick() }
+            // A thin divider between two rows of the same card.
+            if (rows.childCount > 0) {
+                rows.addView(
+                    android.view.View(this).apply { setBackgroundResource(R.color.home_doc_line) },
+                    LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, (resources.displayMetrics.density).toInt().coerceAtLeast(1)).apply {
+                        val inset = (10 * resources.displayMetrics.density).toInt()
+                        marginStart = inset
+                        marginEnd = inset
+                    },
+                )
+            }
             rows.addView(row.root)
         }
 
