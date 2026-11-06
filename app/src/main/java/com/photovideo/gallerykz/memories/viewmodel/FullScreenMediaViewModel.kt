@@ -19,6 +19,7 @@ import com.photovideo.gallerykz.memories.helper.DetailRow
 import com.photovideo.gallerykz.memories.helper.MediaDetailsReader
 import com.photovideo.gallerykz.memories.utils.Event
 import com.photovideo.gallerykz.memories.model.AlbumKind
+import com.photovideo.gallerykz.memories.model.GallerySort
 import com.photovideo.gallerykz.memories.model.MediaFilter
 import com.photovideo.gallerykz.memories.repo.AlbumRepository
 import com.photovideo.gallerykz.memories.repo.MediaRepository
@@ -48,6 +49,7 @@ class FullScreenMediaViewModel(
     private val albumId = state.get<Long>(ARG_ID) ?: 0L
     private val query = state.get<String>(ARG_QUERY).orEmpty()
     private val filter = MediaFilter.entries.getOrNull(state.get<Int>(ARG_FILTER) ?: 0) ?: MediaFilter.ALL
+    private val sort = GallerySort.entries.getOrNull(state.get<Int>(ARG_SORT) ?: 0) ?: GallerySort.DATE_NEWEST
 
     @Volatile
     private var list: List<Long> = emptyList()
@@ -103,7 +105,7 @@ class FullScreenMediaViewModel(
         worker.execute {
             val fixed = state.get<LongArray>(ARG_UIDS)
             list = if (fixed != null) fixed.toList() else try {
-                repository.viewerUids(kind, albumId, AlbumsViewModel.recentSince(), filter, query)
+                repository.viewerUids(kind, albumId, AlbumsViewModel.recentSince(), filter, query, sort)
             } catch (e: Exception) {
                 emptyList()
             }
@@ -242,6 +244,7 @@ class FullScreenMediaViewModel(
         const val ARG_KIND = "kind"
         const val ARG_ID = "id"
         const val ARG_FILTER = "filter"
+        const val ARG_SORT = "sort"
         const val ARG_QUERY = "query"
 
         /** A fixed list to swipe through (a highlight) instead of an album or the gallery. */

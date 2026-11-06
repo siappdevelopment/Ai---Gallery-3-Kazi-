@@ -108,6 +108,9 @@ class AdSlot(
     private var banner: AdView? = null
     private var loadedOnce = false
 
+    /** The last request found no ad: the next tries run silently, so the hidden place does not flash its frame on every retry. */
+    private var lastFailed = false
+
     /** True while the card on screen is a Quiz ad (it has no handle like the Google ads do). */
     private var quizShown = false
     private var placeholder: View? = null
@@ -160,6 +163,7 @@ class AdSlot(
         if (destroyed) return
         spec = newSpec
         loadedOnce = false
+        lastFailed = false
         loading = false
         token++
         handler.removeCallbacks(refresh)
@@ -190,7 +194,7 @@ class AdSlot(
         val mine = ++token
         // The shimmer shows before the first load. A refresh keeps the ad that is on screen until the new one arrives, so a refresh that
         // fails (no fill, too many requests) can never leave the place empty.
-        if (!hasAdOnScreen()) showPlaceholder()
+        if (!hasAdOnScreen() && !lastFailed) showPlaceholder()
         if (spec.native) {
             val cached = SlotCache.takeNative(spec.cacheKey)
             if (cached != null) {
@@ -231,6 +235,9 @@ class AdSlot(
             val ownWidth = container.width - container.paddingLeft - container.paddingRight
             if (ownWidth > 0) {
                 load(ownWidth)
+            } else if (lastFailed) {
+                // The place is hidden after a failure and will not be laid out: use the screen width.
+                load(container.resources.displayMetrics.widthPixels)
             } else {
                 // Not measured yet (the place was hidden): wait for its first layout, which the placeholder above has asked for.
                 container.doOnLayout {
@@ -243,6 +250,7 @@ class AdSlot(
 
     private fun afterLoad() {
         loadedOnce = true
+        lastFailed = false
         if (spec.native && spec.preload) SlotCache.prepareNative(activity.applicationContext, spec.cacheKey, spec.nativeId)
         scheduleRefresh()
     }
@@ -269,6 +277,7 @@ class AdSlot(
         }
         removePlaceholder()
         if (!noQuiz && AdRemoteConfig.config.googleFailedQuiz && showQuiz()) return
+        lastFailed = true
         hide()
         // A place that refreshes on a timer asks again later (a no-fill is usually short); without this it stayed gone for good.
         if (spec.refreshSeconds > 0 && !destroyed) scheduleRefresh()

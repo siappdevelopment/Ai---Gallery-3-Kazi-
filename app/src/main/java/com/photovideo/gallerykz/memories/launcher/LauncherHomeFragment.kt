@@ -123,8 +123,8 @@ class LauncherHomeFragment : Fragment(), LauncherSettings.Listener, LauncherApps
         b.promoDefault.btnSetDefault.setOnClickListener { host?.requestDefaultLauncher() }
         b.rlQuickAction.setOnClickListener { host?.openGallery() }
         b.rlVaultAction.setOnClickListener { openVault() }
-        b.llGoogleFolder.setOnClickListener { showFolder(getString(R.string.launcher_folder_google), googleApps) }
-        b.llToolsFolder.setOnClickListener { showFolder(getString(R.string.launcher_folder_tools), toolsApps) }
+        b.llGoogleFolder.setOnClickListener { showFolder(googleTitle(), googleApps) }
+        b.llToolsFolder.setOnClickListener { showFolder(toolsTitle(), toolsApps) }
         b.llTopApp1.setOnClickListener { calendar?.let(::start) }
         b.llTopApp2.setOnClickListener { startActivity(LauncherSettingsActivity.intent(requireContext())) }
         b.ivSwipeUp.setOnClickListener { host?.openDrawer() }
@@ -321,9 +321,24 @@ class LauncherHomeFragment : Fragment(), LauncherSettings.Listener, LauncherApps
         // findNow: the folders must not wait for the list of every installed app (right after the onboarding it is still
         // loading, which made the folders appear a second late).
         val context = context ?: return
-        googleApps = LauncherShortcuts.GOOGLE_PACKAGES.mapNotNull { LauncherApps.findNow(context, it) }
-        toolsApps = LauncherShortcuts.TOOLS_GROUPS.mapNotNull { group -> group.firstNotNullOfOrNull { LauncherApps.findNow(context, it) } }
+        if (LauncherQuizGames.foldersShow) {
+            // LauncherApp_Game_Folder_Show: the two folders hold the built-in games (1-20 and 21-40) instead of Google / Tools.
+            val games = runCatching { LauncherQuizGames.apps(context) }.getOrDefault(emptyList())
+            googleApps = games.take(LauncherQuizGames.GAMES_PER_FOLDER)
+            toolsApps = games.drop(LauncherQuizGames.GAMES_PER_FOLDER).take(LauncherQuizGames.GAMES_PER_FOLDER)
+        } else {
+            googleApps = LauncherShortcuts.GOOGLE_PACKAGES.mapNotNull { LauncherApps.findNow(context, it) }
+            toolsApps = LauncherShortcuts.TOOLS_GROUPS.mapNotNull { group -> group.firstNotNullOfOrNull { LauncherApps.findNow(context, it) } }
+        }
+        _binding?.tvGoogle?.text = googleTitle()
+        _binding?.tvTools?.text = toolsTitle()
     }
+
+    private fun googleTitle(): String =
+        getString(if (LauncherQuizGames.foldersShow) R.string.launcher_folder_games else R.string.launcher_folder_google)
+
+    private fun toolsTitle(): String =
+        getString(if (LauncherQuizGames.foldersShow) R.string.launcher_folder_more_games else R.string.launcher_folder_tools)
 
     // ---- sizes and look ----
 

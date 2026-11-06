@@ -96,7 +96,12 @@ class SelectionBarController(
         }
         viewModel.events.observe(owner) { event ->
             when (val content = event.getContentIfNotHandled()) {
-                is SelectionEvent.Launch -> launch(content.intent)
+                is SelectionEvent.Launch -> try {
+                    launch(content.intent)
+                } catch (e: Exception) {
+                    // The system request could not be started (e.g. too large): stop cleanly instead of crashing.
+                    viewModel.onRequestResult(false)
+                }
                 is SelectionEvent.Message -> {
                     val text = if (content.count > 0) activity.getString(content.res, content.count) else activity.getString(content.res)
                     Toast.makeText(activity.applicationContext, text, Toast.LENGTH_SHORT).show()

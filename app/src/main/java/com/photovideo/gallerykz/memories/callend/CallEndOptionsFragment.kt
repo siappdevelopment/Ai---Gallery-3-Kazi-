@@ -26,7 +26,7 @@ import java.util.Calendar
  */
 class CallEndOptionsFragment : Fragment() {
 
-    private class Option(@StringRes val label: Int, val action: () -> Unit)
+    private class Option(@StringRes val label: Int, @androidx.annotation.DrawableRes val endIcon: Int = 0, val action: () -> Unit)
 
     private var _binding: FragmentCallEndOptionsBinding? = null
 
@@ -40,7 +40,7 @@ class CallEndOptionsFragment : Fragment() {
         val b = _binding ?: return
         val (title, options) = when (arguments?.getInt(ARG_TAB) ?: 0) {
             TAB_MESSAGE -> R.string.callend_message_title to listOf(R.string.callend_msg_1, R.string.callend_msg_2, R.string.callend_msg_3, R.string.callend_msg_4)
-                .map { text -> Option(text) { sendMessage(getString(text)) } }
+                .map { text -> Option(text, R.drawable.ic_send_message) { sendMessage(getString(text)) } }
             TAB_REMINDER -> R.string.callend_reminder_title to listOf(
                 Option(R.string.callend_remind_15) { remind(minutes = 15) },
                 Option(R.string.callend_remind_1h) { remind(minutes = 60) },
@@ -49,13 +49,16 @@ class CallEndOptionsFragment : Fragment() {
             else -> R.string.callend_more_title to listOf(
                 Option(R.string.callend_more_add_contact) { addContact() },
                 Option(R.string.callend_more_call_log) { open(Intent(Intent.ACTION_VIEW).setType(CallLog.Calls.CONTENT_TYPE)) },
-                Option(R.string.callend_more_gallery) { open(LauncherNav.standaloneGalleryIntent(requireContext()).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)) },
+                // The app's own gallery: the launcher home scrolled to its gallery page (not the separate stand-alone screen).
+                Option(R.string.callend_more_gallery) { open(LauncherNav.galleryIntent(requireContext())) },
             )
         }
         b.tvTitle.setText(title)
         options.forEach { option ->
             val row = layoutInflater.inflate(R.layout.item_call_end_option, b.llOptions, false) as TextView
             row.setText(option.label)
+            // A quick message shows a send arrow at its right end.
+            if (option.endIcon != 0) row.setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, option.endIcon, 0)
             row.setOnClickListener { option.action() }
             b.llOptions.addView(row)
         }

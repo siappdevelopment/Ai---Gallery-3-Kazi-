@@ -148,6 +148,10 @@ interface MediaDao {
     )
     fun collectionUids(bucketId: Long, types: List<Int>, minFavorite: Int, since: Long, nameLike: String): List<Long>
 
+    /** The ids of the whole gallery in a chosen sort order; the SQL is built by MediaRepository.viewerUids (every value is bound). */
+    @RawQuery
+    fun sortedUids(query: SupportSQLiteQuery): List<Long>
+
     @Query(
         "SELECT m.uid FROM media m INNER JOIN album_items i ON i.mediaUid = m.uid WHERE i.albumId = :albumId " +
             "ORDER BY i.addedAt DESC, m.uid DESC"
