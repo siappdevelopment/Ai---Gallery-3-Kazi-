@@ -160,6 +160,10 @@ class VaultRepository(context: Context) {
         var temp: File? = null
         var target: File? = null
         try {
+            // A copy left by an earlier Hide of this same original that was interrupted (app killed, system dialog never answered)
+            // is an orphan now: nothing of this process owns it. Without this, a retry would make a second copy and the vault would
+            // show the item twice once the original is deleted.
+            for (stale in vaultDao.pendingFor(uid)) removeRow(stale)
             val media = database.mediaDao().byUid(uid) ?: return release(uid)
             val source = MediaUris.ofUid(uid)
             val info = resolver.query(
@@ -186,8 +190,10 @@ class VaultRepository(context: Context) {
                     bytes
                 }
             }
-            // A short copy would lose data once the original is deleted.
-            if (info.third > 0 && copied != info.third) throw IOException("incomplete copy")
+            // A short copy would lose data once the original is deleted. The size is asked of the file itself: the SIZE column of
+            // MediaStore can be stale (a photo edited in place, a video still being finalized) and would fail a good copy.
+            val expected = actualSize(source).takeIf { it >= 0 } ?: info.third
+            if (expected > 0 && copied != expected) throw IOException("incomplete copy")
             if (!temp.renameTo(target)) throw IOException("rename failed")
 
             val id = vaultDao.insert(
@@ -216,6 +222,17 @@ class VaultRepository(context: Context) {
             discard(temp, target)
         }
         return release(uid)
+    }
+
+    /** Length of the file behind [uri] as the system reports it for an open stream; -1 when it cannot tell. */
+    private fun actualSize(uri: Uri): Long = try {
+        resolver.openAssetFileDescriptor(uri, "r")?.use { it.length } ?: -1L
+    } catch (e: IOException) {
+        -1L
+    } catch (e: SecurityException) {
+        -1L
+    } catch (e: IllegalStateException) {
+        -1L
     }
 
     /** Stages every uid in turn; [onProgress] gets the number handled so far. Failed ones are simply left out. */
@@ -288,17 +305,40 @@ class VaultRepository(context: Context) {
         for (row in vaultDao.pending()) {
             if (inFlight.containsKey(row.sourceUid)) continue
             if (!exists(row.sourceUid)) {
-                database.runInTransaction(Runnable {
-                    vaultDao.markCommitted(row.id)
-                    database.mediaDao().deleteByUid(row.sourceUid)
-                    database.albumDao().deleteItemEverywhere(row.sourceUid)
-                })
+                if (vaultDao.committedCountFor(row.sourceUid) > 0) {
+                    // The same original is already in the vault (a retry after an interrupted Hide): this copy would show it twice.
+                    removeRow(row)
+                } else {
+                    database.runInTransaction(Runnable {
+                        vaultDao.markCommitted(row.id)
+                        database.mediaDao().deleteByUid(row.sourceUid)
+                        database.albumDao().deleteItemEverywhere(row.sourceUid)
+                    })
+                }
             } else if (now - row.addedAt > STALE_MS) {
                 removeRow(row)
             }
         }
         for (row in vaultDao.committed()) {
             if (!VaultFiles.file(app, row.fileName).exists()) vaultDao.delete(row.id)
+        }
+        removeOrphanFiles(now)
+    }
+
+    /**
+     * Files in the vault folder that no row points to: the half-written ".part" of a copy that was killed, or a copy whose row was
+     * never written. They can be gigabytes and nothing else would ever delete them. Only files older than [ORPHAN_MS] and only while
+     * no move runs in this process, so a copy that is being made right now is never touched.
+     */
+    private fun removeOrphanFiles(now: Long) {
+        if (inFlight.isNotEmpty()) return
+        val known = HashSet<String>()
+        vaultDao.pending().forEach { known.add(it.fileName) }
+        vaultDao.committed().forEach { known.add(it.fileName) }
+        val files = VaultFiles.dir(app).listFiles() ?: return
+        for (f in files) {
+            if (!f.isFile || f.name == ".nomedia" || f.name in known) continue
+            if (now - f.lastModified() > ORPHAN_MS) f.delete()
         }
     }
 
@@ -313,7 +353,16 @@ class VaultRepository(context: Context) {
         var failed = 0
         var handled = 0
         for (row in ids.chunked(CHUNK).flatMap { vaultDao.byIds(it) }) {
-            if (restoreOne(row)) removeRow(row) else failed++
+            // Another screen may be restoring this very item (viewer and folder list): the second run must not add a second copy.
+            if (restoring.putIfAbsent(row.id, true) != null) {
+                failed++
+            } else {
+                try {
+                    if (restoreOne(row)) removeRow(row) else failed++
+                } finally {
+                    restoring.remove(row.id)
+                }
+            }
             handled++
             onProgress(handled)
         }
@@ -337,23 +386,29 @@ class VaultRepository(context: Context) {
         return try {
             val dest = resolver.insert(collection, values) ?: return false
             target = dest
-            file.inputStream().use { input ->
-                (resolver.openOutputStream(dest) ?: throw IOException("no output")).use { out -> input.copyTo(out) }
+            val written = file.inputStream().use { input ->
+                (resolver.openOutputStream(dest) ?: throw IOException("no output")).use { out ->
+                    val bytes = input.copyTo(out)
+                    out.flush()
+                    bytes
+                }
             }
+            // The vault file is deleted once this returns true, so a short write (full storage, interrupted stream) must not pass.
+            if (written != file.length()) throw IOException("incomplete restore")
             val published = resolver.update(dest, ContentValues().apply { put(MediaStore.MediaColumns.IS_PENDING, 0) }, null, null) > 0
-            if (published) keepOriginalDate(dest, item.dateMs, item.mediaType)
-            if (published && item.isFavorite) restoreFavorite(dest)
-            published
+            if (!published) {
+                // Left as it is, the pending entry would stay as an invisible file of the full size.
+                dropTarget(dest)
+                return false
+            }
+            keepOriginalDate(dest, item.dateMs, item.mediaType)
+            if (item.isFavorite) restoreFavorite(dest)
+            true
         } catch (e: IOException) {
             dropTarget(target)
             false
-        } catch (e: SecurityException) {
-            dropTarget(target)
-            false
-        } catch (e: IllegalArgumentException) {
-            dropTarget(target)
-            false
-        } catch (e: IllegalStateException) {
+        } catch (e: RuntimeException) {
+            // SecurityException, IllegalArgumentException, IllegalStateException and anything else the provider throws.
             dropTarget(target)
             false
         }
@@ -396,7 +451,7 @@ class VaultRepository(context: Context) {
         if (target == null) return
         try {
             resolver.delete(target, null, null)
-        } catch (e: SecurityException) {
+        } catch (e: RuntimeException) {
             // The half-written entry is cleaned up by the system.
         }
     }
@@ -439,6 +494,10 @@ class VaultRepository(context: Context) {
         const val CHUNK = 500
         const val PART = ".part"
         const val STALE_MS = 24L * 60 * 60 * 1000
+        const val ORPHAN_MS = 10L * 60 * 1000
+
+        /** Vault rows being restored right now (this process), so two screens cannot restore the same item twice. */
+        val restoring = ConcurrentHashMap<Long, Boolean>()
 
         /** Originals currently being moved (source uid), in this process only. */
         val inFlight = ConcurrentHashMap<Long, Boolean>()

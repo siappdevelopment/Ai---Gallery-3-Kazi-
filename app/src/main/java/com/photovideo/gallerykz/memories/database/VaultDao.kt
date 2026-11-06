@@ -30,6 +30,13 @@ interface VaultDao {
     @Query("SELECT * FROM vault_items WHERE committed = 1")
     fun committed(): List<VaultItemEntity>
 
+    /** Copies recorded for one original that were never committed (an earlier Hide that was interrupted). */
+    @Query("SELECT * FROM vault_items WHERE sourceUid = :uid AND committed = 0")
+    fun pendingFor(uid: Long): List<VaultItemEntity>
+
+    @Query("SELECT COUNT(*) FROM vault_items WHERE sourceUid = :uid AND committed = 1")
+    fun committedCountFor(uid: Long): Int
+
     @Query("UPDATE vault_items SET committed = 1 WHERE id = :id")
     fun markCommitted(id: Long)
 
