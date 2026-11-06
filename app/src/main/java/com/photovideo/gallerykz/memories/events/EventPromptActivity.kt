@@ -11,6 +11,7 @@ import com.photovideo.gallerykz.memories.ads.AdHooks
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
 import android.animation.ValueAnimator
+import android.app.KeyguardManager
 import android.content.Intent
 import android.content.res.ColorStateList
 import android.graphics.Color
@@ -46,6 +47,9 @@ abstract class EventPromptActivity : AppCompatActivity() {
     private var internalNavigation = false
     private var resumed = false
 
+    /** True from the tap on "Open your gallery" until the gallery covers this screen: blocks double taps and early closing. */
+    private var openingGallery = false
+
     /** The next time the screen becomes visible, check that it is not a held-back (stale) launch. */
     private var checkFreshOnResume = false
 
@@ -76,10 +80,7 @@ abstract class EventPromptActivity : AppCompatActivity() {
             startActivity(LauncherSettingsActivity.intent(this))
         }
         b.ivEventSettings.setOnClickListener(settings)
-        b.llOpenGallery.setOnClickListener {
-            startActivity(com.photovideo.gallerykz.memories.launcher.LauncherNav.galleryIntent(this))
-            finishAndRemoveTask()
-        }
+        b.llOpenGallery.setOnClickListener { openGallery() }
         b.btnEventDone.setOnClickListener { exitScreen() }
         onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
             // Back is swallowed until the hold ended.
@@ -87,6 +88,40 @@ abstract class EventPromptActivity : AppCompatActivity() {
         })
         startHold()
         setupBottomAd(b)
+    }
+
+    /**
+     * Opens the gallery. This screen is NOT finished here: the start of another task also fires onUserLeaveHint, and
+     * removing this task before the gallery task came forward left the user on whatever was behind (or the lock screen).
+     * The screen closes in onStop, which only runs once the gallery really covers it. A lock screen is dismissed first,
+     * because the launcher cannot show over it.
+     */
+    private fun openGallery() {
+        if (openingGallery) return
+        openingGallery = true
+        val km = getSystemService(KEYGUARD_SERVICE) as? KeyguardManager
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O && km != null && km.isKeyguardLocked) {
+            km.requestDismissKeyguard(this, object : KeyguardManager.KeyguardDismissCallback() {
+                override fun onDismissSucceeded() = startGallery()
+                override fun onDismissCancelled() { openingGallery = false }
+                override fun onDismissError() { openingGallery = false }
+            })
+        } else {
+            startGallery()
+        }
+    }
+
+    private fun startGallery() {
+        if (isFinishing || isDestroyed) return
+        try {
+            startActivity(com.photovideo.gallerykz.memories.launcher.LauncherNav.galleryIntent(this))
+        } catch (e: Exception) {
+            android.util.Log.e("KaziEvent", "open gallery failed: $e")
+            openingGallery = false
+            return
+        }
+        // If the launch was held back and this screen never stops, the next tap must work again.
+        window.decorView.postDelayed({ openingGallery = false }, 2_000L)
     }
 
     private fun setupBottomAd(b: ActivityEventPromptBinding) {
@@ -138,7 +173,8 @@ abstract class EventPromptActivity : AppCompatActivity() {
     /** HOME or Recents: the screen is excluded from Recents, so a hidden copy is useless. */
     override fun onUserLeaveHint() {
         super.onUserLeaveHint()
-        if (exiting || internalNavigation) return
+        // openingGallery: this screen is closing itself in onStop, once the gallery is really in front.
+        if (exiting || internalNavigation || openingGallery) return
         leave()
     }
 
@@ -146,6 +182,8 @@ abstract class EventPromptActivity : AppCompatActivity() {
         super.onStop()
         // Also covers the screen turning off, where onUserLeaveHint is not called.
         if (!isChangingConfigurations && !isFinishing && !exiting && !internalNavigation) leave()
+        // The gallery covers this screen now (or the launch never happened and the next tap may try again).
+        openingGallery = false
     }
 
     private fun leave() {
