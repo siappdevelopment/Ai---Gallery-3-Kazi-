@@ -21,7 +21,6 @@
     <!-- Call summary screen: knows when a call ends, may open over other apps, may show on the lock screen -->
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
-    <uses-permission android:name="android.permission.USE_FULL_SCREEN_INTENT" />
     <uses-permission android:name="com.android.alarm.permission.SET_ALARM" />
 
     <!-- Lets the app read the GPS position saved inside the user's own photos (Places); it is not the phone's live location. -->
@@ -29,7 +28,6 @@
 
     <!-- Launcher: uninstall from the drawer's long-press menu, and Clear all on the Recent page. -->
     <uses-permission android:name="android.permission.REQUEST_DELETE_PACKAGES" />
-    <uses-permission android:name="android.permission.KILL_BACKGROUND_PROCESSES" />
 
     <!-- Android 11+ hides other apps unless they are declared here: the drawer lists every app with a launcher icon,
          the dock and the shortcuts find the phone, messages, browser, camera, Contacts and Calendar apps, and the
