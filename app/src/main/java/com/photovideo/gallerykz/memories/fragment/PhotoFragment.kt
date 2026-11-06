@@ -136,6 +136,7 @@ class PhotoFragment : Fragment() {
      */
     private var switchingFilter = false
     private var switchSawLoading = false
+    private var switchPaddingBottom = -1
     private val endFilterSwitch = Runnable { finishFilterSwitch() }
 
     private val permissionLauncher = registerForActivityResult(
@@ -480,6 +481,7 @@ class PhotoFragment : Fragment() {
         emptyRetryPending = false
         switchingFilter = false
         switchSawLoading = false
+        switchPaddingBottom = -1
         selectionBars = null
         binding?.rvMedia?.adapter = null
         stopMosaicData()
@@ -783,6 +785,13 @@ class PhotoFragment : Fragment() {
         val b = binding ?: return
         switchingFilter = true
         switchSawLoading = false
+        // With the old rows gone the list is only as tall as its header, so the scroll offset would be clamped to the top and the
+        // whole library header would flash into view. Extra bottom space keeps the scroll offset until the new rows are there.
+        if (switchPaddingBottom < 0) {
+            switchPaddingBottom = b.rvMedia.paddingBottom
+            b.rvMedia.clipToPadding = false
+            b.rvMedia.setPadding(b.rvMedia.paddingLeft, b.rvMedia.paddingTop, b.rvMedia.paddingRight, switchPaddingBottom + b.rvMedia.height)
+        }
         // The rows of the old filter go away in this very frame (the new data only arrives a frame or more later), and come back
         // together with the new ones when finishFilterSwitch runs.
         gridAd?.setHidden(true)
@@ -808,6 +817,13 @@ class PhotoFragment : Fragment() {
         if (!switchingFilter) return
         switchingFilter = false
         switchSawLoading = false
+        binding?.rvMedia?.let {
+            if (switchPaddingBottom >= 0) {
+                it.setPadding(it.paddingLeft, it.paddingTop, it.paddingRight, switchPaddingBottom)
+                it.clipToPadding = true
+            }
+        }
+        switchPaddingBottom = -1
         gridAd?.setHidden(false)
         mosaicAd?.setHidden(false)
         journalAd?.setHidden(false)
