@@ -352,8 +352,8 @@ class AdConfig(
                     bottomNavPreload = main.str("bottom_nav_inter_ads_type").equals("preload", true),
                     bottomNavId = main.str("bottom_nav_inter_ads_id"),
                     bottomNavEvery = main.int("bottom_nav_inter_click"),
-                    right = swipe(main, "Right_Swipe", failedQuizRoot),
-                    left = swipe(main, "Left_Swipe", failedQuizRoot),
+                    right = swipe(main, root, "Right_Swipe"),
+                    left = swipe(main, root, "Left_Swipe"),
                 ),
                 launcher = LauncherAd(
                     listShow = launcherBlock.bool("LauncherApp_Native_List_Ad_Show"),
@@ -442,14 +442,15 @@ class AdConfig(
             )
         }
 
-        private fun swipe(main: JSONObject, p: String, failedRoot: Boolean) = SwipeCfg(
+        private fun swipe(main: JSONObject, root: JSONObject, p: String) = SwipeCfg(
             show = main.bool("${p}_Interstitial_Ad_Show"),
             preload = main.str("${p}_Ads_type").equals("preload", true),
             every = main.int("${p}_Interstitial"),
             steps = parseSteps(main.opt("${p}_Ad_Sequence")),
             interId = main.str("${p}_Interstitial_Id"),
             nativeId = main.str("${p}_Native_Id"),
-            failedQuiz = main.bool("${p}_Failed_Show_Quiz") || failedRoot,
+            // Its own switch (Right_Swipe_Failed_Show_Quiz / Left_Swipe_Failed_Show_Quiz), never Google_Ad_Failed_Show_Quiz.
+            failedQuiz = main.bool("${p}_Failed_Show_Quiz") || root.bool("${p}_Failed_Show_Quiz"),
         )
 
         private fun event(block: JSONObject?, p: String, inter: JSONObject): EventAdCfg {
