@@ -50,6 +50,8 @@ class RecentActivity : AppCompatActivity(), LauncherApps.Listener {
         }
         createdAt = android.os.SystemClock.elapsedRealtime()
         enableEdgeToEdge()
+        // Behind the page the window shows through while it slides or the screen changes: never a white flash.
+        window.setBackgroundDrawableResource(R.color.language_background)
         // The IP location (state / country) for the back ad lists is looked up when the page opens (only when App_Proxy_Check_Ip is on).
         com.photovideo.gallerykz.memories.ads.IpLocation.refresh(this)
         val b = ActivityRecentBinding.inflate(layoutInflater)
@@ -187,17 +189,14 @@ class RecentActivity : AppCompatActivity(), LauncherApps.Listener {
         BackAds.show(this, "recent", AdRemoteConfig.config.recent.back, "", noQuiz = true) { if (!isFinishing) closeNow() }
     }
 
+    /**
+     * Closes the page. The launcher Home is brought to the front first and the page ends without an animation: sliding the page away
+     * (also after an ad that failed to load) showed the empty window behind it as a white screen until Home came up.
+     */
     private fun closeNow() {
-        val root = binding?.recentRoot
-        if (root == null) {
-            finish()
-            return
-        }
-        root.animate().translationX(-root.width.toFloat()).setDuration(SLIDE_MS).withEndAction {
-            finish()
-            overridePendingTransition(0, 0)
-            showHome()
-        }.start()
+        showHome()
+        finish()
+        overridePendingTransition(0, 0)
     }
 
     /**
