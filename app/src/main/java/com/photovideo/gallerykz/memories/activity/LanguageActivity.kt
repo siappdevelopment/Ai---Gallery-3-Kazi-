@@ -130,7 +130,12 @@ class LanguageActivity : AppCompatActivity() {
         if (viewModel.fromSettings) go(tag) else OnboardingAds.afterLanguage(this) { go(tag) }
     }
 
+    private var advanced = false
+
     private fun go(tag: String) {
+        // Once only: a late ad callback must never move the onboarding on a second time.
+        if (advanced) return
+        advanced = true
         // Finish first so a locale-triggered recreate never rebuilds this screen.
         finish()
         LocaleHelper.apply(tag)
