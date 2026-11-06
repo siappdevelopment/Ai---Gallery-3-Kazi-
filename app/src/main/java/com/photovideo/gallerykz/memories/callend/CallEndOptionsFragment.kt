@@ -49,7 +49,8 @@ class CallEndOptionsFragment : Fragment() {
             else -> R.string.callend_more_title to listOf(
                 Option(R.string.callend_more_add_contact) { addContact() },
                 Option(R.string.callend_more_call_log) { open(Intent(Intent.ACTION_VIEW).setType(CallLog.Calls.CONTENT_TYPE)) },
-                Option(R.string.callend_more_gallery) { open(LauncherNav.standaloneGalleryIntent(requireContext()).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)) },
+                // The app's own gallery: the launcher home scrolled to its gallery page (not the separate stand-alone screen).
+                Option(R.string.callend_more_gallery) { open(LauncherNav.galleryIntent(requireContext())) },
             )
         }
         b.tvTitle.setText(title)
