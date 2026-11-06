@@ -125,9 +125,12 @@ class AlbumFragment : Fragment() {
         val manager = GridLayoutManager(requireContext(), 2)
         manager.spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
             override fun getSpanSize(position: Int): Int {
-                // header (1 row) and the smart collections (last row) are full width
-                val cardEnd = 1 + cardRow.itemCount
-                return if (position < 1 || position >= cardEnd || cardRow.isAd(position - 1)) 2 else 1
+                // header (1 row) and the smart collections (last row) are full width. The end of the cards comes from the whole
+                // list the grid is laying out, not from the live count of the card adapter: while a new order (Sort by name) is
+                // being applied the two can differ for a moment and the smart collections were then given half a row.
+                val total = b.rvAlbums.adapter?.itemCount ?: return 2
+                val smartStart = total - smartAdapter.itemCount
+                return if (position < 1 || position >= smartStart || cardRow.isAd(position - 1)) 2 else 1
             }
         }
         b.rvAlbums.layoutManager = manager
