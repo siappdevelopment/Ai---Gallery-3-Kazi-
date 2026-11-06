@@ -255,15 +255,6 @@
             android:name="com.google.android.gms.ads.APPLICATION_ID"
             android:value="ca-app-pub-3940256099942544~3347511713" />
 
-        <!-- Hosts one full-screen ad (the App Open ad after unlocking the phone). -->
-        <activity
-            android:name=".ads.AdHostActivity"
-            android:excludeFromRecents="true"
-            android:exported="false"
-            android:launchMode="singleTask"
-            android:showWhenLocked="true"
-            android:taskAffinity=""
-            android:theme="@style/Theme.ThirdGallery.AdHost" />
         <activity
             android:name=".activity.DefaultAppActivity"
             android:exported="false"

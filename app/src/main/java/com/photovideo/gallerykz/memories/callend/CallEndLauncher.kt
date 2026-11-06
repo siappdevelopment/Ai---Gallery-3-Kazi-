@@ -30,7 +30,9 @@ object CallEndLauncher {
             false
         }
         CallEndLog.d("openAfterCall locked=$locked canOverlay=$canOverlay")
-        if (!locked && canOverlay) {
+        // The Home app does not need the overlay permission to start its screen.
+        val isHome = com.photovideo.gallerykz.memories.launcher.LauncherNav.isHomeAppOrRoleHolder(app)
+        if (!locked && (canOverlay || isHome)) {
             try {
                 app.startActivity(intent)
                 CallEndLog.d("opened the screen directly")

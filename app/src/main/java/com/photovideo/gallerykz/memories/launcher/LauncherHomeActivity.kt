@@ -187,11 +187,17 @@ class LauncherHomeActivity : AdAwareActivity(), LauncherHost, LauncherSettings.L
         binding?.let { outState.putInt(KEY_PAGE, it.vpLauncher.currentItem) }
     }
 
+    override fun onPause() {
+        com.photovideo.gallerykz.memories.ads.UnlockAds.onHomePaused(this)
+        super.onPause()
+    }
+
     override fun onResume() {
         super.onResume()
         // Back from an app started in the drawer: the drawer stays; the guard is only for the trip.
         binding?.appsDrawer?.appLaunchInProgress = false
         LauncherAds.onLauncherResumed(this)
+        com.photovideo.gallerykz.memories.ads.UnlockAds.onHomeResumed(this)
         popups.onResume()
         updateWindowBackground()
         binding?.appsDrawer?.refreshDefaultPromo()

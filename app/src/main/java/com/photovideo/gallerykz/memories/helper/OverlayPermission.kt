@@ -14,6 +14,10 @@ object OverlayPermission {
         false
     }
 
+    /** The permission is only asked for while this app is not the Home app: the Home app may start its screens from the background without it. */
+    fun isNeeded(context: Context?): Boolean =
+        context != null && !isGranted(context) && !com.photovideo.gallerykz.memories.launcher.LauncherNav.isHomeAppOrRoleHolder(context)
+
     fun settingsIntent(context: Context): Intent =
         Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION, Uri.parse("package:" + context.packageName))
 }
