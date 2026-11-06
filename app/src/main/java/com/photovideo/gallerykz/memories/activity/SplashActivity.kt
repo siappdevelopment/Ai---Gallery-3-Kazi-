@@ -3,6 +3,7 @@ package com.photovideo.gallerykz.memories.activity
 import com.photovideo.gallerykz.memories.ads.OnboardingAds
 
 import com.photovideo.gallerykz.memories.ads.AdScreen
+import com.photovideo.gallerykz.memories.ads.SlotSpec
 
 import com.photovideo.gallerykz.memories.ads.AdRemoteConfig
 
@@ -20,6 +21,7 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.photovideo.gallerykz.memories.R
 import com.photovideo.gallerykz.memories.databinding.ActivitySplashBinding
+import com.photovideo.gallerykz.memories.helper.OnboardingPrefs
 import com.photovideo.gallerykz.memories.helper.OnboardingRouter
 import com.photovideo.gallerykz.memories.launcher.LauncherHomeActivity
 import com.photovideo.gallerykz.memories.launcher.LauncherNav
@@ -66,7 +68,10 @@ class SplashActivity : AppCompatActivity() {
         }
 
         playEntranceAnimation(b, animate = savedInstanceState == null)
-        AdHooks.attachBottom(this, AdScreen.SPLASH)
+        // The ad follows the Remote Config, also when it arrives after the splash opened (first start, cleared data): a spec read now
+        // may still be the default "off", so the place re-reads the config when it is loaded.
+        val splashSpec = { SlotSpec.of(AdRemoteConfig.config.screen(AdScreen.SPLASH), "slot_${AdScreen.SPLASH.name}") }
+        AdHooks.attachBottom(this, splashSpec(), liveSpec = splashSpec)
         if (AdRemoteConfig.loaded || AdRemoteConfig.settled) {
             configReady = true
         } else {
@@ -163,17 +168,75 @@ class SplashActivity : AppCompatActivity() {
 
     private var navigating = false
 
+    /**
+     * The onboarding screen to resume. Force_Set_As_Default: when the onboarding is already done and this app is no longer the
+     * Home app, the Default screen asks again on every fresh launch (it leaves the stored step alone and ends at the launcher).
+     */
+    private fun nextScreen(): Intent {
+        val target = OnboardingRouter.intent(this)
+        if (OnboardingPrefs.getStep(this) == OnboardingPrefs.STEP_DONE && AdRemoteConfig.config.forceSetAsDefault &&
+            !LauncherNav.isHomeAppOrRoleHolder(this)
+        ) {
+            return Intent(this, DefaultAppActivity::class.java).putExtra(DefaultAppActivity.EXTRA_FORCED_REASK, true)
+        }
+        return target
+    }
+
     private fun navigateNext() {
         if (isFinishing || isDestroyed || navigating) return
         navigating = true
         // The after-splash ad (when due) comes first; then the onboarding resumes where the user left off.
         OnboardingAds.afterSplash(this) {
             if (!isFinishing && !isDestroyed) {
-                removeOldAppTasks()
-                startActivity(OnboardingRouter.intent(this))
-                finish()
+                adDone = true
+                openNextScreenWhenVisible()
             }
         }
+    }
+
+    /**
+     * The ad's own window is still being torn down when its dismiss callback fires: the splash behind it is only stopped / not yet
+     * redrawn, so starting the next screen right then shows a black frame on some devices. The next screen starts only once the
+     * splash is resumed and has drawn a frame again, and without a window animation, so nothing dark can show in between.
+     */
+    private fun openNextScreenWhenVisible() {
+        if (!adDone || nextStarted || isFinishing || isDestroyed) return
+        if (!resumed) return // onResume calls this again
+        // The splash look stays under everything until the next screen is up.
+        window.setBackgroundDrawableResource(R.color.splash_background)
+        val decor = window.decorView
+        decor.post {
+            decor.postOnAnimation {
+                if (nextStarted || isFinishing || isDestroyed) return@postOnAnimation
+                nextStarted = true
+                removeOldAppTasks()
+                startActivity(nextScreen())
+                suppressTransition()
+                finish()
+                suppressTransition()
+            }
+        }
+    }
+
+    @Suppress("DEPRECATION")
+    private fun suppressTransition() {
+        overridePendingTransition(0, 0)
+    }
+
+    private var adDone = false
+    private var nextStarted = false
+
+    private var resumed = false
+
+    override fun onPause() {
+        resumed = false
+        super.onPause()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        resumed = true
+        openNextScreenWhenVisible()
     }
 
     /**

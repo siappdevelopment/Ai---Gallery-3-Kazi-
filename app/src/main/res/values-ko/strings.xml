@@ -745,6 +745,8 @@
     <string name="selection_removed_album">앨범에서 항목 %1$d개를 제거했습니다</string>
     <string name="selection_hide_title">항목 %1$d개를 숨길까요?</string>
     <string name="selection_hide_progress">%2$d개 중 %1$d개 숨기는 중…</string>
+    <string name="selection_delete_progress">%2$d개 중 %1$d개 삭제 중…</string>
+    <string name="bin_restore_progress">%2$d개 중 %1$d개 복원 중…</string>
     <string name="selection_hidden">항목 %1$d개를 숨겼습니다</string>
     <string name="selection_hidden_partial">항목 %1$d개를 숨겼습니다. %2$d개는 숨길 수 없었습니다</string>
     <string name="vault_unhide_progress">%2$d개 중 %1$d개 숨김 해제 중…</string>

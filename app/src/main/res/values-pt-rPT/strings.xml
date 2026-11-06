@@ -759,6 +759,8 @@
     <string name="selection_removed_album">%1$d itens removidos do álbum</string>
     <string name="selection_hide_title">Ocultar %1$d itens?</string>
     <string name="selection_hide_progress">A ocultar %1$d de %2$d…</string>
+    <string name="selection_delete_progress">A eliminar %1$d de %2$d…</string>
+    <string name="bin_restore_progress">A restaurar %1$d de %2$d…</string>
     <string name="selection_hidden">%1$d itens ocultados</string>
     <string name="selection_hidden_partial">%1$d itens ocultados, %2$d não puderam ser ocultados</string>
     <string name="vault_unhide_progress">A reexibir %1$d de %2$d…</string>

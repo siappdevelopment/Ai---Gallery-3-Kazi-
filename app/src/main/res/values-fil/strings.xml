@@ -752,6 +752,8 @@
     <string name="selection_removed_album">%1$d item ang inalis sa album</string>
     <string name="selection_hide_title">Itago ang %1$d item?</string>
     <string name="selection_hide_progress">Itinatago ang %1$d sa %2$d…</string>
+    <string name="selection_delete_progress">Binubura ang %1$d sa %2$d…</string>
+    <string name="bin_restore_progress">Nire-restore ang %1$d sa %2$d…</string>
     <string name="selection_hidden">%1$d item ang naitago</string>
     <string name="selection_hidden_partial">%1$d item ang naitago, %2$d ang hindi naitago</string>
     <string name="vault_unhide_progress">Ipinapakita muli ang %1$d sa %2$d…</string>

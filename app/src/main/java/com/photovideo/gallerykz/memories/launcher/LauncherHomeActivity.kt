@@ -70,6 +70,11 @@ class LauncherHomeActivity : AdAwareActivity(), LauncherHost, LauncherSettings.L
 
     private val defaultHome = DefaultHomeRequest(this) { onRoleResult() }
 
+    /** The Remote Config popups of the right swipe (Home app role, display over other apps). */
+    private val popups = LauncherPopups(this, defaultHome) {
+        binding?.vpLauncher?.let { it.currentItem == PAGE_GALLERY && it.scrollState == ViewPager2.SCROLL_STATE_IDLE } == true
+    }
+
     private val packageReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context, intent: Intent) {
             if (intent.action == Intent.ACTION_PACKAGE_REMOVED && !intent.getBooleanExtra(Intent.EXTRA_REPLACING, false)) {
@@ -145,9 +150,13 @@ class LauncherHomeActivity : AdAwareActivity(), LauncherHost, LauncherSettings.L
                 onPagerChanged()
                 if (state == ViewPager2.SCROLL_STATE_IDLE) {
                     val page = pager.currentItem
-                    if (pendingFromHome == page && page != PAGE_HOME) SwipeAds.onSwipe(this@LauncherHomeActivity, right = page == PAGE_GALLERY)
-                    pendingFromHome = -1
                     settledPage = page
+                    if (pendingFromHome == page && page != PAGE_HOME) {
+                        // Right swipe: a due popup (Home app, overlay) comes first and the swipe ad yields to it.
+                        val popupShown = page == PAGE_GALLERY && popups.onExplicitEntry()
+                        if (!popupShown && !popups.isActive) SwipeAds.onSwipe(this@LauncherHomeActivity, right = page == PAGE_GALLERY)
+                    }
+                    pendingFromHome = -1
                 }
             }
         })
@@ -178,11 +187,18 @@ class LauncherHomeActivity : AdAwareActivity(), LauncherHost, LauncherSettings.L
         binding?.let { outState.putInt(KEY_PAGE, it.vpLauncher.currentItem) }
     }
 
+    override fun onPause() {
+        com.photovideo.gallerykz.memories.ads.UnlockAds.onHomePaused(this)
+        super.onPause()
+    }
+
     override fun onResume() {
         super.onResume()
         // Back from an app started in the drawer: the drawer stays; the guard is only for the trip.
         binding?.appsDrawer?.appLaunchInProgress = false
         LauncherAds.onLauncherResumed(this)
+        com.photovideo.gallerykz.memories.ads.UnlockAds.onHomeResumed(this)
+        popups.onResume()
         updateWindowBackground()
         binding?.appsDrawer?.refreshDefaultPromo()
         // Xiaomi family phones only open the Recent page when this switch is on; the user is asked for it now and then.
@@ -242,6 +258,7 @@ class LauncherHomeActivity : AdAwareActivity(), LauncherHost, LauncherSettings.L
 
     override fun onDestroy() {
         LauncherSettings.unregister(this)
+        popups.onDestroy()
         try {
             unregisterReceiver(packageReceiver)
         } catch (e: IllegalArgumentException) {
@@ -398,6 +415,7 @@ class LauncherHomeActivity : AdAwareActivity(), LauncherHost, LauncherSettings.L
 
     /** The state is read from the system, never from the result code. */
     private fun onRoleResult() {
+        popups.onDefaultResult()
         binding?.appsDrawer?.refreshDefaultPromo()
         homeFragment()?.refreshDefaultPromo()
     }

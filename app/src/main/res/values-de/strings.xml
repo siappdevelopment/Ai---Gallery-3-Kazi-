@@ -752,6 +752,8 @@
     <string name="selection_removed_album">%1$d Elemente aus dem Album entfernt</string>
     <string name="selection_hide_title">%1$d Elemente ausblenden?</string>
     <string name="selection_hide_progress">%1$d von %2$d werden ausgeblendet…</string>
+    <string name="selection_delete_progress">%1$d von %2$d werden gelöscht…</string>
+    <string name="bin_restore_progress">%1$d von %2$d werden wiederhergestellt…</string>
     <string name="selection_hidden">%1$d Elemente ausgeblendet</string>
     <string name="selection_hidden_partial">%1$d Elemente ausgeblendet, %2$d konnten nicht ausgeblendet werden</string>
     <string name="vault_unhide_progress">%1$d von %2$d werden eingeblendet…</string>

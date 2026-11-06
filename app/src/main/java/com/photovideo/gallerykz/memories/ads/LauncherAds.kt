@@ -2,6 +2,9 @@ package com.photovideo.gallerykz.memories.ads
 
 import android.app.Activity
 import android.app.Application
+import android.app.KeyguardManager
+import android.os.Handler
+import android.os.Looper
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
@@ -12,7 +15,6 @@ import android.util.Log
 import androidx.core.content.ContextCompat
 import com.google.android.gms.ads.appopen.AppOpenAd
 import com.google.android.gms.ads.interstitial.InterstitialAd
-import com.photovideo.gallerykz.memories.events.EventLauncher
 import com.photovideo.gallerykz.memories.events.EventPromptActivity
 import com.photovideo.gallerykz.memories.launcher.LauncherNav
 
@@ -274,29 +276,229 @@ object LauncherAds {
     }
 }
 
-/** The App Open ad after the phone is unlocked (`Unlock_App_Open_*`), shown in a transparent screen. */
+/**
+ * The App Open ad after the phone is unlocked (`Unlock_App_Open_*`), shown ON the launcher Home screen (skill `unlock_ad_logic`).
+ *
+ * It runs only while this app is the Home app. Nothing is started from the background (no overlay permission, no host screen):
+ * after an unlock the system brings the launcher Home to the front and the ad is shown on it. The phone locking (`SCREEN_OFF`) arms
+ * it and, when the gates pass, loads the next Google step ahead (`Unlock_App_Open_Ads_type = preload`). The unlock (`USER_PRESENT`,
+ * the keyguard disappearing, or Home resuming with the keyguard gone) shows it as soon as Home is in front, within a 6 s window.
+ * Log lines start with `Unlock ad:` (tag KaziAds).
+ */
 object UnlockAds {
 
     private const val TAG = "KaziAds"
+    private const val KEY = "unlock_app_open"
+    private const val WINDOW_MS = 6_000L
+    private const val POLL_MS = 300L
+    private const val WATCH_MS = 60_000L
+    private const val CACHE_MAX_AGE_MS = 55L * 60 * 1000
+
+    private val handler = Handler(Looper.getMainLooper())
+    private var app: Application? = null
     private var registered = false
+    private var armed = false
+    private var unlockedAt = 0L
+    private var screenOnAt = 0L
+    private var home: java.lang.ref.WeakReference<Activity>? = null
+    private var showing = false
+
+    // The ad loaded ahead for the step the next unlock will use.
+    private var cachedType: SeqType? = null
+    private var cachedAd: Any? = null
+    private var cachedAt = 0L
+    private var loading = false
 
     private val receiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context?, intent: Intent?) {
-            if (context == null || intent?.action != Intent.ACTION_USER_PRESENT) return
-            val c = AdRemoteConfig.config
-            val l = c.launcher
-            if (!l.unlockShow || l.unlockSteps.isEmpty() || !AdGate.adsAllowed(context) || !AdGate.isNetworkAvailable(context)) return
-            if (!AdGate.countryAllowed(context, l.unlockCountries, l.unlockExclude)) return
-            if (!AdGate.intervalElapsed(context, "unlock_app_open", l.unlockPerDay, zeroIsAlways = true)) return
-            val started = EventLauncher.startScreen(context, Intent(context, AdHostActivity::class.java).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK))
-            Log.d(TAG, "unlock ad screen started: $started")
+            Log.d(TAG, "Unlock ad: broadcast ${intent?.action}")
+            when (intent?.action) {
+                Intent.ACTION_SCREEN_OFF -> onLocked()
+                Intent.ACTION_SCREEN_ON -> watchKeyguard()
+                Intent.ACTION_USER_PRESENT -> onUnlocked()
+            }
         }
     }
 
-    fun register(app: Application) {
+    /** Registers for lock / unlock once; call from `Application.onCreate`. */
+    fun register(application: Application) {
         if (registered) return
         registered = true
-        // A protected system broadcast: only a runtime receiver gets it, and only while the process lives.
-        ContextCompat.registerReceiver(app, receiver, IntentFilter(Intent.ACTION_USER_PRESENT), ContextCompat.RECEIVER_NOT_EXPORTED)
+        app = application
+        val filter = IntentFilter().apply {
+            addAction(Intent.ACTION_SCREEN_OFF)
+            addAction(Intent.ACTION_SCREEN_ON)
+            addAction(Intent.ACTION_USER_PRESENT)
+        }
+        // Protected system broadcasts: only a runtime receiver gets them, and only while the process lives.
+        ContextCompat.registerReceiver(application, receiver, filter, ContextCompat.RECEIVER_NOT_EXPORTED)
+    }
+
+    /** The launcher Home is in front (call from its `onResume`); an unlock that just happened shows the ad now. */
+    fun onHomeResumed(activity: Activity) {
+        home = java.lang.ref.WeakReference(activity)
+        Log.d(TAG, "Unlock ad: Home resumed, armed=$armed, keyguard locked=${keyguardLocked()}")
+        // Some phones never send USER_PRESENT (no lock screen, face unlock, battery savers): Home back after a lock, with the keyguard gone, is the unlock.
+        if (armed && unlockedAt == 0L && !keyguardLocked()) {
+            Log.d(TAG, "Unlock ad: Home is back and the phone is unlocked (no USER_PRESENT needed)")
+            unlockedAt = SystemClock.elapsedRealtime()
+        }
+        tryShow()
+    }
+
+    fun onHomePaused(activity: Activity) {
+        if (home?.get() === activity) home = null
+    }
+
+    private fun keyguardLocked(): Boolean =
+        (app?.getSystemService(Context.KEYGUARD_SERVICE) as? KeyguardManager)?.isKeyguardLocked == true
+
+    // ---- lock / unlock ----
+
+    private val keyguardPoll = object : Runnable {
+        override fun run() {
+            if (!armed || unlockedAt != 0L) return
+            if (!keyguardLocked()) {
+                Log.d(TAG, "Unlock ad: the keyguard is gone")
+                onUnlocked()
+            } else if (SystemClock.elapsedRealtime() - screenOnAt < WATCH_MS) {
+                handler.postDelayed(this, POLL_MS)
+            }
+        }
+    }
+
+    private fun watchKeyguard() {
+        if (!armed) return
+        screenOnAt = SystemClock.elapsedRealtime()
+        handler.removeCallbacks(keyguardPoll)
+        handler.post(keyguardPoll)
+    }
+
+    private fun onLocked() {
+        handler.removeCallbacks(keyguardPoll)
+        val reason = whyNot()
+        armed = reason == null
+        unlockedAt = 0L
+        Log.d(TAG, "Unlock ad: phone locked, armed=$armed (${reason ?: "ok"})")
+        if (armed) preload()
+    }
+
+    private fun onUnlocked() {
+        Log.d(TAG, "Unlock ad: phone unlocked, armed=$armed, home in front=${home?.get() != null}")
+        if (!armed) return
+        unlockedAt = SystemClock.elapsedRealtime()
+        tryShow()
+    }
+
+    /** The unlock counts for a few seconds: Home resumes just before or just after the broadcast. */
+    private fun tryShow() {
+        if (!armed || unlockedAt == 0L) return
+        if (SystemClock.elapsedRealtime() - unlockedAt > WINDOW_MS) {
+            Log.d(TAG, "Unlock ad: the Home page did not come in front in time")
+            armed = false
+            return
+        }
+        val activity = home?.get() ?: return
+        if (activity.isFinishing || activity.isDestroyed) return
+        armed = false
+        unlockedAt = 0L
+        show(activity)
+    }
+
+    // ---- the ad ----
+
+    private fun ids(): AdIds {
+        val c = AdRemoteConfig.config
+        val l = c.launcher
+        return AdIds(l.unlockInterId, l.unlockNativeId, l.unlockId.ifEmpty { c.appOpenId })
+    }
+
+    private fun show(activity: Activity) {
+        val reason = whyNot()
+        if (reason != null || showing) {
+            Log.d(TAG, "Unlock ad: not shown (${reason ?: "an unlock ad is already showing"})")
+            return
+        }
+        val l = AdRemoteConfig.config.launcher
+        val ids = ids()
+        // The slot time is written before the ad shows: a failed request also uses its slot.
+        AdGate.markShown(activity, KEY)
+        val type = SequenceAds.next(activity, KEY, l.unlockSteps, ids)
+        if (type == null) {
+            Log.d(TAG, "Unlock ad: no usable step in the sequence")
+            return
+        }
+        showing = true
+        Log.d(TAG, "Unlock ad: showing step $type (Unlock_App_Open_Per_Day = ${l.unlockPerDay})")
+        val finish = { shown: Boolean ->
+            showing = false
+            Log.d(TAG, "Unlock ad: done, shown=$shown")
+            preload()
+        }
+        when (val ready = takeCached(type)) {
+            is AppOpenAd -> GoogleAds.showAppOpen(activity, ready) { shown ->
+                if (!shown && l.unlockFailedQuiz) QuizAds.showFallback(activity, QuizKind.APP_OPEN, finish) else finish(shown)
+            }
+            is InterstitialAd -> GoogleAds.showInterstitial(activity, ready) { shown ->
+                if (!shown && l.unlockFailedQuiz) QuizAds.showFallback(activity, QuizKind.INTER, finish) else finish(shown)
+            }
+            else -> SequenceAds.run(activity, type, ids, l.unlockFailedQuiz, finish)
+        }
+    }
+
+    private fun takeCached(type: SeqType): Any? {
+        val ad = cachedAd
+        val fresh = cachedType == type && ad != null && SystemClock.elapsedRealtime() - cachedAt < CACHE_MAX_AGE_MS
+        cachedAd = null
+        cachedType = null
+        return if (fresh) ad else null
+    }
+
+    /** `Unlock_App_Open_Ads_type = preload`: loads the Google ad of the step the next unlock will use (full native loads on demand). */
+    private fun preload() {
+        val context = app ?: return
+        val l = AdRemoteConfig.config.launcher
+        if (!l.unlockPreload || loading || !GoogleAds.canRequest(context)) return
+        val ids = ids()
+        val type = SequenceAds.next(context, KEY, l.unlockSteps, ids, advance = false) ?: return
+        if (cachedType == type && cachedAd != null && SystemClock.elapsedRealtime() - cachedAt < CACHE_MAX_AGE_MS) return
+        val store = { ad: Any? ->
+            loading = false
+            if (ad != null) {
+                cachedAd = ad
+                cachedType = type
+                cachedAt = SystemClock.elapsedRealtime()
+            }
+            Log.d(TAG, "Unlock ad: preload $type ${if (ad != null) "ready" else "failed"}")
+        }
+        when (type) {
+            SeqType.G_APPOPEN -> {
+                loading = true
+                GoogleAds.loadAppOpen(context, ids.appOpenId) { store(it) }
+            }
+            SeqType.G_INTER -> {
+                loading = true
+                GoogleAds.loadInterstitial(context, ids.interId) { store(it) }
+            }
+            else -> Unit
+        }
+    }
+
+    // ---- gates ----
+
+    /** Why the ad cannot run now (null = it can): switch, Home app, internet, own country lists, a usable step, the gap. */
+    private fun whyNot(): String? {
+        val context = app ?: return "not started"
+        val l = AdRemoteConfig.config.launcher
+        return when {
+            !l.unlockShow -> "Unlock_App_Open_Show is false"
+            l.unlockSteps.isEmpty() -> "Unlock_App_Open_Ad_Sequence is empty"
+            !LauncherNav.isHomeAppOrRoleHolder(context) -> "this app is not the default Home app"
+            !AdGate.isNetworkAvailable(context) -> "no internet"
+            !AdGate.countryAllowed(context, l.unlockCountries, l.unlockExclude) -> "blocked by Unlock_Ad_Show_Country / Unlock_Ad_Show_Exclude_Location"
+            SequenceAds.next(context, KEY, l.unlockSteps, ids(), advance = false) == null -> "no usable step (missing unit ids)"
+            !AdGate.intervalElapsed(context, KEY, l.unlockPerDay, zeroIsAlways = true) -> "the gap since the last unlock ad (24 h / ${l.unlockPerDay}) is not over"
+            else -> null
+        }
     }
 }

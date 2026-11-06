@@ -304,6 +304,13 @@ class MediaRepository(context: Context) {
         return favorites >= uids.size
     }
 
+    /** Which of [uids] are favorites now (chunked below SQLite's variable limit). */
+    fun favoritesAmong(uids: Collection<Long>): Set<Long> {
+        val found = HashSet<Long>()
+        for (chunk in uids.chunked(REMOVE_CHUNK)) dao.byUids(chunk).forEach { if (it.isFavorite) found.add(it.uid) }
+        return found
+    }
+
     /** Marks many items as favorite (or not) in one transaction; grids and counts follow through LiveData. */
     fun setFavoritesLocal(uids: List<Long>, favorite: Boolean) {
         if (uids.isEmpty()) return

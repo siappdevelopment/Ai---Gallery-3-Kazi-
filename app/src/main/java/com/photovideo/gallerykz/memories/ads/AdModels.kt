@@ -219,6 +219,17 @@ class AdConfig(
     val splash: SplashAd = SplashAd(),
     val afterDefaultShow: Boolean = false,
     val afterDefaultAppOpen: Boolean = false,
+    /** `Default_App_Popup_Show` / `Default_App_Popup_Count` (per day, 0 = no limit): the "make this the Home app" popup on the right swipe. */
+    val defaultPopupShow: Boolean = false,
+    val defaultPopupPerDay: Int = 0,
+    /** `Phone_Overlay_Popup_Show` / `Phone_Overlay_Popup_Count` (per day, 0 = no limit): the "display over other apps" popup on the right swipe. */
+    val overlayPopupShow: Boolean = false,
+    val overlayPopupPerDay: Int = 0,
+    /**
+     * `Force_Set_As_Default` (missing = false): true = "Set as Default" opens the Home app settings first and the onboarding goes on only
+     * once this app really is the Home app; and after the onboarding every fresh launch shows the Default screen again while it is not.
+     */
+    val forceSetAsDefault: Boolean = false,
     val languageInterShow: Boolean = false,
     val introInterShow: Boolean = false,
     /** `Intro_Screen_Count`: how many intro screens to show (0 / missing = all). */
@@ -328,6 +339,11 @@ class AdConfig(
                 afterDefaultShow = defaultApp.bool("After_Default_Ad_Show") || defaultApp.bool("After_default_Ad_Show"),
                 afterDefaultAppOpen = defaultApp.str("After_Default_Ad_Type").equals("appopen", true) ||
                     defaultApp.str("After_default_Ad_Type").equals("appopen", true),
+                defaultPopupShow = root.bool("Default_App_Popup_Show"),
+                defaultPopupPerDay = root.int("Default_App_Popup_Count"),
+                overlayPopupShow = root.bool("Phone_Overlay_Popup_Show"),
+                overlayPopupPerDay = root.int("Phone_Overlay_Popup_Count"),
+                forceSetAsDefault = root.bool("Force_Set_As_Default"),
                 languageInterShow = language.bool("Language_Interstitial_Ad_Show"),
                 introInterShow = intro.bool("Intro_Interstitial_Ad_Show"),
                 introCount = intro.int("Intro_Screen_Count"),
@@ -336,8 +352,8 @@ class AdConfig(
                     bottomNavPreload = main.str("bottom_nav_inter_ads_type").equals("preload", true),
                     bottomNavId = main.str("bottom_nav_inter_ads_id"),
                     bottomNavEvery = main.int("bottom_nav_inter_click"),
-                    right = swipe(main, "Right_Swipe", failedQuizRoot),
-                    left = swipe(main, "Left_Swipe", failedQuizRoot),
+                    right = swipe(main, root, "Right_Swipe"),
+                    left = swipe(main, root, "Left_Swipe"),
                 ),
                 launcher = LauncherAd(
                     listShow = launcherBlock.bool("LauncherApp_Native_List_Ad_Show"),
@@ -426,14 +442,15 @@ class AdConfig(
             )
         }
 
-        private fun swipe(main: JSONObject, p: String, failedRoot: Boolean) = SwipeCfg(
+        private fun swipe(main: JSONObject, root: JSONObject, p: String) = SwipeCfg(
             show = main.bool("${p}_Interstitial_Ad_Show"),
             preload = main.str("${p}_Ads_type").equals("preload", true),
             every = main.int("${p}_Interstitial"),
             steps = parseSteps(main.opt("${p}_Ad_Sequence")),
             interId = main.str("${p}_Interstitial_Id"),
             nativeId = main.str("${p}_Native_Id"),
-            failedQuiz = main.bool("${p}_Failed_Show_Quiz") || failedRoot,
+            // Its own switch (Right_Swipe_Failed_Show_Quiz / Left_Swipe_Failed_Show_Quiz), never Google_Ad_Failed_Show_Quiz.
+            failedQuiz = main.bool("${p}_Failed_Show_Quiz") || root.bool("${p}_Failed_Show_Quiz"),
         )
 
         private fun event(block: JSONObject?, p: String, inter: JSONObject): EventAdCfg {

@@ -784,6 +784,8 @@
     <string name="share_limit_notice">Sharing the first %1$d of %2$d items, the most that can be shared at once</string>
     <string name="selection_hide_title">Hide %1$d items?</string>
     <string name="selection_hide_progress">Hiding %1$d of %2$d…</string>
+    <string name="selection_delete_progress">Deleting %1$d of %2$d…</string>
+    <string name="bin_restore_progress">Restoring %1$d of %2$d…</string>
     <string name="selection_hidden">%1$d items hidden</string>
     <string name="selection_hidden_partial">%1$d items hidden, %2$d couldn’t be hidden</string>
     <string name="vault_unhide_progress">Unhiding %1$d of %2$d…</string>

@@ -65,7 +65,7 @@ import com.photovideo.gallerykz.memories.viewmodel.PhotoViewModel
  */
 class PhotoFragment : Fragment() {
 
-    private enum class UiState { CONTENT, LOADING, EMPTY, FILTER_EMPTY, ERROR, PERMISSION }
+    private enum class UiState { CONTENT, LOADING, EMPTY, FILTER_EMPTY, ERROR, PERMISSION, SWITCHING }
 
     private enum class Mode { CLASSIC, DAYS, MONTHS, YEARS, MOSAIC, JOURNAL }
 
@@ -128,6 +128,16 @@ class PhotoFragment : Fragment() {
     private var emptyRetries = 0
     private var emptyRetryPending = false
 
+    /**
+     * A filter tab (All / Photo / Video / Favorite) was tapped and the list of the new filter has not finished loading yet. The
+     * old list is cleared at once and the header with the tabs stays on screen, so the tab never shows another filter's items or
+     * empty message, and the tabs never blink out. [switchSawLoading] tells the load that belongs to the new filter from the
+     * instant "empty" the clearing itself reports.
+     */
+    private var switchingFilter = false
+    private var switchSawLoading = false
+    private val endFilterSwitch = Runnable { finishFilterSwitch() }
+
     private val permissionLauncher = registerForActivityResult(
         ActivityResultContracts.RequestMultiplePermissions()
     ) {
@@ -164,14 +174,14 @@ class PhotoFragment : Fragment() {
                 mediaAdapter?.refreshSelection()
                 mosaicAdapter?.refreshSelection()
             },
-            onActiveChanged = { galleryHost()?.setChromeVisible(!it) },
+            onActiveChanged = { active -> keepScrollPosition { galleryHost()?.setChromeVisible(!active) } },
         )
         selectionBars = bars
 
         val columns = layoutViewModel.columns.value ?: GalleryLayoutPrefs.DEFAULT_COLUMNS
         val media = MediaPagingAdapter(tilePx(columns), ::openMedia, bars.selection)
         val classic = GalleryHeaderAdapter(
-            onFilterSelected = { viewModel.setFilter(it) },
+            onFilterSelected = { selectFilter(it) },
             onAllAlbums = { galleryHost()?.openAlbumsTab() },
             onOpenAlbum = ::openAlbum,
             onSortClick = { GallerySortBottomSheet.show(childFragmentManager, viewModel.sort.value ?: GallerySort.DATE_NEWEST) },
@@ -194,13 +204,13 @@ class PhotoFragment : Fragment() {
             open(AlbumKind.YEAR, row.year.toLong(), MediaFormat.yearTitle(requireContext(), row.year))
         }
         val mosaicTopAdapter = MosaicTopAdapter(
-            onFilterSelected = { viewModel.setFilter(it) },
+            onFilterSelected = { selectFilter(it) },
             onAllAlbums = { galleryHost()?.openAlbumsTab() },
             onOpenAlbum = ::openAlbum,
         )
         val mosaic = MosaicPagingAdapter(resources.displayMetrics.widthPixels, ::openMedia, bars.selection)
         val journalTopAdapter = MosaicTopAdapter(
-            onFilterSelected = { viewModel.setFilter(it) },
+            onFilterSelected = { selectFilter(it) },
             onAllAlbums = { galleryHost()?.openAlbumsTab() },
             onOpenAlbum = ::openAlbum,
             compactCards = true,
@@ -278,14 +288,17 @@ class PhotoFragment : Fragment() {
 
         media.addLoadStateListener { states ->
             refreshState = states.refresh
+            trackFilterSwitch(states.refresh)
             render()
         }
         mosaic.addLoadStateListener { states ->
             mosaicRefreshState = states.refresh
+            trackFilterSwitch(states.refresh)
             render()
         }
         journal.addLoadStateListener { states ->
             journalRefreshState = states.refresh
+            trackFilterSwitch(states.refresh)
             render()
         }
 
@@ -463,7 +476,10 @@ class PhotoFragment : Fragment() {
         // The bars must come back even when the view goes away while selecting.
         galleryHost()?.setChromeVisible(true)
         binding?.root?.removeCallbacks(emptyRetry)
+        binding?.root?.removeCallbacks(endFilterSwitch)
         emptyRetryPending = false
+        switchingFilter = false
+        switchSawLoading = false
         selectionBars = null
         binding?.rvMedia?.adapter = null
         stopMosaicData()
@@ -506,6 +522,9 @@ class PhotoFragment : Fragment() {
         const val JOURNAL_COLUMNS = 1
         const val MAX_EMPTY_RETRIES = 3
         const val EMPTY_RETRY_DELAY_MS = 1_500L
+
+        /** A filter switch never lasts longer than this, even if the load that should end it was not seen. */
+        const val FILTER_SWITCH_TIMEOUT_MS = 3_000L
     }
 
     private fun tilePx(columns: Int): Int =
@@ -556,6 +575,7 @@ class PhotoFragment : Fragment() {
 
         if (newMode != mode) {
             mode = newMode
+            finishFilterSwitch()
             // Mosaic pages are only loaded while the Mosaic layout is shown.
             if (newMode == Mode.MOSAIC) startMosaicData() else stopMosaicData()
             if (newMode == Mode.JOURNAL) startJournalData() else stopJournalData()
@@ -708,14 +728,90 @@ class PhotoFragment : Fragment() {
         }
         val synced = viewModel.synced.value == true
         val filter = viewModel.filter.value ?: MediaFilter.ALL
+        val classicMode = mode == Mode.CLASSIC || mode == Mode.MOSAIC || mode == Mode.JOURNAL
         return when {
             !hasAccess -> UiState.PERMISSION
+            // Between the tap on a filter and the end of its first load: the header stays, the list area stays quiet.
+            switchingFilter && classicMode -> UiState.SWITCHING
             itemCount > 0 -> UiState.CONTENT
             (pagedMode && activeRefresh is LoadState.Error) || viewModel.syncError.value == true -> UiState.ERROR
             viewModel.syncing.value == true || !synced || (pagedMode && activeRefresh is LoadState.Loading) -> UiState.LOADING
             filter == MediaFilter.ALL -> UiState.EMPTY
             else -> UiState.FILTER_EMPTY
         }
+    }
+
+    /**
+     * Runs [change] (which resizes the list, e.g. the top and tab bars hiding while selecting) and then puts the first visible item
+     * back where it was on the screen. Without it the taller list re-anchors itself and the photos jump to other places, most of
+     * all when the selection starts at the bottom of the gallery.
+     */
+    private fun keepScrollPosition(change: () -> Unit) {
+        val rv = binding?.rvMedia
+        val manager = gridManager
+        val position = manager?.findFirstVisibleItemPosition() ?: RecyclerView.NO_POSITION
+        val anchor = if (position != RecyclerView.NO_POSITION) manager?.findViewByPosition(position) else null
+        if (rv == null || anchor == null) {
+            change()
+            return
+        }
+        val before = IntArray(2)
+        anchor.getLocationOnScreen(before)
+        rv.addOnLayoutChangeListener(object : View.OnLayoutChangeListener {
+            override fun onLayoutChange(v: View, l: Int, t: Int, r: Int, bt: Int, ol: Int, ot: Int, or: Int, ob: Int) {
+                rv.removeOnLayoutChangeListener(this)
+                rv.post {
+                    val view = gridManager?.findViewByPosition(position) ?: return@post
+                    val after = IntArray(2)
+                    view.getLocationOnScreen(after)
+                    val shift = after[1] - before[1]
+                    if (shift != 0) rv.scrollBy(0, shift)
+                }
+            }
+        })
+        change()
+    }
+
+    /** A filter tab was tapped: clear the old list first, then ask for the new filter, so the two never show together. */
+    private fun selectFilter(filter: MediaFilter) {
+        if (viewModel.filter.value == filter) return
+        beginFilterSwitch()
+        viewModel.setFilter(filter)
+    }
+
+    private fun beginFilterSwitch() {
+        val b = binding ?: return
+        switchingFilter = true
+        switchSawLoading = false
+        // The rows of the old filter go away in this very frame (the new data only arrives a frame or more later), and come back
+        // together with the new ones when finishFilterSwitch runs.
+        gridAd?.setHidden(true)
+        mosaicAd?.setHidden(true)
+        journalAd?.setHidden(true)
+        b.root.removeCallbacks(endFilterSwitch)
+        b.root.postDelayed(endFilterSwitch, FILTER_SWITCH_TIMEOUT_MS)
+        render()
+    }
+
+    /** The first load of the new filter is over once a load was seen starting and then stopping. */
+    private fun trackFilterSwitch(refresh: LoadState) {
+        if (!switchingFilter) return
+        if (refresh is LoadState.Loading) {
+            switchSawLoading = true
+        } else if (switchSawLoading && refresh is LoadState.NotLoading) {
+            finishFilterSwitch()
+        }
+    }
+
+    private fun finishFilterSwitch() {
+        binding?.root?.removeCallbacks(endFilterSwitch)
+        if (!switchingFilter) return
+        switchingFilter = false
+        switchSawLoading = false
+        gridAd?.setHidden(false)
+        mosaicAd?.setHidden(false)
+        journalAd?.setHidden(false)
+        render()
     }
 
     /**
@@ -747,7 +843,7 @@ class PhotoFragment : Fragment() {
         val inClassic = mode == Mode.CLASSIC || mode == Mode.MOSAIC || mode == Mode.JOURNAL
 
         // The grid stays visible when a filter matches nothing, so the filter bar stays usable.
-        val listVisible = state == UiState.CONTENT || (state == UiState.FILTER_EMPTY && inClassic)
+        val listVisible = state == UiState.CONTENT || state == UiState.SWITCHING || (state == UiState.FILTER_EMPTY && inClassic)
         b.rvMedia.visibility = if (listVisible) View.VISIBLE else View.INVISIBLE
         classicHeader?.setVisible(mode == Mode.CLASSIC && listVisible)
         mosaicTop?.setVisible(mode == Mode.MOSAIC && listVisible)

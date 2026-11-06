@@ -210,16 +210,79 @@ class SelectionViewModel(
     }
 
     private fun request(action: Pending) {
-        val uids = snapshot()
-        if (uids.isEmpty()) return
+        val selected = snapshot()
+        if (selected.isEmpty()) return
+        if (action == Pending.TRASH) {
+            // One delete at a time; the progress dialog blocks the screen until it is over.
+            if (trashRunning) return
+            trashRunning = true
+            trashTotal = selected.size
+            _deleteProgress.value = HideProgress(0, selected.size)
+        }
         worker.execute {
+            // Favorite / Unfavorite: only the items that really change go to the system (fewer items = a faster request), and
+            // the index is updated at once, so the hearts follow the tap; a refused request puts them back.
+            val uids = prepareFavorites(action, selected)
             // One system request cannot carry thousands of items (it failed with 2,000+ photos):
             // the selection is sent in chunks, one system confirmation per chunk.
             queue.clear()
-            queue.addAll(uids.chunked(CHUNK))
+            // Delete goes in chunks of 200 like Hide (one system confirmation each); Favorite keeps its larger chunks.
+            queue.addAll(uids.chunked(if (action == Pending.TRASH) HIDE_CHUNK else CHUNK))
             processed = 0
             pending = action
             launchNext(action)
+        }
+    }
+
+    @Volatile
+    private var trashRunning = false
+    private var trashTotal = 0
+
+    private val _deleteProgress = MutableLiveData<HideProgress?>(null)
+
+    /** Not null while Delete (move to Bin) runs in chunks; the screen shows a progress dialog for it. */
+    val deleteProgress: LiveData<HideProgress?> = _deleteProgress
+
+    private fun endTrashProgress() {
+        if (!trashRunning) return
+        trashRunning = false
+        _deleteProgress.postValue(null)
+    }
+
+    /** True while the index already shows the result of a Favorite / Unfavorite that the system has not confirmed yet. */
+    @Volatile
+    private var optimistic = false
+
+    private fun prepareFavorites(action: Pending, selected: List<Long>): List<Long> {
+        optimistic = false
+        if (action == Pending.TRASH) return selected
+        val value = action == Pending.FAVORITE
+        val targets = try {
+            val favorites = repository.favoritesAmong(selected)
+            selected.filter { (it in favorites) != value }
+        } catch (e: Exception) {
+            return selected
+        }
+        if (targets.isEmpty()) return selected
+        return try {
+            repository.setFavoritesLocal(targets, value)
+            optimistic = true
+            targets
+        } catch (e: Exception) {
+            selected
+        }
+    }
+
+    /** The system refused (or the request failed): the items that were shown as changed go back to what they were. */
+    private fun revertOptimistic(action: Pending) {
+        if (!optimistic) return
+        optimistic = false
+        val left = queue.flatten()
+        if (left.isEmpty()) return
+        try {
+            repository.setFavoritesLocal(left, action != Pending.FAVORITE)
+        } catch (e: Exception) {
+            // The next sync reads the real state.
         }
     }
 
@@ -251,10 +314,12 @@ class SelectionViewModel(
                 continue
             }
             // Even a small chunk is refused: stop here and report what was done so far.
+            revertOptimistic(action)
             queue.clear()
             pending = null
             pendingUids = emptyList()
             if (processed > 0) finishRequests(action) else {
+                endTrashProgress()
                 _events.postValue(Event(SelectionEvent.Message(R.string.bin_failed)))
             }
             return
@@ -263,6 +328,8 @@ class SelectionViewModel(
 
     private fun finishRequests(action: Pending) {
         val done = processed
+        optimistic = false
+        endTrashProgress()
         queue.clear()
         pending = null
         pendingUids = emptyList()
@@ -295,15 +362,17 @@ class SelectionViewModel(
         worker.execute {
             if (!accepted) {
                 // Cancelled: what earlier chunks already did stays done; the rest is dropped.
+                revertOptimistic(action)
                 finishRequests(action)
                 return@execute
             }
             when (action) {
-                Pending.FAVORITE -> repository.setFavoritesLocal(uids, true)
-                Pending.UNFAVORITE -> repository.setFavoritesLocal(uids, false)
+                Pending.FAVORITE -> if (!optimistic) repository.setFavoritesLocal(uids, true)
+                Pending.UNFAVORITE -> if (!optimistic) repository.setFavoritesLocal(uids, false)
                 Pending.TRASH -> repository.removeLocalAll(uids)
             }
             processed += uids.size
+            if (action == Pending.TRASH) _deleteProgress.postValue(HideProgress(processed, trashTotal))
             queue.removeFirstOrNull()
             pendingUids = emptyList()
             launchNext(action)

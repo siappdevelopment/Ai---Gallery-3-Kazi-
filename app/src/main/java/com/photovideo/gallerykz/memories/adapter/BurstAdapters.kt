@@ -100,6 +100,11 @@ class BurstCardAdapter(
                     .into(binding.ivBig)
             }
             frames.submit(card.uids, card.selectedUid, card.bestUid, card.done)
+            // The heart is red while the selected shot is a favorite.
+            binding.btnFavorite.setImageResource(if (card.favorite) R.drawable.ic_favorite else R.drawable.ic_favorite_border)
+            binding.btnFavorite.imageTintList = android.content.res.ColorStateList.valueOf(
+                androidx.core.content.ContextCompat.getColor(context, if (card.favorite) R.color.favorite_red else R.color.splash_text_primary),
+            )
             binding.actionsRow.visibility = if (card.done) View.GONE else View.VISIBLE
             binding.doneRow.visibility = if (card.done) View.VISIBLE else View.GONE
         }

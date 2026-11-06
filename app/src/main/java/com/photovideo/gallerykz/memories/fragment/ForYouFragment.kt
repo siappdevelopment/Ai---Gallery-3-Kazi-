@@ -347,12 +347,12 @@ class ForYouFragment : Fragment() {
     /** The card is shown while "Display over other apps" is not granted; the guide closes itself once it is. */
     private fun showOverlayCard() {
         val b = binding ?: return
-        b.cardOverlayPermission.visibility = if (OverlayPermission.isGranted(context)) View.GONE else View.VISIBLE
+        b.cardOverlayPermission.visibility = if (OverlayPermission.isNeeded(context)) View.VISIBLE else View.GONE
     }
 
     private fun askOverlay() {
         val context = context ?: return
-        if (OverlayPermission.isGranted(context)) {
+        if (!OverlayPermission.isNeeded(context)) {
             showOverlayCard()
             return
         }
