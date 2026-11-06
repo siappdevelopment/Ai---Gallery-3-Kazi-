@@ -264,7 +264,6 @@
     <string name="vault_recovery_answer_label">Yanıtınız</string>
     <string name="vault_recovery_answer_hint">Yanıtınızı yazın</string>
     <string name="vault_recovery_note">Yanıtlarda büyük/küçük harf ayrımı yapılmaz.</string>
-    <string name="vault_recovery_skip">Şimdilik atla</string>
     <string name="vault_recovery_save">Kaydet ve devam et</string>
     <string name="vault_recovery_enter_answer">Bir yanıt girin</string>
     <string name="vault_ready">Kasa hazır</string>

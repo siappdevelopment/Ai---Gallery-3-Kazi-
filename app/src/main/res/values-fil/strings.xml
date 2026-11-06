@@ -264,7 +264,6 @@
     <string name="vault_recovery_answer_label">Ang sagot mo</string>
     <string name="vault_recovery_answer_hint">I-type ang sagot mo</string>
     <string name="vault_recovery_note">Hindi mahalaga ang laki ng titik sa mga sagot.</string>
-    <string name="vault_recovery_skip">Laktawan muna</string>
     <string name="vault_recovery_save">I-save at magpatuloy</string>
     <string name="vault_recovery_enter_answer">Maglagay ng sagot</string>
     <string name="vault_ready">Handa na ang vault</string>

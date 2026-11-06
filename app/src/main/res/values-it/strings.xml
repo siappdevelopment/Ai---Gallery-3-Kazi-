@@ -267,7 +267,6 @@
     <string name="vault_recovery_answer_label">La tua risposta</string>
     <string name="vault_recovery_answer_hint">Scrivi la tua risposta</string>
     <string name="vault_recovery_note">Le risposte non distinguono tra maiuscole e minuscole.</string>
-    <string name="vault_recovery_skip">Salta per ora</string>
     <string name="vault_recovery_save">Salva e continua</string>
     <string name="vault_recovery_enter_answer">Inserisci una risposta</string>
     <string name="vault_ready">La cassaforte è pronta</string>

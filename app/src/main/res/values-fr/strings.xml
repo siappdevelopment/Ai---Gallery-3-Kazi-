@@ -267,7 +267,6 @@
     <string name="vault_recovery_answer_label">Votre réponse</string>
     <string name="vault_recovery_answer_hint">Saisissez votre réponse</string>
     <string name="vault_recovery_note">Les réponses ne tiennent pas compte de la casse.</string>
-    <string name="vault_recovery_skip">Passer pour l’instant</string>
     <string name="vault_recovery_save">Enregistrer et continuer</string>
     <string name="vault_recovery_enter_answer">Saisissez une réponse</string>
     <string name="vault_ready">Le coffre-fort est prêt</string>

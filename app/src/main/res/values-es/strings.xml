@@ -267,7 +267,6 @@
     <string name="vault_recovery_answer_label">Tu respuesta</string>
     <string name="vault_recovery_answer_hint">Escribe tu respuesta</string>
     <string name="vault_recovery_note">Las respuestas no distinguen mayúsculas de minúsculas.</string>
-    <string name="vault_recovery_skip">Omitir por ahora</string>
     <string name="vault_recovery_save">Guardar y continuar</string>
     <string name="vault_recovery_enter_answer">Introduce una respuesta</string>
     <string name="vault_ready">La caja fuerte está lista</string>

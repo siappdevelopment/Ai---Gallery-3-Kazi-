@@ -264,7 +264,6 @@
     <string name="vault_recovery_answer_label">आपका उत्तर</string>
     <string name="vault_recovery_answer_hint">अपना उत्तर लिखें</string>
     <string name="vault_recovery_note">उत्तरों में अक्षरों के छोटे-बड़े होने से फ़र्क़ नहीं पड़ता।</string>
-    <string name="vault_recovery_skip">अभी छोड़ें</string>
     <string name="vault_recovery_save">सहेजें और आगे बढ़ें</string>
     <string name="vault_recovery_enter_answer">उत्तर दर्ज करें</string>
     <string name="vault_ready">वॉल्ट तैयार है</string>

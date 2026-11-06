@@ -261,7 +261,6 @@
     <string name="vault_recovery_answer_label">คำตอบของคุณ</string>
     <string name="vault_recovery_answer_hint">พิมพ์คำตอบของคุณ</string>
     <string name="vault_recovery_note">คำตอบไม่แยกแยะตัวพิมพ์ใหญ่หรือเล็ก</string>
-    <string name="vault_recovery_skip">ข้ามไปก่อน</string>
     <string name="vault_recovery_save">บันทึกและดำเนินการต่อ</string>
     <string name="vault_recovery_enter_answer">ป้อนคำตอบ</string>
     <string name="vault_ready">ห้องนิรภัยพร้อมใช้งานแล้ว</string>

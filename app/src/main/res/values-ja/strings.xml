@@ -261,7 +261,6 @@
     <string name="vault_recovery_answer_label">あなたの答え</string>
     <string name="vault_recovery_answer_hint">答えを入力</string>
     <string name="vault_recovery_note">答えは大文字と小文字を区別しません。</string>
-    <string name="vault_recovery_skip">今はスキップ</string>
     <string name="vault_recovery_save">保存して続行</string>
     <string name="vault_recovery_enter_answer">答えを入力してください</string>
     <string name="vault_ready">金庫の準備ができました</string>

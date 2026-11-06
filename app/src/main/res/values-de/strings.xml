@@ -264,7 +264,6 @@
     <string name="vault_recovery_answer_label">Deine Antwort</string>
     <string name="vault_recovery_answer_hint">Antwort eingeben</string>
     <string name="vault_recovery_note">Groß- und Kleinschreibung wird nicht beachtet.</string>
-    <string name="vault_recovery_skip">Vorerst überspringen</string>
     <string name="vault_recovery_save">Speichern und weiter</string>
     <string name="vault_recovery_enter_answer">Gib eine Antwort ein</string>
     <string name="vault_ready">Tresor ist bereit</string>

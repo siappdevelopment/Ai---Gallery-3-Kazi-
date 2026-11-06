@@ -291,8 +291,9 @@ class VaultSetupViewModel(
         }
     }
 
-    fun skipRecovery() {
-        if (isRecoveryEdit) _finish.value = Event(Unit) else completeSetup()
+    /** Cancel while editing an existing recovery question (setting up the vault cannot skip the question). */
+    fun cancelRecoveryEdit() {
+        if (isRecoveryEdit) _finish.value = Event(Unit)
     }
 
     private fun completeSetup() {

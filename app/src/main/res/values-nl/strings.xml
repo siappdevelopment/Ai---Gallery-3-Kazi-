@@ -264,7 +264,6 @@
     <string name="vault_recovery_answer_label">Je antwoord</string>
     <string name="vault_recovery_answer_hint">Typ je antwoord</string>
     <string name="vault_recovery_note">Antwoorden zijn niet hoofdlettergevoelig.</string>
-    <string name="vault_recovery_skip">Nu overslaan</string>
     <string name="vault_recovery_save">Opslaan en doorgaan</string>
     <string name="vault_recovery_enter_answer">Voer een antwoord in</string>
     <string name="vault_ready">Kluis is klaar</string>

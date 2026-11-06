@@ -264,7 +264,6 @@
     <string name="vault_recovery_answer_label">Jou antwoord</string>
     <string name="vault_recovery_answer_hint">Tik jou antwoord</string>
     <string name="vault_recovery_note">Antwoorde is nie hoofletter-sensitief nie.</string>
-    <string name="vault_recovery_skip">Slaan nou oor</string>
     <string name="vault_recovery_save">Stoor en gaan voort</string>
     <string name="vault_recovery_enter_answer">Voer ’n antwoord in</string>
     <string name="vault_ready">Kluis is gereed</string>

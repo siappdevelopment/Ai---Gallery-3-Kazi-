@@ -121,11 +121,11 @@ class VaultSetupActivity : AdAwareActivity() {
     private fun setUpRecovery(b: ActivityVaultSetupBinding) {
         val recovery = b.panelRecovery
         recovery.btnBack.setOnClickListener { viewModel.onBack() }
-        recovery.btnSkip.setOnClickListener { viewModel.skipRecovery() }
+        recovery.btnCancel.setOnClickListener { viewModel.cancelRecoveryEdit() }
         recovery.btnSave.setOnClickListener { viewModel.saveRecovery() }
-        // Editing an existing question has no steps and a Cancel instead of "Skip for now".
+        // Setting up the vault ends with this question and cannot be skipped. Editing an existing question has no steps and a Cancel.
         recovery.tvStep.visibility = if (viewModel.isRecoveryEdit) View.GONE else View.VISIBLE
-        recovery.btnSkip.setText(if (viewModel.isRecoveryEdit) R.string.photo_cancel else R.string.vault_recovery_skip)
+        recovery.btnCancel.visibility = if (viewModel.isRecoveryEdit) View.VISIBLE else View.GONE
 
         questions(b).forEachIndexed { index, (question, text) ->
             question.tvQuestion.setText(text)

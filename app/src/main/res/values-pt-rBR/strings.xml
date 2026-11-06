@@ -267,7 +267,6 @@
     <string name="vault_recovery_answer_label">Sua resposta</string>
     <string name="vault_recovery_answer_hint">Digite sua resposta</string>
     <string name="vault_recovery_note">As respostas não diferenciam maiúsculas de minúsculas.</string>
-    <string name="vault_recovery_skip">Pular por enquanto</string>
     <string name="vault_recovery_save">Salvar e continuar</string>
     <string name="vault_recovery_enter_answer">Digite uma resposta</string>
     <string name="vault_ready">O cofre está pronto</string>

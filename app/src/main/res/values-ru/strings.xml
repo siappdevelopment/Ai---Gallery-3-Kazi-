@@ -270,7 +270,6 @@
     <string name="vault_recovery_answer_label">Ваш ответ</string>
     <string name="vault_recovery_answer_hint">Введите ответ</string>
     <string name="vault_recovery_note">Регистр букв в ответах не учитывается.</string>
-    <string name="vault_recovery_skip">Пропустить</string>
     <string name="vault_recovery_save">Сохранить и продолжить</string>
     <string name="vault_recovery_enter_answer">Введите ответ</string>
     <string name="vault_ready">Сейф готов</string>
