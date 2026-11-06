@@ -145,6 +145,8 @@ class MosaicTopAdapter(
             val density = binding.root.resources.displayMetrics.density
             (binding.filterBar.root.layoutParams as? ViewGroup.MarginLayoutParams)?.let {
                 it.topMargin = ((if (hasAlbums) 12 else 2) * density).toInt()
+                // Journal: the day cards follow at once, so the filter bar needs its own space below.
+                it.bottomMargin = if (compactCards) (16 * density).toInt() else 0
                 binding.filterBar.root.layoutParams = it
             }
             binding.filterBar.tabAll.isSelected = filter == MediaFilter.ALL
