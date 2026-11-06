@@ -69,6 +69,9 @@ class LauncherDrawerView @JvmOverloads constructor(
     private var lastAdHeight = 0
     private var insetBottom = 0
 
+    // While the keyboard is open the pinned ad stays out of the way: it must not ride on top of the keyboard.
+    private var imeVisible = false
+
     // Dragging the open panel down to close it.
     private var tracker: VelocityTracker? = null
     private var downX = 0f
@@ -134,6 +137,11 @@ class LauncherDrawerView @JvmOverloads constructor(
             val bars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             val ime = insets.getInsets(WindowInsetsCompat.Type.ime())
             insetBottom = maxOf(bars.bottom, ime.bottom)
+            val keyboard = ime.bottom > bars.bottom
+            if (keyboard != imeVisible) {
+                imeVisible = keyboard
+                post { updateAdPlacement() }
+            }
             updateBottomSpace()
             setPadding(bars.left, bars.top, bars.right, 0)
             insets
@@ -369,7 +377,7 @@ class LauncherDrawerView @JvmOverloads constructor(
         if (adRow == null) return
         if (!adDocked && adContainer.height > 0) lastAdHeight = adContainer.height
         val inList = adapter.itemCount >= AD_FIRST_INDEX
-        val wantPinned = adVisible && isOpen && (!inList || adLeftViewport())
+        val wantPinned = adVisible && isOpen && !imeVisible && (!inList || adLeftViewport())
         if (wantPinned) showPinned() else hidePinned(animated = adVisible && isOpen)
     }
 
