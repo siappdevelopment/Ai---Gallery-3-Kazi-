@@ -91,6 +91,9 @@ class SelectionBarController(
         viewModel.deleteProgress.observe(owner) { progress ->
             if (progress == null) deleteDialog.dismiss() else deleteDialog.update(progress.done, progress.total, R.string.selection_delete_progress)
         }
+        viewModel.favoriteProgress.observe(owner) { progress ->
+            if (progress == null) favoriteDialog.dismiss() else favoriteDialog.update(progress.done, progress.total, R.string.selection_favorite_progress)
+        }
         viewModel.events.observe(owner) { event ->
             when (val content = event.getContentIfNotHandled()) {
                 is SelectionEvent.Launch -> launch(content.intent)
@@ -169,6 +172,9 @@ class SelectionBarController(
 
     /** The same blocking progress dialog as Hide, with the Delete text. */
     private val deleteDialog by lazy { BlockingProgressDialog(activity) }
+
+    /** Stays up for the whole Favorite / Unfavorite, until the last chunk is saved (or refused / cancelled). */
+    private val favoriteDialog by lazy { BlockingProgressDialog(activity) }
 
     private var hideDialog: AlertDialog? = null
     private var hideDialogViews: DialogHideProgressBinding? = null

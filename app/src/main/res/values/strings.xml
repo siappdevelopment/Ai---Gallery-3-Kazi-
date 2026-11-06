@@ -785,6 +785,7 @@
     <string name="selection_hide_title">Hide %1$d items?</string>
     <string name="selection_hide_progress">Hiding %1$d of %2$d…</string>
     <string name="selection_delete_progress">Deleting %1$d of %2$d…</string>
+    <string name="selection_favorite_progress">Updating favorites %1$d of %2$d…</string>
     <string name="bin_restore_progress">Restoring %1$d of %2$d…</string>
     <string name="selection_hidden">%1$d items hidden</string>
     <string name="selection_hidden_partial">%1$d items hidden, %2$d couldn’t be hidden</string>

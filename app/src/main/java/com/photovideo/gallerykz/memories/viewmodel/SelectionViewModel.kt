@@ -218,11 +218,37 @@ class SelectionViewModel(
             trashRunning = true
             trashTotal = selected.size
             _deleteProgress.value = HideProgress(0, selected.size)
+        } else {
+            // One Favorite / Unfavorite at a time; the blocking dialog stays up until every chunk is done (or refused / cancelled).
+            if (favoriteRunning) return
+            favoriteRunning = true
+            favoriteTotal = selected.size
+            _favoriteProgress.value = HideProgress(0, selected.size)
         }
         worker.execute {
+            try {
+                runRequest(action, selected)
+            } catch (e: Exception) {
+                android.util.Log.e("SelectionVM", "bulk $action failed", e)
+                revertOptimistic(action)
+                queue.clear()
+                pending = null
+                pendingUids = emptyList()
+                endTrashProgress()
+                _events.postValue(Event(SelectionEvent.Message(R.string.bin_failed)))
+            }
+        }
+    }
+
+    private fun runRequest(action: Pending, selected: List<Long>) {
+        run {
             // Favorite / Unfavorite: only the items that really change go to the system (fewer items = a faster request), and
             // the index is updated at once, so the hearts follow the tap; a refused request puts them back.
             val uids = prepareFavorites(action, selected)
+            if (action != Pending.TRASH) {
+                favoriteTotal = uids.size
+                _favoriteProgress.postValue(HideProgress(0, uids.size))
+            }
             // One system request cannot carry thousands of items (it failed with 2,000+ photos):
             // the selection is sent in chunks, one system confirmation per chunk.
             queue.clear()
@@ -243,7 +269,22 @@ class SelectionViewModel(
     /** Not null while Delete (move to Bin) runs in chunks; the screen shows a progress dialog for it. */
     val deleteProgress: LiveData<HideProgress?> = _deleteProgress
 
+    @Volatile
+    private var favoriteRunning = false
+
+    @Volatile
+    private var favoriteTotal = 0
+
+    private val _favoriteProgress = MutableLiveData<HideProgress?>(null)
+
+    /** Not null while Favorite / Unfavorite runs (all chunks, including the system confirmations); the screen blocks with a dialog. */
+    val favoriteProgress: LiveData<HideProgress?> = _favoriteProgress
+
     private fun endTrashProgress() {
+        if (favoriteRunning) {
+            favoriteRunning = false
+            _favoriteProgress.postValue(null)
+        }
         if (!trashRunning) return
         trashRunning = false
         _deleteProgress.postValue(null)
@@ -356,15 +397,32 @@ class SelectionViewModel(
         if (action == null) {
             pendingUids = emptyList()
             // The screen was recreated while the system dialog was open: re-read the media index.
+            endTrashProgress()
             if (accepted) repository.sync(true) { }
             return
         }
         worker.execute {
+            try {
+                handleResult(action, uids, accepted)
+            } catch (e: Exception) {
+                android.util.Log.e("SelectionVM", "bulk $action result failed", e)
+                revertOptimistic(action)
+                queue.clear()
+                pending = null
+                pendingUids = emptyList()
+                endTrashProgress()
+                _events.postValue(Event(SelectionEvent.Message(R.string.bin_failed)))
+            }
+        }
+    }
+
+    private fun handleResult(action: Pending, uids: List<Long>, accepted: Boolean) {
+        run {
             if (!accepted) {
                 // Cancelled: what earlier chunks already did stays done; the rest is dropped.
                 revertOptimistic(action)
                 finishRequests(action)
-                return@execute
+                return@run
             }
             when (action) {
                 Pending.FAVORITE -> if (!optimistic) repository.setFavoritesLocal(uids, true)
@@ -373,6 +431,7 @@ class SelectionViewModel(
             }
             processed += uids.size
             if (action == Pending.TRASH) _deleteProgress.postValue(HideProgress(processed, trashTotal))
+            else _favoriteProgress.postValue(HideProgress(processed, favoriteTotal))
             queue.removeFirstOrNull()
             pendingUids = emptyList()
             launchNext(action)
