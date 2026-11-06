@@ -36,6 +36,9 @@ interface GalleryHost {
     /** Hides (selection mode) or restores the top bar and the tab bar. */
     fun setChromeVisible(visible: Boolean)
 
+    /** Height of the top bar while it is shown: the grid keeps this space under the selection bar so it does not jump when the bar goes. */
+    fun topChromeHeight(): Int = 0
+
     /** Switches to the Albums tab (the Gallery's "All albums" link). */
     fun openAlbumsTab()
 }
@@ -184,6 +187,8 @@ class GalleryPageFragment : Fragment(), GalleryHost {
         applyBottomInsets()
         b.root.setPadding(b.root.paddingLeft, b.root.paddingTop, b.root.paddingRight, if (visible) 0 else systemBottomInset)
     }
+
+    override fun topChromeHeight(): Int = if (chromeVisible) binding?.topBar?.height ?: 0 else 0
 
     override fun openAlbumsTab() = selectTab(TAB_ALBUMS)
 

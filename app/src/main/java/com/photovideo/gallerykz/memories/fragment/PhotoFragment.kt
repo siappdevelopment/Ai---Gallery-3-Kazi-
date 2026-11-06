@@ -171,10 +171,10 @@ class PhotoFragment : Fragment() {
             launch = { selectionLauncher.launch(androidx.activity.result.IntentSenderRequest.Builder(it.intentSender).build()) },
             launchVaultSetup = { vaultSetupLauncher.launch(it) },
             onSelectionChanged = {
-                mediaAdapter?.refreshSelection()
+                mediaAdapter?.refreshSelection(b.rvMedia)
                 mosaicAdapter?.refreshSelection()
             },
-            onActiveChanged = { active -> keepScrollPosition { galleryHost()?.setChromeVisible(!active) } },
+            onActiveChanged = { active -> setSelectionChrome(active) },
         )
         selectionBars = bars
 
@@ -757,19 +757,34 @@ class PhotoFragment : Fragment() {
         }
         val before = IntArray(2)
         anchor.getLocationOnScreen(before)
-        rv.addOnLayoutChangeListener(object : View.OnLayoutChangeListener {
-            override fun onLayoutChange(v: View, l: Int, t: Int, r: Int, bt: Int, ol: Int, ot: Int, or: Int, ob: Int) {
-                rv.removeOnLayoutChangeListener(this)
-                rv.post {
-                    val view = gridManager?.findViewByPosition(position) ?: return@post
-                    val after = IntArray(2)
-                    view.getLocationOnScreen(after)
-                    val shift = after[1] - before[1]
-                    if (shift != 0) rv.scrollBy(0, shift)
-                }
+        // The correction runs before the first frame with the new layout is drawn (a post() ran one frame later, so the grid
+        // was seen jumping and coming back).
+        rv.viewTreeObserver.addOnPreDrawListener(object : android.view.ViewTreeObserver.OnPreDrawListener {
+            override fun onPreDraw(): Boolean {
+                if (rv.isLayoutRequested) return true
+                if (rv.viewTreeObserver.isAlive) rv.viewTreeObserver.removeOnPreDrawListener(this)
+                val view = gridManager?.findViewByPosition(position) ?: return true
+                val after = IntArray(2)
+                view.getLocationOnScreen(after)
+                val shift = after[1] - before[1]
+                if (shift != 0) rv.scrollBy(0, shift)
+                return true
             }
         })
         change()
+    }
+
+    /**
+     * Selection mode on / off: the top bar and tab bar go (or come back) and the grid becomes taller. The grid keeps the top
+     * bar's height as padding while selecting, so at the top of the list nothing hides under the selection bar or jumps.
+     */
+    private fun setSelectionChrome(active: Boolean) {
+        val rv = binding?.rvMedia ?: return
+        val pad = if (active) galleryHost()?.topChromeHeight() ?: 0 else 0
+        keepScrollPosition {
+            if (rv.paddingTop != pad) rv.setPadding(rv.paddingLeft, pad, rv.paddingRight, rv.paddingBottom)
+            galleryHost()?.setChromeVisible(!active)
+        }
     }
 
     /** A filter tab was tapped: clear the old list first, then ask for the new filter, so the two never show together. */

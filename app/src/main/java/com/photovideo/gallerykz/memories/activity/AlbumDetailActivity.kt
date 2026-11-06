@@ -90,7 +90,7 @@ class AlbumDetailActivity : AdAwareActivity() {
             sourceAlbumId = { if (viewModel.sourceKind == AlbumKind.USER) viewModel.sourceId else 0L },
             launch = { selectionLauncher.launch(IntentSenderRequest.Builder(it.intentSender).build()) },
             launchVaultSetup = { vaultSetupLauncher.launch(it) },
-            onSelectionChanged = { gridAdapter?.refreshSelection() },
+            onSelectionChanged = { binding?.rvMedia?.let { rv -> gridAdapter?.refreshSelection(rv) } },
         )
         b.btnSelect.setOnClickListener { selectionViewModel.begin() }
         // An app album can always be filled again, also after all its photos were removed; folders and collections cannot.

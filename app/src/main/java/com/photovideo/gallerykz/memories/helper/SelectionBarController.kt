@@ -115,13 +115,27 @@ class SelectionBarController(
         val unfavorite = viewModel.isUnfavoriteMode
         bars.ivFavoriteAction.setImageResource(if (unfavorite) R.drawable.ic_favorite else R.drawable.ic_favorite_border)
         bars.tvFavoriteAction.setText(if (unfavorite) R.string.selection_unfavorite else R.string.viewer_favorite)
-        onActiveChanged(active)
+        // render() runs for every observed change (mode, selection, favorite state); the screen is only told what really changed,
+        // so a tap redraws its own tile once instead of the whole grid several times.
+        if (active != lastActive) {
+            lastActive = active
+            onActiveChanged(active)
+        }
         bars.tvSelected.text = activity.getString(R.string.selection_selected, viewModel.count())
         bars.btnSelectAll.setText(
             if (viewModel.allSelected.value == true) R.string.suggest_deselect_all else R.string.selection_select_all,
         )
-        onSelectionChanged()
+        val selected = viewModel.selected.value
+        if (selected !== lastSelected || active != lastDrawnActive) {
+            lastSelected = selected
+            lastDrawnActive = active
+            onSelectionChanged()
+        }
     }
+
+    private var lastActive = false
+    private var lastDrawnActive = false
+    private var lastSelected: Set<Long>? = null
 
     private inline fun withSelection(block: (List<Long>) -> Unit) {
         val uids = viewModel.snapshot()

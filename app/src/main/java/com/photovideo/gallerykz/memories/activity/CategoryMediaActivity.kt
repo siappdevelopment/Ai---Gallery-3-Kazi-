@@ -84,7 +84,7 @@ class CategoryMediaActivity : AdAwareActivity() {
             sourceAlbumId = { 0L },
             launch = { selectionLauncher.launch(IntentSenderRequest.Builder(it.intentSender).build()) },
             launchVaultSetup = { vaultSetupLauncher.launch(it) },
-            onSelectionChanged = { gridAdapter?.refreshSelection() },
+            onSelectionChanged = { binding?.rvMedia?.let { rv -> gridAdapter?.refreshSelection(rv) } },
         )
         b.btnSelect.setOnClickListener { selectionViewModel.begin() }
         val mediaAdapter = MediaPagingAdapter((resources.displayMetrics.widthPixels / columns).coerceAtLeast(1), { openMedia(it) }, bars.selection)

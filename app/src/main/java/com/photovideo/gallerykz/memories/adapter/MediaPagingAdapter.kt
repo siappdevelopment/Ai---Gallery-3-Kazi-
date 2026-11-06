@@ -38,9 +38,21 @@ class MediaPagingAdapter(
         if (itemCount > 0) notifyItemRangeChanged(0, itemCount)
     }
 
-    /** Selection changed: redraw the check marks of the tiles on screen, nothing else. */
-    fun refreshSelection() {
-        if (itemCount > 0) notifyItemRangeChanged(0, itemCount, PAYLOAD_SELECTION)
+    /**
+     * Selection changed: the tiles of [rv] on screen redraw their check mark directly, and only a tile whose state really changed
+     * does any work. No change notification: that would lay the whole grid out again for a check mark. (The adapter sits inside a
+     * ConcatAdapter / AdRowAdapter, so the list is passed in.)
+     */
+    fun refreshSelection(rv: RecyclerView) {
+        for (i in 0 until rv.childCount) {
+            (rv.getChildViewHolder(rv.getChildAt(i)) as? ItemHolder)?.refreshSelection()
+        }
+    }
+
+    // A tile that was cached off screen while the selection changed catches up when it comes back.
+    override fun onViewAttachedToWindow(holder: RecyclerView.ViewHolder) {
+        super.onViewAttachedToWindow(holder)
+        (holder as? ItemHolder)?.refreshSelection()
     }
 
     fun isHeader(position: Int): Boolean = peek(position) is MediaUiModel.DayHeader
@@ -73,10 +85,7 @@ class MediaPagingAdapter(
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int, payloads: MutableList<Any>) {
-        if (payloads.contains(PAYLOAD_SELECTION)) {
-            val model = peek(position)
-            if (holder is ItemHolder && model is MediaUiModel.Item) holder.bindSelection(model.media.uid)
-        } else if (payloads.contains(PAYLOAD_COUNT)) {
+        if (payloads.contains(PAYLOAD_COUNT)) {
             // Only a header shows a count; photo tiles stay untouched (no reload, no flicker).
             val model = peek(position)
             if (holder is HeaderHolder && model is MediaUiModel.DayHeader) {
@@ -132,14 +141,26 @@ class MediaPagingAdapter(
                 selection.onLongPress(media.uid)
                 true
             }
-            bindSelection(media.uid)
+            uid = media.uid
+            drawn = DRAWN_NONE
+            refreshSelection()
         }
 
-        fun bindSelection(uid: Long) {
-            drawSelection(binding.ivCheck, binding.ivThumb, selection.active, selection.active && selection.isSelected(uid))
+        private var uid = NO_UID
+        private var drawn = DRAWN_NONE
+
+        /** Redraws the check mark only when this tile's state (mode off / unselected / selected) differs from what is drawn. */
+        fun refreshSelection() {
+            if (uid == NO_UID) return
+            val state = if (!selection.active) DRAWN_OFF else if (selection.isSelected(uid)) DRAWN_SELECTED else DRAWN_UNSELECTED
+            if (state == drawn) return
+            drawn = state
+            drawSelection(binding.ivCheck, binding.ivThumb, state != DRAWN_OFF, state == DRAWN_SELECTED)
         }
 
         fun clear() {
+            uid = NO_UID
+            drawn = DRAWN_NONE
             // Detaching the adapter in onDestroy() recycles the tiles after the activity is already
             // destroyed; Glide.with() throws then, and its lifecycle has cleared these requests anyway.
             if (isHostDestroyed(binding.root.context)) return
@@ -176,5 +197,10 @@ class MediaPagingAdapter(
         const val TYPE_HEADER = 0
         const val TYPE_ITEM = 1
         private const val PAYLOAD_COUNT = "count"
+        private const val NO_UID = Long.MIN_VALUE
+        private const val DRAWN_NONE = -1
+        private const val DRAWN_OFF = 0
+        private const val DRAWN_UNSELECTED = 1
+        private const val DRAWN_SELECTED = 2
     }
 }
