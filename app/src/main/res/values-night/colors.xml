@@ -46,4 +46,14 @@
     <color name="native_full_chip_stroke">#FF3A3B44</color>
     <color name="native_full_ad_chip">#FFF5B400</color>
     <color name="burst_action_bg">#FF2C2C32</color>
+    <!-- Default app / photo / notification onboarding screens -->
+    <color name="onb_background">#FF0C0C0E</color>
+    <color name="onb_option_text">#FFE6E6EA</color>
+    <color name="onb_radio_off">#FF34343A</color>
+    <color name="onb_desc">#FFA8A8B2</color>
+    <color name="onb_surface">#FF1C1C20</color>
+    <color name="onb_pill">#FF2A2A30</color>
+    <color name="onb_phone_frame">#FF34343A</color>
+    <color name="onb_tile_gray">#FF2A2A30</color>
+    <color name="onb_tile_pink">#FF3A1D27</color>
 </resources>

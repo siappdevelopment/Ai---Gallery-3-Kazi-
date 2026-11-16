@@ -11,7 +11,7 @@
         android:right="7dp"
         android:top="7dp">
         <shape android:shape="oval">
-            <solid android:color="#FFFFFFFF" />
+            <solid android:color="@color/onb_pill" />
         </shape>
     </item>
 </layer-list>
