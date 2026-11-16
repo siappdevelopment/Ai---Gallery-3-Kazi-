@@ -39,6 +39,7 @@ class LanguageActivity : com.photovideo.gallerykz.memories.helper.BaseLocaleActi
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         buttonShown = savedInstanceState?.getBoolean(STATE_BUTTON_SHOWN) == true
+        live = java.lang.ref.WeakReference(this)
 
         val b = ActivityLanguageBinding.inflate(layoutInflater)
         binding = b
@@ -105,7 +106,11 @@ class LanguageActivity : com.photovideo.gallerykz.memories.helper.BaseLocaleActi
         outState.putBoolean(STATE_BUTTON_SHOWN, buttonShown)
     }
 
+    /** Not while Continue is in progress: the ad must stay on this screen and the choice is still unsaved. */
+    override fun shouldRecreateForLocale(): Boolean = !viewModel.isContinuing
+
     override fun onDestroy() {
+        if (live?.get() === this) live = null
         handler.removeCallbacks(showButton)
         binding?.btnContinue?.animate()?.cancel()
         binding?.rvLanguages?.adapter = null
@@ -116,6 +121,9 @@ class LanguageActivity : com.photovideo.gallerykz.memories.helper.BaseLocaleActi
     companion object {
         private const val BUTTON_DELAY_MS = 500L
         private const val STATE_BUTTON_SHOWN = "button_shown"
+
+        /** The copy of this screen that is on screen now (an older copy can still receive the late ad callback). */
+        private var live: java.lang.ref.WeakReference<LanguageActivity>? = null
 
         fun intent(context: android.content.Context, fromSettings: Boolean = false): Intent =
             Intent(context, LanguageActivity::class.java).putExtra(LanguageViewModel.ARG_FROM_SETTINGS, fromSettings)
@@ -136,8 +144,12 @@ class LanguageActivity : com.photovideo.gallerykz.memories.helper.BaseLocaleActi
         // Once only: a late ad callback must never move the onboarding on a second time.
         if (advanced) return
         advanced = true
+        // The ad flow is over: only now the choice (and the next step) is written.
+        viewModel.commitSelection(tag)
         // Finish first so a locale-triggered recreate never rebuilds this screen.
         finish()
+        // If the system rebuilt this screen while the ad was showing, the live copy must close too (else it stays underneath).
+        live?.get()?.takeIf { it !== this && !it.isFinishing }?.finish()
         LocaleHelper.apply(tag)
         // From Settings the language is all that changes; during onboarding the next step follows.
         // The next screen of the configured flow follows.

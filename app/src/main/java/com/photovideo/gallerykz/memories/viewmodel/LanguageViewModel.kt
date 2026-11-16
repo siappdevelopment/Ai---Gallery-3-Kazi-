@@ -63,8 +63,18 @@ class LanguageViewModel(
         val tag = selectedTag ?: return
         if (continued) return
         continued = true
-        if (fromSettings) repository.saveSettingSelection(tag) else repository.saveSelection(tag)
+        // Nothing is written yet during onboarding: a saved language makes this screen "stale" (BaseLocaleActivity would
+        // recreate it while the ad is on screen). The choice is saved by [commitSelection] when the ad flow is over.
+        if (fromSettings) repository.saveSettingSelection(tag)
         _navigateNext.value = Event(tag)
+    }
+
+    /** True once Continue was pressed (the ad flow and the move to the next screen are in progress). */
+    val isContinuing: Boolean get() = continued
+
+    /** Onboarding only: saves the language and the next step in one write, right before the next screen opens. */
+    fun commitSelection(tag: String) {
+        if (!fromSettings) repository.saveSelection(tag)
     }
 
     /**

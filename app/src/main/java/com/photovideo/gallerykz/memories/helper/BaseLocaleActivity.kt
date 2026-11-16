@@ -22,11 +22,14 @@ open class BaseLocaleActivity : AppCompatActivity() {
         staleChecked = false
     }
 
+    /** A screen in the middle of a flow that must not be rebuilt (an ad is showing over it) returns false. */
+    protected open fun shouldRecreateForLocale(): Boolean = true
+
     override fun onResume() {
         super.onResume()
         // A copy that was created before the language changed (a singleTask Home brought forward, a screen kept in the
         // background) is rebuilt once in the right language.
-        if (!staleChecked && LocaleHelper.isStale(this)) {
+        if (!staleChecked && shouldRecreateForLocale() && LocaleHelper.isStale(this)) {
             staleChecked = true
             recreate()
         }
