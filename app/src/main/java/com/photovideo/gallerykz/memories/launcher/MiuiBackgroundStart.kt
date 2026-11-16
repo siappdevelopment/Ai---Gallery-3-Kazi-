@@ -22,6 +22,9 @@ object MiuiBackgroundStart {
     /** The MIUI app-op number of "start activities in the background" (the same on MIUI 12 up to HyperOS). */
     private const val OP_BACKGROUND_START = 10021
 
+    private const val OP_AUTO_START = 10008
+    private const val KEY_AUTOSTART_ASKED_AT = "autostart_asked_at"
+
     private const val PREFS = "launcher_miui"
     private const val KEY_ASKED_AT = "bg_start_asked_at"
     private const val ASK_AGAIN_MS = 3L * 24 * 60 * 60 * 1000
@@ -46,6 +49,59 @@ object MiuiBackgroundStart {
         } catch (e: Exception) {
             true
         }
+    }
+
+    /**
+     * MIUI "Autostart" (app-op 10008). While it is off, swiping the app away from Recents stops all its background work (WorkManager jobs,
+     * alarms): nothing, not even a reminder notification, runs until the app is opened again. Phones that are not Xiaomi family, and any
+     * phone where the answer cannot be read, count as "allowed".
+     */
+    fun isAutoStartAllowed(context: Context): Boolean {
+        if (!isXiaomiFamily()) return true
+        return try {
+            val manager = context.getSystemService(Context.APP_OPS_SERVICE) as AppOpsManager
+            val method = AppOpsManager::class.java.getMethod("checkOpNoThrow", Int::class.javaPrimitiveType, Int::class.javaPrimitiveType, String::class.java)
+            (method.invoke(manager, OP_AUTO_START, Process.myUid(), context.packageName) as Int) == AppOpsManager.MODE_ALLOWED
+        } catch (e: Exception) {
+            true
+        }
+    }
+
+    /** Opens the Autostart list of the phone (else the permission page of this app); false when nothing could be opened. */
+    fun openAutoStartSettings(context: Context): Boolean {
+        val attempts = listOf(
+            Intent().setClassName("com.miui.securitycenter", "com.miui.permcenter.autostart.AutoStartManagementActivity"),
+            Intent("miui.intent.action.OP_AUTO_START").addCategory(Intent.CATEGORY_DEFAULT),
+        )
+        for (intent in attempts) {
+            try {
+                context.startActivity(intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK))
+                return true
+            } catch (e: Exception) {
+                // The next way.
+            }
+        }
+        return openSettings(context)
+    }
+
+    /**
+     * The "Make Gallery your home screen" reminder only reaches a Xiaomi family phone after the app was swiped away when Autostart is on.
+     * Asks (at most every 3 days, while the reminder is on, the app is not the Home app and Autostart is off) with a button to the page.
+     */
+    fun askAutoStartIfNeeded(activity: Activity) {
+        if (activity.isFinishing || activity.isDestroyed) return
+        if (!isXiaomiFamily() || isAutoStartAllowed(activity)) return
+        if (!com.photovideo.gallerykz.memories.notification.DefaultLauncherReminder.isEnabled(activity) || LauncherNav.isHomeAppOrRoleHolder(activity)) return
+        val prefs = activity.getSharedPreferences(PREFS, Context.MODE_PRIVATE)
+        val now = System.currentTimeMillis()
+        if (now - prefs.getLong(KEY_AUTOSTART_ASKED_AT, 0L) < ASK_AGAIN_MS) return
+        prefs.edit().putLong(KEY_AUTOSTART_ASKED_AT, now).apply()
+        AlertDialog.Builder(activity)
+            .setTitle(R.string.miui_autostart_title)
+            .setMessage(R.string.miui_autostart_message)
+            .setPositiveButton(R.string.miui_recent_open) { _, _ -> openAutoStartSettings(activity) }
+            .setNegativeButton(R.string.miui_recent_later, null)
+            .show()
     }
 
     /** Opens the phone's permission page of this app; false when nothing could be opened. */

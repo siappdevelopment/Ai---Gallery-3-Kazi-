@@ -202,7 +202,11 @@ class LauncherHomeActivity : AdAwareActivity(), LauncherHost, LauncherSettings.L
         updateWindowBackground()
         binding?.appsDrawer?.refreshDefaultPromo()
         // Xiaomi family phones only open the Recent page when this switch is on; the user is asked for it now and then.
-        if (binding != null) MiuiBackgroundStart.askIfNeeded(this)
+        if (binding != null) {
+            MiuiBackgroundStart.askIfNeeded(this)
+            // The home screen reminder needs Autostart on Xiaomi phones to survive a swipe away from Recents.
+            MiuiBackgroundStart.askAutoStartIfNeeded(this)
+        }
     }
 
     /** Only what is opened from the gallery page counts for the click interstitial (the Main screen block); the home page and the drawer never do. */
