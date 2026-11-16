@@ -27,7 +27,7 @@ import com.photovideo.gallerykz.memories.launcher.LauncherHomeActivity
 import com.photovideo.gallerykz.memories.launcher.LauncherNav
 import com.photovideo.gallerykz.memories.notification.DefaultLauncherReminder
 
-class SplashActivity : AppCompatActivity() {
+class SplashActivity : com.photovideo.gallerykz.memories.helper.BaseLocaleActivity() {
 
     private var binding: ActivitySplashBinding? = null
     private val handler = Handler(Looper.getMainLooper())

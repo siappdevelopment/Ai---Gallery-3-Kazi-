@@ -11,7 +11,7 @@ import com.photovideo.gallerykz.memories.fragment.GalleryPageFragment
  * The stand-alone gallery screen. The gallery itself is [GalleryPageFragment], which is also the left page of the
  * launcher; this activity just holds it for the places that cannot go through the launcher.
  */
-class HomeActivity : AppCompatActivity() {
+class HomeActivity : com.photovideo.gallerykz.memories.helper.BaseLocaleActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

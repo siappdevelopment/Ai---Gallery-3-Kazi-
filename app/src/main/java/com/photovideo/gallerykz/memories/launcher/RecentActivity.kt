@@ -29,7 +29,7 @@ import com.photovideo.gallerykz.memories.databinding.ActivityRecentBinding
  * opened from the launcher (newest first), opens one with a tap, and clears the list (and the apps' background
  * processes) with Clear all. It slides in from the left.
  */
-class RecentActivity : AppCompatActivity(), LauncherApps.Listener {
+class RecentActivity : com.photovideo.gallerykz.memories.helper.BaseLocaleActivity(), LauncherApps.Listener {
 
     private var binding: ActivityRecentBinding? = null
     private val adapter = LauncherAppsAdapter(onClick = ::open)

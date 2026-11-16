@@ -33,7 +33,7 @@ import com.photovideo.gallerykz.memories.databinding.ActivityDefaultHomeGuideBin
  *   they are started (and that screen would cover an activity opened at the same time), so the activity is
  *   opened again shortly after; the first, covered one closes itself as soon as it is stopped.
  */
-class DefaultHomeGuideActivity : AppCompatActivity() {
+class DefaultHomeGuideActivity : com.photovideo.gallerykz.memories.helper.BaseLocaleActivity() {
 
     private val handler = Handler(Looper.getMainLooper())
     private val dismiss = Runnable { closeGuide() }

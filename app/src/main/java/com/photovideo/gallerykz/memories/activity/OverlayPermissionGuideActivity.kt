@@ -36,7 +36,7 @@ import kotlin.math.sin
  * - Only one card at a time. The system settings open their real screen a moment after they are started and can cover a card
  *   opened too early, so [show] starts the card again shortly after; a covered card closes itself on stop and the retry shows.
  */
-class OverlayPermissionGuideActivity : AppCompatActivity() {
+class OverlayPermissionGuideActivity : com.photovideo.gallerykz.memories.helper.BaseLocaleActivity() {
 
     private val handler = Handler(Looper.getMainLooper())
     private var animator: ValueAnimator? = null

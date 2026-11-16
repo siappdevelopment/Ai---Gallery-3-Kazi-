@@ -28,7 +28,7 @@ import com.photovideo.gallerykz.memories.helper.OnboardingPrefs
  * onboarding goes on with the media permission. Back leaves the screen; the next launch resumes here (the step is stored) and a
  * policy that was agreed to is skipped. The Privacy Policy link opens the Remote Config page (`Privacy_Policy`).
  */
-class PrivacyPolicyActivity : AppCompatActivity() {
+class PrivacyPolicyActivity : com.photovideo.gallerykz.memories.helper.BaseLocaleActivity() {
 
     private var binding: ActivityPrivacyPolicyBinding? = null
 

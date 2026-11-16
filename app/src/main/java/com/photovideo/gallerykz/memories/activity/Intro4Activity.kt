@@ -19,7 +19,7 @@ import com.photovideo.gallerykz.memories.helper.OnboardingPrefs
 import com.photovideo.gallerykz.memories.launcher.LauncherHomeActivity
 import com.photovideo.gallerykz.memories.viewmodel.Intro4ViewModel
 
-class Intro4Activity : AppCompatActivity() {
+class Intro4Activity : com.photovideo.gallerykz.memories.helper.BaseLocaleActivity() {
 
     private var binding: ActivityIntro4Binding? = null
     private val viewModel: Intro4ViewModel by viewModels()

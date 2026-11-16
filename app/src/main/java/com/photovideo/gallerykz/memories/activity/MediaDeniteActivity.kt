@@ -14,7 +14,7 @@ import com.photovideo.gallerykz.memories.helper.MediaPermissionHelper
 import com.photovideo.gallerykz.memories.helper.OnboardingPrefs
 import com.photovideo.gallerykz.memories.viewmodel.MediaPermissionViewModel
 
-class MediaDeniteActivity : AppCompatActivity() {
+class MediaDeniteActivity : com.photovideo.gallerykz.memories.helper.BaseLocaleActivity() {
 
     private var binding: ActivityMediaDeniteBinding? = null
     private val viewModel: MediaPermissionViewModel by viewModels()

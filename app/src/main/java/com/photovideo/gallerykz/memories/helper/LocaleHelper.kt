@@ -1,6 +1,7 @@
 package com.photovideo.gallerykz.memories.helper
 
 import android.app.Application
+import android.content.Context
 import android.content.res.Configuration
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.os.LocaleListCompat
@@ -33,6 +34,38 @@ object LocaleHelper {
             // Falling back to the current locale is safer than crashing.
         }
         syncApplication()
+    }
+
+    /** The language the app must speak: the one AppCompat keeps, else the one the language screen saved; null = the phone's. */
+    fun wantedLocale(context: Context): Locale? {
+        val chosen = try {
+            AppCompatDelegate.getApplicationLocales()
+        } catch (e: Exception) {
+            null
+        }
+        if (chosen != null && !chosen.isEmpty) return chosen.get(0)
+        val tag = LanguagePrefs.getSavedTag(context) ?: return null
+        return Locale.forLanguageTag(tag)
+    }
+
+    /** [base] with the app's language on its resources (unchanged when the user never chose one). */
+    fun wrap(base: Context): Context {
+        val locale = wantedLocale(base) ?: return base
+        return try {
+            val config = Configuration(base.resources.configuration)
+            config.setLocale(locale)
+            config.setLocales(android.os.LocaleList(locale))
+            base.createConfigurationContext(config)
+        } catch (e: Exception) {
+            base
+        }
+    }
+
+    /** True when [context] shows a different language than the app's. */
+    fun isStale(context: Context): Boolean {
+        val wanted = wantedLocale(context) ?: return false
+        val shown = context.resources.configuration.locales.get(0) ?: return false
+        return !shown.language.equals(wanted.language, ignoreCase = true)
     }
 
     /**

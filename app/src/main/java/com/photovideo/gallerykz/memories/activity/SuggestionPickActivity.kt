@@ -29,7 +29,7 @@ import com.photovideo.gallerykz.memories.viewmodel.SuggestionPickViewModel
  * first; tap to take one out. Dismiss forgets the suggestion; the main button adds the selection to an album (through the
  * existing album picker) or to Favorites. One screen and one adapter serve both suggestions.
  */
-class SuggestionPickActivity : AppCompatActivity() {
+class SuggestionPickActivity : com.photovideo.gallerykz.memories.helper.BaseLocaleActivity() {
 
     private var binding: ActivitySuggestionPickBinding? = null
     private val viewModel: SuggestionPickViewModel by viewModels()

@@ -10,7 +10,7 @@ import androidx.appcompat.app.AppCompatActivity
  * [startActivityForResult], where the click counter of [ScreenInterAds] decides whether the interstitial comes first.
  * The screen block it counts for is set by `AdHooks.install` ([adScreen]); a screen without one never counts.
  */
-open class AdAwareActivity : AppCompatActivity() {
+open class AdAwareActivity : com.photovideo.gallerykz.memories.helper.BaseLocaleActivity() {
 
     /** The Remote Config screen block this screen counts for (set by `AdHooks.install`); null = its clicks do not count. */
     var adScreen: AdScreen? = null

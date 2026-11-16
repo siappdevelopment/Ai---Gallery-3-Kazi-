@@ -21,7 +21,7 @@ import com.photovideo.gallerykz.memories.viewmodel.AlbumPickViewModel
  * "Add photos" for an existing app album: the gallery with check marks, "Select all" and an Add button. Reached from the
  * album's own screen, so an album that was emptied (or never filled) can always be filled again.
  */
-class AlbumPickActivity : AppCompatActivity() {
+class AlbumPickActivity : com.photovideo.gallerykz.memories.helper.BaseLocaleActivity() {
 
     private var binding: ActivityAlbumPickBinding? = null
     private val viewModel: AlbumPickViewModel by viewModels()

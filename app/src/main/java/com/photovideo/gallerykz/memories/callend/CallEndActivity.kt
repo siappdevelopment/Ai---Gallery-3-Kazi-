@@ -27,7 +27,7 @@ import java.util.Locale
  * The call summary (call-end-screen skill): who called, when and for how long, a button to open the dialer, and the skill's
  * four tabs (weather, message, reminder, more) with actions for this call.
  */
-class CallEndActivity : AppCompatActivity() {
+class CallEndActivity : com.photovideo.gallerykz.memories.helper.BaseLocaleActivity() {
 
     private var binding: ActivityCallEndBinding? = null
 

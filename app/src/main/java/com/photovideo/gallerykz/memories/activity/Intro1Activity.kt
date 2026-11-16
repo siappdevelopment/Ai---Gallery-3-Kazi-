@@ -16,7 +16,7 @@ import com.photovideo.gallerykz.memories.databinding.ActivityIntro1Binding
 import com.photovideo.gallerykz.memories.helper.OnboardingPrefs
 import com.photovideo.gallerykz.memories.viewmodel.Intro1ViewModel
 
-class Intro1Activity : AppCompatActivity() {
+class Intro1Activity : com.photovideo.gallerykz.memories.helper.BaseLocaleActivity() {
 
     private var binding: ActivityIntro1Binding? = null
     private val viewModel: Intro1ViewModel by viewModels()

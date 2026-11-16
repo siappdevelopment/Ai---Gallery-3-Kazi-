@@ -23,7 +23,7 @@ import com.photovideo.gallerykz.memories.viewmodel.BurstsViewModel
 import com.photovideo.gallerykz.memories.viewmodel.PickEvent
 
 /** Best from bursts (design): pick one shot from each burst of the gallery; the rest can go to the Bin. */
-class BurstsActivity : AppCompatActivity() {
+class BurstsActivity : com.photovideo.gallerykz.memories.helper.BaseLocaleActivity() {
 
     private var binding: ActivityBurstsBinding? = null
     private val viewModel: BurstsViewModel by viewModels()

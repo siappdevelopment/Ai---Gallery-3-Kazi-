@@ -30,7 +30,7 @@ import com.photovideo.gallerykz.memories.launcher.LauncherHomeActivity
  * Home settings). Once the user has answered it (picked this app or cancelled) the language screen follows and this screen is
  * not shown again; only dismissing the system screen that opens by itself keeps the user here.
  */
-class DefaultAppActivity : AppCompatActivity() {
+class DefaultAppActivity : com.photovideo.gallerykz.memories.helper.BaseLocaleActivity() {
 
     private var binding: ActivityDefaultAppBinding? = null
     private var completed = false

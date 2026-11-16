@@ -25,7 +25,7 @@ import com.photovideo.gallerykz.memories.helper.MediaUris
  * regular viewer cannot show them; this screen reads the file straight from MediaStore and offers no
  * edit or delete actions (restore / delete for good stay on the Bin screen).
  */
-class BinPreviewActivity : AppCompatActivity() {
+class BinPreviewActivity : com.photovideo.gallerykz.memories.helper.BaseLocaleActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

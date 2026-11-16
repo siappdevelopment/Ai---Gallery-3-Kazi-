@@ -20,7 +20,7 @@ import com.photovideo.gallerykz.memories.helper.OnboardingPrefs
 import com.photovideo.gallerykz.memories.helper.OnboardingEnter
 import com.photovideo.gallerykz.memories.viewmodel.NotiPermissionViewModel
 
-class NotiPermissionActivity : AppCompatActivity() {
+class NotiPermissionActivity : com.photovideo.gallerykz.memories.helper.BaseLocaleActivity() {
 
     private var binding: ActivityNotiPermissionBinding? = null
     private val viewModel: NotiPermissionViewModel by viewModels()

@@ -20,7 +20,7 @@ import com.photovideo.gallerykz.memories.helper.OnboardingPrefs
 import com.photovideo.gallerykz.memories.viewmodel.MediaPermissionViewModel
 import com.photovideo.gallerykz.memories.viewmodel.MediaPermissionViewModel.Destination
 
-class MediaPermissionActivity : AppCompatActivity() {
+class MediaPermissionActivity : com.photovideo.gallerykz.memories.helper.BaseLocaleActivity() {
 
     private var binding: ActivityMediaPermissionBinding? = null
     private val viewModel: MediaPermissionViewModel by viewModels()

@@ -23,7 +23,7 @@ import com.photovideo.gallerykz.memories.helper.MediaUris
  * until the user taps anywhere, which closes it and returns to the highlight. It pauses while the app is in the
  * background and picks up at the same item.
  */
-class HighlightsStartActivity : AppCompatActivity() {
+class HighlightsStartActivity : com.photovideo.gallerykz.memories.helper.BaseLocaleActivity() {
 
     private var binding: ActivityHighlightsStartBinding? = null
     private val handler = Handler(Looper.getMainLooper())

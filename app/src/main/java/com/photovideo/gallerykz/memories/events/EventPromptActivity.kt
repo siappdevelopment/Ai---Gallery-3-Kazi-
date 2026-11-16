@@ -36,7 +36,7 @@ import com.photovideo.gallerykz.memories.launcher.LauncherSettingsActivity
  * the moment of the event: HOME, Recents, the screen turning off, or a launch that was held back for more than 6 seconds
  * all close it (without any ad, there is none).
  */
-abstract class EventPromptActivity : AppCompatActivity() {
+abstract class EventPromptActivity : com.photovideo.gallerykz.memories.helper.BaseLocaleActivity() {
 
     private var binding: ActivityEventPromptBinding? = null
     private var holdAnimator: ValueAnimator? = null

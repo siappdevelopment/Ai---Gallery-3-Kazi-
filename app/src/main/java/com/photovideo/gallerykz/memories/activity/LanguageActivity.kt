@@ -26,7 +26,7 @@ import com.photovideo.gallerykz.memories.helper.LocaleHelper
 import com.photovideo.gallerykz.memories.helper.OnboardingPrefs
 import com.photovideo.gallerykz.memories.viewmodel.LanguageViewModel
 
-class LanguageActivity : AppCompatActivity() {
+class LanguageActivity : com.photovideo.gallerykz.memories.helper.BaseLocaleActivity() {
 
     private var binding: ActivityLanguageBinding? = null
     private val viewModel: LanguageViewModel by viewModels()
