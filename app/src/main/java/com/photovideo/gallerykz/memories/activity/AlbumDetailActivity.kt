@@ -113,10 +113,22 @@ class AlbumDetailActivity : AdAwareActivity() {
         b.rvMedia.itemAnimator = null
         b.rvMedia.setHasFixedSize(true)
 
-        mediaAdapter.addLoadStateListener { states ->
-            val empty = states.refresh is LoadState.NotLoading && mediaAdapter.itemCount == 0
+        // The empty message follows both the load state and the item count: when the search is cleared the full list arrives
+        // after the load state already said "not loading", so the load state alone left "Nothing here yet" over the photos.
+        var refreshDone = false
+        val updateEmpty = {
+            val empty = refreshDone && mediaAdapter.itemCount == 0
             b.emptyGroup.visibility = if (empty) View.VISIBLE else View.GONE
         }
+        mediaAdapter.addLoadStateListener { states ->
+            refreshDone = states.refresh is LoadState.NotLoading
+            updateEmpty()
+        }
+        mediaAdapter.registerAdapterDataObserver(object : androidx.recyclerview.widget.RecyclerView.AdapterDataObserver() {
+            override fun onChanged() = updateEmpty()
+            override fun onItemRangeInserted(positionStart: Int, itemCount: Int) = updateEmpty()
+            override fun onItemRangeRemoved(positionStart: Int, itemCount: Int) = updateEmpty()
+        })
         // An empty list says "no results" while searching, otherwise the album is simply empty.
         viewModel.query.observe(this) { q ->
             val searching = q.isNotEmpty()
