@@ -756,4 +756,10 @@
     <string name="selection_hidden">%1$d öğe gizlendi</string>
     <string name="selection_hidden_partial">%1$d öğe gizlendi, %2$d öğe gizlenemedi</string>
     <string name="vault_unhide_progress">%2$d öğeden %1$d tanesi gösteriliyor…</string>
+    <!-- Reminder notification: make Gallery the home screen -->
+    <string name="default_launcher_reminder_title">Gallery\'yi ana ekranınız yapın</string>
+    <string name="default_launcher_reminder_text">Fotoğraflarınızı doğrudan ana ekrandan daha hızlı açın.</string>
+    <string name="default_launcher_reminder_channel">Ana ekran hatırlatıcısı</string>
+    <string name="miui_autostart_title">Uygulama kapatıldıktan sonra hatırlatıcılara izin ver</string>
+    <string name="miui_autostart_message">Xiaomi, Redmi ve POCO telefonlarda hatırlatıcı, uygulamayı Son Kullanılanlar’dan kaldırdıktan sonra yalnızca bu uygulama için “Otomatik başlat” açıksa gelir. Ayarları açın ve Otomatik başlat’ı açın.</string>
 </resources>

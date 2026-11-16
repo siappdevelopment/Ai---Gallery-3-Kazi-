@@ -763,4 +763,10 @@
     <string name="selection_hidden">%1$d éléments masqués</string>
     <string name="selection_hidden_partial">%1$d éléments masqués, %2$d n’ont pas pu être masqués</string>
     <string name="vault_unhide_progress">Réaffichage de %1$d sur %2$d…</string>
+    <!-- Reminder notification: make Gallery the home screen -->
+    <string name="default_launcher_reminder_title">Faites de Gallery votre écran d\'accueil</string>
+    <string name="default_launcher_reminder_text">Ouvrez vos photos plus vite, directement depuis l\'écran d\'accueil.</string>
+    <string name="default_launcher_reminder_channel">Rappel de l\'écran d\'accueil</string>
+    <string name="miui_autostart_title">Autoriser les rappels une fois l’appli fermée</string>
+    <string name="miui_autostart_message">Sur les téléphones Xiaomi, Redmi et POCO, le rappel n’arrive après la fermeture de l’appli depuis les applications récentes que si « Démarrage automatique » est activé pour cette appli. Ouvrez les paramètres et activez le démarrage automatique.</string>
 </resources>

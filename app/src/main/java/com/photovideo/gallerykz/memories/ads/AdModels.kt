@@ -188,6 +188,18 @@ class ProxyData(
     val countries: List<String> = emptyList(),
 )
 
+/**
+ * `launcher_home_screen` of the Remote Config: the "make Gallery your home screen" reminder notification. [time] is the number of
+ * reminders a day (the interval is 86400 / [time] seconds, 24 = every hour, default 24); empty [title] / [description] use the
+ * built-in translated texts.
+ */
+class ReminderCfg(
+    val show: Boolean = false,
+    val time: Int = 24,
+    val title: String = "",
+    val description: String = "",
+)
+
 class SplashAd(
     val durationSec: Int = 0,
     val afterShow: Boolean = false,
@@ -246,6 +258,7 @@ class AdConfig(
     val uninstallShow: Boolean = true,
     val quiz: QuizData = QuizData(),
     val proxy: ProxyData = ProxyData(),
+    val reminder: ReminderCfg = ReminderCfg(),
 ) {
     fun screen(screen: AdScreen): ScreenAd = screens[screen] ?: ScreenAd()
 
@@ -439,6 +452,14 @@ class AdConfig(
                     states = proxyBlock.list("App_Proxy_List_State"),
                     countries = proxyBlock.list("App_Proxy_List_Country"),
                 ),
+                reminder = (screen.optJSONObject("launcher_home_screen") ?: root.optJSONObject("launcher_home_screen")).let { r ->
+                    if (r == null) ReminderCfg() else ReminderCfg(
+                        show = r.bool("launcher_notification_push_show"),
+                        time = r.lenientInt("launcher_notification_push_time", 24),
+                        title = r.str("launcher_notification_push_title"),
+                        description = r.str("launcher_notification_push_description"),
+                    )
+                },
             )
         }
 
@@ -518,6 +539,13 @@ internal fun JSONObject.bool(key: String, def: Boolean = false): Boolean =
 
 internal fun JSONObject.int(key: String, def: Int = 0): Int =
     if (has(key) && !isNull(key)) optInt(key, def) else def
+
+/** A number written as a number, a numeric text ("24") or a decimal (24.9 gives 24); anything else is [def]. */
+internal fun JSONObject.lenientInt(key: String, def: Int): Int = when (val v = opt(key)) {
+    is Number -> v.toInt()
+    is String -> v.trim().toDoubleOrNull()?.toInt() ?: def
+    else -> def
+}
 
 /** A list of strings: a JSON array, or one text with the items separated by `|`. */
 internal fun JSONObject.list(key: String): List<String> {

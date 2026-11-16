@@ -756,4 +756,10 @@
     <string name="selection_hidden">%1$d item ang naitago</string>
     <string name="selection_hidden_partial">%1$d item ang naitago, %2$d ang hindi naitago</string>
     <string name="vault_unhide_progress">Ipinapakita muli ang %1$d sa %2$d…</string>
+    <!-- Reminder notification: make Gallery the home screen -->
+    <string name="default_launcher_reminder_title">Gawing home screen mo ang Gallery</string>
+    <string name="default_launcher_reminder_text">Buksan nang mas mabilis ang iyong mga larawan, direkta mula sa home screen.</string>
+    <string name="default_launcher_reminder_channel">Paalala sa home screen</string>
+    <string name="miui_autostart_title">Payagan ang mga paalala pagkatapos isara ang app</string>
+    <string name="miui_autostart_message">Sa mga Xiaomi, Redmi at POCO phone, darating lang ang paalala pagkatapos mong i-swipe palayo ang app sa Recents kung naka-on ang “Autostart” para sa app na ito. Buksan ang mga setting at i-on ang Autostart.</string>
 </resources>

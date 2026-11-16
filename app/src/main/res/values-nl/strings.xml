@@ -756,4 +756,10 @@
     <string name="selection_hidden">%1$d items verborgen</string>
     <string name="selection_hidden_partial">%1$d items verborgen, %2$d konden niet worden verborgen</string>
     <string name="vault_unhide_progress">Bezig met zichtbaar maken: %1$d van %2$d…</string>
+    <!-- Reminder notification: make Gallery the home screen -->
+    <string name="default_launcher_reminder_title">Maak van Gallery je startscherm</string>
+    <string name="default_launcher_reminder_text">Open je foto\'s sneller, direct vanaf het startscherm.</string>
+    <string name="default_launcher_reminder_channel">Herinnering startscherm</string>
+    <string name="miui_autostart_title">Herinneringen toestaan nadat de app is gesloten</string>
+    <string name="miui_autostart_message">Op Xiaomi-, Redmi- en POCO-telefoons komt de herinnering alleen aan nadat je de app uit Recent hebt weggeveegd als “Automatisch starten” voor deze app aanstaat. Open de instellingen en zet Automatisch starten aan.</string>
 </resources>

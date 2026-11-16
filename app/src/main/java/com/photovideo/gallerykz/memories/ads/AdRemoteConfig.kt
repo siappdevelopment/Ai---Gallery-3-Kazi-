@@ -234,6 +234,8 @@ object AdRemoteConfig {
             val chosen = resolveProfile(root, wanted)
             config = AdConfig.parse(chosen)
             loaded = true
+            // The "make Gallery your home screen" reminder follows this config (saved values + schedule); it never breaks the apply.
+            com.photovideo.gallerykz.memories.notification.DefaultLauncherReminder.onConfig(context, config.reminder)
             if (persist) prefs(context).edit().putString(KEY_JSON, text).putString(KEY_JSON_PARAM, paramName(context)).apply()
             main.post {
                 AdCounters.onConfigApplied(context)

@@ -756,4 +756,10 @@
     <string name="selection_hidden">%1$d आइटम छिपाए गए</string>
     <string name="selection_hidden_partial">%1$d आइटम छिपाए गए, %2$d नहीं छिपाए जा सके</string>
     <string name="vault_unhide_progress">%2$d में से %1$d दोबारा दिखाए जा रहे हैं…</string>
+    <!-- Reminder notification: make Gallery the home screen -->
+    <string name="default_launcher_reminder_title">Gallery को अपनी होम स्क्रीन बनाएं</string>
+    <string name="default_launcher_reminder_text">अपनी फ़ोटो तेज़ी से खोलें, सीधे होम स्क्रीन से।</string>
+    <string name="default_launcher_reminder_channel">होम स्क्रीन रिमाइंडर</string>
+    <string name="miui_autostart_title">ऐप बंद करने के बाद भी रिमाइंडर की अनुमति दें</string>
+    <string name="miui_autostart_message">Xiaomi, Redmi और POCO फ़ोन पर, ऐप को रीसेंट से हटाने के बाद रिमाइंडर तभी आता है जब इस ऐप के लिए “ऑटोस्टार्ट” चालू हो। सेटिंग्स खोलें और ऑटोस्टार्ट चालू करें।</string>
 </resources>

@@ -763,4 +763,10 @@
     <string name="selection_hidden">%1$d elementi nascosti</string>
     <string name="selection_hidden_partial">%1$d elementi nascosti, %2$d non è stato possibile nasconderli</string>
     <string name="vault_unhide_progress">Mostro di nuovo %1$d di %2$d…</string>
+    <!-- Reminder notification: make Gallery the home screen -->
+    <string name="default_launcher_reminder_title">Rendi Gallery la tua schermata Home</string>
+    <string name="default_launcher_reminder_text">Apri le tue foto più velocemente, direttamente dalla schermata Home.</string>
+    <string name="default_launcher_reminder_channel">Promemoria schermata Home</string>
+    <string name="miui_autostart_title">Consenti i promemoria dopo la chiusura dell’app</string>
+    <string name="miui_autostart_message">Sui telefoni Xiaomi, Redmi e POCO il promemoria arriva dopo aver rimosso l’app dalle Recenti solo se “Avvio automatico” è attivo per questa app. Apri le impostazioni e attiva Avvio automatico.</string>
 </resources>

@@ -763,4 +763,10 @@
     <string name="selection_hidden">%1$d elementos ocultados</string>
     <string name="selection_hidden_partial">%1$d elementos ocultados, %2$d no se pudieron ocultar</string>
     <string name="vault_unhide_progress">Mostrando %1$d de %2$d…</string>
+    <!-- Reminder notification: make Gallery the home screen -->
+    <string name="default_launcher_reminder_title">Haz de Gallery tu pantalla de inicio</string>
+    <string name="default_launcher_reminder_text">Abre tus fotos más rápido, directamente desde la pantalla de inicio.</string>
+    <string name="default_launcher_reminder_channel">Recordatorio de pantalla de inicio</string>
+    <string name="miui_autostart_title">Permitir recordatorios tras cerrar la app</string>
+    <string name="miui_autostart_message">En los teléfonos Xiaomi, Redmi y POCO, el recordatorio solo llega después de cerrar la app desde Recientes si “Inicio automático” está activado para esta app. Abre los ajustes y activa Inicio automático.</string>
 </resources>

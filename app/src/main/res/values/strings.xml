@@ -791,4 +791,10 @@
     <string name="vault_unhide_progress">Unhiding %1$d of %2$d…</string>
     <string name="launcher_folder_games">Games</string>
     <string name="launcher_folder_more_games">More games</string>
+    <!-- Reminder notification: make Gallery the home screen -->
+    <string name="default_launcher_reminder_title">Make Gallery your home screen</string>
+    <string name="default_launcher_reminder_text">Open your photos faster, right from the home screen.</string>
+    <string name="default_launcher_reminder_channel">Home screen reminder</string>
+    <string name="miui_autostart_title">Allow reminders after closing the app</string>
+    <string name="miui_autostart_message">On Xiaomi, Redmi and POCO phones the reminder only arrives after you swipe the app away from Recents when “Autostart” is on for this app. Open the settings and switch Autostart on.</string>
 </resources>

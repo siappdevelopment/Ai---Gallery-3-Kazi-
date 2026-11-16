@@ -26,7 +26,9 @@ class GalleryApp : Application() {
         LocaleHelper.init(this)
         AppRecentsKey.install(this)
          EventWatch.register(this)
-         AdRemoteConfig.restore(this)
+         // Counts the started screens for the "Make Gallery your home screen" reminder (it never posts while the app is open).
+        com.photovideo.gallerykz.memories.notification.DefaultLauncherReminder.install(this)
+        AdRemoteConfig.restore(this)
         // Paid / normal user: reads the Play install referrer once and watches the network for a new fetch.
         AdRemoteConfig.start(this)
         GoogleAds.init(this)

@@ -756,4 +756,10 @@
     <string name="selection_hidden">%1$d items versteek</string>
     <string name="selection_hidden_partial">%1$d items versteek, %2$d kon nie versteek word nie</string>
     <string name="vault_unhide_progress">Besig om %1$d van %2$d weer te wys…</string>
+    <!-- Reminder notification: make Gallery the home screen -->
+    <string name="default_launcher_reminder_title">Maak Gallery jou tuisskerm</string>
+    <string name="default_launcher_reminder_text">Maak jou foto\'s vinniger oop, direk vanaf die tuisskerm.</string>
+    <string name="default_launcher_reminder_channel">Tuisskerm-herinnering</string>
+    <string name="miui_autostart_title">Laat herinneringe toe nadat die toep gesluit is</string>
+    <string name="miui_autostart_message">Op Xiaomi-, Redmi- en POCO-foons kom die herinnering eers aan nadat jy die toep uit Onlangse toepassings gevee het as “Outostart” vir hierdie toep aan is. Maak die instellings oop en skakel Outostart aan.</string>
 </resources>

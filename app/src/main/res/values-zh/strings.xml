@@ -749,4 +749,10 @@
     <string name="selection_hidden">已隐藏 %1$d 项</string>
     <string name="selection_hidden_partial">已隐藏 %1$d 项，%2$d 项无法隐藏</string>
     <string name="vault_unhide_progress">正在取消隐藏 %1$d/%2$d 项…</string>
+    <!-- Reminder notification: make Gallery the home screen -->
+    <string name="default_launcher_reminder_title">将 Gallery 设为主屏幕</string>
+    <string name="default_launcher_reminder_text">直接从主屏幕更快地打开照片。</string>
+    <string name="default_launcher_reminder_channel">主屏幕提醒</string>
+    <string name="miui_autostart_title">允许在关闭应用后发送提醒</string>
+    <string name="miui_autostart_message">在 Xiaomi、Redmi 和 POCO 手机上，只有为此应用开启“自启动”，从最近任务中划掉应用后才能收到提醒。请打开设置并开启自启动。</string>
 </resources>

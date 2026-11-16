@@ -8,7 +8,9 @@ import com.photovideo.gallerykz.memories.ads.AdScreen
 import com.photovideo.gallerykz.memories.ads.AdHooks
 
 import android.os.Bundle
+import androidx.activity.OnBackPressedCallback
 import androidx.activity.enableEdgeToEdge
+import com.photovideo.gallerykz.memories.notification.DefaultLauncherReminder
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
@@ -47,13 +49,19 @@ class DefaultAppActivity : AppCompatActivity() {
     // Force_Set_As_Default on a fresh launch after the onboarding was done: the step is left alone and Home follows (see SplashActivity).
     private var forcedReask = false
 
+    // Opened by the "Make Gallery your home screen" notification (see DefaultLauncherReminder).
+    private var reminderEntry = false
+
     // A property, so the launcher is registered again after the process was recreated.
     private val defaultHome = DefaultHomeRequest(this) { onRequestOver() }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         userAsked = savedInstanceState?.getBoolean(KEY_USER_ASKED) ?: false
-        forcedReask = intent.getBooleanExtra(EXTRA_FORCED_REASK, false)
+        // The "Make Gallery your home screen" notification: like a forced re-ask (the onboarding step is left alone and the launcher follows),
+        // but the system Home settings open first and Back or Cancel both end at the launcher.
+        reminderEntry = intent.getBooleanExtra(DefaultLauncherReminder.EXTRA_FROM_REMINDER, false)
+        forcedReask = intent.getBooleanExtra(EXTRA_FORCED_REASK, false) || reminderEntry
         enableEdgeToEdge()
         // Remember the step immediately so a killed app resumes here after Splash (not when the finished onboarding asks again).
         if (!forcedReask) OnboardingPrefs.setStep(this, OnboardingPrefs.STEP_DEFAULT)
@@ -77,7 +85,13 @@ class DefaultAppActivity : AppCompatActivity() {
         if (savedInstanceState == null) OnboardingEnter.play(b.pill, b.sheet)
         // The first time, Android's own Home app screen opens before this explanation (see the reference video); if it is
         // dismissed without a choice, the user lands here and can try again with Set as Default. Never twice.
-        if (!forcedReask && !OnboardingPrefs.isDefaultSystemShown(this)) {
+        if (reminderEntry) {
+            // Back from the system screen without the choice: this screen stays and Set as Default asks again. Back here ends at the launcher.
+            onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
+                override fun handleOnBackPressed() = goToLanguage()
+            })
+            if (savedInstanceState == null) awaitingSystem = defaultHome.requestSettings()
+        } else if (!forcedReask && !OnboardingPrefs.isDefaultSystemShown(this)) {
             OnboardingPrefs.setDefaultSystemShown(this)
             awaitingSystem = defaultHome.requestSettings()
         }
@@ -117,7 +131,7 @@ class DefaultAppActivity : AppCompatActivity() {
     private fun onRequestOver() {
         if (finishIfDefault()) return
         // Force_Set_As_Default: only a confirmed Home app moves on, otherwise the user stays here for another try.
-        if (userAsked && !AdRemoteConfig.config.forceSetAsDefault) goToLanguage()
+        if (userAsked && (reminderEntry || !AdRemoteConfig.config.forceSetAsDefault)) goToLanguage()
     }
 
     /** True (and the step is left) when this app already is the Home app. */

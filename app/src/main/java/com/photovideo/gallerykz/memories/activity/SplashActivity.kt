@@ -25,6 +25,7 @@ import com.photovideo.gallerykz.memories.helper.OnboardingPrefs
 import com.photovideo.gallerykz.memories.helper.OnboardingRouter
 import com.photovideo.gallerykz.memories.launcher.LauncherHomeActivity
 import com.photovideo.gallerykz.memories.launcher.LauncherNav
+import com.photovideo.gallerykz.memories.notification.DefaultLauncherReminder
 
 class SplashActivity : AppCompatActivity() {
 
@@ -93,6 +94,7 @@ class SplashActivity : AppCompatActivity() {
     private fun restartInFreshTask(): Boolean {
         if (isTaskRoot || intent.getBooleanExtra(EXTRA_FRESH, false) || LauncherNav.isHomeAppOrRoleHolder(this)) return false
         val again = Intent(this, SplashActivity::class.java).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK).putExtra(EXTRA_FRESH, true)
+            .putExtra(DefaultLauncherReminder.EXTRA_FROM_REMINDER, intent.getBooleanExtra(DefaultLauncherReminder.EXTRA_FROM_REMINDER, false))
         finishAndRemoveTask()
         startActivity(again)
         return true
@@ -174,6 +176,14 @@ class SplashActivity : AppCompatActivity() {
      */
     private fun nextScreen(): Intent {
         val target = OnboardingRouter.intent(this)
+        // The "Make Gallery your home screen" notification was tapped: once the onboarding is done and Gallery is not the Home app, the
+        // Default screen opens in reminder mode (system Home settings first, then the launcher). Otherwise the normal flow goes on.
+        if (intent.getBooleanExtra(DefaultLauncherReminder.EXTRA_FROM_REMINDER, false)) {
+            DefaultLauncherReminder.dismiss(this)
+            if (OnboardingPrefs.getStep(this) == OnboardingPrefs.STEP_DONE && !LauncherNav.isHomeAppOrRoleHolder(this)) {
+                return Intent(this, DefaultAppActivity::class.java).putExtra(DefaultLauncherReminder.EXTRA_FROM_REMINDER, true)
+            }
+        }
         if (OnboardingPrefs.getStep(this) == OnboardingPrefs.STEP_DONE && AdRemoteConfig.config.forceSetAsDefault &&
             !LauncherNav.isHomeAppOrRoleHolder(this)
         ) {

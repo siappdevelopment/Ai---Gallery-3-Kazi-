@@ -756,4 +756,10 @@
     <string name="selection_hidden">Αποκρύφθηκαν %1$d στοιχεία</string>
     <string name="selection_hidden_partial">Αποκρύφθηκαν %1$d στοιχεία, %2$d δεν ήταν δυνατό να αποκρυφθούν</string>
     <string name="vault_unhide_progress">Επαναφορά εμφάνισης %1$d από %2$d…</string>
+    <!-- Reminder notification: make Gallery the home screen -->
+    <string name="default_launcher_reminder_title">Κάντε το Gallery την αρχική σας οθόνη</string>
+    <string name="default_launcher_reminder_text">Ανοίξτε τις φωτογραφίες σας πιο γρήγορα, απευθείας από την αρχική οθόνη.</string>
+    <string name="default_launcher_reminder_channel">Υπενθύμιση αρχικής οθόνης</string>
+    <string name="miui_autostart_title">Επιτρέψτε υπενθυμίσεις μετά το κλείσιμο της εφαρμογής</string>
+    <string name="miui_autostart_message">Στα τηλέφωνα Xiaomi, Redmi και POCO η υπενθύμιση φτάνει μετά το κλείσιμο της εφαρμογής από τα Πρόσφατα μόνο όταν η «Αυτόματη εκκίνηση» είναι ενεργή για αυτήν την εφαρμογή. Ανοίξτε τις ρυθμίσεις και ενεργοποιήστε την Αυτόματη εκκίνηση.</string>
 </resources>

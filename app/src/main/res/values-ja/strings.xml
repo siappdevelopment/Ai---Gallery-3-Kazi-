@@ -749,4 +749,10 @@
     <string name="selection_hidden">%1$d件を非表示にしました</string>
     <string name="selection_hidden_partial">%1$d件を非表示にしました（%2$d件は非表示にできませんでした）</string>
     <string name="vault_unhide_progress">%2$d件中%1$d件の非表示を解除しています…</string>
+    <!-- Reminder notification: make Gallery the home screen -->
+    <string name="default_launcher_reminder_title">Galleryをホーム画面に設定</string>
+    <string name="default_launcher_reminder_text">ホーム画面から直接、写真をすばやく開けます。</string>
+    <string name="default_launcher_reminder_channel">ホーム画面のリマインダー</string>
+    <string name="miui_autostart_title">アプリを閉じた後もリマインダーを許可</string>
+    <string name="miui_autostart_message">Xiaomi、Redmi、POCOのスマートフォンでは、このアプリの「自動起動」がオンの場合のみ、アプリを最近使用したアプリから削除した後もリマインダーが届きます。設定を開いて自動起動をオンにしてください。</string>
 </resources>

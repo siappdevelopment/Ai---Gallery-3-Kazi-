@@ -756,4 +756,10 @@
     <string name="selection_hidden">%1$d Elemente ausgeblendet</string>
     <string name="selection_hidden_partial">%1$d Elemente ausgeblendet, %2$d konnten nicht ausgeblendet werden</string>
     <string name="vault_unhide_progress">%1$d von %2$d werden eingeblendet…</string>
+    <!-- Reminder notification: make Gallery the home screen -->
+    <string name="default_launcher_reminder_title">Mache Gallery zu deinem Startbildschirm</string>
+    <string name="default_launcher_reminder_text">Öffne deine Fotos schneller, direkt vom Startbildschirm.</string>
+    <string name="default_launcher_reminder_channel">Erinnerung zum Startbildschirm</string>
+    <string name="miui_autostart_title">Erinnerungen nach dem Schließen der App erlauben</string>
+    <string name="miui_autostart_message">Auf Xiaomi-, Redmi- und POCO-Handys kommt die Erinnerung nur an, wenn du die App aus den zuletzt verwendeten Apps wegwischst und „Autostart“ für diese App aktiviert ist. Öffne die Einstellungen und aktiviere Autostart.</string>
 </resources>
