@@ -28,6 +28,10 @@
     <color name="vault_illustration_front">#FF3F3358</color>
     <color name="vault_folder_cover">#FF2A2A30</color>
     <color name="vault_switch_off">#FF6C6C76</color>
+    <color name="vault_switch_off_track">#FF2A2A30</color>
+    <color name="vault_switch_off_stroke">#FF9A9AA6</color>
+    <color name="vault_switch_off_thumb">#FF9A9AA6</color>
+    <color name="vault_switch_on_thumb">#FFFFFFFF</color>
     <color name="vault_alert_bg">#FF3A1D27</color>
     <color name="vault_secure_bg">#FF16301F</color>
     <color name="ad_background">#FF1E1E1E</color>

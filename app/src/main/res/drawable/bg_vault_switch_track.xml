@@ -4,13 +4,15 @@
         <shape android:shape="rectangle">
             <size android:width="48dp" android:height="28dp" />
             <solid android:color="@color/brand_pink" />
+            <stroke android:width="2dp" android:color="@color/brand_pink" />
             <corners android:radius="14dp" />
         </shape>
     </item>
     <item>
         <shape android:shape="rectangle">
             <size android:width="48dp" android:height="28dp" />
-            <solid android:color="@color/vault_switch_off" />
+            <solid android:color="@color/vault_switch_off_track" />
+            <stroke android:width="2dp" android:color="@color/vault_switch_off_stroke" />
             <corners android:radius="14dp" />
         </shape>
     </item>
