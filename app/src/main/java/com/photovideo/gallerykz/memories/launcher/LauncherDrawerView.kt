@@ -346,6 +346,7 @@ class LauncherDrawerView @JvmOverloads constructor(
                     post { updateAdPlacement() }
                 },
                 liveSpec = ::adSpec,
+                shimmerOnRefresh = true,
             )
         }
         val due = AdGate.intervalElapsed(context, AD_KEY, AdRemoteConfig.config.launcher.listPerDay, zeroIsAlways = true)
