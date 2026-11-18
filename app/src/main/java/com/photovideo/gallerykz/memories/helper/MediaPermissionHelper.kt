@@ -56,6 +56,24 @@ object MediaPermissionHelper {
             ContextCompat.checkSelfPermission(context, Manifest.permission.POST_NOTIFICATIONS) !=
             PackageManager.PERMISSION_GRANTED
 
+    private const val PREFS = "permission_asks"
+    private const val KEY_NOTI_ASKED_AT_SPLASH = "noti_asked_at_splash"
+
+    /** The splash asks for the notification permission only on the first start; the gallery page asks again later when it is still missing. */
+    fun wasNotificationAskedAtSplash(context: Context): Boolean = try {
+        context.applicationContext.getSharedPreferences(PREFS, Context.MODE_PRIVATE).getBoolean(KEY_NOTI_ASKED_AT_SPLASH, false)
+    } catch (e: Exception) {
+        true
+    }
+
+    fun markNotificationAskedAtSplash(context: Context) {
+        try {
+            context.applicationContext.getSharedPreferences(PREFS, Context.MODE_PRIVATE).edit().putBoolean(KEY_NOTI_ASKED_AT_SPLASH, true).commit()
+        } catch (e: Exception) {
+            // Best effort.
+        }
+    }
+
     /** Opens this app's page in system Settings. Returns false if no Settings screen could open. */
     fun openAppSettings(activity: Activity): Boolean {
         val details = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)

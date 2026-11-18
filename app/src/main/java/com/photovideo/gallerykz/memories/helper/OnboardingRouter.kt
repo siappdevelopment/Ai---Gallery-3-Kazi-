@@ -8,9 +8,6 @@ import com.photovideo.gallerykz.memories.activity.Intro2Activity
 import com.photovideo.gallerykz.memories.activity.Intro3Activity
 import com.photovideo.gallerykz.memories.activity.Intro4Activity
 import com.photovideo.gallerykz.memories.activity.LanguageActivity
-import com.photovideo.gallerykz.memories.activity.MediaDeniteActivity
-import com.photovideo.gallerykz.memories.activity.MediaPermissionActivity
-import com.photovideo.gallerykz.memories.activity.NotiPermissionActivity
 import com.photovideo.gallerykz.memories.activity.PrivacyPolicyActivity
 import com.photovideo.gallerykz.memories.launcher.LauncherHomeActivity
 
@@ -22,9 +19,6 @@ object OnboardingRouter {
         OnboardingPrefs.STEP_INTRO2 -> Intro2Activity::class.java
         OnboardingPrefs.STEP_INTRO3 -> Intro3Activity::class.java
         OnboardingPrefs.STEP_INTRO4 -> Intro4Activity::class.java
-        OnboardingPrefs.STEP_MEDIA -> MediaPermissionActivity::class.java
-        OnboardingPrefs.STEP_MEDIA_DENIED -> MediaDeniteActivity::class.java
-        OnboardingPrefs.STEP_NOTI -> NotiPermissionActivity::class.java
         OnboardingPrefs.STEP_DEFAULT -> DefaultAppActivity::class.java
         OnboardingPrefs.STEP_POLICY -> PrivacyPolicyActivity::class.java
         OnboardingPrefs.STEP_DONE -> LauncherHomeActivity::class.java

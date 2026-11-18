@@ -9,8 +9,10 @@ import com.photovideo.gallerykz.memories.ads.AdRemoteConfig
 
 import com.photovideo.gallerykz.memories.ads.AdHooks
 
+import android.Manifest
 import android.content.Intent
 import android.os.Bundle
+import com.photovideo.gallerykz.memories.helper.MediaPermissionHelper
 import androidx.activity.result.contract.ActivityResultContracts
 import com.photovideo.gallerykz.memories.callend.CallEndPermission
 import android.os.Handler
@@ -36,9 +38,10 @@ class SplashActivity : com.photovideo.gallerykz.memories.helper.BaseLocaleActivi
         navigateWhenReady()
     }
 
-    // The splash waits for both its delay and the answer to the one-time phone permission question.
+    // The splash waits for its delay and for the answers to the one-time phone and notification permission questions (asked one after the other).
     private var delayDone = false
     private var phoneAnswered = false
+    private var notiAnswered = false
 
     // On the very first start the Remote Config (Show_Screen_Flow) may not be here yet: wait for it, but never longer than CONFIG_WAIT_MS.
     private var configReady = false
@@ -47,8 +50,15 @@ class SplashActivity : com.photovideo.gallerykz.memories.helper.BaseLocaleActivi
         navigateWhenReady()
     }
 
+    // The phone question is answered first; the notification question follows it (never two dialogs at once).
     private val phoneLauncher = registerForActivityResult(ActivityResultContracts.RequestPermission()) {
         phoneAnswered = true
+        askNotificationAccess()
+        navigateWhenReady()
+    }
+
+    private val notiLauncher = registerForActivityResult(ActivityResultContracts.RequestPermission()) {
+        notiAnswered = true
         navigateWhenReady()
     }
 
@@ -107,6 +117,7 @@ class SplashActivity : com.photovideo.gallerykz.memories.helper.BaseLocaleActivi
     private fun askPhoneAccess() {
         if (CallEndPermission.isGranted(this) || CallEndPermission.wasAskedAtSplash(this)) {
             phoneAnswered = true
+            askNotificationAccess()
             return
         }
         CallEndPermission.markAskedAtSplash(this)
@@ -114,11 +125,31 @@ class SplashActivity : com.photovideo.gallerykz.memories.helper.BaseLocaleActivi
             phoneLauncher.launch(CallEndPermission.PERMISSION)
         } catch (e: Exception) {
             phoneAnswered = true
+            askNotificationAccess()
+        }
+    }
+
+    /**
+     * The notification permission (Android 13+) is asked here, once per install, right after the phone question. A denial or no answer
+     * never blocks the onboarding; the gallery page asks again when the user swipes to it. Safe to call twice: the asked flag is stored
+     * before the dialog opens, so a recreated splash never opens a second dialog.
+     */
+    private fun askNotificationAccess() {
+        if (notiAnswered) return
+        if (!MediaPermissionHelper.needsNotificationPermission(this) || MediaPermissionHelper.wasNotificationAskedAtSplash(this)) {
+            notiAnswered = true
+            return
+        }
+        MediaPermissionHelper.markNotificationAskedAtSplash(this)
+        try {
+            notiLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
+        } catch (e: Exception) {
+            notiAnswered = true
         }
     }
 
     private fun navigateWhenReady() {
-        if (delayDone && phoneAnswered && configReady) navigateNext()
+        if (delayDone && phoneAnswered && notiAnswered && configReady) navigateNext()
     }
 
     override fun onStart() {

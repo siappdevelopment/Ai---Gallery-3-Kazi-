@@ -12,7 +12,9 @@ import com.photovideo.gallerykz.memories.ads.AdScreen
 import com.photovideo.gallerykz.memories.ads.AdHooks
 import com.photovideo.gallerykz.memories.ads.AdRemoteConfig
 
+import android.Manifest
 import android.graphics.Typeface
+import com.photovideo.gallerykz.memories.helper.MediaPermissionHelper
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -112,12 +114,15 @@ class GalleryPageFragment : Fragment(), GalleryHost {
     }
 
     // Resumed only while this page is the one on screen (a swipe to it, or coming back to it).
-    private val phoneLauncher = registerForActivityResult(ActivityResultContracts.RequestPermission()) { requestingPhone = false }
-    private var requestingPhone = false
+    // The permission questions of this page: media, notifications, phone; one dialog at a time.
+    private val mediaLauncher = registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { onPermissionAnswered() }
+    private val notiLauncher = registerForActivityResult(ActivityResultContracts.RequestPermission()) { onPermissionAnswered() }
+    private val phoneLauncher = registerForActivityResult(ActivityResultContracts.RequestPermission()) { onPermissionAnswered() }
+    private var requestingPermission = false
 
     override fun onResume() {
         super.onResume()
-        askPhoneAccess()
+        askPermissions()
         enterMainAd()
     }
 
@@ -138,17 +143,45 @@ class GalleryPageFragment : Fragment(), GalleryHost {
         pausesAtLastResume = activityPauses
     }
 
-    /** Asks for the call permission when the page is entered and it is not granted yet; at most once per app start. */
-    private fun askPhoneAccess() {
+    /**
+     * Asks, when the page is entered, for what is still missing: first the photo / video access, then notifications (Android 13+; the
+     * splash asked once already), then the call permission. One question at a time and each at most once per app start: the next one
+     * follows when the dialog is answered (the result arrives before this page resumes, and the resume asks the next one), so no dialog
+     * stacks on another and nothing loops when the system no longer shows a dialog (repeated denial: the answer comes back at once).
+     * The gallery tabs read the access again when the page resumes, so the media loads as soon as it was granted.
+     */
+    private fun askPermissions() {
         val context = context ?: return
-        if (requestingPhone || askedThisStart || CallEndPermission.isGranted(context)) return
-        askedThisStart = true
-        requestingPhone = true
-        try {
-            phoneLauncher.launch(CallEndPermission.PERMISSION)
-        } catch (e: Exception) {
-            requestingPhone = false
+        if (requestingPermission) return
+        when {
+            !askedMediaThisStart && !MediaPermissionHelper.hasAccess(context) -> {
+                askedMediaThisStart = true
+                ask { mediaLauncher.launch(MediaPermissionHelper.requiredPermissions()) }
+            }
+            !askedNotiThisStart && MediaPermissionHelper.needsNotificationPermission(context) -> {
+                askedNotiThisStart = true
+                ask { notiLauncher.launch(Manifest.permission.POST_NOTIFICATIONS) }
+            }
+            !askedThisStart && !CallEndPermission.isGranted(context) -> {
+                askedThisStart = true
+                ask { phoneLauncher.launch(CallEndPermission.PERMISSION) }
+            }
         }
+    }
+
+    private fun ask(launch: () -> Unit) {
+        requestingPermission = true
+        try {
+            launch()
+        } catch (e: Exception) {
+            requestingPermission = false
+        }
+    }
+
+    private fun onPermissionAnswered() {
+        requestingPermission = false
+        // Usually not resumed yet (the result comes first): the resume asks the next one. Resumed already = no dialog was shown.
+        if (isResumed) askPermissions()
     }
 
     override fun onStart() {
@@ -277,6 +310,13 @@ class GalleryPageFragment : Fragment(), GalleryHost {
         /** The call permission is asked on the gallery page once per app start (the system also stops showing it after repeated denials). */
         @Volatile
         var askedThisStart = false
+
+        /** The media and notification questions of the gallery page: also once per app start. */
+        @Volatile
+        var askedMediaThisStart = false
+
+        @Volatile
+        var askedNotiThisStart = false
 
         const val KEY_TAB = "selected_tab"
         const val TAB_FOR_YOU = 0

@@ -37,7 +37,7 @@ object LanguagePrefs {
     }
 
     /**
-     * Saves the language and moves onboarding on to the permission screens in a single write, so a kill in
+     * Saves the language and moves onboarding on to the next screen of the flow in a single write, so a kill in
      * between can never leave "language chosen" without the matching step.
      * Written synchronously so it is on disk before the screen closes.
      */
@@ -47,7 +47,7 @@ object LanguagePrefs {
                 .edit()
                 .putBoolean(KEY_SELECTED, true)
                 .putString(KEY_TAG, tag)
-                .putInt(OnboardingPrefs.KEY_STEP, OnboardingPrefs.STEP_MEDIA)
+                .putInt(OnboardingPrefs.KEY_STEP, OnboardingFlow.next(OnboardingFlow.Screen.LANGUAGE)?.step ?: OnboardingPrefs.STEP_DONE)
                 .commit()
         } catch (e: Exception) {
             // Best effort; the locale is still applied for this session.

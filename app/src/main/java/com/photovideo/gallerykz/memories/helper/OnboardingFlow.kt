@@ -7,7 +7,7 @@ import com.photovideo.gallerykz.memories.launcher.LauncherHomeActivity
 
 /**
  * The order of the onboarding screens after the splash: the Remote Config array `Show_Screen_Flow`
- * (DefaultApp, Language, PolicyScreen, Intro, MediaPermission, NotiPermission). Screens that are not in the array are skipped,
+ * (DefaultApp, Language, PolicyScreen, Intro; the media and notification permissions are no onboarding screens any more: they are asked on the splash and on the gallery page, and those names in an old config are ignored). Screens that are not in the array are skipped,
  * unknown and repeated names are ignored, and a missing or empty array uses the default order. Every screen calls [advance]
  * when it is done; after the last configured screen the launcher opens.
  */
@@ -19,12 +19,10 @@ object OnboardingFlow {
         LANGUAGE("Language", OnboardingPrefs.STEP_LANGUAGE, "LanguageScreen"),
         POLICY("PolicyScreen", OnboardingPrefs.STEP_POLICY, "Policy", "PrivacyPolicy"),
         INTRO("Intro", OnboardingPrefs.STEP_INTRO1, "IntroScreen"),
-        MEDIA("MediaPermission", OnboardingPrefs.STEP_MEDIA, "Media", "MediaPermissionScreen"),
-        NOTI("NotiPermission", OnboardingPrefs.STEP_NOTI, "Notification", "NotificationPermission", "NotiPermissionScreen"),
     }
 
     /** The order used when the config has none (the order the app had before the array existed). */
-    private val DEFAULT_ORDER = listOf(Screen.DEFAULT_APP, Screen.LANGUAGE, Screen.POLICY, Screen.MEDIA, Screen.NOTI, Screen.INTRO)
+    private val DEFAULT_ORDER = listOf(Screen.DEFAULT_APP, Screen.LANGUAGE, Screen.POLICY, Screen.INTRO)
 
     private fun screenOfName(name: String): Screen? {
         val n = name.trim()
@@ -46,8 +44,6 @@ object OnboardingFlow {
         OnboardingPrefs.STEP_LANGUAGE -> Screen.LANGUAGE
         OnboardingPrefs.STEP_POLICY -> Screen.POLICY
         OnboardingPrefs.STEP_INTRO1, OnboardingPrefs.STEP_INTRO2, OnboardingPrefs.STEP_INTRO3, OnboardingPrefs.STEP_INTRO4 -> Screen.INTRO
-        OnboardingPrefs.STEP_MEDIA, OnboardingPrefs.STEP_MEDIA_DENIED -> Screen.MEDIA
-        OnboardingPrefs.STEP_NOTI -> Screen.NOTI
         else -> null
     }
 
@@ -65,6 +61,14 @@ object OnboardingFlow {
      * next configured screen; [OnboardingPrefs.STEP_DONE] (stored, so the launcher does not send the user back) when nothing is left.
      */
     fun resolveStep(context: android.content.Context, step: Int): Int {
+        // A step stored by an earlier build for the removed media / notification screens: those came right after the privacy policy,
+        // so the flow continues with the screen after it (or ends).
+        if (OnboardingPrefs.isRemovedPermissionStep(step)) {
+            val after = next(Screen.POLICY)
+            val resolved = after?.step ?: OnboardingPrefs.STEP_DONE
+            OnboardingPrefs.setStep(context, resolved)
+            return resolved
+        }
         val screen = screenOfStep(step) ?: return step
         if (screen in order()) return step
         val next = next(screen)

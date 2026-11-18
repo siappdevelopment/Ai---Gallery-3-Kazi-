@@ -3,8 +3,8 @@ package com.photovideo.gallerykz.memories.helper
 import android.content.Context
 
 /**
- * Tracks how far the user got in the Splash -> (system Home app screen) -> Default app -> Language -> Privacy policy -> Media permission
- * (-> Denied) -> Notification permission -> Intro1..4 -> Main flow so a killed
+ * Tracks how far the user got in the Splash -> (system Home app screen) -> Default app -> Language -> Privacy policy
+ * -> Intro1..4 -> Main flow so a killed
  * app resumes on the same screen. Lives in the same file as [LanguagePrefs], so clearing app
  * data resets both.
  */
@@ -17,7 +17,8 @@ object OnboardingPrefs {
     const val STEP_INTRO4 = 4
     const val STEP_DONE = 5
 
-    // Permission flow, appended after DONE so values stored by earlier builds keep their meaning.
+    // The media / notification permission screens are gone (asked on the splash and the gallery page now); these values can still be
+    // stored by earlier builds, so they stay valid and [isRemovedPermissionStep] sends them on.
     const val STEP_MEDIA = 6
     const val STEP_MEDIA_DENIED = 7
     const val STEP_NOTI = 8
@@ -25,6 +26,9 @@ object OnboardingPrefs {
 
     // Privacy policy (after Language, before the permissions); appended so stored values keep their meaning.
     const val STEP_POLICY = 10
+
+    /** A stored step of a screen that no longer exists (media permission, its denied screen, notification permission). */
+    fun isRemovedPermissionStep(step: Int): Boolean = step == STEP_MEDIA || step == STEP_MEDIA_DENIED || step == STEP_NOTI
 
     internal const val FILE = "gallery_prefs"
     internal const val KEY_STEP = "onboarding_step"
