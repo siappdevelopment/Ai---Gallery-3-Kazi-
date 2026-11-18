@@ -90,6 +90,7 @@ class GalleryPageFragment : Fragment(), GalleryHost {
                 applyBottomInsets()
             },
             liveSpec = { mainSpec() },
+            shimmerOnRefresh = true,
         )
         // The page is created next to Home (a pager neighbour): the ad is requested when the page is really entered (onResume), not before.
         val activityLifecycle = requireActivity().lifecycle
@@ -131,7 +132,8 @@ class GalleryPageFragment : Fragment(), GalleryHost {
             mainStarted = true
             slot.start()
         } else if (activityPauses == pausesAtLastResume && mainSpec().refreshSeconds == 0) {
-            slot.refreshNow()
+            // Without auto refresh the ad changes only when the configured time (`Main_Bottom_Ad_Auto_Second`) has passed since the last request.
+            slot.refreshNow(AdRemoteConfig.config.screen(AdScreen.MAIN).autoSeconds)
         }
         pausesAtLastResume = activityPauses
     }

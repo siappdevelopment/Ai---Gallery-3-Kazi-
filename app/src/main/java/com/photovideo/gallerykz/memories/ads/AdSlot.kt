@@ -83,7 +83,12 @@ class AdSlot(
     private val darkAd: Boolean = false,
     /** This place never shows a Quiz ad: not by the Quiz priority and not as the fallback of a failed Google ad. */
     private val noQuiz: Boolean = false,
+    /** A refresh (not only the first load) covers the ad that is on screen with the shimmer until the new ad arrives. */
+    private val shimmerOnRefresh: Boolean = false,
 ) : DefaultLifecycleObserver {
+
+    /** True while the shimmer sits over the old ad of a refresh (the old ad is kept, hidden, in case the refresh fails). */
+    private var refreshOverlay = false
 
     /** What the ad views are inflated with: the activity, or its dark-theme twin when [darkAd]. */
     private val viewContext: Context by lazy {
@@ -195,6 +200,7 @@ class AdSlot(
         // The shimmer shows before the first load. A refresh keeps the ad that is on screen until the new one arrives, so a refresh that
         // fails (no fill, too many requests) can never leave the place empty.
         if (!hasAdOnScreen() && !lastFailed) showPlaceholder()
+        else if (shimmerOnRefresh && hasAdOnScreen()) showRefreshOverlay()
         if (spec.native) {
             val cached = SlotCache.takeNative(spec.cacheKey)
             if (cached != null) {
@@ -270,6 +276,14 @@ class AdSlot(
     /** A Google ad could not be had: the Quiz ad when the config says so, else the place goes away. */
     private fun failed() {
         loading = false
+        // The shimmer over the old ad goes away and the old ad shows again.
+        if (refreshOverlay) {
+            removePlaceholder()
+            if (loadedOnce && hasAdOnScreen()) {
+                scheduleRefresh()
+                return
+            }
+        }
         // A refresh that fails leaves the ad that is already showing where it is and tries again on the next interval.
         if (loadedOnce && hasAdOnScreen()) {
             scheduleRefresh()
@@ -378,11 +392,37 @@ class AdSlot(
         onVisibility(true)
     }
 
+    /** The shimmer covers the ad of the last load exactly (same size, no jump) while the refresh loads; that ad stays underneath, hidden. */
+    private fun showRefreshOverlay() {
+        if (placeholder != null) return
+        val layout = when {
+            spec.large -> R.layout.ad_shimmer_large
+            spec.medium -> R.layout.ad_shimmer_medium
+            else -> R.layout.ad_shimmer_small
+        }
+        val v = android.view.LayoutInflater.from(viewContext).inflate(layout, container, false)
+        for (i in 0 until container.childCount) container.getChildAt(i).visibility = View.INVISIBLE
+        container.addView(v, FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT))
+        gap(v)
+        placeholder = v
+        refreshOverlay = true
+        pulse = android.animation.ObjectAnimator.ofFloat(v, View.ALPHA, 1f, 0.35f).apply {
+            duration = 700L
+            repeatMode = android.animation.ValueAnimator.REVERSE
+            repeatCount = android.animation.ValueAnimator.INFINITE
+            start()
+        }
+    }
+
     private fun removePlaceholder() {
         pulse?.cancel()
         pulse = null
         placeholder?.let { if (it.parent === container) container.removeView(it) }
         placeholder = null
+        if (refreshOverlay) {
+            refreshOverlay = false
+            for (i in 0 until container.childCount) container.getChildAt(i).visibility = View.VISIBLE
+        }
     }
 
     private fun clearAds() {
