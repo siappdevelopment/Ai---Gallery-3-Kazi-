@@ -54,7 +54,7 @@
     <color name="onb_phone_frame">#FF161616</color>
     <color name="onb_tile_gray">#FFF0F0F0</color>
     <color name="onb_tile_pink">#FFFFE4EC</color>
-    <color name="ad_background">#FFFFFFFF</color>
+    <color name="ad_background">#FDFAFA</color>
     <color name="ad_shimmer">#FFE2E2E2</color>
     <color name="ad_border">#FFB8BFCC</color>
     <color name="ad_dialog_bg">#FFFFFFFF</color>

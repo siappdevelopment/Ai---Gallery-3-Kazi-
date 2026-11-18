@@ -36,7 +36,7 @@
     <color name="vault_secure_bg">#FF16301F</color>
     <color name="ad_background">#FF1E1E1E</color>
     <color name="ad_shimmer">#FF3A3A3A</color>
-    <color name="ad_border">#FF5C6270</color>
+    <color name="ad_border">#55565B</color>
     <color name="ad_dialog_bg">#FF2A2A2E</color>
     <color name="ad_loading_accent">#FFFF5C93</color>
     <color name="ad_shimmer_block">#FF34363D</color>
