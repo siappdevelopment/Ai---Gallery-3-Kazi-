@@ -120,6 +120,7 @@ class AlbumFragment : Fragment() {
             requireActivity(), adContainer, viewLifecycleOwner, adSpec(),
             onVisibility = { visible -> cardRow.setEnabled(visible) },
             liveSpec = { adSpec() },
+            shimmerOnRefresh = true,
         )
 
         val manager = GridLayoutManager(requireContext(), 2)

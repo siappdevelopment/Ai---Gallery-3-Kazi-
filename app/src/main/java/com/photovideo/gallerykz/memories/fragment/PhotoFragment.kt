@@ -251,6 +251,7 @@ class PhotoFragment : Fragment() {
                 journalRow.setEnabled(visible)
             },
             liveSpec = { adSpec() },
+            shimmerOnRefresh = true,
         )
 
         classicConcat = ConcatAdapter(classic, gridRow, filterEmpty)

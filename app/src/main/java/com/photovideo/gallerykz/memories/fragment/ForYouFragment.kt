@@ -90,7 +90,7 @@ class ForYouFragment : Fragment() {
 
         b.btnAllowOverlay.setOnClickListener { askOverlay() }
 
-        adSlot = AdSlot(requireActivity(), b.adForYouSlot, viewLifecycleOwner, adSpec(), liveSpec = { adSpec() })
+        adSlot = AdSlot(requireActivity(), b.adForYouSlot, viewLifecycleOwner, adSpec(), liveSpec = { adSpec() }, shimmerOnRefresh = true)
 
         b.rvHighlights.adapter = highlightAdapter
         b.rvPeople.adapter = peopleAdapter
