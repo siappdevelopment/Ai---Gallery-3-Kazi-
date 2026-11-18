@@ -63,6 +63,7 @@ class LanguageActivity : com.photovideo.gallerykz.memories.helper.BaseLocaleActi
         b.rvLanguages.layoutManager = LinearLayoutManager(this)
         b.rvLanguages.itemAnimator = null
         b.rvLanguages.adapter = adapter
+        setupListCorners(b)
 
         b.etSearch.doAfterTextChanged { viewModel.onSearchChanged(it?.toString().orEmpty()) }
         b.btnContinue.setOnClickListener { viewModel.onContinue() }
@@ -91,6 +92,61 @@ class LanguageActivity : com.photovideo.gallerykz.memories.helper.BaseLocaleActi
         }
     }
 
+    // ---- List card corners: with a bottom ad the card stays flat at the bottom until the last language is reached ----
+    private val cardBackground = android.graphics.drawable.GradientDrawable()
+    private var cornersAnimator: android.animation.ValueAnimator? = null
+    private var bottomRadius = -1f
+    private var bottomTarget = -1f
+
+    private fun setupListCorners(b: ActivityLanguageBinding) {
+        cardBackground.setColor(androidx.core.content.ContextCompat.getColor(this, com.photovideo.gallerykz.memories.R.color.language_card))
+        b.cardList.background = cardBackground
+        setBottomRadius(fullRadius())
+        val update = { updateListCorners() }
+        b.rvLanguages.addOnScrollListener(object : androidx.recyclerview.widget.RecyclerView.OnScrollListener() {
+            override fun onScrolled(rv: androidx.recyclerview.widget.RecyclerView, dx: Int, dy: Int) = update()
+        })
+        // The list's size changes when the ad appears / disappears or the keyboard moves it; the content when the search changes.
+        b.rvLanguages.addOnLayoutChangeListener { _, _, _, _, _, _, _, _, _ -> update() }
+        b.root.addOnLayoutChangeListener { _, _, _, _, _, _, _, _, _ -> update() }
+    }
+
+    private fun fullRadius() = 20f * resources.displayMetrics.density
+
+    private fun setBottomRadius(bottom: Float) {
+        bottomRadius = bottom
+        val top = fullRadius()
+        cardBackground.cornerRadii = floatArrayOf(top, top, top, top, bottom, bottom, bottom, bottom)
+    }
+
+    /** The bottom ad strip is the second child of the wrapper that [AdHooks] put around this screen (visible only while an ad is). */
+    private fun isBottomAdVisible(): Boolean {
+        val wrapper = binding?.root?.parent as? android.view.ViewGroup ?: return false
+        val strip = wrapper.takeIf { it.childCount > 1 }?.getChildAt(1) ?: return false
+        return strip.visibility == android.view.View.VISIBLE
+    }
+
+    private fun updateListCorners() {
+        val b = binding ?: return
+        if (isFinishing || isDestroyed || b.rvLanguages.height == 0) return
+        val atEnd = !b.rvLanguages.canScrollVertically(1)
+        val target = if (!isBottomAdVisible() || atEnd) fullRadius() else 0f
+        if (target == bottomTarget) return
+        val first = bottomTarget < 0f
+        bottomTarget = target
+        cornersAnimator?.cancel()
+        if (first) {
+            setBottomRadius(target)
+            b.cardList.invalidate()
+            return
+        }
+        cornersAnimator = android.animation.ValueAnimator.ofFloat(bottomRadius, target).apply {
+            duration = 180L
+            addUpdateListener { setBottomRadius(it.animatedValue as Float) }
+            start()
+        }
+    }
+
     private fun revealButton() {
         val button = binding?.btnContinue ?: return
         if (isFinishing || isDestroyed) return
@@ -111,6 +167,7 @@ class LanguageActivity : com.photovideo.gallerykz.memories.helper.BaseLocaleActi
 
     override fun onDestroy() {
         if (live?.get() === this) live = null
+        cornersAnimator?.cancel()
         handler.removeCallbacks(showButton)
         binding?.btnContinue?.animate()?.cancel()
         binding?.rvLanguages?.adapter = null
