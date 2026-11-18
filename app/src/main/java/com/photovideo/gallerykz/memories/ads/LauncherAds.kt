@@ -211,9 +211,12 @@ object AppOpenAds {
         }
     }
 
-    /** Screens where an App Open ad must not cover what is going on. */
+    /**
+     * Screens where an App Open ad must not cover what is going on. RecentActivity is the launcher's own Recents page (like the launcher
+     * Home): the Recents key brings it up from Home, and its relaunch safety net restarts it, so it is never a real "app opened" return.
+     */
     private val SKIPPED = setOf(
-        "LauncherHomeActivity", "SplashActivity", "LanguageActivity", "DefaultAppActivity", "Intro1Activity", "Intro2Activity",
+        "LauncherHomeActivity", "RecentActivity", "SplashActivity", "LanguageActivity", "DefaultAppActivity", "Intro1Activity", "Intro2Activity",
         "Intro3Activity", "Intro4Activity", "MediaPermissionActivity", "MediaDeniteActivity", "NotiPermissionActivity",
         "CallEndActivity", "PrivacyPolicyActivity", "AdHostActivity", "DefaultHomeGuideActivity", "OverlayPermissionGuideActivity", "VideoPlayerActivity",
     )
