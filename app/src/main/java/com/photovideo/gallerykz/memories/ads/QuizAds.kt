@@ -311,9 +311,10 @@ object QuizAds {
 /** Fills a [NativeAdView] from a Google native ad and tints its label and button like the Quiz ads. */
 object NativeAdViews {
 
-    fun inflate(context: Context, large: Boolean, parent: ViewGroup, medium: Boolean = false): NativeAdView =
+    fun inflate(context: Context, large: Boolean, parent: ViewGroup, medium: Boolean = false, layoutRes: Int = 0): NativeAdView =
         LayoutInflater.from(context).inflate(
             when {
+                layoutRes != 0 -> layoutRes
                 large -> R.layout.ad_native_large
                 medium -> R.layout.ad_native_medium
                 else -> R.layout.ad_native_small
@@ -322,11 +323,13 @@ object NativeAdViews {
         ) as NativeAdView
 
     fun populate(view: NativeAdView, ad: NativeAd) {
-        val headline = view.findViewById<TextView>(R.id.adHeadline)
-        val bodyView = view.findViewById<TextView>(R.id.adBody)
-        val cta = view.findViewById<TextView>(R.id.adCta)
-        val icon = view.findViewById<ImageView>(R.id.adIcon)
-        val media = view.findViewById<MediaView?>(R.id.adMedia)
+        // The layout of the intro screens (native_medium_ad_layouts) names its views ad_headline, ad_body ...: both sets of ids work.
+        fun <T : View> find(id: Int, other: Int): T? = view.findViewById<T>(id) ?: view.findViewById<T>(other)
+        val headline = find<TextView>(R.id.adHeadline, R.id.ad_headline)!!
+        val bodyView = find<TextView>(R.id.adBody, R.id.ad_body)!!
+        val cta = find<TextView>(R.id.adCta, R.id.ad_call_to_action)!!
+        val icon = find<ImageView>(R.id.adIcon, R.id.ad_app_icon)!!
+        val media = find<MediaView>(R.id.adMedia, R.id.ad_media)
         headline.text = ad.headline
         view.headlineView = headline
         if (ad.body.isNullOrEmpty()) {
@@ -355,7 +358,7 @@ object NativeAdViews {
             view.mediaView = media
             media.visibility = if (ad.mediaContent != null) View.VISIBLE else View.GONE
         }
-        QuizAds.applyColors(view.context, view.findViewById(R.id.adLabel), cta)
+        find<View>(R.id.adLabel, R.id.ad_attribution)?.let { QuizAds.applyColors(view.context, it, cta) }
         view.setNativeAd(ad)
     }
 }

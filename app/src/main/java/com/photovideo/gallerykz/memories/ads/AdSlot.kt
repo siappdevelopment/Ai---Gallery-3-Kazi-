@@ -29,6 +29,9 @@ class SlotSpec(
     val cacheKey: String = "",
     /** The medium native card (media on the left, texts on the right, button below), used inside the media grid. */
     val medium: Boolean = false,
+    /** Own layouts for the native ad and its shimmer (0 = the standard ones of its size); the intro screens use their own medium design. */
+    val nativeLayout: Int = 0,
+    val shimmerLayout: Int = 0,
 ) {
     companion object {
         fun of(screen: ScreenAd, key: String, large: Boolean = false, medium: Boolean = false): SlotSpec {
@@ -350,7 +353,7 @@ class AdSlot(
 
     private fun showNative(ad: NativeAd) {
         removePlaceholder()
-        val view = NativeAdViews.inflate(viewContext, spec.large, container, spec.medium)
+        val view = NativeAdViews.inflate(viewContext, spec.large, container, spec.medium, spec.nativeLayout)
         NativeAdViews.populate(view, ad)
         val old = nativeAd
         container.removeAllViews()
@@ -400,6 +403,7 @@ class AdSlot(
     private fun showPlaceholder() {
         if (placeholder != null || container.childCount > 0 && keepContentOnFail) return
         val layout = when {
+            spec.shimmerLayout != 0 -> spec.shimmerLayout
             spec.large -> R.layout.ad_shimmer_large
             spec.medium -> R.layout.ad_shimmer_medium
             else -> R.layout.ad_shimmer_small
@@ -423,6 +427,7 @@ class AdSlot(
     private fun showRefreshOverlay() {
         if (placeholder != null) return
         val layout = when {
+            spec.shimmerLayout != 0 -> spec.shimmerLayout
             spec.large -> R.layout.ad_shimmer_large
             spec.medium -> R.layout.ad_shimmer_medium
             else -> R.layout.ad_shimmer_small

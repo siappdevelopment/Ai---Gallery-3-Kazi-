@@ -30,9 +30,9 @@ class Intro1Activity : com.photovideo.gallerykz.memories.helper.BaseLocaleActivi
         val b = ActivityIntro1Binding.inflate(layoutInflater)
         binding = b
         setContentView(b.root)
-        AdHooks.attachOnboarding(this, AdScreen.INTRO)
+        IntroFlow.attachAd(this, 1)
         // The dots and the last button follow the configured intro count.
-        IntroFlow.bind(this, b.btnNext, b.introDots, 1)
+        IntroFlow.bind(this, b.btnNext, b.btnGetStarted, b.topBar, b.introDots, 1)
 
         ViewCompat.setOnApplyWindowInsetsListener(b.root) { v, insets ->
             val bars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
@@ -41,6 +41,7 @@ class Intro1Activity : com.photovideo.gallerykz.memories.helper.BaseLocaleActivi
         }
 
         b.btnNext.setOnClickListener { viewModel.onNextClicked() }
+        b.btnGetStarted.setOnClickListener { viewModel.onNextClicked() }
 
         viewModel.navigateNext.observe(this) { event ->
             event.getContentIfNotHandled()?.let {

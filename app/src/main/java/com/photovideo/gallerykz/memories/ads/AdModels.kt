@@ -12,7 +12,11 @@ enum class AdScreen(val obj: String, val prefix: String, val nativeOnly: Boolean
     SPLASH("SplashScreen", "Splash"),
     DEFAULT_APP("DefaultAppScreen", "DefaultApp"),
     LANGUAGE("LanguageScreen", "Language"),
-    INTRO("IntroScreen", "Intro"),
+    // Each intro screen has its own block (IntroScreen1..4, keys Intro1_* .. Intro4_*); IntroScreen1 also holds Intro_Screen_Count and Intro_Interstitial_Ad_Show.
+    INTRO1("IntroScreen1", "Intro1"),
+    INTRO2("IntroScreen2", "Intro2"),
+    INTRO3("IntroScreen3", "Intro3"),
+    INTRO4("IntroScreen4", "Intro4"),
     MEDIA_PERMISSION("MediaPermissionScreen", "MediaPermission"),
     NOTI_PERMISSION("NotiPermissionScreen", "NotiPermission"),
     MAIN("MainScreen", "Main", backByDefault = true),
@@ -279,7 +283,11 @@ class AdConfig(
             val splash = screen.optJSONObject("SplashScreen") ?: JSONObject()
             val defaultApp = screen.optJSONObject("DefaultAppScreen") ?: JSONObject()
             val language = screen.optJSONObject("LanguageScreen") ?: JSONObject()
-            val intro = screen.optJSONObject("IntroScreen") ?: JSONObject()
+            // The screen count and the final interstitial are controlled by IntroScreen1 only (an older config that has them in the single
+            // IntroScreen block still works when IntroScreen1 does not have the key).
+            val intro1 = screen.optJSONObject("IntroScreen1") ?: JSONObject()
+            val introLegacy = screen.optJSONObject("IntroScreen") ?: JSONObject()
+            val intro = if (intro1.has("Intro_Screen_Count") || intro1.has("Intro_Interstitial_Ad_Show")) intro1 else introLegacy
 
             val screens = HashMap<AdScreen, ScreenAd>()
             for (s in AdScreen.entries) {

@@ -15,23 +15,45 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:minHeight="560dp"
+        android:minHeight="600dp"
         android:paddingStart="@dimen/intro_horizontal_padding"
         android:paddingEnd="@dimen/intro_horizontal_padding">
+        <!-- Final screen only: Get started at the top right (hidden on the other screens by IntroFlow.bind) -->
+        <FrameLayout
+            android:id="@+id/topBar"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnGetStarted"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:layout_marginTop="10dp"
+                android:insetTop="0dp"
+                android:insetBottom="0dp"
+                android:minHeight="40dp"
+                android:paddingStart="18dp"
+                android:paddingEnd="18dp"
+                android:text="@string/intro4_get_started"
+                android:textColor="@color/white"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                app:backgroundTint="@color/brand_pink"
+                app:cornerRadius="14dp" />
+        </FrameLayout>
+
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/guideCollageEnd"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            app:layout_constraintGuide_percent="0.30" />
-
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/guideTextEnd"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            app:layout_constraintGuide_percent="0.60" />
+            app:layout_constraintGuide_percent="0.36" />
 
         <!-- Highlights card (1.1fr) + People / Place cards (1fr), 8dp gaps -->
         <LinearLayout
@@ -46,7 +68,7 @@
             app:layout_constraintBottom_toTopOf="@id/guideCollageEnd"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintTop_toBottomOf="@id/topBar">
 
             <FrameLayout
                 android:layout_width="0dp"
@@ -217,38 +239,13 @@
             </LinearLayout>
         </LinearLayout>
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btnNext"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="20dp"
-            android:layout_marginBottom="14dp"
-            android:insetTop="0dp"
-            android:insetBottom="0dp"
-            android:minHeight="48dp"
-            android:paddingStart="22dp"
-            android:paddingEnd="22dp"
-            android:text="@string/intro1_next"
-            android:textColor="@color/white"
-            android:textSize="15sp"
-            android:textStyle="bold"
-            app:backgroundTint="@color/brand_pink"
-            app:cornerRadius="16dp"
-            app:icon="@drawable/ic_arrow_forward"
-            app:iconGravity="textEnd"
-            app:iconPadding="6dp"
-            app:iconSize="20dp"
-            app:iconTint="@color/white"
-            app:layout_constraintBottom_toTopOf="@id/guideTextEnd"
-            app:layout_constraintEnd_toEndOf="parent" />
-
         <androidx.core.widget.NestedScrollView
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_marginBottom="8dp"
             android:overScrollMode="never"
             android:scrollbars="none"
-            app:layout_constraintBottom_toTopOf="@id/btnNext"
+            app:layout_constraintBottom_toTopOf="@id/bottomPanel"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/collage">
@@ -316,37 +313,44 @@
                     android:textSize="14.5sp" />
             </LinearLayout>
         </androidx.core.widget.NestedScrollView>
-
-        <!-- Reserved container for a future ad -->
-        <FrameLayout
+        <!-- The ad (a 100dp banner area, or the medium native ad on the last screen: set by IntroAds) with the Next button under it -->
+        <LinearLayout
+            android:id="@+id/bottomPanel"
             android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:paddingStart="12dp"
-            android:paddingEnd="12dp"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
             android:paddingBottom="12dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/guideTextEnd">
+            app:layout_constraintStart_toStartOf="parent">
 
             <FrameLayout
                 android:id="@+id/adContainer"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@drawable/bg_intro_ad_placeholder">
+                android:layout_height="100dp"
+                android:visibility="gone" />
 
-                <TextView
-                    android:id="@+id/tvAdPlaceholder"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:letterSpacing="0.07"
-                    android:padding="8dp"
-                    android:text="@string/intro1_ad_placeholder"
-                    android:textColor="@color/intro_ad_label"
-                    android:textSize="11sp"
-                    android:typeface="monospace" />
-            </FrameLayout>
-        </FrameLayout>
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnNext"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:layout_marginHorizontal="15dp"
+                android:insetTop="0dp"
+                android:insetBottom="0dp"
+                android:minHeight="52dp"
+                android:text="@string/intro1_next"
+                android:textColor="@color/white"
+                android:textSize="15sp"
+                android:textStyle="bold"
+                app:backgroundTint="@color/brand_pink"
+                app:cornerRadius="16dp"
+                app:icon="@drawable/ic_arrow_forward"
+                app:iconGravity="textEnd"
+                app:iconPadding="6dp"
+                app:iconSize="20dp"
+                app:iconTint="@color/white" />
+        </LinearLayout>
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>
