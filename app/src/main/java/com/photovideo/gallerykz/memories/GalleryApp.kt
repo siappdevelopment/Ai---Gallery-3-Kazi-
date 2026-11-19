@@ -32,7 +32,7 @@ class GalleryApp : Application() {
         // Paid / normal user: reads the Play install referrer once and watches the network for a new fetch.
         AdRemoteConfig.start(this)
         GoogleAds.init(this)
-        AdRemoteConfig.fetch(this)
+        AdRemoteConfig.fetchAtProcessStart(this)
         AppOpenAds.install(this)
         SystemNav.install(this)
         AdInsetsGuard.install(this)

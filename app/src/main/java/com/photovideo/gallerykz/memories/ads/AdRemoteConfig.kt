@@ -35,6 +35,30 @@ object AdRemoteConfig {
     private const val KEY_FETCHED_AT = "fetched_at"
     private const val REFRESH_MS = 12L * 60 * 60 * 1000
 
+    /** A splash opening within this time of the process-start fetch waits for that fetch instead of starting a second one. */
+    private const val COLD_JOIN_MS = 15_000L
+
+    /** A fetch running longer than this is taken as lost, so a new one may start. */
+    private const val STALE_FETCH_MS = 90_000L
+
+    @Volatile
+    private var fetchStartedAt = 0L
+
+    @Volatile
+    private var coldFetchAt = 0L
+
+    @Volatile
+    private var coldFetchUnclaimed = false
+
+    @Volatile
+    private var lastFetchOk = false
+
+    @Volatile
+    private var rerunRequested = false
+
+    /** Callers that wait for the end of the running fetch (called on the main thread, then cleared). */
+    private val waiters = java.util.concurrent.CopyOnWriteArrayList<(Boolean) -> Unit>()
+
     @Volatile
     var config: AdConfig = AdConfig.EMPTY
         private set
@@ -177,13 +201,54 @@ object AdRemoteConfig {
         apply(context, saved, persist = false)
     }
 
-    /** Fetches the parameter and applies it; skipped while another fetch runs. */
-    fun fetch(context: Context, onDone: ((Boolean) -> Unit)? = null) {
+    /** Fetches the parameter and applies it. A fetch that is already running is joined: [onDone] is called when it ends. */
+    fun fetch(context: Context, onDone: ((Boolean) -> Unit)? = null) = request(context.applicationContext, onDone, fresh = false)
+
+    /**
+     * The fetch of the process start (Application.onCreate). The first splash of this start joins it instead of fetching again, because
+     * it began a moment before the splash; see [onLaunch].
+     */
+    fun fetchAtProcessStart(context: Context) {
+        coldFetchAt = android.os.SystemClock.elapsedRealtime()
+        coldFetchUnclaimed = true
+        fetch(context)
+    }
+
+    /**
+     * Called when the splash opens (every app launch): the config is fetched and activated again, never skipped, and [onDone] (main
+     * thread, once) says when the answer is in (true = new values applied; false = failed, the last activated config stays in use).
+     * Without this a process that lived on as the Home app (no cold start) would keep an old config. The one exception is the fetch the
+     * process start made a moment ago (see [fetchAtProcessStart]): the splash waits for that one instead of starting a second. A fetch
+     * that is already running from before (for instance after the network came back) is not trusted as fresh: one more follows it.
+     */
+    fun onLaunch(context: Context, onDone: ((Boolean) -> Unit)? = null) {
         val app = context.applicationContext
+        val now = android.os.SystemClock.elapsedRealtime()
+        val joinCold = coldFetchUnclaimed && now - coldFetchAt < COLD_JOIN_MS
+        coldFetchUnclaimed = false
+        if (joinCold) {
+            // Running: wait for it. Already ended: the answer is in.
+            if (fetching.get()) request(app, onDone, fresh = false) else main.post { onDone?.invoke(lastFetchOk) }
+        } else {
+            request(app, onDone, fresh = true)
+        }
+    }
+
+    private fun request(app: Context, onDone: ((Boolean) -> Unit)?, fresh: Boolean) {
+        val now = android.os.SystemClock.elapsedRealtime()
+        // A fetch whose answer never came back (no callback) must not block every later fetch for the rest of the process.
+        if (fetching.get() && now - fetchStartedAt > STALE_FETCH_MS) fetching.set(false)
+        if (onDone != null) waiters.add(onDone)
         if (!fetching.compareAndSet(false, true)) {
-            onDone?.invoke(false)
+            // Running: it ends first; a fresh request starts one more behind it.
+            if (fresh) rerunRequested = true
             return
         }
+        startFetch(app)
+    }
+
+    private fun startFetch(app: Context) {
+        fetchStartedAt = android.os.SystemClock.elapsedRealtime()
         try {
             val remote = FirebaseRemoteConfig.getInstance()
             remote.setConfigSettingsAsync(FirebaseRemoteConfigSettings.Builder().setMinimumFetchIntervalInSeconds(0).build())
@@ -198,24 +263,44 @@ object AdRemoteConfig {
                                     ok = apply(app, json, persist = true)
                                     prefs(app).edit().putLong(KEY_FETCHED_AT, System.currentTimeMillis()).apply()
                                 }
+                            } else {
+                                // The last activated config (also the saved one) stays in use.
+                                Log.w(TAG, "config fetch failed, keeping the last config: ${task.exception}")
                             }
                         } catch (e: Exception) {
                             Log.w(TAG, "config fetch failed: $e")
                         } finally {
                             fetching.set(false)
                         }
-                        main.post {
-                            settled = true
-                            settleListeners.forEach { it() }
-                            settleListeners.clear()
-                            onDone?.invoke(ok)
-                        }
+                        finishFetch(app, ok)
                     }
                 }
         } catch (e: Exception) {
             fetching.set(false)
             Log.w(TAG, "config fetch could not start: $e")
-            onDone?.invoke(false)
+            finishFetch(app, false)
+        }
+    }
+
+    private fun finishFetch(app: Context, ok: Boolean) {
+        main.post {
+            lastFetchOk = ok
+            // A fresh request came in while this one ran: its answer is the one that counts, so another fetch follows at once.
+            if (rerunRequested) {
+                rerunRequested = false
+                if (fetching.compareAndSet(false, true)) {
+                    startFetch(app)
+                    return@post
+                }
+            }
+            // Another fetch started in the meantime (before this answer was passed on): its end reports to the waiters.
+            if (fetching.get()) return@post
+            settled = true
+            settleListeners.forEach { it() }
+            settleListeners.clear()
+            val done = waiters.toList()
+            waiters.clear()
+            done.forEach { it(ok) }
         }
     }
 

@@ -83,7 +83,17 @@ class SplashActivity : com.photovideo.gallerykz.memories.helper.BaseLocaleActivi
         // may still be the default "off", so the place re-reads the config when it is loaded.
         val splashSpec = { SlotSpec.of(AdRemoteConfig.config.screen(AdScreen.SPLASH), "slot_${AdScreen.SPLASH.name}") }
         AdHooks.attachBottom(this, splashSpec(), liveSpec = splashSpec)
-        if (AdRemoteConfig.loaded || AdRemoteConfig.settled) {
+        if (savedInstanceState == null) {
+            // Every launch fetches and activates the Remote Config again (also in a process that lived on as the Home app, which has no
+            // cold start), and the flow waits for that answer so the screens and ads use the latest values; never longer than
+            // CONFIG_WAIT_MS, then the last activated config is used (offline, slow network, failed fetch).
+            handler.postDelayed(configTimeout, CONFIG_WAIT_MS)
+            AdRemoteConfig.onLaunch(this) {
+                configReady = true
+                handler.removeCallbacks(configTimeout)
+                if (!isFinishing && !isDestroyed) navigateWhenReady()
+            }
+        } else if (AdRemoteConfig.loaded || AdRemoteConfig.settled) {
             configReady = true
         } else {
             handler.postDelayed(configTimeout, CONFIG_WAIT_MS)
