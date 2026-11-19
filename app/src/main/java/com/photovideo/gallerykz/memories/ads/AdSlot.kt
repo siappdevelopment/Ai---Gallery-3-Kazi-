@@ -32,6 +32,8 @@ class SlotSpec(
     /** Own layouts for the native ad and its shimmer (0 = the standard ones of its size); the intro screens use their own medium design. */
     val nativeLayout: Int = 0,
     val shimmerLayout: Int = 0,
+    /** A banner in a box of exactly this height (dp), full width: an inline adaptive banner sized to the available width, centred in the box (0 = the normal anchored banner). */
+    val boxHeightDp: Int = 0,
 ) {
     companion object {
         fun of(screen: ScreenAd, key: String, large: Boolean = false, medium: Boolean = false): SlotSpec {
@@ -256,7 +258,7 @@ class AdSlot(
             fun load(availablePx: Int) {
                 if (destroyed || mine != token) return
                 val widthDp = (availablePx / density).toInt()
-                GoogleAds.loadBanner(activity, id, widthDp, if (spec.large || spec.medium) (boxPx() / density).toInt() else 0) { view ->
+                GoogleAds.loadBanner(activity, id, widthDp, if (spec.large || spec.medium || spec.boxHeightDp > 0) (boxPx() / density).toInt() else 0) { view ->
                     if (destroyed || mine != token) {
                         view?.destroy()
                         return@loadBanner
@@ -375,13 +377,17 @@ class AdSlot(
     private fun mediumAreaPx(): Int = activity.resources.getDimensionPixelSize(com.intuit.sdp.R.dimen._195sdp)
 
     /** The box a banner is shown in when it must be as big as the native ad of the place (big or medium). */
-    private fun boxPx(): Int = if (spec.large) bigAreaPx() else mediumAreaPx()
+    private fun boxPx(): Int = when {
+        spec.boxHeightDp > 0 -> (spec.boxHeightDp * activity.resources.displayMetrics.density).toInt()
+        spec.large -> bigAreaPx()
+        else -> mediumAreaPx()
+    }
 
     private fun showBanner(view: AdView) {
         removePlaceholder()
         val old = banner
         container.removeAllViews()
-        if (spec.large || spec.medium) {
+        if (spec.large || spec.medium || spec.boxHeightDp > 0) {
             // Same area as the big / medium native ad: the banner sits centred in it, never stretched.
             container.minimumHeight = boxPx()
             boxed = true

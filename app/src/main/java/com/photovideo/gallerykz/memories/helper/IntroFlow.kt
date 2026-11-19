@@ -23,6 +23,9 @@ object IntroFlow {
 
     const val MAX = 4
 
+    /** The space of the intro ad before the last screen: intro_native_layout (120dp) plus the 2dp the ad slot leaves above and below it. */
+    private const val INTRO_AD_BOX_DP = 124
+
     fun count(): Int = AdRemoteConfig.config.introCount.takeIf { it in 1..MAX } ?: MAX
 
     /** True when intro screen [index] (1-based) is the last one of the configured count: Get started and the medium native ad. */
@@ -74,8 +77,9 @@ object IntroFlow {
         val density = activity.resources.displayMetrics.density
         fun size(native: Boolean) {
             container.layoutParams = container.layoutParams.apply {
-                // Before the last screen a banner has a 100dp area; the intro native ad has the height of its own layout (intro_native_layout).
-                height = if (!last && !native) (100 * density).toInt() else ViewGroup.LayoutParams.WRAP_CONTENT
+                // The area takes the height of its content: the native ad has the 120dp of intro_native_layout, and a banner of a screen before
+                // the last one is shown in a box of the same size (see INTRO_AD_BOX_DP), so both fill exactly the same space.
+                height = ViewGroup.LayoutParams.WRAP_CONTENT
                 // The ad of the last screen keeps 5dp clear of the screen edges and 2dp above it, and none below.
                 if (last && this is ViewGroup.MarginLayoutParams) {
                     setMargins((5 * density).toInt(), (2 * density).toInt(), (5 * density).toInt(), 0)
@@ -95,7 +99,13 @@ object IntroFlow {
                     shimmerLayout = if (last) R.layout.native_medium_ad_shimmer else R.layout.intro_native_shimmer_layout,
                 )
             } else {
-                SlotSpec(show = s.show && s.bannerId.isNotEmpty(), native = false, bannerId = s.bannerId, nativeId = "", cacheKey = "slot_${screen.name}")
+                // Before the last screen: an inline adaptive banner (as wide as the area, sized from the available width) centred in a box as
+                // big as the native ad, with the same shimmer. The last screen keeps its normal banner.
+                SlotSpec(
+                    show = s.show && s.bannerId.isNotEmpty(), native = false, bannerId = s.bannerId, nativeId = "", cacheKey = "slot_${screen.name}",
+                    shimmerLayout = if (last) 0 else R.layout.intro_native_shimmer_layout,
+                    boxHeightDp = if (last) 0 else INTRO_AD_BOX_DP,
+                )
             }
         }
         return try {
