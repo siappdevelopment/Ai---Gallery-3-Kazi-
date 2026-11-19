@@ -136,8 +136,10 @@ class LauncherDrawerView @JvmOverloads constructor(
         ViewCompat.setOnApplyWindowInsetsListener(this) { _, insets ->
             val bars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             val ime = insets.getInsets(WindowInsetsCompat.Type.ime())
-            insetBottom = maxOf(bars.bottom, ime.bottom)
-            val keyboard = ime.bottom > bars.bottom
+            // The bar's full height whether it is showing at this moment or not, so the list and the pinned ad never jump when it comes or goes.
+            val stableNav = insets.getInsetsIgnoringVisibility(WindowInsetsCompat.Type.navigationBars()).bottom
+            insetBottom = maxOf(stableNav, bars.bottom, ime.bottom)
+            val keyboard = ime.bottom > maxOf(bars.bottom, stableNav)
             if (keyboard != imeVisible) {
                 imeVisible = keyboard
                 post { updateAdPlacement() }

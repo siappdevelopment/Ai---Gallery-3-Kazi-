@@ -132,6 +132,9 @@ class LauncherHomeActivity : AdAwareActivity(), LauncherHost, LauncherSettings.L
 
         binding = ActivityLauncherHomeBinding.inflate(layoutInflater)
         setContentView(b.root)
+        // The launcher keeps the system navigation bar on screen (the app hides it on its other screens): the pages and the drawer pad
+        // themselves by its real height, the same insets handling as the Language screen when it shows the bar.
+        com.photovideo.gallerykz.memories.helper.SystemNav.setVisible(this, true)
         wallpaperRefreshPending = savedInstanceState != null
 
         val pager = b.vpLauncher
