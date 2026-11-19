@@ -109,6 +109,8 @@ class LauncherHomeActivity : AdAwareActivity(), LauncherHost, LauncherSettings.L
         // A translucent surface is cleared between frames; an opaque one piles up old frames after a recreate.
         window.setFormat(PixelFormat.TRANSLUCENT)
         super.onCreate(savedInstanceState)
+        // Made by the system's HOME intent = this instance lives in the Home type task (kept over a recreate: the intent is replaced later).
+        inHomeTypeTask = savedInstanceState?.getBoolean(KEY_HOME_TASK) ?: isSystemHomeIntent(intent)
         // The Home key or a widget can reach the launcher before the onboarding (permissions, default app) is finished:
         // the screen of the step the user is on opens instead (not the splash: it would show a second time).
         // Only on a fresh start: a recreate (theme or language change, rotation) must keep the user on this screen.
@@ -185,6 +187,7 @@ class LauncherHomeActivity : AdAwareActivity(), LauncherHost, LauncherSettings.L
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
         binding?.let { outState.putInt(KEY_PAGE, it.vpLauncher.currentItem) }
+        outState.putBoolean(KEY_HOME_TASK, inHomeTypeTask)
     }
 
     override fun onPause() {
@@ -213,8 +216,35 @@ class LauncherHomeActivity : AdAwareActivity(), LauncherHost, LauncherSettings.L
     override fun adScreenForClicks(): com.photovideo.gallerykz.memories.ads.AdScreen? =
         if (binding?.vpLauncher?.currentItem == PAGE_GALLERY && binding?.appsDrawer?.isOpen != true) com.photovideo.gallerykz.memories.ads.AdScreen.MAIN else null
 
+    private var inHomeTypeTask = false
+
+    private fun isSystemHomeIntent(intent: Intent?): Boolean =
+        intent != null && intent.action == Intent.ACTION_MAIN && intent.hasCategory(Intent.CATEGORY_HOME)
+
+    /**
+     * This instance was made by the system's HOME intent while the app was the Home app, so its task is a Home type task, which the
+     * system never lists in Recents. When the app is no longer the Home app and the app itself (the splash after an icon tap, a widget)
+     * starts the launcher, that old task would be brought to the front and the app would be missing from Recents after the Home key.
+     * The old task is ended and the same start is made again: the new instance is created in a normal task (its intent is no HOME
+     * intent), which Recents lists. Returns true when this instance is going away.
+     */
+    private fun leaveHomeTypeTask(intent: Intent): Boolean {
+        if (!inHomeTypeTask || isSystemHomeIntent(intent) || isFinishing || LauncherNav.isHomeAppOrRoleHolder(this)) return false
+        android.util.Log.d("AppRecentsKey", "the launcher home is in an old Home type task: moving to a normal task")
+        val again = Intent(intent).setComponent(android.content.ComponentName(this, LauncherHomeActivity::class.java)).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+        finishAndRemoveTask()
+        try {
+            startActivity(again)
+            overridePendingTransition(0, 0)
+        } catch (e: Exception) {
+            // The old task is gone; the splash starts it again on the next launch.
+        }
+        return true
+    }
+
     override fun onNewIntent(intent: Intent) {
         super.onNewIntent(intent)
+        if (leaveHomeTypeTask(intent)) return
         setIntent(intent)
         val binding = binding ?: return
         if (intent.getBooleanExtra(LauncherNav.EXTRA_OPEN_GALLERY, false)) {
@@ -441,6 +471,7 @@ class LauncherHomeActivity : AdAwareActivity(), LauncherHost, LauncherSettings.L
         const val PAGE_REPORT = 2
 
         private const val KEY_PAGE = "launcher_page"
+        private const val KEY_HOME_TASK = "launcher_in_home_task"
         private const val GESTURE_NONE = 0
         private const val GESTURE_DRAWER = 1
         private const val GESTURE_PAGER = 2
