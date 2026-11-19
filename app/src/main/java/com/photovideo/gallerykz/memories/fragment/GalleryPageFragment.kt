@@ -16,6 +16,7 @@ import com.photovideo.gallerykz.memories.ads.AdRemoteConfig
 import android.Manifest
 import android.graphics.Typeface
 import com.photovideo.gallerykz.memories.helper.MediaPermissionHelper
+import com.photovideo.gallerykz.memories.helper.DialogGate
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -65,6 +66,8 @@ class GalleryPageFragment : Fragment(), GalleryHost {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        DialogGate.permissionProbe = permissionProbe
+        DialogGate.addPopupEndListener(popupEndListener)
         val b = binding ?: return
         ViewCompat.setOnApplyWindowInsetsListener(b.root) { v, insets ->
             val bars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
@@ -121,6 +124,9 @@ class GalleryPageFragment : Fragment(), GalleryHost {
     private val phoneLauncher = registerForActivityResult(ActivityResultContracts.RequestPermission()) { onPermissionAnswered() }
     private var requestingPermission = false
 
+    /** Tells the launcher popups whether a permission dialog of this page is open right now (read live, so it can never stay set). */
+    private val permissionProbe: () -> Boolean = { requestingPermission }
+
     override fun onResume() {
         super.onResume()
         askPermissions()
@@ -154,6 +160,9 @@ class GalleryPageFragment : Fragment(), GalleryHost {
     private fun askPermissions() {
         val context = context ?: return
         if (requestingPermission) return
+        // A launcher popup (Home role dialog, overlay flow) is on screen: one system dialog at a time, so the questions wait for its end
+        // (the popup end listener below asks again).
+        if (DialogGate.popupOpen()) return
         when {
             !askedMediaThisStart && !MediaPermissionHelper.hasAccess(context) -> {
                 askedMediaThisStart = true
@@ -169,7 +178,10 @@ class GalleryPageFragment : Fragment(), GalleryHost {
                 ask { phoneLauncher.launch(CallEndPermission.PERMISSION) }
             }
             // Nothing left to ask: the permission flow is over and the ads of the Remote Config come back.
-            else -> releaseAds()
+            else -> {
+                DialogGate.mediaAskedThisStart = true
+                releaseAds()
+            }
         }
     }
 
@@ -203,6 +215,11 @@ class GalleryPageFragment : Fragment(), GalleryHost {
         }
     }
 
+    /** A launcher popup ended: the questions that waited for it go on (once this page is in front). */
+    private val popupEndListener: () -> Unit = {
+        view?.post { if (isResumed) askPermissions() }
+    }
+
     private fun onPermissionAnswered() {
         requestingPermission = false
         // Usually not resumed yet (the result comes first): the resume asks the next one. Resumed already = no dialog was shown.
@@ -223,6 +240,8 @@ class GalleryPageFragment : Fragment(), GalleryHost {
     override fun onDestroyView() {
         // The page is going away (also with a dialog open): the hold must not outlive it.
         releaseAds()
+        if (DialogGate.permissionProbe === permissionProbe) DialogGate.permissionProbe = null
+        DialogGate.removePopupEndListener(popupEndListener)
         mainStarted = false
         mainSlot = null
         binding = null

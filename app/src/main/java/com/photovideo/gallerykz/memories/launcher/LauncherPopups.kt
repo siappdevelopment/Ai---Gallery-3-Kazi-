@@ -6,6 +6,7 @@ import android.content.pm.PackageManager
 import android.graphics.drawable.ColorDrawable
 import android.os.Handler
 import android.os.Looper
+import android.util.Log
 import android.view.View
 import androidx.activity.ComponentActivity
 import androidx.activity.result.contract.ActivityResultContracts
@@ -15,6 +16,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.photovideo.gallerykz.memories.R
 import com.photovideo.gallerykz.memories.ads.AdGate
 import com.photovideo.gallerykz.memories.ads.AdRemoteConfig
+import com.photovideo.gallerykz.memories.helper.DialogGate
 import com.photovideo.gallerykz.memories.helper.OverlayPermission
 
 /**
@@ -40,6 +42,13 @@ class LauncherPopups(
     private var sheet: BottomSheetDialog? = null
 
     private val handler = Handler(Looper.getMainLooper())
+
+    /** Tells the gallery page whether one of the popups (or the system screen it opened) is up. */
+    private val probe: () -> Boolean = { isActive }
+
+    init {
+        DialogGate.popupProbe = probe
+    }
 
     /** The moment the overlay permission is granted the app is brought back to the front, from the settings page. */
     private val pollRunnable = object : Runnable {
@@ -80,9 +89,18 @@ class LauncherPopups(
     fun onExplicitEntry(): Boolean {
         if (isActive) return true
         if (activity.isFinishing || activity.isDestroyed) return false
+        // The media access comes first: no popup while a permission dialog is open or the media question is still to be asked (it is then
+        // asked as the page opens); the popups follow on a later swipe.
+        if (DialogGate.permissionOpen() || DialogGate.mediaPending(activity)) {
+            Log.d(TAG, "no popup: permission dialog open=${DialogGate.permissionOpen()}, media still to ask=${DialogGate.mediaPending(activity)}")
+            return false
+        }
         // One popup per swipe, never back to back: after any popup the next one waits the shorter of the two intervals.
         // The popup shown longer ago goes first, so with equal counts they alternate instead of one starving the other.
-        if (!sharedGapElapsed()) return false
+        if (!sharedGapElapsed()) {
+            Log.d(TAG, "no popup: the shared gap of the two popups has not passed")
+            return false
+        }
         val defaultFirst = AdGate.lastShown(activity, KEY_DEFAULT) <= AdGate.lastShown(activity, KEY_OVERLAY)
         return if (defaultFirst) maybeShowDefaultHome() || maybeShowOverlay() else maybeShowOverlay() || maybeShowDefaultHome()
     }
@@ -100,6 +118,10 @@ class LauncherPopups(
     }
 
     fun onDestroy() {
+        if (DialogGate.popupProbe === probe) DialogGate.popupProbe = null
+        defaultActive = false
+        overlayFlow = false
+        AdGate.release(ADS_HOLD)
         handler.removeCallbacks(pollRunnable)
         sheet?.setOnDismissListener(null)
         sheet?.dismiss()
@@ -108,23 +130,44 @@ class LauncherPopups(
 
     /** Called when the Home role / settings attempt is over. */
     fun onDefaultResult() {
+        val was = defaultActive
         defaultActive = false
+        releaseAdsIfIdle()
+        // The permission questions that waited for this popup go on.
+        if (was) DialogGate.popupEnded()
+    }
+
+    /** The ads come back once neither popup flow is open. */
+    private fun releaseAdsIfIdle() {
+        if (!isActive) AdGate.release(ADS_HOLD)
     }
 
     // ---- 1. Home app ----
 
     private fun maybeShowDefaultHome(): Boolean {
         val c = AdRemoteConfig.config
-        if (!c.defaultPopupShow || !isGalleryVisible()) return false
+        if (!c.defaultPopupShow || !isGalleryVisible()) {
+            Log.d(TAG, "no Home popup: Default_App_Popup_Show=${c.defaultPopupShow}, gallery page settled=${isGalleryVisible()}")
+            return false
+        }
         if (LauncherNav.isHomeAppOrRoleHolder(activity)) return false
-        if (!AdGate.intervalElapsed(activity, KEY_DEFAULT, c.defaultPopupPerDay, zeroIsAlways = true)) return false
+        if (!AdGate.intervalElapsed(activity, KEY_DEFAULT, c.defaultPopupPerDay, zeroIsAlways = true)) {
+            Log.d(TAG, "no Home popup: its interval has not passed (Default_App_Popup_Count=${c.defaultPopupPerDay})")
+            return false
+        }
         if (LauncherNav.defaultHomeIntent(activity) == null) return false
 
         AdGate.markShown(activity, KEY_DEFAULT)
         defaultActive = true
+        // No ad while the Home app dialog (or the system screen it opens) is up.
+        AdGate.hold(ADS_HOLD)
         defaultHome.request()
         // The request did not start (it toasts the failure itself): nothing is open, so nothing is pending.
-        if (!defaultHome.isInFlight) defaultActive = false
+        if (!defaultHome.isInFlight) {
+            defaultActive = false
+            releaseAdsIfIdle()
+        }
+        Log.d(TAG, "Home popup started=$defaultActive")
         return defaultActive
     }
 
@@ -138,6 +181,8 @@ class LauncherPopups(
 
         AdGate.markShown(activity, KEY_OVERLAY)
         overlayFlow = true
+        // No ad while the overlay sheet, the phone question or the settings page it leads to is up.
+        AdGate.hold(ADS_HOLD)
         showSheet()
         return true
     }
@@ -167,7 +212,10 @@ class LauncherPopups(
 
     private fun finishOverlayFlow() {
         phoneStateInProgress = false
+        val was = overlayFlow
         overlayFlow = false
+        releaseAdsIfIdle()
+        if (was) DialogGate.popupEnded()
     }
 
     private fun requestPhoneStateThenOverlay() {
@@ -205,6 +253,8 @@ class LauncherPopups(
     }
 
     private companion object {
+        const val TAG = "LauncherPopups"
+        const val ADS_HOLD = "launcher_popups"
         const val KEY_DEFAULT = "default_app_popup"
         const val KEY_OVERLAY = "phone_overlay_popup"
         const val POLL_MS = 300L
