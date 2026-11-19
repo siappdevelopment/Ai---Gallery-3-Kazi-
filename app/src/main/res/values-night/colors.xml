@@ -4,7 +4,7 @@
     <color name="splash_glow">#26FF4D7E</color>
     <color name="splash_text_primary">#FFF4F4F6</color>
     <color name="splash_text_secondary">#FFA8A8B2</color>
-    <color name="language_background">#FF0C0C0E</color>
+    <color name="language_background">#000000</color>
     <color name="home_card_placeholder">#FF1C1C20</color>
     <color name="language_card">#FF1C1C20</color>
     <color name="language_item_selected">#FF3A1D27</color>
@@ -36,7 +36,7 @@
     <color name="vault_secure_bg">#FF16301F</color>
     <color name="ad_background">#FF1E1E1E</color>
     <color name="ad_shimmer">#FF3A3A3A</color>
-    <color name="ad_border">#313133</color>
+    <color name="ad_border">#55565B</color>
     <color name="ad_dialog_bg">#FF2A2A2E</color>
     <color name="ad_loading_accent">#FFFF5C93</color>
     <color name="ad_shimmer_block">#FF34363D</color>
