@@ -3,6 +3,7 @@ package com.photovideo.gallerykz.memories.launcher
 import com.photovideo.gallerykz.memories.ads.AdAwareActivity
 
 import com.photovideo.gallerykz.memories.ads.SwipeAds
+import com.photovideo.gallerykz.memories.ads.AdGate
 
 import com.photovideo.gallerykz.memories.ads.LauncherAds
 
@@ -156,7 +157,10 @@ class LauncherHomeActivity : AdAwareActivity(), LauncherHost, LauncherSettings.L
                     if (pendingFromHome == page && page != PAGE_HOME) {
                         // Right swipe: a due popup (Home app, overlay) comes first and the swipe ad yields to it.
                         val popupShown = page == PAGE_GALLERY && popups.onExplicitEntry()
-                        if (!popupShown && !popups.isActive) SwipeAds.onSwipe(this@LauncherHomeActivity, right = page == PAGE_GALLERY)
+                        // The first entry to the gallery opens the media permission dialog: no ad over it (same as for the popups).
+                        val permissionFlow = page == PAGE_GALLERY &&
+                            (AdGate.isHeld || com.photovideo.gallerykz.memories.helper.MediaPermissionHelper.firstMediaFlowPending(this@LauncherHomeActivity))
+                        if (!popupShown && !popups.isActive && !permissionFlow) SwipeAds.onSwipe(this@LauncherHomeActivity, right = page == PAGE_GALLERY)
                     }
                     pendingFromHome = -1
                 }

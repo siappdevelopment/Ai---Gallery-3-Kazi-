@@ -47,7 +47,7 @@ object GoogleAds {
         }.start()
     }
 
-    fun canRequest(context: Context): Boolean = started.get() && AdGate.isNetworkAvailable(context)
+    fun canRequest(context: Context): Boolean = started.get() && !AdGate.isHeld && AdGate.isNetworkAvailable(context)
 
     /** [bigHeightDp] > 0: the large (inline adaptive) banner, full width and up to that tall; else the normal anchored adaptive banner. */
     fun loadBanner(activity: Activity, id: String, widthDp: Int, bigHeightDp: Int = 0, done: (AdView?) -> Unit) {

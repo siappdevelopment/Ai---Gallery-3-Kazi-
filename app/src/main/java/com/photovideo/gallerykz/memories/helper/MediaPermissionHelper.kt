@@ -74,6 +74,29 @@ object MediaPermissionHelper {
         }
     }
 
+    private const val KEY_MEDIA_ASKED = "media_asked"
+
+    /** True once the photo / video question was put to the user (stored; cleared with the app data). */
+    fun wasMediaAsked(context: Context): Boolean = try {
+        context.applicationContext.getSharedPreferences(PREFS, Context.MODE_PRIVATE).getBoolean(KEY_MEDIA_ASKED, false)
+    } catch (e: Exception) {
+        true
+    }
+
+    fun markMediaAsked(context: Context) {
+        try {
+            context.applicationContext.getSharedPreferences(PREFS, Context.MODE_PRIVATE).edit().putBoolean(KEY_MEDIA_ASKED, true).commit()
+        } catch (e: Exception) {
+            // Best effort.
+        }
+    }
+
+    /**
+     * True on the very first entry to the gallery page (first start or after clearing the app data): the access is missing and the
+     * dialog was never shown, so it is about to open and the swipe that leads there must not show an ad.
+     */
+    fun firstMediaFlowPending(context: Context): Boolean = !wasMediaAsked(context) && !hasAccess(context)
+
     /** Opens this app's page in system Settings. Returns false if no Settings screen could open. */
     fun openAppSettings(activity: Activity): Boolean {
         val details = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)

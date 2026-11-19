@@ -4,6 +4,7 @@ import com.photovideo.gallerykz.memories.ads.SlotSpec
 
 import com.photovideo.gallerykz.memories.ads.ScreenInterAds
 import com.photovideo.gallerykz.memories.ads.SwipeAds
+import com.photovideo.gallerykz.memories.ads.AdGate
 
 import com.photovideo.gallerykz.memories.ads.AdSlot
 
@@ -156,6 +157,7 @@ class GalleryPageFragment : Fragment(), GalleryHost {
         when {
             !askedMediaThisStart && !MediaPermissionHelper.hasAccess(context) -> {
                 askedMediaThisStart = true
+                MediaPermissionHelper.markMediaAsked(context)
                 ask { mediaLauncher.launch(MediaPermissionHelper.requiredPermissions()) }
             }
             !askedNotiThisStart && MediaPermissionHelper.needsNotificationPermission(context) -> {
@@ -166,15 +168,38 @@ class GalleryPageFragment : Fragment(), GalleryHost {
                 askedThisStart = true
                 ask { phoneLauncher.launch(CallEndPermission.PERMISSION) }
             }
+            // Nothing left to ask: the permission flow is over and the ads of the Remote Config come back.
+            else -> releaseAds()
         }
+    }
+
+    /**
+     * No ad is requested, refreshed or shown while a permission dialog of this page is open (the same silence the Home app and overlay
+     * popups get): the ads are held from the moment the first question starts until the last one is answered.
+     */
+    private var holdingAds = false
+
+    private fun holdAds() {
+        if (holdingAds) return
+        holdingAds = true
+        AdGate.hold(ADS_HOLD)
+    }
+
+    private fun releaseAds() {
+        if (!holdingAds) return
+        holdingAds = false
+        AdGate.release(ADS_HOLD)
     }
 
     private fun ask(launch: () -> Unit) {
         requestingPermission = true
+        holdAds()
         try {
             launch()
         } catch (e: Exception) {
             requestingPermission = false
+            // Nothing opened: go on with the next question (each is asked once, so this ends) or end the flow.
+            askPermissions()
         }
     }
 
@@ -196,6 +221,8 @@ class GalleryPageFragment : Fragment(), GalleryHost {
     }
 
     override fun onDestroyView() {
+        // The page is going away (also with a dialog open): the hold must not outlive it.
+        releaseAds()
         mainStarted = false
         mainSlot = null
         binding = null
@@ -318,6 +345,7 @@ class GalleryPageFragment : Fragment(), GalleryHost {
         @Volatile
         var askedNotiThisStart = false
 
+        const val ADS_HOLD = "gallery_permissions"
         const val KEY_TAB = "selected_tab"
         const val TAB_FOR_YOU = 0
         const val TAB_GALLERY = 1

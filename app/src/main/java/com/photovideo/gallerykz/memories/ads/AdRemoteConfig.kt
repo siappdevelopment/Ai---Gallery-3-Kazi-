@@ -465,10 +465,45 @@ object AdGate {
         return shown != null
     }
 
-    /** The global country lists of the config apply to every ad. */
+    /**
+     * The global country lists of the config apply to every ad. While a permission flow holds the ads ([hold]) nothing is allowed: no
+     * request, preload, refresh or show, for any place.
+     */
     fun adsAllowed(context: Context): Boolean {
+        if (isHeld) return false
         val c = AdRemoteConfig.config
         return countryAllowed(context, c.showCountries, c.excludeCountries)
+    }
+
+    private val holds = java.util.concurrent.CopyOnWriteArraySet<String>()
+    private val holdListeners = java.util.concurrent.CopyOnWriteArrayList<(Boolean) -> Unit>()
+
+    /** True while at least one permission flow holds the ads. */
+    val isHeld: Boolean get() = holds.isNotEmpty()
+
+    /**
+     * A permission flow (the media / notification / phone questions of the gallery page) is on screen: all ads stay away until every
+     * holder has called [release]. Main thread only. Holding twice with the same [reason] counts once.
+     */
+    fun hold(reason: String) {
+        val wasHeld = isHeld
+        holds.add(reason)
+        if (!wasHeld) holdListeners.forEach { it(true) }
+    }
+
+    /** The flow of [reason] is over: when it was the last holder, the places that waited ask for their ads again (Remote Config rules). */
+    fun release(reason: String) {
+        if (!holds.remove(reason)) return
+        if (!isHeld) holdListeners.forEach { it(false) }
+    }
+
+    /** [listener] gets true when the ads were put on hold and false when the last hold ended. */
+    fun addHoldListener(listener: (Boolean) -> Unit) {
+        holdListeners.add(listener)
+    }
+
+    fun removeHoldListener(listener: (Boolean) -> Unit) {
+        holdListeners.remove(listener)
     }
 
     private fun times(context: Context) = context.applicationContext.getSharedPreferences("ad_last_show", Context.MODE_PRIVATE)

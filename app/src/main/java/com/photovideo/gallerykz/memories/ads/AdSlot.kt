@@ -142,9 +142,30 @@ class AdSlot(
     private fun sameAd(a: SlotSpec, b: SlotSpec) =
         a.show == b.show && a.native == b.native && a.large == b.large && a.bannerId == b.bannerId && a.nativeId == b.nativeId
 
+    /** True when a hold of the ads ([AdGate.hold]) took this place down: it asks again when the hold ends. */
+    private var heldHidden = false
+
+    private val holdListener: (Boolean) -> Unit = { held ->
+        if (!destroyed && started) {
+            if (held) {
+                // Whatever is loading is dropped, the refresh timer stops and the place goes away until the permission flow is over.
+                heldHidden = true
+                token++
+                loading = false
+                handler.removeCallbacks(refresh)
+                timerPending = false
+                hide()
+            } else if (heldHidden) {
+                heldHidden = false
+                request()
+            }
+        }
+    }
+
     init {
         owner.lifecycle.addObserver(this)
         if (liveSpec != null) AdRemoteConfig.addListener(configListener)
+        AdGate.addHoldListener(holdListener)
     }
 
     fun start() {
@@ -181,6 +202,12 @@ class AdSlot(
         // Nothing is requested before the screen starts the slot (a config that arrives earlier only changes the spec).
         if (loading || destroyed || !started) return
         val context = activity.applicationContext
+        if (AdGate.isHeld) {
+            // A permission flow is on screen: no request, no refresh, nothing shown; the hold listener asks again when it ends.
+            heldHidden = true
+            hide()
+            return
+        }
         if (!spec.show || !AdGate.adsAllowed(context)) {
             hide()
             return
@@ -465,6 +492,7 @@ class AdSlot(
     override fun onDestroy(owner: LifecycleOwner) {
         destroyed = true
         AdRemoteConfig.removeListener(configListener)
+        AdGate.removeHoldListener(holdListener)
         handler.removeCallbacksAndMessages(null)
         token++
         try {
