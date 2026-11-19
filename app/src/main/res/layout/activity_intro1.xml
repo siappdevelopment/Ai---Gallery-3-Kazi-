@@ -250,7 +250,8 @@
                 android:id="@+id/adContainer"
                 android:layout_width="match_parent"
                 android:layout_height="100dp"
-                android:visibility="visible" />
+                android:layout_marginHorizontal="1dp"
+                android:visibility="gone" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnNext"

@@ -11,8 +11,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/bg_ad_card"
-        android:clipToOutline="true"
+        android:background="@drawable/bg_intro_ad_card"
         android:foreground="@drawable/bg_intro_ad_border"
         android:orientation="horizontal">
 
