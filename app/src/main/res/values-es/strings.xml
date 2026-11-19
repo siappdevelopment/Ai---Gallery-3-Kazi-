@@ -769,4 +769,5 @@
     <string name="default_launcher_reminder_channel">Recordatorio de pantalla de inicio</string>
     <string name="miui_autostart_title">Permitir recordatorios tras cerrar la app</string>
     <string name="miui_autostart_message">En los teléfonos Xiaomi, Redmi y POCO, el recordatorio solo llega después de cerrar la app desde Recientes si “Inicio automático” está activado para esta app. Abre los ajustes y activa Inicio automático.</string>
+    <string name="onb_skip">Omitir</string>
 </resources>

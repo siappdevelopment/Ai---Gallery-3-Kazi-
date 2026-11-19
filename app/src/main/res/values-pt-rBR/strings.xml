@@ -769,4 +769,5 @@
     <string name="default_launcher_reminder_channel">Lembrete da tela inicial</string>
     <string name="miui_autostart_title">Permitir lembretes depois de fechar o app</string>
     <string name="miui_autostart_message">Em celulares Xiaomi, Redmi e POCO, o lembrete só chega depois que você tira o app dos Recentes se “Início automático” estiver ativado para este app. Abra as configurações e ative o Início automático.</string>
+    <string name="onb_skip">Pular</string>
 </resources>

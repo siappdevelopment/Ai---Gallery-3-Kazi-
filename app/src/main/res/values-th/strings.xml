@@ -755,4 +755,5 @@
     <string name="default_launcher_reminder_channel">การเตือนหน้าจอหลัก</string>
     <string name="miui_autostart_title">อนุญาตการเตือนหลังปิดแอป</string>
     <string name="miui_autostart_message">บนโทรศัพท์ Xiaomi, Redmi และ POCO การเตือนจะมาถึงหลังจากปัดแอปออกจากรายการล่าสุดก็ต่อเมื่อเปิด “เริ่มอัตโนมัติ” สำหรับแอปนี้ เปิดการตั้งค่าแล้วเปิดเริ่มอัตโนมัติ</string>
+    <string name="onb_skip">ข้าม</string>
 </resources>

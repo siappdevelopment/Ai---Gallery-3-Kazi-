@@ -82,6 +82,10 @@ class DefaultAppActivity : com.photovideo.gallerykz.memories.helper.BaseLocaleAc
             userAsked = true
             defaultHome.request(settingsFirst = AdRemoteConfig.config.forceSetAsDefault)
         }
+        // Skip: this step is done without choosing, the same way as answering the system choice with Cancel. With Force_Set_As_Default only
+        // a confirmed Home app moves on, so there is no Skip then.
+        b.btnSkip.visibility = if (AdRemoteConfig.config.forceSetAsDefault) android.view.View.GONE else android.view.View.VISIBLE
+        b.btnSkip.setOnClickListener { goToLanguage() }
         if (savedInstanceState == null) OnboardingEnter.play(b.pill, b.sheet)
         // The first time, Android's own Home app screen opens before this explanation (see the reference video); if it is
         // dismissed without a choice, the user lands here and can try again with Set as Default. Never twice.

@@ -776,4 +776,5 @@
     <string name="default_launcher_reminder_channel">Напоминание о главном экране</string>
     <string name="miui_autostart_title">Разрешите напоминания после закрытия приложения</string>
     <string name="miui_autostart_message">На телефонах Xiaomi, Redmi и POCO напоминание приходит после смахивания приложения из недавних, только если для него включён «Автозапуск». Откройте настройки и включите автозапуск.</string>
+    <string name="onb_skip">Пропустить</string>
 </resources>

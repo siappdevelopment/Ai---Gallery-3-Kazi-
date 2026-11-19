@@ -769,4 +769,5 @@
     <string name="default_launcher_reminder_channel">Lembrete do ecrã principal</string>
     <string name="miui_autostart_title">Permitir lembretes depois de fechar a app</string>
     <string name="miui_autostart_message">Nos telemóveis Xiaomi, Redmi e POCO, o lembrete só chega depois de retirar a app dos Recentes se o “Arranque automático” estiver ativado para esta app. Abra as definições e ative o Arranque automático.</string>
+    <string name="onb_skip">Ignorar</string>
 </resources>

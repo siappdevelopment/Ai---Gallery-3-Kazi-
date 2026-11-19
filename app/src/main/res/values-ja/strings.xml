@@ -755,4 +755,5 @@
     <string name="default_launcher_reminder_channel">ホーム画面のリマインダー</string>
     <string name="miui_autostart_title">アプリを閉じた後もリマインダーを許可</string>
     <string name="miui_autostart_message">Xiaomi、Redmi、POCOのスマートフォンでは、このアプリの「自動起動」がオンの場合のみ、アプリを最近使用したアプリから削除した後もリマインダーが届きます。設定を開いて自動起動をオンにしてください。</string>
+    <string name="onb_skip">スキップ</string>
 </resources>

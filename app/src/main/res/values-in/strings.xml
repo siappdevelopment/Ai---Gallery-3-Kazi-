@@ -755,4 +755,5 @@
     <string name="default_launcher_reminder_channel">Pengingat layar utama</string>
     <string name="miui_autostart_title">Izinkan pengingat setelah aplikasi ditutup</string>
     <string name="miui_autostart_message">Di ponsel Xiaomi, Redmi, dan POCO, pengingat hanya sampai setelah aplikasi digeser dari Terbaru jika “Mulai otomatis” aktif untuk aplikasi ini. Buka pengaturan dan aktifkan Mulai otomatis.</string>
+    <string name="onb_skip">Lewati</string>
 </resources>

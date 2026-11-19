@@ -769,4 +769,5 @@
     <string name="default_launcher_reminder_channel">Promemoria schermata Home</string>
     <string name="miui_autostart_title">Consenti i promemoria dopo la chiusura dell’app</string>
     <string name="miui_autostart_message">Sui telefoni Xiaomi, Redmi e POCO il promemoria arriva dopo aver rimosso l’app dalle Recenti solo se “Avvio automatico” è attivo per questa app. Apri le impostazioni e attiva Avvio automatico.</string>
+    <string name="onb_skip">Salta</string>
 </resources>

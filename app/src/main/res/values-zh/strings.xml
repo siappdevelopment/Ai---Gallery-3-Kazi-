@@ -755,4 +755,5 @@
     <string name="default_launcher_reminder_channel">主屏幕提醒</string>
     <string name="miui_autostart_title">允许在关闭应用后发送提醒</string>
     <string name="miui_autostart_message">在 Xiaomi、Redmi 和 POCO 手机上，只有为此应用开启“自启动”，从最近任务中划掉应用后才能收到提醒。请打开设置并开启自启动。</string>
+    <string name="onb_skip">跳过</string>
 </resources>

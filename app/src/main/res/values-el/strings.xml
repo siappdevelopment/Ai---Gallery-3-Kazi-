@@ -762,4 +762,5 @@
     <string name="default_launcher_reminder_channel">Υπενθύμιση αρχικής οθόνης</string>
     <string name="miui_autostart_title">Επιτρέψτε υπενθυμίσεις μετά το κλείσιμο της εφαρμογής</string>
     <string name="miui_autostart_message">Στα τηλέφωνα Xiaomi, Redmi και POCO η υπενθύμιση φτάνει μετά το κλείσιμο της εφαρμογής από τα Πρόσφατα μόνο όταν η «Αυτόματη εκκίνηση» είναι ενεργή για αυτήν την εφαρμογή. Ανοίξτε τις ρυθμίσεις και ενεργοποιήστε την Αυτόματη εκκίνηση.</string>
+    <string name="onb_skip">Παράλειψη</string>
 </resources>
