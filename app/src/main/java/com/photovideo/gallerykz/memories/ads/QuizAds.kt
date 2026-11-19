@@ -326,18 +326,21 @@ object NativeAdViews {
         // The layout of the intro screens (native_medium_ad_layouts) names its views ad_headline, ad_body ...: both sets of ids work.
         fun <T : View> find(id: Int, other: Int): T? = view.findViewById<T>(id) ?: view.findViewById<T>(other)
         val headline = find<TextView>(R.id.adHeadline, R.id.ad_headline)!!
-        val bodyView = find<TextView>(R.id.adBody, R.id.ad_body)!!
+        // The body text and the icon are optional: the intro ad has neither.
+        val bodyView = find<TextView>(R.id.adBody, R.id.ad_body)
         val cta = find<TextView>(R.id.adCta, R.id.ad_call_to_action)!!
-        val icon = find<ImageView>(R.id.adIcon, R.id.ad_app_icon)!!
+        val icon = find<ImageView>(R.id.adIcon, R.id.ad_app_icon)
         val media = find<MediaView>(R.id.adMedia, R.id.ad_media)
         headline.text = ad.headline
         view.headlineView = headline
-        if (ad.body.isNullOrEmpty()) {
-            bodyView.visibility = View.GONE
-        } else {
-            bodyView.text = ad.body
-            bodyView.visibility = View.VISIBLE
-            view.bodyView = bodyView
+        if (bodyView != null) {
+            if (ad.body.isNullOrEmpty()) {
+                bodyView.visibility = View.GONE
+            } else {
+                bodyView.text = ad.body
+                bodyView.visibility = View.VISIBLE
+                view.bodyView = bodyView
+            }
         }
         if (ad.callToAction.isNullOrEmpty()) {
             cta.visibility = View.INVISIBLE
@@ -347,12 +350,14 @@ object NativeAdViews {
             view.callToActionView = cta
         }
         val image = ad.icon
-        if (image == null) {
-            icon.visibility = View.GONE
-        } else {
-            icon.setImageDrawable(image.drawable)
-            icon.visibility = View.VISIBLE
-            view.iconView = icon
+        if (icon != null) {
+            if (image == null) {
+                icon.visibility = View.GONE
+            } else {
+                icon.setImageDrawable(image.drawable)
+                icon.visibility = View.VISIBLE
+                view.iconView = icon
+            }
         }
         if (media != null) {
             view.mediaView = media

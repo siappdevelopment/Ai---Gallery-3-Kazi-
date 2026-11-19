@@ -74,6 +74,7 @@ object IntroFlow {
         val density = activity.resources.displayMetrics.density
         fun size(native: Boolean) {
             container.layoutParams = container.layoutParams.apply {
+                // Before the last screen a banner has a 100dp area; the intro native ad has the height of its own layout (intro_native_layout).
                 height = if (!last && !native) (100 * density).toInt() else ViewGroup.LayoutParams.WRAP_CONTENT
                 // The ad of the last screen keeps 5dp clear of the screen edges and 2dp above it, and none below.
                 if (last && this is ViewGroup.MarginLayoutParams) {
@@ -90,8 +91,8 @@ object IntroFlow {
                 SlotSpec(
                     show = s.show && s.nativeId.isNotEmpty(), native = true, bannerId = "", nativeId = s.nativeId, medium = last,
                     cacheKey = "slot_${screen.name}",
-                    nativeLayout = if (last) R.layout.native_medium_ad_layouts else 0,
-                    shimmerLayout = if (last) R.layout.native_medium_ad_shimmer else 0,
+                    nativeLayout = if (last) R.layout.native_medium_ad_layouts else R.layout.intro_native_layout,
+                    shimmerLayout = if (last) R.layout.native_medium_ad_shimmer else R.layout.intro_native_shimmer_layout,
                 )
             } else {
                 SlotSpec(show = s.show && s.bannerId.isNotEmpty(), native = false, bannerId = s.bannerId, nativeId = "", cacheKey = "slot_${screen.name}")
