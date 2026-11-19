@@ -56,7 +56,7 @@
     <color name="onb_tile_pink">#FFFFE4EC</color>
     <color name="ad_background">#FDFAFA</color>
     <color name="ad_shimmer">#FFE2E2E2</color>
-    <color name="ad_border">#FFB8BFCC</color>
+    <color name="ad_border">#D1D6DE</color>
     <color name="ad_dialog_bg">#FFFFFFFF</color>
     <color name="ad_loading_accent">#FFFF3D7F</color>
     <color name="ad_shimmer_block">#FFE3E5EA</color>
