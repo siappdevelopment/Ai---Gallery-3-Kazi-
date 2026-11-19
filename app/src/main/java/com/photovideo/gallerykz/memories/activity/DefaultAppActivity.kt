@@ -27,8 +27,8 @@ import com.photovideo.gallerykz.memories.launcher.LauncherHomeActivity
 /**
  * Onboarding "Default app" (design 07), the first step of the onboarding. The first time, Android's Home app screen opens
  * before it; "Set as Default" then shows the same system choice as the launcher's own card (the Home role dialog, or the
- * Home settings). Once the user has answered it (picked this app or cancelled) the language screen follows and this screen is
- * not shown again; only dismissing the system screen that opens by itself keeps the user here.
+ * Home settings). The language screen follows only when this app really became the Home app (or with Skip); coming back from the
+ * system screen without choosing it keeps the user here.
  */
 class DefaultAppActivity : com.photovideo.gallerykz.memories.helper.BaseLocaleActivity() {
 
@@ -80,7 +80,12 @@ class DefaultAppActivity : com.photovideo.gallerykz.memories.helper.BaseLocaleAc
         }
         b.btnSetDefault.setOnClickListener {
             userAsked = true
-            defaultHome.request(settingsFirst = AdRemoteConfig.config.forceSetAsDefault)
+            // The same system Home app settings screen that opens first thing in the onboarding (the guide card shows over it), never the
+            // role chooser dialog. Coming back, onRequestOver / onResume read the real state again (finishIfDefault).
+            if (!defaultHome.isInFlight && !defaultHome.requestSettings()) {
+                // This phone has no such settings screen: the usual request (it reports a failure itself).
+                defaultHome.request(settingsFirst = true)
+            }
         }
         // Skip: this step is done without choosing, the same way as answering the system choice with Cancel. With Force_Set_As_Default only
         // a confirmed Home app moves on, so there is no Skip then.
@@ -128,14 +133,13 @@ class DefaultAppActivity : com.photovideo.gallerykz.memories.helper.BaseLocaleAc
     }
 
     /**
-     * The system choice the user opened with Set as Default is over: whether they picked this app or cancelled, the
-     * onboarding goes on with the language. (The choice the system screen shows by itself at the start is different:
-     * dismissing that one keeps the user here.)
+     * The Home settings the user opened with Set as Default are closed again. Only a confirmed Home app moves the onboarding on ([finishIfDefault]);
+     * coming back without having chosen this app (Back, or another app picked) keeps the user on this screen, with no ad and no navigation, to
+     * try again or to use Skip. The one exception is the screen opened by the reminder notification, whose Back ends at the launcher.
      */
     private fun onRequestOver() {
         if (finishIfDefault()) return
-        // Force_Set_As_Default: only a confirmed Home app moves on, otherwise the user stays here for another try.
-        if (userAsked && (reminderEntry || !AdRemoteConfig.config.forceSetAsDefault)) goToLanguage()
+        if (userAsked && reminderEntry) goToLanguage()
     }
 
     /** True (and the step is left) when this app already is the Home app. */
