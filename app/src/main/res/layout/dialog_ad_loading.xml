@@ -5,14 +5,13 @@
     android:layout_height="wrap_content"
     android:background="@drawable/bg_ad_dialog"
     android:gravity="center_horizontal"
-    android:minWidth="240dp"
     android:orientation="vertical"
-    android:paddingHorizontal="24dp"
-    android:paddingVertical="22dp">
+    android:paddingHorizontal="15dp"
+    android:paddingVertical="15dp">
 
     <ProgressBar
-        android:layout_width="40dp"
-        android:layout_height="40dp"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
         android:indeterminate="true"
         android:indeterminateTint="@color/ad_loading_accent" />
 
