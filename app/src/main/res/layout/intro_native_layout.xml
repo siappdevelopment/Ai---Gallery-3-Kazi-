@@ -26,53 +26,47 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:gravity="center_vertical"
             android:orientation="vertical"
             android:paddingStart="10dp"
             android:paddingEnd="10dp">
 
-            <!-- The title: AD badge and the headline -->
-            <LinearLayout
-                android:layout_width="match_parent"
+            <!-- The AD badge at the top, the title just under it (up to 2 lines); the button stays where it was (34dp, 30dp above the bottom) -->
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/ad_attribution"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:gravity="center_vertical"
-                android:orientation="horizontal">
+                android:layout_marginTop="6dp"
+                android:background="@drawable/bg_ad_label"
+                android:fontFamily="@font/sans_trial_semi_bold"
+                android:paddingStart="3dp"
+                android:paddingTop="1dp"
+                android:paddingEnd="3dp"
+                android:paddingBottom="1dp"
+                android:text="AD"
+                android:textColor="@color/white"
+                android:textSize="9sp"
+                tools:ignore="HardcodedText" />
 
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/ad_attribution"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/bg_ad_label"
-                    android:fontFamily="@font/sans_trial_semi_bold"
-                    android:paddingStart="3dp"
-                    android:paddingTop="1dp"
-                    android:paddingEnd="3dp"
-                    android:paddingBottom="1dp"
-                    android:text="AD"
-                    android:textColor="@color/white"
-                    android:textSize="9sp"
-                    tools:ignore="HardcodedText" />
-
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/ad_headline"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="6dp"
-                    android:layout_weight="1"
-                    android:ellipsize="end"
-                    android:fontFamily="@font/sans_trial_semi_bold"
-                    android:maxLines="2"
-                    android:text="Ad Headline"
-                    android:textColor="@color/black"
-                    android:textSize="13sp"
-                    tools:ignore="HardcodedText" />
-            </LinearLayout>
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/ad_headline"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_marginTop="4dp"
+                android:layout_weight="1"
+                android:ellipsize="end"
+                android:fontFamily="@font/sans_trial_semi_bold"
+                android:maxLines="2"
+                android:text="Ad Headline"
+                android:textColor="@color/black"
+                android:textSize="12sp"
+                tools:ignore="HardcodedText" />
 
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/ad_call_to_action"
                 android:layout_width="match_parent"
                 android:layout_height="34dp"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="4dp"
+                android:layout_marginBottom="30dp"
                 android:background="@drawable/bg_ad_button"
                 android:fontFamily="@font/sans_trial_semi_bold"
                 android:gravity="center"
