@@ -102,7 +102,7 @@ class DefaultAppActivity : com.photovideo.gallerykz.memories.helper.BaseLocaleAc
         // a confirmed Home app moves on, so there is no Skip then. Without it the button appears only after SKIP_DELAY_MS.
         skipDelayPassed = savedInstanceState?.getBoolean(KEY_SKIP_SHOWN) ?: false
         updateSkip()
-        if (!skipDelayPassed) skipHandler.postDelayed(showSkip, SKIP_DELAY_MS)
+        // The delay is started from onResume: it counts only while this screen is really in front (not under the system screen).
         b.btnSkip.setOnClickListener { goToLanguage() }
         if (savedInstanceState == null) OnboardingEnter.play(b.pill, b.sheet)
         // Every time this screen is opened afresh (a launch, not a recreation of the same screen), Android's own Home app screen opens before
@@ -137,6 +137,8 @@ class DefaultAppActivity : com.photovideo.gallerykz.memories.helper.BaseLocaleAc
         super.onPause()
         // The system Home settings screen is now in front.
         if (awaitingSystem) leftForSystem = true
+        // Not visible any more: the Skip delay starts again from zero when this screen comes back.
+        skipHandler.removeCallbacks(showSkip)
     }
 
     override fun onResume() {
@@ -152,6 +154,11 @@ class DefaultAppActivity : com.photovideo.gallerykz.memories.helper.BaseLocaleAc
                 }
             }
             return
+        }
+        // This screen is visible now: the 3 second Skip delay starts here.
+        if (!skipDelayPassed) {
+            skipHandler.removeCallbacks(showSkip)
+            skipHandler.postDelayed(showSkip, SKIP_DELAY_MS)
         }
         // The bottom ad starts when this screen is in front: not before the system screen has been shown and closed.
         if (awaitingSystem && leftForSystem) awaitingSystem = false
@@ -216,7 +223,7 @@ class DefaultAppActivity : com.photovideo.gallerykz.memories.helper.BaseLocaleAc
         private const val KEY_SKIP_SHOWN = "skip_shown"
 
         /** The Skip button appears this long after the screen opened (Force_Set_As_Default off). */
-        private const val SKIP_DELAY_MS = 3000L
+        private const val SKIP_DELAY_MS = 2000L
     }
 
     /** The Skip button: hidden until the delay has passed, and never shown while Force_Set_As_Default is on (read when it is applied). */

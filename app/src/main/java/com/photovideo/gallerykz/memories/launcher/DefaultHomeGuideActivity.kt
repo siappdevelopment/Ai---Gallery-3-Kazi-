@@ -67,6 +67,8 @@ class DefaultHomeGuideActivity : com.photovideo.gallerykz.memories.helper.BaseLo
 
     /** Safe to call any number of times (timer, tap, stop). */
     private fun closeGuide() {
+        // The user saw it (timer, tap): no more attempts to show it again.
+        seen = true
         if (!isFinishing && !isDestroyed) finish()
     }
 
@@ -76,9 +78,21 @@ class DefaultHomeGuideActivity : com.photovideo.gallerykz.memories.helper.BaseLo
         handler.postDelayed(dismiss, SHOW_MS)
     }
 
+    override fun onResume() {
+        super.onResume()
+        alive = true
+    }
+
+    override fun onPause() {
+        // Covered (or left) already at pause, long before the stop: a new attempt may be made at once.
+        alive = false
+        super.onPause()
+    }
+
     override fun onStop() {
         // Covered by the settings screen, or the user went elsewhere: never leave the guide behind.
         handler.removeCallbacks(dismiss)
+        alive = false
         Log.d(TAG, "guide activity stopped (covered or left), it closes")
         if (!isFinishing) finish()
         super.onStop()
@@ -95,6 +109,9 @@ class DefaultHomeGuideActivity : com.photovideo.gallerykz.memories.helper.BaseLo
         private const val DEBOUNCE_MS = 3_000L
         private const val OVERLAY_DELAY_MS = 500L
         private const val ACTIVITY_RETRY_MS = 700L
+        private val ATTEMPTS_MS = longArrayOf(150L, 250L, 350L, 450L, 600L, 800L, 1100L, 1500L, 2000L, 3000L)
+        private const val ATTEMPT_GAP_MS = 500L
+        private var lastAttemptAt = 0L
         private const val ACTIVITY_AFTER_OVERLAY_MS = 300L
         private const val OVERLAY_CHECK_MS = 700L
         private const val MAX_PASS_THROUGH_ALPHA = 0.8f
@@ -109,6 +126,12 @@ class DefaultHomeGuideActivity : com.photovideo.gallerykz.memories.helper.BaseLo
         private var overlayDrawn = false
         private val removeOverlay = Runnable { removeOverlayNow() }
 
+        // The activity guide is on screen / was shown to the end. On a first launch the system settings can take over a second to come up
+        // (cold start), so a guide started before they are in front is covered and closed at once; the attempts below repeat until one
+        // really stays in front, instead of the two fixed attempts that could both land too early or be refused.
+        @Volatile private var alive = false
+        @Volatile private var seen = false
+
         /**
          * Call right after the system Default home settings were started. A second call within a few seconds
          * (a double tap) does nothing.
@@ -121,6 +144,7 @@ class DefaultHomeGuideActivity : com.photovideo.gallerykz.memories.helper.BaseLo
                 return
             }
             lastShownAt = now
+            seen = false
             val app = context.applicationContext
             if (canOverlay(app)) {
                 Log.d(TAG, "guide: overlay window in ${OVERLAY_DELAY_MS}ms")
@@ -132,8 +156,20 @@ class DefaultHomeGuideActivity : com.photovideo.gallerykz.memories.helper.BaseLo
                 handler.postDelayed({ startActivityGuide(app) }, OVERLAY_DELAY_MS + ACTIVITY_AFTER_OVERLAY_MS)
             } else {
                 Log.d(TAG, "guide: no overlay permission, starting the guide activity now and again in ${ACTIVITY_RETRY_MS}ms")
-                startActivityGuide(app)
-                handler.postDelayed({ startActivityGuide(app) }, ACTIVITY_RETRY_MS)
+                // Attempts while no guide is in front and none was shown yet (see `alive`). Not at once: a guide started together with the
+                // settings lies under the screen they forward to a moment later and is covered. Later, this app is no longer the top app
+                // and phones that block background starts (HyperOS / MIUI) refuse the guide, so the attempts are dense in the short
+                // window after the settings were requested.
+                for (delay in ATTEMPTS_MS) {
+                    handler.postDelayed({
+                        val now = SystemClock.elapsedRealtime()
+                        // Not while the guide started a moment ago is still coming up (it would be a second copy).
+                        if (!seen && !alive && now - lastAttemptAt > ATTEMPT_GAP_MS) {
+                            lastAttemptAt = now
+                            startActivityGuide(app)
+                        }
+                    }, delay)
+                }
             }
         }
 
