@@ -92,15 +92,16 @@ class DefaultAppActivity : com.photovideo.gallerykz.memories.helper.BaseLocaleAc
         b.btnSkip.visibility = if (AdRemoteConfig.config.forceSetAsDefault) android.view.View.GONE else android.view.View.VISIBLE
         b.btnSkip.setOnClickListener { goToLanguage() }
         if (savedInstanceState == null) OnboardingEnter.play(b.pill, b.sheet)
-        // The first time, Android's own Home app screen opens before this explanation (see the reference video); if it is
-        // dismissed without a choice, the user lands here and can try again with Set as Default. Never twice.
+        // Every time this screen is opened afresh (a launch, not a recreation of the same screen), Android's own Home app screen opens before
+        // this explanation (see the reference video), whatever Force_Set_As_Default says; if it is dismissed without a choice, the user lands
+        // here and can try again with Set as Default. Not again for a recreation of the same screen (rotation, language, process restore).
         if (reminderEntry) {
             // Back from the system screen without the choice: this screen stays and Set as Default asks again. Back here ends at the launcher.
             onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
                 override fun handleOnBackPressed() = goToLanguage()
             })
             if (savedInstanceState == null) awaitingSystem = defaultHome.requestSettings()
-        } else if (!forcedReask && !OnboardingPrefs.isDefaultSystemShown(this)) {
+        } else if (!forcedReask && savedInstanceState == null) {
             OnboardingPrefs.setDefaultSystemShown(this)
             awaitingSystem = defaultHome.requestSettings()
         }
