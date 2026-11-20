@@ -38,6 +38,8 @@ class PrivacyPolicyActivity : com.photovideo.gallerykz.memories.helper.BaseLocal
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
+        // A step of the onboarding: Back does nothing (it would end the screen and the system would send the Home intent, which reopens the step).
+        com.photovideo.gallerykz.memories.helper.OnboardingFlow.blockBack(this)
         if (OnboardingPrefs.isPolicyAccepted(this)) {
             // Already agreed to (a resumed onboarding): straight on.
             goNext()

@@ -55,6 +55,8 @@ class LanguageActivity : com.photovideo.gallerykz.memories.helper.BaseLocaleActi
             insets
         }
 
+        // In the onboarding Back does nothing; from Settings it goes back (the back button above).
+        if (!viewModel.fromSettings) OnboardingFlow.blockBack(this)
         if (viewModel.fromSettings) {
             // Opened from Settings: a back button.
             b.btnBack.visibility = android.view.View.VISIBLE

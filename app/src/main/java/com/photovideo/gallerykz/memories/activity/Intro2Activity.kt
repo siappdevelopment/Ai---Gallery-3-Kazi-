@@ -25,6 +25,8 @@ class Intro2Activity : com.photovideo.gallerykz.memories.helper.BaseLocaleActivi
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
+        // A step of the onboarding: Back does nothing (it would end the screen and the system would send the Home intent, which reopens the step).
+        com.photovideo.gallerykz.memories.helper.OnboardingFlow.blockBack(this)
         // A saved step beyond the configured screen count ends the intro at once.
         if (IntroFlow.skipIfBeyond(this, 2)) return
         // Remember the step immediately so a killed app resumes here after Splash.

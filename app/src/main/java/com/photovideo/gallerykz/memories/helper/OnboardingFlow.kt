@@ -38,6 +38,17 @@ object OnboardingFlow {
 
     fun first(): Screen = order().first()
 
+    /**
+     * System Back does nothing on an onboarding step. Every step is its own screen that finishes itself when the next one starts, so a Back
+     * would end the only screen of the task; once Gallery is the Home app the system answers that with the Home intent, the launcher
+     * sends the user back to the current step, and the step opens again and again.
+     */
+    fun blockBack(activity: androidx.activity.ComponentActivity) {
+        activity.onBackPressedDispatcher.addCallback(activity, object : androidx.activity.OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() = Unit
+        })
+    }
+
     /** The screen a stored step belongs to; null for the finished onboarding. */
     fun screenOfStep(step: Int): Screen? = when (step) {
         OnboardingPrefs.STEP_DEFAULT -> Screen.DEFAULT_APP
