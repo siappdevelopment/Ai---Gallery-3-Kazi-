@@ -43,6 +43,9 @@ class DefaultAppActivity : com.photovideo.gallerykz.memories.helper.BaseLocaleAc
     private var awaitingSystem = false
     private var leftForSystem = false
 
+    // The system Home screen is to be opened at the first resume (see openSystemWhenVisible).
+    private var systemFirstPending = false
+
     // True once the user tapped Set as Default and the system choice is open (kept over recreation).
     private var userAsked = false
 
@@ -105,16 +108,29 @@ class DefaultAppActivity : com.photovideo.gallerykz.memories.helper.BaseLocaleAc
         // Every time this screen is opened afresh (a launch, not a recreation of the same screen), Android's own Home app screen opens before
         // this explanation (see the reference video), whatever Force_Set_As_Default says; if it is dismissed without a choice, the user lands
         // here and can try again with Set as Default. Not again for a recreation of the same screen (rotation, language, process restore).
+        // The splash already opened the Home settings (and the guide card) before this screen: they are not opened a second time.
+        val systemShown = intent.getBooleanExtra(EXTRA_SYSTEM_SHOWN, false)
         if (reminderEntry) {
             // Back from the system screen without the choice: this screen stays and Set as Default asks again. Back here ends at the launcher.
             onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
                 override fun handleOnBackPressed() = goToLanguage()
             })
-            if (savedInstanceState == null) awaitingSystem = defaultHome.requestSettings()
+            if (savedInstanceState == null && !systemShown) openSystemWhenVisible()
         } else if (!forcedReask && savedInstanceState == null) {
             OnboardingPrefs.setDefaultSystemShown(this)
-            awaitingSystem = defaultHome.requestSettings()
+            if (!systemShown) openSystemWhenVisible()
         }
+    }
+
+    /**
+     * The system Home settings open once this screen is really on screen (first resume, after its first frame), not from onCreate. The guide
+     * card is started a moment after the settings; with no overlay permission it is a normal activity start from the background, which the
+     * system only allows shortly after this app had a visible window. Started from onCreate (a first launch) there was none yet, so the
+     * guide start was refused and the tutorial was missing; from a button tap the screen had been visible, so it worked.
+     */
+    private fun openSystemWhenVisible() {
+        systemFirstPending = true
+        awaitingSystem = true
     }
 
     override fun onPause() {
@@ -125,6 +141,18 @@ class DefaultAppActivity : com.photovideo.gallerykz.memories.helper.BaseLocaleAc
 
     override fun onResume() {
         super.onResume()
+        if (systemFirstPending) {
+            systemFirstPending = false
+            window.decorView.post {
+                if (isFinishing || isDestroyed) return@post
+                if (!defaultHome.requestSettings()) {
+                    // No such screen on this phone: nothing to wait for.
+                    awaitingSystem = false
+                    startAd()
+                }
+            }
+            return
+        }
         // The bottom ad starts when this screen is in front: not before the system screen has been shown and closed.
         if (awaitingSystem && leftForSystem) awaitingSystem = false
         if (!awaitingSystem) startAd()
@@ -181,6 +209,9 @@ class DefaultAppActivity : com.photovideo.gallerykz.memories.helper.BaseLocaleAc
     companion object {
         /** Set by the splash when Force_Set_As_Default is on, the onboarding is done and this app is not the Home app. */
         const val EXTRA_FORCED_REASK = "forced_reask"
+
+        /** Set by the splash when it opened the system Home settings itself, so this screen does not open them again. */
+        const val EXTRA_SYSTEM_SHOWN = "system_home_shown"
         private const val KEY_USER_ASKED = "user_asked"
         private const val KEY_SKIP_SHOWN = "skip_shown"
 

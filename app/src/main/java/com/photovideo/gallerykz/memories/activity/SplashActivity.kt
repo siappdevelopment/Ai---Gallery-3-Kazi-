@@ -26,6 +26,7 @@ import com.photovideo.gallerykz.memories.databinding.ActivitySplashBinding
 import com.photovideo.gallerykz.memories.helper.OnboardingPrefs
 import com.photovideo.gallerykz.memories.helper.OnboardingRouter
 import com.photovideo.gallerykz.memories.launcher.LauncherHomeActivity
+import com.photovideo.gallerykz.memories.launcher.DefaultHomeRequest
 import com.photovideo.gallerykz.memories.launcher.LauncherNav
 import com.photovideo.gallerykz.memories.notification.DefaultLauncherReminder
 
@@ -261,12 +262,41 @@ class SplashActivity : com.photovideo.gallerykz.memories.helper.BaseLocaleActivi
                 if (nextStarted || isFinishing || isDestroyed) return@postOnAnimation
                 nextStarted = true
                 removeOldAppTasks()
-                startActivity(nextScreen())
+                val next = nextScreen()
+                if (opensSystemHomeFirst(next)) {
+                    // The system Home settings open straight from the splash (which is on screen), so the Default app screen is never
+                    // shown before them and the tutorial card can start while this app still has a visible window. The Default app screen
+                    // follows when the settings are closed (it then skips its own first opening of them).
+                    next.putExtra(DefaultAppActivity.EXTRA_SYSTEM_SHOWN, true)
+                    pendingAfterSystem = next
+                    if (systemHome.requestSettings()) return@postOnAnimation
+                    pendingAfterSystem = null
+                    next.removeExtra(DefaultAppActivity.EXTRA_SYSTEM_SHOWN)
+                }
+                startActivity(next)
                 suppressTransition()
                 finish()
                 suppressTransition()
             }
         }
+    }
+
+    /** The first opening of the Default app screen (not a forced re-ask): Android's Home settings come first. */
+    private fun opensSystemHomeFirst(next: Intent): Boolean =
+        next.component?.className == DefaultAppActivity::class.java.name && !next.getBooleanExtra(DefaultAppActivity.EXTRA_FORCED_REASK, false)
+
+    private val systemHome = DefaultHomeRequest(this) { onSystemHomeClosed() }
+    private var pendingAfterSystem: Intent? = null
+
+    /** The Home settings opened from the splash are closed again: on to the Default app screen. */
+    private fun onSystemHomeClosed() {
+        val next = pendingAfterSystem ?: return
+        pendingAfterSystem = null
+        if (isFinishing || isDestroyed) return
+        startActivity(next)
+        suppressTransition()
+        finish()
+        suppressTransition()
     }
 
     @Suppress("DEPRECATION")
