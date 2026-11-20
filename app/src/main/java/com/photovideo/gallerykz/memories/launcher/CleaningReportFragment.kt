@@ -57,8 +57,12 @@ class CleaningReportFragment : Fragment() {
             v.setPadding(bars.left, bars.top, bars.right, bars.bottom)
             insets
         }
-        // The report's native ad (`CleaningReport_Native_*`), at most N times a day.
-        AdSlot(requireActivity(), b.adReportSlot, viewLifecycleOwner, reportSpec(), liveSpec = { reportSpec() }).start()
+        // The report's native ad (`CleaningReport_Native_*`), at most N times a day. The pager creates this page next to Home (offscreen page
+        // limit 1) long before the user swipes to it, so the slot is only created here and started when the page is really entered (first
+        // onResume): the request, the shimmer and the ad all happen in front of the user, never in the background.
+        shownMarked = false
+        slotStarted = false
+        adSlot = AdSlot(requireActivity(), b.adReportSlot, viewLifecycleOwner, reportSpec(), liveSpec = { reportSpec() })
         // Done, the back arrow and the system Back are the way back of the left swipe: they run the left-swipe ad (Left_Swipe_* of the
         // Remote Config: its counter, sequence and rules) before going home.
         AdHooks.fragmentBack(requireActivity(), viewLifecycleOwner, { activity, next -> SwipeAds.onReturn(activity, right = false, next) }) { host?.showHome() }
@@ -77,6 +81,34 @@ class CleaningReportFragment : Fragment() {
         super.onResume()
         // Resumed means the page is on screen: read the storage as it is right now.
         loadStorage()
+        enterPage()
+    }
+
+    /**
+     * The page really is in front (the pager resumes only the selected page). The first time per view the ad slot starts: the shimmer shows
+     * at once and the ad replaces it. A later visit (swipe away and back) starts a new "show" only when the earlier one was held back by
+     * the N-per-day gap; a slot that is loading or showing is never asked again, so there are no duplicate requests.
+     */
+    private fun enterPage() {
+        val slot = adSlot ?: return
+        if (!slotStarted) {
+            slotStarted = true
+            // The slot was created with the spec of the moment the page was built; the entry decides now (config, N-per-day gap).
+            slot.reconfigure(reportSpec())
+            slot.start()
+        } else {
+            // Every later entry (a swipe back to this page) asks the Remote Config again: Ad_Show false takes the place away; otherwise,
+            // once the N-per-day gap (24 h / CleaningReport_Native_Ad_Show_Per_Day) has passed since the last show, the old ad is replaced:
+            // the shimmer comes back and a new ad is requested. Within the gap the ad that is on screen stays and nothing is requested.
+            val l = AdRemoteConfig.config.launcher
+            if (!l.reportShow || l.reportId.isEmpty()) {
+                shownMarked = false
+                slot.reconfigure(reportSpec())
+            } else if (AdGate.intervalElapsed(requireContext(), "launcher_report", l.reportPerDay, zeroIsAlways = true)) {
+                shownMarked = false
+                slot.reconfigure(reportSpec())
+            }
+        }
     }
 
     override fun onStop() {
@@ -88,6 +120,11 @@ class CleaningReportFragment : Fragment() {
         _binding = null
         super.onDestroyView()
     }
+
+    // The report ad: created with the view, started on the first resume (see enterPage).
+    private var adSlot: AdSlot? = null
+    private var slotStarted = false
+    private var shownMarked = false
 
     // One leave at a time: a second tap while the ad is on its way does nothing.
     private var leaving = false
@@ -102,10 +139,19 @@ class CleaningReportFragment : Fragment() {
         }
     }
 
+    /**
+     * The ad of this visit. Before the page is entered it is hidden (nothing is requested). Once entered: CleaningReport_Native_Ad_Show
+     * false hides the place (no shimmer); otherwise the N-per-day gap decides, and a show that was allowed stays allowed until the next entry
+     * that passes the gap (a late config or a re-read never hides it, and the gap is recorded once, not on every call).
+     */
     private fun reportSpec(): SlotSpec {
         val l = AdRemoteConfig.config.launcher
-        val allowed = l.reportShow && AdGate.intervalElapsed(requireContext(), "launcher_report", l.reportPerDay, zeroIsAlways = true)
-        if (allowed) AdGate.markShown(requireContext(), "launcher_report")
+        val allowed = slotStarted && l.reportShow && l.reportId.isNotEmpty() &&
+            (shownMarked || AdGate.intervalElapsed(requireContext(), "launcher_report", l.reportPerDay, zeroIsAlways = true))
+        if (allowed && !shownMarked) {
+            shownMarked = true
+            AdGate.markShown(requireContext(), "launcher_report")
+        }
         return SlotSpec(show = allowed, native = true, bannerId = "", nativeId = l.reportId, large = true, cacheKey = "slot_report")
     }
 
