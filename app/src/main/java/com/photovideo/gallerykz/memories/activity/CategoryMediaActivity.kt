@@ -40,6 +40,10 @@ import com.photovideo.gallerykz.memories.viewmodel.SelectionViewModel
 class CategoryMediaActivity : AdAwareActivity() {
 
     private var binding: ActivityCategoryMediaBinding? = null
+
+    // The "Gallery can't see your photos" state, shown while the media access is missing (the empty message then stays hidden).
+    private var access: com.photovideo.gallerykz.memories.helper.MediaAccessPlaceholder? = null
+    private var accessGranted = true
     private val viewModel: CategoryMediaViewModel by viewModels()
     private val selectionViewModel: SelectionViewModel by viewModels()
     private var lastOpenAt = 0L
@@ -101,8 +105,12 @@ class CategoryMediaActivity : AdAwareActivity() {
         b.rvMedia.setHasFixedSize(true)
 
         mediaAdapter.addLoadStateListener { states ->
-            val empty = states.refresh is LoadState.NotLoading && mediaAdapter.itemCount == 0
+            val empty = accessGranted && states.refresh is LoadState.NotLoading && mediaAdapter.itemCount == 0
             b.emptyGroup.visibility = if (empty) View.VISIBLE else View.GONE
+        }
+        access = com.photovideo.gallerykz.memories.helper.MediaAccessPlaceholder(this, b.accessState) { granted ->
+            accessGranted = granted
+            if (!granted) b.emptyGroup.visibility = View.GONE
         }
         viewModel.media.observe(this) { data -> mediaAdapter.submitData(lifecycle, data) }
         viewModel.count.observe(this) { headerAdapter.setCount(it ?: 0) }
@@ -117,6 +125,12 @@ class CategoryMediaActivity : AdAwareActivity() {
         viewModel.refresh()
     }
 
+    override fun onResume() {
+        super.onResume()
+        // Back from the permission dialog or from Settings: the access is read again.
+        access?.refresh()
+    }
+
     /** Opens the tapped photo in the viewer, inside this category; double taps are ignored. */
     private fun openMedia(uid: Long) {
         val now = SystemClock.elapsedRealtime()
@@ -126,6 +140,7 @@ class CategoryMediaActivity : AdAwareActivity() {
     }
 
     override fun onDestroy() {
+        access = null
         binding = null
         super.onDestroy()
     }

@@ -886,7 +886,7 @@ class PhotoFragment : Fragment() {
         b.progress.visibility = if (state == UiState.LOADING) View.VISIBLE else View.GONE
         val showState = state == UiState.EMPTY || state == UiState.ERROR || state == UiState.PERMISSION ||
             (state == UiState.FILTER_EMPTY && !inClassic)
-        b.stateGroup.visibility = if (showState) View.VISIBLE else View.GONE
+        b.stateGroup.root.visibility = if (showState) View.VISIBLE else View.GONE
         if (!showState) return
 
         when (state) {
@@ -913,11 +913,11 @@ class PhotoFragment : Fragment() {
         onAction: () -> Unit,
     ) {
         val b = binding ?: return
-        b.ivStateIcon.setImageResource(icon)
-        b.tvStateTitle.setText(title)
-        b.tvStateDesc.setText(desc)
-        b.btnState.setText(action)
-        b.btnState.setOnClickListener { onAction() }
+        b.stateGroup.ivStateIcon.setImageResource(icon)
+        b.stateGroup.tvStateTitle.setText(title)
+        b.stateGroup.tvStateDesc.setText(desc)
+        b.stateGroup.btnState.setText(action)
+        b.stateGroup.btnState.setOnClickListener { onAction() }
     }
 
     private fun openCamera() {

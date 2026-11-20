@@ -185,6 +185,15 @@
                 android:textStyle="bold"
                 android:visibility="gone" />
         </LinearLayout>
+
+        <!-- Shown instead of the list when the media access is missing (the same state as the Gallery tab), centred in this area -->
+        <include
+            android:id="@+id/accessState"
+            layout="@layout/view_media_state"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:visibility="gone" />
     </FrameLayout>
 
     </LinearLayout>

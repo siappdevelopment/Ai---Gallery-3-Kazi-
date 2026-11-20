@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- The empty / error / "Gallery can't see your photos" state: icon tile, title, description and one button. Used by the Gallery
+     tab (fragment_photo) and by the category and album screens (activity_category_media, activity_album_detail). The including
+     screen gives it its size, gravity (centred) and visibility. -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center_horizontal"
+    android:orientation="vertical"
+    android:paddingStart="30dp"
+    android:paddingTop="40dp"
+    android:paddingEnd="30dp"
+    android:paddingBottom="40dp">
+
+    <FrameLayout
+        android:layout_width="72dp"
+        android:layout_height="72dp"
+        android:background="@drawable/bg_state_icon_tile">
+
+        <ImageView
+            android:id="@+id/ivStateIcon"
+            android:layout_width="34dp"
+            android:layout_height="34dp"
+            android:layout_gravity="center"
+            android:importantForAccessibility="no"
+            app:tint="@color/perm_icon_tint" />
+    </FrameLayout>
+
+    <TextView
+        android:id="@+id/tvStateTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:gravity="center"
+        android:textColor="@color/splash_text_primary"
+        android:textSize="18sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/tvStateDesc"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:gravity="center"
+        android:lineSpacingMultiplier="1.1"
+        android:textColor="@color/splash_text_secondary"
+        android:textSize="13.5sp" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnState"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:insetTop="0dp"
+        android:insetBottom="0dp"
+        android:minHeight="46dp"
+        android:paddingStart="22dp"
+        android:paddingEnd="22dp"
+        android:textColor="@color/white"
+        android:textSize="14.5sp"
+        android:textStyle="bold"
+        app:backgroundTint="@color/brand_pink"
+        app:cornerRadius="16dp" />
+</LinearLayout>

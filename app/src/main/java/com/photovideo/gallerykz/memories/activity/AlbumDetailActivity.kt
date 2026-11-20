@@ -40,6 +40,10 @@ import com.photovideo.gallerykz.memories.viewmodel.AlbumDetailViewModel
 class AlbumDetailActivity : AdAwareActivity() {
 
     private var binding: ActivityAlbumDetailBinding? = null
+
+    // The "Gallery can't see your photos" state, shown while the media access is missing (the empty message then stays hidden).
+    private var access: com.photovideo.gallerykz.memories.helper.MediaAccessPlaceholder? = null
+    private var accessGranted = true
     private val viewModel: AlbumDetailViewModel by viewModels()
     private var adapter: MediaPagingAdapter? = null
     private var lastOpenAt = 0L
@@ -117,7 +121,7 @@ class AlbumDetailActivity : AdAwareActivity() {
         // after the load state already said "not loading", so the load state alone left "Nothing here yet" over the photos.
         var refreshDone = false
         val updateEmpty = {
-            val empty = refreshDone && mediaAdapter.itemCount == 0
+            val empty = accessGranted && refreshDone && mediaAdapter.itemCount == 0
             b.emptyGroup.visibility = if (empty) View.VISIBLE else View.GONE
         }
         mediaAdapter.addLoadStateListener { states ->
@@ -129,6 +133,10 @@ class AlbumDetailActivity : AdAwareActivity() {
             override fun onItemRangeInserted(positionStart: Int, itemCount: Int) = updateEmpty()
             override fun onItemRangeRemoved(positionStart: Int, itemCount: Int) = updateEmpty()
         })
+        access = com.photovideo.gallerykz.memories.helper.MediaAccessPlaceholder(this, b.accessState) { granted ->
+            accessGranted = granted
+            updateEmpty()
+        }
         // An empty list says "no results" while searching, otherwise the album is simply empty.
         viewModel.query.observe(this) { q ->
             val searching = q.isNotEmpty()
@@ -204,7 +212,14 @@ class AlbumDetailActivity : AdAwareActivity() {
         startActivity(FullScreenMediaActivity.intent(this, uid, viewModel.sourceKind, viewModel.sourceId))
     }
 
+    override fun onResume() {
+        super.onResume()
+        // Back from the permission dialog or from Settings: the access is read again.
+        access?.refresh()
+    }
+
     override fun onDestroy() {
+        access = null
         binding?.rvMedia?.adapter = null
         adapter = null
         binding = null
