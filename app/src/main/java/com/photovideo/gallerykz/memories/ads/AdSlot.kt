@@ -34,6 +34,8 @@ class SlotSpec(
     val shimmerLayout: Int = 0,
     /** A banner in a box of exactly this height (dp), full width: an inline adaptive banner sized to the available width, centred in the box (0 = the normal anchored banner). */
     val boxHeightDp: Int = 0,
+    /** Own layout of the Quiz card of this place (0 = the standard one of its size); the intro screens use the shape of their native ad. */
+    val quizLayout: Int = 0,
 ) {
     companion object {
         fun of(screen: ScreenAd, key: String, large: Boolean = false, medium: Boolean = false): SlotSpec {
@@ -340,7 +342,7 @@ class AdSlot(
 
     private fun showQuiz(): Boolean {
         clearAds()
-        val ok = QuizAds.bindCard(activity, container, large = spec.large, native = spec.native, medium = spec.medium, inflateContext = viewContext)
+        val ok = QuizAds.bindCard(activity, container, large = spec.large, native = spec.native, medium = spec.medium, inflateContext = viewContext, layoutRes = spec.quizLayout)
         if (ok) {
             quizShown = true
             container.getChildAt(0)?.let { gap(it) }

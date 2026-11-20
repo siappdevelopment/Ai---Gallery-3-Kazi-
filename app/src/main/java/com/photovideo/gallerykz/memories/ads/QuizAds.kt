@@ -69,13 +69,14 @@ object QuizAds {
 
     /** Fills [container] with a Quiz card (with media when [large]); false when the config has no Quiz data. */
     /** [large]: the big card (same shape as the big Google native); [native]: the native texts instead of the banner ones. */
-    fun bindCard(context: Context, container: ViewGroup, large: Boolean, native: Boolean = large, medium: Boolean = false, inflateContext: Context = context): Boolean {
+    fun bindCard(context: Context, container: ViewGroup, large: Boolean, native: Boolean = large, medium: Boolean = false, inflateContext: Context = context, layoutRes: Int = 0): Boolean {
         val quiz = AdRemoteConfig.config.quiz
         val count = quiz.syncedCount
         if (count == 0) return false
         val index = Random.nextInt(count)
         val view = LayoutInflater.from(inflateContext).inflate(
             when {
+                layoutRes != 0 -> layoutRes
                 large -> R.layout.ad_quiz_card_large
                 medium -> R.layout.ad_quiz_card_medium
                 else -> R.layout.ad_quiz_card
@@ -90,7 +91,7 @@ object QuizAds {
         button.text = quiz.buttonText.ifEmpty { context.getString(R.string.ad_quiz_install) }
         loadImage(view.findViewById(R.id.quizIcon), pick(quiz.appIcons, index))
         val media = view.findViewById<ImageView>(R.id.quizMedia)
-        if (large || medium) {
+        if (large || medium || layoutRes != 0) {
             // The big and the medium card always have its picture area: the media image, else the app icon.
             media.visibility = View.VISIBLE
             loadImage(media, pick(quiz.nativeMedia.ifEmpty { quiz.appIcons }, index))

@@ -94,7 +94,7 @@ object IntroFlow {
             if (s.native) {
                 SlotSpec(
                     show = s.show && s.nativeId.isNotEmpty(), native = true, bannerId = "", nativeId = s.nativeId, medium = last,
-                    cacheKey = "slot_${screen.name}",
+                    cacheKey = "slot_${screen.name}", quizLayout = if (last) 0 else R.layout.ad_quiz_card_intro,
                     nativeLayout = if (last) R.layout.native_medium_ad_layouts else R.layout.intro_native_layout,
                     shimmerLayout = if (last) R.layout.native_medium_ad_shimmer else R.layout.intro_native_shimmer_layout,
                 )
@@ -105,6 +105,7 @@ object IntroFlow {
                     show = s.show && s.bannerId.isNotEmpty(), native = false, bannerId = s.bannerId, nativeId = "", cacheKey = "slot_${screen.name}",
                     shimmerLayout = if (last) 0 else R.layout.intro_native_shimmer_layout,
                     boxHeightDp = if (last) 0 else INTRO_AD_BOX_DP,
+                    quizLayout = if (last) 0 else R.layout.ad_quiz_card_intro,
                 )
             }
         }
