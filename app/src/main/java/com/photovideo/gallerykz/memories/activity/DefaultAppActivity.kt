@@ -49,6 +49,14 @@ class DefaultAppActivity : com.photovideo.gallerykz.memories.helper.BaseLocaleAc
     // Force_Set_As_Default on a fresh launch after the onboarding was done: the step is left alone and Home follows (see SplashActivity).
     private var forcedReask = false
 
+    // The Skip button waits SKIP_DELAY_MS after the screen opened; the callback is removed with the screen.
+    private var skipDelayPassed = false
+    private val skipHandler = android.os.Handler(android.os.Looper.getMainLooper())
+    private val showSkip = Runnable {
+        skipDelayPassed = true
+        updateSkip()
+    }
+
     // Opened by the "Make Gallery your home screen" notification (see DefaultLauncherReminder).
     private var reminderEntry = false
 
@@ -88,8 +96,10 @@ class DefaultAppActivity : com.photovideo.gallerykz.memories.helper.BaseLocaleAc
             }
         }
         // Skip: this step is done without choosing, the same way as answering the system choice with Cancel. With Force_Set_As_Default only
-        // a confirmed Home app moves on, so there is no Skip then.
-        b.btnSkip.visibility = if (AdRemoteConfig.config.forceSetAsDefault) android.view.View.GONE else android.view.View.VISIBLE
+        // a confirmed Home app moves on, so there is no Skip then. Without it the button appears only after SKIP_DELAY_MS.
+        skipDelayPassed = savedInstanceState?.getBoolean(KEY_SKIP_SHOWN) ?: false
+        updateSkip()
+        if (!skipDelayPassed) skipHandler.postDelayed(showSkip, SKIP_DELAY_MS)
         b.btnSkip.setOnClickListener { goToLanguage() }
         if (savedInstanceState == null) OnboardingEnter.play(b.pill, b.sheet)
         // Every time this screen is opened afresh (a launch, not a recreation of the same screen), Android's own Home app screen opens before
@@ -120,11 +130,13 @@ class DefaultAppActivity : com.photovideo.gallerykz.memories.helper.BaseLocaleAc
         if (!awaitingSystem) startAd()
         // The user may have chosen this app in the system settings and come back.
         finishIfDefault()
+        updateSkip()
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
         outState.putBoolean(KEY_USER_ASKED, userAsked)
+        outState.putBoolean(KEY_SKIP_SHOWN, skipDelayPassed)
     }
 
     private fun startAd() {
@@ -170,9 +182,34 @@ class DefaultAppActivity : com.photovideo.gallerykz.memories.helper.BaseLocaleAc
         /** Set by the splash when Force_Set_As_Default is on, the onboarding is done and this app is not the Home app. */
         const val EXTRA_FORCED_REASK = "forced_reask"
         private const val KEY_USER_ASKED = "user_asked"
+        private const val KEY_SKIP_SHOWN = "skip_shown"
+
+        /** The Skip button appears this long after the screen opened (Force_Set_As_Default off). */
+        private const val SKIP_DELAY_MS = 3000L
+    }
+
+    /** The Skip button: hidden until the delay has passed, and never shown while Force_Set_As_Default is on (read when it is applied). */
+    private fun updateSkip() {
+        val button = binding?.btnSkip ?: return
+        if (isFinishing || isDestroyed) return
+        val show = skipDelayPassed && !AdRemoteConfig.config.forceSetAsDefault
+        if (!show) {
+            button.animate().cancel()
+            button.alpha = 1f
+            button.visibility = android.view.View.GONE
+            return
+        }
+        if (button.visibility == android.view.View.VISIBLE) return
+        // The same appearance as the Continue button of the language screen (LanguageActivity.revealButton): fades in over 200 ms.
+        button.alpha = 0f
+        button.visibility = android.view.View.VISIBLE
+        button.animate().alpha(1f).setDuration(200L).start()
     }
 
     override fun onDestroy() {
+        // No late visibility change after the screen is gone.
+        skipHandler.removeCallbacks(showSkip)
+        binding?.btnSkip?.animate()?.cancel()
         binding = null
         super.onDestroy()
     }
