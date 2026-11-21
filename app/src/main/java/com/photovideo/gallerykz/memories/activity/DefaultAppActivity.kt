@@ -155,7 +155,7 @@ class DefaultAppActivity : com.photovideo.gallerykz.memories.helper.BaseLocaleAc
             }
             return
         }
-        // This screen is visible now: the 3 second Skip delay starts here.
+        // This screen is visible now: the 1 second Skip delay starts here.
         if (!skipDelayPassed) {
             skipHandler.removeCallbacks(showSkip)
             skipHandler.postDelayed(showSkip, SKIP_DELAY_MS)
