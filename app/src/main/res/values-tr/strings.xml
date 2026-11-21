@@ -33,6 +33,7 @@
     <string name="intro4_best_portraits">En iyi portreler</string>
     <string name="intro4_favorites">Favoriler</string>
     <string name="intro4_get_started">Başlayın</string>
+    <string name="intro_finish">Bitir</string>
     <string name="perm_media_title">Fotoğraf ve videolarınıza erişime izin verin</string>
     <string name="perm_media_subtitle">Galeri, kitaplığınızı göstermek ve düzenlemek için erişime ihtiyaç duyar.</string>
     <string name="perm_media_point_1">Her şeye tek yerden göz atın ve düzenleyin</string>

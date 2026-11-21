@@ -33,6 +33,7 @@
     <string name="intro4_best_portraits">Best portraits</string>
     <string name="intro4_favorites">Favourites</string>
     <string name="intro4_get_started">Get started</string>
+    <string name="intro_finish">Finish</string>
     <string name="perm_media_title">Allow access to your photos &amp; videos</string>
     <string name="perm_media_subtitle">Gallery needs access to show and organise your library.</string>
     <string name="perm_media_point_1">Browse and organise everything in one place</string>

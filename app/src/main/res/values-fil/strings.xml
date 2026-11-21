@@ -33,6 +33,7 @@
     <string name="intro4_best_portraits">Pinakamagagandang portrait</string>
     <string name="intro4_favorites">Mga Paborito</string>
     <string name="intro4_get_started">Magsimula</string>
+    <string name="intro_finish">Tapusin</string>
     <string name="perm_media_title">Payagan ang access sa iyong mga larawan at video</string>
     <string name="perm_media_subtitle">Kailangan ng Gallery ng access para ipakita at ayusin ang iyong library.</string>
     <string name="perm_media_point_1">I-browse at ayusin ang lahat sa isang lugar</string>

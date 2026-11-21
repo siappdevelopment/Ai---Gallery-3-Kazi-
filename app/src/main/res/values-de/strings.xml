@@ -33,6 +33,7 @@
     <string name="intro4_best_portraits">Beste Porträts</string>
     <string name="intro4_favorites">Favoriten</string>
     <string name="intro4_get_started">Los geht\'s</string>
+    <string name="intro_finish">Fertig</string>
     <string name="perm_media_title">Zugriff auf Fotos &amp; Videos erlauben</string>
     <string name="perm_media_subtitle">Galerie benötigt Zugriff, um deine Mediathek anzuzeigen und zu ordnen.</string>
     <string name="perm_media_point_1">Alles an einem Ort durchsuchen und ordnen</string>

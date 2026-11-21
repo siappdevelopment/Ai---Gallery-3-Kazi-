@@ -37,6 +37,7 @@
     <string name="intro4_best_portraits">Best portraits</string>
     <string name="intro4_favorites">Favorites</string>
     <string name="intro4_get_started">Get started</string>
+    <string name="intro_finish">Finish</string>
     <string name="intro4_count_best_photos" translatable="false">24</string>
     <string name="intro4_count_best_portraits" translatable="false">30</string>
     <string name="intro4_count_favorites" translatable="false">6</string>

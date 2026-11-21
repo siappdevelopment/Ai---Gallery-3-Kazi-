@@ -32,6 +32,7 @@
     <string name="intro4_best_portraits">最佳人像</string>
     <string name="intro4_favorites">收藏</string>
     <string name="intro4_get_started">开始使用</string>
+    <string name="intro_finish">完成</string>
     <string name="perm_media_title">允许访问您的照片和视频</string>
     <string name="perm_media_subtitle">图库需要访问权限才能显示和整理您的资料库。</string>
     <string name="perm_media_point_1">在一处浏览和整理所有内容</string>

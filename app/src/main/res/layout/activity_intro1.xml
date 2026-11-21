@@ -58,19 +58,24 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="end"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="10dp"
                 android:layout_marginEnd="16dp"
                 android:insetTop="0dp"
                 android:insetBottom="0dp"
-                android:minHeight="40dp"
-                android:paddingStart="18dp"
-                android:paddingEnd="18dp"
-                android:text="@string/intro4_get_started"
-                android:textColor="@color/white"
+                android:minWidth="0dp"
+                android:minHeight="34dp"
+                android:paddingStart="16dp"
+                android:paddingTop="0dp"
+                android:paddingEnd="16dp"
+                android:paddingBottom="0dp"
+                android:text="@string/intro_finish"
+                android:textAllCaps="false"
+                android:textColor="@color/splash_text_primary"
                 android:textSize="14sp"
-                android:textStyle="bold"
-                app:backgroundTint="@color/brand_pink"
-                app:cornerRadius="14dp" />
+                app:backgroundTint="@color/white"
+                app:cornerRadius="17dp"
+                app:strokeColor="@color/intro_finish_stroke"
+                app:strokeWidth="1dp" />
         </FrameLayout>
 
         <!-- Title, description and the page dots, centred -->

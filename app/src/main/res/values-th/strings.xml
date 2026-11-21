@@ -32,6 +32,7 @@
     <string name="intro4_best_portraits">ภาพบุคคลที่ดีที่สุด</string>
     <string name="intro4_favorites">รายการโปรด</string>
     <string name="intro4_get_started">เริ่มต้นใช้งาน</string>
+    <string name="intro_finish">เสร็จสิ้น</string>
     <string name="perm_media_title">อนุญาตการเข้าถึงรูปภาพและวิดีโอของคุณ</string>
     <string name="perm_media_subtitle">แกลเลอรีต้องการสิทธิ์เข้าถึงเพื่อแสดงและจัดระเบียบคลังของคุณ</string>
     <string name="perm_media_point_1">เรียกดูและจัดระเบียบทุกอย่างในที่เดียว</string>

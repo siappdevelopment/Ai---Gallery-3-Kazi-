@@ -35,6 +35,7 @@
     <string name="intro4_best_portraits">Лучшие портреты</string>
     <string name="intro4_favorites">Избранное</string>
     <string name="intro4_get_started">Начать</string>
+    <string name="intro_finish">Завершить</string>
     <string name="perm_media_title">Разрешите доступ к фото и видео</string>
     <string name="perm_media_subtitle">Галерее нужен доступ, чтобы показывать и упорядочивать вашу медиатеку.</string>
     <string name="perm_media_point_1">Просматривайте и упорядочивайте всё в одном месте</string>

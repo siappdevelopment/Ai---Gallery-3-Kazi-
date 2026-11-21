@@ -32,6 +32,7 @@
     <string name="intro4_best_portraits">베스트 인물 사진</string>
     <string name="intro4_favorites">즐겨찾기</string>
     <string name="intro4_get_started">시작하기</string>
+    <string name="intro_finish">완료</string>
     <string name="perm_media_title">사진 및 동영상 접근을 허용하세요</string>
     <string name="perm_media_subtitle">라이브러리를 표시하고 정리하려면 갤러리에 접근 권한이 필요합니다.</string>
     <string name="perm_media_point_1">모든 것을 한곳에서 둘러보고 정리하세요</string>

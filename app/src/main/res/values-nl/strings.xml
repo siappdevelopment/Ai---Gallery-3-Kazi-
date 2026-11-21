@@ -33,6 +33,7 @@
     <string name="intro4_best_portraits">Beste portretten</string>
     <string name="intro4_favorites">Favorieten</string>
     <string name="intro4_get_started">Aan de slag</string>
+    <string name="intro_finish">Voltooien</string>
     <string name="perm_media_title">Geef toegang tot je foto\'s en video\'s</string>
     <string name="perm_media_subtitle">Galerij heeft toegang nodig om je bibliotheek te tonen en te ordenen.</string>
     <string name="perm_media_point_1">Blader en orden alles op één plek</string>

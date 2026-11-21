@@ -34,6 +34,7 @@
     <string name="intro4_best_portraits">Ritratti migliori</string>
     <string name="intro4_favorites">Preferiti</string>
     <string name="intro4_get_started">Inizia</string>
+    <string name="intro_finish">Termina</string>
     <string name="perm_media_title">Consenti l’accesso a foto e video</string>
     <string name="perm_media_subtitle">Galleria ha bisogno dell’accesso per mostrare e organizzare la tua libreria.</string>
     <string name="perm_media_point_1">Sfoglia e organizza tutto in un unico posto</string>
