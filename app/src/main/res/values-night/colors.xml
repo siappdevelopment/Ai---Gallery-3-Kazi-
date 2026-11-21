@@ -61,4 +61,5 @@
     <color name="onb_phone_frame">#FF34343A</color>
     <color name="onb_tile_gray">#FF2A2A30</color>
     <color name="onb_tile_pink">#FF3A1D27</color>
+    <color name="intro_art_pink">#FF3A2230</color>
 </resources>

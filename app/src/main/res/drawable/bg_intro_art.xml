@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Behind the artwork of the intro screens: the screen colour at the top fading into the soft pink the design shows behind the phone -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+    <gradient
+        android:angle="270"
+        android:endColor="@color/intro_art_pink"
+        android:startColor="@color/language_background" />
+</shape>

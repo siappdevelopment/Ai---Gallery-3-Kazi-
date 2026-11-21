@@ -109,8 +109,20 @@ object IntroFlow {
                 )
             }
         }
+        // The panel (ad + Next) sits at the bottom of the screen while the ad is there (or expected: its place is reserved from the start, so
+        // nothing jumps when the shimmer comes); with the ad off, failed or not configured the button moves up under the page dots.
+        val panel = container.parent as? View
+        fun placePanel(adThere: Boolean) {
+            val lp = panel?.layoutParams as? androidx.constraintlayout.widget.ConstraintLayout.LayoutParams ?: return
+            val bias = if (adThere || last) 1f else 0f
+            if (lp.verticalBias != bias) {
+                lp.verticalBias = bias
+                panel.layoutParams = lp
+            }
+        }
+        placePanel(spec().show)
         return try {
-            AdSlot(activity, container, activity, spec(), liveSpec = spec).also { it.start() }
+            AdSlot(activity, container, activity, spec(), onVisibility = { placePanel(it) }, liveSpec = spec).also { it.start() }
         } catch (e: Exception) {
             android.util.Log.w("KaziAds", "ads for ${screen.name} could not be attached: $e")
             null

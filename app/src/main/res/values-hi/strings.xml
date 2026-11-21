@@ -9,12 +9,12 @@
     <string name="language_continue">जारी रखें</string>
     <string name="language_no_results">कोई भाषा नहीं मिली</string>
 
-    <string name="intro1_title">आपकी सभी यादें</string>
-    <string name="intro1_subtitle">अपनी पसंदीदा फ़ोटो और वीडियो आसानी से देखें।</string>
+    <string name="intro1_title">आपकी फ़ोटो, आपके अंदाज़ में</string>
+    <string name="intro1_subtitle">खूबसूरती से व्यवस्थित गैलरी लेआउट के साथ अपनी फ़ोटो और वीडियो देखें</string>
     <string name="intro1_next">अगला</string>
     <string name="intro1_ad_placeholder">आरक्षित · विज्ञापन स्थान</string>
-    <string name="intro2_title">सुंदर पलों को फिर से जिएँ</string>
-    <string name="intro2_subtitle">अपनी बेहतरीन फ़ोटो और ख़ास यादें खोजें।</string>
+    <string name="intro2_title">हाइलाइट्स और यादें</string>
+    <string name="intro2_subtitle">अपनी पसंदीदा यादें, खास पल और अपने प्रियजनों की फ़ोटो फिर से खोजें</string>
     <string name="intro2_highlights">मुख्य झलकियाँ</string>
     <string name="intro2_month">अक्तू</string>
     <string name="intro2_people">लोग</string>
@@ -22,13 +22,13 @@
         <item quantity="one">%1$d फ़ोटो</item>
         <item quantity="other">%1$d फ़ोटो</item>
     </plurals>
-    <string name="intro3_title">फ़ोटो आसानी से व्यवस्थित करें</string>
-    <string name="intro3_subtitle">अपने पसंदीदा पलों को एक साथ खूबसूरती से व्यवस्थित रखें।</string>
+    <string name="intro3_title">फ़ोटो प्रीव्यू</string>
+    <string name="intro3_subtitle">अपनी पसंदीदा फ़ोटो को फ़ुल स्क्रीन में देखें और हर खास पल का आनंद लें</string>
     <string name="intro3_trips">यात्राएँ</string>
     <string name="intro3_family">परिवार</string>
     <string name="intro3_nature">प्रकृति</string>
-    <string name="intro4_title">अपनी सर्वश्रेष्ठ फ़ोटो खोजें</string>
-    <string name="intro4_subtitle">शानदार पोर्ट्रेट और अपनी पसंदीदा तस्वीरें फिर से देखें।</string>
+    <string name="intro4_title">फ़ोटो एडिटिंग</string>
+    <string name="intro4_subtitle">सुंदर फ़िल्टर और आसान एडिटिंग टूल से अपनी फ़ोटो को बेहतर बनाएँ</string>
     <string name="intro4_best_photos">बेहतरीन फ़ोटो</string>
     <string name="intro4_best_portraits">बेहतरीन पोर्ट्रेट</string>
     <string name="intro4_favorites">पसंदीदा</string>

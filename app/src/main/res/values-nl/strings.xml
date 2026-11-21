@@ -9,12 +9,12 @@
     <string name="language_continue">Doorgaan</string>
     <string name="language_no_results">Geen talen gevonden</string>
 
-    <string name="intro1_title">Al je herinneringen</string>
-    <string name="intro1_subtitle">Blader eenvoudig door je favoriete foto\'s en video\'s.</string>
+    <string name="intro1_title">Jouw foto\'s, op jouw manier</string>
+    <string name="intro1_subtitle">Ontdek je foto\'s en video\'s met prachtig georganiseerde galerijindelingen</string>
     <string name="intro1_next">Volgende</string>
     <string name="intro1_ad_placeholder">GERESERVEERD · ADVERTENTIERUIMTE</string>
-    <string name="intro2_title">Beleef mooie momenten opnieuw</string>
-    <string name="intro2_subtitle">Ontdek je beste foto\'s en bijzondere herinneringen.</string>
+    <string name="intro2_title">Hoogtepunten &amp; herinneringen</string>
+    <string name="intro2_subtitle">Ontdek favoriete herinneringen, bijzondere momenten en foto\'s van mensen van wie je houdt opnieuw</string>
     <string name="intro2_highlights">HOOGTEPUNTEN</string>
     <string name="intro2_month">okt</string>
     <string name="intro2_people">Personen</string>
@@ -22,13 +22,13 @@
         <item quantity="one">%1$d foto</item>
         <item quantity="other">%1$d foto\'s</item>
     </plurals>
-    <string name="intro3_title">Organiseer foto\'s gemakkelijk</string>
-    <string name="intro3_subtitle">Houd je favoriete momenten mooi georganiseerd bij elkaar.</string>
+    <string name="intro3_title">Fotovoorbeeld</string>
+    <string name="intro3_subtitle">Bekijk je favoriete foto\'s op volledig scherm en geniet van elk bijzonder moment</string>
     <string name="intro3_trips">Reizen</string>
     <string name="intro3_family">Familie</string>
     <string name="intro3_nature">Natuur</string>
-    <string name="intro4_title">Vind je beste foto\'s</string>
-    <string name="intro4_subtitle">Ontdek prachtige portretten en je favoriete opnamen opnieuw.</string>
+    <string name="intro4_title">Foto\'s bewerken</string>
+    <string name="intro4_subtitle">Verbeter je foto\'s met mooie filters en gebruiksvriendelijke bewerkingstools</string>
     <string name="intro4_best_photos">Beste foto\'s</string>
     <string name="intro4_best_portraits">Beste portretten</string>
     <string name="intro4_favorites">Favorieten</string>

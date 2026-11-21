@@ -9,12 +9,12 @@
     <string name="language_continue">Continuar</string>
     <string name="language_no_results">No se encontraron idiomas</string>
 
-    <string name="intro1_title">Todos tus recuerdos</string>
-    <string name="intro1_subtitle">Explora fácilmente tus fotos y vídeos favoritos.</string>
+    <string name="intro1_title">Tus fotos, a tu manera</string>
+    <string name="intro1_subtitle">Explora tus fotos y vídeos con diseños de galería bellamente organizados</string>
     <string name="intro1_next">Siguiente</string>
     <string name="intro1_ad_placeholder">RESERVADO · ESPACIO PUBLICITARIO</string>
-    <string name="intro2_title">Revive momentos hermosos</string>
-    <string name="intro2_subtitle">Descubre tus mejores fotos y recuerdos especiales.</string>
+    <string name="intro2_title">Destacados y recuerdos</string>
+    <string name="intro2_subtitle">Redescubre tus recuerdos favoritos, momentos especiales y fotos de las personas que quieres</string>
     <string name="intro2_highlights">DESTACADOS</string>
     <string name="intro2_month">Oct</string>
     <string name="intro2_people">Personas</string>
@@ -23,13 +23,13 @@
         <item quantity="other">%1$d fotos</item>
         <item quantity="many">%1$d de fotos</item>
     </plurals>
-    <string name="intro3_title">Organiza tus fotos fácilmente</string>
-    <string name="intro3_subtitle">Mantén tus momentos favoritos bellamente organizados en un solo lugar.</string>
+    <string name="intro3_title">Vista previa de fotos</string>
+    <string name="intro3_subtitle">Mira tus fotos favoritas a pantalla completa y disfruta de cada momento especial</string>
     <string name="intro3_trips">Viajes</string>
     <string name="intro3_family">Familia</string>
     <string name="intro3_nature">Naturaleza</string>
-    <string name="intro4_title">Encuentra lo mejor</string>
-    <string name="intro4_subtitle">Redescubre retratos impresionantes y tus fotos favoritas.</string>
+    <string name="intro4_title">Edición de fotos</string>
+    <string name="intro4_subtitle">Mejora tus fotos con filtros preciosos y herramientas de edición fáciles de usar</string>
     <string name="intro4_best_photos">Mejores fotos</string>
     <string name="intro4_best_portraits">Mejores retratos</string>
     <string name="intro4_favorites">Favoritos</string>

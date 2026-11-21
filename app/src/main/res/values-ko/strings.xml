@@ -9,25 +9,25 @@
     <string name="language_continue">계속</string>
     <string name="language_no_results">언어를 찾을 수 없습니다</string>
 
-    <string name="intro1_title">모든 추억을 한곳에</string>
-    <string name="intro1_subtitle">좋아하는 사진과 동영상을 쉽게 둘러보세요.</string>
+    <string name="intro1_title">나만의 방식으로 즐기는 사진</string>
+    <string name="intro1_subtitle">아름답게 정리된 갤러리 레이아웃으로 사진과 동영상을 둘러보세요</string>
     <string name="intro1_next">다음</string>
     <string name="intro1_ad_placeholder">예약됨 · 광고 영역</string>
-    <string name="intro2_title">아름다운 순간을 다시 만나보세요</string>
-    <string name="intro2_subtitle">최고의 사진과 특별한 추억을 발견하세요.</string>
+    <string name="intro2_title">하이라이트 및 추억</string>
+    <string name="intro2_subtitle">좋아하는 추억과 특별한 순간, 사랑하는 사람들의 사진을 다시 만나보세요</string>
     <string name="intro2_highlights">하이라이트</string>
     <string name="intro2_month">10월</string>
     <string name="intro2_people">사람</string>
     <plurals name="intro2_photos">
         <item quantity="other">사진 %1$d장</item>
     </plurals>
-    <string name="intro3_title">사진을 쉽게 정리하세요</string>
-    <string name="intro3_subtitle">소중한 순간들을 한곳에 아름답게 정리해 보세요.</string>
+    <string name="intro3_title">사진 미리보기</string>
+    <string name="intro3_subtitle">좋아하는 사진을 전체 화면으로 보고 모든 특별한 순간을 즐겨보세요</string>
     <string name="intro3_trips">여행</string>
     <string name="intro3_family">가족</string>
     <string name="intro3_nature">자연</string>
-    <string name="intro4_title">최고의 사진을 찾아보세요</string>
-    <string name="intro4_subtitle">멋진 인물 사진과 좋아하는 사진을 다시 만나보세요.</string>
+    <string name="intro4_title">사진 편집</string>
+    <string name="intro4_subtitle">아름다운 필터와 쉬운 편집 도구로 사진을 더욱 멋지게 만들어 보세요</string>
     <string name="intro4_best_photos">베스트 사진</string>
     <string name="intro4_best_portraits">베스트 인물 사진</string>
     <string name="intro4_favorites">즐겨찾기</string>

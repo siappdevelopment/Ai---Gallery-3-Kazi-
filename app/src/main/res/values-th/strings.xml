@@ -9,25 +9,25 @@
     <string name="language_continue">ดำเนินการต่อ</string>
     <string name="language_no_results">ไม่พบภาษา</string>
 
-    <string name="intro1_title">ความทรงจำทั้งหมดของคุณ</string>
-    <string name="intro1_subtitle">เรียกดูรูปภาพและวิดีโอโปรดของคุณได้อย่างง่ายดาย</string>
+    <string name="intro1_title">รูปภาพของคุณ ในแบบของคุณ</string>
+    <string name="intro1_subtitle">สำรวจรูปภาพและวิดีโอของคุณด้วยเลย์เอาต์แกลเลอรีที่จัดระเบียบอย่างสวยงาม</string>
     <string name="intro1_next">ถัดไป</string>
     <string name="intro1_ad_placeholder">สงวนไว้ · พื้นที่โฆษณา</string>
-    <string name="intro2_title">ย้อนวันเวลาแสนสวย</string>
-    <string name="intro2_subtitle">ค้นพบภาพถ่ายที่ดีที่สุดและความทรงจำพิเศษของคุณ</string>
+    <string name="intro2_title">ไฮไลต์และความทรงจำ</string>
+    <string name="intro2_subtitle">ค้นพบความทรงจำที่ชื่นชอบ ช่วงเวลาพิเศษ และรูปภาพของคนที่คุณรักอีกครั้ง</string>
     <string name="intro2_highlights">ไฮไลต์</string>
     <string name="intro2_month">ต.ค.</string>
     <string name="intro2_people">บุคคล</string>
     <plurals name="intro2_photos">
         <item quantity="other">%1$d รูปภาพ</item>
     </plurals>
-    <string name="intro3_title">จัดระเบียบรูปภาพได้อย่างง่ายดาย</string>
-    <string name="intro3_subtitle">เก็บช่วงเวลาที่คุณชื่นชอบไว้ด้วยกันอย่างเป็นระเบียบสวยงาม</string>
+    <string name="intro3_title">ดูตัวอย่างรูปภาพ</string>
+    <string name="intro3_subtitle">ดูรูปภาพโปรดของคุณแบบเต็มหน้าจอและเพลิดเพลินกับทุกช่วงเวลาพิเศษ</string>
     <string name="intro3_trips">การเดินทาง</string>
     <string name="intro3_family">ครอบครัว</string>
     <string name="intro3_nature">ธรรมชาติ</string>
-    <string name="intro4_title">ค้นหาภาพที่ดีที่สุดของคุณ</string>
-    <string name="intro4_subtitle">ค้นพบภาพถ่ายบุคคลสุดตระการตาและภาพโปรดของคุณอีกครั้ง</string>
+    <string name="intro4_title">แก้ไขรูปภาพ</string>
+    <string name="intro4_subtitle">ปรับแต่งรูปภาพของคุณด้วยฟิลเตอร์สวยงามและเครื่องมือแก้ไขที่ใช้งานง่าย</string>
     <string name="intro4_best_photos">ภาพถ่ายที่ดีที่สุด</string>
     <string name="intro4_best_portraits">ภาพบุคคลที่ดีที่สุด</string>
     <string name="intro4_favorites">รายการโปรด</string>

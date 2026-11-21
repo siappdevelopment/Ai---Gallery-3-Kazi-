@@ -9,12 +9,12 @@
     <string name="language_continue">Продолжить</string>
     <string name="language_no_results">Языки не найдены</string>
 
-    <string name="intro1_title">Все ваши воспоминания</string>
-    <string name="intro1_subtitle">Легко просматривайте любимые фото и видео.</string>
+    <string name="intro1_title">Ваши фото — по-вашему</string>
+    <string name="intro1_subtitle">Просматривайте фото и видео в красиво организованных макетах галереи</string>
     <string name="intro1_next">Далее</string>
     <string name="intro1_ad_placeholder">ЗАРЕЗЕРВИРОВАНО · МЕСТО ДЛЯ РЕКЛАМЫ</string>
-    <string name="intro2_title">Переживите прекрасные моменты заново</string>
-    <string name="intro2_subtitle">Откройте для себя лучшие фото и особые воспоминания.</string>
+    <string name="intro2_title">Подборки и воспоминания</string>
+    <string name="intro2_subtitle">Заново открывайте любимые воспоминания, особенные моменты и фото дорогих вам людей</string>
     <string name="intro2_highlights">ИЗБРАННОЕ</string>
     <string name="intro2_month">Окт</string>
     <string name="intro2_people">Люди</string>
@@ -24,13 +24,13 @@
         <item quantity="many">%1$d фото</item>
         <item quantity="other">%1$d фото</item>
     </plurals>
-    <string name="intro3_title">Легко упорядочивайте фото</string>
-    <string name="intro3_subtitle">Храните любимые моменты красиво организованными в одном месте.</string>
+    <string name="intro3_title">Просмотр фото</string>
+    <string name="intro3_subtitle">Смотрите любимые фото на весь экран и наслаждайтесь каждым особенным моментом</string>
     <string name="intro3_trips">Путешествия</string>
     <string name="intro3_family">Семья</string>
     <string name="intro3_nature">Природа</string>
-    <string name="intro4_title">Найдите лучшее</string>
-    <string name="intro4_subtitle">Заново откройте для себя потрясающие портреты и любимые снимки.</string>
+    <string name="intro4_title">Редактирование фото</string>
+    <string name="intro4_subtitle">Улучшайте фото с помощью красивых фильтров и простых инструментов редактирования</string>
     <string name="intro4_best_photos">Лучшие фото</string>
     <string name="intro4_best_portraits">Лучшие портреты</string>
     <string name="intro4_favorites">Избранное</string>

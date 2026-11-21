@@ -9,12 +9,12 @@
     <string name="language_continue">Devam</string>
     <string name="language_no_results">Dil bulunamadı</string>
 
-    <string name="intro1_title">Tüm Anılarınız</string>
-    <string name="intro1_subtitle">Favori fotoğraflarınıza ve videolarınıza kolayca göz atın.</string>
+    <string name="intro1_title">Fotoğraflarınız, sizin tarzınızda</string>
+    <string name="intro1_subtitle">Fotoğraf ve videolarınızı güzelce düzenlenmiş galeri düzenleriyle keşfedin</string>
     <string name="intro1_next">İleri</string>
     <string name="intro1_ad_placeholder">AYRILMIŞ · REKLAM ALANI</string>
-    <string name="intro2_title">Güzel Anları Yeniden Yaşayın</string>
-    <string name="intro2_subtitle">En iyi fotoğraflarınızı ve özel anılarınızı keşfedin.</string>
+    <string name="intro2_title">Öne Çıkanlar ve Anılar</string>
+    <string name="intro2_subtitle">Favori anılarınızı, özel anlarınızı ve sevdiklerinizin fotoğraflarını yeniden keşfedin</string>
     <string name="intro2_highlights">ÖNE ÇIKANLAR</string>
     <string name="intro2_month">Eki</string>
     <string name="intro2_people">Kişiler</string>
@@ -22,13 +22,13 @@
         <item quantity="one">%1$d fotoğraf</item>
         <item quantity="other">%1$d fotoğraf</item>
     </plurals>
-    <string name="intro3_title">Fotoğrafları Kolayca Düzenleyin</string>
-    <string name="intro3_subtitle">En sevdiğiniz anları güzelce bir arada düzenli tutun.</string>
+    <string name="intro3_title">Fotoğraf Önizleme</string>
+    <string name="intro3_subtitle">Favori fotoğraflarınızı tam ekranda görüntüleyin ve her özel anın tadını çıkarın</string>
     <string name="intro3_trips">Geziler</string>
     <string name="intro3_family">Aile</string>
     <string name="intro3_nature">Doğa</string>
-    <string name="intro4_title">En İyilerinizi Bulun</string>
-    <string name="intro4_subtitle">Çarpıcı portreleri ve en sevdiğiniz kareleri yeniden keşfedin.</string>
+    <string name="intro4_title">Fotoğraf Düzenleme</string>
+    <string name="intro4_subtitle">Fotoğraflarınızı güzel filtreler ve kullanımı kolay düzenleme araçlarıyla geliştirin</string>
     <string name="intro4_best_photos">En iyi fotoğraflar</string>
     <string name="intro4_best_portraits">En iyi portreler</string>
     <string name="intro4_favorites">Favoriler</string>

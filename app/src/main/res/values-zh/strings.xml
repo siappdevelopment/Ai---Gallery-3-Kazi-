@@ -9,25 +9,25 @@
     <string name="language_continue">继续</string>
     <string name="language_no_results">未找到语言</string>
 
-    <string name="intro1_title">您的所有回忆</string>
-    <string name="intro1_subtitle">轻松浏览您喜爱的照片和视频。</string>
+    <string name="intro1_title">你的照片，你的方式</string>
+    <string name="intro1_subtitle">在精心整理的相册布局中浏览你的照片和视频</string>
     <string name="intro1_next">下一步</string>
     <string name="intro1_ad_placeholder">预留 · 广告位</string>
-    <string name="intro2_title">重温美好时刻</string>
-    <string name="intro2_subtitle">发现您最棒的照片和特别的回忆。</string>
+    <string name="intro2_title">精彩回顾与回忆</string>
+    <string name="intro2_subtitle">重新发现你喜爱的回忆、特别的时刻和你爱的人的照片</string>
     <string name="intro2_highlights">精彩回顾</string>
     <string name="intro2_month">10月</string>
     <string name="intro2_people">人物</string>
     <plurals name="intro2_photos">
         <item quantity="other">%1$d 张照片</item>
     </plurals>
-    <string name="intro3_title">轻松整理照片</string>
-    <string name="intro3_subtitle">将您最喜爱的时刻美观有序地整理在一起。</string>
+    <string name="intro3_title">照片预览</string>
+    <string name="intro3_subtitle">全屏查看你喜爱的照片，享受每一个特别的瞬间</string>
     <string name="intro3_trips">旅行</string>
     <string name="intro3_family">家庭</string>
     <string name="intro3_nature">自然</string>
-    <string name="intro4_title">发现您的最佳照片</string>
-    <string name="intro4_subtitle">重新发现惊艳的人像和您最爱的照片。</string>
+    <string name="intro4_title">照片编辑</string>
+    <string name="intro4_subtitle">使用精美滤镜和简单易用的编辑工具，让照片更出色</string>
     <string name="intro4_best_photos">最佳照片</string>
     <string name="intro4_best_portraits">最佳人像</string>
     <string name="intro4_favorites">收藏</string>

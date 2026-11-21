@@ -9,12 +9,12 @@
     <string name="language_continue">Gaan voort</string>
     <string name="language_no_results">Geen tale gevind nie</string>
 
-    <string name="intro1_title">Al jou herinneringe</string>
-    <string name="intro1_subtitle">Blaai maklik deur jou gunsteling-foto\'s en -video\'s.</string>
+    <string name="intro1_title">Jou foto\'s, jou manier</string>
+    <string name="intro1_subtitle">Verken jou foto\'s en video\'s met pragtig georganiseerde galery-uitlegte</string>
     <string name="intro1_next">Volgende</string>
     <string name="intro1_ad_placeholder">BEHOU · ADVERTENSIEPLASING</string>
-    <string name="intro2_title">Herleef pragtige oomblikke</string>
-    <string name="intro2_subtitle">Ontdek jou beste foto\'s en spesiale herinneringe.</string>
+    <string name="intro2_title">Hoogtepunte &amp; herinneringe</string>
+    <string name="intro2_subtitle">Ontdek gunstelingherinneringe, spesiale oomblikke en foto\'s van mense vir wie jy lief is weer</string>
     <string name="intro2_highlights">HOOGTEPUNTE</string>
     <string name="intro2_month">Okt</string>
     <string name="intro2_people">Mense</string>
@@ -22,13 +22,13 @@
         <item quantity="one">%1$d foto</item>
         <item quantity="other">%1$d foto\'s</item>
     </plurals>
-    <string name="intro3_title">Organiseer foto\'s maklik</string>
-    <string name="intro3_subtitle">Hou jou gunsteling-oomblikke pragtig saam georganiseer.</string>
+    <string name="intro3_title">Fotovoorskou</string>
+    <string name="intro3_subtitle">Bekyk jou gunstelingfoto\'s op volskerm en geniet elke spesiale oomblik</string>
     <string name="intro3_trips">Reise</string>
     <string name="intro3_family">Gesin</string>
     <string name="intro3_nature">Natuur</string>
-    <string name="intro4_title">Vind jou beste</string>
-    <string name="intro4_subtitle">Ontdek pragtige portrette en jou gunsteling-foto\'s weer.</string>
+    <string name="intro4_title">Foto-redigering</string>
+    <string name="intro4_subtitle">Verbeter jou foto\'s met pragtige filters en maklik-om-te-gebruik redigeringsnutsmiddels</string>
     <string name="intro4_best_photos">Beste foto\'s</string>
     <string name="intro4_best_portraits">Beste portrette</string>
     <string name="intro4_favorites">Gunstelinge</string>

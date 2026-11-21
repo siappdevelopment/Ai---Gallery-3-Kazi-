@@ -9,25 +9,25 @@
     <string name="language_continue">続行</string>
     <string name="language_no_results">言語が見つかりません</string>
 
-    <string name="intro1_title">すべての思い出</string>
-    <string name="intro1_subtitle">お気に入りの写真や動画を簡単に閲覧できます。</string>
+    <string name="intro1_title">あなたの写真を、あなたらしく</string>
+    <string name="intro1_subtitle">美しく整理されたギャラリーのレイアウトで、写真や動画を楽しもう</string>
     <string name="intro1_next">次へ</string>
     <string name="intro1_ad_placeholder">予約済み · 広告スペース</string>
-    <string name="intro2_title">素敵な瞬間をもう一度</string>
-    <string name="intro2_subtitle">お気に入りの写真や特別な思い出を見つけましょう。</string>
+    <string name="intro2_title">ハイライトと思い出</string>
+    <string name="intro2_subtitle">お気に入りの思い出や特別な瞬間、大切な人たちの写真をもう一度見つけよう</string>
     <string name="intro2_highlights">ハイライト</string>
     <string name="intro2_month">10月</string>
     <string name="intro2_people">人物</string>
     <plurals name="intro2_photos">
         <item quantity="other">%1$d枚の写真</item>
     </plurals>
-    <string name="intro3_title">写真を簡単に整理</string>
-    <string name="intro3_subtitle">お気に入りの瞬間を、ひとつにまとめて美しく整理できます。</string>
+    <string name="intro3_title">写真プレビュー</string>
+    <string name="intro3_subtitle">お気に入りの写真をフルスクリーンで表示して、特別な瞬間を楽しもう</string>
     <string name="intro3_trips">旅行</string>
     <string name="intro3_family">家族</string>
     <string name="intro3_nature">自然</string>
-    <string name="intro4_title">ベストショットを見つけよう</string>
-    <string name="intro4_subtitle">素晴らしいポートレートやお気に入りの写真をもう一度。</string>
+    <string name="intro4_title">写真編集</string>
+    <string name="intro4_subtitle">美しいフィルターと使いやすい編集ツールで写真をもっと素敵に</string>
     <string name="intro4_best_photos">ベスト写真</string>
     <string name="intro4_best_portraits">ベストポートレート</string>
     <string name="intro4_favorites">お気に入り</string>

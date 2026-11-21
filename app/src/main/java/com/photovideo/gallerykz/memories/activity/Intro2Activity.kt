@@ -45,8 +45,6 @@ class Intro2Activity : com.photovideo.gallerykz.memories.helper.BaseLocaleActivi
             insets
         }
 
-        b.tvHighlightCount.text = resources.getQuantityString(R.plurals.intro2_photos, HIGHLIGHT_PHOTOS, HIGHLIGHT_PHOTOS)
-        b.tvPlaceCount.text = resources.getQuantityString(R.plurals.intro2_photos, PLACE_PHOTOS, PLACE_PHOTOS)
 
         b.btnNext.setOnClickListener { viewModel.onNextClicked() }
         b.btnGetStarted.setOnClickListener { viewModel.onNextClicked() }
@@ -63,8 +61,4 @@ class Intro2Activity : com.photovideo.gallerykz.memories.helper.BaseLocaleActivi
         super.onDestroy()
     }
 
-    private companion object {
-        const val HIGHLIGHT_PHOTOS = 38
-        const val PLACE_PHOTOS = 84
-    }
 }

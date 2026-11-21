@@ -9,12 +9,12 @@
     <string name="language_continue">Magpatuloy</string>
     <string name="language_no_results">Walang nakitang wika</string>
 
-    <string name="intro1_title">Lahat ng Iyong Alaala</string>
-    <string name="intro1_subtitle">Madaling i-browse ang iyong mga paboritong larawan at video.</string>
+    <string name="intro1_title">Ang Iyong mga Larawan, Sa Iyong Paraan</string>
+    <string name="intro1_subtitle">I-explore ang iyong mga larawan at video gamit ang magandang nakaayos na mga layout ng gallery</string>
     <string name="intro1_next">Susunod</string>
     <string name="intro1_ad_placeholder">RESERBADO · PWESTO NG AD</string>
-    <string name="intro2_title">Balikan ang Magagandang Sandali</string>
-    <string name="intro2_subtitle">Tuklasin ang iyong pinakamagagandang larawan at espesyal na alaala.</string>
+    <string name="intro2_title">Mga Highlight &amp; Alaala</string>
+    <string name="intro2_subtitle">Muling tuklasin ang mga paboritong alaala, espesyal na sandali, at mga larawan ng mga taong mahal mo</string>
     <string name="intro2_highlights">MGA HIGHLIGHT</string>
     <string name="intro2_month">Okt</string>
     <string name="intro2_people">Mga Tao</string>
@@ -22,13 +22,13 @@
         <item quantity="one">%1$d larawan</item>
         <item quantity="other">%1$d larawan</item>
     </plurals>
-    <string name="intro3_title">Madaling Ayusin ang mga Larawan</string>
-    <string name="intro3_subtitle">Panatilihing maganda at maayos ang iyong mga paboritong sandali.</string>
+    <string name="intro3_title">Preview ng Larawan</string>
+    <string name="intro3_subtitle">Tingnan ang iyong mga paboritong larawan sa full screen at i-enjoy ang bawat espesyal na sandali</string>
     <string name="intro3_trips">Mga Biyahe</string>
     <string name="intro3_family">Pamilya</string>
     <string name="intro3_nature">Kalikasan</string>
-    <string name="intro4_title">Hanapin ang Iyong Pinakamaganda</string>
-    <string name="intro4_subtitle">Muling tuklasin ang mga nakamamanghang portrait at paborito mong kuha.</string>
+    <string name="intro4_title">Pag-edit ng Larawan</string>
+    <string name="intro4_subtitle">Pagandahin ang iyong mga larawan gamit ang magagandang filter at madaling gamiting mga tool sa pag-edit</string>
     <string name="intro4_best_photos">Pinakamagagandang larawan</string>
     <string name="intro4_best_portraits">Pinakamagagandang portrait</string>
     <string name="intro4_favorites">Mga Paborito</string>

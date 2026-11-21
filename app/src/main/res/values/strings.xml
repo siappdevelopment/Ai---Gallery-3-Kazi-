@@ -11,13 +11,13 @@
     <string name="language_continue">Continue</string>
     <string name="language_no_results">No languages found</string>
 
-    <string name="intro1_title">All Your Memories</string>
-    <string name="intro1_subtitle">Browse your favorite photos and videos easily.</string>
+    <string name="intro1_title">Your Photos, Your Way</string>
+    <string name="intro1_subtitle">Explore your photos and videos with beautifully organized gallery layouts</string>
     <string name="intro1_next">Next</string>
     <string name="intro1_video_duration" translatable="false">0:24</string>
     <string name="intro1_ad_placeholder">RESERVED · AD PLACEMENT</string>
-    <string name="intro2_title">Relive Beautiful Moments</string>
-    <string name="intro2_subtitle">Discover your best photos and special memories.</string>
+    <string name="intro2_title">Highlights &amp; Memories</string>
+    <string name="intro2_subtitle">Rediscover favorite memories, special moments, and photos of people you love</string>
     <string name="intro2_highlights">HIGHLIGHTS</string>
     <string name="intro2_month">Oct</string>
     <string name="intro2_people">People</string>
@@ -26,13 +26,13 @@
         <item quantity="other">%1$d photos</item>
     </plurals>
     <string name="intro2_place" translatable="false">Yosemite</string>
-    <string name="intro3_title">Organize Photos Easily</string>
-    <string name="intro3_subtitle">Keep your favorite moments beautifully organized together.</string>
+    <string name="intro3_title">Photo Preview</string>
+    <string name="intro3_subtitle">View your favorite photos in full screen and enjoy every special moment</string>
     <string name="intro3_trips">Trips</string>
     <string name="intro3_family">Family</string>
     <string name="intro3_nature">Nature</string>
-    <string name="intro4_title">Find Your Best</string>
-    <string name="intro4_subtitle">Rediscover stunning portraits and your favorite shots.</string>
+    <string name="intro4_title">Photo Editing</string>
+    <string name="intro4_subtitle">Enhance your photos with beautiful filters and easy-to-use editing tools</string>
     <string name="intro4_best_photos">Best photos</string>
     <string name="intro4_best_portraits">Best portraits</string>
     <string name="intro4_favorites">Favorites</string>
