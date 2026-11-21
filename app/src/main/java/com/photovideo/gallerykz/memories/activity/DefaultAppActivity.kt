@@ -223,7 +223,7 @@ class DefaultAppActivity : com.photovideo.gallerykz.memories.helper.BaseLocaleAc
         private const val KEY_SKIP_SHOWN = "skip_shown"
 
         /** The Skip button appears this long after the screen opened (Force_Set_As_Default off). */
-        private const val SKIP_DELAY_MS = 2000L
+        private const val SKIP_DELAY_MS = 1000L
     }
 
     /** The Skip button: hidden until the delay has passed, and never shown while Force_Set_As_Default is on (read when it is applied). */
